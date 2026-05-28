@@ -1,0 +1,37 @@
+{
+  "name": "DADA HOUSE",
+  "short_name": "DADA HOUSE",
+  "description": "DADA HOUSE Home Services Portal",
+  "theme_color": "#1B3FA8",
+  "background_color": "#1B3FA8",
+  "display": "standalone",
+  "orientation": "portrait",
+  "start_url": "/portal",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Technician App",
+      "url": "/technician",
+      "description": "Technician job management"
+    },
+    {
+      "name": "Customer Portal",
+      "url": "/portal",
+      "description": "Customer service portal"
+    }
+  ]
+}

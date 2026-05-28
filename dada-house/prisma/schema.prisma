@@ -1,0 +1,698 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  CLIENT
+  ADMIN
+  TECHNICIAN
+  DISPATCHER
+}
+
+enum AppointmentStatus {
+  PENDING
+  CONFIRMED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+enum TechStatus {
+  ASSIGNED
+  ACCEPTED
+  EN_ROUTE
+  ARRIVED
+  DIAGNOSING
+  WAITING_FOR_APPROVAL
+  WORKING
+  COMPLETED
+  CANCELED
+  NEED_RESCHEDULE
+}
+
+enum JobPriority {
+  LOW
+  NORMAL
+  HIGH
+  EMERGENCY
+}
+
+enum PaymentMethod {
+  CASH
+  CARD
+  ZELLE
+  CHECK
+}
+
+enum InvoiceStatus {
+  DRAFT
+  SENT
+  PAID
+}
+
+enum OrderStatus {
+  PENDING
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  PAUSED
+  CANCELLED
+  PAST_DUE
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  image         String?
+  password      String?
+  phone         String?
+  role          Role      @default(CLIENT)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  accounts     Account[]
+  sessions     Session[]
+  appointments Appointment[]
+  reviews      Review[]
+
+  technicianProfile      TechnicianProfile?
+  technicianLocations    TechnicianLocation[]
+  properties             Property[]
+  servicePlans           CustomerServicePlan[]
+  warranties             Warranty[]
+  orders                 Order[]
+  pushSubscriptions      PushSubscription[]
+  dispatchedAppointments Appointment[]        @relation("dispatcher")
+  technicianAppointments Appointment[]        @relation("technician")
+  estimates              Estimate[]           @relation("technicianEstimates")
+  jobPhotos              JobPhoto[]
+  jobPayments            JobPayment[]
+  jobParts               JobPart[]
+  inventoryRequests      InventoryRequest[]
+  technicianClients      TechnicianClient[]   @relation("technicianClients")
+}
+
+model TechnicianClient {
+  id           String   @id @default(cuid())
+  technicianId String
+  name         String
+  email        String?
+  phone        String?
+  mobile       String?
+  address      String?
+  city         String?
+  state        String   @default("TX")
+  zip          String?
+  notes        String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  technician User @relation("technicianClients", fields: [technicianId], references: [id], onDelete: Cascade)
+
+  @@index([technicianId])
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Appointment {
+  id                String            @id @default(cuid())
+  appointmentNumber String            @unique
+  userId            String?
+  service           String
+  subservice        String?
+  name              String
+  phone             String
+  email             String
+  address           String
+  city              String            @default("Houston")
+  zipCode           String            @default("")
+  description       String?
+  preferredDate     DateTime?
+  preferredTime     String?
+  status            AppointmentStatus @default(PENDING)
+  notes             String?
+  photos            String[]          @default([])
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+
+  technicianId          String?
+  dispatcherId          String?
+  eta                   DateTime?
+  techStatus            TechStatus?
+  propertyId            String?
+  stripePaymentIntentId String?
+  signatureUrl          String?
+  totalAmount           Float?
+  approvedAt            DateTime?
+
+  // New fields
+  priority            JobPriority @default(NORMAL)
+  isEmergency         Boolean     @default(false)
+  diagnosticFee       Float?
+  diagnosticFeeStatus String?
+  adminNotes          String?
+
+  user          User?             @relation(fields: [userId], references: [id], onDelete: SetNull)
+  technician    User?             @relation("technician", fields: [technicianId], references: [id], onDelete: SetNull)
+  dispatcher    User?             @relation("dispatcher", fields: [dispatcherId], references: [id], onDelete: SetNull)
+  invoice       Invoice?
+  notifications NotificationLog[]
+  maintenanceLogs MaintenanceLog[]
+
+  // New relations
+  diagnosisForm DiagnosisForm?
+  jobPhotos     JobPhoto[]
+  payments      JobPayment[]
+  checklist     ServiceChecklist?
+  timeLog       JobTimeLog?
+  parts         JobPart[]
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  userId    String?
+  name      String
+  email     String
+  service   String?
+  rating    Int
+  content   String
+  photos    String[] @default([])
+  approved  Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+}
+
+model Invoice {
+  id            String        @id @default(cuid())
+  appointmentId String        @unique
+  amount        Float
+  status        InvoiceStatus @default(DRAFT)
+  pdfUrl        String?
+  notes         String?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  signatureUrl          String?
+  stripePaymentIntentId String?
+  dueDate               DateTime?
+  lineItems             Json?
+  paidAt                DateTime?
+
+  // Payment flow
+  paymentToken    String?   @unique
+  paymentMethod   String?   // ZELLE | CARD | CASH
+  technicianId    String?
+  sentByName      String?
+
+  appointment Appointment @relation(fields: [appointmentId], references: [id], onDelete: Cascade)
+}
+
+model NotificationLog {
+  id            String   @id @default(cuid())
+  appointmentId String
+  type          String
+  status        String
+  recipient     String
+  sentAt        DateTime @default(now())
+  error         String?
+
+  appointment Appointment @relation(fields: [appointmentId], references: [id], onDelete: Cascade)
+}
+
+model Setting {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     String
+  updatedAt DateTime @updatedAt
+}
+
+model GalleryProject {
+  id          String   @id @default(cuid())
+  title       String
+  category    String
+  location    String
+  date        String
+  description String
+  tags        String[] @default([])
+  images      String[] @default([])
+  published   Boolean  @default(true)
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Technician {
+  id          String   @id @default(cuid())
+  name        String
+  role        String
+  specialties String[] @default([])
+  phone       String?
+  email       String?
+  photo       String?
+  bio         String?
+  available   Boolean  @default(true)
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model TechnicianProfile {
+  id            String   @id @default(cuid())
+  userId        String   @unique
+  vehicle       String?
+  licenseNumber String?
+  specialties   String[] @default([])
+  availability  Json?
+  isActive      Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // New fields
+  skills        String[] @default([])
+  serviceAreas  String[] @default([])
+  vehicleInfo   Json?
+  certifications Json?
+  photo         String?
+  bio           String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model TechnicianLocation {
+  id        String   @id @default(cuid())
+  userId    String
+  lat       Float
+  lng       Float
+  heading   Float?
+  speed     Float?
+  timestamp DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, timestamp])
+}
+
+model Property {
+  id        String   @id @default(cuid())
+  userId    String
+  address   String
+  city      String
+  state     String   @default("TX")
+  zipCode   String
+  type      String   @default("Residential")
+  sqft      Int?
+  yearBuilt Int?
+  notes     String?
+  equipment String[] @default([])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model ServicePlan {
+  id            String   @id @default(cuid())
+  name          String
+  description   String?
+  price         Float
+  interval      String
+  features      String[] @default([])
+  stripeProductId String?
+  stripePriceId   String?
+  isActive      Boolean  @default(true)
+  sortOrder     Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  customerPlans CustomerServicePlan[]
+}
+
+model CustomerServicePlan {
+  id                  String             @id @default(cuid())
+  userId              String
+  planId              String
+  status              SubscriptionStatus @default(ACTIVE)
+  stripeSubscriptionId String?
+  currentPeriodEnd    DateTime?
+  nextBilling         DateTime?
+  cancelledAt         DateTime?
+  createdAt           DateTime           @default(now())
+  updatedAt           DateTime           @updatedAt
+
+  user User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  plan ServicePlan @relation(fields: [planId], references: [id], onDelete: Cascade)
+}
+
+model Warranty {
+  id            String    @id @default(cuid())
+  appointmentId String?
+  userId        String
+  equipmentName String
+  brand         String?
+  model         String?
+  serialNumber  String?
+  installDate   DateTime?
+  expiresAt     DateTime?
+  documents     String[]  @default([])
+  notes         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model MaintenanceLog {
+  id            String    @id @default(cuid())
+  appointmentId String?
+  userId        String
+  technicianId  String?
+  notes         String?
+  partsUsed     Json?
+  laborHours    Float?
+  photos        String[]  @default([])
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  appointment Appointment? @relation(fields: [appointmentId], references: [id], onDelete: SetNull)
+}
+
+model AIConversation {
+  id            String   @id @default(cuid())
+  userId        String?
+  sessionId     String   @unique
+  messages      Json     @default("[]")
+  serviceType   String?
+  urgency       String?
+  ticketCreated Boolean  @default(false)
+  appointmentId String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Product {
+  id            String   @id @default(cuid())
+  name          String
+  slug          String   @unique
+  description   String?
+  price         Float
+  comparePrice  Float?
+  images        String[] @default([])
+  category      String
+  inStock       Boolean  @default(true)
+  stockCount    Int?
+  featured      Boolean  @default(false)
+  sortOrder     Int      @default(0)
+  stripeProductId String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  orderItems OrderItem[]
+}
+
+model Order {
+  id                    String      @id @default(cuid())
+  orderNumber           String      @unique
+  userId                String?
+  status                OrderStatus @default(PENDING)
+  subtotal              Float
+  tax                   Float       @default(0)
+  shipping              Float       @default(0)
+  total                 Float
+  shippingAddress       Json?
+  stripePaymentIntentId String?
+  paidAt                DateTime?
+  createdAt             DateTime    @default(now())
+  updatedAt             DateTime    @updatedAt
+
+  user       User?       @relation(fields: [userId], references: [id], onDelete: SetNull)
+  items      OrderItem[]
+  payments   Payment[]
+}
+
+model OrderItem {
+  id          String @id @default(cuid())
+  orderId     String
+  productId   String
+  quantity    Int
+  price       Float
+  productName String
+
+  order   Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id], onDelete: Restrict)
+}
+
+model Cart {
+  id        String   @id @default(cuid())
+  userId    String?  @unique
+  sessionId String?  @unique
+  items     Json     @default("[]")
+  updatedAt DateTime @updatedAt
+}
+
+model Payment {
+  id                    String   @id @default(cuid())
+  userId                String?
+  appointmentId         String?
+  orderId               String?
+  amount                Float
+  currency              String   @default("usd")
+  status                String
+  stripePaymentIntentId String   @unique
+  method                String?
+  metadata              Json?
+  createdAt             DateTime @default(now())
+
+  order Order? @relation(fields: [orderId], references: [id], onDelete: SetNull)
+}
+
+model PushSubscription {
+  id        String   @id @default(cuid())
+  userId    String
+  endpoint  String   @unique
+  keys      Json
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Estimate {
+  id             String    @id @default(cuid())
+  estimateNumber String    @unique
+  technicianId   String?
+  appointmentId  String?
+
+  clientName     String
+  clientEmail    String
+  clientPhone    String?
+  clientMobile   String?
+  clientFax      String?
+  clientAddress  String?
+  clientCity     String?
+  clientState    String    @default("TX")
+  clientZip      String?
+
+  lineItems      Json      @default("[]")
+  additionalDetails String?
+
+  subtotal       Float     @default(0)
+  taxType        String    @default("none")
+  taxLabel       String?
+  taxRate        Float     @default(0)
+  taxInclusive   Boolean   @default(false)
+  discountType   String    @default("none")
+  discountValue  Float     @default(0)
+  total          Float     @default(0)
+
+  status         String    @default("OPEN")
+  templateColor  String    @default("#1B3FA8")
+  showFinancing  Boolean   @default(false)
+  requestSignature Boolean @default(true)
+  signatureUrl   String?
+  sentAt         DateTime?
+  convertedAt    DateTime?
+  invoiceId      String?
+
+  // Invoice mode
+  isInvoice      Boolean   @default(false)
+  paymentToken   String?   @unique
+  paymentMethod  String?   // ZELLE | CARD | CASH
+  paidAt         DateTime?
+  sentByName     String?
+
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  technician User? @relation("technicianEstimates", fields: [technicianId], references: [id], onDelete: SetNull)
+}
+
+// ─── Technician PWA Models ────────────────────────────────────────────────────
+
+model DiagnosisForm {
+  id                  String    @id @default(cuid())
+  appointmentId       String    @unique
+  technicianId        String?
+  problemFound        String
+  causeOfIssue        String?
+  recommendedSolution String?
+  requiredParts       Json?     @default("[]")
+  laborNeeded         String?
+  estimatedTime       String?
+  safetyNotes         String?
+  customerApproved    Boolean   @default(false)
+  customerApprovedAt  DateTime?
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+
+  appointment Appointment @relation(fields: [appointmentId], references: [id], onDelete: Cascade)
+}
+
+model JobPhoto {
+  id            String   @id @default(cuid())
+  appointmentId String
+  technicianId  String?
+  url           String
+  category      String   @default("general")
+  caption       String?
+  createdAt     DateTime @default(now())
+
+  appointment Appointment @relation(fields: [appointmentId], references: [id], onDelete: Cascade)
+  technician  User?       @relation(fields: [technicianId], references: [id], onDelete: SetNull)
+}
+
+model JobPayment {
+  id                    String        @id @default(cuid())
+  appointmentId         String
+  amount                Float
+  method                PaymentMethod
+  reference             String?
+  stripePaymentIntentId String?
+  collectedBy           String?
+  notes                 String?
+  createdAt             DateTime      @default(now())
+
+  appointment Appointment @relation(fields: [appointmentId], references: [id], onDelete: Cascade)
+  collector   User?       @relation(fields: [collectedBy], references: [id], onDelete: SetNull)
+}
+
+model ServiceChecklist {
+  id            String    @id @default(cuid())
+  appointmentId String    @unique
+  serviceType   String
+  items         Json      @default("[]")
+  completedAt   DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  appointment Appointment @relation(fields: [appointmentId], references: [id], onDelete: Cascade)
+}
+
+model JobTimeLog {
+  id            String    @id @default(cuid())
+  appointmentId String    @unique
+  technicianId  String?
+  arrivedAt     DateTime?
+  startedAt     DateTime?
+  completedAt   DateTime?
+  totalMinutes  Int?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  appointment Appointment @relation(fields: [appointmentId], references: [id], onDelete: Cascade)
+}
+
+model JobPart {
+  id             String   @id @default(cuid())
+  appointmentId  String
+  technicianId   String?
+  partName       String
+  partNumber     String?
+  quantity       Int      @default(1)
+  unitCost       Float    @default(0)
+  totalCost      Float    @default(0)
+  warrantyPeriod String?
+  supplier       String?
+  notes          String?
+  createdAt      DateTime @default(now())
+
+  appointment Appointment @relation(fields: [appointmentId], references: [id], onDelete: Cascade)
+  technician  User?       @relation(fields: [technicianId], references: [id], onDelete: SetNull)
+}
+
+model InventoryItem {
+  id          String   @id @default(cuid())
+  name        String
+  partNumber  String?
+  category    String?
+  quantity    Int      @default(0)
+  minQuantity Int      @default(0)
+  unitCost    Float?
+  supplier    String?
+  location    String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  requests InventoryRequest[]
+}
+
+model InventoryRequest {
+  id            String   @id @default(cuid())
+  technicianId  String
+  appointmentId String?
+  itemId        String?
+  itemName      String
+  quantity      Int      @default(1)
+  reason        String?
+  status        String   @default("PENDING")
+  createdAt     DateTime @default(now())
+
+  technician User           @relation(fields: [technicianId], references: [id], onDelete: Cascade)
+  item       InventoryItem? @relation(fields: [itemId], references: [id], onDelete: SetNull)
+}
