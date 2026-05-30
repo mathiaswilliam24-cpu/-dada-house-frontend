@@ -74,10 +74,10 @@ export default function Footer() {
                 <div>
                   <p className="text-xs text-slate-500 uppercase tracking-wider mb-0.5">Emergency Line</p>
                   <a
-                    href="tel:+18326294398"
+                    href="tel:+18326264398"
                     className="text-red-400 font-bold text-sm hover:text-red-300 transition-colors"
                   >
-                    832-629-4398
+                    832-626-4398
                   </a>
                 </div>
               </div>

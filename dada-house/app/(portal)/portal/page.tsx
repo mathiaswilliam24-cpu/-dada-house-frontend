@@ -142,8 +142,8 @@ export default async function PortalDashboardPage() {
           <p className="font-semibold text-red-800">24/7 Emergency Service</p>
           <p className="text-sm text-red-600">We're always here when you need us most</p>
         </div>
-        <a href="tel:8326294398" className="bg-red-600 text-white text-sm font-semibold px-4 py-2 rounded-lg hover:bg-red-700 transition-colors">
-          Call 832-629-4398
+        <a href="tel:8326264398" className="bg-red-600 text-white text-sm font-semibold px-4 py-2 rounded-lg hover:bg-red-700 transition-colors">
+          Call 832-626-4398
         </a>
       </div>
     </div>

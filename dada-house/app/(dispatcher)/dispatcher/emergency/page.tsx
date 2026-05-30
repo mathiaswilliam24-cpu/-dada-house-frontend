@@ -17,8 +17,8 @@ export default function DispatcherEmergencyPage() {
         <p className="text-red-100">Handle urgent service requests immediately</p>
       </div>
       <div className="grid grid-cols-2 gap-3">
-        <a href="tel:+18326294398" className="bg-red-50 border border-red-200 rounded-xl p-4 flex items-center gap-3 hover:bg-red-100 transition-colors">
-          <Phone className="w-5 h-5 text-red-600" /><div><p className="font-semibold text-red-900 text-sm">Emergency Line</p><p className="text-xs text-red-600">832-629-4398</p></div>
+        <a href="tel:+18326264398" className="bg-red-50 border border-red-200 rounded-xl p-4 flex items-center gap-3 hover:bg-red-100 transition-colors">
+          <Phone className="w-5 h-5 text-red-600" /><div><p className="font-semibold text-red-900 text-sm">Emergency Line</p><p className="text-xs text-red-600">832-626-4398</p></div>
         </a>
         <a href="tel:+19106858042" className="bg-blue-50 border border-blue-200 rounded-xl p-4 flex items-center gap-3 hover:bg-blue-100 transition-colors">
           <Phone className="w-5 h-5 text-blue-600" /><div><p className="font-semibold text-blue-900 text-sm">Service Line</p><p className="text-xs text-blue-600">910-685-8042</p></div>

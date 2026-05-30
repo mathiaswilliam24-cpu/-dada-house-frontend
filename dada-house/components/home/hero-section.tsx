@@ -105,16 +105,16 @@ export default function HeroSection() {
                 <span className="text-red-300 text-xs font-bold uppercase tracking-wide">🚨 Emergency Line</span>
               </div>
               <a
-                href="tel:+18326294398"
+                href="tel:+18326264398"
                 className="block text-2xl font-black text-white hover:text-red-400 transition-colors mb-2"
               >
-                832-629-4398
+                832-626-4398
               </a>
               <p className="text-slate-400 text-sm mb-4">
                 Speak directly with a technician for urgent situations.
               </p>
               <a
-                href="tel:+18326294398"
+                href="tel:+18326264398"
                 className="inline-flex items-center gap-2 px-5 py-2.5 bg-red-600 hover:bg-red-700 text-white text-sm font-bold rounded-xl transition-all"
               >
                 <AlertTriangle size={14} />

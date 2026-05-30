@@ -43,10 +43,10 @@ export default function CTASection() {
         <div className="mt-8 flex items-center justify-center gap-2">
           <AlertTriangle size={14} className="text-orange-200" />
           <a
-            href="tel:+18326294398"
+            href="tel:+18326264398"
             className="text-orange-100 text-sm font-semibold hover:text-white transition-colors"
           >
-            Emergency? Call 832-629-4398 — We answer 24/7
+            Emergency? Call 832-626-4398 — We answer 24/7
           </a>
         </div>
       </div>

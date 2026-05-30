@@ -12,7 +12,7 @@ export default function AnnouncementBar() {
           <span className="font-semibold">+1 (910) 685-8042</span>
           <span className="text-white/50 mx-1">|</span>
           <AlertTriangle size={11} />
-          <span className="font-semibold">832-629-4398</span>
+          <span className="font-semibold">832-626-4398</span>
           <span className="text-white/50 mx-1">|</span>
           <MessageSquare size={11} />
           <span className="font-semibold">346-649-9353</span>
@@ -38,7 +38,7 @@ export default function AnnouncementBar() {
             <span className="sm:hidden">Text</span>
           </a>
           <a
-            href="tel:+18326294398"
+            href="tel:+18326264398"
             className="flex items-center gap-1.5 px-3 py-1.5 bg-white text-orange-700 hover:bg-orange-50 rounded-lg text-xs font-black transition-all whitespace-nowrap shadow-lg"
           >
             <AlertTriangle size={11} />

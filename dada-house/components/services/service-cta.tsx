@@ -31,11 +31,11 @@ export default function ServiceCta({ serviceName }: { serviceName: string }) {
 
         <div className="mt-8">
           <a
-            href="tel:+18326294398"
+            href="tel:+18326264398"
             className="inline-flex items-center gap-2 text-red-400 hover:text-red-300 text-sm font-semibold transition-colors"
           >
             <AlertTriangle size={14} />
-            Emergency? Call 832-629-4398 — 24/7 Response
+            Emergency? Call 832-626-4398 — 24/7 Response
           </a>
         </div>
       </div>
