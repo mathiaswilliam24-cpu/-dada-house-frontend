@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+﻿import { NextRequest, NextResponse } from "next/server";
 import { requireTechnician } from "@/lib/api-auth";
 import { db } from "@/lib/db";
 import { sendSMS } from "@/lib/twilio";
@@ -19,7 +19,7 @@ export async function POST(
   });
   if (!appointment) return NextResponse.json({ error: "Not found" }, { status: 404 });
 
-  const reviewUrl = "https://mydadahouse.com/reviews";
+  const reviewUrl = "https://dada-house.com/reviews";
   const message = `Hi ${appointment.name}! Thank you for choosing DADA HOUSE for your ${appointment.service} service. We'd love your feedback — leave a review at ${reviewUrl}`;
 
   const results: Record<string, string> = {};

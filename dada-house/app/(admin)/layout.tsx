@@ -6,7 +6,7 @@ import {
   LayoutDashboard, Calendar, Users, Star, Settings, Home, LogOut,
   Images, HardHat, Map, BarChart3, ShoppingBag, FileText, Radio,
   Package, Layers, TrendingUp, MessageCircle, Bell, Shield,
-  FolderOpen, ReceiptText, ClipboardList,
+  FolderOpen, ReceiptText, ClipboardList, Monitor,
 } from "lucide-react";
 import { signOut } from "@/auth";
 
@@ -62,6 +62,7 @@ const navGroups: NavGroup[] = [
   {
     label: "CONTENT",
     items: [
+      { href: "/admin/site-content", label: "Site Content", icon: Monitor },
       { href: "/admin/reviews", label: "Reviews", icon: Star },
       { href: "/admin/gallery", label: "Gallery", icon: Images },
       { href: "/admin/media", label: "Media & Docs", icon: FolderOpen },

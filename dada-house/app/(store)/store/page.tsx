@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { ShoppingCart, Star, Tag } from "lucide-react";
+import { ShoppingCart, Star, Tag, Wrench } from "lucide-react";
 import { formatCurrency } from "@/lib/utils";
 import { useCart } from "@/components/store/cart-provider";
 
@@ -94,6 +94,10 @@ export default function StorePage() {
                     <span className="text-xs text-green-600 font-medium">Save {formatCurrency(p.comparePrice - p.price)}</span>
                   </div>
                 )}
+                <div className="flex items-center gap-1 mt-1.5">
+                  <Wrench className="w-3 h-3 text-[#F7921A]" />
+                  <span className="text-xs text-[#F7921A] font-semibold">Includes Installation</span>
+                </div>
                 <button
                   onClick={() => addItem({ productId: p.id, name: p.name, price: p.price, image: p.images[0] })}
                   disabled={!p.inStock}

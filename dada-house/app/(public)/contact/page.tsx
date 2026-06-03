@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { Phone, AlertTriangle, Mail, Globe, MapPin, Clock } from "lucide-react";
 import ContactForm from "@/components/contact/contact-form";
 
@@ -83,10 +83,10 @@ export default function ContactPage() {
                   <div>
                     <p className="text-xs text-slate-500 mb-0.5">Email</p>
                     <a
-                      href="mailto:customerservice@mydadahouse.com"
+                      href="mailto:customerservice@dada-house.com"
                       className="text-[#1B3FA8] text-sm font-medium hover:text-[#F7921A] transition-colors"
                     >
-                      customerservice@mydadahouse.com
+                      customerservice@dada-house.com
                     </a>
                   </div>
                 </div>
@@ -95,7 +95,7 @@ export default function ContactPage() {
                   <div>
                     <p className="text-xs text-slate-500 mb-0.5">Website</p>
                     <span className="text-[#1B3FA8] text-sm font-medium">
-                      mydadahouse.com
+                      dada-house.com
                     </span>
                   </div>
                 </div>

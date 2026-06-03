@@ -1,4 +1,4 @@
-interface AppointmentEmailData {
+﻿interface AppointmentEmailData {
   appointmentNumber: string;
   name: string;
   service: string;
@@ -89,7 +89,7 @@ export function appointmentConfirmationHtml(data: AppointmentEmailData): string 
           <tr>
             <td style="background:#1B3FA8;padding:24px 40px;text-align:center;">
               <p style="margin:0;color:#64748B;font-size:12px;">DADA HOUSE — Available 24/7 for Your Home Service Needs</p>
-              <p style="margin:8px 0 0;color:#475569;font-size:12px;">customerservice@mydadahouse.com | mydadahouse.com</p>
+              <p style="margin:8px 0 0;color:#475569;font-size:12px;">customerservice@dada-house.com | dada-house.com</p>
             </td>
           </tr>
         </table>
@@ -147,7 +147,7 @@ export function statusUpdateHtml(data: {
         </tr>
         <tr>
           <td style="background:#1B3FA8;padding:20px 40px;text-align:center;">
-            <p style="margin:0;color:#475569;font-size:12px;">DADA HOUSE — customerservice@mydadahouse.com</p>
+            <p style="margin:0;color:#475569;font-size:12px;">DADA HOUSE — customerservice@dada-house.com</p>
           </td>
         </tr>
       </table>
@@ -211,7 +211,7 @@ export function adminAppointmentAlertHtml(data: AppointmentEmailData & { phone: 
         </tr>
         <tr>
           <td style="background:#1B3FA8;padding:20px 40px;text-align:center;">
-            <p style="margin:0;color:#93C5FD;font-size:12px;">DADA HOUSE Internal Notification — mydadahouse.com</p>
+            <p style="margin:0;color:#93C5FD;font-size:12px;">DADA HOUSE Internal Notification — dada-house.com</p>
           </td>
         </tr>
       </table>
@@ -255,7 +255,7 @@ export function contactEmailHtml(data: {
           </table>
         </td></tr>
         <tr><td style="background:#1B3FA8;padding:20px 40px;text-align:center;">
-          <p style="margin:0;color:#475569;font-size:12px;">DADA HOUSE — customerservice@mydadahouse.com</p>
+          <p style="margin:0;color:#475569;font-size:12px;">DADA HOUSE — customerservice@dada-house.com</p>
         </td></tr>
       </table>
     </td></tr>

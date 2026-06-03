@@ -216,3 +216,13 @@ export type InventoryItem = Prisma.InventoryItemModel
  * 
  */
 export type InventoryRequest = Prisma.InventoryRequestModel
+/**
+ * Model Expense
+ * 
+ */
+export type Expense = Prisma.ExpenseModel
+/**
+ * Model ExpenseSubscription
+ * 
+ */
+export type ExpenseSubscription = Prisma.ExpenseSubscriptionModel

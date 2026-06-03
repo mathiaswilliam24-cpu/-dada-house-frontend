@@ -1,4 +1,4 @@
-# CLAUDE.md
+﻿# CLAUDE.md
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
@@ -71,7 +71,7 @@ Must export `export const dynamic = "force-dynamic"` to prevent static generatio
 DATABASE_URL          # PostgreSQL (Supabase) connection string
 NEXTAUTH_SECRET       # random secret for JWT signing
 RESEND_API_KEY        # email sending
-RESEND_FROM_EMAIL     # from address (default: service@mydadahouse.com)
+RESEND_FROM_EMAIL     # from address (default: service@dada-house.com)
 TWILIO_ACCOUNT_SID    # SMS
 TWILIO_AUTH_TOKEN
 TWILIO_PHONE_NUMBER

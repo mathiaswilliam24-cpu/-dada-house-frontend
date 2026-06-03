@@ -85,7 +85,9 @@ export const ModelName = {
   JobTimeLog: 'JobTimeLog',
   JobPart: 'JobPart',
   InventoryItem: 'InventoryItem',
-  InventoryRequest: 'InventoryRequest'
+  InventoryRequest: 'InventoryRequest',
+  Expense: 'Expense',
+  ExpenseSubscription: 'ExpenseSubscription'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -459,6 +461,7 @@ export const ProductScalarFieldEnum = {
   price: 'price',
   comparePrice: 'comparePrice',
   images: 'images',
+  videoUrl: 'videoUrl',
   category: 'category',
   inStock: 'inStock',
   stockCount: 'stockCount',
@@ -485,7 +488,21 @@ export const OrderScalarFieldEnum = {
   stripePaymentIntentId: 'stripePaymentIntentId',
   paidAt: 'paidAt',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  installationFirstName: 'installationFirstName',
+  installationLastName: 'installationLastName',
+  installationAddress: 'installationAddress',
+  installationCity: 'installationCity',
+  installationDate: 'installationDate',
+  installationTime: 'installationTime',
+  appointmentId: 'appointmentId',
+  technicianId: 'technicianId',
+  technicianName: 'technicianName',
+  jobComplete: 'jobComplete',
+  adminConfirmed: 'adminConfirmed',
+  installationPhotos: 'installationPhotos',
+  customerEmail: 'customerEmail',
+  customerPhone: 'customerPhone'
 } as const
 
 export type OrderScalarFieldEnum = (typeof OrderScalarFieldEnum)[keyof typeof OrderScalarFieldEnum]
@@ -711,6 +728,35 @@ export const InventoryRequestScalarFieldEnum = {
 } as const
 
 export type InventoryRequestScalarFieldEnum = (typeof InventoryRequestScalarFieldEnum)[keyof typeof InventoryRequestScalarFieldEnum]
+
+
+export const ExpenseScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  merchant: 'merchant',
+  description: 'description',
+  amount: 'amount',
+  date: 'date',
+  receiptUrl: 'receiptUrl',
+  source: 'source',
+  createdAt: 'createdAt'
+} as const
+
+export type ExpenseScalarFieldEnum = (typeof ExpenseScalarFieldEnum)[keyof typeof ExpenseScalarFieldEnum]
+
+
+export const ExpenseSubscriptionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  stripeCustomerId: 'stripeCustomerId',
+  stripeSubscriptionId: 'stripeSubscriptionId',
+  status: 'status',
+  currentPeriodEnd: 'currentPeriodEnd',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ExpenseSubscriptionScalarFieldEnum = (typeof ExpenseSubscriptionScalarFieldEnum)[keyof typeof ExpenseSubscriptionScalarFieldEnum]
 
 
 export const SortOrder = {

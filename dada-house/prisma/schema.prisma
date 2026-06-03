@@ -57,9 +57,12 @@ enum InvoiceStatus {
 
 enum OrderStatus {
   PENDING
+  CONFIRMED
   PROCESSING
-  SHIPPED
-  DELIVERED
+  ASSIGNED
+  EN_ROUTE
+  ARRIVED
+  INSTALLED
   CANCELLED
 }
 
@@ -102,6 +105,8 @@ model User {
   jobParts               JobPart[]
   inventoryRequests      InventoryRequest[]
   technicianClients      TechnicianClient[]   @relation("technicianClients")
+  expenses               Expense[]
+  expenseSubscription    ExpenseSubscription?
 }
 
 model TechnicianClient {
@@ -444,6 +449,7 @@ model Product {
   price         Float
   comparePrice  Float?
   images        String[] @default([])
+  videoUrl      String?
   category      String
   inStock       Boolean  @default(true)
   stockCount    Int?
@@ -470,6 +476,22 @@ model Order {
   paidAt                DateTime?
   createdAt             DateTime    @default(now())
   updatedAt             DateTime    @updatedAt
+
+  // Installation fields
+  installationFirstName String?
+  installationLastName  String?
+  installationAddress   String?
+  installationCity      String?
+  installationDate      DateTime?
+  installationTime      String?
+  appointmentId         String?     @unique
+  technicianId          String?
+  technicianName        String?
+  jobComplete           Boolean     @default(false)
+  adminConfirmed        Boolean     @default(false)
+  installationPhotos    String[]    @default([])
+  customerEmail         String?
+  customerPhone         String?
 
   user       User?       @relation(fields: [userId], references: [id], onDelete: SetNull)
   items      OrderItem[]
@@ -695,4 +717,33 @@ model InventoryRequest {
 
   technician User           @relation(fields: [technicianId], references: [id], onDelete: Cascade)
   item       InventoryItem? @relation(fields: [itemId], references: [id], onDelete: SetNull)
+}
+
+model Expense {
+  id          String   @id @default(cuid())
+  userId      String
+  merchant    String?
+  description String?
+  amount      Float
+  date        DateTime
+  receiptUrl  String?
+  source      String   @default("manual")
+  createdAt   DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model ExpenseSubscription {
+  id                   String   @id @default(cuid())
+  userId               String   @unique
+  stripeCustomerId     String?
+  stripeSubscriptionId String?
+  status               String   @default("inactive")
+  currentPeriodEnd     DateTime?
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

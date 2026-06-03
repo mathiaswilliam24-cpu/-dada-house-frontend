@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DADA HOUSE — Offline</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #0A1628;
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      text-align: center;
+    }
+    .logo { font-size: 28px; font-weight: 900; letter-spacing: -0.5px; margin-bottom: 32px; }
+    .logo span { color: #F97316; }
+    .icon {
+      width: 80px; height: 80px;
+      background: #F97316;
+      border-radius: 20px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 40px;
+      margin: 0 auto 24px;
+    }
+    h1 { font-size: 22px; font-weight: 700; margin-bottom: 12px; }
+    p { color: #93c5fd; font-size: 15px; line-height: 1.6; max-width: 320px; margin-bottom: 32px; }
+    .btn {
+      background: #F97316; color: white;
+      border: none; border-radius: 12px;
+      padding: 14px 28px; font-size: 15px; font-weight: 700;
+      cursor: pointer; text-decoration: none; display: inline-block;
+    }
+    .tel { margin-top: 24px; color: #64748b; font-size: 13px; }
+    .tel a { color: #F97316; text-decoration: none; }
+  </style>
+</head>
+<body>
+  <div class="logo">DADA <span>HOUSE</span></div>
+  <div class="icon">🔧</div>
+  <h1>You're offline</h1>
+  <p>No internet connection detected. Please check your connection and try again.</p>
+  <button class="btn" onclick="window.location.reload()">Try Again</button>
+  <p class="tel">Need urgent help? <a href="tel:+18326294398">Call Emergency Line</a></p>
+</body>
+</html>

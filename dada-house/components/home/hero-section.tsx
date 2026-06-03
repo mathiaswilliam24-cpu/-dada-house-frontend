@@ -18,13 +18,13 @@ const trustBadges = [
   { icon: CheckCircle, label: "Same-Day Service" },
 ];
 
-export default function HeroSection() {
+export default function HeroSection({ heroImage = "/team.jpg" }: { heroImage?: string }) {
   return (
     <section className="relative overflow-hidden">
-      {/* Team photo background */}
+      {/* Hero background — managed from admin Site Content */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: "url('/team.jpg')" }}
+        style={{ backgroundImage: `url('${heroImage}')` }}
       />
       {/* Light overlay — juste assez pour lire le texte */}
       <div className="absolute inset-0 bg-[#1B3FA8]/30" />

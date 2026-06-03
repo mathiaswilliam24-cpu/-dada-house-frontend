@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Privacy Policy — DADA HOUSE",
@@ -24,12 +24,12 @@ export default function PrivacyPolicyPage() {
               DADA HOUSE LLC ("DADA HOUSE", "we", "our", or "us") provides residential and commercial
               home services — including plumbing, air conditioning, heating, and remodeling — in the
               Houston, Texas metropolitan area. Our website is{" "}
-              <a href="https://mydadahouse.com" className="text-[#F7921A] hover:underline">
-                mydadahouse.com
+              <a href="https://dada-house.com" className="text-[#F7921A] hover:underline">
+                dada-house.com
               </a>
               . You can reach us at{" "}
-              <a href="mailto:customerservice@mydadahouse.com" className="text-[#F7921A] hover:underline">
-                customerservice@mydadahouse.com
+              <a href="mailto:customerservice@dada-house.com" className="text-[#F7921A] hover:underline">
+                customerservice@dada-house.com
               </a>{" "}
               or by phone at{" "}
               <a href="tel:+19106858042" className="text-[#F7921A] hover:underline">
@@ -81,7 +81,7 @@ export default function PrivacyPolicyPage() {
             <div className="bg-orange-50 border border-orange-200 rounded-lg p-4 mb-4">
               <p className="font-medium text-[#1B3FA8] mb-2">SMS Opt-In Disclosure</p>
               <p>
-                By submitting a booking request or appointment form on mydadahouse.com, you expressly
+                By submitting a booking request or appointment form on dada-house.com, you expressly
                 consent to receive automated SMS text messages from DADA HOUSE at the phone number
                 you provide. These messages may include:
               </p>
@@ -107,8 +107,8 @@ export default function PrivacyPolicyPage() {
             </p>
             <p className="mt-2">
               <strong>Help</strong>: Reply <strong>HELP</strong> for assistance or contact us at{" "}
-              <a href="mailto:customerservice@mydadahouse.com" className="text-[#F7921A] hover:underline">
-                customerservice@mydadahouse.com
+              <a href="mailto:customerservice@dada-house.com" className="text-[#F7921A] hover:underline">
+                customerservice@dada-house.com
               </a>
               .
             </p>
@@ -141,8 +141,8 @@ export default function PrivacyPolicyPage() {
               comply with legal obligations. Appointment records are kept for a minimum of 3 years for
               business and warranty purposes. You may request deletion of your account and associated
               data by contacting us at{" "}
-              <a href="mailto:customerservice@mydadahouse.com" className="text-[#F7921A] hover:underline">
-                customerservice@mydadahouse.com
+              <a href="mailto:customerservice@dada-house.com" className="text-[#F7921A] hover:underline">
+                customerservice@dada-house.com
               </a>
               .
             </p>
@@ -168,8 +168,8 @@ export default function PrivacyPolicyPage() {
             </ul>
             <p className="mt-2">
               To exercise these rights, email us at{" "}
-              <a href="mailto:customerservice@mydadahouse.com" className="text-[#F7921A] hover:underline">
-                customerservice@mydadahouse.com
+              <a href="mailto:customerservice@dada-house.com" className="text-[#F7921A] hover:underline">
+                customerservice@dada-house.com
               </a>
               .
             </p>
@@ -199,8 +199,8 @@ export default function PrivacyPolicyPage() {
               <p>Houston, Texas</p>
               <p>
                 Email:{" "}
-                <a href="mailto:customerservice@mydadahouse.com" className="text-[#F7921A] hover:underline">
-                  customerservice@mydadahouse.com
+                <a href="mailto:customerservice@dada-house.com" className="text-[#F7921A] hover:underline">
+                  customerservice@dada-house.com
                 </a>
               </p>
               <p>

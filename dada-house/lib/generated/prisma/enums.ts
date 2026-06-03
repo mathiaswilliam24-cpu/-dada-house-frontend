@@ -77,9 +77,12 @@ export type InvoiceStatus = (typeof InvoiceStatus)[keyof typeof InvoiceStatus]
 
 export const OrderStatus = {
   PENDING: 'PENDING',
+  CONFIRMED: 'CONFIRMED',
   PROCESSING: 'PROCESSING',
-  SHIPPED: 'SHIPPED',
-  DELIVERED: 'DELIVERED',
+  ASSIGNED: 'ASSIGNED',
+  EN_ROUTE: 'EN_ROUTE',
+  ARRIVED: 'ARRIVED',
+  INSTALLED: 'INSTALLED',
   CANCELLED: 'CANCELLED'
 } as const
 

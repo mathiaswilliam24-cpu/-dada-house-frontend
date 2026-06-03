@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Terms & Conditions — DADA HOUSE",
@@ -22,8 +22,8 @@ export default function TermsPage() {
             <h2 className="text-lg font-semibold text-[#1B3FA8] mb-3">1. Agreement to Terms</h2>
             <p>
               By accessing our website at{" "}
-              <a href="https://mydadahouse.com" className="text-[#F7921A] hover:underline">
-                mydadahouse.com
+              <a href="https://dada-house.com" className="text-[#F7921A] hover:underline">
+                dada-house.com
               </a>{" "}
               or using any of our services, you agree to be bound by these Terms & Conditions. If you
               do not agree, please do not use our services.
@@ -72,7 +72,7 @@ export default function TermsPage() {
             <h2 className="text-lg font-semibold text-[#1B3FA8] mb-3">4. SMS Communications</h2>
             <div className="bg-orange-50 border border-orange-200 rounded-lg p-4">
               <p>
-                By submitting a booking form on mydadahouse.com, you consent to receive SMS text
+                By submitting a booking form on dada-house.com, you consent to receive SMS text
                 messages from DADA HOUSE at the mobile number provided. These messages relate to your
                 appointment status, confirmations, and service updates.
               </p>
@@ -148,7 +148,7 @@ export default function TermsPage() {
           <section>
             <h2 className="text-lg font-semibold text-[#1B3FA8] mb-3">10. Intellectual Property</h2>
             <p>
-              All content on mydadahouse.com — including text, images, logos, and code — is the property
+              All content on dada-house.com — including text, images, logos, and code — is the property
               of DADA HOUSE LLC and protected by applicable intellectual property laws. You may not
               reproduce or distribute any content without our written permission.
             </p>
@@ -177,8 +177,8 @@ export default function TermsPage() {
               <p>Houston, Texas</p>
               <p>
                 Email:{" "}
-                <a href="mailto:customerservice@mydadahouse.com" className="text-[#F7921A] hover:underline">
-                  customerservice@mydadahouse.com
+                <a href="mailto:customerservice@dada-house.com" className="text-[#F7921A] hover:underline">
+                  customerservice@dada-house.com
                 </a>
               </p>
               <p>

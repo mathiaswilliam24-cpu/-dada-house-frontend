@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -175,7 +175,7 @@ export default function TechnicianForm({ technician, onClose }: Props) {
                 value={form.email}
                 onChange={(e) => set("email", e.target.value)}
                 className="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-[#1B3FA8]"
-                placeholder="tech@mydadahouse.com"
+                placeholder="tech@dada-house.com"
               />
             </div>
           </div>

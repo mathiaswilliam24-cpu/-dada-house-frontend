@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useEffect, useState } from "react";
 import { useParams, useSearchParams } from "next/navigation";
 import { Suspense } from "react";
@@ -173,7 +173,7 @@ function PayPage() {
             <h2 className="font-black text-gray-900 text-lg">Pay via Zelle</h2>
             <div className="bg-purple-50 rounded-xl p-4 space-y-2">
               <p className="text-xs font-bold text-purple-700 uppercase tracking-wider">Send payment to</p>
-              <p className="text-base font-bold text-gray-900">payment@mydadahouse.com</p>
+              <p className="text-base font-bold text-gray-900">payment@dada-house.com</p>
               <p className="text-sm text-gray-600">Company name: <span className="font-semibold">DADA HOUSE LLC</span></p>
               <p className="text-xl font-black text-purple-700 mt-2">{formatCurrency(invoice.total)}</p>
             </div>
@@ -234,7 +234,7 @@ function PayPage() {
         {/* Footer */}
         <div className="text-center pt-2">
           <p className="text-xs text-gray-400">DADA HOUSE · 7001 South Texas 6 STE 246, Houston, TX 77083</p>
-          <p className="text-xs text-gray-400">(910) 685-8042 · customerservice@mydadahouse.com</p>
+          <p className="text-xs text-gray-400">(910) 685-8042 · customerservice@dada-house.com</p>
           {invoice.sentByName && <p className="text-xs text-gray-300 mt-1">Prepared by {invoice.sentByName}</p>}
         </div>
       </div>

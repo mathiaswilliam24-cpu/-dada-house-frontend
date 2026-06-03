@@ -418,7 +418,9 @@ export const ModelName = {
   JobTimeLog: 'JobTimeLog',
   JobPart: 'JobPart',
   InventoryItem: 'InventoryItem',
-  InventoryRequest: 'InventoryRequest'
+  InventoryRequest: 'InventoryRequest',
+  Expense: 'Expense',
+  ExpenseSubscription: 'ExpenseSubscription'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -434,7 +436,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "technicianClient" | "account" | "session" | "verificationToken" | "appointment" | "review" | "invoice" | "notificationLog" | "setting" | "galleryProject" | "technician" | "technicianProfile" | "technicianLocation" | "property" | "servicePlan" | "customerServicePlan" | "warranty" | "maintenanceLog" | "aIConversation" | "product" | "order" | "orderItem" | "cart" | "payment" | "pushSubscription" | "estimate" | "diagnosisForm" | "jobPhoto" | "jobPayment" | "serviceChecklist" | "jobTimeLog" | "jobPart" | "inventoryItem" | "inventoryRequest"
+    modelProps: "user" | "technicianClient" | "account" | "session" | "verificationToken" | "appointment" | "review" | "invoice" | "notificationLog" | "setting" | "galleryProject" | "technician" | "technicianProfile" | "technicianLocation" | "property" | "servicePlan" | "customerServicePlan" | "warranty" | "maintenanceLog" | "aIConversation" | "product" | "order" | "orderItem" | "cart" | "payment" | "pushSubscription" | "estimate" | "diagnosisForm" | "jobPhoto" | "jobPayment" | "serviceChecklist" | "jobTimeLog" | "jobPart" | "inventoryItem" | "inventoryRequest" | "expense" | "expenseSubscription"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -3028,6 +3030,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Expense: {
+      payload: Prisma.$ExpensePayload<ExtArgs>
+      fields: Prisma.ExpenseFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ExpenseFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExpensePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ExpenseFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExpensePayload>
+        }
+        findFirst: {
+          args: Prisma.ExpenseFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExpensePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ExpenseFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExpensePayload>
+        }
+        findMany: {
+          args: Prisma.ExpenseFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExpensePayload>[]
+        }
+        create: {
+          args: Prisma.ExpenseCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExpensePayload>
+        }
+        createMany: {
+          args: Prisma.ExpenseCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ExpenseCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExpensePayload>[]
+        }
+        delete: {
+          args: Prisma.ExpenseDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExpensePayload>
+        }
+        update: {
+          args: Prisma.ExpenseUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExpensePayload>
+        }
+        deleteMany: {
+          args: Prisma.ExpenseDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ExpenseUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ExpenseUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExpensePayload>[]
+        }
+        upsert: {
+          args: Prisma.ExpenseUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExpensePayload>
+        }
+        aggregate: {
+          args: Prisma.ExpenseAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateExpense>
+        }
+        groupBy: {
+          args: Prisma.ExpenseGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ExpenseGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ExpenseCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ExpenseCountAggregateOutputType> | number
+        }
+      }
+    }
+    ExpenseSubscription: {
+      payload: Prisma.$ExpenseSubscriptionPayload<ExtArgs>
+      fields: Prisma.ExpenseSubscriptionFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ExpenseSubscriptionFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExpenseSubscriptionPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ExpenseSubscriptionFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExpenseSubscriptionPayload>
+        }
+        findFirst: {
+          args: Prisma.ExpenseSubscriptionFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExpenseSubscriptionPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ExpenseSubscriptionFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExpenseSubscriptionPayload>
+        }
+        findMany: {
+          args: Prisma.ExpenseSubscriptionFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExpenseSubscriptionPayload>[]
+        }
+        create: {
+          args: Prisma.ExpenseSubscriptionCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExpenseSubscriptionPayload>
+        }
+        createMany: {
+          args: Prisma.ExpenseSubscriptionCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ExpenseSubscriptionCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExpenseSubscriptionPayload>[]
+        }
+        delete: {
+          args: Prisma.ExpenseSubscriptionDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExpenseSubscriptionPayload>
+        }
+        update: {
+          args: Prisma.ExpenseSubscriptionUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExpenseSubscriptionPayload>
+        }
+        deleteMany: {
+          args: Prisma.ExpenseSubscriptionDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ExpenseSubscriptionUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ExpenseSubscriptionUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExpenseSubscriptionPayload>[]
+        }
+        upsert: {
+          args: Prisma.ExpenseSubscriptionUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExpenseSubscriptionPayload>
+        }
+        aggregate: {
+          args: Prisma.ExpenseSubscriptionAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateExpenseSubscription>
+        }
+        groupBy: {
+          args: Prisma.ExpenseSubscriptionGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ExpenseSubscriptionGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ExpenseSubscriptionCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ExpenseSubscriptionCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -3422,6 +3572,7 @@ export const ProductScalarFieldEnum = {
   price: 'price',
   comparePrice: 'comparePrice',
   images: 'images',
+  videoUrl: 'videoUrl',
   category: 'category',
   inStock: 'inStock',
   stockCount: 'stockCount',
@@ -3448,7 +3599,21 @@ export const OrderScalarFieldEnum = {
   stripePaymentIntentId: 'stripePaymentIntentId',
   paidAt: 'paidAt',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  installationFirstName: 'installationFirstName',
+  installationLastName: 'installationLastName',
+  installationAddress: 'installationAddress',
+  installationCity: 'installationCity',
+  installationDate: 'installationDate',
+  installationTime: 'installationTime',
+  appointmentId: 'appointmentId',
+  technicianId: 'technicianId',
+  technicianName: 'technicianName',
+  jobComplete: 'jobComplete',
+  adminConfirmed: 'adminConfirmed',
+  installationPhotos: 'installationPhotos',
+  customerEmail: 'customerEmail',
+  customerPhone: 'customerPhone'
 } as const
 
 export type OrderScalarFieldEnum = (typeof OrderScalarFieldEnum)[keyof typeof OrderScalarFieldEnum]
@@ -3674,6 +3839,35 @@ export const InventoryRequestScalarFieldEnum = {
 } as const
 
 export type InventoryRequestScalarFieldEnum = (typeof InventoryRequestScalarFieldEnum)[keyof typeof InventoryRequestScalarFieldEnum]
+
+
+export const ExpenseScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  merchant: 'merchant',
+  description: 'description',
+  amount: 'amount',
+  date: 'date',
+  receiptUrl: 'receiptUrl',
+  source: 'source',
+  createdAt: 'createdAt'
+} as const
+
+export type ExpenseScalarFieldEnum = (typeof ExpenseScalarFieldEnum)[keyof typeof ExpenseScalarFieldEnum]
+
+
+export const ExpenseSubscriptionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  stripeCustomerId: 'stripeCustomerId',
+  stripeSubscriptionId: 'stripeSubscriptionId',
+  status: 'status',
+  currentPeriodEnd: 'currentPeriodEnd',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ExpenseSubscriptionScalarFieldEnum = (typeof ExpenseSubscriptionScalarFieldEnum)[keyof typeof ExpenseSubscriptionScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -4063,6 +4257,8 @@ export type GlobalOmitConfig = {
   jobPart?: Prisma.JobPartOmit
   inventoryItem?: Prisma.InventoryItemOmit
   inventoryRequest?: Prisma.InventoryRequestOmit
+  expense?: Prisma.ExpenseOmit
+  expenseSubscription?: Prisma.ExpenseSubscriptionOmit
 }
 
 /* Types for Logging */

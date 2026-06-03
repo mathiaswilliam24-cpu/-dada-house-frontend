@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState, useCallback, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import {
@@ -52,7 +52,7 @@ const TEMPLATE_COLORS = [
 
 const FROM = {
   name: "DADA HOUSE LLC",
-  email: "customerservice@mydadahouse.com",
+  email: "customerservice@dada-house.com",
   address: "7001 South Texas 6 STE 246",
   city: "Houston, TX 77083",
   phone: "(910) 685-8042",
@@ -947,7 +947,7 @@ function PreviewPanel(p: PreviewProps) {
 
           <div className="border-t border-gray-100 pt-3 text-center">
             <p className="text-xs text-gray-400">DADA HOUSE · 7001 South Texas 6 STE 246, Houston, TX 77083</p>
-            <p className="text-xs text-gray-400">(910) 685-8042 · customerservice@mydadahouse.com</p>
+            <p className="text-xs text-gray-400">(910) 685-8042 · customerservice@dada-house.com</p>
           </div>
         </div>
       </div>

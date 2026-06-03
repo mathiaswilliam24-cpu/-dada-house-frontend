@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+﻿import { NextRequest, NextResponse } from "next/server";
 import { requireTechnician } from "@/lib/api-auth";
 import { db } from "@/lib/db";
 import { resend, FROM_EMAIL } from "@/lib/resend";
@@ -127,7 +127,7 @@ function buildEstimateEmail(
     </div>
     ${est.additionalDetails ? `<p style="margin-top:16px;padding:12px;background:#f9fafb;border-radius:6px;font-size:14px">${est.additionalDetails}</p>` : ""}
     <p style="margin-top:24px">To accept this estimate or have any questions, please contact us:</p>
-    <p>📞 (910) 685-8042 · ✉️ customerservice@mydadahouse.com</p>
+    <p>📞 (910) 685-8042 · ✉️ customerservice@dada-house.com</p>
     <p style="color:#6b7280;font-size:12px;margin-top:24px;border-top:1px solid #e5e7eb;padding-top:16px">
       Prepared by ${techName} · DADA HOUSE · 7001 South Texas 6 STE 246, Houston, TX 77083
     </p>

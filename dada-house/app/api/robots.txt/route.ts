@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+﻿import { NextResponse } from "next/server";
 
 export async function GET() {
   const content = `User-agent: *
@@ -9,7 +9,7 @@ Disallow: /admin/
 Disallow: /dashboard/
 Disallow: /auth/
 
-Sitemap: https://mydadahouse.com/api/sitemap.xml
+Sitemap: https://dada-house.com/api/sitemap.xml
 `;
 
   return new NextResponse(content, {

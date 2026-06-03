@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+﻿import { NextRequest, NextResponse } from "next/server";
 import { contactSchema } from "@/lib/validations";
 import { resend, FROM_EMAIL } from "@/lib/resend";
 import { contactEmailHtml } from "@/lib/email-templates";
@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
 
     await resend.emails.send({
       from: FROM_EMAIL,
-      to: "customerservice@mydadahouse.com",
+      to: "customerservice@dada-house.com",
       replyTo: parsed.data.email,
       subject: `Contact Form: ${parsed.data.name} — ${parsed.data.service || "General Inquiry"}`,
       html: contactEmailHtml(parsed.data),

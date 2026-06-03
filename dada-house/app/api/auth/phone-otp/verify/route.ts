@@ -32,7 +32,7 @@ export async function POST(req: NextRequest) {
       user = await db.user.create({
         data: {
           phone,
-          email: `phone_${phone.replace(/\D/g, "")}@mydadahouse.com`,
+          email: `phone_${phone.replace(/\D/g, "")}@dada-house.com`,
           role: "CLIENT",
         },
       });

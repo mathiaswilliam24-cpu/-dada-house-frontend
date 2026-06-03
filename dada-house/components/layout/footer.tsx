@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import Image from "next/image";
 import {
   Phone,
@@ -8,6 +8,7 @@ import {
   Clock,
   MapPin,
 } from "lucide-react";
+import PwaInstallBadges from "./pwa-install-badges";
 
 const serviceLinks = [
   { href: "/services/plumbing", label: "Plumbing" },
@@ -85,20 +86,20 @@ export default function Footer() {
               <div className="flex items-center gap-2">
                 <Mail size={14} className="text-[#F7921A] flex-shrink-0" />
                 <a
-                  href="mailto:customerservice@mydadahouse.com"
+                  href="mailto:customerservice@dada-house.com"
                   className="text-slate-400 text-sm hover:text-white transition-colors"
                 >
-                  customerservice@mydadahouse.com
+                  customerservice@dada-house.com
                 </a>
               </div>
 
               <div className="flex items-center gap-2">
                 <Globe size={14} className="text-[#F7921A] flex-shrink-0" />
                 <a
-                  href="https://mydadahouse.com"
+                  href="https://dada-house.com"
                   className="text-slate-400 text-sm hover:text-white transition-colors"
                 >
-                  mydadahouse.com
+                  dada-house.com
                 </a>
               </div>
 
@@ -186,6 +187,14 @@ export default function Footer() {
               >
                 Book Service Now
               </Link>
+            </div>
+
+            {/* App download badges */}
+            <div className="mt-8">
+              <p className="text-xs text-slate-500 uppercase tracking-wider mb-3">
+                Download Our App
+              </p>
+              <PwaInstallBadges />
             </div>
           </div>
         </div>

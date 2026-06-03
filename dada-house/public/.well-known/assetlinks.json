@@ -1,0 +1,8 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.dadahouse.app",
+    "sha256_cert_fingerprints": ["F0:11:5D:72:09:E1:79:A3:3D:8B:55:81:EC:F8:04:37:B2:01:81:A7:C9:4B:66:AA:35:58:B1:2B:51:28:58:80"]
+  }
+}]

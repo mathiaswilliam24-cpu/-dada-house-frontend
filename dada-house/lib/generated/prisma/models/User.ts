@@ -241,6 +241,8 @@ export type UserWhereInput = {
   jobParts?: Prisma.JobPartListRelationFilter
   inventoryRequests?: Prisma.InventoryRequestListRelationFilter
   technicianClients?: Prisma.TechnicianClientListRelationFilter
+  expenses?: Prisma.ExpenseListRelationFilter
+  expenseSubscription?: Prisma.XOR<Prisma.ExpenseSubscriptionNullableScalarRelationFilter, Prisma.ExpenseSubscriptionWhereInput> | null
 }
 
 export type UserOrderByWithRelationInput = {
@@ -273,6 +275,8 @@ export type UserOrderByWithRelationInput = {
   jobParts?: Prisma.JobPartOrderByRelationAggregateInput
   inventoryRequests?: Prisma.InventoryRequestOrderByRelationAggregateInput
   technicianClients?: Prisma.TechnicianClientOrderByRelationAggregateInput
+  expenses?: Prisma.ExpenseOrderByRelationAggregateInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionOrderByWithRelationInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -308,6 +312,8 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   jobParts?: Prisma.JobPartListRelationFilter
   inventoryRequests?: Prisma.InventoryRequestListRelationFilter
   technicianClients?: Prisma.TechnicianClientListRelationFilter
+  expenses?: Prisma.ExpenseListRelationFilter
+  expenseSubscription?: Prisma.XOR<Prisma.ExpenseSubscriptionNullableScalarRelationFilter, Prisma.ExpenseSubscriptionWhereInput> | null
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -372,6 +378,8 @@ export type UserCreateInput = {
   jobParts?: Prisma.JobPartCreateNestedManyWithoutTechnicianInput
   inventoryRequests?: Prisma.InventoryRequestCreateNestedManyWithoutTechnicianInput
   technicianClients?: Prisma.TechnicianClientCreateNestedManyWithoutTechnicianInput
+  expenses?: Prisma.ExpenseCreateNestedManyWithoutUserInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -404,6 +412,8 @@ export type UserUncheckedCreateInput = {
   jobParts?: Prisma.JobPartUncheckedCreateNestedManyWithoutTechnicianInput
   inventoryRequests?: Prisma.InventoryRequestUncheckedCreateNestedManyWithoutTechnicianInput
   technicianClients?: Prisma.TechnicianClientUncheckedCreateNestedManyWithoutTechnicianInput
+  expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutUserInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -436,6 +446,8 @@ export type UserUpdateInput = {
   jobParts?: Prisma.JobPartUpdateManyWithoutTechnicianNestedInput
   inventoryRequests?: Prisma.InventoryRequestUpdateManyWithoutTechnicianNestedInput
   technicianClients?: Prisma.TechnicianClientUpdateManyWithoutTechnicianNestedInput
+  expenses?: Prisma.ExpenseUpdateManyWithoutUserNestedInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -468,6 +480,8 @@ export type UserUncheckedUpdateInput = {
   jobParts?: Prisma.JobPartUncheckedUpdateManyWithoutTechnicianNestedInput
   inventoryRequests?: Prisma.InventoryRequestUncheckedUpdateManyWithoutTechnicianNestedInput
   technicianClients?: Prisma.TechnicianClientUncheckedUpdateManyWithoutTechnicianNestedInput
+  expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutUserNestedInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -862,6 +876,34 @@ export type UserUpdateOneRequiredWithoutInventoryRequestsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutInventoryRequestsInput, Prisma.UserUpdateWithoutInventoryRequestsInput>, Prisma.UserUncheckedUpdateWithoutInventoryRequestsInput>
 }
 
+export type UserCreateNestedOneWithoutExpensesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutExpensesInput, Prisma.UserUncheckedCreateWithoutExpensesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutExpensesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutExpensesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutExpensesInput, Prisma.UserUncheckedCreateWithoutExpensesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutExpensesInput
+  upsert?: Prisma.UserUpsertWithoutExpensesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutExpensesInput, Prisma.UserUpdateWithoutExpensesInput>, Prisma.UserUncheckedUpdateWithoutExpensesInput>
+}
+
+export type UserCreateNestedOneWithoutExpenseSubscriptionInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutExpenseSubscriptionInput, Prisma.UserUncheckedCreateWithoutExpenseSubscriptionInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutExpenseSubscriptionInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutExpenseSubscriptionNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutExpenseSubscriptionInput, Prisma.UserUncheckedCreateWithoutExpenseSubscriptionInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutExpenseSubscriptionInput
+  upsert?: Prisma.UserUpsertWithoutExpenseSubscriptionInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutExpenseSubscriptionInput, Prisma.UserUpdateWithoutExpenseSubscriptionInput>, Prisma.UserUncheckedUpdateWithoutExpenseSubscriptionInput>
+}
+
 export type UserCreateWithoutTechnicianClientsInput = {
   id?: string
   name?: string | null
@@ -891,6 +933,8 @@ export type UserCreateWithoutTechnicianClientsInput = {
   jobPayments?: Prisma.JobPaymentCreateNestedManyWithoutCollectorInput
   jobParts?: Prisma.JobPartCreateNestedManyWithoutTechnicianInput
   inventoryRequests?: Prisma.InventoryRequestCreateNestedManyWithoutTechnicianInput
+  expenses?: Prisma.ExpenseCreateNestedManyWithoutUserInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutTechnicianClientsInput = {
@@ -922,6 +966,8 @@ export type UserUncheckedCreateWithoutTechnicianClientsInput = {
   jobPayments?: Prisma.JobPaymentUncheckedCreateNestedManyWithoutCollectorInput
   jobParts?: Prisma.JobPartUncheckedCreateNestedManyWithoutTechnicianInput
   inventoryRequests?: Prisma.InventoryRequestUncheckedCreateNestedManyWithoutTechnicianInput
+  expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutUserInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutTechnicianClientsInput = {
@@ -969,6 +1015,8 @@ export type UserUpdateWithoutTechnicianClientsInput = {
   jobPayments?: Prisma.JobPaymentUpdateManyWithoutCollectorNestedInput
   jobParts?: Prisma.JobPartUpdateManyWithoutTechnicianNestedInput
   inventoryRequests?: Prisma.InventoryRequestUpdateManyWithoutTechnicianNestedInput
+  expenses?: Prisma.ExpenseUpdateManyWithoutUserNestedInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTechnicianClientsInput = {
@@ -1000,6 +1048,8 @@ export type UserUncheckedUpdateWithoutTechnicianClientsInput = {
   jobPayments?: Prisma.JobPaymentUncheckedUpdateManyWithoutCollectorNestedInput
   jobParts?: Prisma.JobPartUncheckedUpdateManyWithoutTechnicianNestedInput
   inventoryRequests?: Prisma.InventoryRequestUncheckedUpdateManyWithoutTechnicianNestedInput
+  expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutUserNestedInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateWithoutAccountsInput = {
@@ -1031,6 +1081,8 @@ export type UserCreateWithoutAccountsInput = {
   jobParts?: Prisma.JobPartCreateNestedManyWithoutTechnicianInput
   inventoryRequests?: Prisma.InventoryRequestCreateNestedManyWithoutTechnicianInput
   technicianClients?: Prisma.TechnicianClientCreateNestedManyWithoutTechnicianInput
+  expenses?: Prisma.ExpenseCreateNestedManyWithoutUserInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAccountsInput = {
@@ -1062,6 +1114,8 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   jobParts?: Prisma.JobPartUncheckedCreateNestedManyWithoutTechnicianInput
   inventoryRequests?: Prisma.InventoryRequestUncheckedCreateNestedManyWithoutTechnicianInput
   technicianClients?: Prisma.TechnicianClientUncheckedCreateNestedManyWithoutTechnicianInput
+  expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutUserInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutAccountsInput = {
@@ -1109,6 +1163,8 @@ export type UserUpdateWithoutAccountsInput = {
   jobParts?: Prisma.JobPartUpdateManyWithoutTechnicianNestedInput
   inventoryRequests?: Prisma.InventoryRequestUpdateManyWithoutTechnicianNestedInput
   technicianClients?: Prisma.TechnicianClientUpdateManyWithoutTechnicianNestedInput
+  expenses?: Prisma.ExpenseUpdateManyWithoutUserNestedInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -1140,6 +1196,8 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   jobParts?: Prisma.JobPartUncheckedUpdateManyWithoutTechnicianNestedInput
   inventoryRequests?: Prisma.InventoryRequestUncheckedUpdateManyWithoutTechnicianNestedInput
   technicianClients?: Prisma.TechnicianClientUncheckedUpdateManyWithoutTechnicianNestedInput
+  expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutUserNestedInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSessionsInput = {
@@ -1171,6 +1229,8 @@ export type UserCreateWithoutSessionsInput = {
   jobParts?: Prisma.JobPartCreateNestedManyWithoutTechnicianInput
   inventoryRequests?: Prisma.InventoryRequestCreateNestedManyWithoutTechnicianInput
   technicianClients?: Prisma.TechnicianClientCreateNestedManyWithoutTechnicianInput
+  expenses?: Prisma.ExpenseCreateNestedManyWithoutUserInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSessionsInput = {
@@ -1202,6 +1262,8 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   jobParts?: Prisma.JobPartUncheckedCreateNestedManyWithoutTechnicianInput
   inventoryRequests?: Prisma.InventoryRequestUncheckedCreateNestedManyWithoutTechnicianInput
   technicianClients?: Prisma.TechnicianClientUncheckedCreateNestedManyWithoutTechnicianInput
+  expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutUserInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSessionsInput = {
@@ -1249,6 +1311,8 @@ export type UserUpdateWithoutSessionsInput = {
   jobParts?: Prisma.JobPartUpdateManyWithoutTechnicianNestedInput
   inventoryRequests?: Prisma.InventoryRequestUpdateManyWithoutTechnicianNestedInput
   technicianClients?: Prisma.TechnicianClientUpdateManyWithoutTechnicianNestedInput
+  expenses?: Prisma.ExpenseUpdateManyWithoutUserNestedInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -1280,6 +1344,8 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   jobParts?: Prisma.JobPartUncheckedUpdateManyWithoutTechnicianNestedInput
   inventoryRequests?: Prisma.InventoryRequestUncheckedUpdateManyWithoutTechnicianNestedInput
   technicianClients?: Prisma.TechnicianClientUncheckedUpdateManyWithoutTechnicianNestedInput
+  expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutUserNestedInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateWithoutAppointmentsInput = {
@@ -1311,6 +1377,8 @@ export type UserCreateWithoutAppointmentsInput = {
   jobParts?: Prisma.JobPartCreateNestedManyWithoutTechnicianInput
   inventoryRequests?: Prisma.InventoryRequestCreateNestedManyWithoutTechnicianInput
   technicianClients?: Prisma.TechnicianClientCreateNestedManyWithoutTechnicianInput
+  expenses?: Prisma.ExpenseCreateNestedManyWithoutUserInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAppointmentsInput = {
@@ -1342,6 +1410,8 @@ export type UserUncheckedCreateWithoutAppointmentsInput = {
   jobParts?: Prisma.JobPartUncheckedCreateNestedManyWithoutTechnicianInput
   inventoryRequests?: Prisma.InventoryRequestUncheckedCreateNestedManyWithoutTechnicianInput
   technicianClients?: Prisma.TechnicianClientUncheckedCreateNestedManyWithoutTechnicianInput
+  expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutUserInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutAppointmentsInput = {
@@ -1378,6 +1448,8 @@ export type UserCreateWithoutTechnicianAppointmentsInput = {
   jobParts?: Prisma.JobPartCreateNestedManyWithoutTechnicianInput
   inventoryRequests?: Prisma.InventoryRequestCreateNestedManyWithoutTechnicianInput
   technicianClients?: Prisma.TechnicianClientCreateNestedManyWithoutTechnicianInput
+  expenses?: Prisma.ExpenseCreateNestedManyWithoutUserInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutTechnicianAppointmentsInput = {
@@ -1409,6 +1481,8 @@ export type UserUncheckedCreateWithoutTechnicianAppointmentsInput = {
   jobParts?: Prisma.JobPartUncheckedCreateNestedManyWithoutTechnicianInput
   inventoryRequests?: Prisma.InventoryRequestUncheckedCreateNestedManyWithoutTechnicianInput
   technicianClients?: Prisma.TechnicianClientUncheckedCreateNestedManyWithoutTechnicianInput
+  expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutUserInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutTechnicianAppointmentsInput = {
@@ -1445,6 +1519,8 @@ export type UserCreateWithoutDispatchedAppointmentsInput = {
   jobParts?: Prisma.JobPartCreateNestedManyWithoutTechnicianInput
   inventoryRequests?: Prisma.InventoryRequestCreateNestedManyWithoutTechnicianInput
   technicianClients?: Prisma.TechnicianClientCreateNestedManyWithoutTechnicianInput
+  expenses?: Prisma.ExpenseCreateNestedManyWithoutUserInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutDispatchedAppointmentsInput = {
@@ -1476,6 +1552,8 @@ export type UserUncheckedCreateWithoutDispatchedAppointmentsInput = {
   jobParts?: Prisma.JobPartUncheckedCreateNestedManyWithoutTechnicianInput
   inventoryRequests?: Prisma.InventoryRequestUncheckedCreateNestedManyWithoutTechnicianInput
   technicianClients?: Prisma.TechnicianClientUncheckedCreateNestedManyWithoutTechnicianInput
+  expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutUserInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutDispatchedAppointmentsInput = {
@@ -1523,6 +1601,8 @@ export type UserUpdateWithoutAppointmentsInput = {
   jobParts?: Prisma.JobPartUpdateManyWithoutTechnicianNestedInput
   inventoryRequests?: Prisma.InventoryRequestUpdateManyWithoutTechnicianNestedInput
   technicianClients?: Prisma.TechnicianClientUpdateManyWithoutTechnicianNestedInput
+  expenses?: Prisma.ExpenseUpdateManyWithoutUserNestedInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAppointmentsInput = {
@@ -1554,6 +1634,8 @@ export type UserUncheckedUpdateWithoutAppointmentsInput = {
   jobParts?: Prisma.JobPartUncheckedUpdateManyWithoutTechnicianNestedInput
   inventoryRequests?: Prisma.InventoryRequestUncheckedUpdateManyWithoutTechnicianNestedInput
   technicianClients?: Prisma.TechnicianClientUncheckedUpdateManyWithoutTechnicianNestedInput
+  expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutUserNestedInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserUpsertWithoutTechnicianAppointmentsInput = {
@@ -1596,6 +1678,8 @@ export type UserUpdateWithoutTechnicianAppointmentsInput = {
   jobParts?: Prisma.JobPartUpdateManyWithoutTechnicianNestedInput
   inventoryRequests?: Prisma.InventoryRequestUpdateManyWithoutTechnicianNestedInput
   technicianClients?: Prisma.TechnicianClientUpdateManyWithoutTechnicianNestedInput
+  expenses?: Prisma.ExpenseUpdateManyWithoutUserNestedInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTechnicianAppointmentsInput = {
@@ -1627,6 +1711,8 @@ export type UserUncheckedUpdateWithoutTechnicianAppointmentsInput = {
   jobParts?: Prisma.JobPartUncheckedUpdateManyWithoutTechnicianNestedInput
   inventoryRequests?: Prisma.InventoryRequestUncheckedUpdateManyWithoutTechnicianNestedInput
   technicianClients?: Prisma.TechnicianClientUncheckedUpdateManyWithoutTechnicianNestedInput
+  expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutUserNestedInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserUpsertWithoutDispatchedAppointmentsInput = {
@@ -1669,6 +1755,8 @@ export type UserUpdateWithoutDispatchedAppointmentsInput = {
   jobParts?: Prisma.JobPartUpdateManyWithoutTechnicianNestedInput
   inventoryRequests?: Prisma.InventoryRequestUpdateManyWithoutTechnicianNestedInput
   technicianClients?: Prisma.TechnicianClientUpdateManyWithoutTechnicianNestedInput
+  expenses?: Prisma.ExpenseUpdateManyWithoutUserNestedInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutDispatchedAppointmentsInput = {
@@ -1700,6 +1788,8 @@ export type UserUncheckedUpdateWithoutDispatchedAppointmentsInput = {
   jobParts?: Prisma.JobPartUncheckedUpdateManyWithoutTechnicianNestedInput
   inventoryRequests?: Prisma.InventoryRequestUncheckedUpdateManyWithoutTechnicianNestedInput
   technicianClients?: Prisma.TechnicianClientUncheckedUpdateManyWithoutTechnicianNestedInput
+  expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutUserNestedInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateWithoutReviewsInput = {
@@ -1731,6 +1821,8 @@ export type UserCreateWithoutReviewsInput = {
   jobParts?: Prisma.JobPartCreateNestedManyWithoutTechnicianInput
   inventoryRequests?: Prisma.InventoryRequestCreateNestedManyWithoutTechnicianInput
   technicianClients?: Prisma.TechnicianClientCreateNestedManyWithoutTechnicianInput
+  expenses?: Prisma.ExpenseCreateNestedManyWithoutUserInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutReviewsInput = {
@@ -1762,6 +1854,8 @@ export type UserUncheckedCreateWithoutReviewsInput = {
   jobParts?: Prisma.JobPartUncheckedCreateNestedManyWithoutTechnicianInput
   inventoryRequests?: Prisma.InventoryRequestUncheckedCreateNestedManyWithoutTechnicianInput
   technicianClients?: Prisma.TechnicianClientUncheckedCreateNestedManyWithoutTechnicianInput
+  expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutUserInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutReviewsInput = {
@@ -1809,6 +1903,8 @@ export type UserUpdateWithoutReviewsInput = {
   jobParts?: Prisma.JobPartUpdateManyWithoutTechnicianNestedInput
   inventoryRequests?: Prisma.InventoryRequestUpdateManyWithoutTechnicianNestedInput
   technicianClients?: Prisma.TechnicianClientUpdateManyWithoutTechnicianNestedInput
+  expenses?: Prisma.ExpenseUpdateManyWithoutUserNestedInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReviewsInput = {
@@ -1840,6 +1936,8 @@ export type UserUncheckedUpdateWithoutReviewsInput = {
   jobParts?: Prisma.JobPartUncheckedUpdateManyWithoutTechnicianNestedInput
   inventoryRequests?: Prisma.InventoryRequestUncheckedUpdateManyWithoutTechnicianNestedInput
   technicianClients?: Prisma.TechnicianClientUncheckedUpdateManyWithoutTechnicianNestedInput
+  expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutUserNestedInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateWithoutTechnicianProfileInput = {
@@ -1871,6 +1969,8 @@ export type UserCreateWithoutTechnicianProfileInput = {
   jobParts?: Prisma.JobPartCreateNestedManyWithoutTechnicianInput
   inventoryRequests?: Prisma.InventoryRequestCreateNestedManyWithoutTechnicianInput
   technicianClients?: Prisma.TechnicianClientCreateNestedManyWithoutTechnicianInput
+  expenses?: Prisma.ExpenseCreateNestedManyWithoutUserInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutTechnicianProfileInput = {
@@ -1902,6 +2002,8 @@ export type UserUncheckedCreateWithoutTechnicianProfileInput = {
   jobParts?: Prisma.JobPartUncheckedCreateNestedManyWithoutTechnicianInput
   inventoryRequests?: Prisma.InventoryRequestUncheckedCreateNestedManyWithoutTechnicianInput
   technicianClients?: Prisma.TechnicianClientUncheckedCreateNestedManyWithoutTechnicianInput
+  expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutUserInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutTechnicianProfileInput = {
@@ -1949,6 +2051,8 @@ export type UserUpdateWithoutTechnicianProfileInput = {
   jobParts?: Prisma.JobPartUpdateManyWithoutTechnicianNestedInput
   inventoryRequests?: Prisma.InventoryRequestUpdateManyWithoutTechnicianNestedInput
   technicianClients?: Prisma.TechnicianClientUpdateManyWithoutTechnicianNestedInput
+  expenses?: Prisma.ExpenseUpdateManyWithoutUserNestedInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTechnicianProfileInput = {
@@ -1980,6 +2084,8 @@ export type UserUncheckedUpdateWithoutTechnicianProfileInput = {
   jobParts?: Prisma.JobPartUncheckedUpdateManyWithoutTechnicianNestedInput
   inventoryRequests?: Prisma.InventoryRequestUncheckedUpdateManyWithoutTechnicianNestedInput
   technicianClients?: Prisma.TechnicianClientUncheckedUpdateManyWithoutTechnicianNestedInput
+  expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutUserNestedInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateWithoutTechnicianLocationsInput = {
@@ -2011,6 +2117,8 @@ export type UserCreateWithoutTechnicianLocationsInput = {
   jobParts?: Prisma.JobPartCreateNestedManyWithoutTechnicianInput
   inventoryRequests?: Prisma.InventoryRequestCreateNestedManyWithoutTechnicianInput
   technicianClients?: Prisma.TechnicianClientCreateNestedManyWithoutTechnicianInput
+  expenses?: Prisma.ExpenseCreateNestedManyWithoutUserInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutTechnicianLocationsInput = {
@@ -2042,6 +2150,8 @@ export type UserUncheckedCreateWithoutTechnicianLocationsInput = {
   jobParts?: Prisma.JobPartUncheckedCreateNestedManyWithoutTechnicianInput
   inventoryRequests?: Prisma.InventoryRequestUncheckedCreateNestedManyWithoutTechnicianInput
   technicianClients?: Prisma.TechnicianClientUncheckedCreateNestedManyWithoutTechnicianInput
+  expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutUserInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutTechnicianLocationsInput = {
@@ -2089,6 +2199,8 @@ export type UserUpdateWithoutTechnicianLocationsInput = {
   jobParts?: Prisma.JobPartUpdateManyWithoutTechnicianNestedInput
   inventoryRequests?: Prisma.InventoryRequestUpdateManyWithoutTechnicianNestedInput
   technicianClients?: Prisma.TechnicianClientUpdateManyWithoutTechnicianNestedInput
+  expenses?: Prisma.ExpenseUpdateManyWithoutUserNestedInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTechnicianLocationsInput = {
@@ -2120,6 +2232,8 @@ export type UserUncheckedUpdateWithoutTechnicianLocationsInput = {
   jobParts?: Prisma.JobPartUncheckedUpdateManyWithoutTechnicianNestedInput
   inventoryRequests?: Prisma.InventoryRequestUncheckedUpdateManyWithoutTechnicianNestedInput
   technicianClients?: Prisma.TechnicianClientUncheckedUpdateManyWithoutTechnicianNestedInput
+  expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutUserNestedInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateWithoutPropertiesInput = {
@@ -2151,6 +2265,8 @@ export type UserCreateWithoutPropertiesInput = {
   jobParts?: Prisma.JobPartCreateNestedManyWithoutTechnicianInput
   inventoryRequests?: Prisma.InventoryRequestCreateNestedManyWithoutTechnicianInput
   technicianClients?: Prisma.TechnicianClientCreateNestedManyWithoutTechnicianInput
+  expenses?: Prisma.ExpenseCreateNestedManyWithoutUserInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutPropertiesInput = {
@@ -2182,6 +2298,8 @@ export type UserUncheckedCreateWithoutPropertiesInput = {
   jobParts?: Prisma.JobPartUncheckedCreateNestedManyWithoutTechnicianInput
   inventoryRequests?: Prisma.InventoryRequestUncheckedCreateNestedManyWithoutTechnicianInput
   technicianClients?: Prisma.TechnicianClientUncheckedCreateNestedManyWithoutTechnicianInput
+  expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutUserInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutPropertiesInput = {
@@ -2229,6 +2347,8 @@ export type UserUpdateWithoutPropertiesInput = {
   jobParts?: Prisma.JobPartUpdateManyWithoutTechnicianNestedInput
   inventoryRequests?: Prisma.InventoryRequestUpdateManyWithoutTechnicianNestedInput
   technicianClients?: Prisma.TechnicianClientUpdateManyWithoutTechnicianNestedInput
+  expenses?: Prisma.ExpenseUpdateManyWithoutUserNestedInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPropertiesInput = {
@@ -2260,6 +2380,8 @@ export type UserUncheckedUpdateWithoutPropertiesInput = {
   jobParts?: Prisma.JobPartUncheckedUpdateManyWithoutTechnicianNestedInput
   inventoryRequests?: Prisma.InventoryRequestUncheckedUpdateManyWithoutTechnicianNestedInput
   technicianClients?: Prisma.TechnicianClientUncheckedUpdateManyWithoutTechnicianNestedInput
+  expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutUserNestedInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateWithoutServicePlansInput = {
@@ -2291,6 +2413,8 @@ export type UserCreateWithoutServicePlansInput = {
   jobParts?: Prisma.JobPartCreateNestedManyWithoutTechnicianInput
   inventoryRequests?: Prisma.InventoryRequestCreateNestedManyWithoutTechnicianInput
   technicianClients?: Prisma.TechnicianClientCreateNestedManyWithoutTechnicianInput
+  expenses?: Prisma.ExpenseCreateNestedManyWithoutUserInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutServicePlansInput = {
@@ -2322,6 +2446,8 @@ export type UserUncheckedCreateWithoutServicePlansInput = {
   jobParts?: Prisma.JobPartUncheckedCreateNestedManyWithoutTechnicianInput
   inventoryRequests?: Prisma.InventoryRequestUncheckedCreateNestedManyWithoutTechnicianInput
   technicianClients?: Prisma.TechnicianClientUncheckedCreateNestedManyWithoutTechnicianInput
+  expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutUserInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutServicePlansInput = {
@@ -2369,6 +2495,8 @@ export type UserUpdateWithoutServicePlansInput = {
   jobParts?: Prisma.JobPartUpdateManyWithoutTechnicianNestedInput
   inventoryRequests?: Prisma.InventoryRequestUpdateManyWithoutTechnicianNestedInput
   technicianClients?: Prisma.TechnicianClientUpdateManyWithoutTechnicianNestedInput
+  expenses?: Prisma.ExpenseUpdateManyWithoutUserNestedInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutServicePlansInput = {
@@ -2400,6 +2528,8 @@ export type UserUncheckedUpdateWithoutServicePlansInput = {
   jobParts?: Prisma.JobPartUncheckedUpdateManyWithoutTechnicianNestedInput
   inventoryRequests?: Prisma.InventoryRequestUncheckedUpdateManyWithoutTechnicianNestedInput
   technicianClients?: Prisma.TechnicianClientUncheckedUpdateManyWithoutTechnicianNestedInput
+  expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutUserNestedInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateWithoutWarrantiesInput = {
@@ -2431,6 +2561,8 @@ export type UserCreateWithoutWarrantiesInput = {
   jobParts?: Prisma.JobPartCreateNestedManyWithoutTechnicianInput
   inventoryRequests?: Prisma.InventoryRequestCreateNestedManyWithoutTechnicianInput
   technicianClients?: Prisma.TechnicianClientCreateNestedManyWithoutTechnicianInput
+  expenses?: Prisma.ExpenseCreateNestedManyWithoutUserInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutWarrantiesInput = {
@@ -2462,6 +2594,8 @@ export type UserUncheckedCreateWithoutWarrantiesInput = {
   jobParts?: Prisma.JobPartUncheckedCreateNestedManyWithoutTechnicianInput
   inventoryRequests?: Prisma.InventoryRequestUncheckedCreateNestedManyWithoutTechnicianInput
   technicianClients?: Prisma.TechnicianClientUncheckedCreateNestedManyWithoutTechnicianInput
+  expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutUserInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutWarrantiesInput = {
@@ -2509,6 +2643,8 @@ export type UserUpdateWithoutWarrantiesInput = {
   jobParts?: Prisma.JobPartUpdateManyWithoutTechnicianNestedInput
   inventoryRequests?: Prisma.InventoryRequestUpdateManyWithoutTechnicianNestedInput
   technicianClients?: Prisma.TechnicianClientUpdateManyWithoutTechnicianNestedInput
+  expenses?: Prisma.ExpenseUpdateManyWithoutUserNestedInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutWarrantiesInput = {
@@ -2540,6 +2676,8 @@ export type UserUncheckedUpdateWithoutWarrantiesInput = {
   jobParts?: Prisma.JobPartUncheckedUpdateManyWithoutTechnicianNestedInput
   inventoryRequests?: Prisma.InventoryRequestUncheckedUpdateManyWithoutTechnicianNestedInput
   technicianClients?: Prisma.TechnicianClientUncheckedUpdateManyWithoutTechnicianNestedInput
+  expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutUserNestedInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateWithoutOrdersInput = {
@@ -2571,6 +2709,8 @@ export type UserCreateWithoutOrdersInput = {
   jobParts?: Prisma.JobPartCreateNestedManyWithoutTechnicianInput
   inventoryRequests?: Prisma.InventoryRequestCreateNestedManyWithoutTechnicianInput
   technicianClients?: Prisma.TechnicianClientCreateNestedManyWithoutTechnicianInput
+  expenses?: Prisma.ExpenseCreateNestedManyWithoutUserInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutOrdersInput = {
@@ -2602,6 +2742,8 @@ export type UserUncheckedCreateWithoutOrdersInput = {
   jobParts?: Prisma.JobPartUncheckedCreateNestedManyWithoutTechnicianInput
   inventoryRequests?: Prisma.InventoryRequestUncheckedCreateNestedManyWithoutTechnicianInput
   technicianClients?: Prisma.TechnicianClientUncheckedCreateNestedManyWithoutTechnicianInput
+  expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutUserInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutOrdersInput = {
@@ -2649,6 +2791,8 @@ export type UserUpdateWithoutOrdersInput = {
   jobParts?: Prisma.JobPartUpdateManyWithoutTechnicianNestedInput
   inventoryRequests?: Prisma.InventoryRequestUpdateManyWithoutTechnicianNestedInput
   technicianClients?: Prisma.TechnicianClientUpdateManyWithoutTechnicianNestedInput
+  expenses?: Prisma.ExpenseUpdateManyWithoutUserNestedInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutOrdersInput = {
@@ -2680,6 +2824,8 @@ export type UserUncheckedUpdateWithoutOrdersInput = {
   jobParts?: Prisma.JobPartUncheckedUpdateManyWithoutTechnicianNestedInput
   inventoryRequests?: Prisma.InventoryRequestUncheckedUpdateManyWithoutTechnicianNestedInput
   technicianClients?: Prisma.TechnicianClientUncheckedUpdateManyWithoutTechnicianNestedInput
+  expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutUserNestedInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateWithoutPushSubscriptionsInput = {
@@ -2711,6 +2857,8 @@ export type UserCreateWithoutPushSubscriptionsInput = {
   jobParts?: Prisma.JobPartCreateNestedManyWithoutTechnicianInput
   inventoryRequests?: Prisma.InventoryRequestCreateNestedManyWithoutTechnicianInput
   technicianClients?: Prisma.TechnicianClientCreateNestedManyWithoutTechnicianInput
+  expenses?: Prisma.ExpenseCreateNestedManyWithoutUserInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutPushSubscriptionsInput = {
@@ -2742,6 +2890,8 @@ export type UserUncheckedCreateWithoutPushSubscriptionsInput = {
   jobParts?: Prisma.JobPartUncheckedCreateNestedManyWithoutTechnicianInput
   inventoryRequests?: Prisma.InventoryRequestUncheckedCreateNestedManyWithoutTechnicianInput
   technicianClients?: Prisma.TechnicianClientUncheckedCreateNestedManyWithoutTechnicianInput
+  expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutUserInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutPushSubscriptionsInput = {
@@ -2789,6 +2939,8 @@ export type UserUpdateWithoutPushSubscriptionsInput = {
   jobParts?: Prisma.JobPartUpdateManyWithoutTechnicianNestedInput
   inventoryRequests?: Prisma.InventoryRequestUpdateManyWithoutTechnicianNestedInput
   technicianClients?: Prisma.TechnicianClientUpdateManyWithoutTechnicianNestedInput
+  expenses?: Prisma.ExpenseUpdateManyWithoutUserNestedInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPushSubscriptionsInput = {
@@ -2820,6 +2972,8 @@ export type UserUncheckedUpdateWithoutPushSubscriptionsInput = {
   jobParts?: Prisma.JobPartUncheckedUpdateManyWithoutTechnicianNestedInput
   inventoryRequests?: Prisma.InventoryRequestUncheckedUpdateManyWithoutTechnicianNestedInput
   technicianClients?: Prisma.TechnicianClientUncheckedUpdateManyWithoutTechnicianNestedInput
+  expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutUserNestedInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateWithoutEstimatesInput = {
@@ -2851,6 +3005,8 @@ export type UserCreateWithoutEstimatesInput = {
   jobParts?: Prisma.JobPartCreateNestedManyWithoutTechnicianInput
   inventoryRequests?: Prisma.InventoryRequestCreateNestedManyWithoutTechnicianInput
   technicianClients?: Prisma.TechnicianClientCreateNestedManyWithoutTechnicianInput
+  expenses?: Prisma.ExpenseCreateNestedManyWithoutUserInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutEstimatesInput = {
@@ -2882,6 +3038,8 @@ export type UserUncheckedCreateWithoutEstimatesInput = {
   jobParts?: Prisma.JobPartUncheckedCreateNestedManyWithoutTechnicianInput
   inventoryRequests?: Prisma.InventoryRequestUncheckedCreateNestedManyWithoutTechnicianInput
   technicianClients?: Prisma.TechnicianClientUncheckedCreateNestedManyWithoutTechnicianInput
+  expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutUserInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutEstimatesInput = {
@@ -2929,6 +3087,8 @@ export type UserUpdateWithoutEstimatesInput = {
   jobParts?: Prisma.JobPartUpdateManyWithoutTechnicianNestedInput
   inventoryRequests?: Prisma.InventoryRequestUpdateManyWithoutTechnicianNestedInput
   technicianClients?: Prisma.TechnicianClientUpdateManyWithoutTechnicianNestedInput
+  expenses?: Prisma.ExpenseUpdateManyWithoutUserNestedInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutEstimatesInput = {
@@ -2960,6 +3120,8 @@ export type UserUncheckedUpdateWithoutEstimatesInput = {
   jobParts?: Prisma.JobPartUncheckedUpdateManyWithoutTechnicianNestedInput
   inventoryRequests?: Prisma.InventoryRequestUncheckedUpdateManyWithoutTechnicianNestedInput
   technicianClients?: Prisma.TechnicianClientUncheckedUpdateManyWithoutTechnicianNestedInput
+  expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutUserNestedInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateWithoutJobPhotosInput = {
@@ -2991,6 +3153,8 @@ export type UserCreateWithoutJobPhotosInput = {
   jobParts?: Prisma.JobPartCreateNestedManyWithoutTechnicianInput
   inventoryRequests?: Prisma.InventoryRequestCreateNestedManyWithoutTechnicianInput
   technicianClients?: Prisma.TechnicianClientCreateNestedManyWithoutTechnicianInput
+  expenses?: Prisma.ExpenseCreateNestedManyWithoutUserInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutJobPhotosInput = {
@@ -3022,6 +3186,8 @@ export type UserUncheckedCreateWithoutJobPhotosInput = {
   jobParts?: Prisma.JobPartUncheckedCreateNestedManyWithoutTechnicianInput
   inventoryRequests?: Prisma.InventoryRequestUncheckedCreateNestedManyWithoutTechnicianInput
   technicianClients?: Prisma.TechnicianClientUncheckedCreateNestedManyWithoutTechnicianInput
+  expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutUserInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutJobPhotosInput = {
@@ -3069,6 +3235,8 @@ export type UserUpdateWithoutJobPhotosInput = {
   jobParts?: Prisma.JobPartUpdateManyWithoutTechnicianNestedInput
   inventoryRequests?: Prisma.InventoryRequestUpdateManyWithoutTechnicianNestedInput
   technicianClients?: Prisma.TechnicianClientUpdateManyWithoutTechnicianNestedInput
+  expenses?: Prisma.ExpenseUpdateManyWithoutUserNestedInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutJobPhotosInput = {
@@ -3100,6 +3268,8 @@ export type UserUncheckedUpdateWithoutJobPhotosInput = {
   jobParts?: Prisma.JobPartUncheckedUpdateManyWithoutTechnicianNestedInput
   inventoryRequests?: Prisma.InventoryRequestUncheckedUpdateManyWithoutTechnicianNestedInput
   technicianClients?: Prisma.TechnicianClientUncheckedUpdateManyWithoutTechnicianNestedInput
+  expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutUserNestedInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateWithoutJobPaymentsInput = {
@@ -3131,6 +3301,8 @@ export type UserCreateWithoutJobPaymentsInput = {
   jobParts?: Prisma.JobPartCreateNestedManyWithoutTechnicianInput
   inventoryRequests?: Prisma.InventoryRequestCreateNestedManyWithoutTechnicianInput
   technicianClients?: Prisma.TechnicianClientCreateNestedManyWithoutTechnicianInput
+  expenses?: Prisma.ExpenseCreateNestedManyWithoutUserInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutJobPaymentsInput = {
@@ -3162,6 +3334,8 @@ export type UserUncheckedCreateWithoutJobPaymentsInput = {
   jobParts?: Prisma.JobPartUncheckedCreateNestedManyWithoutTechnicianInput
   inventoryRequests?: Prisma.InventoryRequestUncheckedCreateNestedManyWithoutTechnicianInput
   technicianClients?: Prisma.TechnicianClientUncheckedCreateNestedManyWithoutTechnicianInput
+  expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutUserInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutJobPaymentsInput = {
@@ -3209,6 +3383,8 @@ export type UserUpdateWithoutJobPaymentsInput = {
   jobParts?: Prisma.JobPartUpdateManyWithoutTechnicianNestedInput
   inventoryRequests?: Prisma.InventoryRequestUpdateManyWithoutTechnicianNestedInput
   technicianClients?: Prisma.TechnicianClientUpdateManyWithoutTechnicianNestedInput
+  expenses?: Prisma.ExpenseUpdateManyWithoutUserNestedInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutJobPaymentsInput = {
@@ -3240,6 +3416,8 @@ export type UserUncheckedUpdateWithoutJobPaymentsInput = {
   jobParts?: Prisma.JobPartUncheckedUpdateManyWithoutTechnicianNestedInput
   inventoryRequests?: Prisma.InventoryRequestUncheckedUpdateManyWithoutTechnicianNestedInput
   technicianClients?: Prisma.TechnicianClientUncheckedUpdateManyWithoutTechnicianNestedInput
+  expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutUserNestedInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateWithoutJobPartsInput = {
@@ -3271,6 +3449,8 @@ export type UserCreateWithoutJobPartsInput = {
   jobPayments?: Prisma.JobPaymentCreateNestedManyWithoutCollectorInput
   inventoryRequests?: Prisma.InventoryRequestCreateNestedManyWithoutTechnicianInput
   technicianClients?: Prisma.TechnicianClientCreateNestedManyWithoutTechnicianInput
+  expenses?: Prisma.ExpenseCreateNestedManyWithoutUserInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutJobPartsInput = {
@@ -3302,6 +3482,8 @@ export type UserUncheckedCreateWithoutJobPartsInput = {
   jobPayments?: Prisma.JobPaymentUncheckedCreateNestedManyWithoutCollectorInput
   inventoryRequests?: Prisma.InventoryRequestUncheckedCreateNestedManyWithoutTechnicianInput
   technicianClients?: Prisma.TechnicianClientUncheckedCreateNestedManyWithoutTechnicianInput
+  expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutUserInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutJobPartsInput = {
@@ -3349,6 +3531,8 @@ export type UserUpdateWithoutJobPartsInput = {
   jobPayments?: Prisma.JobPaymentUpdateManyWithoutCollectorNestedInput
   inventoryRequests?: Prisma.InventoryRequestUpdateManyWithoutTechnicianNestedInput
   technicianClients?: Prisma.TechnicianClientUpdateManyWithoutTechnicianNestedInput
+  expenses?: Prisma.ExpenseUpdateManyWithoutUserNestedInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutJobPartsInput = {
@@ -3380,6 +3564,8 @@ export type UserUncheckedUpdateWithoutJobPartsInput = {
   jobPayments?: Prisma.JobPaymentUncheckedUpdateManyWithoutCollectorNestedInput
   inventoryRequests?: Prisma.InventoryRequestUncheckedUpdateManyWithoutTechnicianNestedInput
   technicianClients?: Prisma.TechnicianClientUncheckedUpdateManyWithoutTechnicianNestedInput
+  expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutUserNestedInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateWithoutInventoryRequestsInput = {
@@ -3411,6 +3597,8 @@ export type UserCreateWithoutInventoryRequestsInput = {
   jobPayments?: Prisma.JobPaymentCreateNestedManyWithoutCollectorInput
   jobParts?: Prisma.JobPartCreateNestedManyWithoutTechnicianInput
   technicianClients?: Prisma.TechnicianClientCreateNestedManyWithoutTechnicianInput
+  expenses?: Prisma.ExpenseCreateNestedManyWithoutUserInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutInventoryRequestsInput = {
@@ -3442,6 +3630,8 @@ export type UserUncheckedCreateWithoutInventoryRequestsInput = {
   jobPayments?: Prisma.JobPaymentUncheckedCreateNestedManyWithoutCollectorInput
   jobParts?: Prisma.JobPartUncheckedCreateNestedManyWithoutTechnicianInput
   technicianClients?: Prisma.TechnicianClientUncheckedCreateNestedManyWithoutTechnicianInput
+  expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutUserInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutInventoryRequestsInput = {
@@ -3489,6 +3679,8 @@ export type UserUpdateWithoutInventoryRequestsInput = {
   jobPayments?: Prisma.JobPaymentUpdateManyWithoutCollectorNestedInput
   jobParts?: Prisma.JobPartUpdateManyWithoutTechnicianNestedInput
   technicianClients?: Prisma.TechnicianClientUpdateManyWithoutTechnicianNestedInput
+  expenses?: Prisma.ExpenseUpdateManyWithoutUserNestedInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutInventoryRequestsInput = {
@@ -3520,6 +3712,304 @@ export type UserUncheckedUpdateWithoutInventoryRequestsInput = {
   jobPayments?: Prisma.JobPaymentUncheckedUpdateManyWithoutCollectorNestedInput
   jobParts?: Prisma.JobPartUncheckedUpdateManyWithoutTechnicianNestedInput
   technicianClients?: Prisma.TechnicianClientUncheckedUpdateManyWithoutTechnicianNestedInput
+  expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutUserNestedInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedUpdateOneWithoutUserNestedInput
+}
+
+export type UserCreateWithoutExpensesInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  password?: string | null
+  phone?: string | null
+  role?: $Enums.Role
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  appointments?: Prisma.AppointmentCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
+  technicianProfile?: Prisma.TechnicianProfileCreateNestedOneWithoutUserInput
+  technicianLocations?: Prisma.TechnicianLocationCreateNestedManyWithoutUserInput
+  properties?: Prisma.PropertyCreateNestedManyWithoutUserInput
+  servicePlans?: Prisma.CustomerServicePlanCreateNestedManyWithoutUserInput
+  warranties?: Prisma.WarrantyCreateNestedManyWithoutUserInput
+  orders?: Prisma.OrderCreateNestedManyWithoutUserInput
+  pushSubscriptions?: Prisma.PushSubscriptionCreateNestedManyWithoutUserInput
+  dispatchedAppointments?: Prisma.AppointmentCreateNestedManyWithoutDispatcherInput
+  technicianAppointments?: Prisma.AppointmentCreateNestedManyWithoutTechnicianInput
+  estimates?: Prisma.EstimateCreateNestedManyWithoutTechnicianInput
+  jobPhotos?: Prisma.JobPhotoCreateNestedManyWithoutTechnicianInput
+  jobPayments?: Prisma.JobPaymentCreateNestedManyWithoutCollectorInput
+  jobParts?: Prisma.JobPartCreateNestedManyWithoutTechnicianInput
+  inventoryRequests?: Prisma.InventoryRequestCreateNestedManyWithoutTechnicianInput
+  technicianClients?: Prisma.TechnicianClientCreateNestedManyWithoutTechnicianInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionCreateNestedOneWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutExpensesInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  password?: string | null
+  phone?: string | null
+  role?: $Enums.Role
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
+  technicianProfile?: Prisma.TechnicianProfileUncheckedCreateNestedOneWithoutUserInput
+  technicianLocations?: Prisma.TechnicianLocationUncheckedCreateNestedManyWithoutUserInput
+  properties?: Prisma.PropertyUncheckedCreateNestedManyWithoutUserInput
+  servicePlans?: Prisma.CustomerServicePlanUncheckedCreateNestedManyWithoutUserInput
+  warranties?: Prisma.WarrantyUncheckedCreateNestedManyWithoutUserInput
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
+  pushSubscriptions?: Prisma.PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+  dispatchedAppointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutDispatcherInput
+  technicianAppointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutTechnicianInput
+  estimates?: Prisma.EstimateUncheckedCreateNestedManyWithoutTechnicianInput
+  jobPhotos?: Prisma.JobPhotoUncheckedCreateNestedManyWithoutTechnicianInput
+  jobPayments?: Prisma.JobPaymentUncheckedCreateNestedManyWithoutCollectorInput
+  jobParts?: Prisma.JobPartUncheckedCreateNestedManyWithoutTechnicianInput
+  inventoryRequests?: Prisma.InventoryRequestUncheckedCreateNestedManyWithoutTechnicianInput
+  technicianClients?: Prisma.TechnicianClientUncheckedCreateNestedManyWithoutTechnicianInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedCreateNestedOneWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutExpensesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutExpensesInput, Prisma.UserUncheckedCreateWithoutExpensesInput>
+}
+
+export type UserUpsertWithoutExpensesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutExpensesInput, Prisma.UserUncheckedUpdateWithoutExpensesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutExpensesInput, Prisma.UserUncheckedCreateWithoutExpensesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutExpensesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutExpensesInput, Prisma.UserUncheckedUpdateWithoutExpensesInput>
+}
+
+export type UserUpdateWithoutExpensesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  appointments?: Prisma.AppointmentUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
+  technicianProfile?: Prisma.TechnicianProfileUpdateOneWithoutUserNestedInput
+  technicianLocations?: Prisma.TechnicianLocationUpdateManyWithoutUserNestedInput
+  properties?: Prisma.PropertyUpdateManyWithoutUserNestedInput
+  servicePlans?: Prisma.CustomerServicePlanUpdateManyWithoutUserNestedInput
+  warranties?: Prisma.WarrantyUpdateManyWithoutUserNestedInput
+  orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
+  pushSubscriptions?: Prisma.PushSubscriptionUpdateManyWithoutUserNestedInput
+  dispatchedAppointments?: Prisma.AppointmentUpdateManyWithoutDispatcherNestedInput
+  technicianAppointments?: Prisma.AppointmentUpdateManyWithoutTechnicianNestedInput
+  estimates?: Prisma.EstimateUpdateManyWithoutTechnicianNestedInput
+  jobPhotos?: Prisma.JobPhotoUpdateManyWithoutTechnicianNestedInput
+  jobPayments?: Prisma.JobPaymentUpdateManyWithoutCollectorNestedInput
+  jobParts?: Prisma.JobPartUpdateManyWithoutTechnicianNestedInput
+  inventoryRequests?: Prisma.InventoryRequestUpdateManyWithoutTechnicianNestedInput
+  technicianClients?: Prisma.TechnicianClientUpdateManyWithoutTechnicianNestedInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUpdateOneWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutExpensesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
+  technicianProfile?: Prisma.TechnicianProfileUncheckedUpdateOneWithoutUserNestedInput
+  technicianLocations?: Prisma.TechnicianLocationUncheckedUpdateManyWithoutUserNestedInput
+  properties?: Prisma.PropertyUncheckedUpdateManyWithoutUserNestedInput
+  servicePlans?: Prisma.CustomerServicePlanUncheckedUpdateManyWithoutUserNestedInput
+  warranties?: Prisma.WarrantyUncheckedUpdateManyWithoutUserNestedInput
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
+  pushSubscriptions?: Prisma.PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+  dispatchedAppointments?: Prisma.AppointmentUncheckedUpdateManyWithoutDispatcherNestedInput
+  technicianAppointments?: Prisma.AppointmentUncheckedUpdateManyWithoutTechnicianNestedInput
+  estimates?: Prisma.EstimateUncheckedUpdateManyWithoutTechnicianNestedInput
+  jobPhotos?: Prisma.JobPhotoUncheckedUpdateManyWithoutTechnicianNestedInput
+  jobPayments?: Prisma.JobPaymentUncheckedUpdateManyWithoutCollectorNestedInput
+  jobParts?: Prisma.JobPartUncheckedUpdateManyWithoutTechnicianNestedInput
+  inventoryRequests?: Prisma.InventoryRequestUncheckedUpdateManyWithoutTechnicianNestedInput
+  technicianClients?: Prisma.TechnicianClientUncheckedUpdateManyWithoutTechnicianNestedInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedUpdateOneWithoutUserNestedInput
+}
+
+export type UserCreateWithoutExpenseSubscriptionInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  password?: string | null
+  phone?: string | null
+  role?: $Enums.Role
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  appointments?: Prisma.AppointmentCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
+  technicianProfile?: Prisma.TechnicianProfileCreateNestedOneWithoutUserInput
+  technicianLocations?: Prisma.TechnicianLocationCreateNestedManyWithoutUserInput
+  properties?: Prisma.PropertyCreateNestedManyWithoutUserInput
+  servicePlans?: Prisma.CustomerServicePlanCreateNestedManyWithoutUserInput
+  warranties?: Prisma.WarrantyCreateNestedManyWithoutUserInput
+  orders?: Prisma.OrderCreateNestedManyWithoutUserInput
+  pushSubscriptions?: Prisma.PushSubscriptionCreateNestedManyWithoutUserInput
+  dispatchedAppointments?: Prisma.AppointmentCreateNestedManyWithoutDispatcherInput
+  technicianAppointments?: Prisma.AppointmentCreateNestedManyWithoutTechnicianInput
+  estimates?: Prisma.EstimateCreateNestedManyWithoutTechnicianInput
+  jobPhotos?: Prisma.JobPhotoCreateNestedManyWithoutTechnicianInput
+  jobPayments?: Prisma.JobPaymentCreateNestedManyWithoutCollectorInput
+  jobParts?: Prisma.JobPartCreateNestedManyWithoutTechnicianInput
+  inventoryRequests?: Prisma.InventoryRequestCreateNestedManyWithoutTechnicianInput
+  technicianClients?: Prisma.TechnicianClientCreateNestedManyWithoutTechnicianInput
+  expenses?: Prisma.ExpenseCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutExpenseSubscriptionInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  password?: string | null
+  phone?: string | null
+  role?: $Enums.Role
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
+  technicianProfile?: Prisma.TechnicianProfileUncheckedCreateNestedOneWithoutUserInput
+  technicianLocations?: Prisma.TechnicianLocationUncheckedCreateNestedManyWithoutUserInput
+  properties?: Prisma.PropertyUncheckedCreateNestedManyWithoutUserInput
+  servicePlans?: Prisma.CustomerServicePlanUncheckedCreateNestedManyWithoutUserInput
+  warranties?: Prisma.WarrantyUncheckedCreateNestedManyWithoutUserInput
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
+  pushSubscriptions?: Prisma.PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+  dispatchedAppointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutDispatcherInput
+  technicianAppointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutTechnicianInput
+  estimates?: Prisma.EstimateUncheckedCreateNestedManyWithoutTechnicianInput
+  jobPhotos?: Prisma.JobPhotoUncheckedCreateNestedManyWithoutTechnicianInput
+  jobPayments?: Prisma.JobPaymentUncheckedCreateNestedManyWithoutCollectorInput
+  jobParts?: Prisma.JobPartUncheckedCreateNestedManyWithoutTechnicianInput
+  inventoryRequests?: Prisma.InventoryRequestUncheckedCreateNestedManyWithoutTechnicianInput
+  technicianClients?: Prisma.TechnicianClientUncheckedCreateNestedManyWithoutTechnicianInput
+  expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutExpenseSubscriptionInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutExpenseSubscriptionInput, Prisma.UserUncheckedCreateWithoutExpenseSubscriptionInput>
+}
+
+export type UserUpsertWithoutExpenseSubscriptionInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutExpenseSubscriptionInput, Prisma.UserUncheckedUpdateWithoutExpenseSubscriptionInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutExpenseSubscriptionInput, Prisma.UserUncheckedCreateWithoutExpenseSubscriptionInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutExpenseSubscriptionInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutExpenseSubscriptionInput, Prisma.UserUncheckedUpdateWithoutExpenseSubscriptionInput>
+}
+
+export type UserUpdateWithoutExpenseSubscriptionInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  appointments?: Prisma.AppointmentUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
+  technicianProfile?: Prisma.TechnicianProfileUpdateOneWithoutUserNestedInput
+  technicianLocations?: Prisma.TechnicianLocationUpdateManyWithoutUserNestedInput
+  properties?: Prisma.PropertyUpdateManyWithoutUserNestedInput
+  servicePlans?: Prisma.CustomerServicePlanUpdateManyWithoutUserNestedInput
+  warranties?: Prisma.WarrantyUpdateManyWithoutUserNestedInput
+  orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
+  pushSubscriptions?: Prisma.PushSubscriptionUpdateManyWithoutUserNestedInput
+  dispatchedAppointments?: Prisma.AppointmentUpdateManyWithoutDispatcherNestedInput
+  technicianAppointments?: Prisma.AppointmentUpdateManyWithoutTechnicianNestedInput
+  estimates?: Prisma.EstimateUpdateManyWithoutTechnicianNestedInput
+  jobPhotos?: Prisma.JobPhotoUpdateManyWithoutTechnicianNestedInput
+  jobPayments?: Prisma.JobPaymentUpdateManyWithoutCollectorNestedInput
+  jobParts?: Prisma.JobPartUpdateManyWithoutTechnicianNestedInput
+  inventoryRequests?: Prisma.InventoryRequestUpdateManyWithoutTechnicianNestedInput
+  technicianClients?: Prisma.TechnicianClientUpdateManyWithoutTechnicianNestedInput
+  expenses?: Prisma.ExpenseUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutExpenseSubscriptionInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
+  technicianProfile?: Prisma.TechnicianProfileUncheckedUpdateOneWithoutUserNestedInput
+  technicianLocations?: Prisma.TechnicianLocationUncheckedUpdateManyWithoutUserNestedInput
+  properties?: Prisma.PropertyUncheckedUpdateManyWithoutUserNestedInput
+  servicePlans?: Prisma.CustomerServicePlanUncheckedUpdateManyWithoutUserNestedInput
+  warranties?: Prisma.WarrantyUncheckedUpdateManyWithoutUserNestedInput
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
+  pushSubscriptions?: Prisma.PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+  dispatchedAppointments?: Prisma.AppointmentUncheckedUpdateManyWithoutDispatcherNestedInput
+  technicianAppointments?: Prisma.AppointmentUncheckedUpdateManyWithoutTechnicianNestedInput
+  estimates?: Prisma.EstimateUncheckedUpdateManyWithoutTechnicianNestedInput
+  jobPhotos?: Prisma.JobPhotoUncheckedUpdateManyWithoutTechnicianNestedInput
+  jobPayments?: Prisma.JobPaymentUncheckedUpdateManyWithoutCollectorNestedInput
+  jobParts?: Prisma.JobPartUncheckedUpdateManyWithoutTechnicianNestedInput
+  inventoryRequests?: Prisma.InventoryRequestUncheckedUpdateManyWithoutTechnicianNestedInput
+  technicianClients?: Prisma.TechnicianClientUncheckedUpdateManyWithoutTechnicianNestedInput
+  expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -3546,6 +4036,7 @@ export type UserCountOutputType = {
   jobParts: number
   inventoryRequests: number
   technicianClients: number
+  expenses: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -3567,6 +4058,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   jobParts?: boolean | UserCountOutputTypeCountJobPartsArgs
   inventoryRequests?: boolean | UserCountOutputTypeCountInventoryRequestsArgs
   technicianClients?: boolean | UserCountOutputTypeCountTechnicianClientsArgs
+  expenses?: boolean | UserCountOutputTypeCountExpensesArgs
 }
 
 /**
@@ -3705,6 +4197,13 @@ export type UserCountOutputTypeCountTechnicianClientsArgs<ExtArgs extends runtim
   where?: Prisma.TechnicianClientWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountExpensesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ExpenseWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -3736,6 +4235,8 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   jobParts?: boolean | Prisma.User$jobPartsArgs<ExtArgs>
   inventoryRequests?: boolean | Prisma.User$inventoryRequestsArgs<ExtArgs>
   technicianClients?: boolean | Prisma.User$technicianClientsArgs<ExtArgs>
+  expenses?: boolean | Prisma.User$expensesArgs<ExtArgs>
+  expenseSubscription?: boolean | Prisma.User$expenseSubscriptionArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -3799,6 +4300,8 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   jobParts?: boolean | Prisma.User$jobPartsArgs<ExtArgs>
   inventoryRequests?: boolean | Prisma.User$inventoryRequestsArgs<ExtArgs>
   technicianClients?: boolean | Prisma.User$technicianClientsArgs<ExtArgs>
+  expenses?: boolean | Prisma.User$expensesArgs<ExtArgs>
+  expenseSubscription?: boolean | Prisma.User$expenseSubscriptionArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -3826,6 +4329,8 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     jobParts: Prisma.$JobPartPayload<ExtArgs>[]
     inventoryRequests: Prisma.$InventoryRequestPayload<ExtArgs>[]
     technicianClients: Prisma.$TechnicianClientPayload<ExtArgs>[]
+    expenses: Prisma.$ExpensePayload<ExtArgs>[]
+    expenseSubscription: Prisma.$ExpenseSubscriptionPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -4251,6 +4756,8 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   jobParts<T extends Prisma.User$jobPartsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$jobPartsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$JobPartPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   inventoryRequests<T extends Prisma.User$inventoryRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$inventoryRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InventoryRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   technicianClients<T extends Prisma.User$technicianClientsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$technicianClientsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TechnicianClientPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  expenses<T extends Prisma.User$expensesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$expensesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ExpensePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  expenseSubscription<T extends Prisma.User$expenseSubscriptionArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$expenseSubscriptionArgs<ExtArgs>>): Prisma.Prisma__ExpenseSubscriptionClient<runtime.Types.Result.GetResult<Prisma.$ExpenseSubscriptionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5131,6 +5638,49 @@ export type User$technicianClientsArgs<ExtArgs extends runtime.Types.Extensions.
   take?: number
   skip?: number
   distinct?: Prisma.TechnicianClientScalarFieldEnum | Prisma.TechnicianClientScalarFieldEnum[]
+}
+
+/**
+ * User.expenses
+ */
+export type User$expensesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Expense
+   */
+  select?: Prisma.ExpenseSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Expense
+   */
+  omit?: Prisma.ExpenseOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ExpenseInclude<ExtArgs> | null
+  where?: Prisma.ExpenseWhereInput
+  orderBy?: Prisma.ExpenseOrderByWithRelationInput | Prisma.ExpenseOrderByWithRelationInput[]
+  cursor?: Prisma.ExpenseWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ExpenseScalarFieldEnum | Prisma.ExpenseScalarFieldEnum[]
+}
+
+/**
+ * User.expenseSubscription
+ */
+export type User$expenseSubscriptionArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ExpenseSubscription
+   */
+  select?: Prisma.ExpenseSubscriptionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ExpenseSubscription
+   */
+  omit?: Prisma.ExpenseSubscriptionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ExpenseSubscriptionInclude<ExtArgs> | null
+  where?: Prisma.ExpenseSubscriptionWhereInput
 }
 
 /**

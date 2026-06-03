@@ -1,4 +1,4 @@
-import { Resend } from "resend";
+﻿import { Resend } from "resend";
 
 let _resend: Resend | null = null;
 
@@ -10,7 +10,7 @@ export function getResend(): Resend {
 }
 
 export const FROM_EMAIL =
-  process.env.RESEND_FROM_EMAIL || "service@mydadahouse.com";
+  process.env.RESEND_FROM_EMAIL || "service@dada-house.com";
 
 export const resend = {
   emails: {

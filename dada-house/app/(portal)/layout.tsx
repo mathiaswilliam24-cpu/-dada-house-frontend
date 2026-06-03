@@ -14,6 +14,7 @@ import {
   Package,
   User,
   LogOut,
+  ReceiptText,
 } from "lucide-react";
 import { signOut } from "@/auth";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
@@ -23,6 +24,7 @@ const navItems = [
   { href: "/portal", label: "Dashboard", icon: LayoutDashboard },
   { href: "/portal/appointments", label: "Appointments", icon: Calendar },
   { href: "/portal/invoices", label: "Invoices", icon: FileText },
+  { href: "/portal/expenses", label: "Expenses", icon: ReceiptText },
   { href: "/portal/history", label: "Service History", icon: History },
   { href: "/portal/properties", label: "My Properties", icon: Home },
   { href: "/portal/warranties", label: "Warranties", icon: ShieldCheck },

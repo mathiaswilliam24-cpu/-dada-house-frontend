@@ -26,7 +26,7 @@ export async function GET(req: NextRequest) {
           _sum: { amount: true },
         }),
         db.order.aggregate({
-          where: { status: { in: ["PROCESSING", "SHIPPED", "DELIVERED"] }, paidAt: { gte: start, lte: end } },
+          where: { status: { in: ["PROCESSING", "ASSIGNED", "EN_ROUTE", "ARRIVED", "INSTALLED"] }, paidAt: { gte: start, lte: end } },
           _sum: { total: true },
         }),
       ]);

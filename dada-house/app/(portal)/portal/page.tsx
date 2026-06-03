@@ -3,7 +3,8 @@ import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { formatCurrency, formatDate, getStatusColor } from "@/lib/utils";
-import { Calendar, FileText, ShieldCheck, Clock } from "lucide-react";
+import { Calendar, FileText, ShieldCheck, Clock, ReceiptText } from "lucide-react";
+import { ExpenseChart } from "@/components/portal/expense-chart";
 
 export const dynamic = "force-dynamic";
 
@@ -11,7 +12,11 @@ export default async function PortalDashboardPage() {
   const session = await auth();
   if (!session?.user) redirect("/auth/login");
 
-  const [activeAppointments, unpaidInvoices, warranties, recentHistory] = await Promise.all([
+  const sixMonthsAgo = new Date();
+  sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 5);
+  sixMonthsAgo.setDate(1);
+
+  const [activeAppointments, unpaidInvoices, warranties, recentHistory, recentExpenses] = await Promise.all([
     db.appointment.findMany({
       where: { userId: session.user.id, status: { in: ["PENDING", "CONFIRMED", "IN_PROGRESS"] } },
       orderBy: { preferredDate: "asc" },
@@ -32,9 +37,29 @@ export default async function PortalDashboardPage() {
       orderBy: { createdAt: "desc" },
       take: 3,
     }),
+    db.expense.findMany({
+      where: { userId: session.user.id, date: { gte: sixMonthsAgo } },
+      select: { amount: true, date: true },
+      orderBy: { date: "asc" },
+    }),
   ]);
 
   const totalUnpaid = unpaidInvoices.reduce((sum, inv) => sum + inv.amount, 0);
+
+  // Build monthly expense chart data (last 6 months)
+  const monthMap: Record<string, number> = {};
+  for (let i = 5; i >= 0; i--) {
+    const d = new Date();
+    d.setMonth(d.getMonth() - i);
+    const key = d.toLocaleString("en-US", { month: "short", year: "2-digit" });
+    monthMap[key] = 0;
+  }
+  for (const e of recentExpenses) {
+    const key = new Date(e.date).toLocaleString("en-US", { month: "short", year: "2-digit" });
+    if (key in monthMap) monthMap[key] += e.amount;
+  }
+  const expenseChartData = Object.entries(monthMap).map(([month, amount]) => ({ month, amount: Math.round(amount * 100) / 100 }));
+  const totalExpenses = recentExpenses.reduce((s, e) => s + e.amount, 0);
 
   return (
     <div className="space-y-6">
@@ -46,7 +71,7 @@ export default async function PortalDashboardPage() {
       </div>
 
       {/* Quick stats */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
         <div className="bg-white rounded-xl border border-gray-200 p-5">
           <div className="flex items-center gap-3 mb-3">
             <div className="w-9 h-9 rounded-lg bg-blue-50 flex items-center justify-center">
@@ -83,7 +108,19 @@ export default async function PortalDashboardPage() {
           </div>
           <p className="text-2xl font-bold text-gray-900">{recentHistory.length}</p>
         </div>
+        <div className="bg-white rounded-xl border border-gray-200 p-5 col-span-2 lg:col-span-1">
+          <div className="flex items-center gap-3 mb-3">
+            <div className="w-9 h-9 rounded-lg bg-amber-50 flex items-center justify-center">
+              <ReceiptText className="w-5 h-5 text-amber-600" />
+            </div>
+            <span className="text-sm text-gray-500">Expenses (6mo)</span>
+          </div>
+          <p className="text-2xl font-bold text-gray-900">{formatCurrency(totalExpenses)}</p>
+        </div>
       </div>
+
+      {/* Expense chart */}
+      <ExpenseChart data={expenseChartData} />
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Active Appointments */}

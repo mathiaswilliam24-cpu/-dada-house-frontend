@@ -43,6 +43,28 @@ export const ourFileRouter = {
       return { url: file.ufsUrl ?? file.url };
     }),
 
+  siteImages: f({ image: { maxFileSize: "16MB", maxFileCount: 1 } })
+    .middleware(async () => ({ ok: true }))
+    .onUploadComplete(async ({ file }) => {
+      return { url: file.ufsUrl ?? file.url };
+    }),
+
+  productImages: f({ image: { maxFileSize: "8MB", maxFileCount: 8 } })
+    .middleware(async () => ({ ok: true }))
+    .onUploadComplete(async ({ file }) => {
+      return { url: file.ufsUrl ?? file.url };
+    }),
+
+  receiptPhotos: f({ image: { maxFileSize: "8MB", maxFileCount: 1 } })
+    .middleware(async () => {
+      const session = await auth();
+      if (!session?.user) throw new Error("Unauthorized");
+      return { userId: session.user.id };
+    })
+    .onUploadComplete(async ({ file }) => {
+      return { url: file.ufsUrl ?? file.url };
+    }),
+
   jobPhotos: f({
     image: { maxFileSize: "16MB", maxFileCount: 10 },
     video: { maxFileSize: "64MB", maxFileCount: 2 },

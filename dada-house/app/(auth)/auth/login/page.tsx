@@ -31,7 +31,7 @@ function GoogleIcon() {
 function LoginFormInner() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl") || "/dashboard";
+  const callbackUrl = searchParams.get("callbackUrl") || "/portal";
   const [authError, setAuthError] = useState("");
 
   const {
@@ -74,7 +74,7 @@ function LoginFormInner() {
       {/* Google button */}
       <button
         type="button"
-        onClick={() => signIn("google", { callbackUrl: "/dashboard" })}
+        onClick={() => signIn("google", { callbackUrl: "/portal" })}
         className="w-full flex items-center justify-center gap-3 px-4 py-3 bg-white text-gray-800 font-semibold rounded-xl hover:bg-gray-100 transition-colors shadow-sm"
       >
         <GoogleIcon />

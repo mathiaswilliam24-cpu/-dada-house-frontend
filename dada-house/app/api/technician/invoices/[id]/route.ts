@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+﻿import { NextRequest, NextResponse } from "next/server";
 import { requireTechnician } from "@/lib/api-auth";
 import { db } from "@/lib/db";
 import { resend, FROM_EMAIL } from "@/lib/resend";
@@ -79,7 +79,7 @@ export async function POST(
   if (action === "email") {
     if (!invoice.clientEmail) return NextResponse.json({ error: "No client email" }, { status: 400 });
 
-    const baseUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://mydadahouse.com";
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dada-house.com";
     const paymentUrl = `${baseUrl}/pay/${invoice.paymentToken}`;
     const lineItems = (invoice.lineItems as Array<{ desc: string; rate: number; qty: number; amount: number }>) ?? [];
     const html = buildInvoiceEmail(invoice, lineItems, auth.name ?? "DADA HOUSE", paymentUrl);
@@ -175,7 +175,7 @@ function buildInvoiceEmail(
 
     <p style="color:#6b7280;font-size:12px;margin-top:24px;border-top:1px solid #e5e7eb;padding-top:16px">
       Prepared by ${techName} · DADA HOUSE · 7001 South Texas 6 STE 246, Houston, TX 77083<br>
-      (910) 685-8042 · customerservice@mydadahouse.com
+      (910) 685-8042 · customerservice@dada-house.com
     </p>
   </div>
 </body>
@@ -220,7 +220,7 @@ function buildReceiptEmail(
       </tfoot>
     </table>
     <p>We truly appreciate your business. If you have any questions or need follow-up service, don't hesitate to reach out.</p>
-    <p>📞 (910) 685-8042 · ✉️ customerservice@mydadahouse.com</p>
+    <p>📞 (910) 685-8042 · ✉️ customerservice@dada-house.com</p>
     <p style="color:#6b7280;font-size:12px;margin-top:24px;border-top:1px solid #e5e7eb;padding-top:16px">
       DADA HOUSE · 7001 South Texas 6 STE 246, Houston, TX 77083
     </p>

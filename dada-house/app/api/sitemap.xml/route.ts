@@ -1,6 +1,6 @@
-import { NextResponse } from "next/server";
+﻿import { NextResponse } from "next/server";
 
-const BASE_URL = "https://mydadahouse.com";
+const BASE_URL = "https://dada-house.com";
 
 const PAGES = [
   { path: "/", priority: "1.0", changefreq: "weekly" },

@@ -53,6 +53,19 @@ export type OrderMinAggregateOutputType = {
   paidAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
+  installationFirstName: string | null
+  installationLastName: string | null
+  installationAddress: string | null
+  installationCity: string | null
+  installationDate: Date | null
+  installationTime: string | null
+  appointmentId: string | null
+  technicianId: string | null
+  technicianName: string | null
+  jobComplete: boolean | null
+  adminConfirmed: boolean | null
+  customerEmail: string | null
+  customerPhone: string | null
 }
 
 export type OrderMaxAggregateOutputType = {
@@ -68,6 +81,19 @@ export type OrderMaxAggregateOutputType = {
   paidAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
+  installationFirstName: string | null
+  installationLastName: string | null
+  installationAddress: string | null
+  installationCity: string | null
+  installationDate: Date | null
+  installationTime: string | null
+  appointmentId: string | null
+  technicianId: string | null
+  technicianName: string | null
+  jobComplete: boolean | null
+  adminConfirmed: boolean | null
+  customerEmail: string | null
+  customerPhone: string | null
 }
 
 export type OrderCountAggregateOutputType = {
@@ -84,6 +110,20 @@ export type OrderCountAggregateOutputType = {
   paidAt: number
   createdAt: number
   updatedAt: number
+  installationFirstName: number
+  installationLastName: number
+  installationAddress: number
+  installationCity: number
+  installationDate: number
+  installationTime: number
+  appointmentId: number
+  technicianId: number
+  technicianName: number
+  jobComplete: number
+  adminConfirmed: number
+  installationPhotos: number
+  customerEmail: number
+  customerPhone: number
   _all: number
 }
 
@@ -115,6 +155,19 @@ export type OrderMinAggregateInputType = {
   paidAt?: true
   createdAt?: true
   updatedAt?: true
+  installationFirstName?: true
+  installationLastName?: true
+  installationAddress?: true
+  installationCity?: true
+  installationDate?: true
+  installationTime?: true
+  appointmentId?: true
+  technicianId?: true
+  technicianName?: true
+  jobComplete?: true
+  adminConfirmed?: true
+  customerEmail?: true
+  customerPhone?: true
 }
 
 export type OrderMaxAggregateInputType = {
@@ -130,6 +183,19 @@ export type OrderMaxAggregateInputType = {
   paidAt?: true
   createdAt?: true
   updatedAt?: true
+  installationFirstName?: true
+  installationLastName?: true
+  installationAddress?: true
+  installationCity?: true
+  installationDate?: true
+  installationTime?: true
+  appointmentId?: true
+  technicianId?: true
+  technicianName?: true
+  jobComplete?: true
+  adminConfirmed?: true
+  customerEmail?: true
+  customerPhone?: true
 }
 
 export type OrderCountAggregateInputType = {
@@ -146,6 +212,20 @@ export type OrderCountAggregateInputType = {
   paidAt?: true
   createdAt?: true
   updatedAt?: true
+  installationFirstName?: true
+  installationLastName?: true
+  installationAddress?: true
+  installationCity?: true
+  installationDate?: true
+  installationTime?: true
+  appointmentId?: true
+  technicianId?: true
+  technicianName?: true
+  jobComplete?: true
+  adminConfirmed?: true
+  installationPhotos?: true
+  customerEmail?: true
+  customerPhone?: true
   _all?: true
 }
 
@@ -249,6 +329,20 @@ export type OrderGroupByOutputType = {
   paidAt: Date | null
   createdAt: Date
   updatedAt: Date
+  installationFirstName: string | null
+  installationLastName: string | null
+  installationAddress: string | null
+  installationCity: string | null
+  installationDate: Date | null
+  installationTime: string | null
+  appointmentId: string | null
+  technicianId: string | null
+  technicianName: string | null
+  jobComplete: boolean
+  adminConfirmed: boolean
+  installationPhotos: string[]
+  customerEmail: string | null
+  customerPhone: string | null
   _count: OrderCountAggregateOutputType | null
   _avg: OrderAvgAggregateOutputType | null
   _sum: OrderSumAggregateOutputType | null
@@ -288,6 +382,20 @@ export type OrderWhereInput = {
   paidAt?: Prisma.DateTimeNullableFilter<"Order"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Order"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Order"> | Date | string
+  installationFirstName?: Prisma.StringNullableFilter<"Order"> | string | null
+  installationLastName?: Prisma.StringNullableFilter<"Order"> | string | null
+  installationAddress?: Prisma.StringNullableFilter<"Order"> | string | null
+  installationCity?: Prisma.StringNullableFilter<"Order"> | string | null
+  installationDate?: Prisma.DateTimeNullableFilter<"Order"> | Date | string | null
+  installationTime?: Prisma.StringNullableFilter<"Order"> | string | null
+  appointmentId?: Prisma.StringNullableFilter<"Order"> | string | null
+  technicianId?: Prisma.StringNullableFilter<"Order"> | string | null
+  technicianName?: Prisma.StringNullableFilter<"Order"> | string | null
+  jobComplete?: Prisma.BoolFilter<"Order"> | boolean
+  adminConfirmed?: Prisma.BoolFilter<"Order"> | boolean
+  installationPhotos?: Prisma.StringNullableListFilter<"Order">
+  customerEmail?: Prisma.StringNullableFilter<"Order"> | string | null
+  customerPhone?: Prisma.StringNullableFilter<"Order"> | string | null
   user?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   items?: Prisma.OrderItemListRelationFilter
   payments?: Prisma.PaymentListRelationFilter
@@ -307,6 +415,20 @@ export type OrderOrderByWithRelationInput = {
   paidAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  installationFirstName?: Prisma.SortOrderInput | Prisma.SortOrder
+  installationLastName?: Prisma.SortOrderInput | Prisma.SortOrder
+  installationAddress?: Prisma.SortOrderInput | Prisma.SortOrder
+  installationCity?: Prisma.SortOrderInput | Prisma.SortOrder
+  installationDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  installationTime?: Prisma.SortOrderInput | Prisma.SortOrder
+  appointmentId?: Prisma.SortOrderInput | Prisma.SortOrder
+  technicianId?: Prisma.SortOrderInput | Prisma.SortOrder
+  technicianName?: Prisma.SortOrderInput | Prisma.SortOrder
+  jobComplete?: Prisma.SortOrder
+  adminConfirmed?: Prisma.SortOrder
+  installationPhotos?: Prisma.SortOrder
+  customerEmail?: Prisma.SortOrderInput | Prisma.SortOrder
+  customerPhone?: Prisma.SortOrderInput | Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
   items?: Prisma.OrderItemOrderByRelationAggregateInput
   payments?: Prisma.PaymentOrderByRelationAggregateInput
@@ -315,6 +437,7 @@ export type OrderOrderByWithRelationInput = {
 export type OrderWhereUniqueInput = Prisma.AtLeast<{
   id?: string
   orderNumber?: string
+  appointmentId?: string
   AND?: Prisma.OrderWhereInput | Prisma.OrderWhereInput[]
   OR?: Prisma.OrderWhereInput[]
   NOT?: Prisma.OrderWhereInput | Prisma.OrderWhereInput[]
@@ -329,10 +452,23 @@ export type OrderWhereUniqueInput = Prisma.AtLeast<{
   paidAt?: Prisma.DateTimeNullableFilter<"Order"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Order"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Order"> | Date | string
+  installationFirstName?: Prisma.StringNullableFilter<"Order"> | string | null
+  installationLastName?: Prisma.StringNullableFilter<"Order"> | string | null
+  installationAddress?: Prisma.StringNullableFilter<"Order"> | string | null
+  installationCity?: Prisma.StringNullableFilter<"Order"> | string | null
+  installationDate?: Prisma.DateTimeNullableFilter<"Order"> | Date | string | null
+  installationTime?: Prisma.StringNullableFilter<"Order"> | string | null
+  technicianId?: Prisma.StringNullableFilter<"Order"> | string | null
+  technicianName?: Prisma.StringNullableFilter<"Order"> | string | null
+  jobComplete?: Prisma.BoolFilter<"Order"> | boolean
+  adminConfirmed?: Prisma.BoolFilter<"Order"> | boolean
+  installationPhotos?: Prisma.StringNullableListFilter<"Order">
+  customerEmail?: Prisma.StringNullableFilter<"Order"> | string | null
+  customerPhone?: Prisma.StringNullableFilter<"Order"> | string | null
   user?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   items?: Prisma.OrderItemListRelationFilter
   payments?: Prisma.PaymentListRelationFilter
-}, "id" | "orderNumber">
+}, "id" | "orderNumber" | "appointmentId">
 
 export type OrderOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -348,6 +484,20 @@ export type OrderOrderByWithAggregationInput = {
   paidAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  installationFirstName?: Prisma.SortOrderInput | Prisma.SortOrder
+  installationLastName?: Prisma.SortOrderInput | Prisma.SortOrder
+  installationAddress?: Prisma.SortOrderInput | Prisma.SortOrder
+  installationCity?: Prisma.SortOrderInput | Prisma.SortOrder
+  installationDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  installationTime?: Prisma.SortOrderInput | Prisma.SortOrder
+  appointmentId?: Prisma.SortOrderInput | Prisma.SortOrder
+  technicianId?: Prisma.SortOrderInput | Prisma.SortOrder
+  technicianName?: Prisma.SortOrderInput | Prisma.SortOrder
+  jobComplete?: Prisma.SortOrder
+  adminConfirmed?: Prisma.SortOrder
+  installationPhotos?: Prisma.SortOrder
+  customerEmail?: Prisma.SortOrderInput | Prisma.SortOrder
+  customerPhone?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.OrderCountOrderByAggregateInput
   _avg?: Prisma.OrderAvgOrderByAggregateInput
   _max?: Prisma.OrderMaxOrderByAggregateInput
@@ -372,6 +522,20 @@ export type OrderScalarWhereWithAggregatesInput = {
   paidAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Order"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Order"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Order"> | Date | string
+  installationFirstName?: Prisma.StringNullableWithAggregatesFilter<"Order"> | string | null
+  installationLastName?: Prisma.StringNullableWithAggregatesFilter<"Order"> | string | null
+  installationAddress?: Prisma.StringNullableWithAggregatesFilter<"Order"> | string | null
+  installationCity?: Prisma.StringNullableWithAggregatesFilter<"Order"> | string | null
+  installationDate?: Prisma.DateTimeNullableWithAggregatesFilter<"Order"> | Date | string | null
+  installationTime?: Prisma.StringNullableWithAggregatesFilter<"Order"> | string | null
+  appointmentId?: Prisma.StringNullableWithAggregatesFilter<"Order"> | string | null
+  technicianId?: Prisma.StringNullableWithAggregatesFilter<"Order"> | string | null
+  technicianName?: Prisma.StringNullableWithAggregatesFilter<"Order"> | string | null
+  jobComplete?: Prisma.BoolWithAggregatesFilter<"Order"> | boolean
+  adminConfirmed?: Prisma.BoolWithAggregatesFilter<"Order"> | boolean
+  installationPhotos?: Prisma.StringNullableListFilter<"Order">
+  customerEmail?: Prisma.StringNullableWithAggregatesFilter<"Order"> | string | null
+  customerPhone?: Prisma.StringNullableWithAggregatesFilter<"Order"> | string | null
 }
 
 export type OrderCreateInput = {
@@ -387,6 +551,20 @@ export type OrderCreateInput = {
   paidAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  installationFirstName?: string | null
+  installationLastName?: string | null
+  installationAddress?: string | null
+  installationCity?: string | null
+  installationDate?: Date | string | null
+  installationTime?: string | null
+  appointmentId?: string | null
+  technicianId?: string | null
+  technicianName?: string | null
+  jobComplete?: boolean
+  adminConfirmed?: boolean
+  installationPhotos?: Prisma.OrderCreateinstallationPhotosInput | string[]
+  customerEmail?: string | null
+  customerPhone?: string | null
   user?: Prisma.UserCreateNestedOneWithoutOrdersInput
   items?: Prisma.OrderItemCreateNestedManyWithoutOrderInput
   payments?: Prisma.PaymentCreateNestedManyWithoutOrderInput
@@ -406,6 +584,20 @@ export type OrderUncheckedCreateInput = {
   paidAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  installationFirstName?: string | null
+  installationLastName?: string | null
+  installationAddress?: string | null
+  installationCity?: string | null
+  installationDate?: Date | string | null
+  installationTime?: string | null
+  appointmentId?: string | null
+  technicianId?: string | null
+  technicianName?: string | null
+  jobComplete?: boolean
+  adminConfirmed?: boolean
+  installationPhotos?: Prisma.OrderCreateinstallationPhotosInput | string[]
+  customerEmail?: string | null
+  customerPhone?: string | null
   items?: Prisma.OrderItemUncheckedCreateNestedManyWithoutOrderInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutOrderInput
 }
@@ -423,6 +615,20 @@ export type OrderUpdateInput = {
   paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  installationFirstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  installationLastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  installationAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  installationCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  installationDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  installationTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  appointmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  technicianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  technicianName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobComplete?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  adminConfirmed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  installationPhotos?: Prisma.OrderUpdateinstallationPhotosInput | string[]
+  customerEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   user?: Prisma.UserUpdateOneWithoutOrdersNestedInput
   items?: Prisma.OrderItemUpdateManyWithoutOrderNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutOrderNestedInput
@@ -442,6 +648,20 @@ export type OrderUncheckedUpdateInput = {
   paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  installationFirstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  installationLastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  installationAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  installationCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  installationDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  installationTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  appointmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  technicianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  technicianName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobComplete?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  adminConfirmed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  installationPhotos?: Prisma.OrderUpdateinstallationPhotosInput | string[]
+  customerEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   items?: Prisma.OrderItemUncheckedUpdateManyWithoutOrderNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutOrderNestedInput
 }
@@ -460,6 +680,20 @@ export type OrderCreateManyInput = {
   paidAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  installationFirstName?: string | null
+  installationLastName?: string | null
+  installationAddress?: string | null
+  installationCity?: string | null
+  installationDate?: Date | string | null
+  installationTime?: string | null
+  appointmentId?: string | null
+  technicianId?: string | null
+  technicianName?: string | null
+  jobComplete?: boolean
+  adminConfirmed?: boolean
+  installationPhotos?: Prisma.OrderCreateinstallationPhotosInput | string[]
+  customerEmail?: string | null
+  customerPhone?: string | null
 }
 
 export type OrderUpdateManyMutationInput = {
@@ -475,6 +709,20 @@ export type OrderUpdateManyMutationInput = {
   paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  installationFirstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  installationLastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  installationAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  installationCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  installationDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  installationTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  appointmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  technicianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  technicianName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobComplete?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  adminConfirmed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  installationPhotos?: Prisma.OrderUpdateinstallationPhotosInput | string[]
+  customerEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type OrderUncheckedUpdateManyInput = {
@@ -491,6 +739,20 @@ export type OrderUncheckedUpdateManyInput = {
   paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  installationFirstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  installationLastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  installationAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  installationCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  installationDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  installationTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  appointmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  technicianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  technicianName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobComplete?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  adminConfirmed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  installationPhotos?: Prisma.OrderUpdateinstallationPhotosInput | string[]
+  customerEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type OrderListRelationFilter = {
@@ -517,6 +779,20 @@ export type OrderCountOrderByAggregateInput = {
   paidAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  installationFirstName?: Prisma.SortOrder
+  installationLastName?: Prisma.SortOrder
+  installationAddress?: Prisma.SortOrder
+  installationCity?: Prisma.SortOrder
+  installationDate?: Prisma.SortOrder
+  installationTime?: Prisma.SortOrder
+  appointmentId?: Prisma.SortOrder
+  technicianId?: Prisma.SortOrder
+  technicianName?: Prisma.SortOrder
+  jobComplete?: Prisma.SortOrder
+  adminConfirmed?: Prisma.SortOrder
+  installationPhotos?: Prisma.SortOrder
+  customerEmail?: Prisma.SortOrder
+  customerPhone?: Prisma.SortOrder
 }
 
 export type OrderAvgOrderByAggregateInput = {
@@ -539,6 +815,19 @@ export type OrderMaxOrderByAggregateInput = {
   paidAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  installationFirstName?: Prisma.SortOrder
+  installationLastName?: Prisma.SortOrder
+  installationAddress?: Prisma.SortOrder
+  installationCity?: Prisma.SortOrder
+  installationDate?: Prisma.SortOrder
+  installationTime?: Prisma.SortOrder
+  appointmentId?: Prisma.SortOrder
+  technicianId?: Prisma.SortOrder
+  technicianName?: Prisma.SortOrder
+  jobComplete?: Prisma.SortOrder
+  adminConfirmed?: Prisma.SortOrder
+  customerEmail?: Prisma.SortOrder
+  customerPhone?: Prisma.SortOrder
 }
 
 export type OrderMinOrderByAggregateInput = {
@@ -554,6 +843,19 @@ export type OrderMinOrderByAggregateInput = {
   paidAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  installationFirstName?: Prisma.SortOrder
+  installationLastName?: Prisma.SortOrder
+  installationAddress?: Prisma.SortOrder
+  installationCity?: Prisma.SortOrder
+  installationDate?: Prisma.SortOrder
+  installationTime?: Prisma.SortOrder
+  appointmentId?: Prisma.SortOrder
+  technicianId?: Prisma.SortOrder
+  technicianName?: Prisma.SortOrder
+  jobComplete?: Prisma.SortOrder
+  adminConfirmed?: Prisma.SortOrder
+  customerEmail?: Prisma.SortOrder
+  customerPhone?: Prisma.SortOrder
 }
 
 export type OrderSumOrderByAggregateInput = {
@@ -615,8 +917,17 @@ export type OrderUncheckedUpdateManyWithoutUserNestedInput = {
   deleteMany?: Prisma.OrderScalarWhereInput | Prisma.OrderScalarWhereInput[]
 }
 
+export type OrderCreateinstallationPhotosInput = {
+  set: string[]
+}
+
 export type EnumOrderStatusFieldUpdateOperationsInput = {
   set?: $Enums.OrderStatus
+}
+
+export type OrderUpdateinstallationPhotosInput = {
+  set?: string[]
+  push?: string | string[]
 }
 
 export type OrderCreateNestedOneWithoutItemsInput = {
@@ -662,6 +973,20 @@ export type OrderCreateWithoutUserInput = {
   paidAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  installationFirstName?: string | null
+  installationLastName?: string | null
+  installationAddress?: string | null
+  installationCity?: string | null
+  installationDate?: Date | string | null
+  installationTime?: string | null
+  appointmentId?: string | null
+  technicianId?: string | null
+  technicianName?: string | null
+  jobComplete?: boolean
+  adminConfirmed?: boolean
+  installationPhotos?: Prisma.OrderCreateinstallationPhotosInput | string[]
+  customerEmail?: string | null
+  customerPhone?: string | null
   items?: Prisma.OrderItemCreateNestedManyWithoutOrderInput
   payments?: Prisma.PaymentCreateNestedManyWithoutOrderInput
 }
@@ -679,6 +1004,20 @@ export type OrderUncheckedCreateWithoutUserInput = {
   paidAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  installationFirstName?: string | null
+  installationLastName?: string | null
+  installationAddress?: string | null
+  installationCity?: string | null
+  installationDate?: Date | string | null
+  installationTime?: string | null
+  appointmentId?: string | null
+  technicianId?: string | null
+  technicianName?: string | null
+  jobComplete?: boolean
+  adminConfirmed?: boolean
+  installationPhotos?: Prisma.OrderCreateinstallationPhotosInput | string[]
+  customerEmail?: string | null
+  customerPhone?: string | null
   items?: Prisma.OrderItemUncheckedCreateNestedManyWithoutOrderInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutOrderInput
 }
@@ -726,6 +1065,20 @@ export type OrderScalarWhereInput = {
   paidAt?: Prisma.DateTimeNullableFilter<"Order"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Order"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Order"> | Date | string
+  installationFirstName?: Prisma.StringNullableFilter<"Order"> | string | null
+  installationLastName?: Prisma.StringNullableFilter<"Order"> | string | null
+  installationAddress?: Prisma.StringNullableFilter<"Order"> | string | null
+  installationCity?: Prisma.StringNullableFilter<"Order"> | string | null
+  installationDate?: Prisma.DateTimeNullableFilter<"Order"> | Date | string | null
+  installationTime?: Prisma.StringNullableFilter<"Order"> | string | null
+  appointmentId?: Prisma.StringNullableFilter<"Order"> | string | null
+  technicianId?: Prisma.StringNullableFilter<"Order"> | string | null
+  technicianName?: Prisma.StringNullableFilter<"Order"> | string | null
+  jobComplete?: Prisma.BoolFilter<"Order"> | boolean
+  adminConfirmed?: Prisma.BoolFilter<"Order"> | boolean
+  installationPhotos?: Prisma.StringNullableListFilter<"Order">
+  customerEmail?: Prisma.StringNullableFilter<"Order"> | string | null
+  customerPhone?: Prisma.StringNullableFilter<"Order"> | string | null
 }
 
 export type OrderCreateWithoutItemsInput = {
@@ -741,6 +1094,20 @@ export type OrderCreateWithoutItemsInput = {
   paidAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  installationFirstName?: string | null
+  installationLastName?: string | null
+  installationAddress?: string | null
+  installationCity?: string | null
+  installationDate?: Date | string | null
+  installationTime?: string | null
+  appointmentId?: string | null
+  technicianId?: string | null
+  technicianName?: string | null
+  jobComplete?: boolean
+  adminConfirmed?: boolean
+  installationPhotos?: Prisma.OrderCreateinstallationPhotosInput | string[]
+  customerEmail?: string | null
+  customerPhone?: string | null
   user?: Prisma.UserCreateNestedOneWithoutOrdersInput
   payments?: Prisma.PaymentCreateNestedManyWithoutOrderInput
 }
@@ -759,6 +1126,20 @@ export type OrderUncheckedCreateWithoutItemsInput = {
   paidAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  installationFirstName?: string | null
+  installationLastName?: string | null
+  installationAddress?: string | null
+  installationCity?: string | null
+  installationDate?: Date | string | null
+  installationTime?: string | null
+  appointmentId?: string | null
+  technicianId?: string | null
+  technicianName?: string | null
+  jobComplete?: boolean
+  adminConfirmed?: boolean
+  installationPhotos?: Prisma.OrderCreateinstallationPhotosInput | string[]
+  customerEmail?: string | null
+  customerPhone?: string | null
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutOrderInput
 }
 
@@ -791,6 +1172,20 @@ export type OrderUpdateWithoutItemsInput = {
   paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  installationFirstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  installationLastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  installationAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  installationCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  installationDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  installationTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  appointmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  technicianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  technicianName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobComplete?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  adminConfirmed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  installationPhotos?: Prisma.OrderUpdateinstallationPhotosInput | string[]
+  customerEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   user?: Prisma.UserUpdateOneWithoutOrdersNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutOrderNestedInput
 }
@@ -809,6 +1204,20 @@ export type OrderUncheckedUpdateWithoutItemsInput = {
   paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  installationFirstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  installationLastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  installationAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  installationCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  installationDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  installationTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  appointmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  technicianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  technicianName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobComplete?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  adminConfirmed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  installationPhotos?: Prisma.OrderUpdateinstallationPhotosInput | string[]
+  customerEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutOrderNestedInput
 }
 
@@ -825,6 +1234,20 @@ export type OrderCreateWithoutPaymentsInput = {
   paidAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  installationFirstName?: string | null
+  installationLastName?: string | null
+  installationAddress?: string | null
+  installationCity?: string | null
+  installationDate?: Date | string | null
+  installationTime?: string | null
+  appointmentId?: string | null
+  technicianId?: string | null
+  technicianName?: string | null
+  jobComplete?: boolean
+  adminConfirmed?: boolean
+  installationPhotos?: Prisma.OrderCreateinstallationPhotosInput | string[]
+  customerEmail?: string | null
+  customerPhone?: string | null
   user?: Prisma.UserCreateNestedOneWithoutOrdersInput
   items?: Prisma.OrderItemCreateNestedManyWithoutOrderInput
 }
@@ -843,6 +1266,20 @@ export type OrderUncheckedCreateWithoutPaymentsInput = {
   paidAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  installationFirstName?: string | null
+  installationLastName?: string | null
+  installationAddress?: string | null
+  installationCity?: string | null
+  installationDate?: Date | string | null
+  installationTime?: string | null
+  appointmentId?: string | null
+  technicianId?: string | null
+  technicianName?: string | null
+  jobComplete?: boolean
+  adminConfirmed?: boolean
+  installationPhotos?: Prisma.OrderCreateinstallationPhotosInput | string[]
+  customerEmail?: string | null
+  customerPhone?: string | null
   items?: Prisma.OrderItemUncheckedCreateNestedManyWithoutOrderInput
 }
 
@@ -875,6 +1312,20 @@ export type OrderUpdateWithoutPaymentsInput = {
   paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  installationFirstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  installationLastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  installationAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  installationCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  installationDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  installationTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  appointmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  technicianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  technicianName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobComplete?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  adminConfirmed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  installationPhotos?: Prisma.OrderUpdateinstallationPhotosInput | string[]
+  customerEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   user?: Prisma.UserUpdateOneWithoutOrdersNestedInput
   items?: Prisma.OrderItemUpdateManyWithoutOrderNestedInput
 }
@@ -893,6 +1344,20 @@ export type OrderUncheckedUpdateWithoutPaymentsInput = {
   paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  installationFirstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  installationLastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  installationAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  installationCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  installationDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  installationTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  appointmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  technicianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  technicianName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobComplete?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  adminConfirmed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  installationPhotos?: Prisma.OrderUpdateinstallationPhotosInput | string[]
+  customerEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   items?: Prisma.OrderItemUncheckedUpdateManyWithoutOrderNestedInput
 }
 
@@ -909,6 +1374,20 @@ export type OrderCreateManyUserInput = {
   paidAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  installationFirstName?: string | null
+  installationLastName?: string | null
+  installationAddress?: string | null
+  installationCity?: string | null
+  installationDate?: Date | string | null
+  installationTime?: string | null
+  appointmentId?: string | null
+  technicianId?: string | null
+  technicianName?: string | null
+  jobComplete?: boolean
+  adminConfirmed?: boolean
+  installationPhotos?: Prisma.OrderCreateinstallationPhotosInput | string[]
+  customerEmail?: string | null
+  customerPhone?: string | null
 }
 
 export type OrderUpdateWithoutUserInput = {
@@ -924,6 +1403,20 @@ export type OrderUpdateWithoutUserInput = {
   paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  installationFirstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  installationLastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  installationAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  installationCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  installationDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  installationTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  appointmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  technicianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  technicianName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobComplete?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  adminConfirmed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  installationPhotos?: Prisma.OrderUpdateinstallationPhotosInput | string[]
+  customerEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   items?: Prisma.OrderItemUpdateManyWithoutOrderNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutOrderNestedInput
 }
@@ -941,6 +1434,20 @@ export type OrderUncheckedUpdateWithoutUserInput = {
   paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  installationFirstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  installationLastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  installationAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  installationCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  installationDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  installationTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  appointmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  technicianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  technicianName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobComplete?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  adminConfirmed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  installationPhotos?: Prisma.OrderUpdateinstallationPhotosInput | string[]
+  customerEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   items?: Prisma.OrderItemUncheckedUpdateManyWithoutOrderNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutOrderNestedInput
 }
@@ -958,6 +1465,20 @@ export type OrderUncheckedUpdateManyWithoutUserInput = {
   paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  installationFirstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  installationLastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  installationAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  installationCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  installationDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  installationTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  appointmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  technicianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  technicianName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobComplete?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  adminConfirmed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  installationPhotos?: Prisma.OrderUpdateinstallationPhotosInput | string[]
+  customerEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -1014,6 +1535,20 @@ export type OrderSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   paidAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  installationFirstName?: boolean
+  installationLastName?: boolean
+  installationAddress?: boolean
+  installationCity?: boolean
+  installationDate?: boolean
+  installationTime?: boolean
+  appointmentId?: boolean
+  technicianId?: boolean
+  technicianName?: boolean
+  jobComplete?: boolean
+  adminConfirmed?: boolean
+  installationPhotos?: boolean
+  customerEmail?: boolean
+  customerPhone?: boolean
   user?: boolean | Prisma.Order$userArgs<ExtArgs>
   items?: boolean | Prisma.Order$itemsArgs<ExtArgs>
   payments?: boolean | Prisma.Order$paymentsArgs<ExtArgs>
@@ -1034,6 +1569,20 @@ export type OrderSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   paidAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  installationFirstName?: boolean
+  installationLastName?: boolean
+  installationAddress?: boolean
+  installationCity?: boolean
+  installationDate?: boolean
+  installationTime?: boolean
+  appointmentId?: boolean
+  technicianId?: boolean
+  technicianName?: boolean
+  jobComplete?: boolean
+  adminConfirmed?: boolean
+  installationPhotos?: boolean
+  customerEmail?: boolean
+  customerPhone?: boolean
   user?: boolean | Prisma.Order$userArgs<ExtArgs>
 }, ExtArgs["result"]["order"]>
 
@@ -1051,6 +1600,20 @@ export type OrderSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   paidAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  installationFirstName?: boolean
+  installationLastName?: boolean
+  installationAddress?: boolean
+  installationCity?: boolean
+  installationDate?: boolean
+  installationTime?: boolean
+  appointmentId?: boolean
+  technicianId?: boolean
+  technicianName?: boolean
+  jobComplete?: boolean
+  adminConfirmed?: boolean
+  installationPhotos?: boolean
+  customerEmail?: boolean
+  customerPhone?: boolean
   user?: boolean | Prisma.Order$userArgs<ExtArgs>
 }, ExtArgs["result"]["order"]>
 
@@ -1068,9 +1631,23 @@ export type OrderSelectScalar = {
   paidAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  installationFirstName?: boolean
+  installationLastName?: boolean
+  installationAddress?: boolean
+  installationCity?: boolean
+  installationDate?: boolean
+  installationTime?: boolean
+  appointmentId?: boolean
+  technicianId?: boolean
+  technicianName?: boolean
+  jobComplete?: boolean
+  adminConfirmed?: boolean
+  installationPhotos?: boolean
+  customerEmail?: boolean
+  customerPhone?: boolean
 }
 
-export type OrderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "orderNumber" | "userId" | "status" | "subtotal" | "tax" | "shipping" | "total" | "shippingAddress" | "stripePaymentIntentId" | "paidAt" | "createdAt" | "updatedAt", ExtArgs["result"]["order"]>
+export type OrderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "orderNumber" | "userId" | "status" | "subtotal" | "tax" | "shipping" | "total" | "shippingAddress" | "stripePaymentIntentId" | "paidAt" | "createdAt" | "updatedAt" | "installationFirstName" | "installationLastName" | "installationAddress" | "installationCity" | "installationDate" | "installationTime" | "appointmentId" | "technicianId" | "technicianName" | "jobComplete" | "adminConfirmed" | "installationPhotos" | "customerEmail" | "customerPhone", ExtArgs["result"]["order"]>
 export type OrderInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.Order$userArgs<ExtArgs>
   items?: boolean | Prisma.Order$itemsArgs<ExtArgs>
@@ -1105,6 +1682,20 @@ export type $OrderPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     paidAt: Date | null
     createdAt: Date
     updatedAt: Date
+    installationFirstName: string | null
+    installationLastName: string | null
+    installationAddress: string | null
+    installationCity: string | null
+    installationDate: Date | null
+    installationTime: string | null
+    appointmentId: string | null
+    technicianId: string | null
+    technicianName: string | null
+    jobComplete: boolean
+    adminConfirmed: boolean
+    installationPhotos: string[]
+    customerEmail: string | null
+    customerPhone: string | null
   }, ExtArgs["result"]["order"]>
   composites: {}
 }
@@ -1544,6 +2135,20 @@ export interface OrderFieldRefs {
   readonly paidAt: Prisma.FieldRef<"Order", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"Order", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Order", 'DateTime'>
+  readonly installationFirstName: Prisma.FieldRef<"Order", 'String'>
+  readonly installationLastName: Prisma.FieldRef<"Order", 'String'>
+  readonly installationAddress: Prisma.FieldRef<"Order", 'String'>
+  readonly installationCity: Prisma.FieldRef<"Order", 'String'>
+  readonly installationDate: Prisma.FieldRef<"Order", 'DateTime'>
+  readonly installationTime: Prisma.FieldRef<"Order", 'String'>
+  readonly appointmentId: Prisma.FieldRef<"Order", 'String'>
+  readonly technicianId: Prisma.FieldRef<"Order", 'String'>
+  readonly technicianName: Prisma.FieldRef<"Order", 'String'>
+  readonly jobComplete: Prisma.FieldRef<"Order", 'Boolean'>
+  readonly adminConfirmed: Prisma.FieldRef<"Order", 'Boolean'>
+  readonly installationPhotos: Prisma.FieldRef<"Order", 'String[]'>
+  readonly customerEmail: Prisma.FieldRef<"Order", 'String'>
+  readonly customerPhone: Prisma.FieldRef<"Order", 'String'>
 }
     
 

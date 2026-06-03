@@ -1,37 +1,71 @@
 {
   "name": "DADA HOUSE",
   "short_name": "DADA HOUSE",
-  "description": "DADA HOUSE Home Services Portal",
-  "theme_color": "#1B3FA8",
-  "background_color": "#1B3FA8",
+  "description": "Houston's Premier Home Services — Plumbing, AC, Heating & Remodeling",
+  "theme_color": "#0A1628",
+  "background_color": "#0A1628",
   "display": "standalone",
+  "display_override": ["standalone", "minimal-ui", "browser"],
   "orientation": "portrait",
-  "start_url": "/portal",
   "scope": "/",
+  "start_url": "/?source=pwa",
+  "id": "com.dadahouse.app",
+  "iarc_rating_id": "e84b072d-71b3-4d3e-86ae-31a8ce4e53b7",
   "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ],
+  "screenshots": [
     {
-      "src": "/icon-192.png",
-      "sizes": "192x192",
+      "src": "/api/pwa-screenshot",
+      "sizes": "1280x720",
       "type": "image/png",
-      "purpose": "maskable any"
+      "form_factor": "wide",
+      "label": "DADA HOUSE — Home Services Dashboard"
     },
     {
-      "src": "/icon-512.png",
-      "sizes": "512x512",
+      "src": "/api/pwa-screenshot-mobile",
+      "sizes": "390x844",
       "type": "image/png",
-      "purpose": "maskable any"
+      "form_factor": "narrow",
+      "label": "DADA HOUSE — Mobile App"
     }
   ],
   "shortcuts": [
     {
-      "name": "Technician App",
-      "url": "/technician",
-      "description": "Technician job management"
+      "name": "Book a Service",
+      "short_name": "Book",
+      "description": "Schedule a home service appointment",
+      "url": "/booking?source=pwa",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" }]
     },
     {
-      "name": "Customer Portal",
-      "url": "/portal",
-      "description": "Customer service portal"
+      "name": "My Portal",
+      "short_name": "Portal",
+      "description": "View appointments, orders and invoices",
+      "url": "/portal?source=pwa",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "Technician App",
+      "short_name": "Tech Jobs",
+      "description": "Manage your assigned jobs",
+      "url": "/technician?source=pwa",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "Emergency Line",
+      "short_name": "Emergency",
+      "description": "Call our 24/7 emergency line",
+      "url": "tel:+18326294398",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" }]
     }
-  ]
+  ],
+  "related_applications": [
+    { "platform": "play", "id": "com.dadahouse.app" }
+  ],
+  "prefer_related_applications": false,
+  "categories": ["utilities", "business", "lifestyle"],
+  "lang": "en-US",
+  "dir": "ltr"
 }
