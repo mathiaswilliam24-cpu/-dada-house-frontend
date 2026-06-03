@@ -13,7 +13,7 @@ const services = [
 ];
 
 const trustBadges = [
-  { icon: CheckCircle, label: "Licensed & Insured" },
+  { icon: CheckCircle, label: "Background-Checked" },
   { icon: Star, label: "5-Star Rated" },
   { icon: CheckCircle, label: "Same-Day Service" },
 ];

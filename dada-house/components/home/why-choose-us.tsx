@@ -19,7 +19,7 @@ const features = [
     icon: Award,
     title: "Professional Technicians",
     description:
-      "Our team is fully licensed, insured, and background-checked. We bring expertise to every job.",
+      "Our team is fully background-checked and vetted. We bring expertise and professionalism to every job.",
     color: "text-blue-400",
     bg: "bg-blue-400/10 border-blue-400/20",
   },

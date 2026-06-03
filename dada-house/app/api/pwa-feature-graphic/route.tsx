@@ -47,8 +47,8 @@ export async function GET() {
           </div>
 
           <div style={{ display: "flex", gap: 12 }}>
-            <div style={{ background: "rgba(249,115,22,0.2)", border: "1px solid #F97316", borderRadius: 20, padding: "8px 18px", color: "#F97316", fontSize: 14, fontWeight: 600 }}>Licensed</div>
-            <div style={{ background: "rgba(249,115,22,0.2)", border: "1px solid #F97316", borderRadius: 20, padding: "8px 18px", color: "#F97316", fontSize: 14, fontWeight: 600 }}>Insured</div>
+            <div style={{ background: "rgba(249,115,22,0.2)", border: "1px solid #F97316", borderRadius: 20, padding: "8px 18px", color: "#F97316", fontSize: 14, fontWeight: 600 }}>Professional</div>
+            <div style={{ background: "rgba(249,115,22,0.2)", border: "1px solid #F97316", borderRadius: 20, padding: "8px 18px", color: "#F97316", fontSize: 14, fontWeight: 600 }}>Vetted</div>
             <div style={{ background: "rgba(249,115,22,0.2)", border: "1px solid #F97316", borderRadius: 20, padding: "8px 18px", color: "#F97316", fontSize: 14, fontWeight: 600 }}>24/7 Support</div>
           </div>
         </div>

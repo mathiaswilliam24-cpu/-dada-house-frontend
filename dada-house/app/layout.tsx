@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     template: "%s | DADA HOUSE",
   },
   description:
-    "Houston's premier home services company. Expert plumbing, AC repair, heating, and remodeling. Available 24/7. Emergency service. Licensed & insured.",
+    "Houston's premier home services company. Expert plumbing, AC repair, heating, and remodeling. Available 24/7. Emergency service. Professional & background-checked.",
   keywords: [
     "plumbing Houston",
     "AC repair Houston",
