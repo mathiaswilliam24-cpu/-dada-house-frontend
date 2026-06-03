@@ -29,7 +29,7 @@ export async function GET() {
         {/* Hero */}
         <div style={{ padding: "20px 20px 16px", display: "flex", flexDirection: "column", gap: 8 }}>
           <span style={{ color: "#F97316", fontSize: 11, fontWeight: 700, letterSpacing: 2 }}>AVAILABLE 24/7</span>
-          <span style={{ color: "white", fontSize: 30, fontWeight: 900, lineHeight: 1.1 }}>America's<br /><span style={{ color: "#F97316" }}>Premier</span><br />Home Services</span>
+          <span style={{ color: "white", fontSize: 30, fontWeight: 900, lineHeight: 1.1 }}><span style={{ color: "#F97316" }}>Premier</span><br />Home Services<br />Nationwide</span>
           <span style={{ color: "#93c5fd", fontSize: 13 }}>Plumbing · AC · Heating · Remodeling</span>
         </div>
 

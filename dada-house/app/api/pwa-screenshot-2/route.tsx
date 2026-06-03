@@ -34,79 +34,54 @@ export async function GET() {
 
         {/* Step indicator */}
         <div style={{ display: "flex", padding: "0 20px 16px", gap: 6 }}>
-          {[1, 2, 3, 4].map((s) => (
-            <div key={s} style={{
-              flex: 1,
-              height: 4,
-              borderRadius: 2,
-              background: s === 1 ? "#F97316" : "rgba(255,255,255,0.15)",
-            }} />
-          ))}
+          <div style={{ flex: 1, height: 4, borderRadius: 2, background: "#F97316" }} />
+          <div style={{ flex: 1, height: 4, borderRadius: 2, background: "rgba(255,255,255,0.15)" }} />
+          <div style={{ flex: 1, height: 4, borderRadius: 2, background: "rgba(255,255,255,0.15)" }} />
+          <div style={{ flex: 1, height: 4, borderRadius: 2, background: "rgba(255,255,255,0.15)" }} />
         </div>
 
-        {/* Service cards grid */}
-        <div style={{ padding: "0 16px", display: "flex", flexDirection: "column", gap: 12 }}>
-          {[
-            { icon: "🔧", name: "Plumbing", desc: "Leaks, pipes, water heaters", color: "#3b82f6", selected: true },
-            { icon: "❄️", name: "Air Conditioning", desc: "AC repair & installation", color: "#06b6d4", selected: false },
-            { icon: "🔥", name: "Heating", desc: "Furnace & heat pump", color: "#f59e0b", selected: false },
-            { icon: "🏗️", name: "Remodeling", desc: "Kitchen & bathroom reno", color: "#8b5cf6", selected: false },
-          ].map((s) => (
-            <div key={s.name} style={{
-              background: s.selected ? "rgba(249,115,22,0.12)" : "rgba(255,255,255,0.05)",
-              border: `2px solid ${s.selected ? "#F97316" : "rgba(255,255,255,0.08)"}`,
-              borderRadius: 16,
-              padding: "16px",
-              display: "flex",
-              alignItems: "center",
-              gap: 14,
-            }}>
-              <div style={{
-                width: 50,
-                height: 50,
-                background: `${s.color}22`,
-                borderRadius: 12,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontSize: 24,
-              }}>{s.icon}</div>
-              <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
-                <span style={{ color: "white", fontWeight: 700, fontSize: 16 }}>{s.name}</span>
-                <span style={{ color: "#64748b", fontSize: 12 }}>{s.desc}</span>
-              </div>
-              {s.selected && (
-                <div style={{
-                  width: 24,
-                  height: 24,
-                  background: "#F97316",
-                  borderRadius: 12,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  color: "white",
-                  fontSize: 14,
-                  fontWeight: 700,
-                }}>✓</div>
-              )}
-            </div>
-          ))}
+        {/* Plumbing card - selected */}
+        <div style={{ margin: "0 16px 12px", background: "rgba(249,115,22,0.12)", border: "2px solid #F97316", borderRadius: 16, padding: "16px", display: "flex", alignItems: "center", gap: 14 }}>
+          <div style={{ width: 50, height: 50, background: "#3b82f622", borderRadius: 12, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24 }}>🔧</div>
+          <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
+            <span style={{ color: "white", fontWeight: 700, fontSize: 16 }}>Plumbing</span>
+            <span style={{ color: "#64748b", fontSize: 12 }}>Leaks, pipes, water heaters</span>
+          </div>
+          <div style={{ width: 24, height: 24, background: "#F97316", borderRadius: 12, display: "flex", alignItems: "center", justifyContent: "center", color: "white", fontSize: 14, fontWeight: 700 }}>✓</div>
+        </div>
+
+        {/* AC card */}
+        <div style={{ margin: "0 16px 12px", background: "rgba(255,255,255,0.05)", border: "2px solid rgba(255,255,255,0.08)", borderRadius: 16, padding: "16px", display: "flex", alignItems: "center", gap: 14 }}>
+          <div style={{ width: 50, height: 50, background: "#06b6d422", borderRadius: 12, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24 }}>❄️</div>
+          <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
+            <span style={{ color: "white", fontWeight: 700, fontSize: 16 }}>Air Conditioning</span>
+            <span style={{ color: "#64748b", fontSize: 12 }}>AC repair &amp; installation</span>
+          </div>
+        </div>
+
+        {/* Heating card */}
+        <div style={{ margin: "0 16px 12px", background: "rgba(255,255,255,0.05)", border: "2px solid rgba(255,255,255,0.08)", borderRadius: 16, padding: "16px", display: "flex", alignItems: "center", gap: 14 }}>
+          <div style={{ width: 50, height: 50, background: "#f59e0b22", borderRadius: 12, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24 }}>🔥</div>
+          <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
+            <span style={{ color: "white", fontWeight: 700, fontSize: 16 }}>Heating</span>
+            <span style={{ color: "#64748b", fontSize: 12 }}>Furnace &amp; heat pump</span>
+          </div>
+        </div>
+
+        {/* Remodeling card */}
+        <div style={{ margin: "0 16px 12px", background: "rgba(255,255,255,0.05)", border: "2px solid rgba(255,255,255,0.08)", borderRadius: 16, padding: "16px", display: "flex", alignItems: "center", gap: 14 }}>
+          <div style={{ width: 50, height: 50, background: "#8b5cf622", borderRadius: 12, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24 }}>🏗️</div>
+          <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
+            <span style={{ color: "white", fontWeight: 700, fontSize: 16 }}>Remodeling</span>
+            <span style={{ color: "#64748b", fontSize: 12 }}>Kitchen &amp; bathroom reno</span>
+          </div>
         </div>
 
         {/* Next button */}
         <div style={{ marginTop: "auto", padding: "0 16px 32px" }}>
-          <div style={{
-            background: "#F97316",
-            color: "white",
-            borderRadius: 14,
-            padding: "16px 0",
-            textAlign: "center",
-            fontSize: 16,
-            fontWeight: 700,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}>Next — Contact Info</div>
+          <div style={{ background: "#F97316", color: "white", borderRadius: 14, padding: "16px 0", textAlign: "center", fontSize: 16, fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center" }}>
+            Next — Contact Info
+          </div>
         </div>
       </div>
     ),
