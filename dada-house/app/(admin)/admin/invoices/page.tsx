@@ -2,7 +2,7 @@
 import { useEffect, useState, useCallback } from "react";
 import {
   FileText, DollarSign, Clock, CheckCircle, Plus, ChevronDown,
-  Loader2, Search, ExternalLink, Send, RefreshCw,
+  Loader2, Search, ExternalLink, Send, RefreshCw, X,
 } from "lucide-react";
 
 type Invoice = {
@@ -26,12 +26,25 @@ const STATUS_TABS = ["ALL", "DRAFT", "SENT", "PAID"];
 const fmt = (n: number) =>
   new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(n);
 
+type Appointment = { id: string; appointmentNumber: string; name: string; service: string };
+
 export default function AdminInvoicesPage() {
   const [invoices, setInvoices] = useState<Invoice[]>([]);
   const [loading, setLoading]   = useState(true);
   const [tab, setTab]           = useState("ALL");
   const [q, setQ]               = useState("");
   const [updating, setUpdating] = useState<string | null>(null);
+
+  // New estimate modal
+  const [showModal, setShowModal]         = useState(false);
+  const [appointments, setAppointments]   = useState<Appointment[]>([]);
+  const [apptSearch, setApptSearch]       = useState("");
+  const [selectedAppt, setSelectedAppt]   = useState<Appointment | null>(null);
+  const [estAmount, setEstAmount]         = useState("");
+  const [estNotes, setEstNotes]           = useState("");
+  const [estDueDate, setEstDueDate]       = useState("");
+  const [creating, setCreating]           = useState(false);
+  const [createError, setCreateError]     = useState("");
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -42,6 +55,38 @@ export default function AdminInvoicesPage() {
   }, []);
 
   useEffect(() => { load(); }, [load]);
+
+  async function openModal() {
+    setShowModal(true);
+    setSelectedAppt(null); setEstAmount(""); setEstNotes(""); setEstDueDate(""); setCreateError("");
+    const res = await fetch("/api/admin/appointments?limit=200");
+    const data = await res.json();
+    setAppointments(data.appointments ?? []);
+  }
+
+  async function createEstimate() {
+    if (!selectedAppt || !estAmount) return;
+    setCreating(true); setCreateError("");
+    const res = await fetch("/api/admin/invoices", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ appointmentId: selectedAppt.id, amount: estAmount, notes: estNotes, dueDate: estDueDate }),
+    });
+    if (res.ok) {
+      setShowModal(false);
+      await load();
+    } else {
+      const data = await res.json();
+      setCreateError(data.error ?? "Failed to create estimate");
+    }
+    setCreating(false);
+  }
+
+  const filteredAppts = appointments.filter(a =>
+    a.name.toLowerCase().includes(apptSearch.toLowerCase()) ||
+    a.appointmentNumber.toLowerCase().includes(apptSearch.toLowerCase()) ||
+    a.service.toLowerCase().includes(apptSearch.toLowerCase())
+  );
 
   async function updateStatus(id: string, status: string) {
     setUpdating(id);
@@ -76,9 +121,14 @@ export default function AdminInvoicesPage() {
             {invoices.length} invoice{invoices.length !== 1 ? "s" : ""} · DRAFT = Estimate, SENT = Awaiting, PAID = Collected
           </p>
         </div>
-        <button onClick={load} className="flex items-center gap-2 px-3 py-2 border border-gray-200 text-sm text-gray-600 rounded-xl hover:bg-gray-50">
-          <RefreshCw className="w-4 h-4" /> Refresh
-        </button>
+        <div className="flex items-center gap-2">
+          <button onClick={load} className="flex items-center gap-2 px-3 py-2 border border-gray-200 text-sm text-gray-600 rounded-xl hover:bg-gray-50">
+            <RefreshCw className="w-4 h-4" /> Refresh
+          </button>
+          <button onClick={openModal} className="flex items-center gap-2 px-4 py-2 bg-[#F97316] text-white text-sm font-semibold rounded-xl hover:bg-orange-600 transition-colors">
+            <Plus className="w-4 h-4" /> New Estimate
+          </button>
+        </div>
       </div>
 
       {/* Stats */}
@@ -254,6 +304,110 @@ export default function AdminInvoicesPage() {
           </div>
         )}
       </div>
+
+      {/* New Estimate Modal */}
+      {showModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg">
+            <div className="flex items-center justify-between p-6 border-b border-gray-100">
+              <h2 className="text-lg font-bold text-gray-900">New Estimate</h2>
+              <button onClick={() => setShowModal(false)} className="p-2 hover:bg-gray-100 rounded-lg">
+                <X className="w-4 h-4 text-gray-500" />
+              </button>
+            </div>
+            <div className="p-6 space-y-4">
+              {/* Appointment search */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Select Appointment</label>
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                  <input
+                    value={apptSearch}
+                    onChange={e => { setApptSearch(e.target.value); setSelectedAppt(null); }}
+                    placeholder="Search by name, job number, service…"
+                    className="w-full pl-9 pr-4 py-2.5 text-sm border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-300"
+                  />
+                </div>
+                {apptSearch && !selectedAppt && (
+                  <div className="mt-1 border border-gray-200 rounded-xl overflow-hidden max-h-48 overflow-y-auto">
+                    {filteredAppts.length === 0 ? (
+                      <p className="p-3 text-sm text-gray-400">No appointments found</p>
+                    ) : filteredAppts.slice(0, 8).map(a => (
+                      <button
+                        key={a.id}
+                        onClick={() => { setSelectedAppt(a); setApptSearch(a.name); }}
+                        className="w-full text-left px-4 py-2.5 hover:bg-orange-50 border-b border-gray-50 last:border-0"
+                      >
+                        <p className="text-sm font-medium text-gray-900">{a.name}</p>
+                        <p className="text-xs text-gray-400">{a.appointmentNumber} · {a.service}</p>
+                      </button>
+                    ))}
+                  </div>
+                )}
+                {selectedAppt && (
+                  <div className="mt-2 px-3 py-2 bg-orange-50 border border-orange-200 rounded-xl text-sm text-orange-800 font-medium">
+                    ✓ {selectedAppt.appointmentNumber} — {selectedAppt.name} ({selectedAppt.service})
+                  </div>
+                )}
+              </div>
+
+              {/* Amount */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Amount ($)</label>
+                <input
+                  type="number"
+                  value={estAmount}
+                  onChange={e => setEstAmount(e.target.value)}
+                  placeholder="0.00"
+                  min="0"
+                  step="0.01"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-300"
+                />
+              </div>
+
+              {/* Due date */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Due Date (optional)</label>
+                <input
+                  type="date"
+                  value={estDueDate}
+                  onChange={e => setEstDueDate(e.target.value)}
+                  className="w-full px-4 py-2.5 text-sm border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-300"
+                />
+              </div>
+
+              {/* Notes */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Notes (optional)</label>
+                <textarea
+                  value={estNotes}
+                  onChange={e => setEstNotes(e.target.value)}
+                  placeholder="Describe the work, materials, labor…"
+                  rows={3}
+                  className="w-full px-4 py-2.5 text-sm border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-300 resize-none"
+                />
+              </div>
+
+              {createError && (
+                <p className="text-sm text-red-600 bg-red-50 px-3 py-2 rounded-xl">{createError}</p>
+              )}
+            </div>
+            <div className="flex gap-3 p-6 pt-0">
+              <button onClick={() => setShowModal(false)} className="flex-1 px-4 py-2.5 border border-gray-200 text-sm font-medium text-gray-600 rounded-xl hover:bg-gray-50">
+                Cancel
+              </button>
+              <button
+                onClick={createEstimate}
+                disabled={!selectedAppt || !estAmount || creating}
+                className="flex-1 px-4 py-2.5 bg-[#F97316] text-white text-sm font-semibold rounded-xl hover:bg-orange-600 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              >
+                {creating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Plus className="w-4 h-4" />}
+                Create Estimate
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

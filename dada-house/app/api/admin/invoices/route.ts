@@ -59,3 +59,35 @@ export async function GET(req: NextRequest) {
 
   return NextResponse.json({ invoices });
 }
+
+export async function POST(req: NextRequest) {
+  const auth = await requireAdmin(req);
+  if (auth instanceof NextResponse) return auth;
+
+  const { appointmentId, amount, notes, dueDate } = await req.json();
+  if (!appointmentId || !amount) {
+    return NextResponse.json({ error: "appointmentId and amount are required" }, { status: 400 });
+  }
+
+  const existing = await db.invoice.findUnique({ where: { appointmentId } });
+  if (existing) {
+    return NextResponse.json({ error: "An invoice already exists for this appointment" }, { status: 409 });
+  }
+
+  const invoice = await db.invoice.create({
+    data: {
+      appointmentId,
+      amount: parseFloat(amount),
+      status: "DRAFT",
+      notes: notes || null,
+      dueDate: dueDate ? new Date(dueDate) : null,
+    },
+    include: {
+      appointment: {
+        select: { id: true, appointmentNumber: true, name: true, phone: true, service: true, email: true },
+      },
+    },
+  });
+
+  return NextResponse.json({ invoice }, { status: 201 });
+}
