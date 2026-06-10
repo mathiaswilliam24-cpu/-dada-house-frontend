@@ -202,6 +202,7 @@ model Appointment {
   diagnosticFee       Float?
   diagnosticFeeStatus String?
   adminNotes          String?
+  source              String      @default("website")
 
   user          User?             @relation(fields: [userId], references: [id], onDelete: SetNull)
   technician    User?             @relation("technician", fields: [technicianId], references: [id], onDelete: SetNull)

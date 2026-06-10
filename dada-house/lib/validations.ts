@@ -38,6 +38,26 @@ export const appointmentSchema = z.object({
   photos: z.array(z.string()).default([]),
 });
 
+// Booking submitted by the AI voice agent (Vapi) — looser than the website
+// form since callers don't always give a zip code or email.
+export const voiceAgentAppointmentSchema = z.object({
+  service: z.string().min(1, "Service is required"),
+  name: z.string().min(2, "Full name is required"),
+  phone: z.string().min(7, "Phone number is required"),
+  email: z
+    .union([z.literal(""), z.string().email("Valid email is required")])
+    .optional()
+    .default(""),
+  address: z.string().min(3, "Service address is required"),
+  city: z.string().optional().default("Houston"),
+  zipCode: z.string().optional().default(""),
+  description: z.string().optional(),
+  preferredDate: z.string().optional(),
+  preferredTime: z.string().optional(),
+  // false if Google Calendar sync failed and the slot still needs admin confirmation
+  calendarSynced: z.boolean().optional().default(true),
+});
+
 export const reviewSchema = z.object({
   name: z.string().min(2, "Name is required"),
   email: z.string().email("Valid email is required"),
@@ -196,6 +216,7 @@ export type LoginInput = z.infer<typeof loginSchema>;
 export type RegisterInput = z.infer<typeof registerSchema>;
 export type AppointmentInput = z.input<typeof appointmentSchema>;
 export type AppointmentOutput = z.infer<typeof appointmentSchema>;
+export type VoiceAgentAppointmentInput = z.input<typeof voiceAgentAppointmentSchema>;
 export type ReviewInput = z.input<typeof reviewSchema>;
 export type ProfileInput = z.infer<typeof profileSchema>;
 export type ContactInput = z.infer<typeof contactSchema>;

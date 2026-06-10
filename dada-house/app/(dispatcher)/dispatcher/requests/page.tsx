@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { formatDate, getStatusColor } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
-import { MapPin, Calendar } from "lucide-react";
+import { MapPin, Calendar, Mic } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
@@ -35,7 +35,14 @@ export default async function DispatcherRequestsPage() {
           <div key={appt.id} className="bg-white rounded-xl border border-gray-200 p-5">
             <div className="flex items-start justify-between gap-4 mb-3">
               <div>
-                <p className="font-semibold text-gray-900">{appt.service}</p>
+                <div className="flex items-center gap-2">
+                  <p className="font-semibold text-gray-900">{appt.service}</p>
+                  {appt.source === "voice_agent" && (
+                    <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-[10px] font-medium bg-purple-100 text-purple-700">
+                      <Mic size={10} /> AI
+                    </span>
+                  )}
+                </div>
                 <p className="text-sm text-gray-500">{appt.appointmentNumber} · {appt.name}</p>
               </div>
               <span className={`text-xs px-2.5 py-1 rounded-full font-medium border shrink-0 ${getStatusColor(appt.status)}`}>

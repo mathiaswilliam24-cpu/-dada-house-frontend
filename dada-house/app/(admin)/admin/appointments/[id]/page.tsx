@@ -6,7 +6,7 @@ import Link from "next/link";
 import { AppointmentActions } from "@/components/admin/appointment-actions";
 import {
   ArrowLeft, Calendar, MapPin, Phone, Mail, User,
-  FileText, Clock, HardHat, StickyNote, Camera,
+  FileText, Clock, HardHat, StickyNote, Camera, Mic,
 } from "lucide-react";
 
 export const dynamic = "force-dynamic";
@@ -58,6 +58,11 @@ export default async function AdminAppointmentDetailPage({
               <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(appt.status)}`}>
                 {appt.status.replace("_", " ")}
               </span>
+              {appt.source === "voice_agent" && (
+                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-700">
+                  <Mic size={12} /> Booked via AI Voice Agent
+                </span>
+              )}
             </div>
             <p className="text-sm font-mono text-gray-400">#{appt.appointmentNumber}</p>
           </div>

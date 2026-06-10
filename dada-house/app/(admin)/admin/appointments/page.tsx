@@ -2,7 +2,7 @@ import { db } from "@/lib/db";
 import { AppointmentActions } from "@/components/admin/appointment-actions";
 import { AppointmentFilters } from "@/components/admin/appointment-filters";
 import { formatDate, getStatusColor } from "@/lib/utils";
-import { Search } from "lucide-react";
+import { Search, Mic } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
 
@@ -175,6 +175,14 @@ export default async function AdminAppointmentsPage({
                     >
                       {appt.appointmentNumber}
                     </Link>
+                    {appt.source === "voice_agent" && (
+                      <span
+                        title="Booked via AI voice agent"
+                        className="ml-1.5 inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-[10px] font-medium bg-purple-100 text-purple-700"
+                      >
+                        <Mic size={10} /> AI
+                      </span>
+                    )}
                   </td>
                   <td className="px-4 py-3">
                     <p className="font-medium text-gray-900">{appt.name}</p>
