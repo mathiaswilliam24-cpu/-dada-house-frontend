@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse, after } from "next/server";
 import { db } from "@/lib/db";
 import { getStripe } from "@/lib/stripe";
 import { resend, FROM_EMAIL } from "@/lib/resend";
@@ -94,7 +94,8 @@ export async function POST(
 
     if (invoice.clientEmail) {
       const lineItems = (invoice.lineItems as Array<{ desc: string; rate: number; qty: number; amount: number }>) ?? [];
-      sendReceiptEmail(invoice, lineItems, "CARD").catch(console.error);
+      const clientEmail = invoice.clientEmail;
+      after(() => sendReceiptEmail({ ...invoice, clientEmail }, lineItems, "CARD").catch(console.error));
     }
 
     return NextResponse.json({ success: true });

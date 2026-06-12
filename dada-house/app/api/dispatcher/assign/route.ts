@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse, after } from "next/server";
 import { requireAdminOrDispatcher } from "@/lib/api-auth";
 import { db } from "@/lib/db";
 import { sendSMS } from "@/lib/twilio";
@@ -23,10 +23,12 @@ export async function POST(req: NextRequest) {
 
   const tech = await db.user.findUnique({ where: { id: technicianId }, select: { phone: true, name: true } });
   if (tech?.phone) {
-    sendSMS(
-      tech.phone,
-      `DADA HOUSE: You've been assigned job #${appointment.appointmentNumber}. Service: ${appointment.service} at ${appointment.address}. Date: ${appointment.preferredDate?.toLocaleDateString() ?? "TBD"}.`
-    ).catch(console.error);
+    after(() =>
+      sendSMS(
+        tech.phone!,
+        `DADA HOUSE: You've been assigned job #${appointment.appointmentNumber}. Service: ${appointment.service} at ${appointment.address}. Date: ${appointment.preferredDate?.toLocaleDateString() ?? "TBD"}.`
+      ).catch(console.error)
+    );
   }
 
   // Auto-add client to technician's client list (skip duplicates by email)

@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse, after } from "next/server";
 import { requireAdmin } from "@/lib/api-auth";
 import { db } from "@/lib/db";
 import { z } from "zod";
@@ -60,26 +60,30 @@ export async function PATCH(
   });
 
   if (parsed.data.status && parsed.data.status !== existing.status) {
-    resend.emails
-      .send({
-        from: FROM_EMAIL,
-        to: updated.email,
-        subject: `DADA HOUSE — Appointment #${updated.appointmentNumber} Update`,
-        html: statusUpdateHtml({
-          appointmentNumber: updated.appointmentNumber,
-          name: updated.name,
-          status: updated.status,
-          notes: updated.notes ?? undefined,
-        }),
-      })
-      .catch(console.error);
+    after(async () => {
+      await Promise.allSettled([
+        resend.emails
+          .send({
+            from: FROM_EMAIL,
+            to: updated.email,
+            subject: `DADA HOUSE — Appointment #${updated.appointmentNumber} Update`,
+            html: statusUpdateHtml({
+              appointmentNumber: updated.appointmentNumber,
+              name: updated.name,
+              status: updated.status,
+              notes: updated.notes ?? undefined,
+            }),
+          })
+          .catch(console.error),
 
-    if (updated.phone) {
-      sendSMS(
-        updated.phone,
-        `DADA HOUSE: Your appointment #${updated.appointmentNumber} status: ${updated.status.replace("_", " ")}. ${updated.notes ? updated.notes : ""}`
-      ).catch(console.error);
-    }
+        updated.phone
+          ? sendSMS(
+              updated.phone,
+              `DADA HOUSE: Your appointment #${updated.appointmentNumber} status: ${updated.status.replace("_", " ")}. ${updated.notes ? updated.notes : ""}`
+            ).catch(console.error)
+          : Promise.resolve(),
+      ]);
+    });
   }
 
   return NextResponse.json(updated);

@@ -1,4 +1,4 @@
-﻿import { NextRequest, NextResponse } from "next/server";
+﻿import { NextRequest, NextResponse, after } from "next/server";
 import { requireTechnician } from "@/lib/api-auth";
 import { db } from "@/lib/db";
 import { techJobStatusSchema } from "@/lib/validations";
@@ -65,34 +65,42 @@ export async function PATCH(
     NEED_RESCHEDULE: `Hi ${appointment.name}, your DADA HOUSE appointment needs to be rescheduled. We'll contact you shortly to arrange a new time.`,
   };
 
-  if (smsMessages[status] && customerPhone) {
-    sendSMS(customerPhone, smsMessages[status]).catch(console.error);
-  }
+  after(async () => {
+    const tasks: Promise<unknown>[] = [];
 
-  // Push notification to customer
-  if (appointment.userId) {
-    const subs = await db.pushSubscription.findMany({ where: { userId: appointment.userId } });
-    const wp = getWebPush();
-    const pushMessages: Record<string, string> = {
-      EN_ROUTE: "Your technician is on the way!",
-      ARRIVED: "Your technician has arrived.",
-      COMPLETED: "Service completed! Thank you.",
-      NEED_RESCHEDULE: "Your appointment needs to be rescheduled.",
-    };
-    if (pushMessages[status]) {
-      const payload = JSON.stringify({
-        title: "DADA HOUSE",
-        body: pushMessages[status],
-        url: `/portal/appointments/${id}`,
-      });
-      for (const sub of subs) {
-        wp.sendNotification(
-          { endpoint: sub.endpoint, keys: sub.keys as { auth: string; p256dh: string } },
-          payload
-        ).catch(console.error);
+    if (smsMessages[status] && customerPhone) {
+      tasks.push(sendSMS(customerPhone, smsMessages[status]).catch(console.error));
+    }
+
+    // Push notification to customer
+    if (appointment.userId) {
+      const subs = await db.pushSubscription.findMany({ where: { userId: appointment.userId } });
+      const wp = getWebPush();
+      const pushMessages: Record<string, string> = {
+        EN_ROUTE: "Your technician is on the way!",
+        ARRIVED: "Your technician has arrived.",
+        COMPLETED: "Service completed! Thank you.",
+        NEED_RESCHEDULE: "Your appointment needs to be rescheduled.",
+      };
+      if (pushMessages[status]) {
+        const payload = JSON.stringify({
+          title: "DADA HOUSE",
+          body: pushMessages[status],
+          url: `/portal/appointments/${id}`,
+        });
+        for (const sub of subs) {
+          tasks.push(
+            wp.sendNotification(
+              { endpoint: sub.endpoint, keys: sub.keys as { auth: string; p256dh: string } },
+              payload
+            ).catch(console.error)
+          );
+        }
       }
     }
-  }
+
+    await Promise.allSettled(tasks);
+  });
 
   return NextResponse.json({ appointment: updated });
 }

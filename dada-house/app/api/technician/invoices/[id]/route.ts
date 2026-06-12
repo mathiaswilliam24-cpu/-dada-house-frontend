@@ -1,4 +1,4 @@
-﻿import { NextRequest, NextResponse } from "next/server";
+﻿import { NextRequest, NextResponse, after } from "next/server";
 import { requireTechnician } from "@/lib/api-auth";
 import { db } from "@/lib/db";
 import { resend, FROM_EMAIL } from "@/lib/resend";
@@ -107,12 +107,14 @@ export async function POST(
     if (invoice.clientEmail) {
       const lineItems = (invoice.lineItems as Array<{ desc: string; rate: number; qty: number; amount: number }>) ?? [];
       const html = buildReceiptEmail(invoice, lineItems, paymentMethod);
-      resend.emails.send({
-        from: FROM_EMAIL,
-        to: invoice.clientEmail,
-        subject: `Payment Received — Invoice ${invoice.estimateNumber} · DADA HOUSE`,
-        html,
-      }).catch(console.error);
+      after(() =>
+        resend.emails.send({
+          from: FROM_EMAIL,
+          to: invoice.clientEmail!,
+          subject: `Payment Received — Invoice ${invoice.estimateNumber} · DADA HOUSE`,
+          html,
+        }).catch(console.error)
+      );
     }
 
     return NextResponse.json({ success: true });

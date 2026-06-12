@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse, after } from "next/server";
 import { db } from "@/lib/db";
 import { voiceAgentAppointmentSchema } from "@/lib/validations";
 import { generateAppointmentNumber } from "@/lib/utils";
@@ -66,40 +66,43 @@ export async function POST(req: NextRequest) {
       description: data.description,
     };
 
-    if (data.email) {
-      resend.emails
-        .send({
-          from: FROM_EMAIL,
-          to: data.email,
-          subject: `DADA HOUSE — Appointment #${appointmentNumber} Confirmed`,
-          html: appointmentConfirmationHtml(emailData),
-        })
-        .catch(console.error);
-    }
+    after(async () => {
+      await Promise.allSettled([
+        data.email
+          ? resend.emails
+              .send({
+                from: FROM_EMAIL,
+                to: data.email,
+                subject: `DADA HOUSE — Appointment #${appointmentNumber} Confirmed`,
+                html: appointmentConfirmationHtml(emailData),
+              })
+              .catch(console.error)
+          : Promise.resolve(),
 
-    sendSMS(
-      data.phone,
-      `DADA HOUSE: Hi ${data.name}, your appointment #${appointmentNumber} for ${data.service} is confirmed${data.preferredDate ? ` for ${data.preferredDate}${data.preferredTime ? ` at ${data.preferredTime}` : ""}` : ""}. Questions? Call (910) 685-8042.`
-    ).catch(console.error);
+        sendSMS(
+          data.phone,
+          `DADA HOUSE: Hi ${data.name}, your appointment #${appointmentNumber} for ${data.service} is confirmed${data.preferredDate ? ` for ${data.preferredDate}${data.preferredTime ? ` at ${data.preferredTime}` : ""}` : ""}. Questions? Call (910) 685-8042.`
+        ).catch(console.error),
 
-    if (process.env.ADMIN_PHONE) {
-      sendSMS(
-        process.env.ADMIN_PHONE,
-        `DADA HOUSE NEW BOOKING (Voice Agent) #${appointmentNumber}\nService: ${data.service}\nClient: ${data.name}\nPhone: ${data.phone}\nAddress: ${data.address}, ${data.city}${data.preferredDate ? `\nDate: ${data.preferredDate}${data.preferredTime ? ` at ${data.preferredTime}` : ""}` : ""}`
-      ).catch(console.error);
-    }
+        process.env.ADMIN_PHONE
+          ? sendSMS(
+              process.env.ADMIN_PHONE,
+              `DADA HOUSE NEW BOOKING (Voice Agent) #${appointmentNumber}\nService: ${data.service}\nClient: ${data.name}\nPhone: ${data.phone}\nAddress: ${data.address}, ${data.city}${data.preferredDate ? `\nDate: ${data.preferredDate}${data.preferredTime ? ` at ${data.preferredTime}` : ""}` : ""}`
+            ).catch(console.error)
+          : Promise.resolve(),
 
-    const alertEmail = process.env.APPOINTMENT_ALERT_EMAIL;
-    if (alertEmail) {
-      resend.emails
-        .send({
-          from: FROM_EMAIL,
-          to: alertEmail,
-          subject: `[VOICE AGENT BOOKING] #${appointmentNumber} — ${data.service} — ${data.name}`,
-          html: adminAppointmentAlertHtml({ ...emailData, phone: data.phone }),
-        })
-        .catch(console.error);
-    }
+        process.env.APPOINTMENT_ALERT_EMAIL
+          ? resend.emails
+              .send({
+                from: FROM_EMAIL,
+                to: process.env.APPOINTMENT_ALERT_EMAIL,
+                subject: `[VOICE AGENT BOOKING] #${appointmentNumber} — ${data.service} — ${data.name}`,
+                html: adminAppointmentAlertHtml({ ...emailData, phone: data.phone }),
+              })
+              .catch(console.error)
+          : Promise.resolve(),
+      ]);
+    });
 
     return NextResponse.json(
       { id: appointment.id, appointmentNumber: appointment.appointmentNumber, status: appointment.status },
