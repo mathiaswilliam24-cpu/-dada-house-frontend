@@ -91,7 +91,9 @@ model User {
   reviews      Review[]
 
   technicianProfile      TechnicianProfile?
+  technicianRoster       Technician?
   technicianLocations    TechnicianLocation[]
+  technicianClockEntries TechnicianClockEntry[]
   properties             Property[]
   servicePlans           CustomerServicePlan[]
   warranties             Warranty[]
@@ -296,6 +298,7 @@ model GalleryProject {
 
 model Technician {
   id          String   @id @default(cuid())
+  userId      String?  @unique
   name        String
   role        String
   specialties String[] @default([])
@@ -307,6 +310,8 @@ model Technician {
   sortOrder   Int      @default(0)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+
+  user User? @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model TechnicianProfile {
@@ -339,6 +344,21 @@ model TechnicianLocation {
   heading   Float?
   speed     Float?
   timestamp DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, timestamp])
+}
+
+model TechnicianClockEntry {
+  id        String   @id @default(cuid())
+  userId    String
+  type      String // "IN" | "OUT"
+  timestamp DateTime @default(now())
+  lat       Float?
+  lng       Float?
+  address   String?
+  createdAt DateTime @default(now())
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -681,10 +701,12 @@ model JobTimeLog {
   id            String    @id @default(cuid())
   appointmentId String    @unique
   technicianId  String?
+  enRouteAt     DateTime?
   arrivedAt     DateTime?
   startedAt     DateTime?
   completedAt   DateTime?
   totalMinutes  Int?
+  workPerformed String?
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 

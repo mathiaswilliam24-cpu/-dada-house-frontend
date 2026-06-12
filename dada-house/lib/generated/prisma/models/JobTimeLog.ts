@@ -38,10 +38,12 @@ export type JobTimeLogMinAggregateOutputType = {
   id: string | null
   appointmentId: string | null
   technicianId: string | null
+  enRouteAt: Date | null
   arrivedAt: Date | null
   startedAt: Date | null
   completedAt: Date | null
   totalMinutes: number | null
+  workPerformed: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -50,10 +52,12 @@ export type JobTimeLogMaxAggregateOutputType = {
   id: string | null
   appointmentId: string | null
   technicianId: string | null
+  enRouteAt: Date | null
   arrivedAt: Date | null
   startedAt: Date | null
   completedAt: Date | null
   totalMinutes: number | null
+  workPerformed: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -62,10 +66,12 @@ export type JobTimeLogCountAggregateOutputType = {
   id: number
   appointmentId: number
   technicianId: number
+  enRouteAt: number
   arrivedAt: number
   startedAt: number
   completedAt: number
   totalMinutes: number
+  workPerformed: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -84,10 +90,12 @@ export type JobTimeLogMinAggregateInputType = {
   id?: true
   appointmentId?: true
   technicianId?: true
+  enRouteAt?: true
   arrivedAt?: true
   startedAt?: true
   completedAt?: true
   totalMinutes?: true
+  workPerformed?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -96,10 +104,12 @@ export type JobTimeLogMaxAggregateInputType = {
   id?: true
   appointmentId?: true
   technicianId?: true
+  enRouteAt?: true
   arrivedAt?: true
   startedAt?: true
   completedAt?: true
   totalMinutes?: true
+  workPerformed?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -108,10 +118,12 @@ export type JobTimeLogCountAggregateInputType = {
   id?: true
   appointmentId?: true
   technicianId?: true
+  enRouteAt?: true
   arrivedAt?: true
   startedAt?: true
   completedAt?: true
   totalMinutes?: true
+  workPerformed?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -207,10 +219,12 @@ export type JobTimeLogGroupByOutputType = {
   id: string
   appointmentId: string
   technicianId: string | null
+  enRouteAt: Date | null
   arrivedAt: Date | null
   startedAt: Date | null
   completedAt: Date | null
   totalMinutes: number | null
+  workPerformed: string | null
   createdAt: Date
   updatedAt: Date
   _count: JobTimeLogCountAggregateOutputType | null
@@ -242,10 +256,12 @@ export type JobTimeLogWhereInput = {
   id?: Prisma.StringFilter<"JobTimeLog"> | string
   appointmentId?: Prisma.StringFilter<"JobTimeLog"> | string
   technicianId?: Prisma.StringNullableFilter<"JobTimeLog"> | string | null
+  enRouteAt?: Prisma.DateTimeNullableFilter<"JobTimeLog"> | Date | string | null
   arrivedAt?: Prisma.DateTimeNullableFilter<"JobTimeLog"> | Date | string | null
   startedAt?: Prisma.DateTimeNullableFilter<"JobTimeLog"> | Date | string | null
   completedAt?: Prisma.DateTimeNullableFilter<"JobTimeLog"> | Date | string | null
   totalMinutes?: Prisma.IntNullableFilter<"JobTimeLog"> | number | null
+  workPerformed?: Prisma.StringNullableFilter<"JobTimeLog"> | string | null
   createdAt?: Prisma.DateTimeFilter<"JobTimeLog"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"JobTimeLog"> | Date | string
   appointment?: Prisma.XOR<Prisma.AppointmentScalarRelationFilter, Prisma.AppointmentWhereInput>
@@ -255,10 +271,12 @@ export type JobTimeLogOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   appointmentId?: Prisma.SortOrder
   technicianId?: Prisma.SortOrderInput | Prisma.SortOrder
+  enRouteAt?: Prisma.SortOrderInput | Prisma.SortOrder
   arrivedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   startedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   completedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   totalMinutes?: Prisma.SortOrderInput | Prisma.SortOrder
+  workPerformed?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   appointment?: Prisma.AppointmentOrderByWithRelationInput
@@ -271,10 +289,12 @@ export type JobTimeLogWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.JobTimeLogWhereInput[]
   NOT?: Prisma.JobTimeLogWhereInput | Prisma.JobTimeLogWhereInput[]
   technicianId?: Prisma.StringNullableFilter<"JobTimeLog"> | string | null
+  enRouteAt?: Prisma.DateTimeNullableFilter<"JobTimeLog"> | Date | string | null
   arrivedAt?: Prisma.DateTimeNullableFilter<"JobTimeLog"> | Date | string | null
   startedAt?: Prisma.DateTimeNullableFilter<"JobTimeLog"> | Date | string | null
   completedAt?: Prisma.DateTimeNullableFilter<"JobTimeLog"> | Date | string | null
   totalMinutes?: Prisma.IntNullableFilter<"JobTimeLog"> | number | null
+  workPerformed?: Prisma.StringNullableFilter<"JobTimeLog"> | string | null
   createdAt?: Prisma.DateTimeFilter<"JobTimeLog"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"JobTimeLog"> | Date | string
   appointment?: Prisma.XOR<Prisma.AppointmentScalarRelationFilter, Prisma.AppointmentWhereInput>
@@ -284,10 +304,12 @@ export type JobTimeLogOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   appointmentId?: Prisma.SortOrder
   technicianId?: Prisma.SortOrderInput | Prisma.SortOrder
+  enRouteAt?: Prisma.SortOrderInput | Prisma.SortOrder
   arrivedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   startedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   completedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   totalMinutes?: Prisma.SortOrderInput | Prisma.SortOrder
+  workPerformed?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.JobTimeLogCountOrderByAggregateInput
@@ -304,10 +326,12 @@ export type JobTimeLogScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"JobTimeLog"> | string
   appointmentId?: Prisma.StringWithAggregatesFilter<"JobTimeLog"> | string
   technicianId?: Prisma.StringNullableWithAggregatesFilter<"JobTimeLog"> | string | null
+  enRouteAt?: Prisma.DateTimeNullableWithAggregatesFilter<"JobTimeLog"> | Date | string | null
   arrivedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"JobTimeLog"> | Date | string | null
   startedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"JobTimeLog"> | Date | string | null
   completedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"JobTimeLog"> | Date | string | null
   totalMinutes?: Prisma.IntNullableWithAggregatesFilter<"JobTimeLog"> | number | null
+  workPerformed?: Prisma.StringNullableWithAggregatesFilter<"JobTimeLog"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"JobTimeLog"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"JobTimeLog"> | Date | string
 }
@@ -315,10 +339,12 @@ export type JobTimeLogScalarWhereWithAggregatesInput = {
 export type JobTimeLogCreateInput = {
   id?: string
   technicianId?: string | null
+  enRouteAt?: Date | string | null
   arrivedAt?: Date | string | null
   startedAt?: Date | string | null
   completedAt?: Date | string | null
   totalMinutes?: number | null
+  workPerformed?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   appointment: Prisma.AppointmentCreateNestedOneWithoutTimeLogInput
@@ -328,10 +354,12 @@ export type JobTimeLogUncheckedCreateInput = {
   id?: string
   appointmentId: string
   technicianId?: string | null
+  enRouteAt?: Date | string | null
   arrivedAt?: Date | string | null
   startedAt?: Date | string | null
   completedAt?: Date | string | null
   totalMinutes?: number | null
+  workPerformed?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -339,10 +367,12 @@ export type JobTimeLogUncheckedCreateInput = {
 export type JobTimeLogUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   technicianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  enRouteAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   arrivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   totalMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  workPerformed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   appointment?: Prisma.AppointmentUpdateOneRequiredWithoutTimeLogNestedInput
@@ -352,10 +382,12 @@ export type JobTimeLogUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   appointmentId?: Prisma.StringFieldUpdateOperationsInput | string
   technicianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  enRouteAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   arrivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   totalMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  workPerformed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -364,10 +396,12 @@ export type JobTimeLogCreateManyInput = {
   id?: string
   appointmentId: string
   technicianId?: string | null
+  enRouteAt?: Date | string | null
   arrivedAt?: Date | string | null
   startedAt?: Date | string | null
   completedAt?: Date | string | null
   totalMinutes?: number | null
+  workPerformed?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -375,10 +409,12 @@ export type JobTimeLogCreateManyInput = {
 export type JobTimeLogUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   technicianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  enRouteAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   arrivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   totalMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  workPerformed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -387,10 +423,12 @@ export type JobTimeLogUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   appointmentId?: Prisma.StringFieldUpdateOperationsInput | string
   technicianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  enRouteAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   arrivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   totalMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  workPerformed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -404,10 +442,12 @@ export type JobTimeLogCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   appointmentId?: Prisma.SortOrder
   technicianId?: Prisma.SortOrder
+  enRouteAt?: Prisma.SortOrder
   arrivedAt?: Prisma.SortOrder
   startedAt?: Prisma.SortOrder
   completedAt?: Prisma.SortOrder
   totalMinutes?: Prisma.SortOrder
+  workPerformed?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -420,10 +460,12 @@ export type JobTimeLogMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   appointmentId?: Prisma.SortOrder
   technicianId?: Prisma.SortOrder
+  enRouteAt?: Prisma.SortOrder
   arrivedAt?: Prisma.SortOrder
   startedAt?: Prisma.SortOrder
   completedAt?: Prisma.SortOrder
   totalMinutes?: Prisma.SortOrder
+  workPerformed?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -432,10 +474,12 @@ export type JobTimeLogMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   appointmentId?: Prisma.SortOrder
   technicianId?: Prisma.SortOrder
+  enRouteAt?: Prisma.SortOrder
   arrivedAt?: Prisma.SortOrder
   startedAt?: Prisma.SortOrder
   completedAt?: Prisma.SortOrder
   totalMinutes?: Prisma.SortOrder
+  workPerformed?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -479,10 +523,12 @@ export type JobTimeLogUncheckedUpdateOneWithoutAppointmentNestedInput = {
 export type JobTimeLogCreateWithoutAppointmentInput = {
   id?: string
   technicianId?: string | null
+  enRouteAt?: Date | string | null
   arrivedAt?: Date | string | null
   startedAt?: Date | string | null
   completedAt?: Date | string | null
   totalMinutes?: number | null
+  workPerformed?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -490,10 +536,12 @@ export type JobTimeLogCreateWithoutAppointmentInput = {
 export type JobTimeLogUncheckedCreateWithoutAppointmentInput = {
   id?: string
   technicianId?: string | null
+  enRouteAt?: Date | string | null
   arrivedAt?: Date | string | null
   startedAt?: Date | string | null
   completedAt?: Date | string | null
   totalMinutes?: number | null
+  workPerformed?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -517,10 +565,12 @@ export type JobTimeLogUpdateToOneWithWhereWithoutAppointmentInput = {
 export type JobTimeLogUpdateWithoutAppointmentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   technicianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  enRouteAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   arrivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   totalMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  workPerformed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -528,10 +578,12 @@ export type JobTimeLogUpdateWithoutAppointmentInput = {
 export type JobTimeLogUncheckedUpdateWithoutAppointmentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   technicianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  enRouteAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   arrivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   totalMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  workPerformed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -542,10 +594,12 @@ export type JobTimeLogSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   id?: boolean
   appointmentId?: boolean
   technicianId?: boolean
+  enRouteAt?: boolean
   arrivedAt?: boolean
   startedAt?: boolean
   completedAt?: boolean
   totalMinutes?: boolean
+  workPerformed?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   appointment?: boolean | Prisma.AppointmentDefaultArgs<ExtArgs>
@@ -555,10 +609,12 @@ export type JobTimeLogSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   id?: boolean
   appointmentId?: boolean
   technicianId?: boolean
+  enRouteAt?: boolean
   arrivedAt?: boolean
   startedAt?: boolean
   completedAt?: boolean
   totalMinutes?: boolean
+  workPerformed?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   appointment?: boolean | Prisma.AppointmentDefaultArgs<ExtArgs>
@@ -568,10 +624,12 @@ export type JobTimeLogSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   id?: boolean
   appointmentId?: boolean
   technicianId?: boolean
+  enRouteAt?: boolean
   arrivedAt?: boolean
   startedAt?: boolean
   completedAt?: boolean
   totalMinutes?: boolean
+  workPerformed?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   appointment?: boolean | Prisma.AppointmentDefaultArgs<ExtArgs>
@@ -581,15 +639,17 @@ export type JobTimeLogSelectScalar = {
   id?: boolean
   appointmentId?: boolean
   technicianId?: boolean
+  enRouteAt?: boolean
   arrivedAt?: boolean
   startedAt?: boolean
   completedAt?: boolean
   totalMinutes?: boolean
+  workPerformed?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type JobTimeLogOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "appointmentId" | "technicianId" | "arrivedAt" | "startedAt" | "completedAt" | "totalMinutes" | "createdAt" | "updatedAt", ExtArgs["result"]["jobTimeLog"]>
+export type JobTimeLogOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "appointmentId" | "technicianId" | "enRouteAt" | "arrivedAt" | "startedAt" | "completedAt" | "totalMinutes" | "workPerformed" | "createdAt" | "updatedAt", ExtArgs["result"]["jobTimeLog"]>
 export type JobTimeLogInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   appointment?: boolean | Prisma.AppointmentDefaultArgs<ExtArgs>
 }
@@ -609,10 +669,12 @@ export type $JobTimeLogPayload<ExtArgs extends runtime.Types.Extensions.Internal
     id: string
     appointmentId: string
     technicianId: string | null
+    enRouteAt: Date | null
     arrivedAt: Date | null
     startedAt: Date | null
     completedAt: Date | null
     totalMinutes: number | null
+    workPerformed: string | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["jobTimeLog"]>
@@ -1042,10 +1104,12 @@ export interface JobTimeLogFieldRefs {
   readonly id: Prisma.FieldRef<"JobTimeLog", 'String'>
   readonly appointmentId: Prisma.FieldRef<"JobTimeLog", 'String'>
   readonly technicianId: Prisma.FieldRef<"JobTimeLog", 'String'>
+  readonly enRouteAt: Prisma.FieldRef<"JobTimeLog", 'DateTime'>
   readonly arrivedAt: Prisma.FieldRef<"JobTimeLog", 'DateTime'>
   readonly startedAt: Prisma.FieldRef<"JobTimeLog", 'DateTime'>
   readonly completedAt: Prisma.FieldRef<"JobTimeLog", 'DateTime'>
   readonly totalMinutes: Prisma.FieldRef<"JobTimeLog", 'Int'>
+  readonly workPerformed: Prisma.FieldRef<"JobTimeLog", 'String'>
   readonly createdAt: Prisma.FieldRef<"JobTimeLog", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"JobTimeLog", 'DateTime'>
 }

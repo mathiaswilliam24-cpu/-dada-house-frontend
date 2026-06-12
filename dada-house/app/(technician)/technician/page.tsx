@@ -1,11 +1,13 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
+import { format } from "date-fns";
 import {
   MapPin, Clock, Phone, Navigation, AlertTriangle,
-  CheckCircle, Calendar, ChevronRight, DollarSign, Zap, LogIn, LogOut,
+  CheckCircle, Calendar, ChevronRight, DollarSign, Zap,
 } from "lucide-react";
 import { formatCurrency } from "@/lib/utils";
+import { TECH_STATUS_LABEL, TECH_STATUS_COLOR } from "@/lib/tech-status";
 
 type Job = {
   id: string; appointmentNumber: string; name: string; phone: string;
@@ -20,31 +22,11 @@ type Stats = {
   completedCount: number; pendingCount: number; dailyRevenue: number;
 };
 
-const TECH_STATUS_LABEL: Record<string, string> = {
-  ASSIGNED: "Assigned", ACCEPTED: "Accepted", EN_ROUTE: "En Route",
-  ARRIVED: "Arrived", DIAGNOSING: "Diagnosing",
-  WAITING_FOR_APPROVAL: "Waiting Approval", WORKING: "Working",
-  COMPLETED: "Completed", CANCELED: "Canceled", NEED_RESCHEDULE: "Reschedule",
-};
-
-const TECH_STATUS_COLOR: Record<string, string> = {
-  ASSIGNED: "bg-gray-100 text-gray-600",
-  ACCEPTED: "bg-blue-50 text-blue-600",
-  EN_ROUTE: "bg-indigo-100 text-indigo-700",
-  ARRIVED: "bg-purple-100 text-purple-700",
-  DIAGNOSING: "bg-yellow-100 text-yellow-700",
-  WAITING_FOR_APPROVAL: "bg-orange-100 text-orange-700",
-  WORKING: "bg-blue-100 text-blue-700",
-  COMPLETED: "bg-green-100 text-green-700",
-  CANCELED: "bg-red-100 text-red-600",
-  NEED_RESCHEDULE: "bg-pink-100 text-pink-700",
-};
-
 function JobCard({ job }: { job: Job }) {
   const isEmergency = job.isEmergency || job.priority === "EMERGENCY";
   return (
     <Link
-      href={`/technician/jobs/${job.id}`}
+      href={`/technician/jobs/${job.id}/start`}
       className={`block rounded-2xl border p-4 active:opacity-80 ${isEmergency ? "border-red-300 bg-red-50" : "border-gray-200 bg-white"}`}
     >
       <div className="flex items-start justify-between gap-3">
@@ -99,11 +81,10 @@ function JobCard({ job }: { job: Job }) {
 export default function TechnicianDashboard() {
   const [data, setData] = useState<{
     today: Job[]; emergency: Job[]; upcoming: Job[];
-    pending: Job[]; completedToday: Job[]; stats: Stats;
+    pending: Job[]; completedToday: Job[]; weekJobs: Job[]; stats: Stats;
   } | null>(null);
   const [loading, setLoading] = useState(true);
-  const [clocked, setClocked] = useState(false);
-  const [clockSaving, setClockSaving] = useState(false);
+  const [view, setView] = useState<"today" | "week">("today");
   const today = new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
 
   useEffect(() => {
@@ -116,18 +97,26 @@ export default function TechnicianDashboard() {
       .catch(() => setLoading(false));
   }, []);
 
-  async function toggleClock() {
-    setClockSaving(true);
-    await fetch("/api/technician/clock", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ action: clocked ? "out" : "in" }),
-    });
-    setClocked(!clocked);
-    setClockSaving(false);
-  }
-
   const stats = data?.stats;
+
+  const weekGroups = useMemo(() => {
+    const groups = new Map<string, Job[]>();
+    for (const j of data?.weekJobs ?? []) {
+      if (!j.preferredDate) continue;
+      // Use the UTC date portion as the grouping key — preferredDate is stored
+      // as a midnight-UTC timestamp representing the intended calendar date,
+      // so slicing avoids local-timezone day shifts.
+      const key = j.preferredDate.slice(0, 10);
+      if (!groups.has(key)) groups.set(key, []);
+      groups.get(key)!.push(j);
+    }
+    return Array.from(groups.entries()).sort(([a], [b]) => a.localeCompare(b));
+  }, [data?.weekJobs]);
+
+  function formatDateKey(key: string) {
+    const [y, m, d] = key.split("-").map(Number);
+    return format(new Date(y, m - 1, d, 12), "EEEE, MMM d");
+  }
 
   return (
     <div className="space-y-5">
@@ -137,13 +126,12 @@ export default function TechnicianDashboard() {
           <h1 className="text-xl font-black text-gray-900">Dashboard</h1>
           <p className="text-sm text-gray-500">{today}</p>
         </div>
-        <button
-          onClick={toggleClock}
-          disabled={clockSaving}
-          className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-bold transition-all ${clocked ? "bg-red-500 text-white" : "bg-green-500 text-white"}`}
+        <Link
+          href="/technician/clock"
+          className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-bold transition-all bg-red-500 text-white"
         >
-          {clocked ? <><LogOut className="w-4 h-4" /> Clock Out</> : <><LogIn className="w-4 h-4" /> Clock In</>}
-        </button>
+          <Clock className="w-4 h-4" /> Clock Out
+        </Link>
       </div>
 
       {/* Stats grid */}
@@ -173,6 +161,24 @@ export default function TechnicianDashboard() {
 
       {loading && <div className="text-center py-8 text-gray-400">Loading jobs…</div>}
 
+      {/* Today / This Week toggle */}
+      {data && (
+        <div className="flex bg-gray-100 rounded-xl p-1">
+          <button
+            onClick={() => setView("today")}
+            className={`flex-1 py-2 rounded-lg text-sm font-bold transition-all ${view === "today" ? "bg-white shadow text-[#1B3FA8]" : "text-gray-500"}`}
+          >
+            Today
+          </button>
+          <button
+            onClick={() => setView("week")}
+            className={`flex-1 py-2 rounded-lg text-sm font-bold transition-all ${view === "week" ? "bg-white shadow text-[#1B3FA8]" : "text-gray-500"}`}
+          >
+            This Week
+          </button>
+        </div>
+      )}
+
       {/* Emergency jobs */}
       {data && data.emergency.length > 0 && (
         <section>
@@ -186,59 +192,85 @@ export default function TechnicianDashboard() {
         </section>
       )}
 
-      {/* Today's jobs */}
-      {data && (
-        <section>
-          <div className="flex items-center justify-between mb-3">
-            <div className="flex items-center gap-2">
-              <Calendar className="w-4 h-4 text-[#1B3FA8]" />
-              <h2 className="font-bold text-gray-900 text-sm">Today ({data.today.length})</h2>
+      {view === "today" && data && (
+        <>
+          {/* Today's jobs */}
+          <section>
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-2">
+                <Calendar className="w-4 h-4 text-[#1B3FA8]" />
+                <h2 className="font-bold text-gray-900 text-sm">Today ({data.today.length})</h2>
+              </div>
+              <Link href="/technician/jobs" className="text-xs text-[#1B3FA8] font-semibold">See all</Link>
             </div>
-            <Link href="/technician/jobs" className="text-xs text-[#1B3FA8] font-semibold">See all</Link>
-          </div>
-          {data.today.length === 0 ? (
-            <div className="bg-white border border-dashed border-gray-200 rounded-2xl p-8 text-center">
-              <CheckCircle className="w-10 h-10 text-green-400 mx-auto mb-2" />
-              <p className="text-sm text-gray-500">No jobs scheduled for today</p>
-            </div>
-          ) : (
-            <div className="space-y-3">
-              {data.today.map((j) => <JobCard key={j.id} job={j} />)}
-            </div>
-          )}
-        </section>
-      )}
-
-      {/* Upcoming */}
-      {data && data.upcoming.length > 0 && (
-        <section>
-          <div className="flex items-center gap-2 mb-3">
-            <Zap className="w-4 h-4 text-[#F7921A]" />
-            <h2 className="font-bold text-gray-900 text-sm">Upcoming ({data.upcoming.length})</h2>
-          </div>
-          <div className="space-y-3">
-            {data.upcoming.slice(0, 3).map((j) => <JobCard key={j.id} job={j} />)}
-            {data.upcoming.length > 3 && (
-              <Link href="/technician/jobs?tab=upcoming"
-                className="block text-center text-sm text-[#1B3FA8] font-semibold py-3 bg-blue-50 rounded-xl">
-                View {data.upcoming.length - 3} more upcoming jobs
-              </Link>
+            {data.today.length === 0 ? (
+              <div className="bg-white border border-dashed border-gray-200 rounded-2xl p-8 text-center">
+                <CheckCircle className="w-10 h-10 text-green-400 mx-auto mb-2" />
+                <p className="text-sm text-gray-500">No jobs scheduled for today</p>
+              </div>
+            ) : (
+              <div className="space-y-3">
+                {data.today.map((j) => <JobCard key={j.id} job={j} />)}
+              </div>
             )}
-          </div>
-        </section>
+          </section>
+
+          {/* Upcoming */}
+          {data.upcoming.length > 0 && (
+            <section>
+              <div className="flex items-center gap-2 mb-3">
+                <Zap className="w-4 h-4 text-[#F7921A]" />
+                <h2 className="font-bold text-gray-900 text-sm">Upcoming ({data.upcoming.length})</h2>
+              </div>
+              <div className="space-y-3">
+                {data.upcoming.slice(0, 3).map((j) => <JobCard key={j.id} job={j} />)}
+                {data.upcoming.length > 3 && (
+                  <Link href="/technician/jobs?tab=upcoming"
+                    className="block text-center text-sm text-[#1B3FA8] font-semibold py-3 bg-blue-50 rounded-xl">
+                    View {data.upcoming.length - 3} more upcoming jobs
+                  </Link>
+                )}
+              </div>
+            </section>
+          )}
+
+          {/* Completed today */}
+          {data.completedToday.length > 0 && (
+            <section>
+              <div className="flex items-center gap-2 mb-3">
+                <CheckCircle className="w-4 h-4 text-green-500" />
+                <h2 className="font-bold text-gray-900 text-sm">Completed Today ({data.completedToday.length})</h2>
+              </div>
+              <div className="space-y-3">
+                {data.completedToday.map((j) => <JobCard key={j.id} job={j} />)}
+              </div>
+            </section>
+          )}
+        </>
       )}
 
-      {/* Completed today */}
-      {data && data.completedToday.length > 0 && (
-        <section>
-          <div className="flex items-center gap-2 mb-3">
-            <CheckCircle className="w-4 h-4 text-green-500" />
-            <h2 className="font-bold text-gray-900 text-sm">Completed Today ({data.completedToday.length})</h2>
+      {/* This Week */}
+      {view === "week" && data && (
+        weekGroups.length === 0 ? (
+          <div className="bg-white border border-dashed border-gray-200 rounded-2xl p-8 text-center">
+            <CheckCircle className="w-10 h-10 text-green-400 mx-auto mb-2" />
+            <p className="text-sm text-gray-500">No jobs scheduled this week</p>
           </div>
-          <div className="space-y-3">
-            {data.completedToday.map((j) => <JobCard key={j.id} job={j} />)}
-          </div>
-        </section>
+        ) : (
+          weekGroups.map(([dateKey, jobs]) => (
+            <section key={dateKey}>
+              <div className="flex items-center gap-2 mb-3">
+                <Calendar className="w-4 h-4 text-[#1B3FA8]" />
+                <h2 className="font-bold text-gray-900 text-sm">
+                  {formatDateKey(dateKey)} ({jobs.length})
+                </h2>
+              </div>
+              <div className="space-y-3">
+                {jobs.map((j) => <JobCard key={j.id} job={j} />)}
+              </div>
+            </section>
+          ))
+        )
       )}
     </div>
   );

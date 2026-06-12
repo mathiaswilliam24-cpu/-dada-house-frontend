@@ -59,5 +59,18 @@ export async function POST(req: NextRequest) {
     data: { name, email, password: hashed, phone, role },
   });
 
+  if (role === "TECHNICIAN") {
+    await db.technician.create({
+      data: {
+        userId: user.id,
+        name: name || email,
+        role: "Technician",
+        phone: phone ?? null,
+        email,
+        available: true,
+      },
+    });
+  }
+
   return NextResponse.json({ user }, { status: 201 });
 }

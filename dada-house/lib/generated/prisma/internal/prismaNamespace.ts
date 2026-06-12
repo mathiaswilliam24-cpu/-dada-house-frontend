@@ -398,6 +398,7 @@ export const ModelName = {
   Technician: 'Technician',
   TechnicianProfile: 'TechnicianProfile',
   TechnicianLocation: 'TechnicianLocation',
+  TechnicianClockEntry: 'TechnicianClockEntry',
   Property: 'Property',
   ServicePlan: 'ServicePlan',
   CustomerServicePlan: 'CustomerServicePlan',
@@ -437,7 +438,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "technicianClient" | "account" | "session" | "verificationToken" | "appointment" | "review" | "invoice" | "notificationLog" | "setting" | "galleryProject" | "technician" | "technicianProfile" | "technicianLocation" | "property" | "servicePlan" | "customerServicePlan" | "warranty" | "maintenanceLog" | "aIConversation" | "product" | "order" | "orderItem" | "cart" | "payment" | "pushSubscription" | "estimate" | "priceBookItem" | "diagnosisForm" | "jobPhoto" | "jobPayment" | "serviceChecklist" | "jobTimeLog" | "jobPart" | "inventoryItem" | "inventoryRequest" | "expense" | "expenseSubscription"
+    modelProps: "user" | "technicianClient" | "account" | "session" | "verificationToken" | "appointment" | "review" | "invoice" | "notificationLog" | "setting" | "galleryProject" | "technician" | "technicianProfile" | "technicianLocation" | "technicianClockEntry" | "property" | "servicePlan" | "customerServicePlan" | "warranty" | "maintenanceLog" | "aIConversation" | "product" | "order" | "orderItem" | "cart" | "payment" | "pushSubscription" | "estimate" | "priceBookItem" | "diagnosisForm" | "jobPhoto" | "jobPayment" | "serviceChecklist" | "jobTimeLog" | "jobPart" | "inventoryItem" | "inventoryRequest" | "expense" | "expenseSubscription"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1474,6 +1475,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.TechnicianLocationCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.TechnicianLocationCountAggregateOutputType> | number
+        }
+      }
+    }
+    TechnicianClockEntry: {
+      payload: Prisma.$TechnicianClockEntryPayload<ExtArgs>
+      fields: Prisma.TechnicianClockEntryFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.TechnicianClockEntryFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TechnicianClockEntryPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.TechnicianClockEntryFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TechnicianClockEntryPayload>
+        }
+        findFirst: {
+          args: Prisma.TechnicianClockEntryFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TechnicianClockEntryPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.TechnicianClockEntryFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TechnicianClockEntryPayload>
+        }
+        findMany: {
+          args: Prisma.TechnicianClockEntryFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TechnicianClockEntryPayload>[]
+        }
+        create: {
+          args: Prisma.TechnicianClockEntryCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TechnicianClockEntryPayload>
+        }
+        createMany: {
+          args: Prisma.TechnicianClockEntryCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.TechnicianClockEntryCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TechnicianClockEntryPayload>[]
+        }
+        delete: {
+          args: Prisma.TechnicianClockEntryDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TechnicianClockEntryPayload>
+        }
+        update: {
+          args: Prisma.TechnicianClockEntryUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TechnicianClockEntryPayload>
+        }
+        deleteMany: {
+          args: Prisma.TechnicianClockEntryDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.TechnicianClockEntryUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.TechnicianClockEntryUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TechnicianClockEntryPayload>[]
+        }
+        upsert: {
+          args: Prisma.TechnicianClockEntryUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TechnicianClockEntryPayload>
+        }
+        aggregate: {
+          args: Prisma.TechnicianClockEntryAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTechnicianClockEntry>
+        }
+        groupBy: {
+          args: Prisma.TechnicianClockEntryGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TechnicianClockEntryGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.TechnicianClockEntryCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TechnicianClockEntryCountAggregateOutputType> | number
         }
       }
     }
@@ -3486,6 +3561,7 @@ export type GalleryProjectScalarFieldEnum = (typeof GalleryProjectScalarFieldEnu
 
 export const TechnicianScalarFieldEnum = {
   id: 'id',
+  userId: 'userId',
   name: 'name',
   role: 'role',
   specialties: 'specialties',
@@ -3534,6 +3610,20 @@ export const TechnicianLocationScalarFieldEnum = {
 } as const
 
 export type TechnicianLocationScalarFieldEnum = (typeof TechnicianLocationScalarFieldEnum)[keyof typeof TechnicianLocationScalarFieldEnum]
+
+
+export const TechnicianClockEntryScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  type: 'type',
+  timestamp: 'timestamp',
+  lat: 'lat',
+  lng: 'lng',
+  address: 'address',
+  createdAt: 'createdAt'
+} as const
+
+export type TechnicianClockEntryScalarFieldEnum = (typeof TechnicianClockEntryScalarFieldEnum)[keyof typeof TechnicianClockEntryScalarFieldEnum]
 
 
 export const PropertyScalarFieldEnum = {
@@ -3876,10 +3966,12 @@ export const JobTimeLogScalarFieldEnum = {
   id: 'id',
   appointmentId: 'appointmentId',
   technicianId: 'technicianId',
+  enRouteAt: 'enRouteAt',
   arrivedAt: 'arrivedAt',
   startedAt: 'startedAt',
   completedAt: 'completedAt',
   totalMinutes: 'totalMinutes',
+  workPerformed: 'workPerformed',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -4333,6 +4425,7 @@ export type GlobalOmitConfig = {
   technician?: Prisma.TechnicianOmit
   technicianProfile?: Prisma.TechnicianProfileOmit
   technicianLocation?: Prisma.TechnicianLocationOmit
+  technicianClockEntry?: Prisma.TechnicianClockEntryOmit
   property?: Prisma.PropertyOmit
   servicePlan?: Prisma.ServicePlanOmit
   customerServicePlan?: Prisma.CustomerServicePlanOmit

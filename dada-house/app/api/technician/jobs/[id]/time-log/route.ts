@@ -25,12 +25,13 @@ export async function PATCH(
 
   const { id } = await params;
   const body = await req.json();
-  const { arrivedAt, startedAt, completedAt } = body;
+  const { arrivedAt, startedAt, completedAt, workPerformed } = body;
 
   const data: Record<string, unknown> = {};
   if (arrivedAt !== undefined) data.arrivedAt = arrivedAt ? new Date(arrivedAt) : null;
   if (startedAt !== undefined) data.startedAt = startedAt ? new Date(startedAt) : null;
   if (completedAt !== undefined) data.completedAt = completedAt ? new Date(completedAt) : null;
+  if (workPerformed !== undefined) data.workPerformed = workPerformed;
 
   // Auto-calculate total minutes
   const existing = await db.jobTimeLog.findUnique({ where: { appointmentId: id } });

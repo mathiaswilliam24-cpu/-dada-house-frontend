@@ -112,6 +112,11 @@ export type TechnicianProfile = Prisma.TechnicianProfileModel
  */
 export type TechnicianLocation = Prisma.TechnicianLocationModel
 /**
+ * Model TechnicianClockEntry
+ * 
+ */
+export type TechnicianClockEntry = Prisma.TechnicianClockEntryModel
+/**
  * Model Property
  * 
  */

@@ -227,7 +227,9 @@ export type UserWhereInput = {
   appointments?: Prisma.AppointmentListRelationFilter
   reviews?: Prisma.ReviewListRelationFilter
   technicianProfile?: Prisma.XOR<Prisma.TechnicianProfileNullableScalarRelationFilter, Prisma.TechnicianProfileWhereInput> | null
+  technicianRoster?: Prisma.XOR<Prisma.TechnicianNullableScalarRelationFilter, Prisma.TechnicianWhereInput> | null
   technicianLocations?: Prisma.TechnicianLocationListRelationFilter
+  technicianClockEntries?: Prisma.TechnicianClockEntryListRelationFilter
   properties?: Prisma.PropertyListRelationFilter
   servicePlans?: Prisma.CustomerServicePlanListRelationFilter
   warranties?: Prisma.WarrantyListRelationFilter
@@ -261,7 +263,9 @@ export type UserOrderByWithRelationInput = {
   appointments?: Prisma.AppointmentOrderByRelationAggregateInput
   reviews?: Prisma.ReviewOrderByRelationAggregateInput
   technicianProfile?: Prisma.TechnicianProfileOrderByWithRelationInput
+  technicianRoster?: Prisma.TechnicianOrderByWithRelationInput
   technicianLocations?: Prisma.TechnicianLocationOrderByRelationAggregateInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryOrderByRelationAggregateInput
   properties?: Prisma.PropertyOrderByRelationAggregateInput
   servicePlans?: Prisma.CustomerServicePlanOrderByRelationAggregateInput
   warranties?: Prisma.WarrantyOrderByRelationAggregateInput
@@ -298,7 +302,9 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   appointments?: Prisma.AppointmentListRelationFilter
   reviews?: Prisma.ReviewListRelationFilter
   technicianProfile?: Prisma.XOR<Prisma.TechnicianProfileNullableScalarRelationFilter, Prisma.TechnicianProfileWhereInput> | null
+  technicianRoster?: Prisma.XOR<Prisma.TechnicianNullableScalarRelationFilter, Prisma.TechnicianWhereInput> | null
   technicianLocations?: Prisma.TechnicianLocationListRelationFilter
+  technicianClockEntries?: Prisma.TechnicianClockEntryListRelationFilter
   properties?: Prisma.PropertyListRelationFilter
   servicePlans?: Prisma.CustomerServicePlanListRelationFilter
   warranties?: Prisma.WarrantyListRelationFilter
@@ -364,7 +370,9 @@ export type UserCreateInput = {
   appointments?: Prisma.AppointmentCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
   technicianProfile?: Prisma.TechnicianProfileCreateNestedOneWithoutUserInput
+  technicianRoster?: Prisma.TechnicianCreateNestedOneWithoutUserInput
   technicianLocations?: Prisma.TechnicianLocationCreateNestedManyWithoutUserInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryCreateNestedManyWithoutUserInput
   properties?: Prisma.PropertyCreateNestedManyWithoutUserInput
   servicePlans?: Prisma.CustomerServicePlanCreateNestedManyWithoutUserInput
   warranties?: Prisma.WarrantyCreateNestedManyWithoutUserInput
@@ -398,7 +406,9 @@ export type UserUncheckedCreateInput = {
   appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
   technicianProfile?: Prisma.TechnicianProfileUncheckedCreateNestedOneWithoutUserInput
+  technicianRoster?: Prisma.TechnicianUncheckedCreateNestedOneWithoutUserInput
   technicianLocations?: Prisma.TechnicianLocationUncheckedCreateNestedManyWithoutUserInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUncheckedCreateNestedManyWithoutUserInput
   properties?: Prisma.PropertyUncheckedCreateNestedManyWithoutUserInput
   servicePlans?: Prisma.CustomerServicePlanUncheckedCreateNestedManyWithoutUserInput
   warranties?: Prisma.WarrantyUncheckedCreateNestedManyWithoutUserInput
@@ -432,7 +442,9 @@ export type UserUpdateInput = {
   appointments?: Prisma.AppointmentUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
   technicianProfile?: Prisma.TechnicianProfileUpdateOneWithoutUserNestedInput
+  technicianRoster?: Prisma.TechnicianUpdateOneWithoutUserNestedInput
   technicianLocations?: Prisma.TechnicianLocationUpdateManyWithoutUserNestedInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUpdateManyWithoutUserNestedInput
   properties?: Prisma.PropertyUpdateManyWithoutUserNestedInput
   servicePlans?: Prisma.CustomerServicePlanUpdateManyWithoutUserNestedInput
   warranties?: Prisma.WarrantyUpdateManyWithoutUserNestedInput
@@ -466,7 +478,9 @@ export type UserUncheckedUpdateInput = {
   appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
   technicianProfile?: Prisma.TechnicianProfileUncheckedUpdateOneWithoutUserNestedInput
+  technicianRoster?: Prisma.TechnicianUncheckedUpdateOneWithoutUserNestedInput
   technicianLocations?: Prisma.TechnicianLocationUncheckedUpdateManyWithoutUserNestedInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUncheckedUpdateManyWithoutUserNestedInput
   properties?: Prisma.PropertyUncheckedUpdateManyWithoutUserNestedInput
   servicePlans?: Prisma.CustomerServicePlanUncheckedUpdateManyWithoutUserNestedInput
   warranties?: Prisma.WarrantyUncheckedUpdateManyWithoutUserNestedInput
@@ -698,6 +712,22 @@ export type UserUpdateOneWithoutReviewsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutReviewsInput, Prisma.UserUpdateWithoutReviewsInput>, Prisma.UserUncheckedUpdateWithoutReviewsInput>
 }
 
+export type UserCreateNestedOneWithoutTechnicianRosterInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutTechnicianRosterInput, Prisma.UserUncheckedCreateWithoutTechnicianRosterInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutTechnicianRosterInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneWithoutTechnicianRosterNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutTechnicianRosterInput, Prisma.UserUncheckedCreateWithoutTechnicianRosterInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutTechnicianRosterInput
+  upsert?: Prisma.UserUpsertWithoutTechnicianRosterInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutTechnicianRosterInput, Prisma.UserUpdateWithoutTechnicianRosterInput>, Prisma.UserUncheckedUpdateWithoutTechnicianRosterInput>
+}
+
 export type UserCreateNestedOneWithoutTechnicianProfileInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutTechnicianProfileInput, Prisma.UserUncheckedCreateWithoutTechnicianProfileInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutTechnicianProfileInput
@@ -724,6 +754,20 @@ export type UserUpdateOneRequiredWithoutTechnicianLocationsNestedInput = {
   upsert?: Prisma.UserUpsertWithoutTechnicianLocationsInput
   connect?: Prisma.UserWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutTechnicianLocationsInput, Prisma.UserUpdateWithoutTechnicianLocationsInput>, Prisma.UserUncheckedUpdateWithoutTechnicianLocationsInput>
+}
+
+export type UserCreateNestedOneWithoutTechnicianClockEntriesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutTechnicianClockEntriesInput, Prisma.UserUncheckedCreateWithoutTechnicianClockEntriesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutTechnicianClockEntriesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutTechnicianClockEntriesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutTechnicianClockEntriesInput, Prisma.UserUncheckedCreateWithoutTechnicianClockEntriesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutTechnicianClockEntriesInput
+  upsert?: Prisma.UserUpsertWithoutTechnicianClockEntriesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutTechnicianClockEntriesInput, Prisma.UserUpdateWithoutTechnicianClockEntriesInput>, Prisma.UserUncheckedUpdateWithoutTechnicianClockEntriesInput>
 }
 
 export type UserCreateNestedOneWithoutPropertiesInput = {
@@ -920,7 +964,9 @@ export type UserCreateWithoutTechnicianClientsInput = {
   appointments?: Prisma.AppointmentCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
   technicianProfile?: Prisma.TechnicianProfileCreateNestedOneWithoutUserInput
+  technicianRoster?: Prisma.TechnicianCreateNestedOneWithoutUserInput
   technicianLocations?: Prisma.TechnicianLocationCreateNestedManyWithoutUserInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryCreateNestedManyWithoutUserInput
   properties?: Prisma.PropertyCreateNestedManyWithoutUserInput
   servicePlans?: Prisma.CustomerServicePlanCreateNestedManyWithoutUserInput
   warranties?: Prisma.WarrantyCreateNestedManyWithoutUserInput
@@ -953,7 +999,9 @@ export type UserUncheckedCreateWithoutTechnicianClientsInput = {
   appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
   technicianProfile?: Prisma.TechnicianProfileUncheckedCreateNestedOneWithoutUserInput
+  technicianRoster?: Prisma.TechnicianUncheckedCreateNestedOneWithoutUserInput
   technicianLocations?: Prisma.TechnicianLocationUncheckedCreateNestedManyWithoutUserInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUncheckedCreateNestedManyWithoutUserInput
   properties?: Prisma.PropertyUncheckedCreateNestedManyWithoutUserInput
   servicePlans?: Prisma.CustomerServicePlanUncheckedCreateNestedManyWithoutUserInput
   warranties?: Prisma.WarrantyUncheckedCreateNestedManyWithoutUserInput
@@ -1002,7 +1050,9 @@ export type UserUpdateWithoutTechnicianClientsInput = {
   appointments?: Prisma.AppointmentUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
   technicianProfile?: Prisma.TechnicianProfileUpdateOneWithoutUserNestedInput
+  technicianRoster?: Prisma.TechnicianUpdateOneWithoutUserNestedInput
   technicianLocations?: Prisma.TechnicianLocationUpdateManyWithoutUserNestedInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUpdateManyWithoutUserNestedInput
   properties?: Prisma.PropertyUpdateManyWithoutUserNestedInput
   servicePlans?: Prisma.CustomerServicePlanUpdateManyWithoutUserNestedInput
   warranties?: Prisma.WarrantyUpdateManyWithoutUserNestedInput
@@ -1035,7 +1085,9 @@ export type UserUncheckedUpdateWithoutTechnicianClientsInput = {
   appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
   technicianProfile?: Prisma.TechnicianProfileUncheckedUpdateOneWithoutUserNestedInput
+  technicianRoster?: Prisma.TechnicianUncheckedUpdateOneWithoutUserNestedInput
   technicianLocations?: Prisma.TechnicianLocationUncheckedUpdateManyWithoutUserNestedInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUncheckedUpdateManyWithoutUserNestedInput
   properties?: Prisma.PropertyUncheckedUpdateManyWithoutUserNestedInput
   servicePlans?: Prisma.CustomerServicePlanUncheckedUpdateManyWithoutUserNestedInput
   warranties?: Prisma.WarrantyUncheckedUpdateManyWithoutUserNestedInput
@@ -1067,7 +1119,9 @@ export type UserCreateWithoutAccountsInput = {
   appointments?: Prisma.AppointmentCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
   technicianProfile?: Prisma.TechnicianProfileCreateNestedOneWithoutUserInput
+  technicianRoster?: Prisma.TechnicianCreateNestedOneWithoutUserInput
   technicianLocations?: Prisma.TechnicianLocationCreateNestedManyWithoutUserInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryCreateNestedManyWithoutUserInput
   properties?: Prisma.PropertyCreateNestedManyWithoutUserInput
   servicePlans?: Prisma.CustomerServicePlanCreateNestedManyWithoutUserInput
   warranties?: Prisma.WarrantyCreateNestedManyWithoutUserInput
@@ -1100,7 +1154,9 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
   technicianProfile?: Prisma.TechnicianProfileUncheckedCreateNestedOneWithoutUserInput
+  technicianRoster?: Prisma.TechnicianUncheckedCreateNestedOneWithoutUserInput
   technicianLocations?: Prisma.TechnicianLocationUncheckedCreateNestedManyWithoutUserInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUncheckedCreateNestedManyWithoutUserInput
   properties?: Prisma.PropertyUncheckedCreateNestedManyWithoutUserInput
   servicePlans?: Prisma.CustomerServicePlanUncheckedCreateNestedManyWithoutUserInput
   warranties?: Prisma.WarrantyUncheckedCreateNestedManyWithoutUserInput
@@ -1149,7 +1205,9 @@ export type UserUpdateWithoutAccountsInput = {
   appointments?: Prisma.AppointmentUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
   technicianProfile?: Prisma.TechnicianProfileUpdateOneWithoutUserNestedInput
+  technicianRoster?: Prisma.TechnicianUpdateOneWithoutUserNestedInput
   technicianLocations?: Prisma.TechnicianLocationUpdateManyWithoutUserNestedInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUpdateManyWithoutUserNestedInput
   properties?: Prisma.PropertyUpdateManyWithoutUserNestedInput
   servicePlans?: Prisma.CustomerServicePlanUpdateManyWithoutUserNestedInput
   warranties?: Prisma.WarrantyUpdateManyWithoutUserNestedInput
@@ -1182,7 +1240,9 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
   technicianProfile?: Prisma.TechnicianProfileUncheckedUpdateOneWithoutUserNestedInput
+  technicianRoster?: Prisma.TechnicianUncheckedUpdateOneWithoutUserNestedInput
   technicianLocations?: Prisma.TechnicianLocationUncheckedUpdateManyWithoutUserNestedInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUncheckedUpdateManyWithoutUserNestedInput
   properties?: Prisma.PropertyUncheckedUpdateManyWithoutUserNestedInput
   servicePlans?: Prisma.CustomerServicePlanUncheckedUpdateManyWithoutUserNestedInput
   warranties?: Prisma.WarrantyUncheckedUpdateManyWithoutUserNestedInput
@@ -1215,7 +1275,9 @@ export type UserCreateWithoutSessionsInput = {
   appointments?: Prisma.AppointmentCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
   technicianProfile?: Prisma.TechnicianProfileCreateNestedOneWithoutUserInput
+  technicianRoster?: Prisma.TechnicianCreateNestedOneWithoutUserInput
   technicianLocations?: Prisma.TechnicianLocationCreateNestedManyWithoutUserInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryCreateNestedManyWithoutUserInput
   properties?: Prisma.PropertyCreateNestedManyWithoutUserInput
   servicePlans?: Prisma.CustomerServicePlanCreateNestedManyWithoutUserInput
   warranties?: Prisma.WarrantyCreateNestedManyWithoutUserInput
@@ -1248,7 +1310,9 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
   technicianProfile?: Prisma.TechnicianProfileUncheckedCreateNestedOneWithoutUserInput
+  technicianRoster?: Prisma.TechnicianUncheckedCreateNestedOneWithoutUserInput
   technicianLocations?: Prisma.TechnicianLocationUncheckedCreateNestedManyWithoutUserInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUncheckedCreateNestedManyWithoutUserInput
   properties?: Prisma.PropertyUncheckedCreateNestedManyWithoutUserInput
   servicePlans?: Prisma.CustomerServicePlanUncheckedCreateNestedManyWithoutUserInput
   warranties?: Prisma.WarrantyUncheckedCreateNestedManyWithoutUserInput
@@ -1297,7 +1361,9 @@ export type UserUpdateWithoutSessionsInput = {
   appointments?: Prisma.AppointmentUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
   technicianProfile?: Prisma.TechnicianProfileUpdateOneWithoutUserNestedInput
+  technicianRoster?: Prisma.TechnicianUpdateOneWithoutUserNestedInput
   technicianLocations?: Prisma.TechnicianLocationUpdateManyWithoutUserNestedInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUpdateManyWithoutUserNestedInput
   properties?: Prisma.PropertyUpdateManyWithoutUserNestedInput
   servicePlans?: Prisma.CustomerServicePlanUpdateManyWithoutUserNestedInput
   warranties?: Prisma.WarrantyUpdateManyWithoutUserNestedInput
@@ -1330,7 +1396,9 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
   technicianProfile?: Prisma.TechnicianProfileUncheckedUpdateOneWithoutUserNestedInput
+  technicianRoster?: Prisma.TechnicianUncheckedUpdateOneWithoutUserNestedInput
   technicianLocations?: Prisma.TechnicianLocationUncheckedUpdateManyWithoutUserNestedInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUncheckedUpdateManyWithoutUserNestedInput
   properties?: Prisma.PropertyUncheckedUpdateManyWithoutUserNestedInput
   servicePlans?: Prisma.CustomerServicePlanUncheckedUpdateManyWithoutUserNestedInput
   warranties?: Prisma.WarrantyUncheckedUpdateManyWithoutUserNestedInput
@@ -1363,7 +1431,9 @@ export type UserCreateWithoutAppointmentsInput = {
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
   technicianProfile?: Prisma.TechnicianProfileCreateNestedOneWithoutUserInput
+  technicianRoster?: Prisma.TechnicianCreateNestedOneWithoutUserInput
   technicianLocations?: Prisma.TechnicianLocationCreateNestedManyWithoutUserInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryCreateNestedManyWithoutUserInput
   properties?: Prisma.PropertyCreateNestedManyWithoutUserInput
   servicePlans?: Prisma.CustomerServicePlanCreateNestedManyWithoutUserInput
   warranties?: Prisma.WarrantyCreateNestedManyWithoutUserInput
@@ -1396,7 +1466,9 @@ export type UserUncheckedCreateWithoutAppointmentsInput = {
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
   technicianProfile?: Prisma.TechnicianProfileUncheckedCreateNestedOneWithoutUserInput
+  technicianRoster?: Prisma.TechnicianUncheckedCreateNestedOneWithoutUserInput
   technicianLocations?: Prisma.TechnicianLocationUncheckedCreateNestedManyWithoutUserInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUncheckedCreateNestedManyWithoutUserInput
   properties?: Prisma.PropertyUncheckedCreateNestedManyWithoutUserInput
   servicePlans?: Prisma.CustomerServicePlanUncheckedCreateNestedManyWithoutUserInput
   warranties?: Prisma.WarrantyUncheckedCreateNestedManyWithoutUserInput
@@ -1435,7 +1507,9 @@ export type UserCreateWithoutTechnicianAppointmentsInput = {
   appointments?: Prisma.AppointmentCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
   technicianProfile?: Prisma.TechnicianProfileCreateNestedOneWithoutUserInput
+  technicianRoster?: Prisma.TechnicianCreateNestedOneWithoutUserInput
   technicianLocations?: Prisma.TechnicianLocationCreateNestedManyWithoutUserInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryCreateNestedManyWithoutUserInput
   properties?: Prisma.PropertyCreateNestedManyWithoutUserInput
   servicePlans?: Prisma.CustomerServicePlanCreateNestedManyWithoutUserInput
   warranties?: Prisma.WarrantyCreateNestedManyWithoutUserInput
@@ -1468,7 +1542,9 @@ export type UserUncheckedCreateWithoutTechnicianAppointmentsInput = {
   appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
   technicianProfile?: Prisma.TechnicianProfileUncheckedCreateNestedOneWithoutUserInput
+  technicianRoster?: Prisma.TechnicianUncheckedCreateNestedOneWithoutUserInput
   technicianLocations?: Prisma.TechnicianLocationUncheckedCreateNestedManyWithoutUserInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUncheckedCreateNestedManyWithoutUserInput
   properties?: Prisma.PropertyUncheckedCreateNestedManyWithoutUserInput
   servicePlans?: Prisma.CustomerServicePlanUncheckedCreateNestedManyWithoutUserInput
   warranties?: Prisma.WarrantyUncheckedCreateNestedManyWithoutUserInput
@@ -1506,7 +1582,9 @@ export type UserCreateWithoutDispatchedAppointmentsInput = {
   appointments?: Prisma.AppointmentCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
   technicianProfile?: Prisma.TechnicianProfileCreateNestedOneWithoutUserInput
+  technicianRoster?: Prisma.TechnicianCreateNestedOneWithoutUserInput
   technicianLocations?: Prisma.TechnicianLocationCreateNestedManyWithoutUserInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryCreateNestedManyWithoutUserInput
   properties?: Prisma.PropertyCreateNestedManyWithoutUserInput
   servicePlans?: Prisma.CustomerServicePlanCreateNestedManyWithoutUserInput
   warranties?: Prisma.WarrantyCreateNestedManyWithoutUserInput
@@ -1539,7 +1617,9 @@ export type UserUncheckedCreateWithoutDispatchedAppointmentsInput = {
   appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
   technicianProfile?: Prisma.TechnicianProfileUncheckedCreateNestedOneWithoutUserInput
+  technicianRoster?: Prisma.TechnicianUncheckedCreateNestedOneWithoutUserInput
   technicianLocations?: Prisma.TechnicianLocationUncheckedCreateNestedManyWithoutUserInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUncheckedCreateNestedManyWithoutUserInput
   properties?: Prisma.PropertyUncheckedCreateNestedManyWithoutUserInput
   servicePlans?: Prisma.CustomerServicePlanUncheckedCreateNestedManyWithoutUserInput
   warranties?: Prisma.WarrantyUncheckedCreateNestedManyWithoutUserInput
@@ -1587,7 +1667,9 @@ export type UserUpdateWithoutAppointmentsInput = {
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
   technicianProfile?: Prisma.TechnicianProfileUpdateOneWithoutUserNestedInput
+  technicianRoster?: Prisma.TechnicianUpdateOneWithoutUserNestedInput
   technicianLocations?: Prisma.TechnicianLocationUpdateManyWithoutUserNestedInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUpdateManyWithoutUserNestedInput
   properties?: Prisma.PropertyUpdateManyWithoutUserNestedInput
   servicePlans?: Prisma.CustomerServicePlanUpdateManyWithoutUserNestedInput
   warranties?: Prisma.WarrantyUpdateManyWithoutUserNestedInput
@@ -1620,7 +1702,9 @@ export type UserUncheckedUpdateWithoutAppointmentsInput = {
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
   technicianProfile?: Prisma.TechnicianProfileUncheckedUpdateOneWithoutUserNestedInput
+  technicianRoster?: Prisma.TechnicianUncheckedUpdateOneWithoutUserNestedInput
   technicianLocations?: Prisma.TechnicianLocationUncheckedUpdateManyWithoutUserNestedInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUncheckedUpdateManyWithoutUserNestedInput
   properties?: Prisma.PropertyUncheckedUpdateManyWithoutUserNestedInput
   servicePlans?: Prisma.CustomerServicePlanUncheckedUpdateManyWithoutUserNestedInput
   warranties?: Prisma.WarrantyUncheckedUpdateManyWithoutUserNestedInput
@@ -1665,7 +1749,9 @@ export type UserUpdateWithoutTechnicianAppointmentsInput = {
   appointments?: Prisma.AppointmentUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
   technicianProfile?: Prisma.TechnicianProfileUpdateOneWithoutUserNestedInput
+  technicianRoster?: Prisma.TechnicianUpdateOneWithoutUserNestedInput
   technicianLocations?: Prisma.TechnicianLocationUpdateManyWithoutUserNestedInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUpdateManyWithoutUserNestedInput
   properties?: Prisma.PropertyUpdateManyWithoutUserNestedInput
   servicePlans?: Prisma.CustomerServicePlanUpdateManyWithoutUserNestedInput
   warranties?: Prisma.WarrantyUpdateManyWithoutUserNestedInput
@@ -1698,7 +1784,9 @@ export type UserUncheckedUpdateWithoutTechnicianAppointmentsInput = {
   appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
   technicianProfile?: Prisma.TechnicianProfileUncheckedUpdateOneWithoutUserNestedInput
+  technicianRoster?: Prisma.TechnicianUncheckedUpdateOneWithoutUserNestedInput
   technicianLocations?: Prisma.TechnicianLocationUncheckedUpdateManyWithoutUserNestedInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUncheckedUpdateManyWithoutUserNestedInput
   properties?: Prisma.PropertyUncheckedUpdateManyWithoutUserNestedInput
   servicePlans?: Prisma.CustomerServicePlanUncheckedUpdateManyWithoutUserNestedInput
   warranties?: Prisma.WarrantyUncheckedUpdateManyWithoutUserNestedInput
@@ -1742,7 +1830,9 @@ export type UserUpdateWithoutDispatchedAppointmentsInput = {
   appointments?: Prisma.AppointmentUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
   technicianProfile?: Prisma.TechnicianProfileUpdateOneWithoutUserNestedInput
+  technicianRoster?: Prisma.TechnicianUpdateOneWithoutUserNestedInput
   technicianLocations?: Prisma.TechnicianLocationUpdateManyWithoutUserNestedInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUpdateManyWithoutUserNestedInput
   properties?: Prisma.PropertyUpdateManyWithoutUserNestedInput
   servicePlans?: Prisma.CustomerServicePlanUpdateManyWithoutUserNestedInput
   warranties?: Prisma.WarrantyUpdateManyWithoutUserNestedInput
@@ -1775,7 +1865,9 @@ export type UserUncheckedUpdateWithoutDispatchedAppointmentsInput = {
   appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
   technicianProfile?: Prisma.TechnicianProfileUncheckedUpdateOneWithoutUserNestedInput
+  technicianRoster?: Prisma.TechnicianUncheckedUpdateOneWithoutUserNestedInput
   technicianLocations?: Prisma.TechnicianLocationUncheckedUpdateManyWithoutUserNestedInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUncheckedUpdateManyWithoutUserNestedInput
   properties?: Prisma.PropertyUncheckedUpdateManyWithoutUserNestedInput
   servicePlans?: Prisma.CustomerServicePlanUncheckedUpdateManyWithoutUserNestedInput
   warranties?: Prisma.WarrantyUncheckedUpdateManyWithoutUserNestedInput
@@ -1807,7 +1899,9 @@ export type UserCreateWithoutReviewsInput = {
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   appointments?: Prisma.AppointmentCreateNestedManyWithoutUserInput
   technicianProfile?: Prisma.TechnicianProfileCreateNestedOneWithoutUserInput
+  technicianRoster?: Prisma.TechnicianCreateNestedOneWithoutUserInput
   technicianLocations?: Prisma.TechnicianLocationCreateNestedManyWithoutUserInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryCreateNestedManyWithoutUserInput
   properties?: Prisma.PropertyCreateNestedManyWithoutUserInput
   servicePlans?: Prisma.CustomerServicePlanCreateNestedManyWithoutUserInput
   warranties?: Prisma.WarrantyCreateNestedManyWithoutUserInput
@@ -1840,7 +1934,9 @@ export type UserUncheckedCreateWithoutReviewsInput = {
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutUserInput
   technicianProfile?: Prisma.TechnicianProfileUncheckedCreateNestedOneWithoutUserInput
+  technicianRoster?: Prisma.TechnicianUncheckedCreateNestedOneWithoutUserInput
   technicianLocations?: Prisma.TechnicianLocationUncheckedCreateNestedManyWithoutUserInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUncheckedCreateNestedManyWithoutUserInput
   properties?: Prisma.PropertyUncheckedCreateNestedManyWithoutUserInput
   servicePlans?: Prisma.CustomerServicePlanUncheckedCreateNestedManyWithoutUserInput
   warranties?: Prisma.WarrantyUncheckedCreateNestedManyWithoutUserInput
@@ -1889,7 +1985,9 @@ export type UserUpdateWithoutReviewsInput = {
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   appointments?: Prisma.AppointmentUpdateManyWithoutUserNestedInput
   technicianProfile?: Prisma.TechnicianProfileUpdateOneWithoutUserNestedInput
+  technicianRoster?: Prisma.TechnicianUpdateOneWithoutUserNestedInput
   technicianLocations?: Prisma.TechnicianLocationUpdateManyWithoutUserNestedInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUpdateManyWithoutUserNestedInput
   properties?: Prisma.PropertyUpdateManyWithoutUserNestedInput
   servicePlans?: Prisma.CustomerServicePlanUpdateManyWithoutUserNestedInput
   warranties?: Prisma.WarrantyUpdateManyWithoutUserNestedInput
@@ -1922,7 +2020,165 @@ export type UserUncheckedUpdateWithoutReviewsInput = {
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutUserNestedInput
   technicianProfile?: Prisma.TechnicianProfileUncheckedUpdateOneWithoutUserNestedInput
+  technicianRoster?: Prisma.TechnicianUncheckedUpdateOneWithoutUserNestedInput
   technicianLocations?: Prisma.TechnicianLocationUncheckedUpdateManyWithoutUserNestedInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUncheckedUpdateManyWithoutUserNestedInput
+  properties?: Prisma.PropertyUncheckedUpdateManyWithoutUserNestedInput
+  servicePlans?: Prisma.CustomerServicePlanUncheckedUpdateManyWithoutUserNestedInput
+  warranties?: Prisma.WarrantyUncheckedUpdateManyWithoutUserNestedInput
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
+  pushSubscriptions?: Prisma.PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+  dispatchedAppointments?: Prisma.AppointmentUncheckedUpdateManyWithoutDispatcherNestedInput
+  technicianAppointments?: Prisma.AppointmentUncheckedUpdateManyWithoutTechnicianNestedInput
+  estimates?: Prisma.EstimateUncheckedUpdateManyWithoutTechnicianNestedInput
+  jobPhotos?: Prisma.JobPhotoUncheckedUpdateManyWithoutTechnicianNestedInput
+  jobPayments?: Prisma.JobPaymentUncheckedUpdateManyWithoutCollectorNestedInput
+  jobParts?: Prisma.JobPartUncheckedUpdateManyWithoutTechnicianNestedInput
+  inventoryRequests?: Prisma.InventoryRequestUncheckedUpdateManyWithoutTechnicianNestedInput
+  technicianClients?: Prisma.TechnicianClientUncheckedUpdateManyWithoutTechnicianNestedInput
+  expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutUserNestedInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedUpdateOneWithoutUserNestedInput
+}
+
+export type UserCreateWithoutTechnicianRosterInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  password?: string | null
+  phone?: string | null
+  role?: $Enums.Role
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  appointments?: Prisma.AppointmentCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
+  technicianProfile?: Prisma.TechnicianProfileCreateNestedOneWithoutUserInput
+  technicianLocations?: Prisma.TechnicianLocationCreateNestedManyWithoutUserInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryCreateNestedManyWithoutUserInput
+  properties?: Prisma.PropertyCreateNestedManyWithoutUserInput
+  servicePlans?: Prisma.CustomerServicePlanCreateNestedManyWithoutUserInput
+  warranties?: Prisma.WarrantyCreateNestedManyWithoutUserInput
+  orders?: Prisma.OrderCreateNestedManyWithoutUserInput
+  pushSubscriptions?: Prisma.PushSubscriptionCreateNestedManyWithoutUserInput
+  dispatchedAppointments?: Prisma.AppointmentCreateNestedManyWithoutDispatcherInput
+  technicianAppointments?: Prisma.AppointmentCreateNestedManyWithoutTechnicianInput
+  estimates?: Prisma.EstimateCreateNestedManyWithoutTechnicianInput
+  jobPhotos?: Prisma.JobPhotoCreateNestedManyWithoutTechnicianInput
+  jobPayments?: Prisma.JobPaymentCreateNestedManyWithoutCollectorInput
+  jobParts?: Prisma.JobPartCreateNestedManyWithoutTechnicianInput
+  inventoryRequests?: Prisma.InventoryRequestCreateNestedManyWithoutTechnicianInput
+  technicianClients?: Prisma.TechnicianClientCreateNestedManyWithoutTechnicianInput
+  expenses?: Prisma.ExpenseCreateNestedManyWithoutUserInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionCreateNestedOneWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutTechnicianRosterInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  password?: string | null
+  phone?: string | null
+  role?: $Enums.Role
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
+  technicianProfile?: Prisma.TechnicianProfileUncheckedCreateNestedOneWithoutUserInput
+  technicianLocations?: Prisma.TechnicianLocationUncheckedCreateNestedManyWithoutUserInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUncheckedCreateNestedManyWithoutUserInput
+  properties?: Prisma.PropertyUncheckedCreateNestedManyWithoutUserInput
+  servicePlans?: Prisma.CustomerServicePlanUncheckedCreateNestedManyWithoutUserInput
+  warranties?: Prisma.WarrantyUncheckedCreateNestedManyWithoutUserInput
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
+  pushSubscriptions?: Prisma.PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+  dispatchedAppointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutDispatcherInput
+  technicianAppointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutTechnicianInput
+  estimates?: Prisma.EstimateUncheckedCreateNestedManyWithoutTechnicianInput
+  jobPhotos?: Prisma.JobPhotoUncheckedCreateNestedManyWithoutTechnicianInput
+  jobPayments?: Prisma.JobPaymentUncheckedCreateNestedManyWithoutCollectorInput
+  jobParts?: Prisma.JobPartUncheckedCreateNestedManyWithoutTechnicianInput
+  inventoryRequests?: Prisma.InventoryRequestUncheckedCreateNestedManyWithoutTechnicianInput
+  technicianClients?: Prisma.TechnicianClientUncheckedCreateNestedManyWithoutTechnicianInput
+  expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutUserInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedCreateNestedOneWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutTechnicianRosterInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutTechnicianRosterInput, Prisma.UserUncheckedCreateWithoutTechnicianRosterInput>
+}
+
+export type UserUpsertWithoutTechnicianRosterInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutTechnicianRosterInput, Prisma.UserUncheckedUpdateWithoutTechnicianRosterInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutTechnicianRosterInput, Prisma.UserUncheckedCreateWithoutTechnicianRosterInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutTechnicianRosterInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutTechnicianRosterInput, Prisma.UserUncheckedUpdateWithoutTechnicianRosterInput>
+}
+
+export type UserUpdateWithoutTechnicianRosterInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  appointments?: Prisma.AppointmentUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
+  technicianProfile?: Prisma.TechnicianProfileUpdateOneWithoutUserNestedInput
+  technicianLocations?: Prisma.TechnicianLocationUpdateManyWithoutUserNestedInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUpdateManyWithoutUserNestedInput
+  properties?: Prisma.PropertyUpdateManyWithoutUserNestedInput
+  servicePlans?: Prisma.CustomerServicePlanUpdateManyWithoutUserNestedInput
+  warranties?: Prisma.WarrantyUpdateManyWithoutUserNestedInput
+  orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
+  pushSubscriptions?: Prisma.PushSubscriptionUpdateManyWithoutUserNestedInput
+  dispatchedAppointments?: Prisma.AppointmentUpdateManyWithoutDispatcherNestedInput
+  technicianAppointments?: Prisma.AppointmentUpdateManyWithoutTechnicianNestedInput
+  estimates?: Prisma.EstimateUpdateManyWithoutTechnicianNestedInput
+  jobPhotos?: Prisma.JobPhotoUpdateManyWithoutTechnicianNestedInput
+  jobPayments?: Prisma.JobPaymentUpdateManyWithoutCollectorNestedInput
+  jobParts?: Prisma.JobPartUpdateManyWithoutTechnicianNestedInput
+  inventoryRequests?: Prisma.InventoryRequestUpdateManyWithoutTechnicianNestedInput
+  technicianClients?: Prisma.TechnicianClientUpdateManyWithoutTechnicianNestedInput
+  expenses?: Prisma.ExpenseUpdateManyWithoutUserNestedInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUpdateOneWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutTechnicianRosterInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
+  technicianProfile?: Prisma.TechnicianProfileUncheckedUpdateOneWithoutUserNestedInput
+  technicianLocations?: Prisma.TechnicianLocationUncheckedUpdateManyWithoutUserNestedInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUncheckedUpdateManyWithoutUserNestedInput
   properties?: Prisma.PropertyUncheckedUpdateManyWithoutUserNestedInput
   servicePlans?: Prisma.CustomerServicePlanUncheckedUpdateManyWithoutUserNestedInput
   warranties?: Prisma.WarrantyUncheckedUpdateManyWithoutUserNestedInput
@@ -1955,7 +2211,9 @@ export type UserCreateWithoutTechnicianProfileInput = {
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   appointments?: Prisma.AppointmentCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
+  technicianRoster?: Prisma.TechnicianCreateNestedOneWithoutUserInput
   technicianLocations?: Prisma.TechnicianLocationCreateNestedManyWithoutUserInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryCreateNestedManyWithoutUserInput
   properties?: Prisma.PropertyCreateNestedManyWithoutUserInput
   servicePlans?: Prisma.CustomerServicePlanCreateNestedManyWithoutUserInput
   warranties?: Prisma.WarrantyCreateNestedManyWithoutUserInput
@@ -1988,7 +2246,9 @@ export type UserUncheckedCreateWithoutTechnicianProfileInput = {
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
+  technicianRoster?: Prisma.TechnicianUncheckedCreateNestedOneWithoutUserInput
   technicianLocations?: Prisma.TechnicianLocationUncheckedCreateNestedManyWithoutUserInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUncheckedCreateNestedManyWithoutUserInput
   properties?: Prisma.PropertyUncheckedCreateNestedManyWithoutUserInput
   servicePlans?: Prisma.CustomerServicePlanUncheckedCreateNestedManyWithoutUserInput
   warranties?: Prisma.WarrantyUncheckedCreateNestedManyWithoutUserInput
@@ -2037,7 +2297,9 @@ export type UserUpdateWithoutTechnicianProfileInput = {
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   appointments?: Prisma.AppointmentUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
+  technicianRoster?: Prisma.TechnicianUpdateOneWithoutUserNestedInput
   technicianLocations?: Prisma.TechnicianLocationUpdateManyWithoutUserNestedInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUpdateManyWithoutUserNestedInput
   properties?: Prisma.PropertyUpdateManyWithoutUserNestedInput
   servicePlans?: Prisma.CustomerServicePlanUpdateManyWithoutUserNestedInput
   warranties?: Prisma.WarrantyUpdateManyWithoutUserNestedInput
@@ -2070,7 +2332,9 @@ export type UserUncheckedUpdateWithoutTechnicianProfileInput = {
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
+  technicianRoster?: Prisma.TechnicianUncheckedUpdateOneWithoutUserNestedInput
   technicianLocations?: Prisma.TechnicianLocationUncheckedUpdateManyWithoutUserNestedInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUncheckedUpdateManyWithoutUserNestedInput
   properties?: Prisma.PropertyUncheckedUpdateManyWithoutUserNestedInput
   servicePlans?: Prisma.CustomerServicePlanUncheckedUpdateManyWithoutUserNestedInput
   warranties?: Prisma.WarrantyUncheckedUpdateManyWithoutUserNestedInput
@@ -2104,6 +2368,8 @@ export type UserCreateWithoutTechnicianLocationsInput = {
   appointments?: Prisma.AppointmentCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
   technicianProfile?: Prisma.TechnicianProfileCreateNestedOneWithoutUserInput
+  technicianRoster?: Prisma.TechnicianCreateNestedOneWithoutUserInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryCreateNestedManyWithoutUserInput
   properties?: Prisma.PropertyCreateNestedManyWithoutUserInput
   servicePlans?: Prisma.CustomerServicePlanCreateNestedManyWithoutUserInput
   warranties?: Prisma.WarrantyCreateNestedManyWithoutUserInput
@@ -2137,6 +2403,8 @@ export type UserUncheckedCreateWithoutTechnicianLocationsInput = {
   appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
   technicianProfile?: Prisma.TechnicianProfileUncheckedCreateNestedOneWithoutUserInput
+  technicianRoster?: Prisma.TechnicianUncheckedCreateNestedOneWithoutUserInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUncheckedCreateNestedManyWithoutUserInput
   properties?: Prisma.PropertyUncheckedCreateNestedManyWithoutUserInput
   servicePlans?: Prisma.CustomerServicePlanUncheckedCreateNestedManyWithoutUserInput
   warranties?: Prisma.WarrantyUncheckedCreateNestedManyWithoutUserInput
@@ -2186,6 +2454,8 @@ export type UserUpdateWithoutTechnicianLocationsInput = {
   appointments?: Prisma.AppointmentUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
   technicianProfile?: Prisma.TechnicianProfileUpdateOneWithoutUserNestedInput
+  technicianRoster?: Prisma.TechnicianUpdateOneWithoutUserNestedInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUpdateManyWithoutUserNestedInput
   properties?: Prisma.PropertyUpdateManyWithoutUserNestedInput
   servicePlans?: Prisma.CustomerServicePlanUpdateManyWithoutUserNestedInput
   warranties?: Prisma.WarrantyUpdateManyWithoutUserNestedInput
@@ -2219,6 +2489,164 @@ export type UserUncheckedUpdateWithoutTechnicianLocationsInput = {
   appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
   technicianProfile?: Prisma.TechnicianProfileUncheckedUpdateOneWithoutUserNestedInput
+  technicianRoster?: Prisma.TechnicianUncheckedUpdateOneWithoutUserNestedInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUncheckedUpdateManyWithoutUserNestedInput
+  properties?: Prisma.PropertyUncheckedUpdateManyWithoutUserNestedInput
+  servicePlans?: Prisma.CustomerServicePlanUncheckedUpdateManyWithoutUserNestedInput
+  warranties?: Prisma.WarrantyUncheckedUpdateManyWithoutUserNestedInput
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
+  pushSubscriptions?: Prisma.PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+  dispatchedAppointments?: Prisma.AppointmentUncheckedUpdateManyWithoutDispatcherNestedInput
+  technicianAppointments?: Prisma.AppointmentUncheckedUpdateManyWithoutTechnicianNestedInput
+  estimates?: Prisma.EstimateUncheckedUpdateManyWithoutTechnicianNestedInput
+  jobPhotos?: Prisma.JobPhotoUncheckedUpdateManyWithoutTechnicianNestedInput
+  jobPayments?: Prisma.JobPaymentUncheckedUpdateManyWithoutCollectorNestedInput
+  jobParts?: Prisma.JobPartUncheckedUpdateManyWithoutTechnicianNestedInput
+  inventoryRequests?: Prisma.InventoryRequestUncheckedUpdateManyWithoutTechnicianNestedInput
+  technicianClients?: Prisma.TechnicianClientUncheckedUpdateManyWithoutTechnicianNestedInput
+  expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutUserNestedInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedUpdateOneWithoutUserNestedInput
+}
+
+export type UserCreateWithoutTechnicianClockEntriesInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  password?: string | null
+  phone?: string | null
+  role?: $Enums.Role
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  appointments?: Prisma.AppointmentCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
+  technicianProfile?: Prisma.TechnicianProfileCreateNestedOneWithoutUserInput
+  technicianRoster?: Prisma.TechnicianCreateNestedOneWithoutUserInput
+  technicianLocations?: Prisma.TechnicianLocationCreateNestedManyWithoutUserInput
+  properties?: Prisma.PropertyCreateNestedManyWithoutUserInput
+  servicePlans?: Prisma.CustomerServicePlanCreateNestedManyWithoutUserInput
+  warranties?: Prisma.WarrantyCreateNestedManyWithoutUserInput
+  orders?: Prisma.OrderCreateNestedManyWithoutUserInput
+  pushSubscriptions?: Prisma.PushSubscriptionCreateNestedManyWithoutUserInput
+  dispatchedAppointments?: Prisma.AppointmentCreateNestedManyWithoutDispatcherInput
+  technicianAppointments?: Prisma.AppointmentCreateNestedManyWithoutTechnicianInput
+  estimates?: Prisma.EstimateCreateNestedManyWithoutTechnicianInput
+  jobPhotos?: Prisma.JobPhotoCreateNestedManyWithoutTechnicianInput
+  jobPayments?: Prisma.JobPaymentCreateNestedManyWithoutCollectorInput
+  jobParts?: Prisma.JobPartCreateNestedManyWithoutTechnicianInput
+  inventoryRequests?: Prisma.InventoryRequestCreateNestedManyWithoutTechnicianInput
+  technicianClients?: Prisma.TechnicianClientCreateNestedManyWithoutTechnicianInput
+  expenses?: Prisma.ExpenseCreateNestedManyWithoutUserInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionCreateNestedOneWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutTechnicianClockEntriesInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  password?: string | null
+  phone?: string | null
+  role?: $Enums.Role
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
+  technicianProfile?: Prisma.TechnicianProfileUncheckedCreateNestedOneWithoutUserInput
+  technicianRoster?: Prisma.TechnicianUncheckedCreateNestedOneWithoutUserInput
+  technicianLocations?: Prisma.TechnicianLocationUncheckedCreateNestedManyWithoutUserInput
+  properties?: Prisma.PropertyUncheckedCreateNestedManyWithoutUserInput
+  servicePlans?: Prisma.CustomerServicePlanUncheckedCreateNestedManyWithoutUserInput
+  warranties?: Prisma.WarrantyUncheckedCreateNestedManyWithoutUserInput
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
+  pushSubscriptions?: Prisma.PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+  dispatchedAppointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutDispatcherInput
+  technicianAppointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutTechnicianInput
+  estimates?: Prisma.EstimateUncheckedCreateNestedManyWithoutTechnicianInput
+  jobPhotos?: Prisma.JobPhotoUncheckedCreateNestedManyWithoutTechnicianInput
+  jobPayments?: Prisma.JobPaymentUncheckedCreateNestedManyWithoutCollectorInput
+  jobParts?: Prisma.JobPartUncheckedCreateNestedManyWithoutTechnicianInput
+  inventoryRequests?: Prisma.InventoryRequestUncheckedCreateNestedManyWithoutTechnicianInput
+  technicianClients?: Prisma.TechnicianClientUncheckedCreateNestedManyWithoutTechnicianInput
+  expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutUserInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedCreateNestedOneWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutTechnicianClockEntriesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutTechnicianClockEntriesInput, Prisma.UserUncheckedCreateWithoutTechnicianClockEntriesInput>
+}
+
+export type UserUpsertWithoutTechnicianClockEntriesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutTechnicianClockEntriesInput, Prisma.UserUncheckedUpdateWithoutTechnicianClockEntriesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutTechnicianClockEntriesInput, Prisma.UserUncheckedCreateWithoutTechnicianClockEntriesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutTechnicianClockEntriesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutTechnicianClockEntriesInput, Prisma.UserUncheckedUpdateWithoutTechnicianClockEntriesInput>
+}
+
+export type UserUpdateWithoutTechnicianClockEntriesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  appointments?: Prisma.AppointmentUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
+  technicianProfile?: Prisma.TechnicianProfileUpdateOneWithoutUserNestedInput
+  technicianRoster?: Prisma.TechnicianUpdateOneWithoutUserNestedInput
+  technicianLocations?: Prisma.TechnicianLocationUpdateManyWithoutUserNestedInput
+  properties?: Prisma.PropertyUpdateManyWithoutUserNestedInput
+  servicePlans?: Prisma.CustomerServicePlanUpdateManyWithoutUserNestedInput
+  warranties?: Prisma.WarrantyUpdateManyWithoutUserNestedInput
+  orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
+  pushSubscriptions?: Prisma.PushSubscriptionUpdateManyWithoutUserNestedInput
+  dispatchedAppointments?: Prisma.AppointmentUpdateManyWithoutDispatcherNestedInput
+  technicianAppointments?: Prisma.AppointmentUpdateManyWithoutTechnicianNestedInput
+  estimates?: Prisma.EstimateUpdateManyWithoutTechnicianNestedInput
+  jobPhotos?: Prisma.JobPhotoUpdateManyWithoutTechnicianNestedInput
+  jobPayments?: Prisma.JobPaymentUpdateManyWithoutCollectorNestedInput
+  jobParts?: Prisma.JobPartUpdateManyWithoutTechnicianNestedInput
+  inventoryRequests?: Prisma.InventoryRequestUpdateManyWithoutTechnicianNestedInput
+  technicianClients?: Prisma.TechnicianClientUpdateManyWithoutTechnicianNestedInput
+  expenses?: Prisma.ExpenseUpdateManyWithoutUserNestedInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUpdateOneWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutTechnicianClockEntriesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
+  technicianProfile?: Prisma.TechnicianProfileUncheckedUpdateOneWithoutUserNestedInput
+  technicianRoster?: Prisma.TechnicianUncheckedUpdateOneWithoutUserNestedInput
+  technicianLocations?: Prisma.TechnicianLocationUncheckedUpdateManyWithoutUserNestedInput
   properties?: Prisma.PropertyUncheckedUpdateManyWithoutUserNestedInput
   servicePlans?: Prisma.CustomerServicePlanUncheckedUpdateManyWithoutUserNestedInput
   warranties?: Prisma.WarrantyUncheckedUpdateManyWithoutUserNestedInput
@@ -2252,7 +2680,9 @@ export type UserCreateWithoutPropertiesInput = {
   appointments?: Prisma.AppointmentCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
   technicianProfile?: Prisma.TechnicianProfileCreateNestedOneWithoutUserInput
+  technicianRoster?: Prisma.TechnicianCreateNestedOneWithoutUserInput
   technicianLocations?: Prisma.TechnicianLocationCreateNestedManyWithoutUserInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryCreateNestedManyWithoutUserInput
   servicePlans?: Prisma.CustomerServicePlanCreateNestedManyWithoutUserInput
   warranties?: Prisma.WarrantyCreateNestedManyWithoutUserInput
   orders?: Prisma.OrderCreateNestedManyWithoutUserInput
@@ -2285,7 +2715,9 @@ export type UserUncheckedCreateWithoutPropertiesInput = {
   appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
   technicianProfile?: Prisma.TechnicianProfileUncheckedCreateNestedOneWithoutUserInput
+  technicianRoster?: Prisma.TechnicianUncheckedCreateNestedOneWithoutUserInput
   technicianLocations?: Prisma.TechnicianLocationUncheckedCreateNestedManyWithoutUserInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUncheckedCreateNestedManyWithoutUserInput
   servicePlans?: Prisma.CustomerServicePlanUncheckedCreateNestedManyWithoutUserInput
   warranties?: Prisma.WarrantyUncheckedCreateNestedManyWithoutUserInput
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
@@ -2334,7 +2766,9 @@ export type UserUpdateWithoutPropertiesInput = {
   appointments?: Prisma.AppointmentUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
   technicianProfile?: Prisma.TechnicianProfileUpdateOneWithoutUserNestedInput
+  technicianRoster?: Prisma.TechnicianUpdateOneWithoutUserNestedInput
   technicianLocations?: Prisma.TechnicianLocationUpdateManyWithoutUserNestedInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUpdateManyWithoutUserNestedInput
   servicePlans?: Prisma.CustomerServicePlanUpdateManyWithoutUserNestedInput
   warranties?: Prisma.WarrantyUpdateManyWithoutUserNestedInput
   orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
@@ -2367,7 +2801,9 @@ export type UserUncheckedUpdateWithoutPropertiesInput = {
   appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
   technicianProfile?: Prisma.TechnicianProfileUncheckedUpdateOneWithoutUserNestedInput
+  technicianRoster?: Prisma.TechnicianUncheckedUpdateOneWithoutUserNestedInput
   technicianLocations?: Prisma.TechnicianLocationUncheckedUpdateManyWithoutUserNestedInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUncheckedUpdateManyWithoutUserNestedInput
   servicePlans?: Prisma.CustomerServicePlanUncheckedUpdateManyWithoutUserNestedInput
   warranties?: Prisma.WarrantyUncheckedUpdateManyWithoutUserNestedInput
   orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
@@ -2400,7 +2836,9 @@ export type UserCreateWithoutServicePlansInput = {
   appointments?: Prisma.AppointmentCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
   technicianProfile?: Prisma.TechnicianProfileCreateNestedOneWithoutUserInput
+  technicianRoster?: Prisma.TechnicianCreateNestedOneWithoutUserInput
   technicianLocations?: Prisma.TechnicianLocationCreateNestedManyWithoutUserInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryCreateNestedManyWithoutUserInput
   properties?: Prisma.PropertyCreateNestedManyWithoutUserInput
   warranties?: Prisma.WarrantyCreateNestedManyWithoutUserInput
   orders?: Prisma.OrderCreateNestedManyWithoutUserInput
@@ -2433,7 +2871,9 @@ export type UserUncheckedCreateWithoutServicePlansInput = {
   appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
   technicianProfile?: Prisma.TechnicianProfileUncheckedCreateNestedOneWithoutUserInput
+  technicianRoster?: Prisma.TechnicianUncheckedCreateNestedOneWithoutUserInput
   technicianLocations?: Prisma.TechnicianLocationUncheckedCreateNestedManyWithoutUserInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUncheckedCreateNestedManyWithoutUserInput
   properties?: Prisma.PropertyUncheckedCreateNestedManyWithoutUserInput
   warranties?: Prisma.WarrantyUncheckedCreateNestedManyWithoutUserInput
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
@@ -2482,7 +2922,9 @@ export type UserUpdateWithoutServicePlansInput = {
   appointments?: Prisma.AppointmentUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
   technicianProfile?: Prisma.TechnicianProfileUpdateOneWithoutUserNestedInput
+  technicianRoster?: Prisma.TechnicianUpdateOneWithoutUserNestedInput
   technicianLocations?: Prisma.TechnicianLocationUpdateManyWithoutUserNestedInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUpdateManyWithoutUserNestedInput
   properties?: Prisma.PropertyUpdateManyWithoutUserNestedInput
   warranties?: Prisma.WarrantyUpdateManyWithoutUserNestedInput
   orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
@@ -2515,7 +2957,9 @@ export type UserUncheckedUpdateWithoutServicePlansInput = {
   appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
   technicianProfile?: Prisma.TechnicianProfileUncheckedUpdateOneWithoutUserNestedInput
+  technicianRoster?: Prisma.TechnicianUncheckedUpdateOneWithoutUserNestedInput
   technicianLocations?: Prisma.TechnicianLocationUncheckedUpdateManyWithoutUserNestedInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUncheckedUpdateManyWithoutUserNestedInput
   properties?: Prisma.PropertyUncheckedUpdateManyWithoutUserNestedInput
   warranties?: Prisma.WarrantyUncheckedUpdateManyWithoutUserNestedInput
   orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
@@ -2548,7 +2992,9 @@ export type UserCreateWithoutWarrantiesInput = {
   appointments?: Prisma.AppointmentCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
   technicianProfile?: Prisma.TechnicianProfileCreateNestedOneWithoutUserInput
+  technicianRoster?: Prisma.TechnicianCreateNestedOneWithoutUserInput
   technicianLocations?: Prisma.TechnicianLocationCreateNestedManyWithoutUserInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryCreateNestedManyWithoutUserInput
   properties?: Prisma.PropertyCreateNestedManyWithoutUserInput
   servicePlans?: Prisma.CustomerServicePlanCreateNestedManyWithoutUserInput
   orders?: Prisma.OrderCreateNestedManyWithoutUserInput
@@ -2581,7 +3027,9 @@ export type UserUncheckedCreateWithoutWarrantiesInput = {
   appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
   technicianProfile?: Prisma.TechnicianProfileUncheckedCreateNestedOneWithoutUserInput
+  technicianRoster?: Prisma.TechnicianUncheckedCreateNestedOneWithoutUserInput
   technicianLocations?: Prisma.TechnicianLocationUncheckedCreateNestedManyWithoutUserInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUncheckedCreateNestedManyWithoutUserInput
   properties?: Prisma.PropertyUncheckedCreateNestedManyWithoutUserInput
   servicePlans?: Prisma.CustomerServicePlanUncheckedCreateNestedManyWithoutUserInput
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
@@ -2630,7 +3078,9 @@ export type UserUpdateWithoutWarrantiesInput = {
   appointments?: Prisma.AppointmentUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
   technicianProfile?: Prisma.TechnicianProfileUpdateOneWithoutUserNestedInput
+  technicianRoster?: Prisma.TechnicianUpdateOneWithoutUserNestedInput
   technicianLocations?: Prisma.TechnicianLocationUpdateManyWithoutUserNestedInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUpdateManyWithoutUserNestedInput
   properties?: Prisma.PropertyUpdateManyWithoutUserNestedInput
   servicePlans?: Prisma.CustomerServicePlanUpdateManyWithoutUserNestedInput
   orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
@@ -2663,7 +3113,9 @@ export type UserUncheckedUpdateWithoutWarrantiesInput = {
   appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
   technicianProfile?: Prisma.TechnicianProfileUncheckedUpdateOneWithoutUserNestedInput
+  technicianRoster?: Prisma.TechnicianUncheckedUpdateOneWithoutUserNestedInput
   technicianLocations?: Prisma.TechnicianLocationUncheckedUpdateManyWithoutUserNestedInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUncheckedUpdateManyWithoutUserNestedInput
   properties?: Prisma.PropertyUncheckedUpdateManyWithoutUserNestedInput
   servicePlans?: Prisma.CustomerServicePlanUncheckedUpdateManyWithoutUserNestedInput
   orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
@@ -2696,7 +3148,9 @@ export type UserCreateWithoutOrdersInput = {
   appointments?: Prisma.AppointmentCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
   technicianProfile?: Prisma.TechnicianProfileCreateNestedOneWithoutUserInput
+  technicianRoster?: Prisma.TechnicianCreateNestedOneWithoutUserInput
   technicianLocations?: Prisma.TechnicianLocationCreateNestedManyWithoutUserInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryCreateNestedManyWithoutUserInput
   properties?: Prisma.PropertyCreateNestedManyWithoutUserInput
   servicePlans?: Prisma.CustomerServicePlanCreateNestedManyWithoutUserInput
   warranties?: Prisma.WarrantyCreateNestedManyWithoutUserInput
@@ -2729,7 +3183,9 @@ export type UserUncheckedCreateWithoutOrdersInput = {
   appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
   technicianProfile?: Prisma.TechnicianProfileUncheckedCreateNestedOneWithoutUserInput
+  technicianRoster?: Prisma.TechnicianUncheckedCreateNestedOneWithoutUserInput
   technicianLocations?: Prisma.TechnicianLocationUncheckedCreateNestedManyWithoutUserInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUncheckedCreateNestedManyWithoutUserInput
   properties?: Prisma.PropertyUncheckedCreateNestedManyWithoutUserInput
   servicePlans?: Prisma.CustomerServicePlanUncheckedCreateNestedManyWithoutUserInput
   warranties?: Prisma.WarrantyUncheckedCreateNestedManyWithoutUserInput
@@ -2778,7 +3234,9 @@ export type UserUpdateWithoutOrdersInput = {
   appointments?: Prisma.AppointmentUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
   technicianProfile?: Prisma.TechnicianProfileUpdateOneWithoutUserNestedInput
+  technicianRoster?: Prisma.TechnicianUpdateOneWithoutUserNestedInput
   technicianLocations?: Prisma.TechnicianLocationUpdateManyWithoutUserNestedInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUpdateManyWithoutUserNestedInput
   properties?: Prisma.PropertyUpdateManyWithoutUserNestedInput
   servicePlans?: Prisma.CustomerServicePlanUpdateManyWithoutUserNestedInput
   warranties?: Prisma.WarrantyUpdateManyWithoutUserNestedInput
@@ -2811,7 +3269,9 @@ export type UserUncheckedUpdateWithoutOrdersInput = {
   appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
   technicianProfile?: Prisma.TechnicianProfileUncheckedUpdateOneWithoutUserNestedInput
+  technicianRoster?: Prisma.TechnicianUncheckedUpdateOneWithoutUserNestedInput
   technicianLocations?: Prisma.TechnicianLocationUncheckedUpdateManyWithoutUserNestedInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUncheckedUpdateManyWithoutUserNestedInput
   properties?: Prisma.PropertyUncheckedUpdateManyWithoutUserNestedInput
   servicePlans?: Prisma.CustomerServicePlanUncheckedUpdateManyWithoutUserNestedInput
   warranties?: Prisma.WarrantyUncheckedUpdateManyWithoutUserNestedInput
@@ -2844,7 +3304,9 @@ export type UserCreateWithoutPushSubscriptionsInput = {
   appointments?: Prisma.AppointmentCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
   technicianProfile?: Prisma.TechnicianProfileCreateNestedOneWithoutUserInput
+  technicianRoster?: Prisma.TechnicianCreateNestedOneWithoutUserInput
   technicianLocations?: Prisma.TechnicianLocationCreateNestedManyWithoutUserInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryCreateNestedManyWithoutUserInput
   properties?: Prisma.PropertyCreateNestedManyWithoutUserInput
   servicePlans?: Prisma.CustomerServicePlanCreateNestedManyWithoutUserInput
   warranties?: Prisma.WarrantyCreateNestedManyWithoutUserInput
@@ -2877,7 +3339,9 @@ export type UserUncheckedCreateWithoutPushSubscriptionsInput = {
   appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
   technicianProfile?: Prisma.TechnicianProfileUncheckedCreateNestedOneWithoutUserInput
+  technicianRoster?: Prisma.TechnicianUncheckedCreateNestedOneWithoutUserInput
   technicianLocations?: Prisma.TechnicianLocationUncheckedCreateNestedManyWithoutUserInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUncheckedCreateNestedManyWithoutUserInput
   properties?: Prisma.PropertyUncheckedCreateNestedManyWithoutUserInput
   servicePlans?: Prisma.CustomerServicePlanUncheckedCreateNestedManyWithoutUserInput
   warranties?: Prisma.WarrantyUncheckedCreateNestedManyWithoutUserInput
@@ -2926,7 +3390,9 @@ export type UserUpdateWithoutPushSubscriptionsInput = {
   appointments?: Prisma.AppointmentUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
   technicianProfile?: Prisma.TechnicianProfileUpdateOneWithoutUserNestedInput
+  technicianRoster?: Prisma.TechnicianUpdateOneWithoutUserNestedInput
   technicianLocations?: Prisma.TechnicianLocationUpdateManyWithoutUserNestedInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUpdateManyWithoutUserNestedInput
   properties?: Prisma.PropertyUpdateManyWithoutUserNestedInput
   servicePlans?: Prisma.CustomerServicePlanUpdateManyWithoutUserNestedInput
   warranties?: Prisma.WarrantyUpdateManyWithoutUserNestedInput
@@ -2959,7 +3425,9 @@ export type UserUncheckedUpdateWithoutPushSubscriptionsInput = {
   appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
   technicianProfile?: Prisma.TechnicianProfileUncheckedUpdateOneWithoutUserNestedInput
+  technicianRoster?: Prisma.TechnicianUncheckedUpdateOneWithoutUserNestedInput
   technicianLocations?: Prisma.TechnicianLocationUncheckedUpdateManyWithoutUserNestedInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUncheckedUpdateManyWithoutUserNestedInput
   properties?: Prisma.PropertyUncheckedUpdateManyWithoutUserNestedInput
   servicePlans?: Prisma.CustomerServicePlanUncheckedUpdateManyWithoutUserNestedInput
   warranties?: Prisma.WarrantyUncheckedUpdateManyWithoutUserNestedInput
@@ -2992,7 +3460,9 @@ export type UserCreateWithoutEstimatesInput = {
   appointments?: Prisma.AppointmentCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
   technicianProfile?: Prisma.TechnicianProfileCreateNestedOneWithoutUserInput
+  technicianRoster?: Prisma.TechnicianCreateNestedOneWithoutUserInput
   technicianLocations?: Prisma.TechnicianLocationCreateNestedManyWithoutUserInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryCreateNestedManyWithoutUserInput
   properties?: Prisma.PropertyCreateNestedManyWithoutUserInput
   servicePlans?: Prisma.CustomerServicePlanCreateNestedManyWithoutUserInput
   warranties?: Prisma.WarrantyCreateNestedManyWithoutUserInput
@@ -3025,7 +3495,9 @@ export type UserUncheckedCreateWithoutEstimatesInput = {
   appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
   technicianProfile?: Prisma.TechnicianProfileUncheckedCreateNestedOneWithoutUserInput
+  technicianRoster?: Prisma.TechnicianUncheckedCreateNestedOneWithoutUserInput
   technicianLocations?: Prisma.TechnicianLocationUncheckedCreateNestedManyWithoutUserInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUncheckedCreateNestedManyWithoutUserInput
   properties?: Prisma.PropertyUncheckedCreateNestedManyWithoutUserInput
   servicePlans?: Prisma.CustomerServicePlanUncheckedCreateNestedManyWithoutUserInput
   warranties?: Prisma.WarrantyUncheckedCreateNestedManyWithoutUserInput
@@ -3074,7 +3546,9 @@ export type UserUpdateWithoutEstimatesInput = {
   appointments?: Prisma.AppointmentUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
   technicianProfile?: Prisma.TechnicianProfileUpdateOneWithoutUserNestedInput
+  technicianRoster?: Prisma.TechnicianUpdateOneWithoutUserNestedInput
   technicianLocations?: Prisma.TechnicianLocationUpdateManyWithoutUserNestedInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUpdateManyWithoutUserNestedInput
   properties?: Prisma.PropertyUpdateManyWithoutUserNestedInput
   servicePlans?: Prisma.CustomerServicePlanUpdateManyWithoutUserNestedInput
   warranties?: Prisma.WarrantyUpdateManyWithoutUserNestedInput
@@ -3107,7 +3581,9 @@ export type UserUncheckedUpdateWithoutEstimatesInput = {
   appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
   technicianProfile?: Prisma.TechnicianProfileUncheckedUpdateOneWithoutUserNestedInput
+  technicianRoster?: Prisma.TechnicianUncheckedUpdateOneWithoutUserNestedInput
   technicianLocations?: Prisma.TechnicianLocationUncheckedUpdateManyWithoutUserNestedInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUncheckedUpdateManyWithoutUserNestedInput
   properties?: Prisma.PropertyUncheckedUpdateManyWithoutUserNestedInput
   servicePlans?: Prisma.CustomerServicePlanUncheckedUpdateManyWithoutUserNestedInput
   warranties?: Prisma.WarrantyUncheckedUpdateManyWithoutUserNestedInput
@@ -3140,7 +3616,9 @@ export type UserCreateWithoutJobPhotosInput = {
   appointments?: Prisma.AppointmentCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
   technicianProfile?: Prisma.TechnicianProfileCreateNestedOneWithoutUserInput
+  technicianRoster?: Prisma.TechnicianCreateNestedOneWithoutUserInput
   technicianLocations?: Prisma.TechnicianLocationCreateNestedManyWithoutUserInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryCreateNestedManyWithoutUserInput
   properties?: Prisma.PropertyCreateNestedManyWithoutUserInput
   servicePlans?: Prisma.CustomerServicePlanCreateNestedManyWithoutUserInput
   warranties?: Prisma.WarrantyCreateNestedManyWithoutUserInput
@@ -3173,7 +3651,9 @@ export type UserUncheckedCreateWithoutJobPhotosInput = {
   appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
   technicianProfile?: Prisma.TechnicianProfileUncheckedCreateNestedOneWithoutUserInput
+  technicianRoster?: Prisma.TechnicianUncheckedCreateNestedOneWithoutUserInput
   technicianLocations?: Prisma.TechnicianLocationUncheckedCreateNestedManyWithoutUserInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUncheckedCreateNestedManyWithoutUserInput
   properties?: Prisma.PropertyUncheckedCreateNestedManyWithoutUserInput
   servicePlans?: Prisma.CustomerServicePlanUncheckedCreateNestedManyWithoutUserInput
   warranties?: Prisma.WarrantyUncheckedCreateNestedManyWithoutUserInput
@@ -3222,7 +3702,9 @@ export type UserUpdateWithoutJobPhotosInput = {
   appointments?: Prisma.AppointmentUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
   technicianProfile?: Prisma.TechnicianProfileUpdateOneWithoutUserNestedInput
+  technicianRoster?: Prisma.TechnicianUpdateOneWithoutUserNestedInput
   technicianLocations?: Prisma.TechnicianLocationUpdateManyWithoutUserNestedInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUpdateManyWithoutUserNestedInput
   properties?: Prisma.PropertyUpdateManyWithoutUserNestedInput
   servicePlans?: Prisma.CustomerServicePlanUpdateManyWithoutUserNestedInput
   warranties?: Prisma.WarrantyUpdateManyWithoutUserNestedInput
@@ -3255,7 +3737,9 @@ export type UserUncheckedUpdateWithoutJobPhotosInput = {
   appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
   technicianProfile?: Prisma.TechnicianProfileUncheckedUpdateOneWithoutUserNestedInput
+  technicianRoster?: Prisma.TechnicianUncheckedUpdateOneWithoutUserNestedInput
   technicianLocations?: Prisma.TechnicianLocationUncheckedUpdateManyWithoutUserNestedInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUncheckedUpdateManyWithoutUserNestedInput
   properties?: Prisma.PropertyUncheckedUpdateManyWithoutUserNestedInput
   servicePlans?: Prisma.CustomerServicePlanUncheckedUpdateManyWithoutUserNestedInput
   warranties?: Prisma.WarrantyUncheckedUpdateManyWithoutUserNestedInput
@@ -3288,7 +3772,9 @@ export type UserCreateWithoutJobPaymentsInput = {
   appointments?: Prisma.AppointmentCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
   technicianProfile?: Prisma.TechnicianProfileCreateNestedOneWithoutUserInput
+  technicianRoster?: Prisma.TechnicianCreateNestedOneWithoutUserInput
   technicianLocations?: Prisma.TechnicianLocationCreateNestedManyWithoutUserInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryCreateNestedManyWithoutUserInput
   properties?: Prisma.PropertyCreateNestedManyWithoutUserInput
   servicePlans?: Prisma.CustomerServicePlanCreateNestedManyWithoutUserInput
   warranties?: Prisma.WarrantyCreateNestedManyWithoutUserInput
@@ -3321,7 +3807,9 @@ export type UserUncheckedCreateWithoutJobPaymentsInput = {
   appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
   technicianProfile?: Prisma.TechnicianProfileUncheckedCreateNestedOneWithoutUserInput
+  technicianRoster?: Prisma.TechnicianUncheckedCreateNestedOneWithoutUserInput
   technicianLocations?: Prisma.TechnicianLocationUncheckedCreateNestedManyWithoutUserInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUncheckedCreateNestedManyWithoutUserInput
   properties?: Prisma.PropertyUncheckedCreateNestedManyWithoutUserInput
   servicePlans?: Prisma.CustomerServicePlanUncheckedCreateNestedManyWithoutUserInput
   warranties?: Prisma.WarrantyUncheckedCreateNestedManyWithoutUserInput
@@ -3370,7 +3858,9 @@ export type UserUpdateWithoutJobPaymentsInput = {
   appointments?: Prisma.AppointmentUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
   technicianProfile?: Prisma.TechnicianProfileUpdateOneWithoutUserNestedInput
+  technicianRoster?: Prisma.TechnicianUpdateOneWithoutUserNestedInput
   technicianLocations?: Prisma.TechnicianLocationUpdateManyWithoutUserNestedInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUpdateManyWithoutUserNestedInput
   properties?: Prisma.PropertyUpdateManyWithoutUserNestedInput
   servicePlans?: Prisma.CustomerServicePlanUpdateManyWithoutUserNestedInput
   warranties?: Prisma.WarrantyUpdateManyWithoutUserNestedInput
@@ -3403,7 +3893,9 @@ export type UserUncheckedUpdateWithoutJobPaymentsInput = {
   appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
   technicianProfile?: Prisma.TechnicianProfileUncheckedUpdateOneWithoutUserNestedInput
+  technicianRoster?: Prisma.TechnicianUncheckedUpdateOneWithoutUserNestedInput
   technicianLocations?: Prisma.TechnicianLocationUncheckedUpdateManyWithoutUserNestedInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUncheckedUpdateManyWithoutUserNestedInput
   properties?: Prisma.PropertyUncheckedUpdateManyWithoutUserNestedInput
   servicePlans?: Prisma.CustomerServicePlanUncheckedUpdateManyWithoutUserNestedInput
   warranties?: Prisma.WarrantyUncheckedUpdateManyWithoutUserNestedInput
@@ -3436,7 +3928,9 @@ export type UserCreateWithoutJobPartsInput = {
   appointments?: Prisma.AppointmentCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
   technicianProfile?: Prisma.TechnicianProfileCreateNestedOneWithoutUserInput
+  technicianRoster?: Prisma.TechnicianCreateNestedOneWithoutUserInput
   technicianLocations?: Prisma.TechnicianLocationCreateNestedManyWithoutUserInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryCreateNestedManyWithoutUserInput
   properties?: Prisma.PropertyCreateNestedManyWithoutUserInput
   servicePlans?: Prisma.CustomerServicePlanCreateNestedManyWithoutUserInput
   warranties?: Prisma.WarrantyCreateNestedManyWithoutUserInput
@@ -3469,7 +3963,9 @@ export type UserUncheckedCreateWithoutJobPartsInput = {
   appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
   technicianProfile?: Prisma.TechnicianProfileUncheckedCreateNestedOneWithoutUserInput
+  technicianRoster?: Prisma.TechnicianUncheckedCreateNestedOneWithoutUserInput
   technicianLocations?: Prisma.TechnicianLocationUncheckedCreateNestedManyWithoutUserInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUncheckedCreateNestedManyWithoutUserInput
   properties?: Prisma.PropertyUncheckedCreateNestedManyWithoutUserInput
   servicePlans?: Prisma.CustomerServicePlanUncheckedCreateNestedManyWithoutUserInput
   warranties?: Prisma.WarrantyUncheckedCreateNestedManyWithoutUserInput
@@ -3518,7 +4014,9 @@ export type UserUpdateWithoutJobPartsInput = {
   appointments?: Prisma.AppointmentUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
   technicianProfile?: Prisma.TechnicianProfileUpdateOneWithoutUserNestedInput
+  technicianRoster?: Prisma.TechnicianUpdateOneWithoutUserNestedInput
   technicianLocations?: Prisma.TechnicianLocationUpdateManyWithoutUserNestedInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUpdateManyWithoutUserNestedInput
   properties?: Prisma.PropertyUpdateManyWithoutUserNestedInput
   servicePlans?: Prisma.CustomerServicePlanUpdateManyWithoutUserNestedInput
   warranties?: Prisma.WarrantyUpdateManyWithoutUserNestedInput
@@ -3551,7 +4049,9 @@ export type UserUncheckedUpdateWithoutJobPartsInput = {
   appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
   technicianProfile?: Prisma.TechnicianProfileUncheckedUpdateOneWithoutUserNestedInput
+  technicianRoster?: Prisma.TechnicianUncheckedUpdateOneWithoutUserNestedInput
   technicianLocations?: Prisma.TechnicianLocationUncheckedUpdateManyWithoutUserNestedInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUncheckedUpdateManyWithoutUserNestedInput
   properties?: Prisma.PropertyUncheckedUpdateManyWithoutUserNestedInput
   servicePlans?: Prisma.CustomerServicePlanUncheckedUpdateManyWithoutUserNestedInput
   warranties?: Prisma.WarrantyUncheckedUpdateManyWithoutUserNestedInput
@@ -3584,7 +4084,9 @@ export type UserCreateWithoutInventoryRequestsInput = {
   appointments?: Prisma.AppointmentCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
   technicianProfile?: Prisma.TechnicianProfileCreateNestedOneWithoutUserInput
+  technicianRoster?: Prisma.TechnicianCreateNestedOneWithoutUserInput
   technicianLocations?: Prisma.TechnicianLocationCreateNestedManyWithoutUserInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryCreateNestedManyWithoutUserInput
   properties?: Prisma.PropertyCreateNestedManyWithoutUserInput
   servicePlans?: Prisma.CustomerServicePlanCreateNestedManyWithoutUserInput
   warranties?: Prisma.WarrantyCreateNestedManyWithoutUserInput
@@ -3617,7 +4119,9 @@ export type UserUncheckedCreateWithoutInventoryRequestsInput = {
   appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
   technicianProfile?: Prisma.TechnicianProfileUncheckedCreateNestedOneWithoutUserInput
+  technicianRoster?: Prisma.TechnicianUncheckedCreateNestedOneWithoutUserInput
   technicianLocations?: Prisma.TechnicianLocationUncheckedCreateNestedManyWithoutUserInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUncheckedCreateNestedManyWithoutUserInput
   properties?: Prisma.PropertyUncheckedCreateNestedManyWithoutUserInput
   servicePlans?: Prisma.CustomerServicePlanUncheckedCreateNestedManyWithoutUserInput
   warranties?: Prisma.WarrantyUncheckedCreateNestedManyWithoutUserInput
@@ -3666,7 +4170,9 @@ export type UserUpdateWithoutInventoryRequestsInput = {
   appointments?: Prisma.AppointmentUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
   technicianProfile?: Prisma.TechnicianProfileUpdateOneWithoutUserNestedInput
+  technicianRoster?: Prisma.TechnicianUpdateOneWithoutUserNestedInput
   technicianLocations?: Prisma.TechnicianLocationUpdateManyWithoutUserNestedInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUpdateManyWithoutUserNestedInput
   properties?: Prisma.PropertyUpdateManyWithoutUserNestedInput
   servicePlans?: Prisma.CustomerServicePlanUpdateManyWithoutUserNestedInput
   warranties?: Prisma.WarrantyUpdateManyWithoutUserNestedInput
@@ -3699,7 +4205,9 @@ export type UserUncheckedUpdateWithoutInventoryRequestsInput = {
   appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
   technicianProfile?: Prisma.TechnicianProfileUncheckedUpdateOneWithoutUserNestedInput
+  technicianRoster?: Prisma.TechnicianUncheckedUpdateOneWithoutUserNestedInput
   technicianLocations?: Prisma.TechnicianLocationUncheckedUpdateManyWithoutUserNestedInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUncheckedUpdateManyWithoutUserNestedInput
   properties?: Prisma.PropertyUncheckedUpdateManyWithoutUserNestedInput
   servicePlans?: Prisma.CustomerServicePlanUncheckedUpdateManyWithoutUserNestedInput
   warranties?: Prisma.WarrantyUncheckedUpdateManyWithoutUserNestedInput
@@ -3732,7 +4240,9 @@ export type UserCreateWithoutExpensesInput = {
   appointments?: Prisma.AppointmentCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
   technicianProfile?: Prisma.TechnicianProfileCreateNestedOneWithoutUserInput
+  technicianRoster?: Prisma.TechnicianCreateNestedOneWithoutUserInput
   technicianLocations?: Prisma.TechnicianLocationCreateNestedManyWithoutUserInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryCreateNestedManyWithoutUserInput
   properties?: Prisma.PropertyCreateNestedManyWithoutUserInput
   servicePlans?: Prisma.CustomerServicePlanCreateNestedManyWithoutUserInput
   warranties?: Prisma.WarrantyCreateNestedManyWithoutUserInput
@@ -3765,7 +4275,9 @@ export type UserUncheckedCreateWithoutExpensesInput = {
   appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
   technicianProfile?: Prisma.TechnicianProfileUncheckedCreateNestedOneWithoutUserInput
+  technicianRoster?: Prisma.TechnicianUncheckedCreateNestedOneWithoutUserInput
   technicianLocations?: Prisma.TechnicianLocationUncheckedCreateNestedManyWithoutUserInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUncheckedCreateNestedManyWithoutUserInput
   properties?: Prisma.PropertyUncheckedCreateNestedManyWithoutUserInput
   servicePlans?: Prisma.CustomerServicePlanUncheckedCreateNestedManyWithoutUserInput
   warranties?: Prisma.WarrantyUncheckedCreateNestedManyWithoutUserInput
@@ -3814,7 +4326,9 @@ export type UserUpdateWithoutExpensesInput = {
   appointments?: Prisma.AppointmentUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
   technicianProfile?: Prisma.TechnicianProfileUpdateOneWithoutUserNestedInput
+  technicianRoster?: Prisma.TechnicianUpdateOneWithoutUserNestedInput
   technicianLocations?: Prisma.TechnicianLocationUpdateManyWithoutUserNestedInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUpdateManyWithoutUserNestedInput
   properties?: Prisma.PropertyUpdateManyWithoutUserNestedInput
   servicePlans?: Prisma.CustomerServicePlanUpdateManyWithoutUserNestedInput
   warranties?: Prisma.WarrantyUpdateManyWithoutUserNestedInput
@@ -3847,7 +4361,9 @@ export type UserUncheckedUpdateWithoutExpensesInput = {
   appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
   technicianProfile?: Prisma.TechnicianProfileUncheckedUpdateOneWithoutUserNestedInput
+  technicianRoster?: Prisma.TechnicianUncheckedUpdateOneWithoutUserNestedInput
   technicianLocations?: Prisma.TechnicianLocationUncheckedUpdateManyWithoutUserNestedInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUncheckedUpdateManyWithoutUserNestedInput
   properties?: Prisma.PropertyUncheckedUpdateManyWithoutUserNestedInput
   servicePlans?: Prisma.CustomerServicePlanUncheckedUpdateManyWithoutUserNestedInput
   warranties?: Prisma.WarrantyUncheckedUpdateManyWithoutUserNestedInput
@@ -3880,7 +4396,9 @@ export type UserCreateWithoutExpenseSubscriptionInput = {
   appointments?: Prisma.AppointmentCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
   technicianProfile?: Prisma.TechnicianProfileCreateNestedOneWithoutUserInput
+  technicianRoster?: Prisma.TechnicianCreateNestedOneWithoutUserInput
   technicianLocations?: Prisma.TechnicianLocationCreateNestedManyWithoutUserInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryCreateNestedManyWithoutUserInput
   properties?: Prisma.PropertyCreateNestedManyWithoutUserInput
   servicePlans?: Prisma.CustomerServicePlanCreateNestedManyWithoutUserInput
   warranties?: Prisma.WarrantyCreateNestedManyWithoutUserInput
@@ -3913,7 +4431,9 @@ export type UserUncheckedCreateWithoutExpenseSubscriptionInput = {
   appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
   technicianProfile?: Prisma.TechnicianProfileUncheckedCreateNestedOneWithoutUserInput
+  technicianRoster?: Prisma.TechnicianUncheckedCreateNestedOneWithoutUserInput
   technicianLocations?: Prisma.TechnicianLocationUncheckedCreateNestedManyWithoutUserInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUncheckedCreateNestedManyWithoutUserInput
   properties?: Prisma.PropertyUncheckedCreateNestedManyWithoutUserInput
   servicePlans?: Prisma.CustomerServicePlanUncheckedCreateNestedManyWithoutUserInput
   warranties?: Prisma.WarrantyUncheckedCreateNestedManyWithoutUserInput
@@ -3962,7 +4482,9 @@ export type UserUpdateWithoutExpenseSubscriptionInput = {
   appointments?: Prisma.AppointmentUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
   technicianProfile?: Prisma.TechnicianProfileUpdateOneWithoutUserNestedInput
+  technicianRoster?: Prisma.TechnicianUpdateOneWithoutUserNestedInput
   technicianLocations?: Prisma.TechnicianLocationUpdateManyWithoutUserNestedInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUpdateManyWithoutUserNestedInput
   properties?: Prisma.PropertyUpdateManyWithoutUserNestedInput
   servicePlans?: Prisma.CustomerServicePlanUpdateManyWithoutUserNestedInput
   warranties?: Prisma.WarrantyUpdateManyWithoutUserNestedInput
@@ -3995,7 +4517,9 @@ export type UserUncheckedUpdateWithoutExpenseSubscriptionInput = {
   appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
   technicianProfile?: Prisma.TechnicianProfileUncheckedUpdateOneWithoutUserNestedInput
+  technicianRoster?: Prisma.TechnicianUncheckedUpdateOneWithoutUserNestedInput
   technicianLocations?: Prisma.TechnicianLocationUncheckedUpdateManyWithoutUserNestedInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUncheckedUpdateManyWithoutUserNestedInput
   properties?: Prisma.PropertyUncheckedUpdateManyWithoutUserNestedInput
   servicePlans?: Prisma.CustomerServicePlanUncheckedUpdateManyWithoutUserNestedInput
   warranties?: Prisma.WarrantyUncheckedUpdateManyWithoutUserNestedInput
@@ -4023,6 +4547,7 @@ export type UserCountOutputType = {
   appointments: number
   reviews: number
   technicianLocations: number
+  technicianClockEntries: number
   properties: number
   servicePlans: number
   warranties: number
@@ -4045,6 +4570,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   appointments?: boolean | UserCountOutputTypeCountAppointmentsArgs
   reviews?: boolean | UserCountOutputTypeCountReviewsArgs
   technicianLocations?: boolean | UserCountOutputTypeCountTechnicianLocationsArgs
+  technicianClockEntries?: boolean | UserCountOutputTypeCountTechnicianClockEntriesArgs
   properties?: boolean | UserCountOutputTypeCountPropertiesArgs
   servicePlans?: boolean | UserCountOutputTypeCountServicePlansArgs
   warranties?: boolean | UserCountOutputTypeCountWarrantiesArgs
@@ -4104,6 +4630,13 @@ export type UserCountOutputTypeCountReviewsArgs<ExtArgs extends runtime.Types.Ex
  */
 export type UserCountOutputTypeCountTechnicianLocationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.TechnicianLocationWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountTechnicianClockEntriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TechnicianClockEntryWhereInput
 }
 
 /**
@@ -4221,7 +4754,9 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   appointments?: boolean | Prisma.User$appointmentsArgs<ExtArgs>
   reviews?: boolean | Prisma.User$reviewsArgs<ExtArgs>
   technicianProfile?: boolean | Prisma.User$technicianProfileArgs<ExtArgs>
+  technicianRoster?: boolean | Prisma.User$technicianRosterArgs<ExtArgs>
   technicianLocations?: boolean | Prisma.User$technicianLocationsArgs<ExtArgs>
+  technicianClockEntries?: boolean | Prisma.User$technicianClockEntriesArgs<ExtArgs>
   properties?: boolean | Prisma.User$propertiesArgs<ExtArgs>
   servicePlans?: boolean | Prisma.User$servicePlansArgs<ExtArgs>
   warranties?: boolean | Prisma.User$warrantiesArgs<ExtArgs>
@@ -4286,7 +4821,9 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   appointments?: boolean | Prisma.User$appointmentsArgs<ExtArgs>
   reviews?: boolean | Prisma.User$reviewsArgs<ExtArgs>
   technicianProfile?: boolean | Prisma.User$technicianProfileArgs<ExtArgs>
+  technicianRoster?: boolean | Prisma.User$technicianRosterArgs<ExtArgs>
   technicianLocations?: boolean | Prisma.User$technicianLocationsArgs<ExtArgs>
+  technicianClockEntries?: boolean | Prisma.User$technicianClockEntriesArgs<ExtArgs>
   properties?: boolean | Prisma.User$propertiesArgs<ExtArgs>
   servicePlans?: boolean | Prisma.User$servicePlansArgs<ExtArgs>
   warranties?: boolean | Prisma.User$warrantiesArgs<ExtArgs>
@@ -4315,7 +4852,9 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     appointments: Prisma.$AppointmentPayload<ExtArgs>[]
     reviews: Prisma.$ReviewPayload<ExtArgs>[]
     technicianProfile: Prisma.$TechnicianProfilePayload<ExtArgs> | null
+    technicianRoster: Prisma.$TechnicianPayload<ExtArgs> | null
     technicianLocations: Prisma.$TechnicianLocationPayload<ExtArgs>[]
+    technicianClockEntries: Prisma.$TechnicianClockEntryPayload<ExtArgs>[]
     properties: Prisma.$PropertyPayload<ExtArgs>[]
     servicePlans: Prisma.$CustomerServicePlanPayload<ExtArgs>[]
     warranties: Prisma.$WarrantyPayload<ExtArgs>[]
@@ -4742,7 +5281,9 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   appointments<T extends Prisma.User$appointmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$appointmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AppointmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   reviews<T extends Prisma.User$reviewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   technicianProfile<T extends Prisma.User$technicianProfileArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$technicianProfileArgs<ExtArgs>>): Prisma.Prisma__TechnicianProfileClient<runtime.Types.Result.GetResult<Prisma.$TechnicianProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  technicianRoster<T extends Prisma.User$technicianRosterArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$technicianRosterArgs<ExtArgs>>): Prisma.Prisma__TechnicianClient<runtime.Types.Result.GetResult<Prisma.$TechnicianPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   technicianLocations<T extends Prisma.User$technicianLocationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$technicianLocationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TechnicianLocationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  technicianClockEntries<T extends Prisma.User$technicianClockEntriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$technicianClockEntriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TechnicianClockEntryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   properties<T extends Prisma.User$propertiesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$propertiesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PropertyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   servicePlans<T extends Prisma.User$servicePlansArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$servicePlansArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CustomerServicePlanPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   warranties<T extends Prisma.User$warrantiesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$warrantiesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WarrantyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -5305,6 +5846,25 @@ export type User$technicianProfileArgs<ExtArgs extends runtime.Types.Extensions.
 }
 
 /**
+ * User.technicianRoster
+ */
+export type User$technicianRosterArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Technician
+   */
+  select?: Prisma.TechnicianSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Technician
+   */
+  omit?: Prisma.TechnicianOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TechnicianInclude<ExtArgs> | null
+  where?: Prisma.TechnicianWhereInput
+}
+
+/**
  * User.technicianLocations
  */
 export type User$technicianLocationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -5326,6 +5886,30 @@ export type User$technicianLocationsArgs<ExtArgs extends runtime.Types.Extension
   take?: number
   skip?: number
   distinct?: Prisma.TechnicianLocationScalarFieldEnum | Prisma.TechnicianLocationScalarFieldEnum[]
+}
+
+/**
+ * User.technicianClockEntries
+ */
+export type User$technicianClockEntriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TechnicianClockEntry
+   */
+  select?: Prisma.TechnicianClockEntrySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the TechnicianClockEntry
+   */
+  omit?: Prisma.TechnicianClockEntryOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TechnicianClockEntryInclude<ExtArgs> | null
+  where?: Prisma.TechnicianClockEntryWhereInput
+  orderBy?: Prisma.TechnicianClockEntryOrderByWithRelationInput | Prisma.TechnicianClockEntryOrderByWithRelationInput[]
+  cursor?: Prisma.TechnicianClockEntryWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TechnicianClockEntryScalarFieldEnum | Prisma.TechnicianClockEntryScalarFieldEnum[]
 }
 
 /**

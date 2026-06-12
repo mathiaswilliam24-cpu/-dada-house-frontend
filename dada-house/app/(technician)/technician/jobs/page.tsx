@@ -6,6 +6,7 @@ import {
   MapPin, Clock, AlertTriangle, ChevronRight, Calendar,
   Phone, Navigation, Search, Loader2,
 } from "lucide-react";
+import { TECH_STATUS_COLOR } from "@/lib/tech-status";
 
 type Job = {
   id: string; appointmentNumber: string; name: string; phone: string;
@@ -20,14 +21,6 @@ type Tab = typeof TABS[number];
 const TAB_LABEL: Record<Tab, string> = {
   today: "Today", upcoming: "Upcoming", pending: "Pending",
   emergency: "Emergency", completed: "Completed",
-};
-
-const TECH_STATUS_COLOR: Record<string, string> = {
-  ASSIGNED: "bg-gray-100 text-gray-600", ACCEPTED: "bg-blue-50 text-blue-600",
-  EN_ROUTE: "bg-indigo-100 text-indigo-700", ARRIVED: "bg-purple-100 text-purple-700",
-  DIAGNOSING: "bg-yellow-100 text-yellow-700", WAITING_FOR_APPROVAL: "bg-orange-100 text-orange-700",
-  WORKING: "bg-blue-100 text-blue-700", COMPLETED: "bg-green-100 text-green-700",
-  CANCELED: "bg-red-100 text-red-600", NEED_RESCHEDULE: "bg-pink-100 text-pink-700",
 };
 
 function JobsPageInner() {
@@ -124,7 +117,7 @@ function JobsPageInner() {
             return (
               <Link
                 key={j.id}
-                href={`/technician/jobs/${j.id}`}
+                href={`/technician/jobs/${j.id}/start`}
                 className={`block rounded-2xl border p-4 active:opacity-80 ${isEmergency ? "border-red-300 bg-red-50" : "bg-white border-gray-200"}`}
               >
                 <div className="flex items-center justify-between gap-3">

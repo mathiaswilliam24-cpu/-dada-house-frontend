@@ -24,6 +24,30 @@ export async function PATCH(
   if (password) data.password = await bcrypt.hash(password, 10);
 
   const user = await db.user.update({ where: { id }, data });
+
+  // Keep the technician roster entry in sync with the user account
+  const roster = await db.technician.findUnique({ where: { userId: id } });
+  if (roster) {
+    const rosterData: Record<string, unknown> = {};
+    if (name !== undefined) rosterData.name = name || email;
+    if (email !== undefined) rosterData.email = email;
+    if (phone !== undefined) rosterData.phone = phone;
+    if (Object.keys(rosterData).length > 0) {
+      await db.technician.update({ where: { userId: id }, data: rosterData });
+    }
+  } else if (user.role === "TECHNICIAN") {
+    await db.technician.create({
+      data: {
+        userId: user.id,
+        name: user.name || user.email,
+        role: "Technician",
+        phone: user.phone ?? null,
+        email: user.email,
+        available: true,
+      },
+    });
+  }
+
   return NextResponse.json({ user });
 }
 

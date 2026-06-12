@@ -2,6 +2,7 @@
 import { requireTechnician } from "@/lib/api-auth";
 import { db } from "@/lib/db";
 import { resend, FROM_EMAIL } from "@/lib/resend";
+import { sendSMS } from "@/lib/twilio";
 
 export const dynamic = "force-dynamic";
 
@@ -90,6 +91,17 @@ export async function POST(
       subject: `Invoice ${invoice.estimateNumber} from DADA HOUSE — $${invoice.total.toFixed(2)} due`,
       html,
     });
+
+    await db.estimate.update({ where: { id }, data: { sentAt: new Date(), status: "OPEN" } });
+    return NextResponse.json({ success: true });
+  }
+
+  if (action === "sms") {
+    if (!invoice.clientPhone) return NextResponse.json({ error: "No client phone" }, { status: 400 });
+
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dada-house.com";
+    const paymentUrl = `${baseUrl}/pay/${invoice.paymentToken}`;
+    await sendSMS(invoice.clientPhone, `Hi ${invoice.clientName}, your DADA HOUSE invoice #${invoice.estimateNumber} for $${invoice.total.toFixed(2)} is ready. Pay here: ${paymentUrl}`);
 
     await db.estimate.update({ where: { id }, data: { sentAt: new Date(), status: "OPEN" } });
     return NextResponse.json({ success: true });

@@ -29,7 +29,12 @@ export async function GET(req: NextRequest) {
           service: true,
           address: true,
           techStatus: true,
+          timeLog: { select: { enRouteAt: true, arrivedAt: true, startedAt: true } },
         },
+      },
+      technicianClockEntries: {
+        orderBy: { timestamp: "desc" },
+        take: 1,
       },
     },
   });
@@ -37,6 +42,7 @@ export async function GET(req: NextRequest) {
   const mapped = technicians.map((t) => {
     const loc = t.technicianLocations[0];
     const job = t.technicianAppointments[0];
+    const lastClock = t.technicianClockEntries[0];
     return {
       id: t.id,
       name: t.name,
@@ -44,8 +50,18 @@ export async function GET(req: NextRequest) {
       lastLat: loc?.lat ?? null,
       lastLng: loc?.lng ?? null,
       updatedAt: loc?.timestamp?.toISOString() ?? null,
+      clockedIn: lastClock?.type === "IN",
+      clockedInAt: lastClock?.type === "IN" ? lastClock.timestamp.toISOString() : null,
       activeJob: job
-        ? { number: job.appointmentNumber, service: job.service, address: job.address, techStatus: job.techStatus }
+        ? {
+            number: job.appointmentNumber,
+            service: job.service,
+            address: job.address,
+            techStatus: job.techStatus,
+            enRouteAt: job.timeLog?.enRouteAt?.toISOString() ?? null,
+            arrivedAt: job.timeLog?.arrivedAt?.toISOString() ?? null,
+            startedAt: job.timeLog?.startedAt?.toISOString() ?? null,
+          }
         : null,
     };
   });

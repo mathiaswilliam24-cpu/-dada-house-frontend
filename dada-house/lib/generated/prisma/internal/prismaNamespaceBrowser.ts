@@ -65,6 +65,7 @@ export const ModelName = {
   Technician: 'Technician',
   TechnicianProfile: 'TechnicianProfile',
   TechnicianLocation: 'TechnicianLocation',
+  TechnicianClockEntry: 'TechnicianClockEntry',
   Property: 'Property',
   ServicePlan: 'ServicePlan',
   CustomerServicePlan: 'CustomerServicePlan',
@@ -301,6 +302,7 @@ export type GalleryProjectScalarFieldEnum = (typeof GalleryProjectScalarFieldEnu
 
 export const TechnicianScalarFieldEnum = {
   id: 'id',
+  userId: 'userId',
   name: 'name',
   role: 'role',
   specialties: 'specialties',
@@ -349,6 +351,20 @@ export const TechnicianLocationScalarFieldEnum = {
 } as const
 
 export type TechnicianLocationScalarFieldEnum = (typeof TechnicianLocationScalarFieldEnum)[keyof typeof TechnicianLocationScalarFieldEnum]
+
+
+export const TechnicianClockEntryScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  type: 'type',
+  timestamp: 'timestamp',
+  lat: 'lat',
+  lng: 'lng',
+  address: 'address',
+  createdAt: 'createdAt'
+} as const
+
+export type TechnicianClockEntryScalarFieldEnum = (typeof TechnicianClockEntryScalarFieldEnum)[keyof typeof TechnicianClockEntryScalarFieldEnum]
 
 
 export const PropertyScalarFieldEnum = {
@@ -691,10 +707,12 @@ export const JobTimeLogScalarFieldEnum = {
   id: 'id',
   appointmentId: 'appointmentId',
   technicianId: 'technicianId',
+  enRouteAt: 'enRouteAt',
   arrivedAt: 'arrivedAt',
   startedAt: 'startedAt',
   completedAt: 'completedAt',
   totalMinutes: 'totalMinutes',
+  workPerformed: 'workPerformed',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

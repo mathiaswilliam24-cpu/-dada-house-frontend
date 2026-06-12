@@ -41,16 +41,26 @@ export async function PATCH(
   } else if (status === "COMPLETED") {
     updateData.status = "COMPLETED";
     updateData.approvedAt = new Date();
+    const completedAt = new Date();
+    const existingLog = await db.jobTimeLog.findUnique({ where: { appointmentId: id } }).catch(() => null);
+    const start = existingLog?.enRouteAt ?? existingLog?.startedAt;
+    const totalMinutes = start ? Math.round((completedAt.getTime() - start.getTime()) / 60000) : undefined;
     await db.jobTimeLog.upsert({
       where: { appointmentId: id },
-      create: { appointmentId: id, technicianId: auth.id, completedAt: new Date() },
-      update: { completedAt: new Date() },
+      create: { appointmentId: id, technicianId: auth.id, completedAt, ...(totalMinutes != null ? { totalMinutes } : {}) },
+      update: { completedAt, ...(totalMinutes != null ? { totalMinutes } : {}) },
     }).catch(() => {});
   } else if (status === "ARRIVED") {
     await db.jobTimeLog.upsert({
       where: { appointmentId: id },
       create: { appointmentId: id, technicianId: auth.id, arrivedAt: new Date() },
       update: { arrivedAt: new Date() },
+    }).catch(() => {});
+  } else if (status === "EN_ROUTE") {
+    await db.jobTimeLog.upsert({
+      where: { appointmentId: id },
+      create: { appointmentId: id, technicianId: auth.id, enRouteAt: new Date() },
+      update: { enRouteAt: new Date() },
     }).catch(() => {});
   }
 
