@@ -185,7 +185,7 @@ function BookingFormInner() {
         </p>
         <div className="grid grid-cols-2 gap-3">
           <a
-            href="tel:+19106858042"
+            href="tel:+13466499353"
             className="flex items-center justify-center gap-2 px-4 py-3 border border-[#1A3490] hover:border-[#F7921A] text-blue-200 hover:text-white rounded-xl text-sm font-semibold transition-all"
           >
             <Phone size={14} />

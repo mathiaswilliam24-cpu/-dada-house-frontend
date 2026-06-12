@@ -277,8 +277,8 @@ export default function ProductDetailPage() {
 
           <div className="border-t border-gray-100 pt-4">
             <p className="text-xs text-gray-500 mb-2">Need help choosing the right product?</p>
-            <a href="tel:+19106858042" className="inline-flex items-center gap-2 text-sm text-[#1B3FA8] font-semibold hover:underline">
-              <Phone className="w-4 h-4" />Call us: +1 (910) 685-8042
+            <a href="tel:+13466499353" className="inline-flex items-center gap-2 text-sm text-[#1B3FA8] font-semibold hover:underline">
+              <Phone className="w-4 h-4" />Call us: +1 (346) 649-9353
             </a>
           </div>
         </div>

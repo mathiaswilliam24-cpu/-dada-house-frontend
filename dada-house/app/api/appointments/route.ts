@@ -77,7 +77,7 @@ export async function POST(req: NextRequest) {
 
         sendSMS(
           parsed.data.phone,
-          `DADA HOUSE: Hi ${parsed.data.name}, your appointment #${appointmentNumber} for ${parsed.data.service} has been received!${parsed.data.preferredDate ? ` Requested: ${parsed.data.preferredDate}${parsed.data.preferredTime ? ` at ${parsed.data.preferredTime}` : ""}` : ""} Our team will contact you shortly to confirm. Questions? Call (910) 685-8042.`
+          `DADA HOUSE: Hi ${parsed.data.name}, your appointment #${appointmentNumber} for ${parsed.data.service} has been received!${parsed.data.preferredDate ? ` Requested: ${parsed.data.preferredDate}${parsed.data.preferredTime ? ` at ${parsed.data.preferredTime}` : ""}` : ""} Our team will contact you shortly to confirm. Questions? Call (346) 649-9353.`
         ).catch(console.error),
 
         process.env.ADMIN_PHONE

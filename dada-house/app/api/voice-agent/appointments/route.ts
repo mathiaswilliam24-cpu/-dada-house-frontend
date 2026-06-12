@@ -81,7 +81,7 @@ export async function POST(req: NextRequest) {
 
         sendSMS(
           data.phone,
-          `DADA HOUSE: Hi ${data.name}, your appointment #${appointmentNumber} for ${data.service} is confirmed${data.preferredDate ? ` for ${data.preferredDate}${data.preferredTime ? ` at ${data.preferredTime}` : ""}` : ""}. Questions? Call (910) 685-8042.`
+          `DADA HOUSE: Hi ${data.name}, your appointment #${appointmentNumber} for ${data.service} is confirmed${data.preferredDate ? ` for ${data.preferredDate}${data.preferredTime ? ` at ${data.preferredTime}` : ""}` : ""}. Questions? Call (346) 649-9353.`
         ).catch(console.error),
 
         process.env.ADMIN_PHONE

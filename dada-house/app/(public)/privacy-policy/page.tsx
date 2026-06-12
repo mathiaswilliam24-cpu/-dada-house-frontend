@@ -1,4 +1,4 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Privacy Policy — DADA HOUSE",
@@ -32,8 +32,8 @@ export default function PrivacyPolicyPage() {
                 customerservice@dada-house.com
               </a>{" "}
               or by phone at{" "}
-              <a href="tel:+19106858042" className="text-[#F7921A] hover:underline">
-                +1 (910) 685-8042
+              <a href="tel:+13466499353" className="text-[#F7921A] hover:underline">
+                +1 (346) 649-9353
               </a>
               .
             </p>
@@ -205,8 +205,8 @@ export default function PrivacyPolicyPage() {
               </p>
               <p>
                 Phone:{" "}
-                <a href="tel:+19106858042" className="text-[#F7921A] hover:underline">
-                  +1 (910) 685-8042
+                <a href="tel:+13466499353" className="text-[#F7921A] hover:underline">
+                  +1 (346) 649-9353
                 </a>
               </p>
             </div>

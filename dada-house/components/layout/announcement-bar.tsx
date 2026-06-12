@@ -9,7 +9,7 @@ export default function AnnouncementBar() {
         {/* Contact info — hidden on smallest screens */}
         <div className="hidden md:flex items-center gap-2 text-white/90 text-xs">
           <Phone size={11} />
-          <span className="font-semibold">+1 (910) 685-8042</span>
+          <span className="font-semibold">+1 (346) 649-9353</span>
           <span className="text-white/50 mx-1">|</span>
           <AlertTriangle size={11} />
           <span className="font-semibold">832-626-4398</span>
@@ -22,7 +22,7 @@ export default function AnnouncementBar() {
         {/* CTA buttons */}
         <div className="flex items-center gap-2 flex-shrink-0">
           <a
-            href="tel:+19106858042"
+            href="tel:+13466499353"
             className="flex items-center gap-1.5 px-3 py-1.5 bg-white/20 hover:bg-white/30 border border-white/40 rounded-lg text-white text-xs font-bold transition-all whitespace-nowrap"
           >
             <Phone size={11} />

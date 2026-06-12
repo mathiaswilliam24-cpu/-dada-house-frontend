@@ -27,11 +27,11 @@ export default function BookingPage() {
 
           <div className="flex items-center justify-center gap-6 mt-6 flex-wrap">
             <a
-              href="tel:+19106858042"
+              href="tel:+13466499353"
               className="flex items-center gap-2 text-blue-200 hover:text-white text-sm font-semibold transition-colors"
             >
               <Phone size={14} />
-              Prefer to call? +1 (910) 685-8042
+              Prefer to call? +1 (346) 649-9353
             </a>
             <a
               href="tel:+18326264398"

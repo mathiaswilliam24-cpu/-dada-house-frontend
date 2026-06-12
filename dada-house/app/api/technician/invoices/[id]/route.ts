@@ -1,4 +1,4 @@
-﻿import { NextRequest, NextResponse, after } from "next/server";
+import { NextRequest, NextResponse, after } from "next/server";
 import { requireTechnician } from "@/lib/api-auth";
 import { db } from "@/lib/db";
 import { resend, FROM_EMAIL } from "@/lib/resend";
@@ -193,7 +193,7 @@ function buildInvoiceEmail(
 
     <p style="color:#6b7280;font-size:12px;margin-top:24px;border-top:1px solid #e5e7eb;padding-top:16px">
       Prepared by ${techName} · DADA HOUSE · 7001 South Texas 6 STE 246, Houston, TX 77083<br>
-      (910) 685-8042 · customerservice@dada-house.com
+      (346) 649-9353 · customerservice@dada-house.com
     </p>
   </div>
 </body>
@@ -241,7 +241,7 @@ function buildReceiptEmail(
       </tfoot>
     </table>
     <p>We truly appreciate your business. If you have any questions or need follow-up service, don't hesitate to reach out.</p>
-    <p>📞 (910) 685-8042 · ✉️ customerservice@dada-house.com</p>
+    <p>📞 (346) 649-9353 · ✉️ customerservice@dada-house.com</p>
     <p style="color:#6b7280;font-size:12px;margin-top:24px;border-top:1px solid #e5e7eb;padding-top:16px">
       DADA HOUSE · 7001 South Texas 6 STE 246, Houston, TX 77083
     </p>

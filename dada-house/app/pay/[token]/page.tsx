@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import { useEffect, useState } from "react";
 import { useParams, useSearchParams } from "next/navigation";
 import { Suspense } from "react";
@@ -77,7 +77,7 @@ function PayPage() {
       <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
         <div className="text-center">
           <p className="text-gray-500 text-lg">{error || "Invoice not found."}</p>
-          <p className="text-gray-400 text-sm mt-2">Please contact DADA HOUSE at (910) 685-8042</p>
+          <p className="text-gray-400 text-sm mt-2">Please contact DADA HOUSE at (346) 649-9353</p>
         </div>
       </div>
     );
@@ -92,7 +92,7 @@ function PayPage() {
           <p className="text-gray-500 mb-1">Invoice #{invoice.estimateNumber}</p>
           <p className="text-3xl font-black text-green-600 mb-4">{formatCurrency(invoice.total)}</p>
           <p className="text-sm text-gray-400">Thank you, {invoice.clientName}! 🎉</p>
-          <p className="text-xs text-gray-400 mt-4">DADA HOUSE · (910) 685-8042</p>
+          <p className="text-xs text-gray-400 mt-4">DADA HOUSE · (346) 649-9353</p>
         </div>
       </div>
     );
@@ -237,7 +237,7 @@ function PayPage() {
         {/* Footer */}
         <div className="text-center pt-2">
           <p className="text-xs text-gray-400">DADA HOUSE · 7001 South Texas 6 STE 246, Houston, TX 77083</p>
-          <p className="text-xs text-gray-400">(910) 685-8042 · customerservice@dada-house.com</p>
+          <p className="text-xs text-gray-400">(346) 649-9353 · customerservice@dada-house.com</p>
           {invoice.sentByName && <p className="text-xs text-gray-300 mt-1">Prepared by {invoice.sentByName}</p>}
         </div>
       </div>

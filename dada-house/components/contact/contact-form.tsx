@@ -56,10 +56,10 @@ export default function ContactForm() {
         <p className="text-slate-500">
           We&apos;ll get back to you as soon as possible. For urgent needs, call{" "}
           <a
-            href="tel:+19106858042"
+            href="tel:+13466499353"
             className="text-[#F7921A] font-semibold"
           >
-            +1 (910) 685-8042
+            +1 (346) 649-9353
           </a>
           .
         </p>

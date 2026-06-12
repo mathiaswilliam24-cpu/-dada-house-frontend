@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import { useState, useCallback, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import {
@@ -65,7 +65,7 @@ const FROM = {
   email: "customerservice@dada-house.com",
   address: "7001 South Texas 6 STE 246",
   city: "Houston, TX 77083",
-  phone: "(910) 685-8042",
+  phone: "(346) 649-9353",
 };
 
 function newLine(): LineItem {

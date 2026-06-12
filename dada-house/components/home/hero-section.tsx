@@ -79,16 +79,16 @@ export default function HeroSection({ heroImage = "/team.jpg" }: { heroImage?: s
                 <span className="text-blue-300 text-xs font-bold uppercase tracking-wide">📞 Service Requests</span>
               </div>
               <a
-                href="tel:+19106858042"
+                href="tel:+13466499353"
                 className="block text-2xl font-black text-white hover:text-[#F7921A] transition-colors mb-2"
               >
-                +1 (910) 685-8042
+                +1 (346) 649-9353
               </a>
               <p className="text-slate-400 text-sm mb-4">
                 Call anytime for appointments and service requests.
               </p>
               <a
-                href="tel:+19106858042"
+                href="tel:+13466499353"
                 className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#F7921A] hover:bg-[#E07F10] text-white text-sm font-bold rounded-xl transition-all shadow-lg shadow-orange-900/20"
               >
                 <Phone size={14} />
@@ -171,7 +171,7 @@ export default function HeroSection({ heroImage = "/team.jpg" }: { heroImage?: s
               Book Appointment
             </Link>
             <a
-              href="tel:+19106858042"
+              href="tel:+13466499353"
               className={cn(
                 buttonVariants({ variant: "outline", size: "lg" }),
                 "text-base font-bold px-8"

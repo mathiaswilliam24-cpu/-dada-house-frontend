@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import Image from "next/image";
 import {
   Phone,
@@ -62,10 +62,10 @@ export default function Footer() {
                 <div>
                   <p className="text-xs text-slate-500 uppercase tracking-wider mb-0.5">Service Requests</p>
                   <a
-                    href="tel:+19106858042"
+                    href="tel:+13466499353"
                     className="text-white font-bold text-sm hover:text-[#F7921A] transition-colors"
                   >
-                    +1 (910) 685-8042
+                    +1 (346) 649-9353
                   </a>
                 </div>
               </div>

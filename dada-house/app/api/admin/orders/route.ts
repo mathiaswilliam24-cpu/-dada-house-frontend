@@ -88,13 +88,13 @@ export async function PATCH(req: NextRequest) {
         <p>Your technician <strong>${updated.technicianName ?? "from DADA HOUSE"}</strong> is now on their way to your location!</p>
         ${installAddr ? `<p style="font-size:14px;color:#475569">📍 Installation address: <strong>${installAddr}</strong></p>` : ""}
         <div style="background:#fefce8;border:1px solid #fde047;border-radius:8px;padding:14px;margin:16px 0">
-          <p style="margin:0;color:#854d0e;font-size:14px">⏱ Please be ready to receive the technician. Need help? <a href="tel:+19106858042" style="color:#F97316">+1 (910) 685-8042</a></p>
+          <p style="margin:0;color:#854d0e;font-size:14px">⏱ Please be ready to receive the technician. Need help? <a href="tel:+13466499353" style="color:#F97316">+1 (346) 649-9353</a></p>
         </div>`;
     } else if (status === "ARRIVED") {
       subject = `✅ Your Technician Has Arrived — ${updated.orderNumber}`;
       bodyHtml = `<p style="font-size:15px;color:#1e293b">Hi ${clientName || "there"},</p>
         <p>Your DADA HOUSE technician <strong>${updated.technicianName ?? ""}</strong> has arrived and is ready to begin the installation.</p>
-        <p style="font-size:14px;color:#475569">Questions during the installation? Call us: <a href="tel:+19106858042" style="color:#F97316">+1 (910) 685-8042</a>.</p>`;
+        <p style="font-size:14px;color:#475569">Questions during the installation? Call us: <a href="tel:+13466499353" style="color:#F97316">+1 (346) 649-9353</a>.</p>`;
     } else if (status === "INSTALLED") {
       subject = `🎉 Installation Complete — ${updated.orderNumber}`;
       const photosHtml = (updated.installationPhotos ?? []).length > 0
@@ -109,12 +109,12 @@ export async function PATCH(req: NextRequest) {
         </table>
         ${photosHtml}
         <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:14px;margin:16px 0">
-          <p style="margin:0;color:#166534;font-size:14px">⭐ We hope you love your new installation! Any issues within the warranty period? <a href="tel:+19106858042" style="color:#166534">+1 (910) 685-8042</a></p>
+          <p style="margin:0;color:#166534;font-size:14px">⭐ We hope you love your new installation! Any issues within the warranty period? <a href="tel:+13466499353" style="color:#166534">+1 (346) 649-9353</a></p>
         </div>`;
     } else if (status === "CANCELLED") {
       subject = `Order Cancelled — ${updated.orderNumber}`;
       bodyHtml = `<p style="font-size:15px;color:#1e293b">Hi ${clientName || "there"},</p>
-        <p>Your order <strong>${updated.orderNumber}</strong> has been cancelled. If you believe this is an error or would like to reschedule, please contact us at <a href="tel:+19106858042" style="color:#F97316">+1 (910) 685-8042</a>.</p>`;
+        <p>Your order <strong>${updated.orderNumber}</strong> has been cancelled. If you believe this is an error or would like to reschedule, please contact us at <a href="tel:+13466499353" style="color:#F97316">+1 (346) 649-9353</a>.</p>`;
     }
 
     if (subject && bodyHtml) {
@@ -128,7 +128,7 @@ export async function PATCH(req: NextRequest) {
           </div>
           <div style="padding:28px">
             ${bodyHtml}
-            <p style="margin-top:32px;font-size:12px;color:#94a3b8;text-align:center">DADA HOUSE · Houston, TX · <a href="tel:+19106858042" style="color:#F97316">+1 (910) 685-8042</a></p>
+            <p style="margin-top:32px;font-size:12px;color:#94a3b8;text-align:center">DADA HOUSE · Houston, TX · <a href="tel:+13466499353" style="color:#F97316">+1 (346) 649-9353</a></p>
           </div>
         </div>`,
       }).catch(e => console.error("Order status email failed:", e));

@@ -36,7 +36,7 @@ export default function StoreLayout({ children }: { children: React.ReactNode })
         </main>
         <footer className="border-t border-gray-200 bg-white mt-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 text-center text-sm text-gray-500">
-            © {new Date().getFullYear()} DADA HOUSE · Houston, TX · <a href="tel:+19106858042" className="hover:text-[#1B3FA8]">+1 (910) 685-8042</a>
+            © {new Date().getFullYear()} DADA HOUSE · Houston, TX · <a href="tel:+13466499353" className="hover:text-[#1B3FA8]">+1 (346) 649-9353</a>
           </div>
         </footer>
       </div>

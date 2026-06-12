@@ -1,11 +1,11 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import { Phone, AlertTriangle, Mail, Globe, MapPin, Clock } from "lucide-react";
 import ContactForm from "@/components/contact/contact-form";
 
 export const metadata: Metadata = {
   title: "Contact DADA HOUSE — Houston Home Services",
   description:
-    "Contact DADA HOUSE for plumbing, AC, heating, and remodeling in Houston TX. Call +1 (910) 685-8042 or use our contact form. Available 24/7.",
+    "Contact DADA HOUSE for plumbing, AC, heating, and remodeling in Houston TX. Call +1 (346) 649-9353 or use our contact form. Available 24/7.",
 };
 
 export default function ContactPage() {
@@ -47,10 +47,10 @@ export default function ContactPage() {
                   📞 Service Requests
                 </p>
                 <a
-                  href="tel:+19106858042"
+                  href="tel:+13466499353"
                   className="block text-xl font-black text-white hover:text-[#F7921A] transition-colors"
                 >
-                  +1 (910) 685-8042
+                  +1 (346) 649-9353
                 </a>
                 <p className="text-slate-400 text-sm mt-1">
                   Appointments and service scheduling

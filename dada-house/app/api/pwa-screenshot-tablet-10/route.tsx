@@ -41,7 +41,7 @@ export async function GET() {
               <span style={{ color: "white", fontSize: 14, fontWeight: 700 }}>📞 Emergency: 832-629-4398</span>
             </div>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(255,255,255,0.06)", borderRadius: 12, padding: "14px", border: "1px solid rgba(255,255,255,0.1)" }}>
-              <span style={{ color: "white", fontSize: 14, fontWeight: 600 }}>📞 Service: 910-685-8042</span>
+              <span style={{ color: "white", fontSize: 14, fontWeight: 600 }}>📞 Service: 346-649-9353</span>
             </div>
           </div>
         </div>

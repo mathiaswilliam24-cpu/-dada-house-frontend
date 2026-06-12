@@ -135,7 +135,7 @@ async function sendReceiptEmail(
       <tbody>${itemRows}</tbody>
       <tfoot><tr><td style="padding:12px 4px;border-top:2px solid #1B3FA8;font-weight:bold;color:#1B3FA8">Total Paid</td><td style="padding:12px 4px;border-top:2px solid #1B3FA8;text-align:right;font-weight:bold;font-size:18px;color:#1B3FA8">$${inv.total.toFixed(2)}</td></tr></tfoot>
     </table>
-    <p>We appreciate your business. For any questions: 📞 (910) 685-8042</p>
+    <p>We appreciate your business. For any questions: 📞 (346) 649-9353</p>
     <p style="color:#6b7280;font-size:12px;margin-top:24px;border-top:1px solid #e5e7eb;padding-top:16px">DADA HOUSE · 7001 South Texas 6 STE 246, Houston, TX 77083</p>
   </div></body></html>`,
   });

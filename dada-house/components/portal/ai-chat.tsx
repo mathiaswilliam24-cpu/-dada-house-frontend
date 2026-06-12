@@ -42,7 +42,7 @@ export default function AIChat() {
       if (data.suggestBooking) setSuggestBooking(true);
       if (data.serviceType) setServiceType(data.serviceType);
     } catch {
-      setMessages((prev) => [...prev, { role: "assistant", content: "Sorry, I'm having trouble connecting. Please call us at +1 (910) 685-8042." }]);
+      setMessages((prev) => [...prev, { role: "assistant", content: "Sorry, I'm having trouble connecting. Please call us at +1 (346) 649-9353." }]);
     }
     setLoading(false);
   }

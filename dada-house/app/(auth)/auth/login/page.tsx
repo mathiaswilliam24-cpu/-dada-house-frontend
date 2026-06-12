@@ -204,9 +204,9 @@ export default function LoginPage() {
         </div>
 
         <div className="relative">
-          <a href="tel:+19106858042" className="flex items-center gap-2 text-blue-300 text-sm hover:text-white transition-colors">
+          <a href="tel:+13466499353" className="flex items-center gap-2 text-blue-300 text-sm hover:text-white transition-colors">
             <Phone size={14} />
-            Need help? Call +1 (910) 685-8042
+            Need help? Call +1 (346) 649-9353
           </a>
         </div>
       </div>

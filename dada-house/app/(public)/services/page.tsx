@@ -90,11 +90,11 @@ export default function ServicesPage() {
           </p>
           <div className="flex items-center justify-center gap-4 flex-wrap">
             <a
-              href="tel:+19106858042"
+              href="tel:+13466499353"
               className="flex items-center gap-2 text-white/70 hover:text-white text-sm font-semibold transition-colors"
             >
               <Phone size={14} />
-              +1 (910) 685-8042
+              +1 (346) 649-9353
             </a>
             <span className="text-white/20">|</span>
             <a

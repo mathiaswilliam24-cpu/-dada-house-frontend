@@ -1,4 +1,4 @@
-﻿const LOGO_URL = "https://dada-house.com/logo%20dada%20house.png";
+const LOGO_URL = "https://dada-house.com/logo%20dada%20house.png";
 
 interface AppointmentEmailData {
   appointmentNumber: string;
@@ -81,7 +81,7 @@ export function appointmentConfirmationHtml(data: AppointmentEmailData): string 
 
               <div style="background:#FFF7ED;border:1px solid #FED7AA;border-radius:12px;padding:20px;margin-top:24px;">
                 <p style="margin:0 0 8px;color:#c2620a;font-size:13px;font-weight:700;">📞 Need immediate assistance?</p>
-                <p style="margin:0;color:#9A3412;font-size:13px;">Service Line: <strong>+1 (910) 685-8042</strong></p>
+                <p style="margin:0;color:#9A3412;font-size:13px;">Service Line: <strong>+1 (346) 649-9353</strong></p>
                 <p style="margin:4px 0 0;color:#9A3412;font-size:13px;">Emergency: <strong>832-626-4398</strong></p>
               </div>
             </td>
@@ -144,7 +144,7 @@ export function statusUpdateHtml(data: {
               <p style="margin:0;font-size:24px;font-weight:900;color:${color};">${label}</p>
             </div>
             ${data.notes ? `<p style="margin:0;color:#475569;font-size:14px;background:#F0F9FF;border:1px solid #BAE6FD;border-radius:8px;padding:16px;">Note from our team: ${data.notes}</p>` : ""}
-            <p style="margin:24px 0 0;color:#64748B;font-size:13px;">Questions? Call us at <strong>+1 (910) 685-8042</strong> or <strong>832-626-4398</strong> (Emergency).</p>
+            <p style="margin:24px 0 0;color:#64748B;font-size:13px;">Questions? Call us at <strong>+1 (346) 649-9353</strong> or <strong>832-626-4398</strong> (Emergency).</p>
           </td>
         </tr>
         <tr>
@@ -286,7 +286,7 @@ export function buildReviewRequestEmail(name: string, service: string, reviewUrl
     </a>
     <p style="color:#6b7280;font-size:12px;margin-top:24px;border-top:1px solid #e5e7eb;padding-top:16px">
       DADA HOUSE · 7001 South Texas 6 STE 246, Houston, TX 77083<br>
-      (910) 685-8042 · customerservice@dada-house.com
+      (346) 649-9353 · customerservice@dada-house.com
     </p>
   </div>
 </body>
@@ -332,7 +332,7 @@ export function buildEstimateEmail(
     </div>
     ${est.additionalDetails ? `<p style="margin-top:16px;padding:12px;background:#f9fafb;border-radius:6px;font-size:14px">${est.additionalDetails}</p>` : ""}
     <p style="margin-top:24px">To accept this estimate or have any questions, please contact us:</p>
-    <p>📞 (910) 685-8042 · ✉️ customerservice@dada-house.com</p>
+    <p>📞 (346) 649-9353 · ✉️ customerservice@dada-house.com</p>
     <p style="color:#6b7280;font-size:12px;margin-top:24px;border-top:1px solid #e5e7eb;padding-top:16px">
       Prepared by ${preparedBy} · DADA HOUSE · 7001 South Texas 6 STE 246, Houston, TX 77083
     </p>

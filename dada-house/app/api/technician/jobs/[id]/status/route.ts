@@ -1,4 +1,4 @@
-﻿import { NextRequest, NextResponse, after } from "next/server";
+import { NextRequest, NextResponse, after } from "next/server";
 import { requireTechnician } from "@/lib/api-auth";
 import { db } from "@/lib/db";
 import { techJobStatusSchema } from "@/lib/validations";
@@ -72,7 +72,7 @@ export async function PATCH(
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dada-house.com";
   const trackingUrl = `${baseUrl}/track/${id}`;
   const smsMessages: Record<string, string> = {
-    EN_ROUTE: `Hi ${appointment.name}! Your DADA HOUSE technician is on the way. Track live: ${trackingUrl}. Questions? Call (910) 685-8042.`,
+    EN_ROUTE: `Hi ${appointment.name}! Your DADA HOUSE technician is on the way. Track live: ${trackingUrl}. Questions? Call (346) 649-9353.`,
     ARRIVED: `Your DADA HOUSE technician has arrived at your location. Please let them in. Thank you!`,
     NEED_RESCHEDULE: `Hi ${appointment.name}, your DADA HOUSE appointment needs to be rescheduled. We'll contact you shortly to arrange a new time.`,
   };

@@ -101,7 +101,7 @@ export async function POST(req: NextRequest) {
               <h3 style="color:#9a3412;margin:0 0 8px;font-size:15px">🔧 Next Step: Schedule Your Installation</h3>
               <p style="color:#9a3412;margin:0;font-size:14px">Our certified technician will install your product at your address. Please schedule your installation appointment.</p>
             </div>
-            <p style="margin-top:24px;font-size:12px;color:#94a3b8;text-align:center">Questions? <a href="tel:+19106858042" style="color:#F97316">+1 (910) 685-8042</a> · DADA HOUSE · Houston, TX</p>
+            <p style="margin-top:24px;font-size:12px;color:#94a3b8;text-align:center">Questions? <a href="tel:+13466499353" style="color:#F97316">+1 (346) 649-9353</a> · DADA HOUSE · Houston, TX</p>
           </div>
         </div>`,
       }).catch(e => console.error("Receipt email failed:", e));

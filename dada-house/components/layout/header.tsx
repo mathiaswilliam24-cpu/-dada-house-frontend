@@ -154,7 +154,7 @@ export default function Header() {
       {menuOpen && (
         <div className="sm:hidden border-t border-white/10 bg-[#0D1D5E]">
           <div className="px-4 py-3 grid grid-cols-2 gap-2">
-            <a href="tel:+19106858042"
+            <a href="tel:+13466499353"
               className="flex items-center justify-center gap-1.5 px-3 py-2.5 bg-[#1B3FA8] border border-white/20 rounded-xl text-xs text-white font-semibold">
               <Phone size={12} />
               Service Line

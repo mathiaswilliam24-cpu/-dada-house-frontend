@@ -21,11 +21,11 @@ export default function ServiceCta({ serviceName }: { serviceName: string }) {
             Book Now
           </Link>
           <a
-            href="tel:+19106858042"
+            href="tel:+13466499353"
             className="flex items-center gap-2 px-8 py-4 border border-[#1A3490] hover:border-[#F7921A] text-blue-200 hover:text-white text-base font-bold rounded-xl transition-all"
           >
             <Phone size={18} />
-            +1 (910) 685-8042
+            +1 (346) 649-9353
           </a>
         </div>
 

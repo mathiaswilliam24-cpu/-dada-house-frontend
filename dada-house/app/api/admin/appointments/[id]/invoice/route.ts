@@ -61,7 +61,7 @@ export async function POST(
               <tr><td style="padding:8px 0;font-weight:bold;">Total</td><td style="padding:8px 0;font-weight:bold;text-align:right;">$${parsed.data.amount.toFixed(2)}</td></tr>
             </table>
             ${parsed.data.pdfUrl ? `<p><a href="${parsed.data.pdfUrl}" style="color:#F7921A;">Download Invoice PDF</a></p>` : ""}
-            <p style="color:#666;font-size:14px;">Questions? Call us at +1 (910) 685-8042</p>
+            <p style="color:#666;font-size:14px;">Questions? Call us at +1 (346) 649-9353</p>
           </div>
         `,
       })

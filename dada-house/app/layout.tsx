@@ -1,4 +1,4 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 import { extractRouterConfig } from "uploadthing/server";
@@ -90,7 +90,7 @@ export default function RootLayout({
               description:
                 "Premier home services in Houston TX — Plumbing, Air Conditioning, Heating, Remodeling",
               url: "https://dada-house.com",
-              telephone: "+19106858042",
+              telephone: "+13466499353",
               email: "customerservice@dada-house.com",
               address: {
                 "@type": "PostalAddress",

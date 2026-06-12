@@ -89,7 +89,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
           <div style="margin-top:20px;padding:14px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px">
             <p style="margin:0;color:#166534;font-size:14px">🔧 Our certified technician will contact you before the visit. Please ensure someone is available at the installation address during the scheduled time.</p>
           </div>
-          <p style="margin-top:24px;font-size:12px;color:#94a3b8;text-align:center">Questions? <a href="tel:+19106858042" style="color:#F97316">+1 (910) 685-8042</a> · DADA HOUSE · Houston, TX</p>
+          <p style="margin-top:24px;font-size:12px;color:#94a3b8;text-align:center">Questions? <a href="tel:+13466499353" style="color:#F97316">+1 (346) 649-9353</a> · DADA HOUSE · Houston, TX</p>
         </div>
       </div>`,
     }).catch(e => console.error("Schedule confirmation email failed:", e));

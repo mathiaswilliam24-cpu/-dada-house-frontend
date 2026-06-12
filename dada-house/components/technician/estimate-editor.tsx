@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import { useState, useCallback, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
@@ -57,7 +57,7 @@ const FROM = {
   email: "customerservice@dada-house.com",
   address: "7001 South Texas 6 STE 246",
   city: "Houston, TX 77083",
-  phone: "(910) 685-8042",
+  phone: "(346) 649-9353",
 };
 
 function newLine(): LineItem {
@@ -1062,13 +1062,13 @@ function PreviewPanel(p: PreviewProps) {
           {p.showFinancing && (
             <div className="bg-blue-50 rounded-xl p-3">
               <p className="text-xs font-bold text-blue-700 mb-0.5">Financing Available</p>
-              <p className="text-xs text-blue-600">Ask about our flexible payment options. Call (910) 685-8042.</p>
+              <p className="text-xs text-blue-600">Ask about our flexible payment options. Call (346) 649-9353.</p>
             </div>
           )}
 
           <div className="border-t border-gray-100 pt-3 text-center">
             <p className="text-xs text-gray-400">DADA HOUSE · 7001 South Texas 6 STE 246, Houston, TX 77083</p>
-            <p className="text-xs text-gray-400">(910) 685-8042 · customerservice@dada-house.com</p>
+            <p className="text-xs text-gray-400">(346) 649-9353 · customerservice@dada-house.com</p>
           </div>
         </div>
       </div>
