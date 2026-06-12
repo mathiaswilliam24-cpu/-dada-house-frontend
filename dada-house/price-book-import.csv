@@ -1,0 +1,68 @@
+industry,category,subcategory_1,subcategory_2,name,description,price,cost,taxable,unit_of_measure,task_code,online_booking_enabled
+Residential,Electrical,Capacitors,AC / Heat Pump,Dual Run Capacitor 35/5,Replace failed Dual Run Capacitor 35/5 MFD and verify safe system operation.,,,TRUE,,CAP-001,FALSE
+Residential,Electrical,Capacitors,AC / Heat Pump,Dual Run Capacitor 40/5,Replace failed Dual Run Capacitor 40/5 MFD and verify safe system operation.,,,TRUE,,CAP-002,FALSE
+Residential,Electrical,Capacitors,AC / Heat Pump,Dual Run Capacitor 45/5,Replace failed Dual Run Capacitor 45/5 MFD and verify safe system operation.,,,TRUE,,CAP-003,FALSE
+Residential,Electrical,Capacitors,AC / Heat Pump,Dual Run Capacitor 50/5,Replace failed Dual Run Capacitor 50/5 MFD and verify safe system operation.,,,TRUE,,CAP-004,FALSE
+Residential,Electrical,Capacitors,AC / Heat Pump,Dual Run Capacitor 55/5,Replace failed Dual Run Capacitor 55/5 MFD and verify safe system operation.,,,TRUE,,CAP-005,FALSE
+Residential,Electrical,Capacitors,AC / Heat Pump,Dual Run Capacitor 60/5,Replace failed Dual Run Capacitor 60/5 MFD and verify safe system operation.,,,TRUE,,CAP-006,FALSE
+Residential,Electrical,Capacitors,AC / Heat Pump,Single Run Capacitor 5 MFD,Replace failed Single Run Capacitor 5 MFD and verify safe system operation.,,,TRUE,,CAP-007,FALSE
+Residential,Electrical,Capacitors,AC / Heat Pump,Single Run Capacitor 7.5 MFD,Replace failed Single Run Capacitor 7.5 MFD and verify safe system operation.,,,TRUE,,CAP-008,FALSE
+Residential,Electrical,Capacitors,AC / Heat Pump,Single Run Capacitor 10 MFD,Replace failed Single Run Capacitor 10 MFD and verify safe system operation.,,,TRUE,,CAP-009,FALSE
+Residential,Electrical,Capacitors,AC / Heat Pump,Single Run Capacitor 15 MFD,Replace failed Single Run Capacitor 15 MFD and verify safe system operation.,,,TRUE,,CAP-010,FALSE
+Residential,Electrical,Capacitors,AC / Heat Pump,Single Run Capacitor 20 MFD,Replace failed Single Run Capacitor 20 MFD and verify safe system operation.,,,TRUE,,CAP-011,FALSE
+Residential,Electrical,Capacitors,AC / Heat Pump,Single Run Capacitor 25 MFD,Replace failed Single Run Capacitor 25 MFD and verify safe system operation.,,,TRUE,,CAP-012,FALSE
+Residential,Electrical,Capacitors,AC / Heat Pump,Single Run Capacitor 30 MFD,Replace failed Single Run Capacitor 30 MFD and verify safe system operation.,,,TRUE,,CAP-013,FALSE
+Residential,Electrical,Capacitors,AC / Heat Pump,Hard Start Kit,Replace failed Hard Start Kit and verify safe system operation.,,,TRUE,,CAP-014,FALSE
+Residential,Electrical,Controls,AC / Heat Pump,2-Pole AC Contactor,Replace burned or failed outdoor unit contactor.,,,TRUE,,ELE-001,FALSE
+Residential,Electrical,Controls,AC,1-Pole AC Contactor,Replace failed single-pole contactor.,,,TRUE,,ELE-002,FALSE
+Residential,Electrical,Controls,All HVAC,24V Transformer,Replace low voltage transformer.,,,TRUE,,ELE-003,FALSE
+Residential,Electrical,Controls,All HVAC,Low Voltage Fuse 3A/5A,Replace blown low-voltage fuse after diagnosing short.,,,TRUE,,ELE-004,FALSE
+Residential,Electrical,Controls,Furnace / Air Handler,Control Board - Air Handler/Furnace,Replace failed HVAC control board.,,,TRUE,,ELE-005,FALSE
+Residential,Electrical,Controls,Heat Pump / AC,Condenser Control Board,Replace failed outdoor condenser board.,,,TRUE,,ELE-006,FALSE
+Residential,Electrical,Controls,AC / Heat Pump,Disconnect Box,Replace damaged outdoor electrical disconnect.,,,TRUE,,ELE-007,FALSE
+Residential,Electrical,Controls,AC / Heat Pump,Fused Disconnect + Fuses,Install/replace fused disconnect and fuses.,,,TRUE,,ELE-008,FALSE
+Residential,Electrical,Controls,AC / Heat Pump,Time Delay Relay,Replace failed time delay relay.,,,TRUE,,ELE-009,FALSE
+Residential,Electrical,Controls,All HVAC,Fan Relay,Replace failed fan relay.,,,TRUE,,ELE-010,FALSE
+Residential,Electrical,Controls,Electric Furnace,Sequencer - Electric Heat,Replace failed heat sequencer.,,,TRUE,,ELE-011,FALSE
+Residential,Motors,,Air Handler / Furnace,PSC Indoor Blower Motor,Replace standard indoor blower motor.,,,TRUE,,MOT-001,FALSE
+Residential,Motors,,Air Handler / Furnace,ECM Variable Speed Blower Motor,Replace variable-speed ECM blower motor/module.,,,TRUE,,MOT-002,FALSE
+Residential,Motors,,Air Handler / Furnace,ECM Blower Motor Module,Replace failed ECM module only when compatible.,,,TRUE,,MOT-003,FALSE
+Residential,Motors,,AC / Heat Pump,Condenser Fan Motor,Replace outdoor condenser fan motor.,,,TRUE,,MOT-004,FALSE
+Residential,Motors,,Gas Furnace,Inducer Draft Motor,Replace furnace inducer motor.,,,TRUE,,MOT-005,FALSE
+Residential,Motors,,Commercial RTU,Combustion Blower Motor - Commercial,Replace commercial rooftop unit combustion blower.,,,TRUE,,MOT-006,FALSE
+Residential,Motors,,Commercial / Package,Belt Drive Blower Motor,Replace commercial belt-drive blower motor.,,,TRUE,,MOT-007,FALSE
+Residential,Refrigerant,Charge,AC / Heat Pump,R-410A Refrigerant per lb,Add R-410A Refrigerant per lb after leak evaluation and system charge.,,,TRUE,lb,REF-001,FALSE
+Residential,Refrigerant,Charge,AC / Heat Pump,R-32 Refrigerant per lb,Add R-32 Refrigerant per lb after leak evaluation and system charge.,,,TRUE,lb,REF-002,FALSE
+Residential,Refrigerant,Charge,AC / Heat Pump,R-454B Refrigerant per lb,Add R-454B Refrigerant per lb after leak evaluation and system charge.,,,TRUE,lb,REF-003,FALSE
+Residential,Refrigerant,Charge,AC / Heat Pump,R-22 Refrigerant per lb,Add R-22 Refrigerant per lb after leak evaluation and system charge.,,,TRUE,lb,REF-004,FALSE
+Residential,Refrigerant,Components,AC / Heat Pump,TXV / Expansion Valve,Replace failed thermostatic expansion valve.,,,TRUE,,REF-005,FALSE
+Residential,Refrigerant,Components,AC / Heat Pump,Filter Drier,Replace liquid line filter drier during refrigerant repair.,,,TRUE,,REF-006,FALSE
+Residential,Refrigerant,Components,Heat Pump,Reversing Valve,Replace heat pump reversing valve.,,,TRUE,,REF-007,FALSE
+Residential,Refrigerant,Components,AC / Heat Pump,Service Valve,Replace leaking or damaged service valve.,,,TRUE,,REF-008,FALSE
+Residential,Refrigerant,Components,AC / Heat Pump,Line Set - Copper Tubing,Replace damaged refrigerant line set.,,,TRUE,,REF-009,FALSE
+Residential,Refrigerant,Components,AC / Heat Pump,Line Set Insulation,Replace deteriorated suction line insulation.,,,TRUE,,REF-010,FALSE
+Residential,Coils,,AC / Heat Pump,Evaporator Coil - Residential,Replace leaking or restricted indoor evaporator coil.,,,TRUE,,COIL-001,FALSE
+Residential,Coils,,AC / Heat Pump,Condenser Coil - Residential,Replace damaged outdoor condenser coil.,,,TRUE,,COIL-002,FALSE
+Residential,Coils,,Commercial HVAC,Commercial Evaporator Coil,Replace commercial evaporator coil.,,,TRUE,,COIL-003,FALSE
+Residential,Compressors,,AC / Heat Pump,Residential Scroll Compressor,Replace failed residential compressor.,,,TRUE,,COMP-001,FALSE
+Residential,Compressors,,Commercial HVAC,Commercial Compressor,Replace failed commercial compressor.,,,TRUE,,COMP-002,FALSE
+Residential,Thermostats,,All HVAC,Basic Digital Thermostat,Install basic digital thermostat.,,,TRUE,,THR-001,FALSE
+Residential,Thermostats,,All HVAC,Programmable Thermostat,Install programmable thermostat.,,,TRUE,,THR-002,FALSE
+Residential,Thermostats,,All HVAC,Smart Wi-Fi Thermostat,Install smart thermostat and connect to Wi-Fi.,,,TRUE,,THR-003,FALSE
+Residential,Sensors & Safety,,Gas Furnace,Flame Sensor,Clean or replace furnace flame sensor.,,,TRUE,,SNS-001,FALSE
+Residential,Sensors & Safety,,Gas Furnace,Hot Surface Ignitor,Replace failed furnace ignitor.,,,TRUE,,SNS-002,FALSE
+Residential,Sensors & Safety,,Gas Furnace,Pressure Switch,Replace failed furnace pressure switch.,,,TRUE,,SNS-003,FALSE
+Residential,Sensors & Safety,,Gas Furnace,Limit Switch,Replace failed high-limit switch.,,,TRUE,,SNS-004,FALSE
+Residential,Sensors & Safety,,Gas Furnace,Rollout Switch,Replace rollout switch after safety inspection.,,,TRUE,,SNS-005,FALSE
+Residential,Sensors & Safety,,Heat Pump,Outdoor Temperature Sensor,Replace outdoor temperature sensor.,,,TRUE,,SNS-006,FALSE
+Residential,Sensors & Safety,,Commercial HVAC,Discharge Air Sensor,Replace discharge air temperature sensor.,,,TRUE,,SNS-007,FALSE
+Residential,Sensors & Safety,,Gas Furnace,CO Detector / Safety Alarm,Install carbon monoxide detector near gas appliance.,,,TRUE,,SNS-008,FALSE
+Residential,Drainage,,AC / Heat Pump,Condensate Float Switch,Install/replace overflow safety switch.,,,TRUE,,DRN-001,FALSE
+Residential,Drainage,,AC / Furnace,Condensate Pump,Replace condensate pump.,,,TRUE,,DRN-002,FALSE
+Residential,Drainage,,AC / Heat Pump,PVC Drain Line Repair,Repair or replace condensate drain piping.,,,TRUE,,DRN-003,FALSE
+Residential,Drainage,,Air Handler,Secondary Drain Pan,Replace/install secondary drain pan.,,,TRUE,,DRN-004,FALSE
+Residential,Indoor Air Quality,,All HVAC,1-Inch Air Filter,Replace standard 1-inch filter.,,,TRUE,,IAQ-001,FALSE
+Residential,Indoor Air Quality,,All HVAC,4-Inch Media Filter,Replace 4-inch media filter.,,,TRUE,,IAQ-002,FALSE
+Residential,Indoor Air Quality,,All HVAC,UV Light Air Purifier,Install UV light in duct/coil area.,,,TRUE,,IAQ-003,FALSE
+Residential,Indoor Air Quality,,Residential HVAC,Whole-Home Dehumidifier,Install whole-home dehumidifier.,,,TRUE,,IAQ-004,FALSE
+Residential,Indoor Air Quality,,All HVAC,Electronic Air Cleaner,Install electronic air cleaner.,,,TRUE,,IAQ-005,FALSE

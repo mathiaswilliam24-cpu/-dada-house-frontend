@@ -11,19 +11,57 @@ export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const q = searchParams.get("q");
 
-  const clients = await db.technicianClient.findMany({
-    where: {
-      technicianId: auth.id,
-      ...(q ? {
-        OR: [
-          { name: { contains: q, mode: "insensitive" } },
-          { email: { contains: q, mode: "insensitive" } },
-          { phone: { contains: q } },
-        ],
-      } : {}),
-    },
-    orderBy: { name: "asc" },
-  });
+  const [savedClients, appointmentClients] = await Promise.all([
+    db.technicianClient.findMany({
+      where: {
+        technicianId: auth.id,
+        ...(q ? {
+          OR: [
+            { name: { contains: q, mode: "insensitive" } },
+            { email: { contains: q, mode: "insensitive" } },
+            { phone: { contains: q } },
+          ],
+        } : {}),
+      },
+      orderBy: { name: "asc" },
+    }),
+    db.appointment.findMany({
+      where: {
+        technicianId: auth.id,
+        ...(q ? {
+          OR: [
+            { name: { contains: q, mode: "insensitive" } },
+            { email: { contains: q, mode: "insensitive" } },
+            { phone: { contains: q } },
+          ],
+        } : {}),
+      },
+      select: { id: true, name: true, email: true, phone: true, address: true, city: true, zipCode: true },
+      distinct: ["email"],
+      orderBy: { name: "asc" },
+    }),
+  ]);
+
+  // Merge in clients from job history that aren't already saved (dedupe by email)
+  const savedEmails = new Set(savedClients.map((c) => c.email?.toLowerCase()).filter(Boolean));
+  const fromAppointments = appointmentClients
+    .filter((a) => !savedEmails.has(a.email.toLowerCase()))
+    .map((a) => ({
+      id: `appt:${a.id}`,
+      name: a.name,
+      email: a.email,
+      phone: a.phone,
+      mobile: null,
+      address: a.address,
+      city: a.city,
+      state: "TX",
+      zip: a.zipCode,
+      notes: null,
+    }));
+
+  const clients = [...savedClients, ...fromAppointments].sort((a, b) =>
+    (a.name ?? "").localeCompare(b.name ?? "")
+  );
 
   return NextResponse.json({ clients });
 }
