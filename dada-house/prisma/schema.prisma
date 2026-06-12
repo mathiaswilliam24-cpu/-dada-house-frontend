@@ -595,6 +595,27 @@ model Estimate {
   technician User? @relation("technicianEstimates", fields: [technicianId], references: [id], onDelete: SetNull)
 }
 
+model PriceBookItem {
+  id            String   @id @default(cuid())
+  industry      String
+  category      String
+  subcategory1  String?
+  subcategory2  String?
+  name          String
+  description   String?
+  price         Float    @default(0)
+  cost          Float    @default(0)
+  taxable       Boolean  @default(true)
+  unit          String?
+  taskCode      String?
+  onlineBooking Boolean  @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([category])
+}
+
 // ─── Technician PWA Models ────────────────────────────────────────────────────
 
 model DiagnosisForm {

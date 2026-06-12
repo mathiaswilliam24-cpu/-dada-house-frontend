@@ -263,3 +263,49 @@ export function contactEmailHtml(data: {
 </body>
 </html>`;
 }
+
+export function buildEstimateEmail(
+  est: { estimateNumber: string; clientName: string; total: number; additionalDetails?: string | null },
+  lineItems: Array<{ desc: string; rate: number; qty: number; amount: number }>,
+  preparedBy: string
+): string {
+  const itemRows = lineItems.map((item) =>
+    `<tr><td style="padding:8px 4px;border-bottom:1px solid #f0f0f0">${item.desc}</td><td style="padding:8px 4px;border-bottom:1px solid #f0f0f0;text-align:right">$${item.rate.toFixed(2)}</td><td style="padding:8px 4px;border-bottom:1px solid #f0f0f0;text-align:center">${item.qty}</td><td style="padding:8px 4px;border-bottom:1px solid #f0f0f0;text-align:right;font-weight:bold">$${item.amount.toFixed(2)}</td></tr>`
+  ).join("");
+
+  return `
+<!DOCTYPE html>
+<html>
+<body style="font-family:Arial,sans-serif;max-width:620px;margin:0 auto;padding:20px;color:#333">
+  <div style="background:#1B3FA8;padding:24px;border-radius:8px 8px 0 0;text-align:center">
+    <h1 style="color:white;margin:0;font-size:24px">DADA HOUSE</h1>
+    <p style="color:#93c5fd;margin:4px 0 0">Premier Home Services · Houston, TX</p>
+  </div>
+  <div style="border:1px solid #e5e7eb;border-top:none;padding:24px;border-radius:0 0 8px 8px">
+    <h2 style="color:#1B3FA8;margin-top:0">Estimate #${est.estimateNumber}</h2>
+    <p>Dear ${est.clientName},</p>
+    <p>Thank you for considering DADA HOUSE. Please find your estimate below:</p>
+    <table style="width:100%;border-collapse:collapse;margin:16px 0">
+      <thead>
+        <tr style="background:#f9fafb">
+          <th style="padding:10px 4px;text-align:left;font-size:12px;color:#6b7280;border-bottom:2px solid #e5e7eb">DESCRIPTION</th>
+          <th style="padding:10px 4px;text-align:right;font-size:12px;color:#6b7280;border-bottom:2px solid #e5e7eb">RATE</th>
+          <th style="padding:10px 4px;text-align:center;font-size:12px;color:#6b7280;border-bottom:2px solid #e5e7eb">QTY</th>
+          <th style="padding:10px 4px;text-align:right;font-size:12px;color:#6b7280;border-bottom:2px solid #e5e7eb">AMOUNT</th>
+        </tr>
+      </thead>
+      <tbody>${itemRows}</tbody>
+    </table>
+    <div style="text-align:right;font-size:18px;font-weight:bold;color:#1B3FA8;border-top:2px solid #1B3FA8;padding-top:12px">
+      Total: $${est.total.toFixed(2)}
+    </div>
+    ${est.additionalDetails ? `<p style="margin-top:16px;padding:12px;background:#f9fafb;border-radius:6px;font-size:14px">${est.additionalDetails}</p>` : ""}
+    <p style="margin-top:24px">To accept this estimate or have any questions, please contact us:</p>
+    <p>📞 (910) 685-8042 · ✉️ customerservice@dada-house.com</p>
+    <p style="color:#6b7280;font-size:12px;margin-top:24px;border-top:1px solid #e5e7eb;padding-top:16px">
+      Prepared by ${preparedBy} · DADA HOUSE · 7001 South Texas 6 STE 246, Houston, TX 77083
+    </p>
+  </div>
+</body>
+</html>`;
+}

@@ -1,6 +1,8 @@
 "use client";
 import { useEffect, useState, useCallback } from "react";
-import { FileText, DollarSign, Send, CheckCircle, Loader2, Search, RefreshCw } from "lucide-react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { FileText, DollarSign, Send, CheckCircle, Loader2, Search, RefreshCw, Plus } from "lucide-react";
 
 type Estimate = {
   id: string;
@@ -18,6 +20,7 @@ const fmt = (n: number) =>
   new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(n);
 
 export default function AdminEstimatesPage() {
+  const router = useRouter();
   const [estimates, setEstimates] = useState<Estimate[]>([]);
   const [stats, setStats] = useState({ total: 0, open: 0, closed: 0, sent: 0 });
   const [loading, setLoading] = useState(true);
@@ -53,12 +56,17 @@ export default function AdminEstimatesPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Technician Estimates</h1>
-          <p className="text-gray-500 text-sm mt-0.5">All estimates created by technicians</p>
+          <h1 className="text-2xl font-bold text-gray-900">Estimates</h1>
+          <p className="text-gray-500 text-sm mt-0.5">All estimates from admin and technicians</p>
         </div>
-        <button onClick={load} className="flex items-center gap-2 px-3 py-2 border border-gray-200 text-sm text-gray-600 rounded-xl hover:bg-gray-50">
-          <RefreshCw className="w-4 h-4" /> Refresh
-        </button>
+        <div className="flex items-center gap-2">
+          <button onClick={load} className="flex items-center gap-2 px-3 py-2 border border-gray-200 text-sm text-gray-600 rounded-xl hover:bg-gray-50">
+            <RefreshCw className="w-4 h-4" /> Refresh
+          </button>
+          <Link href="/admin/estimates/new" className="flex items-center gap-2 px-4 py-2 bg-[#F97316] text-white text-sm font-semibold rounded-xl hover:bg-orange-600 transition-colors">
+            <Plus className="w-4 h-4" /> New Estimate
+          </Link>
+        </div>
       </div>
 
       {/* Stats */}
@@ -116,7 +124,7 @@ export default function AdminEstimatesPage() {
               </thead>
               <tbody className="divide-y divide-gray-50">
                 {visible.map((est) => (
-                  <tr key={est.id} className="hover:bg-gray-50 transition-colors">
+                  <tr key={est.id} onClick={() => router.push(`/admin/estimates/${est.id}`)} className="hover:bg-gray-50 transition-colors cursor-pointer">
                     <td className="px-4 py-3">
                       <p className="font-mono text-xs text-gray-500">{est.estimateNumber}</p>
                     </td>

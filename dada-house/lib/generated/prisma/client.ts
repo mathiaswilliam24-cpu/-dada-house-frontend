@@ -177,6 +177,11 @@ export type PushSubscription = Prisma.PushSubscriptionModel
  */
 export type Estimate = Prisma.EstimateModel
 /**
+ * Model PriceBookItem
+ * 
+ */
+export type PriceBookItem = Prisma.PriceBookItemModel
+/**
  * Model DiagnosisForm
  * 
  */

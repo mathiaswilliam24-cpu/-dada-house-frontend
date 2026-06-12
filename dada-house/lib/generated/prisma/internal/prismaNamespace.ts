@@ -411,6 +411,7 @@ export const ModelName = {
   Payment: 'Payment',
   PushSubscription: 'PushSubscription',
   Estimate: 'Estimate',
+  PriceBookItem: 'PriceBookItem',
   DiagnosisForm: 'DiagnosisForm',
   JobPhoto: 'JobPhoto',
   JobPayment: 'JobPayment',
@@ -436,7 +437,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "technicianClient" | "account" | "session" | "verificationToken" | "appointment" | "review" | "invoice" | "notificationLog" | "setting" | "galleryProject" | "technician" | "technicianProfile" | "technicianLocation" | "property" | "servicePlan" | "customerServicePlan" | "warranty" | "maintenanceLog" | "aIConversation" | "product" | "order" | "orderItem" | "cart" | "payment" | "pushSubscription" | "estimate" | "diagnosisForm" | "jobPhoto" | "jobPayment" | "serviceChecklist" | "jobTimeLog" | "jobPart" | "inventoryItem" | "inventoryRequest" | "expense" | "expenseSubscription"
+    modelProps: "user" | "technicianClient" | "account" | "session" | "verificationToken" | "appointment" | "review" | "invoice" | "notificationLog" | "setting" | "galleryProject" | "technician" | "technicianProfile" | "technicianLocation" | "property" | "servicePlan" | "customerServicePlan" | "warranty" | "maintenanceLog" | "aIConversation" | "product" | "order" | "orderItem" | "cart" | "payment" | "pushSubscription" | "estimate" | "priceBookItem" | "diagnosisForm" | "jobPhoto" | "jobPayment" | "serviceChecklist" | "jobTimeLog" | "jobPart" | "inventoryItem" | "inventoryRequest" | "expense" | "expenseSubscription"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -2438,6 +2439,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    PriceBookItem: {
+      payload: Prisma.$PriceBookItemPayload<ExtArgs>
+      fields: Prisma.PriceBookItemFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.PriceBookItemFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PriceBookItemPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.PriceBookItemFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PriceBookItemPayload>
+        }
+        findFirst: {
+          args: Prisma.PriceBookItemFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PriceBookItemPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.PriceBookItemFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PriceBookItemPayload>
+        }
+        findMany: {
+          args: Prisma.PriceBookItemFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PriceBookItemPayload>[]
+        }
+        create: {
+          args: Prisma.PriceBookItemCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PriceBookItemPayload>
+        }
+        createMany: {
+          args: Prisma.PriceBookItemCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.PriceBookItemCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PriceBookItemPayload>[]
+        }
+        delete: {
+          args: Prisma.PriceBookItemDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PriceBookItemPayload>
+        }
+        update: {
+          args: Prisma.PriceBookItemUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PriceBookItemPayload>
+        }
+        deleteMany: {
+          args: Prisma.PriceBookItemDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.PriceBookItemUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.PriceBookItemUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PriceBookItemPayload>[]
+        }
+        upsert: {
+          args: Prisma.PriceBookItemUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PriceBookItemPayload>
+        }
+        aggregate: {
+          args: Prisma.PriceBookItemAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePriceBookItem>
+        }
+        groupBy: {
+          args: Prisma.PriceBookItemGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PriceBookItemGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.PriceBookItemCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PriceBookItemCountAggregateOutputType> | number
+        }
+      }
+    }
     DiagnosisForm: {
       payload: Prisma.$DiagnosisFormPayload<ExtArgs>
       fields: Prisma.DiagnosisFormFieldRefs
@@ -3715,6 +3790,27 @@ export const EstimateScalarFieldEnum = {
 export type EstimateScalarFieldEnum = (typeof EstimateScalarFieldEnum)[keyof typeof EstimateScalarFieldEnum]
 
 
+export const PriceBookItemScalarFieldEnum = {
+  id: 'id',
+  industry: 'industry',
+  category: 'category',
+  subcategory1: 'subcategory1',
+  subcategory2: 'subcategory2',
+  name: 'name',
+  description: 'description',
+  price: 'price',
+  cost: 'cost',
+  taxable: 'taxable',
+  unit: 'unit',
+  taskCode: 'taskCode',
+  onlineBooking: 'onlineBooking',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PriceBookItemScalarFieldEnum = (typeof PriceBookItemScalarFieldEnum)[keyof typeof PriceBookItemScalarFieldEnum]
+
+
 export const DiagnosisFormScalarFieldEnum = {
   id: 'id',
   appointmentId: 'appointmentId',
@@ -4250,6 +4346,7 @@ export type GlobalOmitConfig = {
   payment?: Prisma.PaymentOmit
   pushSubscription?: Prisma.PushSubscriptionOmit
   estimate?: Prisma.EstimateOmit
+  priceBookItem?: Prisma.PriceBookItemOmit
   diagnosisForm?: Prisma.DiagnosisFormOmit
   jobPhoto?: Prisma.JobPhotoOmit
   jobPayment?: Prisma.JobPaymentOmit

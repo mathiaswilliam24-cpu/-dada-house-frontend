@@ -1,5 +1,5 @@
-﻿import { NextRequest, NextResponse } from "next/server";
-import { requireTechnician } from "@/lib/api-auth";
+import { NextRequest, NextResponse } from "next/server";
+import { requireAdmin } from "@/lib/api-auth";
 import { db } from "@/lib/db";
 import { resend, FROM_EMAIL } from "@/lib/resend";
 import { buildEstimateEmail } from "@/lib/email-templates";
@@ -10,13 +10,11 @@ export async function GET(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const auth = await requireTechnician(req);
+  const auth = await requireAdmin(req);
   if (auth instanceof NextResponse) return auth;
 
   const { id } = await params;
-  const estimate = await db.estimate.findFirst({
-    where: { id, technicianId: auth.id },
-  });
+  const estimate = await db.estimate.findUnique({ where: { id } });
   if (!estimate) return NextResponse.json({ error: "Not found" }, { status: 404 });
   return NextResponse.json({ estimate });
 }
@@ -25,7 +23,7 @@ export async function PATCH(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const auth = await requireTechnician(req);
+  const auth = await requireAdmin(req);
   if (auth instanceof NextResponse) return auth;
 
   const { id } = await params;
@@ -54,7 +52,7 @@ export async function DELETE(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const auth = await requireTechnician(req);
+  const auth = await requireAdmin(req);
   if (auth instanceof NextResponse) return auth;
 
   const { id } = await params;
@@ -66,13 +64,13 @@ export async function POST(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const auth = await requireTechnician(req);
+  const auth = await requireAdmin(req);
   if (auth instanceof NextResponse) return auth;
 
   const { id } = await params;
   const { action } = await req.json();
 
-  const estimate = await db.estimate.findFirst({ where: { id, technicianId: auth.id } });
+  const estimate = await db.estimate.findUnique({ where: { id } });
   if (!estimate) return NextResponse.json({ error: "Not found" }, { status: 404 });
 
   if (action === "email") {

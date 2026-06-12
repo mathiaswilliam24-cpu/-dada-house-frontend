@@ -78,6 +78,7 @@ export const ModelName = {
   Payment: 'Payment',
   PushSubscription: 'PushSubscription',
   Estimate: 'Estimate',
+  PriceBookItem: 'PriceBookItem',
   DiagnosisForm: 'DiagnosisForm',
   JobPhoto: 'JobPhoto',
   JobPayment: 'JobPayment',
@@ -602,6 +603,27 @@ export const EstimateScalarFieldEnum = {
 } as const
 
 export type EstimateScalarFieldEnum = (typeof EstimateScalarFieldEnum)[keyof typeof EstimateScalarFieldEnum]
+
+
+export const PriceBookItemScalarFieldEnum = {
+  id: 'id',
+  industry: 'industry',
+  category: 'category',
+  subcategory1: 'subcategory1',
+  subcategory2: 'subcategory2',
+  name: 'name',
+  description: 'description',
+  price: 'price',
+  cost: 'cost',
+  taxable: 'taxable',
+  unit: 'unit',
+  taskCode: 'taskCode',
+  onlineBooking: 'onlineBooking',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PriceBookItemScalarFieldEnum = (typeof PriceBookItemScalarFieldEnum)[keyof typeof PriceBookItemScalarFieldEnum]
 
 
 export const DiagnosisFormScalarFieldEnum = {

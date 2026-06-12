@@ -3,7 +3,7 @@ import { useState, useCallback, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import {
   Plus, Trash2, Send, ChevronDown, ChevronUp, Check,
-  Loader2, ArrowLeft, FileText, Mail, Settings2, X, Users, Search
+  Loader2, ArrowLeft, FileText, Mail, Settings2, X, Users, Search, BookOpen
 } from "lucide-react";
 import { formatCurrency } from "@/lib/utils";
 
@@ -86,18 +86,39 @@ function computeTotals(
 }
 
 type TechClient = {
-  id: string; name: string; email: string | null; phone: string | null;
-  mobile: string | null; address: string | null; city: string | null;
-  state: string; zip: string | null;
+  id: string; name: string | null; email: string | null; phone: string | null;
+  mobile?: string | null; address?: string | null; city?: string | null;
+  state?: string | null; zip?: string | null;
+};
+
+type PriceBookItem = {
+  id: string;
+  category: string;
+  subcategory1?: string | null;
+  subcategory2?: string | null;
+  name: string;
+  description?: string | null;
+  price: number;
+  cost: number;
+  taxable: boolean;
+  unit?: string | null;
+  taskCode?: string | null;
+  onlineBooking: boolean;
+  industry: string;
 };
 
 type Props = {
   initialData?: Partial<EstimateData>;
   mode: "create" | "edit";
   quick?: boolean;
+  basePath?: "technician" | "admin";
 };
 
-export default function EstimateEditor({ initialData, mode, quick: _quick }: Props) {
+export default function EstimateEditor({ initialData, mode, quick: _quick, basePath = "technician" }: Props) {
+  const estimatesPath = `/${basePath}/estimates`;
+  const estimatesApi = `/api/${basePath}/estimates`;
+  const clientSearchApi = basePath === "admin" ? "/api/admin/customers" : "/api/technician/clients";
+  const clientPickerLabel = basePath === "admin" ? "Customers" : "My Clients";
   const router = useRouter();
   const [saving, setSaving] = useState(false);
   const [sending, setSending] = useState(false);
@@ -121,28 +142,69 @@ export default function EstimateEditor({ initialData, mode, quick: _quick }: Pro
     const timer = setTimeout(async () => {
       setClientSearching(true);
       try {
-        const res = await fetch(`/api/technician/clients${clientSearch ? `?q=${encodeURIComponent(clientSearch)}` : ""}`);
+        const res = await fetch(`${clientSearchApi}${clientSearch ? `?q=${encodeURIComponent(clientSearch)}` : ""}`);
         const d = await res.json();
-        setClientResults(d.clients ?? []);
+        setClientResults(d.clients ?? d.users ?? []);
       } finally {
         setClientSearching(false);
       }
     }, 200);
     return () => clearTimeout(timer);
-  }, [clientSearch, showClientPicker]);
+  }, [clientSearch, showClientPicker, clientSearchApi]);
+
+  // Price book picker
+  const [priceBookSearch, setPriceBookSearch] = useState("");
+  const [priceBookResults, setPriceBookResults] = useState<PriceBookItem[]>([]);
+  const [showPriceBookPicker, setShowPriceBookPicker] = useState(false);
+  const [priceBookSearching, setPriceBookSearching] = useState(false);
+  const priceBookPickerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!showPriceBookPicker) return;
+    const timer = setTimeout(async () => {
+      setPriceBookSearching(true);
+      try {
+        const res = await fetch(`/api/price-book${priceBookSearch ? `?q=${encodeURIComponent(priceBookSearch)}` : ""}`);
+        const d = await res.json();
+        setPriceBookResults(d.items ?? []);
+      } finally {
+        setPriceBookSearching(false);
+      }
+    }, 200);
+    return () => clearTimeout(timer);
+  }, [priceBookSearch, showPriceBookPicker]);
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
       if (pickerRef.current && !pickerRef.current.contains(e.target as Node)) {
         setShowClientPicker(false);
       }
+      if (priceBookPickerRef.current && !priceBookPickerRef.current.contains(e.target as Node)) {
+        setShowPriceBookPicker(false);
+      }
     }
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  function addItemFromPriceBook(p: PriceBookItem) {
+    setItems((prev) => [
+      ...prev,
+      {
+        id: crypto.randomUUID(),
+        desc: p.name,
+        details: p.description ?? "",
+        rate: p.price,
+        qty: 1,
+        amount: p.price,
+      },
+    ]);
+    setShowPriceBookPicker(false);
+    setPriceBookSearch("");
+  }
+
   function fillFromClient(c: TechClient) {
-    setClientName(c.name);
+    setClientName(c.name ?? "");
     setClientEmail(c.email ?? "");
     setClientPhone(c.phone ?? "");
     setClientMobile(c.mobile ?? "");
@@ -220,8 +282,8 @@ export default function EstimateEditor({ initialData, mode, quick: _quick }: Pro
     setError("");
     try {
       const url = mode === "create"
-        ? "/api/technician/estimates"
-        : `/api/technician/estimates/${initialData!.id}`;
+        ? estimatesApi
+        : `${estimatesApi}/${initialData!.id}`;
       const method = mode === "create" ? "POST" : "PATCH";
       const res = await fetch(url, {
         method,
@@ -233,7 +295,7 @@ export default function EstimateEditor({ initialData, mode, quick: _quick }: Pro
       setSaved(true);
       setTimeout(() => setSaved(false), 2000);
       if (mode === "create") {
-        router.replace(`/technician/estimates/${data.estimate.id}`);
+        router.replace(`${estimatesPath}/${data.estimate.id}`);
       }
     } catch {
       setError("Failed to save estimate. Please try again.");
@@ -253,7 +315,7 @@ export default function EstimateEditor({ initialData, mode, quick: _quick }: Pro
 
       // If new estimate, save it first to get an ID
       if (!estimateId) {
-        const res = await fetch("/api/technician/estimates", {
+        const res = await fetch(estimatesApi, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(buildPayload()),
@@ -263,7 +325,7 @@ export default function EstimateEditor({ initialData, mode, quick: _quick }: Pro
         estimateId = data.estimate.id;
       } else {
         // Save latest changes first
-        const res = await fetch(`/api/technician/estimates/${estimateId}`, {
+        const res = await fetch(`${estimatesApi}/${estimateId}`, {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(buildPayload()),
@@ -271,7 +333,7 @@ export default function EstimateEditor({ initialData, mode, quick: _quick }: Pro
         if (!res.ok) throw new Error("Save failed");
       }
 
-      const res = await fetch(`/api/technician/estimates/${estimateId}`, {
+      const res = await fetch(`${estimatesApi}/${estimateId}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ action: "email" }),
@@ -284,7 +346,7 @@ export default function EstimateEditor({ initialData, mode, quick: _quick }: Pro
       setTimeout(() => setSentSuccess(false), 4000);
 
       if (mode === "create") {
-        router.replace(`/technician/estimates/${estimateId}`);
+        router.replace(`${estimatesPath}/${estimateId}`);
       }
     } catch {
       setError("Failed to send email. Check the email address and try again.");
@@ -298,8 +360,8 @@ export default function EstimateEditor({ initialData, mode, quick: _quick }: Pro
     if (!confirm("Delete this estimate?")) return;
     setDeleting(true);
     try {
-      await fetch(`/api/technician/estimates/${initialData.id}`, { method: "DELETE" });
-      router.replace("/technician/estimates");
+      await fetch(`${estimatesApi}/${initialData.id}`, { method: "DELETE" });
+      router.replace(estimatesPath);
     } catch {
       setError("Failed to delete.");
       setDeleting(false);
@@ -308,13 +370,13 @@ export default function EstimateEditor({ initialData, mode, quick: _quick }: Pro
 
   const handleClose = async () => {
     if (mode === "edit" && initialData?.id) {
-      await fetch(`/api/technician/estimates/${initialData.id}`, {
+      await fetch(`${estimatesApi}/${initialData.id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status: "CLOSED" }),
       });
     }
-    router.replace("/technician/estimates");
+    router.replace(estimatesPath);
   };
 
   const previewProps = {
@@ -459,7 +521,7 @@ export default function EstimateEditor({ initialData, mode, quick: _quick }: Pro
               onClick={() => { setShowClientPicker((v) => !v); setClientSearch(""); }}
               className="flex items-center gap-1.5 px-2.5 py-1.5 bg-blue-50 text-[#1B3FA8] rounded-lg text-xs font-bold hover:bg-blue-100 transition-colors"
             >
-              <Users className="w-3.5 h-3.5" /> My Clients
+              <Users className="w-3.5 h-3.5" /> {clientPickerLabel}
             </button>
             {showClientPicker && (
               <div className="absolute right-0 top-full mt-1.5 w-72 bg-white rounded-2xl shadow-xl border border-gray-200 z-50 overflow-hidden">
@@ -564,12 +626,63 @@ export default function EstimateEditor({ initialData, mode, quick: _quick }: Pro
       <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden">
         <div className="px-4 py-3 border-b border-gray-100 flex items-center justify-between">
           <p className="text-xs font-bold text-gray-400 uppercase tracking-wider">Line Items</p>
-          <button
-            onClick={addItem}
-            className="flex items-center gap-1 text-xs font-bold text-[#1B3FA8] hover:text-[#1A3490] transition-colors"
-          >
-            <Plus className="w-3.5 h-3.5" /> Add Item
-          </button>
+          <div className="flex items-center gap-3">
+            <div className="relative" ref={priceBookPickerRef}>
+              <button
+                type="button"
+                onClick={() => { setShowPriceBookPicker((v) => !v); setPriceBookSearch(""); }}
+                className="flex items-center gap-1 text-xs font-bold text-[#1B3FA8] hover:text-[#1A3490] transition-colors"
+              >
+                <BookOpen className="w-3.5 h-3.5" /> From Price Book
+              </button>
+              {showPriceBookPicker && (
+                <div className="absolute right-0 top-full mt-1.5 w-80 bg-white rounded-2xl shadow-xl border border-gray-200 z-50 overflow-hidden">
+                  <div className="p-2 border-b border-gray-100">
+                    <div className="relative">
+                      <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400" />
+                      <input
+                        autoFocus
+                        value={priceBookSearch}
+                        onChange={(e) => setPriceBookSearch(e.target.value)}
+                        placeholder="Search price book…"
+                        className="w-full pl-8 pr-3 py-2 text-sm border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1B3FA8]/20 focus:border-[#1B3FA8]"
+                      />
+                    </div>
+                  </div>
+                  <div className="max-h-64 overflow-y-auto">
+                    {priceBookSearching ? (
+                      <div className="flex justify-center py-4"><Loader2 className="w-4 h-4 animate-spin text-gray-400" /></div>
+                    ) : priceBookResults.length === 0 ? (
+                      <p className="text-xs text-gray-400 text-center py-4">No items found</p>
+                    ) : (
+                      priceBookResults.map((p) => (
+                        <button
+                          key={p.id}
+                          type="button"
+                          onClick={() => addItemFromPriceBook(p)}
+                          className="w-full text-left px-3 py-2.5 hover:bg-blue-50 transition-colors border-b border-gray-50 last:border-0"
+                        >
+                          <div className="flex items-center justify-between gap-2">
+                            <p className="text-sm font-semibold text-gray-900 truncate">{p.name}</p>
+                            <p className="text-sm font-bold text-[#1B3FA8] shrink-0">{formatCurrency(p.price)}</p>
+                          </div>
+                          <p className="text-xs text-gray-400">
+                            {p.category}{p.subcategory1 ? ` · ${p.subcategory1}` : ""}
+                          </p>
+                        </button>
+                      ))
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
+            <button
+              onClick={addItem}
+              className="flex items-center gap-1 text-xs font-bold text-[#1B3FA8] hover:text-[#1A3490] transition-colors"
+            >
+              <Plus className="w-3.5 h-3.5" /> Add Item
+            </button>
+          </div>
         </div>
 
         {/* Column headers */}
