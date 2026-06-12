@@ -6,6 +6,8 @@ import { sendSMS } from "@/lib/twilio";
 
 export const dynamic = "force-dynamic";
 
+const LOGO_URL = "https://dada-house.com/logo%20dada%20house.png";
+
 export async function GET(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -154,7 +156,9 @@ function buildInvoiceEmail(
 <html>
 <body style="font-family:Arial,sans-serif;max-width:620px;margin:0 auto;padding:20px;color:#333">
   <div style="background:#1B3FA8;padding:24px;border-radius:8px 8px 0 0;text-align:center">
-    <h1 style="color:white;margin:0;font-size:24px">DADA HOUSE</h1>
+    <div style="background:#ffffff;border-radius:8px;display:inline-block;padding:8px 20px;margin-bottom:8px">
+      <img src="${LOGO_URL}" alt="DADA HOUSE" height="40" style="display:block;height:40px" />
+    </div>
     <p style="color:#93c5fd;margin:4px 0 0">Premier Home Services · Houston, TX</p>
   </div>
   <div style="border:1px solid #e5e7eb;border-top:none;padding:24px;border-radius:0 0 8px 8px">
@@ -213,6 +217,9 @@ function buildReceiptEmail(
 <html>
 <body style="font-family:Arial,sans-serif;max-width:620px;margin:0 auto;padding:20px;color:#333">
   <div style="background:#059669;padding:24px;border-radius:8px 8px 0 0;text-align:center">
+    <div style="background:#ffffff;border-radius:8px;display:inline-block;padding:8px 20px;margin-bottom:8px">
+      <img src="${LOGO_URL}" alt="DADA HOUSE" height="40" style="display:block;height:40px" />
+    </div>
     <h1 style="color:white;margin:0;font-size:24px">✓ Payment Received</h1>
     <p style="color:#a7f3d0;margin:4px 0 0">DADA HOUSE · Premier Home Services</p>
   </div>

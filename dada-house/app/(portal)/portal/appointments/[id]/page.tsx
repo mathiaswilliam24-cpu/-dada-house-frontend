@@ -2,6 +2,7 @@ import { auth } from "@/auth";
 import { db } from "@/lib/db";
 import { redirect, notFound } from "next/navigation";
 import { formatDate, formatCurrency, getStatusColor, getTechStatusColor } from "@/lib/utils";
+import { TECH_STATUS_LABEL } from "@/lib/tech-status";
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { Phone, MapPin, Calendar, Wrench } from "lucide-react";
@@ -33,7 +34,7 @@ export default async function AppointmentDetailPage({
     notFound();
   }
 
-  const isTracking = appointment.techStatus === "EN_ROUTE" || appointment.techStatus === "ARRIVED";
+  const isTracking = appointment.techStatus === "EN_ROUTE";
 
   return (
     <div className="space-y-6 max-w-3xl">
@@ -54,11 +55,11 @@ export default async function AppointmentDetailPage({
           <div className="p-4 border-b border-blue-200">
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-              <p className="font-semibold text-blue-900">Technician En Route</p>
+              <p className="font-semibold text-blue-900">Technician On My Way</p>
             </div>
             {appointment.technician && (
               <p className="text-sm text-blue-700 mt-0.5">
-                {appointment.technician.name} · {appointment.techStatus?.replace("_", " ")}
+                {appointment.technician.name} · {TECH_STATUS_LABEL[appointment.techStatus ?? ""] ?? appointment.techStatus?.replace("_", " ")}
               </p>
             )}
           </div>
@@ -79,7 +80,7 @@ export default async function AppointmentDetailPage({
             <div className="flex-1">
               <p className="font-medium text-gray-900">{appointment.technician.name}</p>
               <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${getTechStatusColor(appointment.techStatus)}`}>
-                {appointment.techStatus.replace("_", " ")}
+                {TECH_STATUS_LABEL[appointment.techStatus] ?? appointment.techStatus.replace("_", " ")}
               </span>
             </div>
             {appointment.technician.phone && (

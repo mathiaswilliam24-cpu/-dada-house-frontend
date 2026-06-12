@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useSearchParams } from "next/navigation";
 import { Suspense } from "react";
+import Image from "next/image";
 import { Loader2, CheckCircle2, CreditCard, DollarSign, Smartphone } from "lucide-react";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements, PaymentElement, useStripe, useElements } from "@stripe/react-stripe-js";
@@ -103,7 +104,9 @@ function PayPage() {
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <div style={{ backgroundColor: color }} className="px-4 py-6 text-white text-center">
-        <p className="font-black text-xl">DADA HOUSE</p>
+        <div className="inline-block bg-white rounded-xl px-4 py-2 mb-2">
+          <Image src="/logo dada house.png" alt="DADA HOUSE" width={120} height={56} className="object-contain" />
+        </div>
         <p className="text-sm opacity-70">Invoice #{invoice.estimateNumber}</p>
         <p className="text-4xl font-black mt-3">{formatCurrency(invoice.total)}</p>
         <p className="text-sm opacity-80 mt-1">Due from {invoice.clientName}</p>

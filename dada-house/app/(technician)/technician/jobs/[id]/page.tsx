@@ -15,7 +15,7 @@ const ALL_STATUSES = [
 ] as const;
 
 const STATUS_LABEL: Record<string, string> = {
-  ASSIGNED: "Assigned", ACCEPTED: "Accepted", EN_ROUTE: "En Route",
+  ASSIGNED: "Assigned", ACCEPTED: "Accepted", EN_ROUTE: "On my way",
   ARRIVED: "Arrived", DIAGNOSING: "Diagnosing",
   WAITING_FOR_APPROVAL: "Waiting Approval", WORKING: "Working",
   COMPLETED: "Completed", CANCELED: "Canceled", NEED_RESCHEDULE: "Reschedule",

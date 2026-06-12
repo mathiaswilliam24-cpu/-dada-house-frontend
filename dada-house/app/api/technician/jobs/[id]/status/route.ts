@@ -68,8 +68,10 @@ export async function PATCH(
 
   // Customer notifications
   const customerPhone = appointment.phone;
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dada-house.com";
+  const trackingUrl = `${baseUrl}/track/${id}`;
   const smsMessages: Record<string, string> = {
-    EN_ROUTE: `Hi ${appointment.name}! Your DADA HOUSE technician is on the way. We'll notify you when they arrive. Questions? Call (910) 685-8042.`,
+    EN_ROUTE: `Hi ${appointment.name}! Your DADA HOUSE technician is on the way. Track live: ${trackingUrl}. Questions? Call (910) 685-8042.`,
     ARRIVED: `Your DADA HOUSE technician has arrived at your location. Please let them in. Thank you!`,
     COMPLETED: `Your DADA HOUSE service has been completed! Thank you for choosing us. Please leave a review at dada-house.com/reviews`,
     NEED_RESCHEDULE: `Hi ${appointment.name}, your DADA HOUSE appointment needs to be rescheduled. We'll contact you shortly to arrange a new time.`,

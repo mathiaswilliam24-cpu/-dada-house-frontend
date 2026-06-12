@@ -1,9 +1,10 @@
 ﻿"use client";
 import { useState, useCallback, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import {
   Plus, Trash2, Send, ChevronDown, ChevronUp, Check,
-  Loader2, ArrowLeft, FileText, Mail, Settings2, X, Users, Search, BookOpen
+  Loader2, ArrowLeft, Mail, Settings2, X, Users, Search, BookOpen
 } from "lucide-react";
 import { formatCurrency } from "@/lib/utils";
 
@@ -16,9 +17,10 @@ type LineItem = {
   amount: number;
 };
 
-type EstimateData = {
+export type EstimateData = {
   id?: string;
   estimateNumber?: string;
+  appointmentId?: string;
   clientName: string;
   clientEmail: string;
   clientPhone: string;
@@ -275,6 +277,7 @@ export default function EstimateEditor({ initialData, mode, quick: _quick, baseP
     discountType, discountValue, total,
     templateColor, showFinancing, requestSignature,
     status: initialData?.status ?? "OPEN",
+    appointmentId: initialData?.appointmentId,
   });
 
   const handleSave = async () => {
@@ -490,8 +493,8 @@ export default function EstimateEditor({ initialData, mode, quick: _quick, baseP
       {/* FROM section */}
       <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden">
         <div style={{ backgroundColor: templateColor }} className="px-4 py-3 flex items-center gap-3">
-          <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shrink-0">
-            <FileText className="w-5 h-5" style={{ color: templateColor }} />
+          <div className="h-10 px-2 bg-white rounded-xl flex items-center justify-center shrink-0">
+            <Image src="/logo dada house.png" alt="DADA HOUSE" width={56} height={26} className="object-contain" />
           </div>
           <div>
             <p className="font-bold text-white text-sm">DADA HOUSE</p>
@@ -971,9 +974,14 @@ function PreviewPanel(p: PreviewProps) {
         {/* Header */}
         <div style={{ backgroundColor: p.templateColor }} className="p-6">
           <div className="flex items-center justify-between">
-            <div>
-              <p className="text-white font-bold text-lg">DADA HOUSE</p>
-              <p className="text-white/70 text-xs">Premier Home Services · Houston, TX</p>
+            <div className="flex items-center gap-3">
+              <div className="bg-white rounded-lg px-2 py-1 shrink-0">
+                <Image src="/logo dada house.png" alt="DADA HOUSE" width={70} height={33} className="object-contain" />
+              </div>
+              <div>
+                <p className="text-white font-bold text-lg">DADA HOUSE</p>
+                <p className="text-white/70 text-xs">Premier Home Services · Houston, TX</p>
+              </div>
             </div>
             <div className="text-right">
               <p className="text-white font-bold">ESTIMATE</p>

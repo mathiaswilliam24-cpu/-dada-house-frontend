@@ -94,7 +94,7 @@ export function getTechStatusColor(status: string): string {
 
 export function getTechStatusLabel(status: string): string {
   const labels: Record<string, string> = {
-    EN_ROUTE: "En Route",
+    EN_ROUTE: "On my way",
     ARRIVED: "Arrived",
     WORKING: "Working",
     COMPLETED: "Completed",
