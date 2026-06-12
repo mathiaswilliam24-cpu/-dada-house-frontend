@@ -258,6 +258,19 @@ function BookingFormInner() {
                   <label className="block text-sm font-semibold text-white mb-1.5">Phone *</label>
                   <input {...register("phone")} type="tel" placeholder="+1 (555) 000-0000" className="form-input" />
                   {errors.phone && <p className="text-red-400 text-xs mt-1">{errors.phone.message}</p>}
+                  <p className="text-slate-400 text-[11px] leading-snug mt-1.5">
+                    By providing your phone number, you agree to receive SMS appointment updates
+                    from DADA HOUSE. Msg & data rates may apply. Msg frequency varies. Reply STOP
+                    to opt out, HELP for help. See{" "}
+                    <a href="/privacy-policy" target="_blank" rel="noopener noreferrer" className="text-[#F7921A] hover:underline">
+                      Privacy Policy
+                    </a>{" "}
+                    &{" "}
+                    <a href="/terms" target="_blank" rel="noopener noreferrer" className="text-[#F7921A] hover:underline">
+                      Terms
+                    </a>
+                    .
+                  </p>
                 </div>
                 <div>
                   <label className="block text-sm font-semibold text-white mb-1.5">Email *</label>
@@ -444,6 +457,19 @@ function BookingFormInner() {
                 {submitError}
               </div>
             )}
+
+            <p className="text-slate-400 text-[11px] leading-snug">
+              By submitting this form, you consent to receive SMS text messages from DADA HOUSE
+              regarding your appointment status, scheduling, and service updates. Msg & data
+              rates may apply. Msg frequency varies. Reply STOP to opt out, HELP for help.{" "}
+              <a href="/privacy-policy" target="_blank" rel="noopener noreferrer" className="text-[#F7921A] hover:underline">
+                Privacy Policy
+              </a>{" "}
+              |{" "}
+              <a href="/terms" target="_blank" rel="noopener noreferrer" className="text-[#F7921A] hover:underline">
+                Terms
+              </a>
+            </p>
           </div>
         )}
 

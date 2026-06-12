@@ -1,17 +1,39 @@
 "use client";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
-import { Shield, CheckCircle, Loader2 } from "lucide-react";
+import { Shield, ShieldCheck, CheckCircle, Loader2, Trash2 } from "lucide-react";
+import { formatDate } from "@/lib/utils";
+
+type WarrantyItem = {
+  id: string;
+  equipmentName: string;
+  brand: string | null;
+  model: string | null;
+  serialNumber: string | null;
+  installDate: string | null;
+  expiresAt: string | null;
+};
 
 export default function WarrantyPage() {
   const { id } = useParams<{ id: string }>();
+  const [warranties, setWarranties] = useState<WarrantyItem[]>([]);
+  const [loadingList, setLoadingList] = useState(true);
   const [form, setForm] = useState({
     equipmentName: "", brand: "", model: "", serialNumber: "",
     installDate: "", expiresAt: "", coveredParts: "", coveredLabor: "", notes: "",
   });
   const [saving, setSaving] = useState(false);
-  const [saved, setSaved] = useState(false);
+  const [justSaved, setJustSaved] = useState(false);
+
+  const loadWarranties = useCallback(() => {
+    fetch(`/api/technician/jobs/${id}/warranty`)
+      .then((r) => r.json())
+      .then((d) => setWarranties(d.warranties ?? []))
+      .finally(() => setLoadingList(false));
+  }, [id]);
+
+  useEffect(() => { loadWarranties(); }, [loadWarranties]);
 
   function set(k: string) {
     return (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
@@ -27,26 +49,18 @@ export default function WarrantyPage() {
       body: JSON.stringify(form),
     });
     if (res.ok) {
-      setSaved(true);
       setForm({ equipmentName: "", brand: "", model: "", serialNumber: "", installDate: "", expiresAt: "", coveredParts: "", coveredLabor: "", notes: "" });
+      setJustSaved(true);
+      setTimeout(() => setJustSaved(false), 3000);
+      loadWarranties();
     }
     setSaving(false);
   }
 
-  if (saved) {
-    return (
-      <div className="space-y-4">
-        <Link href={`/technician/jobs/${id}`} className="text-sm text-gray-500">← Job Detail</Link>
-        <div className="bg-green-50 border border-green-200 rounded-2xl p-8 text-center">
-          <CheckCircle className="w-12 h-12 text-green-500 mx-auto mb-3" />
-          <h2 className="font-bold text-green-700 text-lg">Warranty Registered!</h2>
-          <p className="text-sm text-green-600 mt-1">The warranty has been saved for the customer.</p>
-          <button onClick={() => setSaved(false)} className="mt-4 px-4 py-2 bg-green-600 text-white rounded-xl text-sm font-semibold">
-            Add Another
-          </button>
-        </div>
-      </div>
-    );
+  async function remove(warrantyId: string) {
+    if (!confirm("Remove this warranty?")) return;
+    await fetch(`/api/technician/jobs/${id}/warranty?warrantyId=${warrantyId}`, { method: "DELETE" });
+    loadWarranties();
   }
 
   return (
@@ -54,11 +68,55 @@ export default function WarrantyPage() {
       <div>
         <Link href={`/technician/jobs/${id}`} className="text-sm text-gray-500">← Job Detail</Link>
         <h1 className="text-xl font-bold text-gray-900 mt-1 flex items-center gap-2">
-          <Shield className="w-5 h-5 text-indigo-600" /> Add Warranty
+          <Shield className="w-5 h-5 text-indigo-600" /> Warranties
         </h1>
       </div>
 
-      <div className="space-y-3">
+      {loadingList ? (
+        <div className="flex justify-center py-6">
+          <Loader2 className="w-5 h-5 animate-spin text-gray-400" />
+        </div>
+      ) : warranties.length > 0 ? (
+        <div className="space-y-2">
+          {warranties.map((w) => (
+            <div key={w.id} className="bg-white border border-gray-200 rounded-2xl p-4 flex items-start gap-3">
+              <div className="w-9 h-9 bg-indigo-50 rounded-lg flex items-center justify-center shrink-0">
+                <ShieldCheck className="w-4 h-4 text-indigo-600" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="font-semibold text-gray-900 text-sm">{w.equipmentName}</p>
+                {(w.brand || w.model) && (
+                  <p className="text-xs text-gray-500">{[w.brand, w.model].filter(Boolean).join(" ")}</p>
+                )}
+                {w.serialNumber && <p className="text-xs text-gray-400">S/N: {w.serialNumber}</p>}
+                {(w.installDate || w.expiresAt) && (
+                  <p className="text-xs text-gray-500 mt-1">
+                    {w.installDate && `Installed: ${formatDate(w.installDate)}`}
+                    {w.installDate && w.expiresAt && " · "}
+                    {w.expiresAt && `Expires: ${formatDate(w.expiresAt)}`}
+                  </p>
+                )}
+              </div>
+              <button onClick={() => remove(w.id)} className="text-gray-300 hover:text-red-500 shrink-0 p-1">
+                <Trash2 className="w-4 h-4" />
+              </button>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div className="bg-white border border-gray-200 rounded-2xl p-6 text-center text-sm text-gray-400">
+          No warranties registered for this job yet
+        </div>
+      )}
+
+      {justSaved && (
+        <div className="bg-green-50 border border-green-200 rounded-2xl p-3 flex items-center gap-2 text-green-700 text-sm font-medium">
+          <CheckCircle className="w-4 h-4" /> Warranty registered!
+        </div>
+      )}
+
+      <div className="space-y-3 pt-2">
+        <p className="text-xs font-bold text-gray-500 uppercase tracking-wide">Add a Warranty</p>
         <Row label="Equipment Name *">
           <input value={form.equipmentName} onChange={set("equipmentName")} placeholder="e.g. Carrier AC Unit" className={inp} />
         </Row>

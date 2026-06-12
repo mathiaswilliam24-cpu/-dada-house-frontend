@@ -266,6 +266,33 @@ export function contactEmailHtml(data: {
 </html>`;
 }
 
+export function buildReviewRequestEmail(name: string, service: string, reviewUrl: string): string {
+  return `
+<!DOCTYPE html>
+<html>
+<body style="font-family:Arial,sans-serif;max-width:620px;margin:0 auto;padding:20px;color:#333">
+  <div style="background:#1B3FA8;padding:24px;border-radius:8px 8px 0 0;text-align:center">
+    <div style="background:#ffffff;border-radius:8px;display:inline-block;padding:8px 20px;margin-bottom:8px">
+      <img src="${LOGO_URL}" alt="DADA HOUSE" height="40" style="display:block;height:40px" />
+    </div>
+    <p style="color:#93c5fd;margin:4px 0 0">Premier Home Services · Houston, TX</p>
+  </div>
+  <div style="border:1px solid #e5e7eb;border-top:none;padding:24px;border-radius:0 0 8px 8px">
+    <h2 style="color:#1B3FA8;margin-top:0">Thank You, ${name}!</h2>
+    <p>Your <strong>${service}</strong> service has been completed. We hope you're happy with the work!</p>
+    <p>Your feedback means the world to us and helps other Houston homeowners find quality service.</p>
+    <a href="${reviewUrl}" style="display:block;text-align:center;background:#1B3FA8;color:white;padding:16px 24px;border-radius:8px;text-decoration:none;font-weight:bold;font-size:16px;margin:24px 0">
+      ⭐ Leave a Review
+    </a>
+    <p style="color:#6b7280;font-size:12px;margin-top:24px;border-top:1px solid #e5e7eb;padding-top:16px">
+      DADA HOUSE · 7001 South Texas 6 STE 246, Houston, TX 77083<br>
+      (910) 685-8042 · customerservice@dada-house.com
+    </p>
+  </div>
+</body>
+</html>`;
+}
+
 export function buildEstimateEmail(
   est: { estimateNumber: string; clientName: string; total: number; additionalDetails?: string | null },
   lineItems: Array<{ desc: string; rate: number; qty: number; amount: number }>,

@@ -4,6 +4,7 @@ import { db } from "@/lib/db";
 import { techJobStatusSchema } from "@/lib/validations";
 import { getWebPush } from "@/lib/web-push";
 import { sendSMS } from "@/lib/twilio";
+import { sendReviewRequest } from "@/lib/review-request";
 
 export async function PATCH(
   req: NextRequest,
@@ -73,14 +74,20 @@ export async function PATCH(
   const smsMessages: Record<string, string> = {
     EN_ROUTE: `Hi ${appointment.name}! Your DADA HOUSE technician is on the way. Track live: ${trackingUrl}. Questions? Call (910) 685-8042.`,
     ARRIVED: `Your DADA HOUSE technician has arrived at your location. Please let them in. Thank you!`,
-    COMPLETED: `Your DADA HOUSE service has been completed! Thank you for choosing us. Please leave a review at dada-house.com/reviews`,
     NEED_RESCHEDULE: `Hi ${appointment.name}, your DADA HOUSE appointment needs to be rescheduled. We'll contact you shortly to arrange a new time.`,
   };
 
   after(async () => {
     const tasks: Promise<unknown>[] = [];
 
-    if (smsMessages[status] && customerPhone) {
+    if (status === "COMPLETED") {
+      tasks.push(sendReviewRequest({
+        name: appointment.name,
+        phone: customerPhone,
+        email: appointment.email,
+        service: appointment.service,
+      }).catch(console.error));
+    } else if (smsMessages[status] && customerPhone) {
       tasks.push(sendSMS(customerPhone, smsMessages[status]).catch(console.error));
     }
 
