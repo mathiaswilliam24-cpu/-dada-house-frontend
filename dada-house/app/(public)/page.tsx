@@ -36,7 +36,7 @@ export default async function HomePage() {
     }).catch(() => []),
   ]);
 
-  const heroImage = heroSetting?.value ?? "/team.jpg";
+  const heroImage = heroSetting?.value ?? "/Backround%20dada%20house%20web%20site.png";
 
   return (
     <>
