@@ -21,21 +21,25 @@ const trustBadges = [
 export default function HeroSection({ heroImage = "/team.jpg" }: { heroImage?: string }) {
   return (
     <section className="relative overflow-hidden">
-      {/* Mobile: real <img> so the full portrait image shows without any cropping */}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src="/Backround%20dada%20house%20phone.png"
-        alt="DADA HOUSE Service Van"
-        className="w-full h-auto block md:hidden"
+      {/* Mobile background: 100% width, auto height from top — nothing cropped */}
+      <div
+        className="absolute inset-0 md:hidden"
+        style={{
+          backgroundImage: `url('/Backround%20dada%20house%20phone.png')`,
+          backgroundSize: "100% auto",
+          backgroundPosition: "top center",
+          backgroundRepeat: "no-repeat",
+        }}
       />
 
-      {/* Desktop: absolute background — managed from admin Site Content */}
+      {/* Desktop background — managed from admin Site Content */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat hidden md:block"
         style={{ backgroundImage: `url('${heroImage}')` }}
       />
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-20 md:pt-16 lg:pt-24 lg:pb-28">
+      {/* On mobile, push content below the image (image ratio ≈ 9:16 → height ≈ 178 vw) */}
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-[178vw] md:pt-16 pb-20 lg:pt-24 lg:pb-28">
         <div className="text-center">
           {/* Badge */}
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#F7921A]/10 border border-[#F7921A]/30 rounded-full mb-8 fade-up">
