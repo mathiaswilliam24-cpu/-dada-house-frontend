@@ -41,20 +41,6 @@ export default function HeroSection({ heroImage = "/team.jpg" }: { heroImage?: s
             </span>
           </div>
 
-          {/* Headline */}
-          <h1 className="fade-up animate-delay-100 text-4xl sm:text-5xl lg:text-6xl font-black text-white leading-tight mb-6">
-            DADA HOUSE —{" "}
-            <span className="gradient-text">Available 24/7</span>
-            <br />
-            For Your Home Service Needs
-          </h1>
-
-          {/* Subheadline */}
-          <p className="fade-up animate-delay-200 text-lg sm:text-xl text-blue-200 max-w-2xl mx-auto mb-8 leading-relaxed">
-            Professional Plumbing, Air Conditioning, Heating and Remodeling
-            Services Anytime You Need Us.
-          </p>
-
           {/* Trust badges */}
           <div className="fade-up animate-delay-200 flex flex-wrap items-center justify-center gap-4 mb-12">
             {trustBadges.map((badge) => (
