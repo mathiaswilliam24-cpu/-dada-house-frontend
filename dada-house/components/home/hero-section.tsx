@@ -48,15 +48,6 @@ export default function HeroSection({ heroImage = "/Backround%20dada%20house%20w
         <div className="absolute inset-0 bg-gradient-to-r from-white/55 via-white/20 to-transparent md:from-black/40 md:via-black/10 md:to-transparent" />
 
         <div className="relative px-5 pt-8 pb-10 md:max-w-7xl md:mx-auto md:px-10 md:pt-24 md:pb-28">
-          {/* Headline */}
-          <h1 className="text-3xl md:text-5xl font-black leading-tight mb-3 max-w-[260px] md:max-w-xl">
-            <span className="text-[#1B3FA8] md:text-white block">COMFORT YOU CAN TRUST,</span>
-            <span className="text-[#F7921A] block">QUALITY YOU CAN FEEL</span>
-          </h1>
-          <p className="text-gray-700 md:text-white/90 text-sm md:text-base mb-5 md:mb-8 leading-relaxed max-w-[260px] md:max-w-sm">
-            Expert Heating &amp; Air Conditioning services you can count on, anytime you need us.
-          </p>
-
           {/* Book Appointment button */}
           <Link
             href="/booking"
