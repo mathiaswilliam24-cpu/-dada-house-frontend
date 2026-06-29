@@ -38,8 +38,7 @@ export default function HeroSection({ heroImage = "/team.jpg" }: { heroImage?: s
         style={{ backgroundImage: `url('${heroImage}')` }}
       />
 
-      {/* On mobile, push content below the image (image ratio ≈ 9:16 → height ≈ 178 vw) */}
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-[178vw] md:pt-16 pb-20 lg:pt-24 lg:pb-28">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-20 md:pt-16 lg:pt-24 lg:pb-28">
         <div className="text-center">
           {/* Badge */}
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#F7921A]/10 border border-[#F7921A]/30 rounded-full mb-8 fade-up">
