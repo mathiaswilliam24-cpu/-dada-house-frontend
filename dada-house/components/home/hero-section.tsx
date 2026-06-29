@@ -21,9 +21,14 @@ const trustBadges = [
 export default function HeroSection({ heroImage = "/team.jpg" }: { heroImage?: string }) {
   return (
     <section className="relative overflow-hidden">
-      {/* Hero background — managed from admin Site Content */}
+      {/* Mobile background (portrait image) */}
       <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat md:hidden"
+        style={{ backgroundImage: `url('/Backround%20dada%20house%20phone.png')` }}
+      />
+      {/* Desktop background — managed from admin Site Content */}
+      <div
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat hidden md:block"
         style={{ backgroundImage: `url('${heroImage}')` }}
       />
 
