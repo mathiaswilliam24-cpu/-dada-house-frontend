@@ -44,8 +44,6 @@ export default function HeroSection({ heroImage = "/Backround%20dada%20house%20w
           className="absolute inset-0 bg-cover bg-center bg-no-repeat hidden md:block"
           style={{ backgroundImage: `url('${heroImage}')` }}
         />
-        {/* Subtle left gradient so text stays readable over the image */}
-        <div className="absolute inset-0 bg-gradient-to-r from-white/55 via-white/20 to-transparent md:from-black/40 md:via-black/10 md:to-transparent" />
 
         <div className="relative px-5 pt-8 pb-10 md:max-w-7xl md:mx-auto md:px-10 md:pt-24 md:pb-28">
           {/* Book Appointment button */}
