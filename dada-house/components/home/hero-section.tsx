@@ -20,16 +20,12 @@ const trustBadges = [
 
 export default function HeroSection({ heroImage = "/team.jpg" }: { heroImage?: string }) {
   return (
-    <section className="relative overflow-hidden bg-[#0D1D5E]">
+    <section className="relative overflow-hidden">
       {/* Hero background — managed from admin Site Content */}
       <div
-        className="absolute inset-0 bg-contain md:bg-cover bg-center bg-no-repeat"
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{ backgroundImage: `url('${heroImage}')` }}
       />
-      {/* Light overlay — juste assez pour lire le texte */}
-      <div className="absolute inset-0 bg-[#1B3FA8]/30" />
-      {/* Gradient sombre uniquement en bas pour le texte */}
-      <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[#0D1D5E]/80 to-transparent" />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-20 lg:pt-24 lg:pb-28">
         <div className="text-center">
@@ -46,7 +42,7 @@ export default function HeroSection({ heroImage = "/team.jpg" }: { heroImage?: s
             {trustBadges.map((badge) => (
               <div
                 key={badge.label}
-                className="flex items-center gap-2 text-blue-200 text-sm"
+                className="flex items-center gap-2 text-gray-800 text-sm font-semibold"
               >
                 <badge.icon size={15} className="text-[#F7921A]" />
                 <span>{badge.label}</span>
@@ -137,11 +133,11 @@ export default function HeroSection({ heroImage = "/team.jpg" }: { heroImage?: s
 
           {/* 24/7 label */}
           <div className="fade-up animate-delay-400 flex items-center justify-center gap-3 mb-10">
-            <div className="h-px w-16 bg-gradient-to-r from-transparent to-[#1A3490]" />
-            <span className="text-blue-300 text-sm font-bold tracking-[0.3em] uppercase">
+            <div className="h-px w-16 bg-gradient-to-r from-transparent to-gray-400" />
+            <span className="text-gray-700 text-sm font-bold tracking-[0.3em] uppercase">
               24 HOURS • 7 DAYS A WEEK
             </span>
-            <div className="h-px w-16 bg-gradient-to-l from-transparent to-[#1A3490]" />
+            <div className="h-px w-16 bg-gradient-to-l from-transparent to-gray-400" />
           </div>
 
           {/* CTA buttons */}
