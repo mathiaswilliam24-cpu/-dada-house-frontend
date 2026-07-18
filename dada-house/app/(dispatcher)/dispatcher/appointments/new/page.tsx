@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, User, Phone, Mail, MapPin, Calendar, Clock, Wrench, FileText, UserCheck } from "lucide-react";
+import { ArrowLeft, User, Phone, Mail, MapPin, Calendar, Clock, Wrench, FileText, UserCheck, CheckCircle, Copy, Send, ExternalLink } from "lucide-react";
 import Link from "next/link";
 
 const SERVICES = ["Plumbing", "Air Conditioning", "Heating", "Remodeling", "Home Inspection", "Other"];
@@ -10,11 +10,17 @@ const TIMES = ["7:00 AM","8:00 AM","9:00 AM","10:00 AM","11:00 AM","12:00 PM","1
 
 type Tech = { id: string; name: string | null; email: string };
 
+type Created = { id: string; appointmentNumber: string; name: string; service: string; confirmUrl: string; email: string };
+
 export default function NewDispatcherAppointment() {
   const router = useRouter();
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [techs, setTechs] = useState<Tech[]>([]);
+  const [created, setCreated] = useState<Created | null>(null);
+  const [copied, setCopied] = useState(false);
+  const [sendingEmail, setSendingEmail] = useState(false);
+  const [emailSent, setEmailSent] = useState(false);
 
   // form fields
   const [service, setService] = useState("");
@@ -53,12 +59,83 @@ export default function NewDispatcherAppointment() {
         throw new Error(d.error ?? "Failed to create appointment");
       }
 
-      router.push("/dispatcher");
+      const d = await res.json();
+      setCreated({ id: d.appointment.id, appointmentNumber: d.appointment.appointmentNumber, name, service, confirmUrl: d.confirmUrl, email });
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong");
     } finally {
       setSaving(false);
     }
+  }
+
+  async function copyLink() {
+    if (!created) return;
+    await navigator.clipboard.writeText(created.confirmUrl);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2500);
+  }
+
+  if (created) {
+    return (
+      <div className="max-w-md mx-auto space-y-5 pt-4">
+        <div className="bg-white rounded-2xl border border-green-200 p-6 text-center">
+          <div className="w-14 h-14 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-3">
+            <CheckCircle className="w-8 h-8 text-green-500" />
+          </div>
+          <h2 className="text-xl font-bold text-gray-900">Job Created!</h2>
+          <p className="text-gray-500 text-sm mt-1">
+            <strong>#{created.appointmentNumber}</strong> · {created.name} · {created.service}
+          </p>
+        </div>
+
+        {/* Confirmation link */}
+        <div className="bg-white rounded-2xl border border-gray-200 p-5 space-y-3">
+          <p className="text-sm font-semibold text-gray-800">Confirmation link to send to the client:</p>
+          <div className="flex items-center gap-2 bg-gray-50 border border-gray-200 rounded-xl px-3 py-2.5">
+            <span className="flex-1 text-xs text-gray-600 truncate font-mono">{created.confirmUrl}</span>
+            <a href={created.confirmUrl} target="_blank" rel="noreferrer" className="text-gray-400 hover:text-gray-600 shrink-0">
+              <ExternalLink className="w-4 h-4" />
+            </a>
+          </div>
+          <button
+            onClick={copyLink}
+            className={`w-full flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-bold transition-colors ${copied ? "bg-green-500 text-white" : "bg-[#1B3FA8] hover:bg-[#1A3490] text-white"}`}
+          >
+            <Copy className="w-4 h-4" />
+            {copied ? "Link Copied!" : "Copy Link"}
+          </button>
+          <p className="text-xs text-gray-400 text-center">Share via SMS, WhatsApp, or any channel</p>
+        </div>
+
+        {/* Send by email if email was provided */}
+        {created.email && (
+          <div className="bg-white rounded-2xl border border-gray-200 p-5">
+            <p className="text-sm font-semibold text-gray-800 mb-3">Or send by email:</p>
+            <p className="text-xs text-gray-500 mb-3">Will be sent to <strong>{created.email}</strong></p>
+            <button
+              onClick={async () => {
+                setSendingEmail(true);
+                await fetch(`/api/dispatcher/appointments/${created.id}/send-confirmation`, { method: "POST" });
+                setEmailSent(true);
+                setSendingEmail(false);
+              }}
+              disabled={sendingEmail || emailSent}
+              className="w-full flex items-center justify-center gap-2 py-3 bg-[#F7921A] hover:bg-[#E07F10] disabled:opacity-60 text-white rounded-xl text-sm font-bold transition-colors"
+            >
+              <Send className="w-4 h-4" />
+              {emailSent ? "Email Sent ✓" : sendingEmail ? "Sending…" : "Send Confirmation Email"}
+            </button>
+          </div>
+        )}
+
+        <Link
+          href="/dispatcher"
+          className="block w-full text-center py-3 border border-gray-200 rounded-xl text-sm font-semibold text-gray-600 hover:bg-gray-50 transition-colors"
+        >
+          Back to Schedule
+        </Link>
+      </div>
+    );
   }
 
   return (

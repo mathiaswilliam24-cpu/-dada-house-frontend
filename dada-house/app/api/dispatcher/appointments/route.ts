@@ -3,6 +3,7 @@ import { requireAdminOrDispatcher } from "@/lib/api-auth";
 import { db } from "@/lib/db";
 import { generateAppointmentNumber } from "@/lib/utils";
 import { z } from "zod";
+import crypto from "crypto";
 
 export const dynamic = "force-dynamic";
 
@@ -34,17 +35,22 @@ export async function POST(req: NextRequest) {
 
   const { technicianId, ...data } = parsed.data;
   const appointmentNumber = generateAppointmentNumber();
+  const confirmationToken = crypto.randomBytes(32).toString("hex");
 
   const appointment = await db.appointment.create({
     data: {
       appointmentNumber,
       dispatcherId: auth.id,
       source: "dispatcher",
+      confirmationToken,
       ...data,
       preferredDate: data.preferredDate ? new Date(data.preferredDate) : null,
       ...(technicianId ? { technicianId } : {}),
     },
   });
 
-  return NextResponse.json({ appointment }, { status: 201 });
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://www.mydadahouse.com";
+  const confirmUrl = `${baseUrl}/confirm/${confirmationToken}`;
+
+  return NextResponse.json({ appointment, confirmUrl }, { status: 201 });
 }
