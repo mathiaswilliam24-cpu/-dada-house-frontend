@@ -205,6 +205,8 @@ model Appointment {
   diagnosticFeeStatus String?
   adminNotes          String?
   source              String      @default("website")
+  confirmationToken   String?     @unique
+  confirmedAt         DateTime?
 
   user          User?             @relation(fields: [userId], references: [id], onDelete: SetNull)
   technician    User?             @relation("technician", fields: [technicianId], references: [id], onDelete: SetNull)
@@ -254,8 +256,8 @@ model Invoice {
   paidAt                DateTime?
 
   // Payment flow
-  paymentToken    String?   @unique
-  paymentMethod   String?   // ZELLE | CARD | CASH
+  paymentToken      String?   @unique
+  paymentMethod     String?   // ZELLE | CARD | CASH
   technicianId    String?
   sentByName      String?
 

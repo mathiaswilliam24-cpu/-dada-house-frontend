@@ -2,10 +2,10 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
-import { User, CheckCircle, Loader2 } from "lucide-react";
+import { CheckCircle, Loader2, Mail } from "lucide-react";
 
 type Tech = { id: string; name: string | null; phone: string | null; technicianProfile?: { specialties: string[] } | null; };
-type Appt = { id: string; appointmentNumber: string; service: string; name: string; address: string; technicianId: string | null; };
+type Appt = { id: string; appointmentNumber: string; service: string; name: string; email: string; address: string; status: string; technicianId: string | null; };
 
 function AssignContent() {
   const params = useSearchParams();
@@ -15,6 +15,9 @@ function AssignContent() {
   const [loading, setLoading] = useState(true);
   const [assigning, setAssigning] = useState<string | null>(null);
   const [done, setDone] = useState(false);
+  const [sendingConfirm, setSendingConfirm] = useState(false);
+  const [confirmSent, setConfirmSent] = useState(false);
+  const [confirmError, setConfirmError] = useState("");
 
   useEffect(() => {
     Promise.all([
@@ -22,6 +25,22 @@ function AssignContent() {
       fetch("/api/admin/users/technicians").then(r => r.json()),
     ]).then(([a, t]) => { setAppt(a); setTechs(t.technicians ?? []); setLoading(false); });
   }, [apptId]);
+
+  async function sendConfirmation() {
+    if (!apptId) return;
+    setSendingConfirm(true);
+    setConfirmError("");
+    try {
+      const res = await fetch(`/api/dispatcher/appointments/${apptId}/send-confirmation`, { method: "POST" });
+      const d = await res.json();
+      if (!res.ok) throw new Error(d.error ?? "Failed to send");
+      setConfirmSent(true);
+    } catch (e) {
+      setConfirmError(e instanceof Error ? e.message : "Failed to send confirmation");
+    } finally {
+      setSendingConfirm(false);
+    }
+  }
 
   async function assign(techId: string) {
     setAssigning(techId);
@@ -48,10 +67,30 @@ function AssignContent() {
     <div className="space-y-6 max-w-2xl">
       <div><h1 className="text-2xl font-bold text-gray-900">Assign Technician</h1></div>
       {appt && (
-        <div className="bg-blue-50 border border-blue-200 rounded-xl p-4">
-          <p className="font-semibold text-blue-900">{appt.service}</p>
-          <p className="text-sm text-blue-700">{appt.name} · {appt.address}</p>
-          <p className="text-xs text-blue-500 mt-0.5">#{appt.appointmentNumber}</p>
+        <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 space-y-3">
+          <div>
+            <p className="font-semibold text-blue-900">{appt.service}</p>
+            <p className="text-sm text-blue-700">{appt.name} · {appt.address}</p>
+            <p className="text-xs text-blue-500 mt-0.5">#{appt.appointmentNumber} · {appt.email}</p>
+          </div>
+          {/* Send confirmation button */}
+          {appt.status !== "CONFIRMED" ? (
+            <div>
+              <button
+                onClick={sendConfirmation}
+                disabled={sendingConfirm || confirmSent}
+                className="inline-flex items-center gap-2 px-4 py-2 bg-[#F7921A] hover:bg-[#E07F10] disabled:opacity-60 text-white text-sm font-bold rounded-lg transition-colors"
+              >
+                {sendingConfirm ? <Loader2 className="w-4 h-4 animate-spin" /> : <Mail className="w-4 h-4" />}
+                {confirmSent ? "Confirmation Sent ✓" : sendingConfirm ? "Sending…" : "Send Confirmation Email"}
+              </button>
+              {confirmError && <p className="text-red-600 text-xs mt-1">{confirmError}</p>}
+            </div>
+          ) : (
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-green-100 text-green-700 text-sm font-semibold rounded-lg">
+              <CheckCircle className="w-4 h-4" /> Confirmed by client
+            </div>
+          )}
         </div>
       )}
       <div className="space-y-3">

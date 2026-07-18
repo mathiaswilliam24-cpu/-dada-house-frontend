@@ -70,6 +70,8 @@ export type AppointmentMinAggregateOutputType = {
   diagnosticFeeStatus: string | null
   adminNotes: string | null
   source: string | null
+  confirmationToken: string | null
+  confirmedAt: Date | null
 }
 
 export type AppointmentMaxAggregateOutputType = {
@@ -106,6 +108,8 @@ export type AppointmentMaxAggregateOutputType = {
   diagnosticFeeStatus: string | null
   adminNotes: string | null
   source: string | null
+  confirmationToken: string | null
+  confirmedAt: Date | null
 }
 
 export type AppointmentCountAggregateOutputType = {
@@ -143,6 +147,8 @@ export type AppointmentCountAggregateOutputType = {
   diagnosticFeeStatus: number
   adminNotes: number
   source: number
+  confirmationToken: number
+  confirmedAt: number
   _all: number
 }
 
@@ -191,6 +197,8 @@ export type AppointmentMinAggregateInputType = {
   diagnosticFeeStatus?: true
   adminNotes?: true
   source?: true
+  confirmationToken?: true
+  confirmedAt?: true
 }
 
 export type AppointmentMaxAggregateInputType = {
@@ -227,6 +235,8 @@ export type AppointmentMaxAggregateInputType = {
   diagnosticFeeStatus?: true
   adminNotes?: true
   source?: true
+  confirmationToken?: true
+  confirmedAt?: true
 }
 
 export type AppointmentCountAggregateInputType = {
@@ -264,6 +274,8 @@ export type AppointmentCountAggregateInputType = {
   diagnosticFeeStatus?: true
   adminNotes?: true
   source?: true
+  confirmationToken?: true
+  confirmedAt?: true
   _all?: true
 }
 
@@ -388,6 +400,8 @@ export type AppointmentGroupByOutputType = {
   diagnosticFeeStatus: string | null
   adminNotes: string | null
   source: string
+  confirmationToken: string | null
+  confirmedAt: Date | null
   _count: AppointmentCountAggregateOutputType | null
   _avg: AppointmentAvgAggregateOutputType | null
   _sum: AppointmentSumAggregateOutputType | null
@@ -448,6 +462,8 @@ export type AppointmentWhereInput = {
   diagnosticFeeStatus?: Prisma.StringNullableFilter<"Appointment"> | string | null
   adminNotes?: Prisma.StringNullableFilter<"Appointment"> | string | null
   source?: Prisma.StringFilter<"Appointment"> | string
+  confirmationToken?: Prisma.StringNullableFilter<"Appointment"> | string | null
+  confirmedAt?: Prisma.DateTimeNullableFilter<"Appointment"> | Date | string | null
   user?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   technician?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   dispatcher?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
@@ -497,6 +513,8 @@ export type AppointmentOrderByWithRelationInput = {
   diagnosticFeeStatus?: Prisma.SortOrderInput | Prisma.SortOrder
   adminNotes?: Prisma.SortOrderInput | Prisma.SortOrder
   source?: Prisma.SortOrder
+  confirmationToken?: Prisma.SortOrderInput | Prisma.SortOrder
+  confirmedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
   technician?: Prisma.UserOrderByWithRelationInput
   dispatcher?: Prisma.UserOrderByWithRelationInput
@@ -514,6 +532,7 @@ export type AppointmentOrderByWithRelationInput = {
 export type AppointmentWhereUniqueInput = Prisma.AtLeast<{
   id?: string
   appointmentNumber?: string
+  confirmationToken?: string
   AND?: Prisma.AppointmentWhereInput | Prisma.AppointmentWhereInput[]
   OR?: Prisma.AppointmentWhereInput[]
   NOT?: Prisma.AppointmentWhereInput | Prisma.AppointmentWhereInput[]
@@ -549,6 +568,7 @@ export type AppointmentWhereUniqueInput = Prisma.AtLeast<{
   diagnosticFeeStatus?: Prisma.StringNullableFilter<"Appointment"> | string | null
   adminNotes?: Prisma.StringNullableFilter<"Appointment"> | string | null
   source?: Prisma.StringFilter<"Appointment"> | string
+  confirmedAt?: Prisma.DateTimeNullableFilter<"Appointment"> | Date | string | null
   user?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   technician?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   dispatcher?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
@@ -561,7 +581,7 @@ export type AppointmentWhereUniqueInput = Prisma.AtLeast<{
   checklist?: Prisma.XOR<Prisma.ServiceChecklistNullableScalarRelationFilter, Prisma.ServiceChecklistWhereInput> | null
   timeLog?: Prisma.XOR<Prisma.JobTimeLogNullableScalarRelationFilter, Prisma.JobTimeLogWhereInput> | null
   parts?: Prisma.JobPartListRelationFilter
-}, "id" | "appointmentNumber">
+}, "id" | "appointmentNumber" | "confirmationToken">
 
 export type AppointmentOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -598,6 +618,8 @@ export type AppointmentOrderByWithAggregationInput = {
   diagnosticFeeStatus?: Prisma.SortOrderInput | Prisma.SortOrder
   adminNotes?: Prisma.SortOrderInput | Prisma.SortOrder
   source?: Prisma.SortOrder
+  confirmationToken?: Prisma.SortOrderInput | Prisma.SortOrder
+  confirmedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.AppointmentCountOrderByAggregateInput
   _avg?: Prisma.AppointmentAvgOrderByAggregateInput
   _max?: Prisma.AppointmentMaxOrderByAggregateInput
@@ -643,6 +665,8 @@ export type AppointmentScalarWhereWithAggregatesInput = {
   diagnosticFeeStatus?: Prisma.StringNullableWithAggregatesFilter<"Appointment"> | string | null
   adminNotes?: Prisma.StringNullableWithAggregatesFilter<"Appointment"> | string | null
   source?: Prisma.StringWithAggregatesFilter<"Appointment"> | string
+  confirmationToken?: Prisma.StringNullableWithAggregatesFilter<"Appointment"> | string | null
+  confirmedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Appointment"> | Date | string | null
 }
 
 export type AppointmentCreateInput = {
@@ -677,6 +701,8 @@ export type AppointmentCreateInput = {
   diagnosticFeeStatus?: string | null
   adminNotes?: string | null
   source?: string
+  confirmationToken?: string | null
+  confirmedAt?: Date | string | null
   user?: Prisma.UserCreateNestedOneWithoutAppointmentsInput
   technician?: Prisma.UserCreateNestedOneWithoutTechnicianAppointmentsInput
   dispatcher?: Prisma.UserCreateNestedOneWithoutDispatchedAppointmentsInput
@@ -726,6 +752,8 @@ export type AppointmentUncheckedCreateInput = {
   diagnosticFeeStatus?: string | null
   adminNotes?: string | null
   source?: string
+  confirmationToken?: string | null
+  confirmedAt?: Date | string | null
   invoice?: Prisma.InvoiceUncheckedCreateNestedOneWithoutAppointmentInput
   notifications?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutAppointmentInput
   maintenanceLogs?: Prisma.MaintenanceLogUncheckedCreateNestedManyWithoutAppointmentInput
@@ -769,6 +797,8 @@ export type AppointmentUpdateInput = {
   diagnosticFeeStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   source?: Prisma.StringFieldUpdateOperationsInput | string
+  confirmationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   user?: Prisma.UserUpdateOneWithoutAppointmentsNestedInput
   technician?: Prisma.UserUpdateOneWithoutTechnicianAppointmentsNestedInput
   dispatcher?: Prisma.UserUpdateOneWithoutDispatchedAppointmentsNestedInput
@@ -818,6 +848,8 @@ export type AppointmentUncheckedUpdateInput = {
   diagnosticFeeStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   source?: Prisma.StringFieldUpdateOperationsInput | string
+  confirmationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   invoice?: Prisma.InvoiceUncheckedUpdateOneWithoutAppointmentNestedInput
   notifications?: Prisma.NotificationLogUncheckedUpdateManyWithoutAppointmentNestedInput
   maintenanceLogs?: Prisma.MaintenanceLogUncheckedUpdateManyWithoutAppointmentNestedInput
@@ -864,6 +896,8 @@ export type AppointmentCreateManyInput = {
   diagnosticFeeStatus?: string | null
   adminNotes?: string | null
   source?: string
+  confirmationToken?: string | null
+  confirmedAt?: Date | string | null
 }
 
 export type AppointmentUpdateManyMutationInput = {
@@ -898,6 +932,8 @@ export type AppointmentUpdateManyMutationInput = {
   diagnosticFeeStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   source?: Prisma.StringFieldUpdateOperationsInput | string
+  confirmationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type AppointmentUncheckedUpdateManyInput = {
@@ -935,6 +971,8 @@ export type AppointmentUncheckedUpdateManyInput = {
   diagnosticFeeStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   source?: Prisma.StringFieldUpdateOperationsInput | string
+  confirmationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type AppointmentListRelationFilter = {
@@ -990,6 +1028,8 @@ export type AppointmentCountOrderByAggregateInput = {
   diagnosticFeeStatus?: Prisma.SortOrder
   adminNotes?: Prisma.SortOrder
   source?: Prisma.SortOrder
+  confirmationToken?: Prisma.SortOrder
+  confirmedAt?: Prisma.SortOrder
 }
 
 export type AppointmentAvgOrderByAggregateInput = {
@@ -1031,6 +1071,8 @@ export type AppointmentMaxOrderByAggregateInput = {
   diagnosticFeeStatus?: Prisma.SortOrder
   adminNotes?: Prisma.SortOrder
   source?: Prisma.SortOrder
+  confirmationToken?: Prisma.SortOrder
+  confirmedAt?: Prisma.SortOrder
 }
 
 export type AppointmentMinOrderByAggregateInput = {
@@ -1067,6 +1109,8 @@ export type AppointmentMinOrderByAggregateInput = {
   diagnosticFeeStatus?: Prisma.SortOrder
   adminNotes?: Prisma.SortOrder
   source?: Prisma.SortOrder
+  confirmationToken?: Prisma.SortOrder
+  confirmedAt?: Prisma.SortOrder
 }
 
 export type AppointmentSumOrderByAggregateInput = {
@@ -1403,6 +1447,8 @@ export type AppointmentCreateWithoutUserInput = {
   diagnosticFeeStatus?: string | null
   adminNotes?: string | null
   source?: string
+  confirmationToken?: string | null
+  confirmedAt?: Date | string | null
   technician?: Prisma.UserCreateNestedOneWithoutTechnicianAppointmentsInput
   dispatcher?: Prisma.UserCreateNestedOneWithoutDispatchedAppointmentsInput
   invoice?: Prisma.InvoiceCreateNestedOneWithoutAppointmentInput
@@ -1450,6 +1496,8 @@ export type AppointmentUncheckedCreateWithoutUserInput = {
   diagnosticFeeStatus?: string | null
   adminNotes?: string | null
   source?: string
+  confirmationToken?: string | null
+  confirmedAt?: Date | string | null
   invoice?: Prisma.InvoiceUncheckedCreateNestedOneWithoutAppointmentInput
   notifications?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutAppointmentInput
   maintenanceLogs?: Prisma.MaintenanceLogUncheckedCreateNestedManyWithoutAppointmentInput
@@ -1503,6 +1551,8 @@ export type AppointmentCreateWithoutDispatcherInput = {
   diagnosticFeeStatus?: string | null
   adminNotes?: string | null
   source?: string
+  confirmationToken?: string | null
+  confirmedAt?: Date | string | null
   user?: Prisma.UserCreateNestedOneWithoutAppointmentsInput
   technician?: Prisma.UserCreateNestedOneWithoutTechnicianAppointmentsInput
   invoice?: Prisma.InvoiceCreateNestedOneWithoutAppointmentInput
@@ -1550,6 +1600,8 @@ export type AppointmentUncheckedCreateWithoutDispatcherInput = {
   diagnosticFeeStatus?: string | null
   adminNotes?: string | null
   source?: string
+  confirmationToken?: string | null
+  confirmedAt?: Date | string | null
   invoice?: Prisma.InvoiceUncheckedCreateNestedOneWithoutAppointmentInput
   notifications?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutAppointmentInput
   maintenanceLogs?: Prisma.MaintenanceLogUncheckedCreateNestedManyWithoutAppointmentInput
@@ -1603,6 +1655,8 @@ export type AppointmentCreateWithoutTechnicianInput = {
   diagnosticFeeStatus?: string | null
   adminNotes?: string | null
   source?: string
+  confirmationToken?: string | null
+  confirmedAt?: Date | string | null
   user?: Prisma.UserCreateNestedOneWithoutAppointmentsInput
   dispatcher?: Prisma.UserCreateNestedOneWithoutDispatchedAppointmentsInput
   invoice?: Prisma.InvoiceCreateNestedOneWithoutAppointmentInput
@@ -1650,6 +1704,8 @@ export type AppointmentUncheckedCreateWithoutTechnicianInput = {
   diagnosticFeeStatus?: string | null
   adminNotes?: string | null
   source?: string
+  confirmationToken?: string | null
+  confirmedAt?: Date | string | null
   invoice?: Prisma.InvoiceUncheckedCreateNestedOneWithoutAppointmentInput
   notifications?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutAppointmentInput
   maintenanceLogs?: Prisma.MaintenanceLogUncheckedCreateNestedManyWithoutAppointmentInput
@@ -1725,6 +1781,8 @@ export type AppointmentScalarWhereInput = {
   diagnosticFeeStatus?: Prisma.StringNullableFilter<"Appointment"> | string | null
   adminNotes?: Prisma.StringNullableFilter<"Appointment"> | string | null
   source?: Prisma.StringFilter<"Appointment"> | string
+  confirmationToken?: Prisma.StringNullableFilter<"Appointment"> | string | null
+  confirmedAt?: Prisma.DateTimeNullableFilter<"Appointment"> | Date | string | null
 }
 
 export type AppointmentUpsertWithWhereUniqueWithoutDispatcherInput = {
@@ -1791,6 +1849,8 @@ export type AppointmentCreateWithoutInvoiceInput = {
   diagnosticFeeStatus?: string | null
   adminNotes?: string | null
   source?: string
+  confirmationToken?: string | null
+  confirmedAt?: Date | string | null
   user?: Prisma.UserCreateNestedOneWithoutAppointmentsInput
   technician?: Prisma.UserCreateNestedOneWithoutTechnicianAppointmentsInput
   dispatcher?: Prisma.UserCreateNestedOneWithoutDispatchedAppointmentsInput
@@ -1839,6 +1899,8 @@ export type AppointmentUncheckedCreateWithoutInvoiceInput = {
   diagnosticFeeStatus?: string | null
   adminNotes?: string | null
   source?: string
+  confirmationToken?: string | null
+  confirmedAt?: Date | string | null
   notifications?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutAppointmentInput
   maintenanceLogs?: Prisma.MaintenanceLogUncheckedCreateNestedManyWithoutAppointmentInput
   diagnosisForm?: Prisma.DiagnosisFormUncheckedCreateNestedOneWithoutAppointmentInput
@@ -1897,6 +1959,8 @@ export type AppointmentUpdateWithoutInvoiceInput = {
   diagnosticFeeStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   source?: Prisma.StringFieldUpdateOperationsInput | string
+  confirmationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   user?: Prisma.UserUpdateOneWithoutAppointmentsNestedInput
   technician?: Prisma.UserUpdateOneWithoutTechnicianAppointmentsNestedInput
   dispatcher?: Prisma.UserUpdateOneWithoutDispatchedAppointmentsNestedInput
@@ -1945,6 +2009,8 @@ export type AppointmentUncheckedUpdateWithoutInvoiceInput = {
   diagnosticFeeStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   source?: Prisma.StringFieldUpdateOperationsInput | string
+  confirmationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notifications?: Prisma.NotificationLogUncheckedUpdateManyWithoutAppointmentNestedInput
   maintenanceLogs?: Prisma.MaintenanceLogUncheckedUpdateManyWithoutAppointmentNestedInput
   diagnosisForm?: Prisma.DiagnosisFormUncheckedUpdateOneWithoutAppointmentNestedInput
@@ -1987,6 +2053,8 @@ export type AppointmentCreateWithoutNotificationsInput = {
   diagnosticFeeStatus?: string | null
   adminNotes?: string | null
   source?: string
+  confirmationToken?: string | null
+  confirmedAt?: Date | string | null
   user?: Prisma.UserCreateNestedOneWithoutAppointmentsInput
   technician?: Prisma.UserCreateNestedOneWithoutTechnicianAppointmentsInput
   dispatcher?: Prisma.UserCreateNestedOneWithoutDispatchedAppointmentsInput
@@ -2035,6 +2103,8 @@ export type AppointmentUncheckedCreateWithoutNotificationsInput = {
   diagnosticFeeStatus?: string | null
   adminNotes?: string | null
   source?: string
+  confirmationToken?: string | null
+  confirmedAt?: Date | string | null
   invoice?: Prisma.InvoiceUncheckedCreateNestedOneWithoutAppointmentInput
   maintenanceLogs?: Prisma.MaintenanceLogUncheckedCreateNestedManyWithoutAppointmentInput
   diagnosisForm?: Prisma.DiagnosisFormUncheckedCreateNestedOneWithoutAppointmentInput
@@ -2093,6 +2163,8 @@ export type AppointmentUpdateWithoutNotificationsInput = {
   diagnosticFeeStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   source?: Prisma.StringFieldUpdateOperationsInput | string
+  confirmationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   user?: Prisma.UserUpdateOneWithoutAppointmentsNestedInput
   technician?: Prisma.UserUpdateOneWithoutTechnicianAppointmentsNestedInput
   dispatcher?: Prisma.UserUpdateOneWithoutDispatchedAppointmentsNestedInput
@@ -2141,6 +2213,8 @@ export type AppointmentUncheckedUpdateWithoutNotificationsInput = {
   diagnosticFeeStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   source?: Prisma.StringFieldUpdateOperationsInput | string
+  confirmationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   invoice?: Prisma.InvoiceUncheckedUpdateOneWithoutAppointmentNestedInput
   maintenanceLogs?: Prisma.MaintenanceLogUncheckedUpdateManyWithoutAppointmentNestedInput
   diagnosisForm?: Prisma.DiagnosisFormUncheckedUpdateOneWithoutAppointmentNestedInput
@@ -2183,6 +2257,8 @@ export type AppointmentCreateWithoutMaintenanceLogsInput = {
   diagnosticFeeStatus?: string | null
   adminNotes?: string | null
   source?: string
+  confirmationToken?: string | null
+  confirmedAt?: Date | string | null
   user?: Prisma.UserCreateNestedOneWithoutAppointmentsInput
   technician?: Prisma.UserCreateNestedOneWithoutTechnicianAppointmentsInput
   dispatcher?: Prisma.UserCreateNestedOneWithoutDispatchedAppointmentsInput
@@ -2231,6 +2307,8 @@ export type AppointmentUncheckedCreateWithoutMaintenanceLogsInput = {
   diagnosticFeeStatus?: string | null
   adminNotes?: string | null
   source?: string
+  confirmationToken?: string | null
+  confirmedAt?: Date | string | null
   invoice?: Prisma.InvoiceUncheckedCreateNestedOneWithoutAppointmentInput
   notifications?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutAppointmentInput
   diagnosisForm?: Prisma.DiagnosisFormUncheckedCreateNestedOneWithoutAppointmentInput
@@ -2289,6 +2367,8 @@ export type AppointmentUpdateWithoutMaintenanceLogsInput = {
   diagnosticFeeStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   source?: Prisma.StringFieldUpdateOperationsInput | string
+  confirmationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   user?: Prisma.UserUpdateOneWithoutAppointmentsNestedInput
   technician?: Prisma.UserUpdateOneWithoutTechnicianAppointmentsNestedInput
   dispatcher?: Prisma.UserUpdateOneWithoutDispatchedAppointmentsNestedInput
@@ -2337,6 +2417,8 @@ export type AppointmentUncheckedUpdateWithoutMaintenanceLogsInput = {
   diagnosticFeeStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   source?: Prisma.StringFieldUpdateOperationsInput | string
+  confirmationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   invoice?: Prisma.InvoiceUncheckedUpdateOneWithoutAppointmentNestedInput
   notifications?: Prisma.NotificationLogUncheckedUpdateManyWithoutAppointmentNestedInput
   diagnosisForm?: Prisma.DiagnosisFormUncheckedUpdateOneWithoutAppointmentNestedInput
@@ -2379,6 +2461,8 @@ export type AppointmentCreateWithoutDiagnosisFormInput = {
   diagnosticFeeStatus?: string | null
   adminNotes?: string | null
   source?: string
+  confirmationToken?: string | null
+  confirmedAt?: Date | string | null
   user?: Prisma.UserCreateNestedOneWithoutAppointmentsInput
   technician?: Prisma.UserCreateNestedOneWithoutTechnicianAppointmentsInput
   dispatcher?: Prisma.UserCreateNestedOneWithoutDispatchedAppointmentsInput
@@ -2427,6 +2511,8 @@ export type AppointmentUncheckedCreateWithoutDiagnosisFormInput = {
   diagnosticFeeStatus?: string | null
   adminNotes?: string | null
   source?: string
+  confirmationToken?: string | null
+  confirmedAt?: Date | string | null
   invoice?: Prisma.InvoiceUncheckedCreateNestedOneWithoutAppointmentInput
   notifications?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutAppointmentInput
   maintenanceLogs?: Prisma.MaintenanceLogUncheckedCreateNestedManyWithoutAppointmentInput
@@ -2485,6 +2571,8 @@ export type AppointmentUpdateWithoutDiagnosisFormInput = {
   diagnosticFeeStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   source?: Prisma.StringFieldUpdateOperationsInput | string
+  confirmationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   user?: Prisma.UserUpdateOneWithoutAppointmentsNestedInput
   technician?: Prisma.UserUpdateOneWithoutTechnicianAppointmentsNestedInput
   dispatcher?: Prisma.UserUpdateOneWithoutDispatchedAppointmentsNestedInput
@@ -2533,6 +2621,8 @@ export type AppointmentUncheckedUpdateWithoutDiagnosisFormInput = {
   diagnosticFeeStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   source?: Prisma.StringFieldUpdateOperationsInput | string
+  confirmationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   invoice?: Prisma.InvoiceUncheckedUpdateOneWithoutAppointmentNestedInput
   notifications?: Prisma.NotificationLogUncheckedUpdateManyWithoutAppointmentNestedInput
   maintenanceLogs?: Prisma.MaintenanceLogUncheckedUpdateManyWithoutAppointmentNestedInput
@@ -2575,6 +2665,8 @@ export type AppointmentCreateWithoutJobPhotosInput = {
   diagnosticFeeStatus?: string | null
   adminNotes?: string | null
   source?: string
+  confirmationToken?: string | null
+  confirmedAt?: Date | string | null
   user?: Prisma.UserCreateNestedOneWithoutAppointmentsInput
   technician?: Prisma.UserCreateNestedOneWithoutTechnicianAppointmentsInput
   dispatcher?: Prisma.UserCreateNestedOneWithoutDispatchedAppointmentsInput
@@ -2623,6 +2715,8 @@ export type AppointmentUncheckedCreateWithoutJobPhotosInput = {
   diagnosticFeeStatus?: string | null
   adminNotes?: string | null
   source?: string
+  confirmationToken?: string | null
+  confirmedAt?: Date | string | null
   invoice?: Prisma.InvoiceUncheckedCreateNestedOneWithoutAppointmentInput
   notifications?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutAppointmentInput
   maintenanceLogs?: Prisma.MaintenanceLogUncheckedCreateNestedManyWithoutAppointmentInput
@@ -2681,6 +2775,8 @@ export type AppointmentUpdateWithoutJobPhotosInput = {
   diagnosticFeeStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   source?: Prisma.StringFieldUpdateOperationsInput | string
+  confirmationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   user?: Prisma.UserUpdateOneWithoutAppointmentsNestedInput
   technician?: Prisma.UserUpdateOneWithoutTechnicianAppointmentsNestedInput
   dispatcher?: Prisma.UserUpdateOneWithoutDispatchedAppointmentsNestedInput
@@ -2729,6 +2825,8 @@ export type AppointmentUncheckedUpdateWithoutJobPhotosInput = {
   diagnosticFeeStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   source?: Prisma.StringFieldUpdateOperationsInput | string
+  confirmationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   invoice?: Prisma.InvoiceUncheckedUpdateOneWithoutAppointmentNestedInput
   notifications?: Prisma.NotificationLogUncheckedUpdateManyWithoutAppointmentNestedInput
   maintenanceLogs?: Prisma.MaintenanceLogUncheckedUpdateManyWithoutAppointmentNestedInput
@@ -2771,6 +2869,8 @@ export type AppointmentCreateWithoutPaymentsInput = {
   diagnosticFeeStatus?: string | null
   adminNotes?: string | null
   source?: string
+  confirmationToken?: string | null
+  confirmedAt?: Date | string | null
   user?: Prisma.UserCreateNestedOneWithoutAppointmentsInput
   technician?: Prisma.UserCreateNestedOneWithoutTechnicianAppointmentsInput
   dispatcher?: Prisma.UserCreateNestedOneWithoutDispatchedAppointmentsInput
@@ -2819,6 +2919,8 @@ export type AppointmentUncheckedCreateWithoutPaymentsInput = {
   diagnosticFeeStatus?: string | null
   adminNotes?: string | null
   source?: string
+  confirmationToken?: string | null
+  confirmedAt?: Date | string | null
   invoice?: Prisma.InvoiceUncheckedCreateNestedOneWithoutAppointmentInput
   notifications?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutAppointmentInput
   maintenanceLogs?: Prisma.MaintenanceLogUncheckedCreateNestedManyWithoutAppointmentInput
@@ -2877,6 +2979,8 @@ export type AppointmentUpdateWithoutPaymentsInput = {
   diagnosticFeeStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   source?: Prisma.StringFieldUpdateOperationsInput | string
+  confirmationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   user?: Prisma.UserUpdateOneWithoutAppointmentsNestedInput
   technician?: Prisma.UserUpdateOneWithoutTechnicianAppointmentsNestedInput
   dispatcher?: Prisma.UserUpdateOneWithoutDispatchedAppointmentsNestedInput
@@ -2925,6 +3029,8 @@ export type AppointmentUncheckedUpdateWithoutPaymentsInput = {
   diagnosticFeeStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   source?: Prisma.StringFieldUpdateOperationsInput | string
+  confirmationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   invoice?: Prisma.InvoiceUncheckedUpdateOneWithoutAppointmentNestedInput
   notifications?: Prisma.NotificationLogUncheckedUpdateManyWithoutAppointmentNestedInput
   maintenanceLogs?: Prisma.MaintenanceLogUncheckedUpdateManyWithoutAppointmentNestedInput
@@ -2967,6 +3073,8 @@ export type AppointmentCreateWithoutChecklistInput = {
   diagnosticFeeStatus?: string | null
   adminNotes?: string | null
   source?: string
+  confirmationToken?: string | null
+  confirmedAt?: Date | string | null
   user?: Prisma.UserCreateNestedOneWithoutAppointmentsInput
   technician?: Prisma.UserCreateNestedOneWithoutTechnicianAppointmentsInput
   dispatcher?: Prisma.UserCreateNestedOneWithoutDispatchedAppointmentsInput
@@ -3015,6 +3123,8 @@ export type AppointmentUncheckedCreateWithoutChecklistInput = {
   diagnosticFeeStatus?: string | null
   adminNotes?: string | null
   source?: string
+  confirmationToken?: string | null
+  confirmedAt?: Date | string | null
   invoice?: Prisma.InvoiceUncheckedCreateNestedOneWithoutAppointmentInput
   notifications?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutAppointmentInput
   maintenanceLogs?: Prisma.MaintenanceLogUncheckedCreateNestedManyWithoutAppointmentInput
@@ -3073,6 +3183,8 @@ export type AppointmentUpdateWithoutChecklistInput = {
   diagnosticFeeStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   source?: Prisma.StringFieldUpdateOperationsInput | string
+  confirmationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   user?: Prisma.UserUpdateOneWithoutAppointmentsNestedInput
   technician?: Prisma.UserUpdateOneWithoutTechnicianAppointmentsNestedInput
   dispatcher?: Prisma.UserUpdateOneWithoutDispatchedAppointmentsNestedInput
@@ -3121,6 +3233,8 @@ export type AppointmentUncheckedUpdateWithoutChecklistInput = {
   diagnosticFeeStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   source?: Prisma.StringFieldUpdateOperationsInput | string
+  confirmationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   invoice?: Prisma.InvoiceUncheckedUpdateOneWithoutAppointmentNestedInput
   notifications?: Prisma.NotificationLogUncheckedUpdateManyWithoutAppointmentNestedInput
   maintenanceLogs?: Prisma.MaintenanceLogUncheckedUpdateManyWithoutAppointmentNestedInput
@@ -3163,6 +3277,8 @@ export type AppointmentCreateWithoutTimeLogInput = {
   diagnosticFeeStatus?: string | null
   adminNotes?: string | null
   source?: string
+  confirmationToken?: string | null
+  confirmedAt?: Date | string | null
   user?: Prisma.UserCreateNestedOneWithoutAppointmentsInput
   technician?: Prisma.UserCreateNestedOneWithoutTechnicianAppointmentsInput
   dispatcher?: Prisma.UserCreateNestedOneWithoutDispatchedAppointmentsInput
@@ -3211,6 +3327,8 @@ export type AppointmentUncheckedCreateWithoutTimeLogInput = {
   diagnosticFeeStatus?: string | null
   adminNotes?: string | null
   source?: string
+  confirmationToken?: string | null
+  confirmedAt?: Date | string | null
   invoice?: Prisma.InvoiceUncheckedCreateNestedOneWithoutAppointmentInput
   notifications?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutAppointmentInput
   maintenanceLogs?: Prisma.MaintenanceLogUncheckedCreateNestedManyWithoutAppointmentInput
@@ -3269,6 +3387,8 @@ export type AppointmentUpdateWithoutTimeLogInput = {
   diagnosticFeeStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   source?: Prisma.StringFieldUpdateOperationsInput | string
+  confirmationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   user?: Prisma.UserUpdateOneWithoutAppointmentsNestedInput
   technician?: Prisma.UserUpdateOneWithoutTechnicianAppointmentsNestedInput
   dispatcher?: Prisma.UserUpdateOneWithoutDispatchedAppointmentsNestedInput
@@ -3317,6 +3437,8 @@ export type AppointmentUncheckedUpdateWithoutTimeLogInput = {
   diagnosticFeeStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   source?: Prisma.StringFieldUpdateOperationsInput | string
+  confirmationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   invoice?: Prisma.InvoiceUncheckedUpdateOneWithoutAppointmentNestedInput
   notifications?: Prisma.NotificationLogUncheckedUpdateManyWithoutAppointmentNestedInput
   maintenanceLogs?: Prisma.MaintenanceLogUncheckedUpdateManyWithoutAppointmentNestedInput
@@ -3359,6 +3481,8 @@ export type AppointmentCreateWithoutPartsInput = {
   diagnosticFeeStatus?: string | null
   adminNotes?: string | null
   source?: string
+  confirmationToken?: string | null
+  confirmedAt?: Date | string | null
   user?: Prisma.UserCreateNestedOneWithoutAppointmentsInput
   technician?: Prisma.UserCreateNestedOneWithoutTechnicianAppointmentsInput
   dispatcher?: Prisma.UserCreateNestedOneWithoutDispatchedAppointmentsInput
@@ -3407,6 +3531,8 @@ export type AppointmentUncheckedCreateWithoutPartsInput = {
   diagnosticFeeStatus?: string | null
   adminNotes?: string | null
   source?: string
+  confirmationToken?: string | null
+  confirmedAt?: Date | string | null
   invoice?: Prisma.InvoiceUncheckedCreateNestedOneWithoutAppointmentInput
   notifications?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutAppointmentInput
   maintenanceLogs?: Prisma.MaintenanceLogUncheckedCreateNestedManyWithoutAppointmentInput
@@ -3465,6 +3591,8 @@ export type AppointmentUpdateWithoutPartsInput = {
   diagnosticFeeStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   source?: Prisma.StringFieldUpdateOperationsInput | string
+  confirmationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   user?: Prisma.UserUpdateOneWithoutAppointmentsNestedInput
   technician?: Prisma.UserUpdateOneWithoutTechnicianAppointmentsNestedInput
   dispatcher?: Prisma.UserUpdateOneWithoutDispatchedAppointmentsNestedInput
@@ -3513,6 +3641,8 @@ export type AppointmentUncheckedUpdateWithoutPartsInput = {
   diagnosticFeeStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   source?: Prisma.StringFieldUpdateOperationsInput | string
+  confirmationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   invoice?: Prisma.InvoiceUncheckedUpdateOneWithoutAppointmentNestedInput
   notifications?: Prisma.NotificationLogUncheckedUpdateManyWithoutAppointmentNestedInput
   maintenanceLogs?: Prisma.MaintenanceLogUncheckedUpdateManyWithoutAppointmentNestedInput
@@ -3557,6 +3687,8 @@ export type AppointmentCreateManyUserInput = {
   diagnosticFeeStatus?: string | null
   adminNotes?: string | null
   source?: string
+  confirmationToken?: string | null
+  confirmedAt?: Date | string | null
 }
 
 export type AppointmentCreateManyDispatcherInput = {
@@ -3593,6 +3725,8 @@ export type AppointmentCreateManyDispatcherInput = {
   diagnosticFeeStatus?: string | null
   adminNotes?: string | null
   source?: string
+  confirmationToken?: string | null
+  confirmedAt?: Date | string | null
 }
 
 export type AppointmentCreateManyTechnicianInput = {
@@ -3629,6 +3763,8 @@ export type AppointmentCreateManyTechnicianInput = {
   diagnosticFeeStatus?: string | null
   adminNotes?: string | null
   source?: string
+  confirmationToken?: string | null
+  confirmedAt?: Date | string | null
 }
 
 export type AppointmentUpdateWithoutUserInput = {
@@ -3663,6 +3799,8 @@ export type AppointmentUpdateWithoutUserInput = {
   diagnosticFeeStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   source?: Prisma.StringFieldUpdateOperationsInput | string
+  confirmationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   technician?: Prisma.UserUpdateOneWithoutTechnicianAppointmentsNestedInput
   dispatcher?: Prisma.UserUpdateOneWithoutDispatchedAppointmentsNestedInput
   invoice?: Prisma.InvoiceUpdateOneWithoutAppointmentNestedInput
@@ -3710,6 +3848,8 @@ export type AppointmentUncheckedUpdateWithoutUserInput = {
   diagnosticFeeStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   source?: Prisma.StringFieldUpdateOperationsInput | string
+  confirmationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   invoice?: Prisma.InvoiceUncheckedUpdateOneWithoutAppointmentNestedInput
   notifications?: Prisma.NotificationLogUncheckedUpdateManyWithoutAppointmentNestedInput
   maintenanceLogs?: Prisma.MaintenanceLogUncheckedUpdateManyWithoutAppointmentNestedInput
@@ -3755,6 +3895,8 @@ export type AppointmentUncheckedUpdateManyWithoutUserInput = {
   diagnosticFeeStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   source?: Prisma.StringFieldUpdateOperationsInput | string
+  confirmationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type AppointmentUpdateWithoutDispatcherInput = {
@@ -3789,6 +3931,8 @@ export type AppointmentUpdateWithoutDispatcherInput = {
   diagnosticFeeStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   source?: Prisma.StringFieldUpdateOperationsInput | string
+  confirmationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   user?: Prisma.UserUpdateOneWithoutAppointmentsNestedInput
   technician?: Prisma.UserUpdateOneWithoutTechnicianAppointmentsNestedInput
   invoice?: Prisma.InvoiceUpdateOneWithoutAppointmentNestedInput
@@ -3836,6 +3980,8 @@ export type AppointmentUncheckedUpdateWithoutDispatcherInput = {
   diagnosticFeeStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   source?: Prisma.StringFieldUpdateOperationsInput | string
+  confirmationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   invoice?: Prisma.InvoiceUncheckedUpdateOneWithoutAppointmentNestedInput
   notifications?: Prisma.NotificationLogUncheckedUpdateManyWithoutAppointmentNestedInput
   maintenanceLogs?: Prisma.MaintenanceLogUncheckedUpdateManyWithoutAppointmentNestedInput
@@ -3881,6 +4027,8 @@ export type AppointmentUncheckedUpdateManyWithoutDispatcherInput = {
   diagnosticFeeStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   source?: Prisma.StringFieldUpdateOperationsInput | string
+  confirmationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type AppointmentUpdateWithoutTechnicianInput = {
@@ -3915,6 +4063,8 @@ export type AppointmentUpdateWithoutTechnicianInput = {
   diagnosticFeeStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   source?: Prisma.StringFieldUpdateOperationsInput | string
+  confirmationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   user?: Prisma.UserUpdateOneWithoutAppointmentsNestedInput
   dispatcher?: Prisma.UserUpdateOneWithoutDispatchedAppointmentsNestedInput
   invoice?: Prisma.InvoiceUpdateOneWithoutAppointmentNestedInput
@@ -3962,6 +4112,8 @@ export type AppointmentUncheckedUpdateWithoutTechnicianInput = {
   diagnosticFeeStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   source?: Prisma.StringFieldUpdateOperationsInput | string
+  confirmationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   invoice?: Prisma.InvoiceUncheckedUpdateOneWithoutAppointmentNestedInput
   notifications?: Prisma.NotificationLogUncheckedUpdateManyWithoutAppointmentNestedInput
   maintenanceLogs?: Prisma.MaintenanceLogUncheckedUpdateManyWithoutAppointmentNestedInput
@@ -4007,6 +4159,8 @@ export type AppointmentUncheckedUpdateManyWithoutTechnicianInput = {
   diagnosticFeeStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   source?: Prisma.StringFieldUpdateOperationsInput | string
+  confirmationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 
@@ -4111,6 +4265,8 @@ export type AppointmentSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   diagnosticFeeStatus?: boolean
   adminNotes?: boolean
   source?: boolean
+  confirmationToken?: boolean
+  confirmedAt?: boolean
   user?: boolean | Prisma.Appointment$userArgs<ExtArgs>
   technician?: boolean | Prisma.Appointment$technicianArgs<ExtArgs>
   dispatcher?: boolean | Prisma.Appointment$dispatcherArgs<ExtArgs>
@@ -4161,6 +4317,8 @@ export type AppointmentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   diagnosticFeeStatus?: boolean
   adminNotes?: boolean
   source?: boolean
+  confirmationToken?: boolean
+  confirmedAt?: boolean
   user?: boolean | Prisma.Appointment$userArgs<ExtArgs>
   technician?: boolean | Prisma.Appointment$technicianArgs<ExtArgs>
   dispatcher?: boolean | Prisma.Appointment$dispatcherArgs<ExtArgs>
@@ -4201,6 +4359,8 @@ export type AppointmentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   diagnosticFeeStatus?: boolean
   adminNotes?: boolean
   source?: boolean
+  confirmationToken?: boolean
+  confirmedAt?: boolean
   user?: boolean | Prisma.Appointment$userArgs<ExtArgs>
   technician?: boolean | Prisma.Appointment$technicianArgs<ExtArgs>
   dispatcher?: boolean | Prisma.Appointment$dispatcherArgs<ExtArgs>
@@ -4241,9 +4401,11 @@ export type AppointmentSelectScalar = {
   diagnosticFeeStatus?: boolean
   adminNotes?: boolean
   source?: boolean
+  confirmationToken?: boolean
+  confirmedAt?: boolean
 }
 
-export type AppointmentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "appointmentNumber" | "userId" | "service" | "subservice" | "name" | "phone" | "email" | "address" | "city" | "zipCode" | "description" | "preferredDate" | "preferredTime" | "status" | "notes" | "photos" | "createdAt" | "updatedAt" | "technicianId" | "dispatcherId" | "eta" | "techStatus" | "propertyId" | "stripePaymentIntentId" | "signatureUrl" | "totalAmount" | "approvedAt" | "priority" | "isEmergency" | "diagnosticFee" | "diagnosticFeeStatus" | "adminNotes" | "source", ExtArgs["result"]["appointment"]>
+export type AppointmentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "appointmentNumber" | "userId" | "service" | "subservice" | "name" | "phone" | "email" | "address" | "city" | "zipCode" | "description" | "preferredDate" | "preferredTime" | "status" | "notes" | "photos" | "createdAt" | "updatedAt" | "technicianId" | "dispatcherId" | "eta" | "techStatus" | "propertyId" | "stripePaymentIntentId" | "signatureUrl" | "totalAmount" | "approvedAt" | "priority" | "isEmergency" | "diagnosticFee" | "diagnosticFeeStatus" | "adminNotes" | "source" | "confirmationToken" | "confirmedAt", ExtArgs["result"]["appointment"]>
 export type AppointmentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.Appointment$userArgs<ExtArgs>
   technician?: boolean | Prisma.Appointment$technicianArgs<ExtArgs>
@@ -4321,6 +4483,8 @@ export type $AppointmentPayload<ExtArgs extends runtime.Types.Extensions.Interna
     diagnosticFeeStatus: string | null
     adminNotes: string | null
     source: string
+    confirmationToken: string | null
+    confirmedAt: Date | null
   }, ExtArgs["result"]["appointment"]>
   composites: {}
 }
@@ -4790,6 +4954,8 @@ export interface AppointmentFieldRefs {
   readonly diagnosticFeeStatus: Prisma.FieldRef<"Appointment", 'String'>
   readonly adminNotes: Prisma.FieldRef<"Appointment", 'String'>
   readonly source: Prisma.FieldRef<"Appointment", 'String'>
+  readonly confirmationToken: Prisma.FieldRef<"Appointment", 'String'>
+  readonly confirmedAt: Prisma.FieldRef<"Appointment", 'DateTime'>
 }
     
 
