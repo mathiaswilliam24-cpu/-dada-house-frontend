@@ -38,7 +38,7 @@ export default function DispatcherPage() {
           <h1 className="text-2xl font-bold text-gray-900">Schedule Board</h1>
           <p className="text-gray-500 text-sm mt-0.5">{new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" })}</p>
         </div>
-        <Link href="/booking" className="inline-flex items-center gap-2 px-4 py-2 bg-[#F7921A] text-white rounded-lg text-sm font-semibold hover:bg-[#F7921A]/90">
+        <Link href="/dispatcher/appointments/new" className="inline-flex items-center gap-2 px-4 py-2 bg-[#F7921A] text-white rounded-lg text-sm font-semibold hover:bg-[#F7921A]/90">
           <Plus className="w-4 h-4" />New Job
         </Link>
       </div>
