@@ -1,9 +1,9 @@
 ﻿"use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Calendar, Clock, MapPin, User, AlertTriangle, Plus, ChevronRight } from "lucide-react";
+import { Clock, MapPin, User, Plus, ChevronRight, Mail, CheckCircle, Loader2 } from "lucide-react";
 
-type Appt = { id: string; appointmentNumber: string; name: string; phone: string; address: string; city: string; service: string; status: string; techStatus: string | null; preferredDate: string | null; preferredTime: string | null; technicianId: string | null; };
+type Appt = { id: string; appointmentNumber: string; name: string; phone: string; email: string; address: string; city: string; service: string; status: string; techStatus: string | null; preferredDate: string | null; preferredTime: string | null; technicianId: string | null; };
 
 const STATUS_COLORS: Record<string, string> = {
   PENDING: "bg-yellow-50 text-yellow-700 border-yellow-200",
@@ -17,7 +17,21 @@ export default function DispatcherPage() {
   const [appts, setAppts] = useState<Appt[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("all");
+  const [sending, setSending] = useState<string | null>(null);
+  const [sent, setSent] = useState<Set<string>>(new Set());
   const today = new Date().toISOString().split("T")[0];
+
+  async function sendConfirmation(e: React.MouseEvent, apptId: string) {
+    e.preventDefault();
+    e.stopPropagation();
+    setSending(apptId);
+    try {
+      const res = await fetch(`/api/dispatcher/appointments/${apptId}/send-confirmation`, { method: "POST" });
+      if (res.ok) setSent(prev => new Set([...prev, apptId]));
+    } finally {
+      setSending(null);
+    }
+  }
 
   useEffect(() => {
     fetch("/api/dispatcher/requests")
@@ -77,6 +91,27 @@ export default function DispatcherPage() {
                   <div className="flex items-center gap-1 text-xs text-gray-500 mb-0.5"><User className="w-3 h-3" />{a.name} · {a.phone}</div>
                   <div className="flex items-center gap-1 text-xs text-gray-500"><MapPin className="w-3 h-3 shrink-0" />{a.address}, {a.city}</div>
                   {a.preferredDate && <div className="flex items-center gap-1 text-xs text-gray-400 mt-0.5"><Clock className="w-3 h-3" />{new Date(a.preferredDate).toLocaleDateString()}{a.preferredTime ? ` at ${a.preferredTime}` : ""}</div>}
+                  {/* Confirmation row */}
+                  <div className="mt-2">
+                    {a.status === "CONFIRMED" ? (
+                      <span className="inline-flex items-center gap-1 text-xs bg-green-50 text-green-700 border border-green-200 px-2 py-0.5 rounded-full font-semibold">
+                        <CheckCircle className="w-3 h-3" /> Confirmed by client
+                      </span>
+                    ) : sent.has(a.id) ? (
+                      <span className="inline-flex items-center gap-1 text-xs bg-orange-50 text-orange-700 border border-orange-200 px-2 py-0.5 rounded-full font-semibold">
+                        <Mail className="w-3 h-3" /> Confirmation email sent
+                      </span>
+                    ) : (
+                      <button
+                        onClick={(e) => sendConfirmation(e, a.id)}
+                        disabled={sending === a.id}
+                        className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#F7921A] hover:bg-[#E07F10] disabled:opacity-60 text-white text-xs font-bold rounded-lg transition-colors"
+                      >
+                        {sending === a.id ? <Loader2 className="w-3 h-3 animate-spin" /> : <Mail className="w-3 h-3" />}
+                        Send Confirmation Email
+                      </button>
+                    )}
+                  </div>
                 </div>
                 <div className="flex items-center gap-2 shrink-0">
                   <span className={`text-xs px-2 py-0.5 rounded-full font-medium border ${STATUS_COLORS[a.status] ?? "bg-gray-50 text-gray-600 border-gray-200"}`}>{a.status.replace("_"," ")}</span>
