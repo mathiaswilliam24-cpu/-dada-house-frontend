@@ -42,27 +42,15 @@ export default function NewDispatcherAppointment() {
     setSaving(true);
 
     try {
-      // 1. Create the appointment
-      const res = await fetch("/api/appointments", {
+      const res = await fetch("/api/dispatcher/appointments", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ service, subservice, name, phone, email, address, city, zipCode, description, preferredDate: preferredDate || undefined, preferredTime: preferredTime || undefined, photos: [] }),
+        body: JSON.stringify({ service, subservice, name, phone, email, address, city, zipCode, description, preferredDate: preferredDate || undefined, preferredTime: preferredTime || undefined, technicianId: technicianId || undefined, photos: [] }),
       });
 
       if (!res.ok) {
         const d = await res.json();
         throw new Error(d.error ?? "Failed to create appointment");
-      }
-
-      const { appointment } = await res.json();
-
-      // 2. If a technician was selected, assign immediately
-      if (technicianId && appointment?.id) {
-        await fetch("/api/dispatcher/assign", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ appointmentId: appointment.id, technicianId, date: preferredDate || undefined, time: preferredTime || undefined }),
-        });
       }
 
       router.push("/dispatcher");
@@ -145,11 +133,10 @@ export default function NewDispatcherAppointment() {
               />
             </div>
             <div>
-              <label className="text-xs text-gray-500 font-medium mb-1 block flex items-center gap-1"><Mail className="w-3 h-3" /> Email *</label>
+              <label className="text-xs text-gray-500 font-medium mb-1 block flex items-center gap-1"><Mail className="w-3 h-3" /> Email <span className="text-gray-400">(optional)</span></label>
               <input
                 value={email}
                 onChange={e => setEmail(e.target.value)}
-                required
                 placeholder="john@email.com"
                 type="email"
                 className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-[#1B3FA8]"

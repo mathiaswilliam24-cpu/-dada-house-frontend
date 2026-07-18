@@ -2,12 +2,13 @@
 import { auth } from "@/auth";
 import Link from "next/link";
 import Image from "next/image";
-import { LayoutDashboard, Calendar, Users, AlertTriangle, Map, LogOut } from "lucide-react";
+import { LayoutDashboard, Users, AlertTriangle, Map, LogOut, PlusCircle } from "lucide-react";
 import { signOut } from "@/auth";
 import { PageTransition } from "@/components/layout/page-transition";
 
 const navItems = [
   { href: "/dispatcher", label: "Schedule", icon: LayoutDashboard },
+  { href: "/dispatcher/appointments/new", label: "New Job", icon: PlusCircle, highlight: true },
   { href: "/dispatcher/assign", label: "Assign Jobs", icon: Users },
   { href: "/dispatcher/map", label: "Live Map", icon: Map },
   { href: "/dispatcher/emergency", label: "Emergency", icon: AlertTriangle },
@@ -27,8 +28,8 @@ export default async function DispatcherLayout({ children }: { children: React.R
           <p className="text-xs text-blue-300 mt-1 font-medium">Dispatcher</p>
         </div>
         <nav className="flex-1 p-3 space-y-0.5">
-          {navItems.map(({ href, label, icon: Icon }) => (
-            <Link key={href} href={href} className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-gray-300 hover:text-white hover:bg-white/10 transition-colors">
+          {navItems.map(({ href, label, icon: Icon, highlight }) => (
+            <Link key={href} href={href} className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-colors ${highlight ? "bg-[#F7921A] text-white font-bold hover:bg-[#E07F10]" : "text-gray-300 hover:text-white hover:bg-white/10"}`}>
               <Icon size={18} className="shrink-0" />{label}
             </Link>
           ))}
@@ -44,9 +45,9 @@ export default async function DispatcherLayout({ children }: { children: React.R
       </aside>
       <header className="lg:hidden fixed top-0 left-0 right-0 z-30 bg-[#0D1D5E] text-white px-4 h-14 flex items-center justify-between">
         <span className="font-bold text-sm text-[#F7921A]">DISPATCHER</span>
-        <nav className="flex gap-1">
-          {navItems.map(({ href, icon: Icon }) => (
-            <Link key={href} href={href} className="p-2 rounded-lg text-gray-300 hover:text-white hover:bg-white/10"><Icon size={18} /></Link>
+        <nav className="flex gap-1 items-center">
+          {navItems.map(({ href, icon: Icon, highlight }) => (
+            <Link key={href} href={href} className={`p-2 rounded-lg transition-colors ${highlight ? "bg-[#F7921A] text-white" : "text-gray-300 hover:text-white hover:bg-white/10"}`}><Icon size={18} /></Link>
           ))}
         </nav>
       </header>
