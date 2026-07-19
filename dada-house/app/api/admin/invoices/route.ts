@@ -64,10 +64,12 @@ export async function POST(req: NextRequest) {
   const auth = await requireAdmin(req);
   if (auth instanceof NextResponse) return auth;
 
-  const { appointmentId, amount, notes, dueDate } = await req.json();
+  const { appointmentId, amount, notes, dueDate, status: reqStatus } = await req.json();
   if (!appointmentId || !amount) {
     return NextResponse.json({ error: "appointmentId and amount are required" }, { status: 400 });
   }
+
+  const invoiceStatus = reqStatus === "SENT" ? "SENT" : "DRAFT";
 
   const existing = await db.invoice.findUnique({ where: { appointmentId } });
   if (existing) {
@@ -78,7 +80,7 @@ export async function POST(req: NextRequest) {
     data: {
       appointmentId,
       amount: parseFloat(amount),
-      status: "DRAFT",
+      status: invoiceStatus,
       notes: notes || null,
       dueDate: dueDate ? new Date(dueDate) : null,
     },

@@ -35,8 +35,9 @@ export default function AdminInvoicesPage() {
   const [q, setQ]               = useState("");
   const [updating, setUpdating] = useState<string | null>(null);
 
-  // New estimate modal
+  // New estimate/invoice modal
   const [showModal, setShowModal]         = useState(false);
+  const [modalType, setModalType]         = useState<"estimate" | "invoice">("estimate");
   const [appointments, setAppointments]   = useState<Appointment[]>([]);
   const [apptSearch, setApptSearch]       = useState("");
   const [selectedAppt, setSelectedAppt]   = useState<Appointment | null>(null);
@@ -56,7 +57,8 @@ export default function AdminInvoicesPage() {
 
   useEffect(() => { load(); }, [load]);
 
-  async function openModal() {
+  async function openModal(type: "estimate" | "invoice") {
+    setModalType(type);
     setShowModal(true);
     setSelectedAppt(null); setEstAmount(""); setEstNotes(""); setEstDueDate(""); setCreateError("");
     const res = await fetch("/api/admin/appointments?limit=200");
@@ -67,17 +69,18 @@ export default function AdminInvoicesPage() {
   async function createEstimate() {
     if (!selectedAppt || !estAmount) return;
     setCreating(true); setCreateError("");
+    const status = modalType === "invoice" ? "SENT" : "DRAFT";
     const res = await fetch("/api/admin/invoices", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ appointmentId: selectedAppt.id, amount: estAmount, notes: estNotes, dueDate: estDueDate }),
+      body: JSON.stringify({ appointmentId: selectedAppt.id, amount: estAmount, notes: estNotes, dueDate: estDueDate, status }),
     });
     if (res.ok) {
       setShowModal(false);
       await load();
     } else {
       const data = await res.json();
-      setCreateError(data.error ?? "Failed to create estimate");
+      setCreateError(data.error ?? "Failed to create");
     }
     setCreating(false);
   }
@@ -125,8 +128,11 @@ export default function AdminInvoicesPage() {
           <button onClick={load} className="flex items-center gap-2 px-3 py-2 border border-gray-200 text-sm text-gray-600 rounded-xl hover:bg-gray-50">
             <RefreshCw className="w-4 h-4" /> Refresh
           </button>
-          <button onClick={openModal} className="flex items-center gap-2 px-4 py-2 bg-[#F97316] text-white text-sm font-semibold rounded-xl hover:bg-orange-600 transition-colors">
+          <button onClick={() => openModal("estimate")} className="flex items-center gap-2 px-4 py-2 border border-[#F97316] text-[#F97316] text-sm font-semibold rounded-xl hover:bg-orange-50 transition-colors">
             <Plus className="w-4 h-4" /> New Estimate
+          </button>
+          <button onClick={() => openModal("invoice")} className="flex items-center gap-2 px-4 py-2 bg-[#1B3FA8] text-white text-sm font-semibold rounded-xl hover:bg-[#1A3490] transition-colors">
+            <Plus className="w-4 h-4" /> New Invoice
           </button>
         </div>
       </div>
@@ -310,7 +316,12 @@ export default function AdminInvoicesPage() {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
           <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg">
             <div className="flex items-center justify-between p-6 border-b border-gray-100">
-              <h2 className="text-lg font-bold text-gray-900">New Estimate</h2>
+              <div>
+                <h2 className="text-lg font-bold text-gray-900">{modalType === "invoice" ? "New Invoice" : "New Estimate"}</h2>
+                <p className="text-xs text-gray-400 mt-0.5">
+                  {modalType === "invoice" ? "Status: SENT — immediately visible to client" : "Status: DRAFT — visible only to you until sent"}
+                </p>
+              </div>
               <button onClick={() => setShowModal(false)} className="p-2 hover:bg-gray-100 rounded-lg">
                 <X className="w-4 h-4 text-gray-500" />
               </button>
@@ -399,10 +410,10 @@ export default function AdminInvoicesPage() {
               <button
                 onClick={createEstimate}
                 disabled={!selectedAppt || !estAmount || creating}
-                className="flex-1 px-4 py-2.5 bg-[#F97316] text-white text-sm font-semibold rounded-xl hover:bg-orange-600 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                className={`flex-1 px-4 py-2.5 text-white text-sm font-semibold rounded-xl disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 transition-colors ${modalType === "invoice" ? "bg-[#1B3FA8] hover:bg-[#1A3490]" : "bg-[#F97316] hover:bg-orange-600"}`}
               >
                 {creating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Plus className="w-4 h-4" />}
-                Create Estimate
+                {modalType === "invoice" ? "Create Invoice" : "Create Estimate"}
               </button>
             </div>
           </div>
