@@ -7,7 +7,7 @@ import Link from "next/link";
 import {
   Calendar, Users, HardHat, Radio, FileText, ShoppingBag, BarChart3,
   MessageCircle, Bell, Star, Images, FolderOpen, Shield, Package,
-  Map, TrendingUp, Layers, Settings, ChevronRight, AlertCircle,
+  Map, TrendingUp, Layers, Settings, ChevronRight, AlertCircle, PhoneCall,
 } from "lucide-react";
 
 export const dynamic = "force-dynamic";
@@ -59,6 +59,7 @@ const modules = [
       { label: "Analytics",    href: "/admin/analytics",       icon: BarChart3,    desc: "Revenue & performance" },
       { label: "Reports",      href: "/admin/reports",         icon: TrendingUp,   desc: "Monthly breakdowns" },
       { label: "AI Assistant", href: "/admin/ai-conversations",icon: MessageCircle,desc: "AI chats & tickets" },
+      { label: "Voice Agent",  href: "https://frontend-tau-rose-16.vercel.app", icon: PhoneCall, desc: "AI call logs & appointments", external: true },
     ],
   },
   {
@@ -215,6 +216,7 @@ export default async function AdminDashboardPage() {
                   <Link
                     key={item.href}
                     href={item.href}
+                    {...('external' in item && item.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                     className={`bg-white border rounded-xl p-4 hover:shadow-md transition-all group ${group.color.replace("bg-", "hover:bg-")}`}
                   >
                     <div className={`w-8 h-8 rounded-lg flex items-center justify-center mb-3 ${group.color}`}>
