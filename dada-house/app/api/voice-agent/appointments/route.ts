@@ -23,7 +23,7 @@ const SERVICE_MAP: Record<string, string> = {
 export async function POST(req: NextRequest) {
   const authHeader = req.headers.get("authorization") ?? "";
   const apiKey = authHeader.replace(/^Bearer\s+/i, "");
-  if (!process.env.VOICE_AGENT_API_KEY || apiKey !== process.env.VOICE_AGENT_API_KEY) {
+  if (!process.env.DADA_HOUSE_API_KEY || apiKey !== process.env.DADA_HOUSE_API_KEY) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
