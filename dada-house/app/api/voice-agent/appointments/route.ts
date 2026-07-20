@@ -91,11 +91,11 @@ export async function POST(req: NextRequest) {
             ).catch(console.error)
           : Promise.resolve(),
 
-        process.env.APPOINTMENT_ALERT_EMAIL
+        (process.env.VOICE_AGENT_ALERT_EMAIL || process.env.APPOINTMENT_ALERT_EMAIL)
           ? resend.emails
               .send({
                 from: FROM_EMAIL,
-                to: process.env.APPOINTMENT_ALERT_EMAIL,
+                to: (process.env.VOICE_AGENT_ALERT_EMAIL || process.env.APPOINTMENT_ALERT_EMAIL)!,
                 subject: `[VOICE AGENT BOOKING] #${appointmentNumber} — ${data.service} — ${data.name}`,
                 html: adminAppointmentAlertHtml({ ...emailData, phone: data.phone }),
               })
