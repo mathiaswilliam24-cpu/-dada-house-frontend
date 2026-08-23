@@ -424,7 +424,7 @@ export function CustomerDetailClient({ customerId }: { customerId: string }) {
                 onClick={() => { setShowConvertModal(true); setConvertPw(""); setConvertError(""); setConvertDone(null); }}
                 className="inline-flex items-center gap-2 px-4 py-2.5 bg-green-600 text-white text-sm font-semibold rounded-xl hover:bg-green-700 transition-colors"
               >
-                <UserPlus className="w-4 h-4" /> Créer un compte
+                <UserPlus className="w-4 h-4" /> Create Account
               </button>
             )}
             <a
@@ -1164,8 +1164,8 @@ export function CustomerDetailClient({ customerId }: { customerId: string }) {
           <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md">
             <div className="flex items-center justify-between p-5 border-b border-gray-100">
               <div>
-                <h2 className="text-lg font-bold text-gray-900">Créer un compte client</h2>
-                <p className="text-xs text-gray-400 mt-0.5">Pour {customer.name ?? customer.email}</p>
+                <h2 className="text-lg font-bold text-gray-900">Create Client Account</h2>
+                <p className="text-xs text-gray-400 mt-0.5">For {customer.name ?? customer.email}</p>
               </div>
               <button onClick={() => setShowConvertModal(false)} className="p-2 hover:bg-gray-100 rounded-lg">
                 <X className="w-4 h-4 text-gray-500" />
@@ -1178,16 +1178,16 @@ export function CustomerDetailClient({ customerId }: { customerId: string }) {
                   <CheckCircle className="w-6 h-6 text-green-600 shrink-0" />
                   <div>
                     <p className="font-semibold text-green-800">
-                      {convertDone.alreadyExisted ? "Compte existant rattaché !" : "Compte créé avec succès !"}
+                      {convertDone.alreadyExisted ? "Existing account linked!" : "Account created successfully!"}
                     </p>
                     <p className="text-sm text-green-700 mt-0.5">
-                      {convertDone.linked} rendez-vous rattaché{convertDone.linked > 1 ? "s" : ""} à ce compte.
+                      {convertDone.linked} appointment{convertDone.linked > 1 ? "s" : ""} linked to this account.
                     </p>
                   </div>
                 </div>
 
                 <div className="bg-gray-50 border border-gray-200 rounded-xl p-4 space-y-2">
-                  <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Identifiants de connexion</p>
+                  <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Login Credentials</p>
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-sm font-mono text-gray-800">📧 {convertDone.email}</p>
@@ -1201,41 +1201,40 @@ export function CustomerDetailClient({ customerId }: { customerId: string }) {
                         className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${copied ? "bg-green-100 text-green-700" : "bg-gray-200 text-gray-700 hover:bg-gray-300"}`}
                       >
                         {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
-                        {copied ? "Copié !" : "Copier"}
+                        {copied ? "Copied!" : "Copy"}
                       </button>
                     )}
                   </div>
                 </div>
 
                 <p className="text-xs text-gray-500 text-center">
-                  Envoie ces identifiants au client. Il peut se connecter sur{" "}
-                  <span className="font-mono text-[#1B3FA8]">dada-house.com/auth/login</span>
+                  A welcome email with these credentials was sent to the client automatically.
                 </p>
 
                 <button
                   onClick={() => setShowConvertModal(false)}
                   className="w-full py-2.5 bg-[#1B3FA8] text-white rounded-xl text-sm font-bold hover:bg-[#1A3490]"
                 >
-                  Fermer
+                  Close
                 </button>
               </div>
             ) : (
               <form onSubmit={convertToAccount} className="p-5 space-y-4">
                 <div className="bg-blue-50 border border-blue-200 rounded-xl p-3">
                   <p className="text-sm text-blue-800">
-                    Un compte sera créé avec l'email <span className="font-semibold">{customer.email}</span>.
-                    Tous ses rendez-vous existants seront rattachés automatiquement.
+                    An account will be created with email <span className="font-semibold">{customer.email}</span>.
+                    All existing appointments will be linked automatically.
                   </p>
                 </div>
 
                 <div>
-                  <label className="text-xs text-gray-500 font-medium mb-1 block">Mot de passe temporaire *</label>
+                  <label className="text-xs text-gray-500 font-medium mb-1 block">Temporary Password *</label>
                   <div className="relative">
                     <input
                       type={convertShowPw ? "text" : "password"}
                       value={convertPw}
                       onChange={e => setConvertPw(e.target.value)}
-                      placeholder="Min. 6 caractères…"
+                      placeholder="Min. 6 characters…"
                       required
                       minLength={6}
                       className="w-full border border-gray-200 rounded-xl px-3 py-2.5 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-blue-200"
@@ -1260,12 +1259,12 @@ export function CustomerDetailClient({ customerId }: { customerId: string }) {
                 <div className="flex gap-3">
                   <button type="button" onClick={() => setShowConvertModal(false)}
                     className="flex-1 py-2.5 border border-gray-200 rounded-xl text-sm text-gray-600 hover:bg-gray-50">
-                    Annuler
+                    Cancel
                   </button>
                   <button type="submit" disabled={convertLoading || convertPw.length < 6}
                     className="flex-1 py-2.5 bg-green-600 text-white rounded-xl text-sm font-bold hover:bg-green-700 disabled:opacity-50 flex items-center justify-center gap-2">
                     {convertLoading && <Loader2 className="w-4 h-4 animate-spin" />}
-                    Créer le compte
+                    Create Account
                   </button>
                 </div>
               </form>
