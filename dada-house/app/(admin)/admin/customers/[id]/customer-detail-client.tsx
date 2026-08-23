@@ -2,6 +2,7 @@
 import { useEffect, useState, useCallback } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   ArrowLeft, Mail, Phone, Calendar, FileText, Star, Home,
   CreditCard, Plus, X, Loader2, CheckCircle, Download, MessageSquare,
@@ -70,6 +71,7 @@ function StarRow({ rating }: { rating: number }) {
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 export function CustomerDetailClient({ customerId }: { customerId: string }) {
+  const router = useRouter();
   const [customer, setCustomer]           = useState<Customer | null>(null);
   const [loading, setLoading]             = useState(true);
   const [error, setError]                 = useState("");
@@ -138,7 +140,7 @@ export function CustomerDetailClient({ customerId }: { customerId: string }) {
   const [convertShowPw, setConvertShowPw]       = useState(false);
   const [convertLoading, setConvertLoading]     = useState(false);
   const [convertError, setConvertError]         = useState("");
-  const [convertDone, setConvertDone]           = useState<{ email: string; linked: number; alreadyExisted: boolean } | null>(null);
+  const [convertDone, setConvertDone]           = useState<{ userId: string; email: string; linked: number; alreadyExisted: boolean } | null>(null);
   const [copied, setCopied]                     = useState(false);
 
   async function convertToAccount(e: React.FormEvent) {
@@ -1212,10 +1214,13 @@ export function CustomerDetailClient({ customerId }: { customerId: string }) {
                 </p>
 
                 <button
-                  onClick={() => setShowConvertModal(false)}
+                  onClick={() => {
+                    setShowConvertModal(false);
+                    if (convertDone?.userId) router.push(`/admin/customers/${convertDone.userId}`);
+                  }}
                   className="w-full py-2.5 bg-[#1B3FA8] text-white rounded-xl text-sm font-bold hover:bg-[#1A3490]"
                 >
-                  Close
+                  View Client Account →
                 </button>
               </div>
             ) : (
