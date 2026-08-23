@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
 import { Save, Upload, ChevronDown, UserCheck, X } from "lucide-react";
 
@@ -33,6 +34,9 @@ export function AppointmentActions({
 }: Props) {
   const router = useRouter();
   const containerRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+  const [dropdownPos, setDropdownPos] = useState<{ top: number; right: number } | null>(null);
   const [status, setStatus] = useState(currentStatus);
   const [notes, setNotes] = useState(currentNotes ?? "");
   const [technicianId, setTechnicianId] = useState(currentTechnicianId ?? "");
@@ -47,9 +51,10 @@ export function AppointmentActions({
   useEffect(() => {
     if (!open) return;
     function handleClickOutside(e: MouseEvent) {
-      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
-        setOpen(false);
-      }
+      const target = e.target as Node;
+      const insideButton = containerRef.current?.contains(target);
+      const insidePanel  = panelRef.current?.contains(target);
+      if (!insideButton && !insidePanel) setOpen(false);
     }
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
@@ -105,20 +110,20 @@ export function AppointmentActions({
     }
   };
 
-  return (
-    <div className="relative" ref={containerRef}>
-      <button
-        onClick={() => setOpen(!open)}
-        className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-gray-700 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors bg-white"
-      >
-        Actions
-        <ChevronDown
-          className={`w-3.5 h-3.5 transition-transform ${open ? "rotate-180" : ""}`}
-        />
-      </button>
+  function handleToggle() {
+    if (!open && buttonRef.current) {
+      const rect = buttonRef.current.getBoundingClientRect();
+      setDropdownPos({ top: rect.bottom + 4, right: window.innerWidth - rect.right });
+    }
+    setOpen(o => !o);
+  }
 
-      {open && (
-        <div className="absolute right-0 top-9 z-50 w-72 bg-white border border-gray-200 rounded-xl shadow-lg px-4 pb-4 pt-3 space-y-4">
+  const dropdown = open && dropdownPos ? createPortal(
+    <div
+      ref={panelRef}
+      style={{ position: "fixed", top: dropdownPos.top, right: dropdownPos.right, zIndex: 9999 }}
+      className="w-72 bg-white border border-gray-200 rounded-xl shadow-2xl px-4 pb-4 pt-3 space-y-4"
+    >
           <div className="flex items-center justify-between pb-1">
             <p className="text-xs font-semibold text-gray-700 uppercase tracking-wide">Manage Appointment</p>
             <button onClick={() => setOpen(false)} className="p-0.5 rounded hover:bg-gray-100 text-gray-400">
@@ -211,8 +216,21 @@ export function AppointmentActions({
               {savingInvoice ? "Sending..." : "Send Invoice"}
             </button>
           </div>
-        </div>
-      )}
+    </div>,
+    document.body
+  ) : null;
+
+  return (
+    <div className="relative" ref={containerRef}>
+      <button
+        ref={buttonRef}
+        onClick={handleToggle}
+        className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-gray-700 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors bg-white"
+      >
+        Actions
+        <ChevronDown className={`w-3.5 h-3.5 transition-transform ${open ? "rotate-180" : ""}`} />
+      </button>
+      {dropdown}
     </div>
   );
 }

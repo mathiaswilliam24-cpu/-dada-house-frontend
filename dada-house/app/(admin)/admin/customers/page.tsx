@@ -157,16 +157,12 @@ export default function AdminCustomersPage() {
                       )}
                     </td>
                     <td className="px-4 py-3 text-right">
-                      {!c.id.startsWith("appt:") ? (
-                        <Link
-                          href={`/admin/customers/${c.id}`}
-                          className="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-[#1B3FA8] bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors"
-                        >
-                          View <ChevronRight className="w-3 h-3" />
-                        </Link>
-                      ) : (
-                        <span className="text-xs text-gray-300">—</span>
-                      )}
+                      <Link
+                        href={`/admin/customers/${encodeURIComponent(c.id)}`}
+                        className="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-[#1B3FA8] bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors"
+                      >
+                        View <ChevronRight className="w-3 h-3" />
+                      </Link>
                     </td>
                   </tr>
                 ))}

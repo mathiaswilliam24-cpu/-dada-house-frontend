@@ -13,6 +13,17 @@ const updateSchema = z.object({
   notes: z.string().optional(),
   technicianId: z.string().nullable().optional(),
   eta: z.string().optional(),
+  // Editable fields
+  service:       z.string().optional(),
+  subservice:    z.string().nullable().optional(),
+  preferredDate: z.string().nullable().optional(),
+  preferredTime: z.string().nullable().optional(),
+  address:       z.string().optional(),
+  city:          z.string().optional(),
+  description:   z.string().nullable().optional(),
+  name:          z.string().optional(),
+  phone:         z.string().optional(),
+  email:         z.string().optional(),
 });
 
 export async function GET(
@@ -48,13 +59,24 @@ export async function PATCH(
   const existing = await db.appointment.findUnique({ where: { id } });
   if (!existing) return NextResponse.json({ error: "Not found" }, { status: 404 });
 
+  const d = parsed.data;
   const updated = await db.appointment.update({
     where: { id },
     data: {
-      ...(parsed.data.status && { status: parsed.data.status }),
-      ...(parsed.data.notes !== undefined && { notes: parsed.data.notes }),
-      ...("technicianId" in parsed.data && { technicianId: parsed.data.technicianId }),
-      ...(parsed.data.eta && { eta: new Date(parsed.data.eta) }),
+      ...(d.status          && { status: d.status }),
+      ...(d.notes           !== undefined && { notes: d.notes }),
+      ...("technicianId" in d && { technicianId: d.technicianId }),
+      ...(d.eta             && { eta: new Date(d.eta) }),
+      ...(d.service         && { service: d.service }),
+      ...("subservice"  in d && { subservice: d.subservice }),
+      ...("preferredDate" in d && { preferredDate: d.preferredDate ? new Date(d.preferredDate) : null }),
+      ...("preferredTime" in d && { preferredTime: d.preferredTime }),
+      ...(d.address         && { address: d.address }),
+      ...(d.city            && { city: d.city }),
+      ...("description" in d && { description: d.description }),
+      ...(d.name            && { name: d.name }),
+      ...(d.phone           !== undefined && { phone: d.phone }),
+      ...(d.email           !== undefined && { email: d.email }),
     },
     include: { invoice: true },
   });
