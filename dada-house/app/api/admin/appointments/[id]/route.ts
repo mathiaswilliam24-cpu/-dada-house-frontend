@@ -11,6 +11,7 @@ const updateSchema = z.object({
     .enum(["PENDING", "CONFIRMED", "IN_PROGRESS", "COMPLETED", "CANCELLED"])
     .optional(),
   notes: z.string().optional(),
+  photos: z.array(z.string()).optional(),
   technicianId: z.string().nullable().optional(),
   eta: z.string().optional(),
   // Editable fields
@@ -65,6 +66,7 @@ export async function PATCH(
     data: {
       ...(d.status          && { status: d.status }),
       ...(d.notes           !== undefined && { notes: d.notes }),
+      ...(d.photos          !== undefined && { photos: d.photos }),
       ...("technicianId" in d && { technicianId: d.technicianId }),
       ...(d.eta             && { eta: new Date(d.eta) }),
       ...(d.service         && { service: d.service }),

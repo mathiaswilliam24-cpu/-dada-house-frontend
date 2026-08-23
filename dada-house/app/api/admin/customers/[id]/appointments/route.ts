@@ -15,11 +15,13 @@ export async function POST(
 
   const { id } = await params;
   const body = await req.json();
-  const { name, phone, email, service, subservice, address, city, preferredDate, preferredTime, description } = body;
+  const { name, phone, email, service, subservice, address, city, preferredDate, preferredTime, description, status, notes, photos } = body;
 
   if (!service || !name) {
     return NextResponse.json({ error: "Name and service are required" }, { status: 400 });
   }
+
+  const VALID_STATUSES = ["PENDING","CONFIRMED","IN_PROGRESS","COMPLETED","CANCELLED"];
 
   // For walk-in clients (appt: prefix) there is no user row — create without userId
   const isWalkIn = id.startsWith("appt:");
@@ -42,8 +44,10 @@ export async function POST(
       preferredDate: preferredDate ? new Date(preferredDate) : null,
       preferredTime: preferredTime || null,
       description: description || null,
+      notes: notes || null,
+      photos: Array.isArray(photos) ? photos : [],
       source: "admin",
-      status: "CONFIRMED",
+      status: VALID_STATUSES.includes(status) ? status : "CONFIRMED",
       confirmationToken: crypto.randomBytes(32).toString("hex"),
     },
   });

@@ -1,16 +1,20 @@
 "use client";
 import { useEffect, useState, useCallback } from "react";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import {
   ArrowLeft, Mail, Phone, Calendar, FileText, Star, Home,
   CreditCard, Plus, X, Loader2, CheckCircle, Download, MessageSquare,
-  Trash2, Eye, AlertTriangle, Printer, Pencil, DollarSign,
+  Trash2, Eye, AlertTriangle, Printer, Pencil, DollarSign, Image as ImageIcon, Wrench,
 } from "lucide-react";
+
+const JobMediaUploader = dynamic(() => import("@/components/admin/job-media-uploader"), { ssr: false });
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 type Appt = {
   id: string; appointmentNumber: string; service: string; subservice: string | null;
-  status: string; createdAt: string; preferredDate: string | null; preferredTime: string | null;
+  status: string; notes: string | null; photos: string[];
+  createdAt: string; preferredDate: string | null; preferredTime: string | null;
   address: string; city: string; description: string | null;
   technician: { id: string; name: string } | null;
   invoice: { id: string; amount: number; status: string; paidAt: string | null } | null;
@@ -71,7 +75,7 @@ export function CustomerDetailClient({ customerId }: { customerId: string }) {
 
   // New Appointment modal
   const [showApptModal, setShowApptModal] = useState(false);
-  const [apptForm, setApptForm]           = useState({ service: "", subservice: "", address: "", city: "Houston", preferredDate: "", preferredTime: "", description: "" });
+  const [apptForm, setApptForm]           = useState({ service: "", subservice: "", address: "", city: "Houston", preferredDate: "", preferredTime: "", description: "", status: "CONFIRMED", notes: "", photos: [] as string[] });
   const [apptSaving, setApptSaving]       = useState(false);
   const [apptError, setApptError]         = useState("");
 
@@ -115,7 +119,7 @@ export function CustomerDetailClient({ customerId }: { customerId: string }) {
 
   // Edit appointment modal
   const [editAppt, setEditAppt]           = useState<Appt | null>(null);
-  const [editApptForm, setEditApptForm]   = useState({ service: "", subservice: "", preferredDate: "", preferredTime: "", address: "", city: "", description: "" });
+  const [editApptForm, setEditApptForm]   = useState({ service: "", subservice: "", preferredDate: "", preferredTime: "", address: "", city: "", description: "", status: "PENDING", notes: "", photos: [] as string[] });
   const [editApptSaving, setEditApptSaving] = useState(false);
   const [editApptError, setEditApptError] = useState("");
 
@@ -142,7 +146,7 @@ export function CustomerDetailClient({ customerId }: { customerId: string }) {
 
   // ── Appointment creation ───────────────────────────────────────────────────
   function openApptModal() {
-    setApptForm({ service: "", subservice: "", address: customer?.properties[0]?.address ?? "", city: customer?.properties[0]?.city ?? "Houston", preferredDate: "", preferredTime: "", description: "" });
+    setApptForm({ service: "", subservice: "", address: customer?.properties[0]?.address ?? "", city: customer?.properties[0]?.city ?? "Houston", preferredDate: "", preferredTime: "", description: "", status: "CONFIRMED", notes: "", photos: [] });
     setApptError(""); setShowApptModal(true);
   }
   async function saveAppt(e: React.FormEvent) {
@@ -285,6 +289,7 @@ export function CustomerDetailClient({ customerId }: { customerId: string }) {
       preferredDate: appt.preferredDate ? appt.preferredDate.split("T")[0] : "",
       preferredTime: appt.preferredTime ?? "", address: appt.address,
       city: appt.city, description: appt.description ?? "",
+      status: appt.status, notes: appt.notes ?? "", photos: appt.photos ?? [],
     });
     setEditApptError("");
   }
@@ -293,7 +298,7 @@ export function CustomerDetailClient({ customerId }: { customerId: string }) {
     try {
       const res = await fetch(`/api/admin/appointments/${editAppt!.id}`, {
         method: "PATCH", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...editApptForm, preferredDate: editApptForm.preferredDate || null, preferredTime: editApptForm.preferredTime || null, subservice: editApptForm.subservice || null, description: editApptForm.description || null }),
+        body: JSON.stringify({ ...editApptForm, preferredDate: editApptForm.preferredDate || null, preferredTime: editApptForm.preferredTime || null, subservice: editApptForm.subservice || null, description: editApptForm.description || null, notes: editApptForm.notes || null }),
       });
       if (!res.ok) { const d = await res.json(); throw new Error(d.error ?? "Error"); }
       setEditAppt(null); await load();
@@ -425,6 +430,14 @@ export function CustomerDetailClient({ customerId }: { customerId: string }) {
                       {appt.preferredDate && <span className="text-xs text-gray-500">📅 {fmtD(appt.preferredDate)}</span>}
                     </div>
                     {appt.description && <p className="text-xs text-gray-500 mt-0.5 truncate">{appt.description}</p>}
+                    <div className="flex items-center gap-2 mt-0.5">
+                      {appt.photos?.length > 0 && (
+                        <span className="flex items-center gap-0.5 text-xs text-orange-500"><ImageIcon className="w-3 h-3" /> {appt.photos.length}</span>
+                      )}
+                      {appt.notes && (
+                        <span className="flex items-center gap-0.5 text-xs text-green-600"><Wrench className="w-3 h-3" /> notes</span>
+                      )}
+                    </div>
                   </div>
                   <div className="flex items-center gap-2 shrink-0">
                     {appt.invoice && (
@@ -659,13 +672,26 @@ export function CustomerDetailClient({ customerId }: { customerId: string }) {
               <button onClick={() => setShowApptModal(false)} className="p-2 hover:bg-gray-100 rounded-lg"><X className="w-4 h-4 text-gray-500" /></button>
             </div>
             <form onSubmit={saveAppt} className="flex-1 overflow-y-auto p-5 space-y-4">
-              <div>
-                <label className="text-xs text-gray-500 font-medium mb-1 block">Service *</label>
-                <select value={apptForm.service} onChange={e => setApptForm(f => ({...f, service: e.target.value}))} required
-                  className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-200">
-                  <option value="">Select a service…</option>
-                  {SERVICES.map(s => <option key={s} value={s}>{s}</option>)}
-                </select>
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="text-xs text-gray-500 font-medium mb-1 block">Service *</label>
+                  <select value={apptForm.service} onChange={e => setApptForm(f => ({...f, service: e.target.value}))} required
+                    className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-200">
+                    <option value="">Select a service…</option>
+                    {SERVICES.map(s => <option key={s} value={s}>{s}</option>)}
+                  </select>
+                </div>
+                <div>
+                  <label className="text-xs text-gray-500 font-medium mb-1 block">Status</label>
+                  <select value={apptForm.status} onChange={e => setApptForm(f => ({...f, status: e.target.value}))}
+                    className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-200">
+                    <option value="PENDING">Pending</option>
+                    <option value="CONFIRMED">Confirmed</option>
+                    <option value="IN_PROGRESS">In Progress</option>
+                    <option value="COMPLETED">Completed</option>
+                    <option value="CANCELLED">Cancelled</option>
+                  </select>
+                </div>
               </div>
               <div>
                 <label className="text-xs text-gray-500 font-medium mb-1 block">Sub-service / Detail</label>
@@ -696,16 +722,29 @@ export function CustomerDetailClient({ customerId }: { customerId: string }) {
                   className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-200" />
               </div>
               <div>
-                <label className="text-xs text-gray-500 font-medium mb-1 block">Notes / Description</label>
-                <textarea value={apptForm.description} onChange={e => setApptForm(f => ({...f, description: e.target.value}))} rows={3}
+                <label className="text-xs text-gray-500 font-medium mb-1 block">Client Request / Description</label>
+                <textarea value={apptForm.description} onChange={e => setApptForm(f => ({...f, description: e.target.value}))} rows={2}
                   placeholder="Describe the issue or work needed…"
                   className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-200 resize-none" />
+              </div>
+              <div>
+                <label className="text-xs text-gray-500 font-medium mb-1 block">Work Notes (visible to client)</label>
+                <textarea value={apptForm.notes} onChange={e => setApptForm(f => ({...f, notes: e.target.value}))} rows={3}
+                  placeholder="What was done, parts replaced, recommendations…"
+                  className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-200 resize-none" />
+              </div>
+              <div>
+                <label className="text-xs text-gray-500 font-medium mb-2 block">Photos & Videos</label>
+                <JobMediaUploader
+                  value={apptForm.photos}
+                  onChange={urls => setApptForm(f => ({...f, photos: urls}))}
+                />
               </div>
               {apptError && <p className="text-sm text-red-600 bg-red-50 px-3 py-2 rounded-xl">{apptError}</p>}
               <div className="flex gap-3 pt-1">
                 <button type="button" onClick={() => setShowApptModal(false)} className="flex-1 py-2.5 border border-gray-200 rounded-xl text-sm text-gray-600 hover:bg-gray-50">Cancel</button>
                 <button type="submit" disabled={apptSaving} className="flex-1 py-2.5 bg-[#F7921A] text-white rounded-xl text-sm font-bold hover:bg-orange-600 disabled:opacity-50 flex items-center justify-center gap-2">
-                  {apptSaving && <Loader2 className="w-4 h-4 animate-spin" />} Create Appointment
+                  {apptSaving && <Loader2 className="w-4 h-4 animate-spin" />} Create Project
                 </button>
               </div>
             </form>
@@ -975,13 +1014,26 @@ export function CustomerDetailClient({ customerId }: { customerId: string }) {
               <button onClick={() => setEditAppt(null)} className="p-2 hover:bg-gray-100 rounded-lg"><X className="w-4 h-4 text-gray-500" /></button>
             </div>
             <form onSubmit={saveEditAppt} className="flex-1 overflow-y-auto p-5 space-y-4">
-              <div>
-                <label className="text-xs text-gray-500 font-medium mb-1 block">Service *</label>
-                <select value={editApptForm.service} onChange={e => setEditApptForm(f => ({...f, service: e.target.value}))} required
-                  className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-200">
-                  <option value="">Select a service…</option>
-                  {SERVICES.map(s => <option key={s} value={s}>{s}</option>)}
-                </select>
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="text-xs text-gray-500 font-medium mb-1 block">Service *</label>
+                  <select value={editApptForm.service} onChange={e => setEditApptForm(f => ({...f, service: e.target.value}))} required
+                    className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-200">
+                    <option value="">Select a service…</option>
+                    {SERVICES.map(s => <option key={s} value={s}>{s}</option>)}
+                  </select>
+                </div>
+                <div>
+                  <label className="text-xs text-gray-500 font-medium mb-1 block">Status</label>
+                  <select value={editApptForm.status} onChange={e => setEditApptForm(f => ({...f, status: e.target.value}))}
+                    className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-200">
+                    <option value="PENDING">Pending</option>
+                    <option value="CONFIRMED">Confirmed</option>
+                    <option value="IN_PROGRESS">In Progress</option>
+                    <option value="COMPLETED">Completed</option>
+                    <option value="CANCELLED">Cancelled</option>
+                  </select>
+                </div>
               </div>
               <div>
                 <label className="text-xs text-gray-500 font-medium mb-1 block">Sub-service / Detail</label>
@@ -1013,9 +1065,22 @@ export function CustomerDetailClient({ customerId }: { customerId: string }) {
                   className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-200" />
               </div>
               <div>
-                <label className="text-xs text-gray-500 font-medium mb-1 block">Notes / Description</label>
-                <textarea value={editApptForm.description} onChange={e => setEditApptForm(f => ({...f, description: e.target.value}))} rows={3}
+                <label className="text-xs text-gray-500 font-medium mb-1 block">Client Request / Description</label>
+                <textarea value={editApptForm.description} onChange={e => setEditApptForm(f => ({...f, description: e.target.value}))} rows={2}
                   className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-200 resize-none" />
+              </div>
+              <div>
+                <label className="text-xs text-gray-500 font-medium mb-1 block">Work Notes (visible to client)</label>
+                <textarea value={editApptForm.notes} onChange={e => setEditApptForm(f => ({...f, notes: e.target.value}))} rows={3}
+                  placeholder="What was done, parts replaced, recommendations…"
+                  className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-200 resize-none" />
+              </div>
+              <div>
+                <label className="text-xs text-gray-500 font-medium mb-2 block">Photos & Videos</label>
+                <JobMediaUploader
+                  value={editApptForm.photos}
+                  onChange={urls => setEditApptForm(f => ({...f, photos: urls}))}
+                />
               </div>
               {editApptError && <p className="text-sm text-red-600 bg-red-50 px-3 py-2 rounded-xl">{editApptError}</p>}
               <div className="flex gap-3 pt-1">

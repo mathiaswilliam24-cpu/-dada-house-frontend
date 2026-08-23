@@ -42,6 +42,8 @@ export async function GET(
         service:          a.service,
         subservice:       a.subservice,
         status:           a.status,
+        notes:            a.notes,
+        photos:           a.photos,
         createdAt:        a.createdAt.toISOString(),
         preferredDate:    a.preferredDate?.toISOString() ?? null,
         preferredTime:    a.preferredTime,
