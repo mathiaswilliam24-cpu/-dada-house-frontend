@@ -72,6 +72,7 @@ export async function POST(
       phone: phone || null,
       password: hashed,
       role: "CLIENT",
+      mustChangePassword: true,
     },
   });
 

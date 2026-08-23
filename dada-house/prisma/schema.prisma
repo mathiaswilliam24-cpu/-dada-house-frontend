@@ -81,9 +81,10 @@ model User {
   image         String?
   password      String?
   phone         String?
-  role          Role      @default(CLIENT)
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  role               Role      @default(CLIENT)
+  mustChangePassword Boolean   @default(false)
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
 
   accounts     Account[]
   sessions     Session[]

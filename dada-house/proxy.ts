@@ -10,6 +10,7 @@ const PUBLIC_PATHS = [
   "/store",
   "/auth",
   "/api/auth",
+  "/api/change-password",
   "/api/appointments",
   "/api/reviews",
   "/api/contact",

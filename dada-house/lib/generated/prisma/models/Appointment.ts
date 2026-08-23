@@ -1283,10 +1283,6 @@ export type EnumJobPriorityFieldUpdateOperationsInput = {
   set?: $Enums.JobPriority
 }
 
-export type BoolFieldUpdateOperationsInput = {
-  set?: boolean
-}
-
 export type AppointmentCreateNestedOneWithoutInvoiceInput = {
   create?: Prisma.XOR<Prisma.AppointmentCreateWithoutInvoiceInput, Prisma.AppointmentUncheckedCreateWithoutInvoiceInput>
   connectOrCreate?: Prisma.AppointmentCreateOrConnectWithoutInvoiceInput

@@ -13,6 +13,7 @@ export const authConfig: NextAuthConfig = {
         token.id = user.id;
         token.role = (user as Record<string, unknown>).role;
         token.phone = (user as Record<string, unknown>).phone;
+        token.mustChangePassword = (user as Record<string, unknown>).mustChangePassword ?? false;
       }
       return token;
     },
@@ -21,6 +22,7 @@ export const authConfig: NextAuthConfig = {
         session.user.id = token.id as string;
         session.user.role = token.role as string;
         session.user.phone = token.phone as string | undefined;
+        session.user.mustChangePassword = token.mustChangePassword as boolean | undefined;
       }
       return session;
     },

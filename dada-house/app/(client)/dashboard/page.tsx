@@ -1,6 +1,7 @@
 import { auth } from "@/auth";
 import { db } from "@/lib/db";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import {
   Calendar, Plus, Clock, CheckCircle, AlertCircle, Receipt,
   ExternalLink, Image as ImageIcon, FileText, Wrench,
@@ -15,6 +16,7 @@ function statusLabel(s: string) {
 
 export default async function DashboardPage() {
   const session = await auth();
+  if (session?.user?.mustChangePassword) redirect("/auth/change-password");
 
   const [appointments, techInvoices] = await Promise.all([
     db.appointment.findMany({

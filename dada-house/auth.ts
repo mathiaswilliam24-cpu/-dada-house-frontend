@@ -37,6 +37,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           name: user.name,
           image: user.image,
           role: user.role,
+          mustChangePassword: user.mustChangePassword,
         };
       },
     }),
@@ -47,16 +48,18 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         token.id = user.id;
         token.role = (user as Record<string, unknown>).role;
         token.phone = (user as Record<string, unknown>).phone;
+        token.mustChangePassword = (user as Record<string, unknown>).mustChangePassword ?? false;
       }
-      // Always refresh role from DB so OAuth sign-ins and stale tokens get the correct role
-      if (token.id && !token.role) {
+      // Always refresh role + mustChangePassword from DB
+      if (token.id) {
         const dbUser = await db.user.findUnique({
           where: { id: token.id as string },
-          select: { role: true, phone: true },
+          select: { role: true, phone: true, mustChangePassword: true },
         });
         if (dbUser) {
           token.role = dbUser.role;
           if (!token.phone) token.phone = dbUser.phone;
+          token.mustChangePassword = dbUser.mustChangePassword;
         }
       }
       return token;
@@ -66,6 +69,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         session.user.id = token.id as string;
         session.user.role = token.role as string;
         session.user.phone = token.phone as string | undefined;
+        session.user.mustChangePassword = token.mustChangePassword as boolean | undefined;
       }
       return session;
     },
