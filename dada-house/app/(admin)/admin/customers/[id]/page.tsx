@@ -13,5 +13,6 @@ export default async function CustomerDetailPage({
   if (!session?.user || session.user.role !== "ADMIN") redirect("/");
 
   const { id } = await params;
-  return <CustomerDetailClient customerId={id} />;
+  const customerId = decodeURIComponent(id);
+  return <CustomerDetailClient customerId={customerId} />;
 }
