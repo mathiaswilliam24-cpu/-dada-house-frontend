@@ -2,7 +2,7 @@
 import { useEffect, useState, useCallback } from "react";
 import {
   Shield, Plus, Pencil, Trash2, X, Check, Loader2,
-  Users, UserCheck, HardHat, Radio, Search,
+  Users, UserCheck, HardHat, Radio, Search, Eye, EyeOff,
 } from "lucide-react";
 
 type Role = "ADMIN" | "CLIENT" | "TECHNICIAN" | "DISPATCHER";
@@ -42,6 +42,7 @@ export default function AdminUsersPage() {
   const [saving, setSaving] = useState(false);
   const [error, setError]   = useState("");
   const [deleting, setDeleting] = useState<string | null>(null);
+  const [showPw, setShowPw] = useState(false);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -60,6 +61,7 @@ export default function AdminUsersPage() {
     setSelected(null);
     setForm(emptyForm);
     setError("");
+    setShowPw(false);
     setModal("create");
   }
 
@@ -67,6 +69,7 @@ export default function AdminUsersPage() {
     setSelected(user);
     setForm({ name: user.name ?? "", email: user.email, phone: user.phone ?? "", role: user.role, password: "" });
     setError("");
+    setShowPw(false);
     setModal("edit");
   }
 
@@ -279,13 +282,19 @@ export default function AdminUsersPage() {
                 <label className="block text-xs font-medium text-gray-600 mb-1">
                   Password {modal === "edit" && <span className="text-gray-400">(leave blank to keep current)</span>}
                 </label>
-                <input
-                  type="password"
-                  value={form.password}
-                  onChange={e => setForm(f => ({ ...f, password: e.target.value }))}
-                  placeholder={modal === "edit" ? "Leave blank to keep" : "Min 8 characters"}
-                  className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1B3FA8]/30"
-                />
+                <div className="relative">
+                  <input
+                    type={showPw ? "text" : "password"}
+                    value={form.password}
+                    onChange={e => setForm(f => ({ ...f, password: e.target.value }))}
+                    placeholder={modal === "edit" ? "Leave blank to keep" : "Min 8 characters"}
+                    className="w-full border border-gray-200 rounded-xl px-3 py-2 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-[#1B3FA8]/30"
+                  />
+                  <button type="button" onClick={() => setShowPw(p => !p)} tabIndex={-1}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors">
+                    {showPw ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </button>
+                </div>
               </div>
               <div>
                 <label className="block text-xs font-medium text-gray-600 mb-1">Role *</label>

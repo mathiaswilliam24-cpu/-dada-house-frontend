@@ -15,6 +15,8 @@ import {
   AlertCircle,
   CheckCircle,
   Phone,
+  Eye,
+  EyeOff,
 } from "lucide-react";
 
 function GoogleIcon() {
@@ -33,6 +35,7 @@ function LoginFormInner() {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") || "/portal";
   const [authError, setAuthError] = useState("");
+  const [showPw, setShowPw] = useState(false);
 
   const {
     register,
@@ -127,10 +130,18 @@ function LoginFormInner() {
           />
           <input
             {...register("password")}
-            type="password"
+            type={showPw ? "text" : "password"}
             placeholder="••••••••"
-            className="form-input pl-10"
+            className="form-input pl-10 pr-10"
           />
+          <button
+            type="button"
+            onClick={() => setShowPw(p => !p)}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200 transition-colors"
+            tabIndex={-1}
+          >
+            {showPw ? <EyeOff size={16} /> : <Eye size={16} />}
+          </button>
         </div>
         {errors.password && (
           <p className="text-red-400 text-xs mt-1">{errors.password.message}</p>

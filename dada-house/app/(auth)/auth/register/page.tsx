@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { registerSchema, type RegisterInput } from "@/lib/validations";
 import { Button } from "@/components/ui/button";
-import { Home, Mail, Lock, User, Phone, AlertCircle } from "lucide-react";
+import { Home, Mail, Lock, User, Phone, AlertCircle, Eye, EyeOff } from "lucide-react";
 
 function GoogleIcon() {
   return (
@@ -24,6 +24,8 @@ function GoogleIcon() {
 export default function RegisterPage() {
   const router = useRouter();
   const [authError, setAuthError] = useState("");
+  const [showPw, setShowPw] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
 
   const {
     register,
@@ -130,7 +132,11 @@ export default function RegisterPage() {
             <label className="block text-sm font-semibold text-white mb-1.5">Password</label>
             <div className="relative">
               <Lock size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
-              <input {...register("password")} type="password" placeholder="Min. 8 characters" className="form-input pl-10" />
+              <input {...register("password")} type={showPw ? "text" : "password"} placeholder="Min. 8 characters" className="form-input pl-10 pr-10" />
+              <button type="button" onClick={() => setShowPw(p => !p)} tabIndex={-1}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200 transition-colors">
+                {showPw ? <EyeOff size={16} /> : <Eye size={16} />}
+              </button>
             </div>
             {errors.password && <p className="text-red-400 text-xs mt-1">{errors.password.message}</p>}
           </div>
@@ -139,7 +145,11 @@ export default function RegisterPage() {
             <label className="block text-sm font-semibold text-white mb-1.5">Confirm Password</label>
             <div className="relative">
               <Lock size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
-              <input {...register("confirmPassword")} type="password" placeholder="Repeat password" className="form-input pl-10" />
+              <input {...register("confirmPassword")} type={showConfirm ? "text" : "password"} placeholder="Repeat password" className="form-input pl-10 pr-10" />
+              <button type="button" onClick={() => setShowConfirm(p => !p)} tabIndex={-1}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200 transition-colors">
+                {showConfirm ? <EyeOff size={16} /> : <Eye size={16} />}
+              </button>
             </div>
             {errors.confirmPassword && <p className="text-red-400 text-xs mt-1">{errors.confirmPassword.message}</p>}
           </div>
