@@ -21,27 +21,27 @@ export default async function PortalDashboardPage() {
       where: { userId: session.user.id, status: { in: ["PENDING", "CONFIRMED", "IN_PROGRESS"] } },
       orderBy: { preferredDate: "asc" },
       take: 3,
-    }),
+    }).catch(() => []),
     db.invoice.findMany({
       where: { status: { in: ["DRAFT", "SENT"] }, appointment: { userId: session.user.id } },
       include: { appointment: { select: { service: true, appointmentNumber: true } } },
       take: 3,
-    }),
+    }).catch(() => []),
     db.warranty.findMany({
       where: { userId: session.user.id, expiresAt: { gte: new Date() } },
       orderBy: { expiresAt: "asc" },
       take: 3,
-    }),
+    }).catch(() => []),
     db.maintenanceLog.findMany({
       where: { userId: session.user.id },
       orderBy: { createdAt: "desc" },
       take: 3,
-    }),
+    }).catch(() => []),
     db.expense.findMany({
       where: { userId: session.user.id, date: { gte: sixMonthsAgo } },
       select: { amount: true, date: true },
       orderBy: { date: "asc" },
-    }),
+    }).catch(() => []),
   ]);
 
   const totalUnpaid = unpaidInvoices.reduce((sum, inv) => sum + inv.amount, 0);
