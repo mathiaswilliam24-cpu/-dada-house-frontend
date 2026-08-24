@@ -11,7 +11,8 @@ export async function GET(
   const auth = await requireAdmin(req);
   if (auth instanceof NextResponse) return auth;
 
-  const { id } = await params;
+  const rawId = await params;
+  const id = decodeURIComponent(rawId.id);
 
   // ── Walk-in / phone client (no registered account) ──────────────────────
   if (id.startsWith("appt:")) {

@@ -13,7 +13,8 @@ export async function POST(
   const auth = await requireAdmin(req);
   if (auth instanceof NextResponse) return auth;
 
-  const { id } = await params;
+  const { id: rawId } = await params;
+  const id = decodeURIComponent(rawId);
   const body = await req.json();
   const { name, phone, email, service, subservice, address, city, preferredDate, preferredTime, description, status, notes, photos } = body;
 

@@ -13,7 +13,8 @@ export async function POST(
   const auth = await requireAdmin(req);
   if (auth instanceof NextResponse) return auth;
 
-  const { id } = await params;
+  const { id: rawId } = await params;
+  const id = decodeURIComponent(rawId);
 
   if (!id.startsWith("appt:")) {
     return NextResponse.json({ error: "This client already has an account" }, { status: 400 });

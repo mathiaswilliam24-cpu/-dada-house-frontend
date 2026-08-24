@@ -147,7 +147,7 @@ export function CustomerDetailClient({ customerId }: { customerId: string }) {
     e.preventDefault();
     setConvertLoading(true); setConvertError("");
     try {
-      const res = await fetch(`/api/admin/customers/${customerId}/convert`, {
+      const res = await fetch(`/api/admin/customers/${encodedId}/convert`, {
         method: "POST", headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ password: convertPw }),
       });
@@ -166,10 +166,12 @@ export function CustomerDetailClient({ customerId }: { customerId: string }) {
     setTimeout(() => setCopied(false), 2500);
   }
 
+  const encodedId = encodeURIComponent(customerId);
+
   const load = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await fetch(`/api/admin/customers/${customerId}`);
+      const res = await fetch(`/api/admin/customers/${encodedId}`);
       const d = await res.json();
       if (d.user) setCustomer(d.user);
       else setError("Customer not found");
@@ -187,7 +189,7 @@ export function CustomerDetailClient({ customerId }: { customerId: string }) {
   async function saveAppt(e: React.FormEvent) {
     e.preventDefault(); setApptSaving(true); setApptError("");
     try {
-      const res = await fetch(`/api/admin/customers/${customerId}/appointments`, {
+      const res = await fetch(`/api/admin/customers/${encodedId}/appointments`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name: customer?.name ?? "", phone: customer?.phone ?? "", email: customer?.email ?? "", ...apptForm }),
