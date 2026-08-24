@@ -22,7 +22,7 @@ export default function AdminCustomersPage() {
   const [showModal, setShowModal] = useState(false);
 
   // New customer form
-  const [form, setForm] = useState({ name: "", email: "", phone: "", address: "", city: "" });
+  const [form, setForm] = useState({ name: "", email: "", phone: "", address: "", city: "", state: "", zipCode: "" });
   const [saving, setSaving] = useState(false);
   const [saveError, setSaveError] = useState("");
   const [saved, setSaved] = useState(false);
@@ -54,12 +54,12 @@ export default function AdminCustomersPage() {
       const res = await fetch("/api/admin/customers", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ ...form, state: form.state.toUpperCase() }),
       });
       const d = await res.json();
       if (!res.ok) throw new Error(d.error ?? "Failed to create customer");
       setSaved(true);
-      setForm({ name: "", email: "", phone: "", address: "", city: "" });
+      setForm({ name: "", email: "", phone: "", address: "", city: "", state: "", zipCode: "" });
       load();
       setTimeout(() => { setSaved(false); setShowModal(false); }, 1500);
     } catch (err) {
@@ -224,11 +224,27 @@ export default function AdminCustomersPage() {
                     placeholder="1234 Main St"
                     className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-[#1B3FA8]" />
                 </div>
-                <div>
-                  <label className="text-xs text-gray-500 font-medium mb-1 block">City</label>
-                  <input value={form.city} onChange={e => setForm(f => ({ ...f, city: e.target.value }))}
-                    placeholder="Houston"
-                    className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-[#1B3FA8]" />
+                <div className="grid grid-cols-3 gap-3">
+                  <div className="col-span-1">
+                    <label className="text-xs text-gray-500 font-medium mb-1 block">City</label>
+                    <input value={form.city} onChange={e => setForm(f => ({ ...f, city: e.target.value }))}
+                      placeholder="Houston"
+                      className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-[#1B3FA8]" />
+                  </div>
+                  <div>
+                    <label className="text-xs text-gray-500 font-medium mb-1 block">State</label>
+                    <input value={form.state} onChange={e => setForm(f => ({ ...f, state: e.target.value }))}
+                      placeholder="TX"
+                      maxLength={2}
+                      className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-[#1B3FA8] uppercase" />
+                  </div>
+                  <div>
+                    <label className="text-xs text-gray-500 font-medium mb-1 block">Zip Code</label>
+                    <input value={form.zipCode} onChange={e => setForm(f => ({ ...f, zipCode: e.target.value }))}
+                      placeholder="77001"
+                      maxLength={10}
+                      className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-[#1B3FA8]" />
+                  </div>
                 </div>
                 {saveError && <p className="text-red-600 text-sm bg-red-50 px-3 py-2 rounded-lg">{saveError}</p>}
                 <p className="text-xs text-gray-400">A client account will be created. The customer can log in and reset their password via email.</p>

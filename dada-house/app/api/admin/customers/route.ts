@@ -89,7 +89,7 @@ export async function POST(req: NextRequest) {
   const auth = await requireAdmin(req);
   if (auth instanceof NextResponse) return auth;
 
-  const { name, email, phone, address, city, zipCode } = await req.json();
+  const { name, email, phone, address, city, state, zipCode } = await req.json();
   if (!name || !email) return NextResponse.json({ error: "Name and email are required" }, { status: 400 });
 
   // Check if email already exists
@@ -99,7 +99,20 @@ export async function POST(req: NextRequest) {
   const password = await bcrypt.hash(Math.random().toString(36).slice(-10), 10);
 
   const user = await db.user.create({
-    data: { name, email, phone: phone || null, role: "CLIENT", password },
+    data: {
+      name, email, phone: phone || null, role: "CLIENT", password, mustChangePassword: true,
+      ...(address && city && {
+        properties: {
+          create: {
+            address,
+            city,
+            state: state || "TX",
+            zipCode: zipCode || "",
+            type: "Residential",
+          },
+        },
+      }),
+    },
   });
 
   return NextResponse.json({ user }, { status: 201 });
