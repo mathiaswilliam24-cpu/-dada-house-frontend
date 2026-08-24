@@ -143,6 +143,14 @@ export function CustomerDetailClient({ customerId }: { customerId: string }) {
   const [convertDone, setConvertDone]           = useState<{ userId: string; email: string; linked: number; alreadyExisted: boolean } | null>(null);
   const [copied, setCopied]                     = useState(false);
 
+  // Reset & send credentials (registered clients)
+  const [showResetModal, setShowResetModal]     = useState(false);
+  const [resetPw, setResetPw]                   = useState("");
+  const [resetShowPw, setResetShowPw]           = useState(false);
+  const [resetLoading, setResetLoading]         = useState(false);
+  const [resetError, setResetError]             = useState("");
+  const [resetDone, setResetDone]               = useState(false);
+
   async function convertToAccount(e: React.FormEvent) {
     e.preventDefault();
     setConvertLoading(true); setConvertError("");
@@ -167,6 +175,21 @@ export function CustomerDetailClient({ customerId }: { customerId: string }) {
   }
 
   const encodedId = encodeURIComponent(customerId);
+
+  async function resetAndSend(e: React.FormEvent) {
+    e.preventDefault();
+    setResetLoading(true); setResetError("");
+    try {
+      const res = await fetch(`/api/admin/customers/${encodedId}/reset-credentials`, {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password: resetPw }),
+      });
+      const d = await res.json();
+      if (!res.ok) throw new Error(d.error ?? "Error");
+      setResetDone(true);
+    } catch (e) { setResetError(e instanceof Error ? e.message : "Error"); }
+    finally { setResetLoading(false); }
+  }
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -423,12 +446,19 @@ export function CustomerDetailClient({ customerId }: { customerId: string }) {
             <p className="text-xs text-orange-500">Completed</p>
           </div>
           <div className="ml-auto flex items-center gap-2">
-            {customerId.startsWith("appt:") && (
+            {customerId.startsWith("appt:") ? (
               <button
                 onClick={() => { setShowConvertModal(true); setConvertPw(""); setConvertError(""); setConvertDone(null); }}
                 className="inline-flex items-center gap-2 px-4 py-2.5 bg-green-600 text-white text-sm font-semibold rounded-xl hover:bg-green-700 transition-colors"
               >
                 <UserPlus className="w-4 h-4" /> Create Account
+              </button>
+            ) : (
+              <button
+                onClick={() => { setShowResetModal(true); setResetPw(""); setResetError(""); setResetDone(false); }}
+                className="inline-flex items-center gap-2 px-4 py-2.5 bg-green-600 text-white text-sm font-semibold rounded-xl hover:bg-green-700 transition-colors"
+              >
+                <UserPlus className="w-4 h-4" /> Send Credentials
               </button>
             )}
             <a
@@ -1272,6 +1302,78 @@ export function CustomerDetailClient({ customerId }: { customerId: string }) {
                     className="flex-1 py-2.5 bg-green-600 text-white rounded-xl text-sm font-bold hover:bg-green-700 disabled:opacity-50 flex items-center justify-center gap-2">
                     {convertLoading && <Loader2 className="w-4 h-4 animate-spin" />}
                     Create Account
+                  </button>
+                </div>
+              </form>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* ── Reset & Send Credentials Modal ───────────────────────────────── */}
+      {showResetModal && customer && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md">
+            <div className="flex items-center justify-between p-5 border-b border-gray-100">
+              <div>
+                <h2 className="text-lg font-bold text-gray-900">Send Login Credentials</h2>
+                <p className="text-xs text-gray-400 mt-0.5">For {customer.name ?? customer.email}</p>
+              </div>
+              <button onClick={() => setShowResetModal(false)} className="p-2 hover:bg-gray-100 rounded-lg">
+                <X className="w-4 h-4 text-gray-500" />
+              </button>
+            </div>
+
+            {resetDone ? (
+              <div className="p-6 space-y-4">
+                <div className="flex items-center gap-3 p-4 bg-green-50 border border-green-200 rounded-xl">
+                  <CheckCircle className="w-6 h-6 text-green-600 shrink-0" />
+                  <div>
+                    <p className="font-semibold text-green-800">Credentials sent!</p>
+                    <p className="text-sm text-green-700 mt-0.5">Welcome email sent to {customer.email}</p>
+                  </div>
+                </div>
+                <button onClick={() => setShowResetModal(false)}
+                  className="w-full py-2.5 bg-[#1B3FA8] text-white rounded-xl text-sm font-bold hover:bg-[#1A3490]">
+                  Close
+                </button>
+              </div>
+            ) : (
+              <form onSubmit={resetAndSend} className="p-5 space-y-4">
+                <div className="bg-blue-50 border border-blue-200 rounded-xl p-3">
+                  <p className="text-sm text-blue-800">
+                    A new temporary password will be set and a welcome email will be sent to <span className="font-semibold">{customer.email}</span>.
+                  </p>
+                </div>
+                <div>
+                  <label className="text-xs text-gray-500 font-medium mb-1 block">Temporary Password *</label>
+                  <div className="relative">
+                    <input
+                      type={resetShowPw ? "text" : "password"}
+                      value={resetPw}
+                      onChange={e => setResetPw(e.target.value)}
+                      placeholder="Min. 6 characters…"
+                      required minLength={6}
+                      className="w-full border border-gray-200 rounded-xl px-3 py-2.5 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-blue-200"
+                    />
+                    <button type="button" onClick={() => setResetShowPw(p => !p)} tabIndex={-1}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        {resetShowPw
+                          ? <path strokeLinecap="round" strokeLinejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 4.411m0 0L21 21" />
+                          : <><path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></>}
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                {resetError && <p className="text-sm text-red-600 bg-red-50 px-3 py-2 rounded-xl">{resetError}</p>}
+                <div className="flex gap-3">
+                  <button type="button" onClick={() => setShowResetModal(false)}
+                    className="flex-1 py-2.5 border border-gray-200 rounded-xl text-sm text-gray-600 hover:bg-gray-50">Cancel</button>
+                  <button type="submit" disabled={resetLoading || resetPw.length < 6}
+                    className="flex-1 py-2.5 bg-green-600 text-white rounded-xl text-sm font-bold hover:bg-green-700 disabled:opacity-50 flex items-center justify-center gap-2">
+                    {resetLoading && <Loader2 className="w-4 h-4 animate-spin" />}
+                    Send Credentials
                   </button>
                 </div>
               </form>
