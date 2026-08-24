@@ -10,10 +10,10 @@ const updateSchema = z.object({
   status: z
     .enum(["PENDING", "CONFIRMED", "IN_PROGRESS", "COMPLETED", "CANCELLED"])
     .optional(),
-  notes: z.string().optional(),
+  notes: z.string().nullable().optional(),
   photos: z.array(z.string()).optional(),
   technicianId: z.string().nullable().optional(),
-  eta: z.string().optional(),
+  eta: z.string().nullable().optional(),
   // Editable fields
   service:       z.string().optional(),
   subservice:    z.string().nullable().optional(),
