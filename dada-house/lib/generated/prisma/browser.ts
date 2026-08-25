@@ -212,3 +212,13 @@ export type Expense = Prisma.ExpenseModel
  * 
  */
 export type ExpenseSubscription = Prisma.ExpenseSubscriptionModel
+/**
+ * Model Campaign
+ * 
+ */
+export type Campaign = Prisma.CampaignModel
+/**
+ * Model CampaignRecipient
+ * 
+ */
+export type CampaignRecipient = Prisma.CampaignRecipientModel

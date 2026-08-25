@@ -89,7 +89,9 @@ export const ModelName = {
   InventoryItem: 'InventoryItem',
   InventoryRequest: 'InventoryRequest',
   Expense: 'Expense',
-  ExpenseSubscription: 'ExpenseSubscription'
+  ExpenseSubscription: 'ExpenseSubscription',
+  Campaign: 'Campaign',
+  CampaignRecipient: 'CampaignRecipient'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -801,6 +803,38 @@ export const ExpenseSubscriptionScalarFieldEnum = {
 } as const
 
 export type ExpenseSubscriptionScalarFieldEnum = (typeof ExpenseSubscriptionScalarFieldEnum)[keyof typeof ExpenseSubscriptionScalarFieldEnum]
+
+
+export const CampaignScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  subject: 'subject',
+  body: 'body',
+  smsText: 'smsText',
+  status: 'status',
+  sentAt: 'sentAt',
+  createdAt: 'createdAt'
+} as const
+
+export type CampaignScalarFieldEnum = (typeof CampaignScalarFieldEnum)[keyof typeof CampaignScalarFieldEnum]
+
+
+export const CampaignRecipientScalarFieldEnum = {
+  id: 'id',
+  campaignId: 'campaignId',
+  email: 'email',
+  phone: 'phone',
+  name: 'name',
+  emailStatus: 'emailStatus',
+  smsStatus: 'smsStatus',
+  resendEmailId: 'resendEmailId',
+  twilioSid: 'twilioSid',
+  openedAt: 'openedAt',
+  deliveredAt: 'deliveredAt',
+  createdAt: 'createdAt'
+} as const
+
+export type CampaignRecipientScalarFieldEnum = (typeof CampaignRecipientScalarFieldEnum)[keyof typeof CampaignRecipientScalarFieldEnum]
 
 
 export const SortOrder = {
