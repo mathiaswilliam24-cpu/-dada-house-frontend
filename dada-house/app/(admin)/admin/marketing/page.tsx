@@ -1,11 +1,12 @@
 "use client";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import {
   Megaphone, Plus, X, Loader2, CheckCircle, Mail, MessageSquare,
   Users, TrendingUp, Eye, AlertCircle, Send, ChevronDown, ChevronUp,
-  ImagePlus, Video, Trash2,
+  ImagePlus, Video, Trash2, Upload, UserPlus,
 } from "lucide-react";
 import { useUploadThing } from "@/lib/uploadthing-components";
+import * as XLSX from "xlsx";
 
 type Campaign = {
   id: string; name: string; subject: string | null; smsText: string | null;
@@ -22,28 +23,26 @@ function pct(n: number, total: number) {
 function fmtDate(s: string) {
   return new Date(s).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric", hour: "2-digit", minute: "2-digit" });
 }
+function isValidEmail(e: string) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e.trim());
+}
 
 function FlyerUploader({ onUploaded }: { onUploaded: (url: string, type: string) => void }) {
   const [uploading, setUploading] = useState(false);
   const [err, setErr] = useState("");
-
   const { startUpload } = useUploadThing("campaignFlyer", {
     onClientUploadComplete: (res) => {
-      if (res?.[0]) {
-        onUploaded(res[0].ufsUrl ?? res[0].url, res[0].type ?? "image/jpeg");
-      }
+      if (res?.[0]) onUploaded(res[0].ufsUrl ?? res[0].url, res[0].type ?? "image/jpeg");
       setUploading(false);
     },
     onUploadError: (e) => { setErr(e.message); setUploading(false); },
   });
-
   function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
     setErr(""); setUploading(true);
     startUpload([file]);
   }
-
   return (
     <div>
       <label className="flex flex-col items-center justify-center gap-2 border-2 border-dashed border-gray-200 rounded-xl p-6 cursor-pointer hover:border-[#F7921A] hover:bg-orange-50 transition-colors">
@@ -51,10 +50,7 @@ function FlyerUploader({ onUploaded }: { onUploaded: (url: string, type: string)
           <><Loader2 className="w-6 h-6 animate-spin text-[#F7921A]" /><span className="text-sm text-gray-500">Uploading…</span></>
         ) : (
           <>
-            <div className="flex gap-3 text-gray-400">
-              <ImagePlus className="w-6 h-6" />
-              <Video className="w-6 h-6" />
-            </div>
+            <div className="flex gap-3 text-gray-400"><ImagePlus className="w-6 h-6" /><Video className="w-6 h-6" /></div>
             <span className="text-sm font-medium text-gray-600">Click to upload flyer</span>
             <span className="text-xs text-gray-400">Image (JPG, PNG, WEBP) or Video (MP4) · max 128MB</span>
           </>
@@ -68,17 +64,23 @@ function FlyerUploader({ onUploaded }: { onUploaded: (url: string, type: string)
 
 export default function MarketingPage() {
   const [campaigns, setCampaigns] = useState<Campaign[]>([]);
-  const [loading, setLoading]     = useState(true);
+  const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
-  const [expanded, setExpanded]   = useState<string | null>(null);
+  const [expanded, setExpanded] = useState<string | null>(null);
 
   const [form, setForm] = useState({
     name: "", subject: "", body: "", smsText: "", recipientFilter: "all",
     flyer: "", flyerType: "",
   });
-  const [sending, setSending]     = useState(false);
+  const [customEmailsText, setCustomEmailsText] = useState("");
+  const [customEmails, setCustomEmails] = useState<string[]>([]);
+  const [importError, setImportError] = useState("");
+  const [importing, setImporting] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const [sending, setSending] = useState(false);
   const [sendError, setSendError] = useState("");
-  const [sendDone, setSendDone]   = useState<{ total: number } | null>(null);
+  const [sendDone, setSendDone] = useState<{ total: number } | null>(null);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -94,15 +96,65 @@ export default function MarketingPage() {
   function openModal() {
     setShowModal(true); setSendDone(null); setSendError("");
     setForm({ name: "", subject: "", body: "", smsText: "", recipientFilter: "all", flyer: "", flyerType: "" });
+    setCustomEmailsText(""); setCustomEmails([]); setImportError("");
+  }
+
+  // Parse emails from the text area
+  function parseTextEmails(text: string) {
+    const raw = text.split(/[\n,;]+/).map(e => e.trim()).filter(Boolean);
+    const valid = raw.filter(isValidEmail);
+    const deduped = [...new Set(valid)];
+    setCustomEmails(deduped);
+  }
+
+  // Parse CSV or Excel file
+  function handleImportFile(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setImportError(""); setImporting(true);
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      try {
+        const data = ev.target?.result;
+        const wb = XLSX.read(data, { type: "array" });
+        const ws = wb.Sheets[wb.SheetNames[0]];
+        const rows: string[][] = XLSX.utils.sheet_to_json(ws, { header: 1 });
+        const allCells = rows.flat().map(c => String(c ?? "").trim());
+        const valid = allCells.filter(isValidEmail);
+        const deduped = [...new Set(valid)];
+        if (deduped.length === 0) {
+          setImportError("No valid email addresses found in the file.");
+        } else {
+          setCustomEmails(prev => [...new Set([...prev, ...deduped])]);
+          setCustomEmailsText(prev => {
+            const combined = [...new Set([
+              ...prev.split(/[\n,;]+/).map(e => e.trim()).filter(isValidEmail),
+              ...deduped,
+            ])];
+            return combined.join("\n");
+          });
+        }
+      } catch {
+        setImportError("Could not read the file. Make sure it's a valid CSV or Excel file.");
+      } finally {
+        setImporting(false);
+        if (fileInputRef.current) fileInputRef.current.value = "";
+      }
+    };
+    reader.readAsArrayBuffer(file);
   }
 
   async function handleSend(e: React.FormEvent) {
     e.preventDefault();
     setSending(true); setSendError("");
     try {
+      const payload = {
+        ...form,
+        ...(form.recipientFilter === "custom" ? { customEmails } : {}),
+      };
       const res = await fetch("/api/admin/marketing/campaigns", {
         method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify(payload),
       });
       const d = await res.json();
       if (!res.ok) throw new Error(d.error ?? "Error");
@@ -113,15 +165,13 @@ export default function MarketingPage() {
   }
 
   const totalStats = campaigns.reduce(
-    (acc, c) => ({
-      sent: acc.sent + c.emailSent + c.smsSent,
-      opened: acc.opened + c.emailOpened,
-      delivered: acc.delivered + c.emailDelivered + c.smsDelivered,
-    }),
+    (acc, c) => ({ sent: acc.sent + c.emailSent + c.smsSent, opened: acc.opened + c.emailOpened, delivered: acc.delivered + c.emailDelivered + c.smsDelivered }),
     { sent: 0, opened: 0, delivered: 0 }
   );
 
   const isVideo = form.flyerType?.startsWith("video/");
+  const sendDisabled = sending || !form.name || (!form.subject && !form.smsText) ||
+    (form.recipientFilter === "custom" && customEmails.length === 0);
 
   return (
     <div className="space-y-6">
@@ -159,9 +209,7 @@ export default function MarketingPage() {
       {/* Campaign list */}
       <div className="space-y-3">
         {loading ? (
-          <div className="flex items-center justify-center py-16">
-            <Loader2 className="w-6 h-6 animate-spin text-[#1B3FA8]" />
-          </div>
+          <div className="flex items-center justify-center py-16"><Loader2 className="w-6 h-6 animate-spin text-[#1B3FA8]" /></div>
         ) : campaigns.length === 0 ? (
           <div className="bg-white border border-gray-200 rounded-2xl p-12 text-center">
             <Megaphone className="w-10 h-10 text-gray-200 mx-auto mb-3" />
@@ -171,7 +219,6 @@ export default function MarketingPage() {
         ) : campaigns.map(c => (
           <div key={c.id} className="bg-white border border-gray-200 rounded-2xl overflow-hidden">
             <div className="p-5 flex items-center gap-4">
-              {/* Flyer thumbnail */}
               {c.flyer && !c.flyerType?.startsWith("video/") ? (
                 <img src={c.flyer} alt="" className="w-12 h-12 rounded-xl object-cover shrink-0" />
               ) : (
@@ -200,9 +247,7 @@ export default function MarketingPage() {
                     <div className="text-center"><p className="text-sm font-bold text-purple-600">{c.emailOpened}</p><p className="text-xs text-gray-400">Opened</p></div>
                   </>
                 )}
-                {c.smsText && (
-                  <div className="text-center"><p className="text-sm font-bold text-emerald-600">{c.smsDelivered}</p><p className="text-xs text-gray-400">SMS ✓</p></div>
-                )}
+                {c.smsText && <div className="text-center"><p className="text-sm font-bold text-emerald-600">{c.smsDelivered}</p><p className="text-xs text-gray-400">SMS ✓</p></div>}
               </div>
               <button onClick={() => setExpanded(expanded === c.id ? null : c.id)} className="p-2 hover:bg-gray-100 rounded-lg text-gray-400">
                 {expanded === c.id ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
@@ -290,9 +335,7 @@ export default function MarketingPage() {
                 </div>
                 <p className="text-xl font-bold text-gray-900">Campaign sent! 🎉</p>
                 <p className="text-gray-500">Your campaign is being delivered to <strong>{sendDone.total}</strong> recipient{sendDone.total !== 1 ? "s" : ""}.</p>
-                <button onClick={() => setShowModal(false)} className="px-6 py-2.5 bg-[#1B3FA8] text-white rounded-xl font-bold hover:bg-[#1A3490]">
-                  Close
-                </button>
+                <button onClick={() => setShowModal(false)} className="px-6 py-2.5 bg-[#1B3FA8] text-white rounded-xl font-bold hover:bg-[#1A3490]">Close</button>
               </div>
             ) : (
               <form onSubmit={handleSend} className="flex-1 overflow-y-auto p-6 space-y-5">
@@ -308,11 +351,12 @@ export default function MarketingPage() {
                 {/* Recipients */}
                 <div>
                   <label className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5 block">Recipients</label>
-                  <div className="grid grid-cols-3 gap-2">
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-3">
                     {[
                       { value: "all", label: "All Clients", icon: Users },
                       { value: "with_appointments", label: "Has Appointments", icon: TrendingUp },
                       { value: "completed_jobs", label: "Completed Jobs", icon: CheckCircle },
+                      { value: "custom", label: "Custom List", icon: UserPlus },
                     ].map(opt => (
                       <button key={opt.value} type="button"
                         onClick={() => setForm(f => ({ ...f, recipientFilter: opt.value }))}
@@ -322,6 +366,64 @@ export default function MarketingPage() {
                       </button>
                     ))}
                   </div>
+
+                  {/* Custom email list */}
+                  {form.recipientFilter === "custom" && (
+                    <div className="space-y-3 p-4 bg-blue-50 rounded-xl border border-blue-100">
+                      <div className="flex items-center justify-between">
+                        <p className="text-xs font-semibold text-blue-800">Custom Email List</p>
+                        {customEmails.length > 0 && (
+                          <span className="text-xs bg-blue-600 text-white px-2 py-0.5 rounded-full font-medium">
+                            {customEmails.length} email{customEmails.length !== 1 ? "s" : ""}
+                          </span>
+                        )}
+                      </div>
+
+                      {/* Paste emails */}
+                      <div>
+                        <label className="text-xs text-blue-700 font-medium mb-1 block">Paste emails (one per line, or comma-separated)</label>
+                        <textarea
+                          value={customEmailsText}
+                          onChange={e => {
+                            setCustomEmailsText(e.target.value);
+                            parseTextEmails(e.target.value);
+                          }}
+                          rows={4}
+                          placeholder={"john@example.com\njane@example.com, bob@gmail.com\ninfo@company.com"}
+                          className="w-full border border-blue-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-400 resize-none bg-white"
+                        />
+                        {customEmailsText && (
+                          <p className="text-xs text-blue-600 mt-1">
+                            {customEmails.length} valid email{customEmails.length !== 1 ? "s" : ""} detected
+                          </p>
+                        )}
+                      </div>
+
+                      {/* Import file */}
+                      <div>
+                        <label className="text-xs text-blue-700 font-medium mb-1 block">Or import from CSV / Excel file</label>
+                        <div className="flex items-center gap-2">
+                          <button type="button"
+                            onClick={() => fileInputRef.current?.click()}
+                            disabled={importing}
+                            className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-blue-200 rounded-xl text-sm font-medium text-blue-700 hover:bg-blue-50 transition-colors disabled:opacity-50">
+                            {importing ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
+                            {importing ? "Reading…" : "Import CSV / Excel"}
+                          </button>
+                          {customEmails.length > 0 && (
+                            <button type="button"
+                              onClick={() => { setCustomEmails([]); setCustomEmailsText(""); }}
+                              className="text-xs text-red-500 hover:text-red-700 flex items-center gap-1">
+                              <Trash2 className="w-3 h-3" /> Clear all
+                            </button>
+                          )}
+                        </div>
+                        <input ref={fileInputRef} type="file" accept=".csv,.xlsx,.xls" className="hidden" onChange={handleImportFile} />
+                        {importError && <p className="text-xs text-red-500 mt-1">{importError}</p>}
+                        <p className="text-xs text-blue-500 mt-1">The file must have a column with email addresses (.csv, .xlsx, .xls)</p>
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 {/* Email section */}
@@ -344,7 +446,6 @@ export default function MarketingPage() {
                         rows={4} placeholder={"We have a special offer for you this month!\n\nGet 10% off any AC repair or plumbing service.\nValid until August 31, 2026.\n\nBook now and save!"}
                         className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-400 resize-none" />
                     </div>
-
                     {/* Flyer upload */}
                     <div>
                       <label className="text-xs text-gray-500 font-medium mb-1.5 block">Flyer / Promo Image or Video</label>
@@ -372,7 +473,7 @@ export default function MarketingPage() {
                       ) : (
                         <FlyerUploader onUploaded={(url, type) => setForm(f => ({ ...f, flyer: url, flyerType: type }))} />
                       )}
-                      <p className="text-xs text-gray-400 mt-1">The flyer appears prominently at the top of the email. Emails also include Call + Text buttons.</p>
+                      <p className="text-xs text-gray-400 mt-1">Flyer appears at the top of the email. Each email also has 3 buttons: Book, Call, Text.</p>
                     </div>
                   </div>
                 </div>
@@ -406,7 +507,7 @@ export default function MarketingPage() {
                     className="flex-1 py-3 border border-gray-200 rounded-xl text-sm font-medium text-gray-600 hover:bg-gray-50">
                     Cancel
                   </button>
-                  <button type="submit" disabled={sending || !form.name || (!form.subject && !form.smsText)}
+                  <button type="submit" disabled={sendDisabled}
                     className="flex-1 py-3 bg-[#F7921A] text-white rounded-xl text-sm font-bold hover:bg-[#E07F10] disabled:opacity-50 flex items-center justify-center gap-2">
                     {sending ? <><Loader2 className="w-4 h-4 animate-spin" /> Sending…</> : <><Send className="w-4 h-4" /> Send Campaign</>}
                   </button>

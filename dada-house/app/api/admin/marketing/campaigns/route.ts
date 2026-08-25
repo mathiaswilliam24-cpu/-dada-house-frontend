@@ -47,7 +47,7 @@ export async function POST(req: NextRequest) {
   const auth = await requireAdmin(req);
   if (auth instanceof NextResponse) return auth;
 
-  const { name, subject, body, smsText, recipientFilter, flyer, flyerType } = await req.json();
+  const { name, subject, body, smsText, recipientFilter, flyer, flyerType, customEmails } = await req.json();
   if (!name) return NextResponse.json({ error: "Campaign name is required" }, { status: 400 });
   if (!subject && !smsText) return NextResponse.json({ error: "Provide an email subject or SMS text" }, { status: 400 });
 
@@ -71,15 +71,25 @@ export async function POST(req: NextRequest) {
     });
   }
 
-  // Also include walk-in clients who have email
-  const walkInAppts = await db.appointment.findMany({
-    where: { userId: null },
-    select: { email: true, name: true, phone: true },
-    distinct: ["email"],
-  });
-  const walkInRecipients = walkInAppts
-    .filter(a => a.email)
-    .map(a => ({ id: `walkin-${a.email}`, name: a.name, email: a.email!, phone: a.phone }));
+  // Custom list: use provided emails directly
+  if (recipientFilter === "custom") {
+    const emails: string[] = Array.isArray(customEmails) ? customEmails : [];
+    if (emails.length === 0) return NextResponse.json({ error: "No email addresses provided" }, { status: 400 });
+    users = emails.map(email => ({ id: `custom-${email}`, name: email.split("@")[0], email, phone: null }));
+  }
+
+  // Also include walk-in clients who have email (not for custom lists)
+  let walkInRecipients: typeof users = [];
+  if (recipientFilter !== "custom") {
+    const walkInAppts = await db.appointment.findMany({
+      where: { userId: null },
+      select: { email: true, name: true, phone: true },
+      distinct: ["email"],
+    });
+    walkInRecipients = walkInAppts
+      .filter(a => a.email)
+      .map(a => ({ id: `walkin-${a.email}`, name: a.name, email: a.email!, phone: a.phone }));
+  }
 
   const allRecipients = [
     ...users,
