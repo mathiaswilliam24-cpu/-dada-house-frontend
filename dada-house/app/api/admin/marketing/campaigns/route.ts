@@ -71,7 +71,7 @@ export async function POST(req: NextRequest) {
 
   // Also include walk-in clients who have email
   const walkInAppts = await db.appointment.findMany({
-    where: { userId: null, email: { not: null } },
+    where: { userId: null },
     select: { email: true, name: true, phone: true },
     distinct: ["email"],
   });
