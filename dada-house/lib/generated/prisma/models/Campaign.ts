@@ -30,6 +30,8 @@ export type CampaignMinAggregateOutputType = {
   subject: string | null
   body: string | null
   smsText: string | null
+  flyer: string | null
+  flyerType: string | null
   status: string | null
   sentAt: Date | null
   createdAt: Date | null
@@ -41,6 +43,8 @@ export type CampaignMaxAggregateOutputType = {
   subject: string | null
   body: string | null
   smsText: string | null
+  flyer: string | null
+  flyerType: string | null
   status: string | null
   sentAt: Date | null
   createdAt: Date | null
@@ -52,6 +56,8 @@ export type CampaignCountAggregateOutputType = {
   subject: number
   body: number
   smsText: number
+  flyer: number
+  flyerType: number
   status: number
   sentAt: number
   createdAt: number
@@ -65,6 +71,8 @@ export type CampaignMinAggregateInputType = {
   subject?: true
   body?: true
   smsText?: true
+  flyer?: true
+  flyerType?: true
   status?: true
   sentAt?: true
   createdAt?: true
@@ -76,6 +84,8 @@ export type CampaignMaxAggregateInputType = {
   subject?: true
   body?: true
   smsText?: true
+  flyer?: true
+  flyerType?: true
   status?: true
   sentAt?: true
   createdAt?: true
@@ -87,6 +97,8 @@ export type CampaignCountAggregateInputType = {
   subject?: true
   body?: true
   smsText?: true
+  flyer?: true
+  flyerType?: true
   status?: true
   sentAt?: true
   createdAt?: true
@@ -171,6 +183,8 @@ export type CampaignGroupByOutputType = {
   subject: string | null
   body: string | null
   smsText: string | null
+  flyer: string | null
+  flyerType: string | null
   status: string
   sentAt: Date | null
   createdAt: Date
@@ -203,6 +217,8 @@ export type CampaignWhereInput = {
   subject?: Prisma.StringNullableFilter<"Campaign"> | string | null
   body?: Prisma.StringNullableFilter<"Campaign"> | string | null
   smsText?: Prisma.StringNullableFilter<"Campaign"> | string | null
+  flyer?: Prisma.StringNullableFilter<"Campaign"> | string | null
+  flyerType?: Prisma.StringNullableFilter<"Campaign"> | string | null
   status?: Prisma.StringFilter<"Campaign"> | string
   sentAt?: Prisma.DateTimeNullableFilter<"Campaign"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Campaign"> | Date | string
@@ -215,6 +231,8 @@ export type CampaignOrderByWithRelationInput = {
   subject?: Prisma.SortOrderInput | Prisma.SortOrder
   body?: Prisma.SortOrderInput | Prisma.SortOrder
   smsText?: Prisma.SortOrderInput | Prisma.SortOrder
+  flyer?: Prisma.SortOrderInput | Prisma.SortOrder
+  flyerType?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   sentAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -230,6 +248,8 @@ export type CampaignWhereUniqueInput = Prisma.AtLeast<{
   subject?: Prisma.StringNullableFilter<"Campaign"> | string | null
   body?: Prisma.StringNullableFilter<"Campaign"> | string | null
   smsText?: Prisma.StringNullableFilter<"Campaign"> | string | null
+  flyer?: Prisma.StringNullableFilter<"Campaign"> | string | null
+  flyerType?: Prisma.StringNullableFilter<"Campaign"> | string | null
   status?: Prisma.StringFilter<"Campaign"> | string
   sentAt?: Prisma.DateTimeNullableFilter<"Campaign"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Campaign"> | Date | string
@@ -242,6 +262,8 @@ export type CampaignOrderByWithAggregationInput = {
   subject?: Prisma.SortOrderInput | Prisma.SortOrder
   body?: Prisma.SortOrderInput | Prisma.SortOrder
   smsText?: Prisma.SortOrderInput | Prisma.SortOrder
+  flyer?: Prisma.SortOrderInput | Prisma.SortOrder
+  flyerType?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   sentAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -259,6 +281,8 @@ export type CampaignScalarWhereWithAggregatesInput = {
   subject?: Prisma.StringNullableWithAggregatesFilter<"Campaign"> | string | null
   body?: Prisma.StringNullableWithAggregatesFilter<"Campaign"> | string | null
   smsText?: Prisma.StringNullableWithAggregatesFilter<"Campaign"> | string | null
+  flyer?: Prisma.StringNullableWithAggregatesFilter<"Campaign"> | string | null
+  flyerType?: Prisma.StringNullableWithAggregatesFilter<"Campaign"> | string | null
   status?: Prisma.StringWithAggregatesFilter<"Campaign"> | string
   sentAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Campaign"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Campaign"> | Date | string
@@ -270,6 +294,8 @@ export type CampaignCreateInput = {
   subject?: string | null
   body?: string | null
   smsText?: string | null
+  flyer?: string | null
+  flyerType?: string | null
   status?: string
   sentAt?: Date | string | null
   createdAt?: Date | string
@@ -282,6 +308,8 @@ export type CampaignUncheckedCreateInput = {
   subject?: string | null
   body?: string | null
   smsText?: string | null
+  flyer?: string | null
+  flyerType?: string | null
   status?: string
   sentAt?: Date | string | null
   createdAt?: Date | string
@@ -294,6 +322,8 @@ export type CampaignUpdateInput = {
   subject?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   body?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   smsText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  flyer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  flyerType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   sentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -306,6 +336,8 @@ export type CampaignUncheckedUpdateInput = {
   subject?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   body?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   smsText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  flyer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  flyerType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   sentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -318,6 +350,8 @@ export type CampaignCreateManyInput = {
   subject?: string | null
   body?: string | null
   smsText?: string | null
+  flyer?: string | null
+  flyerType?: string | null
   status?: string
   sentAt?: Date | string | null
   createdAt?: Date | string
@@ -329,6 +363,8 @@ export type CampaignUpdateManyMutationInput = {
   subject?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   body?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   smsText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  flyer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  flyerType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   sentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -340,6 +376,8 @@ export type CampaignUncheckedUpdateManyInput = {
   subject?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   body?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   smsText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  flyer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  flyerType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   sentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -351,6 +389,8 @@ export type CampaignCountOrderByAggregateInput = {
   subject?: Prisma.SortOrder
   body?: Prisma.SortOrder
   smsText?: Prisma.SortOrder
+  flyer?: Prisma.SortOrder
+  flyerType?: Prisma.SortOrder
   status?: Prisma.SortOrder
   sentAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -362,6 +402,8 @@ export type CampaignMaxOrderByAggregateInput = {
   subject?: Prisma.SortOrder
   body?: Prisma.SortOrder
   smsText?: Prisma.SortOrder
+  flyer?: Prisma.SortOrder
+  flyerType?: Prisma.SortOrder
   status?: Prisma.SortOrder
   sentAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -373,6 +415,8 @@ export type CampaignMinOrderByAggregateInput = {
   subject?: Prisma.SortOrder
   body?: Prisma.SortOrder
   smsText?: Prisma.SortOrder
+  flyer?: Prisma.SortOrder
+  flyerType?: Prisma.SortOrder
   status?: Prisma.SortOrder
   sentAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -403,6 +447,8 @@ export type CampaignCreateWithoutRecipientsInput = {
   subject?: string | null
   body?: string | null
   smsText?: string | null
+  flyer?: string | null
+  flyerType?: string | null
   status?: string
   sentAt?: Date | string | null
   createdAt?: Date | string
@@ -414,6 +460,8 @@ export type CampaignUncheckedCreateWithoutRecipientsInput = {
   subject?: string | null
   body?: string | null
   smsText?: string | null
+  flyer?: string | null
+  flyerType?: string | null
   status?: string
   sentAt?: Date | string | null
   createdAt?: Date | string
@@ -441,6 +489,8 @@ export type CampaignUpdateWithoutRecipientsInput = {
   subject?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   body?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   smsText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  flyer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  flyerType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   sentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -452,6 +502,8 @@ export type CampaignUncheckedUpdateWithoutRecipientsInput = {
   subject?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   body?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   smsText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  flyer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  flyerType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   sentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -494,6 +546,8 @@ export type CampaignSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   subject?: boolean
   body?: boolean
   smsText?: boolean
+  flyer?: boolean
+  flyerType?: boolean
   status?: boolean
   sentAt?: boolean
   createdAt?: boolean
@@ -507,6 +561,8 @@ export type CampaignSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   subject?: boolean
   body?: boolean
   smsText?: boolean
+  flyer?: boolean
+  flyerType?: boolean
   status?: boolean
   sentAt?: boolean
   createdAt?: boolean
@@ -518,6 +574,8 @@ export type CampaignSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   subject?: boolean
   body?: boolean
   smsText?: boolean
+  flyer?: boolean
+  flyerType?: boolean
   status?: boolean
   sentAt?: boolean
   createdAt?: boolean
@@ -529,12 +587,14 @@ export type CampaignSelectScalar = {
   subject?: boolean
   body?: boolean
   smsText?: boolean
+  flyer?: boolean
+  flyerType?: boolean
   status?: boolean
   sentAt?: boolean
   createdAt?: boolean
 }
 
-export type CampaignOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "subject" | "body" | "smsText" | "status" | "sentAt" | "createdAt", ExtArgs["result"]["campaign"]>
+export type CampaignOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "subject" | "body" | "smsText" | "flyer" | "flyerType" | "status" | "sentAt" | "createdAt", ExtArgs["result"]["campaign"]>
 export type CampaignInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   recipients?: boolean | Prisma.Campaign$recipientsArgs<ExtArgs>
   _count?: boolean | Prisma.CampaignCountOutputTypeDefaultArgs<ExtArgs>
@@ -553,6 +613,8 @@ export type $CampaignPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     subject: string | null
     body: string | null
     smsText: string | null
+    flyer: string | null
+    flyerType: string | null
     status: string
     sentAt: Date | null
     createdAt: Date
@@ -985,6 +1047,8 @@ export interface CampaignFieldRefs {
   readonly subject: Prisma.FieldRef<"Campaign", 'String'>
   readonly body: Prisma.FieldRef<"Campaign", 'String'>
   readonly smsText: Prisma.FieldRef<"Campaign", 'String'>
+  readonly flyer: Prisma.FieldRef<"Campaign", 'String'>
+  readonly flyerType: Prisma.FieldRef<"Campaign", 'String'>
   readonly status: Prisma.FieldRef<"Campaign", 'String'>
   readonly sentAt: Prisma.FieldRef<"Campaign", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"Campaign", 'DateTime'>

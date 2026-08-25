@@ -25,6 +25,8 @@ export async function GET(req: NextRequest) {
     name: c.name,
     subject: c.subject,
     smsText: c.smsText,
+    flyer: c.flyer,
+    flyerType: c.flyerType,
     status: c.status,
     sentAt: c.sentAt,
     createdAt: c.createdAt,
@@ -45,7 +47,7 @@ export async function POST(req: NextRequest) {
   const auth = await requireAdmin(req);
   if (auth instanceof NextResponse) return auth;
 
-  const { name, subject, body, smsText, recipientFilter } = await req.json();
+  const { name, subject, body, smsText, recipientFilter, flyer, flyerType } = await req.json();
   if (!name) return NextResponse.json({ error: "Campaign name is required" }, { status: 400 });
   if (!subject && !smsText) return NextResponse.json({ error: "Provide an email subject or SMS text" }, { status: 400 });
 
@@ -92,6 +94,7 @@ export async function POST(req: NextRequest) {
   const campaign = await db.campaign.create({
     data: {
       name, subject: subject || null, body: body || null, smsText: smsText || null,
+      flyer: flyer || null, flyerType: flyerType || null,
       status: "SENDING", sentAt: new Date(),
     },
   });
@@ -115,7 +118,7 @@ export async function POST(req: NextRequest) {
         from: FROM_EMAIL,
         to: recipient.email,
         subject,
-        html: buildEmailHtml(recipient.name ?? "Valued Customer", body, baseUrl),
+        html: buildEmailHtml(recipient.name ?? "Valued Customer", body, baseUrl, flyer, flyerType),
         tags: [{ name: "campaign_recipient_id", value: recipient.id }],
       }).then(async (result) => {
         const emailId = (result as { data?: { id?: string } })?.data?.id ?? null;
@@ -155,42 +158,139 @@ export async function POST(req: NextRequest) {
   return NextResponse.json({ campaign: { id: campaign.id, total: allRecipients.length } }, { status: 201 });
 }
 
-function buildEmailHtml(name: string, body: string, baseUrl: string) {
-  const bodyHtml = body.replace(/\n/g, "<br>");
+function buildEmailHtml(name: string, body: string, baseUrl: string, flyer?: string | null, flyerType?: string | null) {
+  const bodyHtml = body.replace(/\n\n/g, '</p><p style="margin:0 0 14px;color:#374151;font-size:15px;line-height:1.75">').replace(/\n/g, "<br>");
+  const isVideo = flyerType?.startsWith("video/");
+  const flyerBlock = flyer ? (isVideo
+    ? `<tr><td style="padding:0">
+        <a href="${flyer}" target="_blank" style="display:block;position:relative;text-decoration:none">
+          <div style="background:#000;text-align:center;padding:40px 20px">
+            <div style="width:64px;height:64px;background:rgba(247,146,26,0.9);border-radius:50%;display:inline-flex;align-items:center;justify-content:center;margin-bottom:12px">
+              <span style="font-size:28px">▶</span>
+            </div>
+            <p style="margin:0;color:#fff;font-size:14px;font-weight:600">Click to watch the video</p>
+          </div>
+        </a>
+      </td></tr>`
+    : `<tr><td style="padding:0">
+        <img src="${flyer}" alt="DADA HOUSE Flyer" width="580" style="width:100%;max-width:580px;height:auto;display:block;object-fit:cover" />
+      </td></tr>`)
+    : "";
+
   return `<!DOCTYPE html>
 <html lang="en">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
-<body style="margin:0;padding:0;background:#f5f5f5;font-family:Arial,sans-serif">
-  <table width="100%" cellpadding="0" cellspacing="0" style="background:#f5f5f5;padding:40px 20px">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>DADA HOUSE</title>
+</head>
+<body style="margin:0;padding:0;background:#f0f2f5;font-family:'Helvetica Neue',Arial,sans-serif">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#f0f2f5;padding:32px 16px">
     <tr><td align="center">
-      <table width="100%" style="max-width:580px;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.08)">
+      <table width="100%" style="max-width:600px;background:#ffffff;border-radius:20px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.10)">
+
+        <!-- HEADER -->
         <tr>
-          <td style="background:linear-gradient(135deg,#1B3FA8 0%,#F7921A 100%);padding:36px 32px;text-align:center">
-            <h1 style="margin:0;color:#fff;font-size:24px;font-weight:700">DADA HOUSE</h1>
-            <p style="margin:4px 0 0;color:rgba(255,255,255,0.8);font-size:13px">Houston Home Services</p>
+          <td style="background:linear-gradient(135deg,#0F2A7A 0%,#1B3FA8 60%,#F7921A 100%);padding:32px 36px;text-align:center">
+            <p style="margin:0 0 4px;font-size:11px;font-weight:700;letter-spacing:3px;color:rgba(255,255,255,0.6);text-transform:uppercase">Houston Home Services</p>
+            <h1 style="margin:0;color:#ffffff;font-size:32px;font-weight:900;letter-spacing:-1px">DADA HOUSE</h1>
+            <p style="margin:8px 0 0;color:rgba(255,255,255,0.75);font-size:13px">Plumbing · AC · Heating · Remodeling</p>
           </td>
         </tr>
+
+        <!-- FLYER (image or video thumbnail) -->
+        ${flyerBlock}
+
+        <!-- GREETING BANNER -->
         <tr>
-          <td style="padding:32px">
-            <p style="margin:0 0 16px;color:#111827;font-size:16px;font-weight:700">Hello ${name},</p>
-            <div style="color:#374151;font-size:14px;line-height:1.7">${bodyHtml}</div>
-            <table width="100%" cellpadding="0" cellspacing="0" style="margin:28px 0">
-              <tr><td align="center">
-                <a href="${baseUrl}/booking" style="display:inline-block;background:#F7921A;color:#fff;text-decoration:none;font-size:14px;font-weight:700;padding:12px 32px;border-radius:10px">
-                  Book a Service →
-                </a>
-              </td></tr>
+          <td style="background:#FFF8F0;border-bottom:3px solid #F7921A;padding:20px 36px">
+            <p style="margin:0;color:#0F2A7A;font-size:18px;font-weight:800">Hello ${name}! 👋</p>
+            <p style="margin:4px 0 0;color:#6B7280;font-size:13px">We have something special for you today.</p>
+          </td>
+        </tr>
+
+        <!-- BODY -->
+        <tr>
+          <td style="padding:32px 36px">
+            <p style="margin:0 0 14px;color:#374151;font-size:15px;line-height:1.75">${bodyHtml}</p>
+          </td>
+        </tr>
+
+        <!-- CTA BUTTONS -->
+        <tr>
+          <td style="padding:0 36px 36px">
+            <table width="100%" cellpadding="0" cellspacing="0">
+              <tr>
+                <td align="center" style="padding-bottom:12px">
+                  <a href="${baseUrl}/booking"
+                     style="display:block;background:linear-gradient(135deg,#F7921A,#e07210);color:#ffffff;text-decoration:none;font-size:16px;font-weight:800;padding:16px 32px;border-radius:12px;letter-spacing:0.3px;text-align:center">
+                    📅 Book a Service Now
+                  </a>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <table width="100%" cellpadding="0" cellspacing="0">
+                    <tr>
+                      <td width="48%" style="padding-right:6px">
+                        <a href="tel:+18326696747"
+                           style="display:block;background:#0F2A7A;color:#ffffff;text-decoration:none;font-size:14px;font-weight:700;padding:14px 16px;border-radius:12px;text-align:center">
+                          📞 Call Us
+                        </a>
+                      </td>
+                      <td width="4%"></td>
+                      <td width="48%" style="padding-left:6px">
+                        <a href="sms:+18326696747"
+                           style="display:block;background:#059669;color:#ffffff;text-decoration:none;font-size:14px;font-weight:700;padding:14px 16px;border-radius:12px;text-align:center">
+                          💬 Text Us
+                        </a>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
             </table>
-            <p style="margin:0;color:#9ca3af;font-size:12px;text-align:center">
-              Questions? Call us at <strong style="color:#F7921A">(832) 669-6747</strong>
+          </td>
+        </tr>
+
+        <!-- TRUST BAR -->
+        <tr>
+          <td style="background:#F9FAFB;border-top:1px solid #E5E7EB;padding:20px 36px">
+            <table width="100%" cellpadding="0" cellspacing="0">
+              <tr>
+                <td align="center" width="33%">
+                  <p style="margin:0;font-size:20px">⭐</p>
+                  <p style="margin:2px 0 0;font-size:11px;color:#6B7280;font-weight:600">5-Star Rated</p>
+                </td>
+                <td align="center" width="33%">
+                  <p style="margin:0;font-size:20px">🔧</p>
+                  <p style="margin:2px 0 0;font-size:11px;color:#6B7280;font-weight:600">Licensed &amp; Insured</p>
+                </td>
+                <td align="center" width="33%">
+                  <p style="margin:0;font-size:20px">🚀</p>
+                  <p style="margin:2px 0 0;font-size:11px;color:#6B7280;font-weight:600">Same-Day Service</p>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <!-- FOOTER -->
+        <tr>
+          <td style="background:#0F2A7A;padding:20px 36px;text-align:center">
+            <p style="margin:0 0 6px;color:rgba(255,255,255,0.9);font-size:13px;font-weight:700">DADA HOUSE · Houston, TX</p>
+            <p style="margin:0 0 10px;color:rgba(255,255,255,0.6);font-size:12px">
+              <a href="tel:+18326696747" style="color:#F7921A;text-decoration:none">(832) 669-6747</a>
+              &nbsp;·&nbsp;
+              <a href="${baseUrl}" style="color:rgba(255,255,255,0.6);text-decoration:none">dada-house.com</a>
+            </p>
+            <p style="margin:0;color:rgba(255,255,255,0.35);font-size:10px">
+              You received this because you are a DADA HOUSE client.
+              &nbsp;<a href="${baseUrl}/unsubscribe" style="color:rgba(255,255,255,0.35)">Unsubscribe</a>
             </p>
           </td>
         </tr>
-        <tr>
-          <td style="background:#f9fafb;border-top:1px solid #f3f4f6;padding:16px 32px;text-align:center">
-            <p style="margin:0;color:#9ca3af;font-size:11px">DADA HOUSE · Houston Home Services · <a href="${baseUrl}/unsubscribe" style="color:#9ca3af">Unsubscribe</a></p>
-          </td>
-        </tr>
+
       </table>
     </td></tr>
   </table>

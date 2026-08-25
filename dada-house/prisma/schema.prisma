@@ -801,6 +801,8 @@ model Campaign {
   subject   String?
   body      String?
   smsText   String?
+  flyer     String?
+  flyerType String?
   status    String   @default("DRAFT")
   sentAt    DateTime?
   createdAt DateTime @default(now())

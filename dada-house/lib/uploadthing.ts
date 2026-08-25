@@ -77,6 +77,19 @@ export const ourFileRouter = {
     .onUploadComplete(async ({ file }) => {
       return { url: file.ufsUrl ?? file.url };
     }),
+
+  campaignFlyer: f({
+    image: { maxFileSize: "16MB", maxFileCount: 1 },
+    video: { maxFileSize: "128MB", maxFileCount: 1 },
+  })
+    .middleware(async () => {
+      const session = await auth();
+      if (!session?.user || session.user.role !== "ADMIN") throw new Error("Forbidden");
+      return { userId: session.user.id };
+    })
+    .onUploadComplete(async ({ file }) => {
+      return { url: file.ufsUrl ?? file.url, type: file.type };
+    }),
 } satisfies FileRouter;
 
 export type OurFileRouter = typeof ourFileRouter;
