@@ -233,14 +233,14 @@ function buildEmailHtml(name: string, body: string, baseUrl: string, flyer?: str
                   <table width="100%" cellpadding="0" cellspacing="0">
                     <tr>
                       <td width="48%" style="padding-right:6px">
-                        <a href="tel:+18326696747"
+                        <a href="tel:+13466499353"
                            style="display:block;background:#0F2A7A;color:#ffffff;text-decoration:none;font-size:14px;font-weight:700;padding:14px 16px;border-radius:12px;text-align:center">
                           📞 Call Us
                         </a>
                       </td>
                       <td width="4%"></td>
                       <td width="48%" style="padding-left:6px">
-                        <a href="sms:+18326696747"
+                        <a href="sms:+13466499353"
                            style="display:block;background:#059669;color:#ffffff;text-decoration:none;font-size:14px;font-weight:700;padding:14px 16px;border-radius:12px;text-align:center">
                           💬 Text Us
                         </a>
@@ -280,7 +280,7 @@ function buildEmailHtml(name: string, body: string, baseUrl: string, flyer?: str
           <td style="background:#0F2A7A;padding:20px 36px;text-align:center">
             <p style="margin:0 0 6px;color:rgba(255,255,255,0.9);font-size:13px;font-weight:700">DADA HOUSE · Houston, TX</p>
             <p style="margin:0 0 10px;color:rgba(255,255,255,0.6);font-size:12px">
-              <a href="tel:+18326696747" style="color:#F7921A;text-decoration:none">(832) 669-6747</a>
+              <a href="tel:+13466499353" style="color:#F7921A;text-decoration:none">(346) 649-9353</a>
               &nbsp;·&nbsp;
               <a href="${baseUrl}" style="color:rgba(255,255,255,0.6);text-decoration:none">dada-house.com</a>
             </p>
