@@ -794,3 +794,38 @@ model ExpenseSubscription {
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
+
+model Campaign {
+  id        String   @id @default(cuid())
+  name      String
+  subject   String?
+  body      String?
+  smsText   String?
+  status    String   @default("DRAFT")
+  sentAt    DateTime?
+  createdAt DateTime @default(now())
+
+  recipients CampaignRecipient[]
+}
+
+model CampaignRecipient {
+  id            String    @id @default(cuid())
+  campaignId    String
+  email         String?
+  phone         String?
+  name          String?
+  emailStatus   String?
+  smsStatus     String?
+  resendEmailId String?
+  twilioSid     String?
+  openedAt      DateTime?
+  deliveredAt   DateTime?
+  createdAt     DateTime  @default(now())
+
+  campaign Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+
+  @@index([campaignId])
+  @@index([resendEmailId])
+  @@index([twilioSid])
+}
+

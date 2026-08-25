@@ -14,15 +14,14 @@ export function getTwilioClient() {
 
 export const TWILIO_FROM = process.env.TWILIO_PHONE_NUMBER!;
 
-export async function sendSMS(to: string, body: string) {
+export async function sendSMS(to: string, body: string, opts?: { statusCallback?: string }) {
   if (!process.env.TWILIO_ACCOUNT_SID || !process.env.TWILIO_AUTH_TOKEN) {
     console.warn("Twilio not configured — skipping SMS");
     return;
   }
-  try {
-    const client = getTwilioClient();
-    await client.messages.create({ from: TWILIO_FROM, to, body });
-  } catch (err) {
-    console.error("SMS failed:", err);
-  }
+  const client = getTwilioClient();
+  return client.messages.create({
+    from: TWILIO_FROM, to, body,
+    ...(opts?.statusCallback && { statusCallback: opts.statusCallback }),
+  });
 }
