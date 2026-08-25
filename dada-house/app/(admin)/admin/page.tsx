@@ -139,7 +139,7 @@ export default async function AdminDashboardPage() {
       {/* Header */}
       <div>
         <h1 className="text-2xl font-bold text-gray-900">Admin Dashboard</h1>
-        <p className="text-gray-500 text-sm mt-0.5">DADA HOUSE · Houston, TX</p>
+        <p className="text-gray-500 text-sm mt-0.5">DADA HOUSE · TX · NC · MD</p>
       </div>
 
       {/* Alerts */}

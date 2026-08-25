@@ -75,7 +75,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
         </td></tr>
         <!-- Footer -->
         <tr><td style="background:#f4f6fb;padding:16px 32px;text-align:center;">
-          <p style="margin:0;color:#999;font-size:12px;">DADA HOUSE LLC · Houston, TX · (346) 649-9353</p>
+          <p style="margin:0;color:#999;font-size:12px;">DADA HOUSE LLC · TX · NC · MD · (346) 649-9353</p>
         </td></tr>
       </table>
     </td></tr>

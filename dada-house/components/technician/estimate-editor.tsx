@@ -980,7 +980,7 @@ function PreviewPanel(p: PreviewProps) {
               </div>
               <div>
                 <p className="text-white font-bold text-lg">DADA HOUSE</p>
-                <p className="text-white/70 text-xs">Premier Home Services · Houston, TX</p>
+                <p className="text-white/70 text-xs">Premier Home Services · TX · NC · MD</p>
               </div>
             </div>
             <div className="text-right">

@@ -159,7 +159,7 @@ function buildInvoiceEmail(
     <div style="background:#ffffff;border-radius:8px;display:inline-block;padding:8px 20px;margin-bottom:8px">
       <img src="${LOGO_URL}" alt="DADA HOUSE" height="40" style="display:block;height:40px" />
     </div>
-    <p style="color:#93c5fd;margin:4px 0 0">Premier Home Services · Houston, TX</p>
+    <p style="color:#93c5fd;margin:4px 0 0">Premier Home Services · TX · NC · MD</p>
   </div>
   <div style="border:1px solid #e5e7eb;border-top:none;padding:24px;border-radius:0 0 8px 8px">
     <h2 style="color:#1B3FA8;margin-top:0">Invoice #${inv.estimateNumber}</h2>

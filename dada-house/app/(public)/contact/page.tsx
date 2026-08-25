@@ -104,7 +104,7 @@ export default function ContactPage() {
                   <div>
                     <p className="text-xs text-slate-500 mb-0.5">Service Area</p>
                     <span className="text-[#1B3FA8] text-sm font-medium">
-                      Houston, TX & Surrounding Areas
+                      TX, NC, MD & Surrounding Areas
                     </span>
                   </div>
                 </div>

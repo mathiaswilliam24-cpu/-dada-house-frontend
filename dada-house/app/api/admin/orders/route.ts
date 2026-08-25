@@ -128,7 +128,7 @@ export async function PATCH(req: NextRequest) {
           </div>
           <div style="padding:28px">
             ${bodyHtml}
-            <p style="margin-top:32px;font-size:12px;color:#94a3b8;text-align:center">DADA HOUSE · Houston, TX · <a href="tel:+13466499353" style="color:#F97316">+1 (346) 649-9353</a></p>
+            <p style="margin-top:32px;font-size:12px;color:#94a3b8;text-align:center">DADA HOUSE · TX · NC · MD · <a href="tel:+13466499353" style="color:#F97316">+1 (346) 649-9353</a></p>
           </div>
         </div>`,
       }).catch(e => console.error("Order status email failed:", e));

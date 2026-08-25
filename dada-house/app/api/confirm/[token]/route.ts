@@ -168,7 +168,7 @@ function notifHtml({ apptNum, name, phone, service, date, time, address, city, r
           ${changes ? `<table width="100%" style="background:#fffbeb;border:1px solid #fde68a;border-radius:12px;padding:16px;"><tr><td style="color:#92400e;font-size:13px;"><strong>Changes made:</strong><br>${changes}</td></tr></table>` : ""}
         </td></tr>
         <tr><td style="background:#f4f6fb;padding:16px 32px;text-align:center;">
-          <p style="margin:0;color:#999;font-size:12px;">DADA HOUSE LLC · Houston, TX · (346) 649-9353</p>
+          <p style="margin:0;color:#999;font-size:12px;">DADA HOUSE LLC · TX · NC · MD · (346) 649-9353</p>
         </td></tr>
       </table>
     </td></tr>

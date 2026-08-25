@@ -36,7 +36,7 @@ export function appointmentConfirmationHtml(data: AppointmentEmailData): string 
                   <div style="color:#F7921A;font-size:24px;font-weight:900;letter-spacing:-0.5px;margin-top:-4px;">HOUSE</div>
                 </div>
               </div>
-              <p style="color:#93C5FD;margin:16px 0 0;font-size:14px;">Premier Home Services — Houston, TX</p>
+              <p style="color:#93C5FD;margin:16px 0 0;font-size:14px;">Premier Home Services · TX · NC · MD</p>
             </td>
           </tr>
 
@@ -275,7 +275,7 @@ export function buildReviewRequestEmail(name: string, service: string, reviewUrl
     <div style="background:#ffffff;border-radius:8px;display:inline-block;padding:8px 20px;margin-bottom:8px">
       <img src="${LOGO_URL}" alt="DADA HOUSE" height="40" style="display:block;height:40px" />
     </div>
-    <p style="color:#93c5fd;margin:4px 0 0">Premier Home Services · Houston, TX</p>
+    <p style="color:#93c5fd;margin:4px 0 0">Premier Home Services · TX · NC · MD</p>
   </div>
   <div style="border:1px solid #e5e7eb;border-top:none;padding:24px;border-radius:0 0 8px 8px">
     <h2 style="color:#1B3FA8;margin-top:0">Thank You, ${name}!</h2>
@@ -310,7 +310,7 @@ export function buildEstimateEmail(
     <div style="background:#ffffff;border-radius:8px;display:inline-block;padding:8px 20px;margin-bottom:8px">
       <img src="${LOGO_URL}" alt="DADA HOUSE" height="40" style="display:block;height:40px" />
     </div>
-    <p style="color:#93c5fd;margin:4px 0 0">Premier Home Services · Houston, TX</p>
+    <p style="color:#93c5fd;margin:4px 0 0">Premier Home Services · TX · NC · MD</p>
   </div>
   <div style="border:1px solid #e5e7eb;border-top:none;padding:24px;border-radius:0 0 8px 8px">
     <h2 style="color:#1B3FA8;margin-top:0">Estimate #${est.estimateNumber}</h2>

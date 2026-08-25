@@ -105,7 +105,7 @@ export default function Footer() {
 
               <div className="flex items-center gap-2">
                 <MapPin size={14} className="text-[#F7921A] flex-shrink-0" />
-                <span className="text-slate-400 text-sm">Houston, TX</span>
+                <span className="text-slate-400 text-sm">TX · NC · MD</span>
               </div>
 
               <div className="flex items-center gap-2">

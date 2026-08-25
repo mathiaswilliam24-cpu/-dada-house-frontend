@@ -211,7 +211,7 @@ export default function ConfirmPage() {
         {/* Logo / header */}
         <div className="text-center mb-2">
           <p className="text-[#F7921A] font-black text-xl tracking-wide">DADA HOUSE</p>
-          <p className="text-xs text-gray-400">Home Services · Houston, TX</p>
+          <p className="text-xs text-gray-400">Home Services · TX · NC · MD</p>
         </div>
 
         {/* Appointment card */}

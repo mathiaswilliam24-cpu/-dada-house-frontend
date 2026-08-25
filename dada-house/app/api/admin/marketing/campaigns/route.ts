@@ -288,7 +288,7 @@ function buildEmailHtml(name: string, body: string, baseUrl: string, flyer?: str
         <!-- FOOTER -->
         <tr>
           <td style="background:#0F2A7A;padding:20px 36px;text-align:center">
-            <p style="margin:0 0 6px;color:rgba(255,255,255,0.9);font-size:13px;font-weight:700">DADA HOUSE · Houston, TX</p>
+            <p style="margin:0 0 6px;color:rgba(255,255,255,0.9);font-size:13px;font-weight:700">DADA HOUSE · TX · NC · MD</p>
             <p style="margin:0 0 10px;color:rgba(255,255,255,0.6);font-size:12px">
               <a href="tel:+13466499353" style="color:#F7921A;text-decoration:none">(346) 649-9353</a>
               &nbsp;·&nbsp;
