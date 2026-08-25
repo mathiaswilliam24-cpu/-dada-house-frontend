@@ -7,7 +7,7 @@ import Link from "next/link";
 import {
   Calendar, Users, HardHat, Radio, FileText, ShoppingBag, BarChart3,
   MessageCircle, Bell, Star, Images, FolderOpen, Shield, Package,
-  Map, TrendingUp, Layers, Settings, ChevronRight, AlertCircle, PhoneCall,
+  Map, TrendingUp, Layers, Settings, ChevronRight, AlertCircle, PhoneCall, Megaphone,
 } from "lucide-react";
 
 export const dynamic = "force-dynamic";
@@ -49,6 +49,14 @@ const modules = [
       { label: "Products",      href: "/admin/store",          icon: ShoppingBag, desc: "Inventory management" },
       { label: "Orders",        href: "/admin/orders",         icon: Package,     desc: "Customer purchases" },
       { label: "Service Plans", href: "/admin/service-plans",  icon: Layers,      desc: "Subscriptions" },
+    ],
+  },
+  {
+    section: "MARKETING",
+    color: "border-rose-200 bg-rose-50",
+    iconColor: "text-rose-600",
+    items: [
+      { label: "Campaigns", href: "/admin/marketing", icon: Megaphone, desc: "Email & SMS promotions" },
     ],
   },
   {
