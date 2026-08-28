@@ -35,19 +35,24 @@ export default async function PrintInvoicePage({
   params: Promise<{ id: string }>;
 }) {
   const session = await auth();
-  const user = session?.user as { role?: string } | undefined;
-  if (!user || user.role !== "ADMIN") redirect("/auth/login");
+  const user = session?.user as { id?: string; role?: string } | undefined;
+  if (!user) redirect("/auth/login");
 
   const { id } = await params;
   const invoice = await db.invoice.findUnique({
     where: { id },
     include: {
       appointment: {
-        select: { name: true, phone: true, email: true, address: true, city: true, service: true, appointmentNumber: true },
+        select: { name: true, phone: true, email: true, address: true, city: true, service: true, appointmentNumber: true, userId: true },
       },
     },
   });
   if (!invoice) notFound();
+
+  // Clients can only view their own invoices
+  if (user.role !== "ADMIN" && invoice.appointment.userId !== user.id) {
+    redirect("/dashboard");
+  }
 
   const { taxEnabled, taxRate, items } = parseMeta(invoice.lineItems, invoice.appointment.service, invoice.amount);
   const subtotal   = items.reduce((s, i) => s + i.rate * i.qty, 0);

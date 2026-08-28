@@ -29,6 +29,7 @@ const PROTECTED_PATHS = [
   "/technician",
   "/dispatcher",
   "/admin",
+  "/print",
 ];
 
 const SEMI_PROTECTED = ["/store/checkout", "/store/orders"];

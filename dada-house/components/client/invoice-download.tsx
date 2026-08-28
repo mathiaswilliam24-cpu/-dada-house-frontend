@@ -49,7 +49,7 @@ export function InvoiceDownload({ invoice }: { invoice: Invoice }) {
         <div className="flex justify-between items-center">
           <span className="text-gray-500">{isPaid ? "Amount Paid" : "Amount Due"}</span>
           <span className={`font-bold text-xl ${isPaid ? "text-green-700" : "text-gray-900"}`}>
-            {isPaid ? fmtCur(0) : fmtCur(displayTotal)}
+            {fmtCur(displayTotal)}
           </span>
         </div>
 
