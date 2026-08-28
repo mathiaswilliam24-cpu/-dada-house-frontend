@@ -120,7 +120,8 @@ export async function POST(req: NextRequest) {
   });
 
   // Send emails in background (don't await — fire and forget per recipient)
-  const baseUrl = process.env.NEXTAUTH_URL ?? "https://dada-house.com";
+  const rawUrl = process.env.NEXTAUTH_URL ?? "https://dada-house.com";
+  const baseUrl = rawUrl.includes("localhost") ? "https://dada-house.com" : rawUrl;
 
   for (const recipient of recipientRows) {
     if (subject && body && recipient.email) {
@@ -145,7 +146,7 @@ export async function POST(req: NextRequest) {
     }
 
     if (smsText && recipient.phone) {
-      const twilioBaseUrl = process.env.NEXTAUTH_URL ?? "https://dada-house.com";
+      const twilioBaseUrl = baseUrl;
       sendSMS(recipient.phone, smsText, {
         statusCallback: `${twilioBaseUrl}/api/webhooks/twilio-sms?recipientId=${recipient.id}`,
       }).then(async (msg) => {

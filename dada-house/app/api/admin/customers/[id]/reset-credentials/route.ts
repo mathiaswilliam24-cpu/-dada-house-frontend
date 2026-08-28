@@ -30,7 +30,8 @@ export async function POST(
     data: { password: hashed, mustChangePassword: true },
   });
 
-  const loginUrl = `${process.env.NEXTAUTH_URL ?? "https://dada-house.com"}/auth/login`;
+  const rawBase = process.env.NEXTAUTH_URL ?? "https://dada-house.com";
+  const loginUrl = `${rawBase.includes("localhost") ? "https://dada-house.com" : rawBase}/auth/login`;
   const firstName = (user.name || user.email).split(" ")[0];
 
   await resend.emails.send({

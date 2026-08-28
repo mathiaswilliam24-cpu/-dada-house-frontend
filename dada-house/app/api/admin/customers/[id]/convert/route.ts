@@ -86,7 +86,8 @@ export async function POST(
   });
 
   // Send welcome email with credentials
-  const loginUrl = `${process.env.NEXTAUTH_URL ?? "https://dada-house.vercel.app"}/auth/login`;
+  const rawBase = process.env.NEXTAUTH_URL ?? "https://dada-house.com";
+  const loginUrl = `${rawBase.includes("localhost") ? "https://dada-house.com" : rawBase}/auth/login`;
   const firstName = (name || email).split(" ")[0];
 
   await resend.emails.send({
