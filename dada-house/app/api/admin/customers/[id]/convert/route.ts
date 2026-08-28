@@ -162,7 +162,7 @@ export async function POST(
             </table>
 
             <p style="margin:0;color:#9ca3af;font-size:12px;text-align:center;line-height:1.6">
-              If you have any questions, call us at <strong style="color:#F7921A">(832) 669-6747</strong><br>
+              If you have any questions, call us at <strong style="color:#F7921A">(346) 649-9353</strong><br>
               or reply to this email — we're always happy to help.
             </p>
           </td>

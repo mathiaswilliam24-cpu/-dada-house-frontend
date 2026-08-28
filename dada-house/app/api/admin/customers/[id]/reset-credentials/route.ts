@@ -84,7 +84,7 @@ export async function POST(
               </td></tr>
             </table>
             <p style="margin:0;color:#9ca3af;font-size:12px;text-align:center">
-              Questions? Call us at <strong style="color:#F7921A">(832) 669-6747</strong>
+              Questions? Call us at <strong style="color:#F7921A">(346) 649-9353</strong>
             </p>
           </td>
         </tr>
