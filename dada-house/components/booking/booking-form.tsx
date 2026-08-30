@@ -276,20 +276,23 @@ function BookingFormInner() {
                 </div>
               </div>
 
-              {/* SMS opt-in — optional, unchecked by default, separate from the booking action */}
-              <label className="flex items-start gap-3 cursor-pointer bg-white/5 border border-white/10 rounded-xl p-4">
-                <input
-                  type="checkbox"
-                  checked={smsConsent}
-                  onChange={e => setSmsConsent(e.target.checked)}
-                  className="mt-0.5 w-4 h-4 accent-[#F7921A] shrink-0"
-                />
-                <span className="text-slate-300 text-[12px] leading-snug select-none">
-                  I agree to receive SMS text messages from DADA HOUSE about my appointment status, scheduling reminders, and service updates. Msg & data rates may apply. Reply <strong>STOP</strong> to opt out, <strong>HELP</strong> for help.{" "}
-                  <a href="/privacy-policy" target="_blank" rel="noopener noreferrer" className="text-[#F7921A] hover:underline">Privacy Policy</a>{" "}|{" "}
-                  <a href="/terms" target="_blank" rel="noopener noreferrer" className="text-[#F7921A] hover:underline">Terms</a>
-                </span>
-              </label>
+              {/* SMS opt-in */}
+              <div className="rounded-xl border-2 border-[#F7921A]/40 bg-[#F7921A]/5 p-4">
+                <p className="text-[#F7921A] text-xs font-bold uppercase tracking-wide mb-2">📱 SMS Updates (Optional)</p>
+                <label className="flex items-start gap-3 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={smsConsent}
+                    onChange={e => setSmsConsent(e.target.checked)}
+                    className="mt-0.5 w-5 h-5 accent-[#F7921A] shrink-0 cursor-pointer"
+                  />
+                  <span className="text-slate-200 text-[13px] leading-snug select-none">
+                    I agree to receive SMS text messages from DADA HOUSE about my appointment status, reminders, and updates. Msg & data rates may apply. Reply <strong>STOP</strong> to opt out.{" "}
+                    <a href="/privacy-policy" target="_blank" rel="noopener noreferrer" className="text-[#F7921A] hover:underline">Privacy Policy</a>{" "}|{" "}
+                    <a href="/terms" target="_blank" rel="noopener noreferrer" className="text-[#F7921A] hover:underline">Terms</a>
+                  </span>
+                </label>
+              </div>
 
               <div>
                 <label className="block text-sm font-semibold text-white mb-1.5">Service Address *</label>
