@@ -488,12 +488,27 @@ function BookingFormInner() {
           </div>
           <div>
             {step < 3 ? (
-              <Button key="continue" type="button" onClick={nextStep} size="lg" className="font-black">
+              <Button
+                key="continue"
+                type="button"
+                onTouchEnd={(e) => { e.preventDefault(); void nextStep(); }}
+                onClick={nextStep}
+                size="lg"
+                className="font-black"
+              >
                 Continue
                 <ArrowRight size={16} />
               </Button>
             ) : (
-              <Button key="submit" type="button" onClick={() => confirmReady && handleSubmit(onSubmit)()} disabled={!confirmReady || isSubmitting} size="lg" className="font-black">
+              <Button
+                key="submit"
+                type="button"
+                onTouchEnd={(e) => { if (!confirmReady || isSubmitting) { e.preventDefault(); return; } e.preventDefault(); void handleSubmit(onSubmit)(); }}
+                onClick={() => { if (confirmReady && !isSubmitting) handleSubmit(onSubmit)(); }}
+                disabled={!confirmReady || isSubmitting}
+                size="lg"
+                className="font-black"
+              >
                 <Calendar size={16} />
                 {confirmReady ? "Confirm Appointment" : "Loading…"}
               </Button>
