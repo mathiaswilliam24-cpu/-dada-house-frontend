@@ -188,7 +188,7 @@ export default async function AnnualReportPage({
                 <tbody>
                   {appointments.map((a, i) => {
                     const inv = a.invoice;
-                    const amount = inv ? (inv.total ?? inv.amount) : null;
+                    const amount = inv ? inv.amount : null;
                     const isPaid = inv?.status === "PAID";
                     const statusColors: Record<string, string> = {
                       COMPLETED: "#16a34a", CANCELLED: "#dc2626", IN_PROGRESS: "#2563eb",
