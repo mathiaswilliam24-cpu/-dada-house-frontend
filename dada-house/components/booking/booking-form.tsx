@@ -502,19 +502,22 @@ function BookingFormInner() {
                 Continue
                 <ArrowRight size={16} />
               </Button>
-            ) : (
+            ) : confirmReady ? (
               <Button
                 key="submit"
                 type="button"
-                onTouchEnd={(e) => { if (!confirmReady || isSubmitting) { e.preventDefault(); return; } e.preventDefault(); void handleSubmit(onSubmit)(); }}
-                onClick={() => { if (confirmReady && !isSubmitting) handleSubmit(onSubmit)(); }}
-                disabled={!confirmReady || isSubmitting}
+                onClick={() => { if (!isSubmitting) handleSubmit(onSubmit)(); }}
+                disabled={isSubmitting}
                 size="lg"
                 className="font-black"
               >
                 <Calendar size={16} />
-                {confirmReady ? "Confirm Appointment" : "Loading…"}
+                Confirm Appointment
               </Button>
+            ) : (
+              <span key="wait" className="text-slate-400 text-sm animate-pulse">
+                Preparing summary…
+              </span>
             )}
           </div>
         </div>
