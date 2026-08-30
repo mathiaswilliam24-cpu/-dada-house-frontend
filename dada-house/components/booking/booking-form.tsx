@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, Suspense, useEffect, useCallback } from "react";
+import { useState, useRef, Suspense, useEffect, useCallback } from "react";
 import { useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -63,6 +63,8 @@ function BookingFormInner() {
   const [submitError, setSubmitError] = useState("");
   const [smsConsent, setSmsConsent] = useState(false);
   const [confirmReady, setConfirmReady] = useState(false);
+  // Timestamp-based submit lock — immune to closure stale-capture issues
+  const submitLockedUntil = useRef(0);
 
   // Availability state
   const [checkingAvailability, setCheckingAvailability] = useState(false);
@@ -158,12 +160,14 @@ function BookingFormInner() {
       setConfirmReady(false);
       window.scrollTo({ top: 0, behavior: "smooth" });
       if (next === 3) {
-        setTimeout(() => setConfirmReady(true), 800);
+        submitLockedUntil.current = Date.now() + 1500;
+        setTimeout(() => setConfirmReady(true), 1500);
       }
     }
   };
 
   const onSubmit = async (data: AppointmentInput) => {
+    if (Date.now() < submitLockedUntil.current) return;
     setSubmitError("");
     try {
       const res = await fetch("/api/appointments", {
