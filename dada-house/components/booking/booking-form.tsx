@@ -487,7 +487,7 @@ function BookingFormInner() {
                 <ArrowRight size={16} />
               </Button>
             ) : (
-              <Button key="submit" type="button" onClick={handleSubmit(onSubmit)} size="lg" loading={isSubmitting} className="font-black">
+              <Button key="submit" type="button" onClick={() => handleSubmit(onSubmit)()} size="lg" loading={isSubmitting} className="font-black">
                 <Calendar size={16} />
                 Confirm Appointment
               </Button>
