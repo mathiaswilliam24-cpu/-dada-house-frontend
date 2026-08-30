@@ -64,6 +64,7 @@ function BookingFormInner() {
   const [smsConsent, setSmsConsent] = useState(false);
   const [confirmReady, setConfirmReady] = useState(false);
   const [isConfirming, setIsConfirming] = useState(false);
+  const [countdown, setCountdown] = useState(0);
   const submitLockedUntil = useRef(0);
 
   // Availability state
@@ -158,10 +159,23 @@ function BookingFormInner() {
       const next = step + 1;
       setStep(next);
       setConfirmReady(false);
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      setCountdown(0);
+      window.scrollTo(0, 0); // instant — no scroll animation to delay ghost clicks
       if (next === 3) {
-        submitLockedUntil.current = Date.now() + 1500;
-        setTimeout(() => setConfirmReady(true), 1500);
+        const DELAY = 4000;
+        submitLockedUntil.current = Date.now() + DELAY;
+        let remaining = 4;
+        setCountdown(remaining);
+        const iv = setInterval(() => {
+          remaining -= 1;
+          if (remaining <= 0) {
+            clearInterval(iv);
+            setCountdown(0);
+            setConfirmReady(true);
+          } else {
+            setCountdown(remaining);
+          }
+        }, 1000);
       }
     }
   };
@@ -470,7 +484,9 @@ function BookingFormInner() {
                   {isConfirming ? "Submitting…" : "Confirm Appointment"}
                 </Button>
               ) : (
-                <span className="text-slate-400 text-sm animate-pulse px-4">Preparing…</span>
+                <span className="text-slate-400 text-sm px-4">
+                  {countdown > 0 ? `Reviewing… (${countdown}s)` : "Preparing…"}
+                </span>
               )}
             </div>
 
