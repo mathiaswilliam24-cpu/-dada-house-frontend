@@ -63,7 +63,7 @@ function BookingFormInner() {
   const [submitError, setSubmitError] = useState("");
   const [smsConsent, setSmsConsent] = useState(false);
   const [confirmReady, setConfirmReady] = useState(false);
-  // Timestamp-based submit lock — immune to closure stale-capture issues
+  const [isConfirming, setIsConfirming] = useState(false);
   const submitLockedUntil = useRef(0);
 
   // Availability state
@@ -183,6 +183,15 @@ function BookingFormInner() {
         err instanceof Error ? err.message : "Submission failed. Please try again."
       );
     }
+  };
+
+  // Direct submit — bypasses handleSubmit entirely
+  const directSubmit = async () => {
+    if (Date.now() < submitLockedUntil.current) return;
+    if (isConfirming) return;
+    setIsConfirming(true);
+    await onSubmit(getValues() as AppointmentInput);
+    setIsConfirming(false);
   };
 
   if (success) {
@@ -441,7 +450,29 @@ function BookingFormInner() {
         {step === 3 && (
           <div>
             <h2 className="text-2xl font-black text-white mb-2">Review & Submit</h2>
-            <p className="text-slate-400 text-sm mb-6">Please review your details before submitting.</p>
+            <p className="text-slate-400 text-sm mb-4">Please review your details before submitting.</p>
+
+            {/* Confirm button lives HERE — far from where Continue was (bottom-right) */}
+            <div className="flex items-center justify-between mb-6 p-4 bg-white/5 border border-white/10 rounded-xl">
+              <Button type="button" variant="ghost" size="sm" onClick={() => { setStep(2); setConfirmReady(false); }}>
+                <ArrowLeft size={14} />
+                Edit
+              </Button>
+              {confirmReady ? (
+                <Button
+                  type="button"
+                  onClick={directSubmit}
+                  disabled={isConfirming}
+                  size="lg"
+                  className="font-black"
+                >
+                  <Calendar size={16} />
+                  {isConfirming ? "Submitting…" : "Confirm Appointment"}
+                </Button>
+              ) : (
+                <span className="text-slate-400 text-sm animate-pulse px-4">Preparing…</span>
+              )}
+            </div>
 
             <div className="bg-[#1B3FA8] border border-[#1A3490] rounded-xl overflow-hidden mb-6">
               {[
@@ -483,18 +514,18 @@ function BookingFormInner() {
           </div>
         )}
 
-        {/* Navigation */}
-        <div className="flex items-center justify-between mt-8 pt-6 border-t border-[#1A3490]">
-          <div>
-            {step > 0 && (
-              <Button type="button" variant="ghost" onClick={() => setStep((s) => s - 1)}>
-                <ArrowLeft size={16} />
-                Back
-              </Button>
-            )}
-          </div>
-          <div>
-            {step < 3 ? (
+        {/* Navigation — hidden on step 3 (Confirm is at top of that step) */}
+        {step < 3 && (
+          <div className="flex items-center justify-between mt-8 pt-6 border-t border-[#1A3490]">
+            <div>
+              {step > 0 && (
+                <Button type="button" variant="ghost" onClick={() => setStep((s) => s - 1)}>
+                  <ArrowLeft size={16} />
+                  Back
+                </Button>
+              )}
+            </div>
+            <div>
               <Button
                 key="continue"
                 type="button"
@@ -506,25 +537,9 @@ function BookingFormInner() {
                 Continue
                 <ArrowRight size={16} />
               </Button>
-            ) : confirmReady ? (
-              <Button
-                key="submit"
-                type="button"
-                onClick={() => { if (!isSubmitting) handleSubmit(onSubmit)(); }}
-                disabled={isSubmitting}
-                size="lg"
-                className="font-black"
-              >
-                <Calendar size={16} />
-                Confirm Appointment
-              </Button>
-            ) : (
-              <span key="wait" className="text-slate-400 text-sm animate-pulse">
-                Preparing summary…
-              </span>
-            )}
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
