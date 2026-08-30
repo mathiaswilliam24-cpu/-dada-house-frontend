@@ -207,7 +207,7 @@ function BookingFormInner() {
   }
 
   return (
-    <form onSubmit={(e) => { e.preventDefault(); if (step === 3) handleSubmit(onSubmit)(e); }}>
+    <div>
       <div className="bg-[#0D1D5E] border border-[#1A3490] rounded-2xl p-6 sm:p-8">
         <StepIndicator current={step} total={4} />
 
@@ -495,7 +495,7 @@ function BookingFormInner() {
           </div>
         </div>
       </div>
-    </form>
+    </div>
   );
 }
 
