@@ -151,7 +151,10 @@ function BookingFormInner() {
     } else if (step === 2) {
       valid = true;
     }
-    if (valid) setStep((s) => s + 1);
+    if (valid) {
+      setStep((s) => s + 1);
+      setTimeout(() => window.scrollTo({ top: 0, behavior: "smooth" }), 50);
+    }
   };
 
   const onSubmit = async (data: AppointmentInput) => {
@@ -479,14 +482,14 @@ function BookingFormInner() {
           </div>
           <div>
             {step < 3 ? (
-              <Button type="button" onClick={nextStep} size="lg" className="font-black">
+              <Button key="continue" type="button" onClick={nextStep} size="lg" className="font-black">
                 Continue
                 <ArrowRight size={16} />
               </Button>
             ) : (
-              <Button type="submit" size="lg" loading={isSubmitting} className="font-black">
+              <Button key="submit" type="submit" size="lg" loading={isSubmitting} className="font-black">
                 <Calendar size={16} />
-                Submit Appointment
+                Confirm Appointment
               </Button>
             )}
           </div>
