@@ -62,6 +62,7 @@ function BookingFormInner() {
   const [success, setSuccess] = useState<{ number: string } | null>(null);
   const [submitError, setSubmitError] = useState("");
   const [smsConsent, setSmsConsent] = useState(false);
+  const [confirmReady, setConfirmReady] = useState(false);
 
   // Availability state
   const [checkingAvailability, setCheckingAvailability] = useState(false);
@@ -152,8 +153,13 @@ function BookingFormInner() {
       valid = true;
     }
     if (valid) {
-      setStep((s) => s + 1);
-      setTimeout(() => window.scrollTo({ top: 0, behavior: "smooth" }), 50);
+      const next = step + 1;
+      setStep(next);
+      setConfirmReady(false);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      if (next === 3) {
+        setTimeout(() => setConfirmReady(true), 800);
+      }
     }
   };
 
@@ -487,9 +493,9 @@ function BookingFormInner() {
                 <ArrowRight size={16} />
               </Button>
             ) : (
-              <Button key="submit" type="button" onClick={() => handleSubmit(onSubmit)()} size="lg" loading={isSubmitting} className="font-black">
+              <Button key="submit" type="button" onClick={() => confirmReady && handleSubmit(onSubmit)()} disabled={!confirmReady || isSubmitting} size="lg" className="font-black">
                 <Calendar size={16} />
-                Confirm Appointment
+                {confirmReady ? "Confirm Appointment" : "Loading…"}
               </Button>
             )}
           </div>
