@@ -207,7 +207,7 @@ function BookingFormInner() {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={(e) => { e.preventDefault(); if (step === 3) handleSubmit(onSubmit)(e); }}>
       <div className="bg-[#0D1D5E] border border-[#1A3490] rounded-2xl p-6 sm:p-8">
         <StepIndicator current={step} total={4} />
 
@@ -487,7 +487,7 @@ function BookingFormInner() {
                 <ArrowRight size={16} />
               </Button>
             ) : (
-              <Button key="submit" type="submit" size="lg" loading={isSubmitting} className="font-black">
+              <Button key="submit" type="button" onClick={handleSubmit(onSubmit)} size="lg" loading={isSubmitting} className="font-black">
                 <Calendar size={16} />
                 Confirm Appointment
               </Button>
