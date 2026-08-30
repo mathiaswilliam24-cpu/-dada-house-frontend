@@ -31,7 +31,7 @@ export default async function AnnualReportPage({
       createdAt: { gte: start, lt: end },
     },
     include: {
-      invoice: { select: { id: true, amount: true, total: true, status: true, paidAt: true } },
+      invoice: { select: { id: true, amount: true, status: true, paidAt: true } },
     },
     orderBy: { createdAt: "asc" },
   });
@@ -39,10 +39,10 @@ export default async function AnnualReportPage({
   // Stats
   const completed  = appointments.filter(a => a.status === "COMPLETED");
   const paid       = appointments.filter(a => a.invoice?.status === "PAID");
-  const totalPaid  = paid.reduce((s, a) => s + (a.invoice?.total ?? a.invoice?.amount ?? 0), 0);
+  const totalPaid  = paid.reduce((s, a) => s + (a.invoice?.amount ?? 0), 0);
   const totalBilled = appointments
     .filter(a => a.invoice)
-    .reduce((s, a) => s + (a.invoice?.total ?? a.invoice?.amount ?? 0), 0);
+    .reduce((s, a) => s + (a.invoice?.amount ?? 0), 0);
 
   // Service breakdown
   const breakdown: Record<string, { count: number; amount: number }> = {};
@@ -51,7 +51,7 @@ export default async function AnnualReportPage({
     if (!breakdown[key]) breakdown[key] = { count: 0, amount: 0 };
     breakdown[key].count++;
     if (a.invoice?.status === "PAID") {
-      breakdown[key].amount += a.invoice?.total ?? a.invoice?.amount ?? 0;
+      breakdown[key].amount += a.invoice?.amount ?? 0;
     }
   }
 
