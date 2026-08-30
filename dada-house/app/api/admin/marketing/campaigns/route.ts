@@ -203,7 +203,7 @@ function buildEmailHtml(name: string, body: string, baseUrl: string, flyer?: str
         <!-- HEADER -->
         <tr>
           <td style="background:linear-gradient(135deg,#0F2A7A 0%,#1B3FA8 60%,#F7921A 100%);padding:32px 36px;text-align:center">
-            <p style="margin:0 0 4px;font-size:11px;font-weight:700;letter-spacing:3px;color:rgba(255,255,255,0.6);text-transform:uppercase">Houston Home Services</p>
+            <p style="margin:0 0 4px;font-size:11px;font-weight:700;letter-spacing:3px;color:rgba(255,255,255,0.6);text-transform:uppercase">Home Services · TX · NC · MD</p>
             <h1 style="margin:0;color:#ffffff;font-size:32px;font-weight:900;letter-spacing:-1px">DADA HOUSE</h1>
             <p style="margin:8px 0 0;color:rgba(255,255,255,0.75);font-size:13px">Plumbing · AC · Heating · Remodeling</p>
           </td>

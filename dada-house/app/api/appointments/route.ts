@@ -32,6 +32,8 @@ export async function POST(req: NextRequest) {
     const token = await getAuthToken(req);
     const body = await req.json();
 
+    const smsConsent = body.smsConsent === true;
+
     const parsed = appointmentSchema.safeParse(body);
     if (!parsed.success) {
       return NextResponse.json(
@@ -75,10 +77,12 @@ export async function POST(req: NextRequest) {
           })
           .catch(console.error),
 
-        sendSMS(
-          parsed.data.phone,
-          `DADA HOUSE: Hi ${parsed.data.name}, your appointment #${appointmentNumber} for ${parsed.data.service} has been received!${parsed.data.preferredDate ? ` Requested: ${parsed.data.preferredDate}${parsed.data.preferredTime ? ` at ${parsed.data.preferredTime}` : ""}` : ""} Our team will contact you shortly to confirm. Questions? Call (346) 649-9353.`
-        ).catch(console.error),
+        smsConsent && parsed.data.phone
+          ? sendSMS(
+              parsed.data.phone,
+              `DADA HOUSE: Hi ${parsed.data.name}, your appointment #${appointmentNumber} for ${parsed.data.service} has been received!${parsed.data.preferredDate ? ` Requested: ${parsed.data.preferredDate}${parsed.data.preferredTime ? ` at ${parsed.data.preferredTime}` : ""}` : ""} Our team will contact you shortly to confirm. Questions? Call (346) 649-9353.`
+            ).catch(console.error)
+          : Promise.resolve(),
 
         process.env.ADMIN_PHONE
           ? sendSMS(

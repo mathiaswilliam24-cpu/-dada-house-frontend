@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import Link from "next/link";
 import Image from "next/image";
-import { Calendar, User, LogOut, ChevronRight, Receipt } from "lucide-react";
+import { Calendar, User, LogOut, ChevronRight, Receipt, Home } from "lucide-react";
 import { signOut } from "@/auth";
 
 export default async function ClientLayout({
@@ -53,6 +53,13 @@ export default async function ClientLayout({
               >
                 <Receipt className="w-4 h-4" />
                 <span className="hidden sm:inline">Invoices</span>
+              </Link>
+              <Link
+                href="/dashboard/properties"
+                className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm text-gray-300 hover:text-white hover:bg-white/10 transition-colors"
+              >
+                <Home className="w-4 h-4" />
+                <span className="hidden sm:inline">Properties</span>
               </Link>
               <Link
                 href="/dashboard/profile"

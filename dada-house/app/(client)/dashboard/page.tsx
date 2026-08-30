@@ -4,7 +4,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import {
   Calendar, Plus, Clock, CheckCircle, AlertCircle, Receipt,
-  ExternalLink, Image as ImageIcon, FileText, Wrench,
+  ExternalLink, Image as ImageIcon, FileText, Wrench, Download,
 } from "lucide-react";
 import { getStatusColor, formatDate, formatCurrency } from "@/lib/utils";
 
@@ -37,6 +37,7 @@ export default async function DashboardPage() {
   const active    = appointments.filter(a => a.status !== "COMPLETED" && a.status !== "CANCELLED");
   const history   = appointments.filter(a => a.status === "COMPLETED");
   const cancelled = appointments.filter(a => a.status === "CANCELLED");
+  const currentYear = new Date().getFullYear();
 
   const pending   = active.filter(a => a.status === "PENDING").length;
   const inFlight  = active.filter(a => a.status === "CONFIRMED" || a.status === "IN_PROGRESS").length;
@@ -49,13 +50,24 @@ export default async function DashboardPage() {
           <h1 className="text-2xl font-bold text-gray-900">My Services</h1>
           <p className="text-gray-500 text-sm mt-0.5">Track your appointments and service history</p>
         </div>
-        <Link
-          href="/booking"
-          className="inline-flex items-center gap-2 px-4 py-2 bg-[#F7921A] text-white rounded-lg text-sm font-semibold hover:bg-[#F7921A]/90 transition-colors"
-        >
-          <Plus className="w-4 h-4" />
-          <span className="hidden sm:inline">Book Service</span>
-        </Link>
+        <div className="flex items-center gap-2">
+          <Link
+            href={`/print/annual-report/${currentYear}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 text-gray-700 rounded-lg text-sm font-semibold hover:bg-gray-50 transition-colors"
+          >
+            <Download className="w-4 h-4" />
+            <span className="hidden sm:inline">Annual Report</span>
+          </Link>
+          <Link
+            href="/booking"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-[#F7921A] text-white rounded-lg text-sm font-semibold hover:bg-[#F7921A]/90 transition-colors"
+          >
+            <Plus className="w-4 h-4" />
+            <span className="hidden sm:inline">Book Service</span>
+          </Link>
+        </div>
       </div>
 
       {/* Unpaid invoices banner */}

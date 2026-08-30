@@ -61,6 +61,7 @@ function BookingFormInner() {
   const [step, setStep] = useState(preService ? 1 : 0);
   const [success, setSuccess] = useState<{ number: string } | null>(null);
   const [submitError, setSubmitError] = useState("");
+  const [smsConsent, setSmsConsent] = useState(false);
 
   // Availability state
   const [checkingAvailability, setCheckingAvailability] = useState(false);
@@ -159,7 +160,7 @@ function BookingFormInner() {
       const res = await fetch("/api/appointments", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        body: JSON.stringify({ ...data, smsConsent }),
       });
       const body = await res.json();
       if (!res.ok) throw new Error(body.error || "Failed to submit");
@@ -255,22 +256,9 @@ function BookingFormInner() {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-semibold text-white mb-1.5">Phone *</label>
+                  <label className="block text-sm font-semibold text-white mb-1.5">Phone</label>
                   <input {...register("phone")} type="tel" placeholder="+1 (555) 000-0000" className="form-input" />
                   {errors.phone && <p className="text-red-400 text-xs mt-1">{errors.phone.message}</p>}
-                  <p className="text-slate-400 text-[11px] leading-snug mt-1.5">
-                    By providing your phone number, you agree to receive SMS appointment updates
-                    from DADA HOUSE. Msg & data rates may apply. Msg frequency varies. Reply STOP
-                    to opt out, HELP for help. See{" "}
-                    <a href="/privacy-policy" target="_blank" rel="noopener noreferrer" className="text-[#F7921A] hover:underline">
-                      Privacy Policy
-                    </a>{" "}
-                    &{" "}
-                    <a href="/terms" target="_blank" rel="noopener noreferrer" className="text-[#F7921A] hover:underline">
-                      Terms
-                    </a>
-                    .
-                  </p>
                 </div>
                 <div>
                   <label className="block text-sm font-semibold text-white mb-1.5">Email *</label>
@@ -278,6 +266,21 @@ function BookingFormInner() {
                   {errors.email && <p className="text-red-400 text-xs mt-1">{errors.email.message}</p>}
                 </div>
               </div>
+
+              {/* SMS opt-in — optional, unchecked by default, separate from the booking action */}
+              <label className="flex items-start gap-3 cursor-pointer bg-white/5 border border-white/10 rounded-xl p-4">
+                <input
+                  type="checkbox"
+                  checked={smsConsent}
+                  onChange={e => setSmsConsent(e.target.checked)}
+                  className="mt-0.5 w-4 h-4 accent-[#F7921A] shrink-0"
+                />
+                <span className="text-slate-300 text-[12px] leading-snug select-none">
+                  I agree to receive SMS text messages from DADA HOUSE about my appointment status, scheduling reminders, and service updates. Msg & data rates may apply. Reply <strong>STOP</strong> to opt out, <strong>HELP</strong> for help.{" "}
+                  <a href="/privacy-policy" target="_blank" rel="noopener noreferrer" className="text-[#F7921A] hover:underline">Privacy Policy</a>{" "}|{" "}
+                  <a href="/terms" target="_blank" rel="noopener noreferrer" className="text-[#F7921A] hover:underline">Terms</a>
+                </span>
+              </label>
 
               <div>
                 <label className="block text-sm font-semibold text-white mb-1.5">Service Address *</label>
@@ -458,17 +461,8 @@ function BookingFormInner() {
               </div>
             )}
 
-            <p className="text-slate-400 text-[11px] leading-snug">
-              By submitting this form, you consent to receive SMS text messages from DADA HOUSE
-              regarding your appointment status, scheduling, and service updates. Msg & data
-              rates may apply. Msg frequency varies. Reply STOP to opt out, HELP for help.{" "}
-              <a href="/privacy-policy" target="_blank" rel="noopener noreferrer" className="text-[#F7921A] hover:underline">
-                Privacy Policy
-              </a>{" "}
-              |{" "}
-              <a href="/terms" target="_blank" rel="noopener noreferrer" className="text-[#F7921A] hover:underline">
-                Terms
-              </a>
+            <p className="text-slate-500 text-[11px] leading-snug mt-2">
+              SMS updates: {smsConsent ? <span className="text-green-400 font-semibold">Opted in ✓</span> : <span className="text-slate-400">Not opted in (you can enable this on the first step)</span>}
             </p>
           </div>
         )}

@@ -48,7 +48,7 @@ export async function POST(
         <tr>
           <td style="background:linear-gradient(135deg,#1B3FA8 0%,#F7921A 100%);padding:40px 32px;text-align:center">
             <h1 style="margin:0;color:#ffffff;font-size:26px;font-weight:700">DADA HOUSE</h1>
-            <p style="margin:6px 0 0;color:rgba(255,255,255,0.85);font-size:13px">Houston Home Services</p>
+            <p style="margin:6px 0 0;color:rgba(255,255,255,0.85);font-size:13px">Home Services · TX · NC · MD</p>
           </td>
         </tr>
         <tr>
@@ -90,7 +90,7 @@ export async function POST(
         </tr>
         <tr>
           <td style="background:#f9fafb;border-top:1px solid #f3f4f6;padding:20px 32px;text-align:center">
-            <p style="margin:0;color:#9ca3af;font-size:12px">DADA HOUSE · Houston Home Services</p>
+            <p style="margin:0;color:#9ca3af;font-size:12px">DADA HOUSE · Home Services · TX · NC · MD</p>
           </td>
         </tr>
       </table>
