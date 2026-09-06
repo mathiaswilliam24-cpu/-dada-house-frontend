@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/api-auth";
 import { db } from "@/lib/db";
+import { notifyClientsNewProject } from "@/lib/gallery-notifications";
 
 export const dynamic = "force-dynamic";
 
@@ -37,5 +38,13 @@ export async function POST(req: NextRequest) {
       sortOrder: sortOrder ?? 0,
     },
   });
+
+  // Notify all clients when a project is published
+  if (project.published) {
+    notifyClientsNewProject(project).catch((err) =>
+      console.error("Gallery notification error:", err)
+    );
+  }
+
   return NextResponse.json(project, { status: 201 });
 }

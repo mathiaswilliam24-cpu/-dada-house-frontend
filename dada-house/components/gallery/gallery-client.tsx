@@ -16,6 +16,7 @@ interface Project {
   tags: string[];
   images: string[];
   published: boolean;
+  views: number;
 }
 
 const CATEGORIES: { key: Category; label: string; icon: React.ElementType; color: string; activeBg: string }[] = [
@@ -68,17 +69,23 @@ function Lightbox({ images, startIndex, onClose }: { images: string[]; startInde
 }
 
 /* ── Card photo strip ── */
-function CardPhoto({ project, style }: { project: Project; style: typeof CARD_STYLES[string] }) {
+function CardPhoto({ project, style, onView }: { project: Project; style: typeof CARD_STYLES[string]; onView: () => void }) {
   const [photoIdx, setPhotoIdx] = useState(0);
   const [lightbox, setLightbox] = useState<number | null>(null);
   const Icon = style.icon;
 
   const hasPhotos = project.images.length > 0;
 
+  function openLightbox(idx: number) {
+    if (!hasPhotos) return;
+    setLightbox(idx);
+    onView();
+  }
+
   return (
     <>
       <div className={cn("relative h-48 bg-gradient-to-br flex items-center justify-center overflow-hidden cursor-pointer", style.gradient)}
-        onClick={() => hasPhotos && setLightbox(photoIdx)}
+        onClick={() => openLightbox(photoIdx)}
       >
         {hasPhotos ? (
           <img src={project.images[photoIdx]} alt={project.title} className="w-full h-full object-cover" />
@@ -107,7 +114,7 @@ function CardPhoto({ project, style }: { project: Project; style: typeof CARD_ST
             {project.images.slice(0, 5).map((img, i) => (
               <button
                 key={i}
-                onClick={(e) => { e.stopPropagation(); setPhotoIdx(i); }}
+                onClick={(e) => { e.stopPropagation(); openLightbox(i); }}
                 className={cn("w-8 h-8 rounded overflow-hidden border-2 transition-all flex-shrink-0", i === photoIdx ? "border-white" : "border-transparent opacity-70 hover:opacity-100")}
               >
                 <img src={img} alt="" className="w-full h-full object-cover" />
@@ -176,8 +183,12 @@ export default function GalleryClient({ projects }: Props) {
           {filtered.map((project) => {
             const style = CARD_STYLES[project.category] ?? CARD_STYLES.PLUMBING;
             return (
-              <div key={project.id} className="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl border border-slate-100 hover:border-[#1B3FA8]/20 transition-all duration-300 hover:-translate-y-1">
-                <CardPhoto project={project} style={style} />
+              <div key={project.id} id={`project-${project.id}`} className="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl border border-slate-100 hover:border-[#1B3FA8]/20 transition-all duration-300 hover:-translate-y-1">
+                <CardPhoto
+                  project={project}
+                  style={style}
+                  onView={() => { fetch(`/api/gallery/${project.id}/view`, { method: "POST" }); }}
+                />
                 <div className="p-5">
                   <h3 className="font-bold text-[#1B3FA8] text-base leading-snug mb-2 group-hover:text-[#F7921A] transition-colors">
                     {project.title}

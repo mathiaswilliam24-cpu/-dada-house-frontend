@@ -12,6 +12,18 @@ enum Role {
   ADMIN
   TECHNICIAN
   DISPATCHER
+  SUPER_ADMIN
+  MANAGER
+  CUSTOMER_SERVICE_REP
+}
+
+enum AgentStatus {
+  AVAILABLE
+  BUSY
+  ON_CALL
+  AWAY
+  BREAK
+  OFFLINE
 }
 
 enum AppointmentStatus {
@@ -86,6 +98,10 @@ model User {
   createdAt          DateTime  @default(now())
   updatedAt          DateTime  @updatedAt
 
+  // Call center
+  agentStatus          AgentStatus? @default(OFFLINE)
+  agentStatusUpdatedAt DateTime?
+
   accounts     Account[]
   sessions     Session[]
   appointments Appointment[]
@@ -110,6 +126,13 @@ model User {
   technicianClients      TechnicianClient[]   @relation("technicianClients")
   expenses               Expense[]
   expenseSubscription    ExpenseSubscription?
+
+  // Call center
+  calls           Call[]      @relation("agentCalls")
+  sentMessages    Message[]
+  sentEmails      EmailMessage[]
+  readVoicemails  Voicemail[]
+  customerRecord  Customer?
 }
 
 model TechnicianClient {
@@ -209,12 +232,17 @@ model Appointment {
   confirmationToken   String?     @unique
   confirmedAt         DateTime?
 
+  // Call center — set going forward only, no backfill of historical rows
+  customerId String?
+
   user          User?             @relation(fields: [userId], references: [id], onDelete: SetNull)
   technician    User?             @relation("technician", fields: [technicianId], references: [id], onDelete: SetNull)
   dispatcher    User?             @relation("dispatcher", fields: [dispatcherId], references: [id], onDelete: SetNull)
+  customer      Customer?         @relation(fields: [customerId], references: [id], onDelete: SetNull)
   invoice       Invoice?
   notifications NotificationLog[]
   maintenanceLogs MaintenanceLog[]
+  calls           Call[]
 
   // New relations
   diagnosisForm DiagnosisForm?
@@ -295,6 +323,7 @@ model GalleryProject {
   images      String[] @default([])
   published   Boolean  @default(true)
   sortOrder   Int      @default(0)
+  views       Int      @default(0)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
@@ -829,5 +858,323 @@ model CampaignRecipient {
   @@index([campaignId])
   @@index([resendEmailId])
   @@index([twilioSid])
+}
+
+// ─── Call Center Models (Phase 1) ──────────────────────────────────────────
+// Phase 3, not modeled yet: CallParticipant (warm transfer/conference),
+// CallQueue, IvrMenu, BusinessHours, Holiday — see docs/call-center.md.
+
+enum CustomerType {
+  RESIDENTIAL
+  COMMERCIAL
+  ASSISTED_LIVING
+  PROPERTY_MANAGER
+}
+
+model Customer {
+  id                String       @id @default(cuid())
+  firstName         String
+  lastName          String?
+  phone             String       @unique // E.164, primary identity key
+  secondaryPhone    String?
+  email             String?
+  address           String?
+  city              String?      @default("Houston")
+  state             String?      @default("TX")
+  zipCode           String?
+  customerType      CustomerType @default(RESIDENTIAL)
+  preferredLanguage String?      @default("en")
+  tags              String[]     @default([])
+  notes             String?
+  userId            String?      @unique
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime     @updatedAt
+
+  user           User?           @relation(fields: [userId], references: [id], onDelete: SetNull)
+  appointments   Appointment[]
+  calls          Call[]
+  voicemails     Voicemail[]
+  messageThreads MessageThread[]
+  emailThreads   EmailThread[]
+  doNotContact   DoNotContact?
+  maintenanceContracts MaintenanceContract[]
+
+  @@index([phone])
+  @@index([email])
+}
+
+enum CallDirection {
+  INBOUND
+  OUTBOUND
+}
+
+enum CallStatus {
+  RINGING
+  IN_PROGRESS
+  COMPLETED
+  NO_ANSWER
+  BUSY
+  FAILED
+  CANCELED
+  VOICEMAIL
+}
+
+enum CallDisposition {
+  BOOKED_JOB
+  EXISTING_JOB_UPDATE
+  BILLING_QUESTION
+  GENERAL_INQUIRY
+  COMPLAINT
+  WRONG_NUMBER
+  SPAM
+  VOICEMAIL_LEFT
+  NO_ANSWER
+  TRANSFERRED_TO_VAPI
+  OTHER
+}
+
+model Call {
+  id               String           @id @default(cuid())
+  twilioCallSid    String           @unique
+  direction        CallDirection
+  fromNumber       String
+  toNumber         String
+  status           CallStatus       @default(RINGING)
+  disposition      CallDisposition?
+  dispositionNotes String?
+  customerId       String?
+  agentId          String?
+  appointmentId    String?
+  startedAt        DateTime         @default(now())
+  answeredAt       DateTime?
+  endedAt          DateTime?
+  durationSeconds  Int?
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+
+  // AI voice agent (Vapi/"Emma") — populated when a call is handled or overflowed to the AI
+  vapiCallId    String? @unique
+  aiSummary     String? @db.Text
+  aiTranscript  String? @db.Text
+  aiRecordingUrl String?
+  aiEndedReason String?
+
+  customer    Customer?      @relation(fields: [customerId], references: [id], onDelete: SetNull)
+  agent       User?          @relation("agentCalls", fields: [agentId], references: [id], onDelete: SetNull)
+  appointment Appointment?   @relation(fields: [appointmentId], references: [id], onDelete: SetNull)
+  recording   CallRecording?
+  voicemail   Voicemail?
+
+  @@index([customerId])
+  @@index([agentId])
+  @@index([status])
+  @@index([startedAt])
+}
+
+model CallRecording {
+  id                 String   @id @default(cuid())
+  callId             String   @unique
+  twilioRecordingSid String   @unique
+  url                String
+  durationSeconds    Int?
+  createdAt          DateTime @default(now())
+
+  call Call @relation(fields: [callId], references: [id], onDelete: Cascade)
+}
+
+model Voicemail {
+  id                 String    @id @default(cuid())
+  callId             String?   @unique
+  twilioRecordingSid String    @unique
+  fromNumber         String
+  toNumber           String
+  url                String
+  durationSeconds    Int?
+  customerId         String?
+  isRead             Boolean   @default(false)
+  readAt             DateTime?
+  readById           String?
+  createdAt          DateTime  @default(now())
+
+  call     Call?     @relation(fields: [callId], references: [id], onDelete: SetNull)
+  customer Customer? @relation(fields: [customerId], references: [id], onDelete: SetNull)
+  readBy   User?     @relation(fields: [readById], references: [id], onDelete: SetNull)
+}
+
+enum MessageDirection {
+  INBOUND
+  OUTBOUND
+}
+
+enum MessageStatus {
+  QUEUED
+  SENT
+  DELIVERED
+  FAILED
+  UNDELIVERED
+  RECEIVED
+}
+
+model MessageThread {
+  id            String   @id @default(cuid())
+  customerId    String?
+  phoneNumber   String
+  lastMessageAt DateTime @default(now())
+  unreadCount   Int      @default(0)
+  createdAt     DateTime @default(now())
+
+  customer Customer? @relation(fields: [customerId], references: [id], onDelete: SetNull)
+  messages Message[]
+
+  @@index([phoneNumber])
+  @@index([lastMessageAt])
+}
+
+model Message {
+  id         String           @id @default(cuid())
+  threadId   String
+  direction  MessageDirection
+  body       String
+  status     MessageStatus    @default(QUEUED)
+  twilioSid  String?          @unique
+  fromNumber String
+  toNumber   String
+  sentById   String?
+  templateId String?
+  mediaUrls  String[]         @default([])
+  createdAt  DateTime         @default(now())
+
+  thread   MessageThread    @relation(fields: [threadId], references: [id], onDelete: Cascade)
+  sentBy   User?            @relation(fields: [sentById], references: [id], onDelete: SetNull)
+  template MessageTemplate? @relation(fields: [templateId], references: [id], onDelete: SetNull)
+
+  @@index([threadId])
+  @@index([twilioSid])
+}
+
+model MessageTemplate {
+  id        String   @id @default(cuid())
+  name      String
+  body      String
+  category  String?
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  messages Message[]
+}
+
+model DoNotContact {
+  id          String   @id @default(cuid())
+  phoneNumber String   @unique
+  customerId  String?  @unique
+  reason      String   @default("STOP_KEYWORD")
+  optedOutAt  DateTime @default(now())
+
+  customer Customer? @relation(fields: [customerId], references: [id], onDelete: SetNull)
+}
+
+enum EmailDirection {
+  INBOUND
+  OUTBOUND
+}
+
+model EmailThread {
+  id            String   @id @default(cuid())
+  customerId    String?
+  emailAddress  String
+  subject       String?
+  lastMessageAt DateTime @default(now())
+  unreadCount   Int      @default(0)
+  createdAt     DateTime @default(now())
+
+  customer Customer?      @relation(fields: [customerId], references: [id], onDelete: SetNull)
+  messages EmailMessage[]
+
+  @@index([emailAddress])
+  @@index([lastMessageAt])
+}
+
+model EmailMessage {
+  id              String         @id @default(cuid())
+  threadId        String
+  direction       EmailDirection
+  subject         String?
+  body            String
+  bodyHtml        String?
+  fromAddress     String
+  toAddress       String
+  resendId        String?        @unique
+  messageIdHeader String?
+  sentById        String?
+  attachmentUrls  String[]       @default([])
+  createdAt       DateTime       @default(now())
+
+  thread EmailThread @relation(fields: [threadId], references: [id], onDelete: Cascade)
+  sentBy User?       @relation(fields: [sentById], references: [id], onDelete: SetNull)
+
+  @@index([threadId])
+}
+
+/** Short redirect links for SMS — keeps texted invoice/estimate links from
+ *  looking like a wall of text (raw URLs with a security token are long). */
+model ShortLink {
+  id        String   @id @default(cuid())
+  code      String   @unique
+  targetUrl String
+  createdAt DateTime @default(now())
+}
+
+model MaintenancePlanType {
+  id                   String   @id @default(cuid())
+  name                 String
+  monthlyPrice         Float
+  annualPrice          Float
+  stripeMonthlyPriceId String?
+  stripeAnnualPriceId  String?
+  contractHtml         String   @db.Text
+  isActive             Boolean  @default(true)
+  sortOrder            Int      @default(0)
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  contracts MaintenanceContract[]
+}
+
+enum MaintenanceContractStatus {
+  SENT
+  SIGNED
+  PAID
+  ACTIVE
+  PAST_DUE
+  CANCELLED
+}
+
+model MaintenanceContract {
+  id                    String                    @id @default(cuid())
+  customerId            String
+  planTypeId            String
+  token                 String                    @unique
+  status                MaintenanceContractStatus @default(SENT)
+  systemMakeModel       String?
+  systemAge             String?
+  agreementStartDate    DateTime?
+  customerSignatureUrl  String?
+  repName               String?
+  signedAt              DateTime?
+  billingInterval       String?
+  autoRenew             Boolean                   @default(true)
+  stripeSubscriptionId  String?
+  stripePaymentIntentId String?
+  paidAt                DateTime?
+  sentById              String?
+  createdAt             DateTime                  @default(now())
+  updatedAt             DateTime                  @updatedAt
+
+  customer Customer            @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  planType MaintenancePlanType @relation(fields: [planTypeId], references: [id])
+
+  @@index([customerId])
+  @@index([stripeSubscriptionId])
 }
 

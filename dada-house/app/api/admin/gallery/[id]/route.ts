@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/api-auth";
 import { db } from "@/lib/db";
+import { notifyClientsNewProject } from "@/lib/gallery-notifications";
 
 export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const auth = await requireAdmin(req);
@@ -8,6 +9,12 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 
   const { id } = await params;
   const body = await req.json();
+
+  // Read current state to detect hidden → published transition
+  const before = await db.galleryProject.findUnique({
+    where: { id },
+    select: { published: true },
+  });
 
   const project = await db.galleryProject.update({
     where: { id },
@@ -23,6 +30,14 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
       ...(body.sortOrder !== undefined && { sortOrder: body.sortOrder }),
     },
   });
+
+  // Notify clients only when transitioning from hidden to published
+  if (!before?.published && project.published) {
+    notifyClientsNewProject(project).catch((err) =>
+      console.error("Gallery notification error:", err)
+    );
+  }
+
   return NextResponse.json(project);
 }
 

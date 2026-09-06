@@ -15,6 +15,7 @@ interface GalleryProject {
   images: string[];
   published: boolean;
   sortOrder: number;
+  views: number;
   createdAt: string;
 }
 
@@ -147,7 +148,11 @@ export default function AdminGalleryPage() {
                     </span>
                   )}
                   <h3 className="font-bold text-[#1B3FA8] text-sm leading-snug mb-1 line-clamp-2">{project.title}</h3>
-                  <p className="text-slate-400 text-xs mb-3">{project.location} · {project.date}</p>
+                  <p className="text-slate-400 text-xs mb-2">{project.location} · {project.date}</p>
+                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-blue-50 text-blue-600 text-xs font-bold mb-3 border border-blue-100">
+                    <Eye size={10} />
+                    {project.views ?? 0} view{(project.views ?? 0) !== 1 ? "s" : ""}
+                  </span>
                   {project.tags.length > 0 && (
                     <div className="flex flex-wrap gap-1 mb-3">
                       {project.tags.slice(0, 3).map((tag) => (
