@@ -33,7 +33,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 
   // Notify clients only when transitioning from hidden to published
   if (!before?.published && project.published) {
-    notifyClientsNewProject(project).catch((err) =>
+    await notifyClientsNewProject(project).catch((err) =>
       console.error("Gallery notification error:", err)
     );
   }

@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
 
   // Notify all clients when a project is published
   if (project.published) {
-    notifyClientsNewProject(project).catch((err) =>
+    await notifyClientsNewProject(project).catch((err) =>
       console.error("Gallery notification error:", err)
     );
   }
