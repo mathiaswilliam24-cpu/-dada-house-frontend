@@ -97,17 +97,33 @@ function emailHtml(project: Project, link: string): string {
 </html>`;
 }
 
+// Normalize phone to E.164 (+1XXXXXXXXXX) — Twilio requirement
+function toE164(phone: string): string | null {
+  const digits = phone.replace(/\D/g, "");
+  if (digits.length === 10) return `+1${digits}`;
+  if (digits.length === 11 && digits.startsWith("1")) return `+${digits}`;
+  return null;
+}
+
 export async function notifyClientsNewProject(project: Project) {
   const link = `${BASE_URL}/gallery#project-${project.id}`;
   const catLabel = CATEGORY_LABEL[project.category] ?? project.category;
+
+  console.log(`[gallery-notifications] START — project "${project.title}" (${project.id})`);
 
   const clients = await db.user.findMany({
     where: { role: "CLIENT" },
     select: { email: true, phone: true, name: true },
   });
 
-  const emailClients = clients.filter((c) => c.email);
-  const smsClients   = clients.filter((c) => c.phone);
+  console.log(`[gallery-notifications] Found ${clients.length} CLIENT user(s)`);
+
+  const emailClients = clients.filter((c) => !!c.email);
+  const smsClients   = clients
+    .filter((c) => !!c.phone && !!toE164(c.phone))
+    .map((c) => ({ ...c, e164: toE164(c.phone!)! }));
+
+  console.log(`[gallery-notifications] ${emailClients.length} with email, ${smsClients.length} with valid phone`);
 
   const smsBody =
     `🏠 DADA HOUSE just completed a new project!\n` +
@@ -119,15 +135,17 @@ export async function notifyClientsNewProject(project: Project) {
 
   // SMS — parallel, one per client
   for (const client of smsClients) {
+    console.log(`[gallery-notifications] Sending SMS to ${client.e164}`);
     tasks.push(
-      sendSMS(client.phone!, smsBody).catch((err) =>
-        console.error(`Gallery SMS failed to ${client.phone}:`, err)
+      sendSMS(client.e164, smsBody).catch((err) =>
+        console.error(`[gallery-notifications] SMS failed to ${client.e164}:`, err)
       )
     );
   }
 
-  // Emails — send one by one via Resend (handles rate limits)
+  // Emails — parallel via Resend
   for (const client of emailClients) {
+    console.log(`[gallery-notifications] Sending email to ${client.email}`);
     tasks.push(
       resend.emails
         .send({
@@ -137,14 +155,27 @@ export async function notifyClientsNewProject(project: Project) {
           html: emailHtml(project, link),
         })
         .catch((err) =>
-          console.error(`Gallery email failed to ${client.email}:`, err)
+          console.error(`[gallery-notifications] Email failed to ${client.email}:`, err)
         )
     );
   }
 
   await Promise.allSettled(tasks);
 
+  // Confirmation SMS to admin
+  const adminPhone = process.env.ADMIN_PHONE;
+  if (adminPhone) {
+    const adminE164 = toE164(adminPhone);
+    if (adminE164) {
+      await sendSMS(
+        adminE164,
+        `[DADA HOUSE] New project "${project.title}" published.\n` +
+        `Notified: ${emailClients.length} email(s) + ${smsClients.length} SMS sent to clients.`
+      ).catch((err) => console.error("[gallery-notifications] Admin SMS failed:", err));
+    }
+  }
+
   console.log(
-    `[gallery-notifications] Notified ${emailClients.length} emails + ${smsClients.length} SMS for project "${project.title}"`
+    `[gallery-notifications] DONE — ${emailClients.length} emails + ${smsClients.length} SMS for "${project.title}"`
   );
 }
