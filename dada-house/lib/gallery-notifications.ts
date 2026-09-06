@@ -111,19 +111,25 @@ export async function notifyClientsNewProject(project: Project) {
 
   console.log(`[gallery-notifications] START — project "${project.title}" (${project.id})`);
 
-  const clients = await db.user.findMany({
-    where: { role: "CLIENT" },
-    select: { email: true, phone: true, name: true },
+  // Pull unique emails + phones from Appointment table (clients book via public form)
+  const appointments = await db.appointment.findMany({
+    select: { email: true, phone: true },
   });
 
-  console.log(`[gallery-notifications] Found ${clients.length} CLIENT user(s)`);
+  // Deduplicate
+  const uniqueEmails = [...new Set(appointments.map((a) => a.email).filter((e): e is string => !!e))];
+  const uniquePhones = [...new Set(
+    appointments
+      .map((a) => a.phone)
+      .filter((p): p is string => !!p)
+      .map(toE164)
+      .filter((p): p is string => !!p)
+  )];
 
-  const emailClients = clients.filter((c) => !!c.email);
-  const smsClients   = clients
-    .filter((c) => !!c.phone && !!toE164(c.phone))
-    .map((c) => ({ ...c, e164: toE164(c.phone!)! }));
+  console.log(`[gallery-notifications] ${uniqueEmails.length} unique client emails, ${uniquePhones.length} unique client phones`);
 
-  console.log(`[gallery-notifications] ${emailClients.length} with email, ${smsClients.length} with valid phone`);
+  const emailClients = uniqueEmails;
+  const smsClients   = uniquePhones;
 
   const smsBody =
     `🏠 DADA HOUSE just completed a new project!\n` +
@@ -133,29 +139,29 @@ export async function notifyClientsNewProject(project: Project) {
 
   const tasks: Promise<unknown>[] = [];
 
-  // SMS — parallel, one per client
-  for (const client of smsClients) {
-    console.log(`[gallery-notifications] Sending SMS to ${client.e164}`);
+  // SMS — parallel, one per unique phone
+  for (const phone of smsClients) {
+    console.log(`[gallery-notifications] Sending SMS to ${phone}`);
     tasks.push(
-      sendSMS(client.e164, smsBody).catch((err) =>
-        console.error(`[gallery-notifications] SMS failed to ${client.e164}:`, err)
+      sendSMS(phone, smsBody).catch((err) =>
+        console.error(`[gallery-notifications] SMS failed to ${phone}:`, err)
       )
     );
   }
 
   // Emails — parallel via Resend
-  for (const client of emailClients) {
-    console.log(`[gallery-notifications] Sending email to ${client.email}`);
+  for (const email of emailClients) {
+    console.log(`[gallery-notifications] Sending email to ${email}`);
     tasks.push(
       resend.emails
         .send({
           from: FROM_EMAIL,
-          to: client.email,
+          to: email,
           subject: `🏠 New Project Completed — ${catLabel} in ${project.location}`,
           html: emailHtml(project, link),
         })
         .catch((err) =>
-          console.error(`[gallery-notifications] Email failed to ${client.email}:`, err)
+          console.error(`[gallery-notifications] Email failed to ${email}:`, err)
         )
     );
   }
