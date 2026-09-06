@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import PhotoUploader from "@/components/admin/photo-uploader";
 import { X, ImageIcon, Images } from "lucide-react";
@@ -47,12 +47,29 @@ export default function GalleryForm({ project, onClose }: Props) {
   });
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
+  const dragIdx = useRef<number | null>(null);
 
   const set = (k: keyof typeof form, v: unknown) =>
     setForm((prev) => ({ ...prev, [k]: v }));
 
   function removeImage(idx: number) {
     setForm((prev) => ({ ...prev, images: prev.images.filter((_, i) => i !== idx) }));
+  }
+
+  function handleDragStart(idx: number) {
+    dragIdx.current = idx;
+  }
+
+  function handleDrop(targetIdx: number) {
+    const from = dragIdx.current;
+    if (from === null || from === targetIdx) return;
+    setForm((prev) => {
+      const imgs = [...prev.images];
+      const [moved] = imgs.splice(from, 1);
+      imgs.splice(targetIdx, 0, moved);
+      return { ...prev, images: imgs };
+    });
+    dragIdx.current = null;
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -120,8 +137,15 @@ export default function GalleryForm({ project, onClose }: Props) {
             {form.images.length > 0 && (
               <div className="grid grid-cols-3 sm:grid-cols-5 gap-2 mb-3">
                 {form.images.map((url, idx) => (
-                  <div key={idx} className="relative group aspect-square rounded-xl overflow-hidden border border-slate-200">
-                    <img src={url} alt={`photo ${idx + 1}`} className="w-full h-full object-cover" />
+                  <div
+                    key={idx}
+                    draggable
+                    onDragStart={() => handleDragStart(idx)}
+                    onDragOver={(e) => e.preventDefault()}
+                    onDrop={() => handleDrop(idx)}
+                    className="relative group aspect-square rounded-xl overflow-hidden border-2 border-slate-200 cursor-grab active:cursor-grabbing active:opacity-50 active:scale-95 transition-all"
+                  >
+                    <img src={url} alt={`photo ${idx + 1}`} className="w-full h-full object-cover pointer-events-none" />
                     <button
                       type="button"
                       onClick={() => removeImage(idx)}
@@ -134,6 +158,13 @@ export default function GalleryForm({ project, onClose }: Props) {
                         COVER
                       </div>
                     )}
+                    <div className="absolute top-1 left-1 p-0.5 bg-black/40 text-white rounded opacity-0 group-hover:opacity-100 transition-opacity">
+                      <svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor">
+                        <rect y="1" width="10" height="1.5" rx="0.75"/>
+                        <rect y="4.25" width="10" height="1.5" rx="0.75"/>
+                        <rect y="7.5" width="10" height="1.5" rx="0.75"/>
+                      </svg>
+                    </div>
                   </div>
                 ))}
               </div>
