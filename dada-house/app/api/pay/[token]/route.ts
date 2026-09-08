@@ -388,14 +388,41 @@ async function sendPaymentReceiptSms(phone: string, invoiceNum: string, total: n
 }
 
 async function notifyAdminPayment(clientName: string, invoiceNum: string, total: number, cardFee: number, method: string) {
-  const adminPhone = process.env.ADMIN_PHONE;
-  if (!adminPhone) return;
   const chargeTotal = total + cardFee;
   const feeLine = cardFee > 0 ? ` (+$${cardFee.toFixed(2)} card fee)` : "";
-  await sendOutboundSms(
-    adminPhone,
-    `💳 DADA HOUSE Payment Received!\nClient: ${clientName}\nInvoice: ${invoiceNum}\nAmount: $${chargeTotal.toFixed(2)}${feeLine}\nMethod: ${method}`
-  ).catch(console.error);
+
+  const adminPhone = process.env.ADMIN_PHONE;
+  if (adminPhone) {
+    await sendOutboundSms(
+      adminPhone,
+      `💳 DADA HOUSE Payment Received!\nClient: ${clientName}\nInvoice: ${invoiceNum}\nAmount: $${chargeTotal.toFixed(2)}${feeLine}\nMethod: ${method}`
+    ).catch(console.error);
+  }
+
+  const alertEmail = process.env.APPOINTMENT_ALERT_EMAIL;
+  if (alertEmail) {
+    await resend.emails.send({
+      from: FROM_EMAIL,
+      to: alertEmail,
+      subject: `💳 Payment Received — ${clientName} · $${chargeTotal.toFixed(2)} (${method})`,
+      html: `<!DOCTYPE html><html><body style="font-family:Arial,sans-serif;max-width:560px;margin:0 auto;padding:20px;color:#333">
+  <div style="background:#16a34a;padding:20px 24px;border-radius:8px 8px 0 0">
+    <h2 style="color:white;margin:0;font-size:20px">💳 Payment Received</h2>
+    <p style="color:#bbf7d0;margin:4px 0 0;font-size:13px">DADA HOUSE — Admin Alert</p>
+  </div>
+  <div style="border:1px solid #e5e7eb;border-top:none;padding:20px 24px;border-radius:0 0 8px 8px">
+    <table style="width:100%;border-collapse:collapse;font-size:14px">
+      <tr><td style="padding:8px 0;color:#6b7280;width:140px">Client</td><td style="padding:8px 0;font-weight:700">${clientName}</td></tr>
+      <tr><td style="padding:8px 0;color:#6b7280">Invoice</td><td style="padding:8px 0">${invoiceNum}</td></tr>
+      <tr><td style="padding:8px 0;color:#6b7280">Method</td><td style="padding:8px 0">${method}</td></tr>
+      ${cardFee > 0 ? `<tr><td style="padding:8px 0;color:#6b7280">Card fee</td><td style="padding:8px 0">$${cardFee.toFixed(2)}</td></tr>` : ""}
+      <tr style="border-top:2px solid #1B3FA8"><td style="padding:10px 0;font-weight:700;color:#1B3FA8">Total Charged</td><td style="padding:10px 0;font-weight:700;color:#1B3FA8;font-size:18px">$${chargeTotal.toFixed(2)}</td></tr>
+    </table>
+    <p style="margin:16px 0 0;font-size:12px;color:#9ca3af">Received ${new Date().toLocaleString("en-US", { timeZone: "America/Chicago" })} CT</p>
+  </div>
+</body></html>`,
+    }).catch(console.error);
+  }
 }
 
 async function sendEstimateReceiptEmail(
