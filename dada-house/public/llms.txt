@@ -1,6 +1,6 @@
 # DADA HOUSE
 
-> DADA HOUSE is a home services company serving Houston, TX and Jacksonville, NC. Services: plumbing, air conditioning, heating, and home remodeling. Same-day service and 24/7 emergency response with licensed technicians.
+> DADA HOUSE is a home services company serving Houston, TX and statewide North Carolina (including Jacksonville and the Camp Lejeune area). Services: plumbing, air conditioning, heating, and home remodeling. Same-day service and 24/7 emergency response with licensed technicians.
 
 Phone: (844) 928-0875
 Email: customerservice@dada-house.com
@@ -19,7 +19,7 @@ Email: customerservice@dada-house.com
 
 ## Locations
 - [Houston, TX](https://dada-house.com): Primary service area.
-- [Jacksonville, NC](https://dada-house.com/locations/north-carolina): Also serving Jacksonville and the Camp Lejeune area.
+- [North Carolina — statewide](https://dada-house.com/locations/north-carolina): Charlotte, Raleigh, Durham, Greensboro, Winston-Salem, Fayetteville, Jacksonville (Camp Lejeune area), and all NC cities.
 
 ## More
 - [Book an appointment](https://dada-house.com/booking)

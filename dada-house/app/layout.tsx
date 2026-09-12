@@ -99,7 +99,7 @@ export default function RootLayout({
               "@type": "LocalBusiness",
               name: "DADA HOUSE",
               description:
-                "Home services in Houston, TX and Jacksonville, NC — Plumbing, Air Conditioning, Heating, Remodeling",
+                "Home services in Houston, TX and across North Carolina — Plumbing, Air Conditioning, Heating, Remodeling",
               url: "https://dada-house.com",
               telephone: "+18449280875",
               email: "customerservice@dada-house.com",
@@ -111,7 +111,7 @@ export default function RootLayout({
               },
               areaServed: [
                 { "@type": "City", name: "Houston, TX" },
-                { "@type": "City", name: "Jacksonville, NC" },
+                { "@type": "State", name: "North Carolina" },
               ],
               openingHours: "Mo-Su 00:00-24:00",
               priceRange: "$$",
