@@ -5,15 +5,21 @@
 Phone: (844) 928-0875
 Email: customerservice@dada-house.com
 
-## Services
+## Services in Houston, TX
 - [Plumbing](https://dada-house.com/services/plumbing): Repairs, installations, and emergency plumbing.
 - [Air Conditioning](https://dada-house.com/services/air-conditioning): AC repair, maintenance, and installation.
 - [Heating](https://dada-house.com/services/heating): Furnace and heating system repair and installation.
 - [Remodeling](https://dada-house.com/services/remodeling): Home renovation and remodeling projects.
 
+## Services in Jacksonville, NC
+- [Plumbing](https://dada-house.com/services/plumbing/jacksonville-nc): Repairs, installations, and emergency plumbing.
+- [Air Conditioning](https://dada-house.com/services/air-conditioning/jacksonville-nc): AC repair, maintenance, and installation.
+- [Heating](https://dada-house.com/services/heating/jacksonville-nc): Furnace and heating system repair and installation.
+- [Remodeling](https://dada-house.com/services/remodeling/jacksonville-nc): Home renovation and remodeling projects.
+
 ## Locations
 - [Houston, TX](https://dada-house.com): Primary service area.
-- [Jacksonville, NC](https://dada-house.com/locations/north-carolina)
+- [Jacksonville, NC](https://dada-house.com/locations/north-carolina): Also serving Jacksonville and the Camp Lejeune area.
 
 ## More
 - [Book an appointment](https://dada-house.com/booking)

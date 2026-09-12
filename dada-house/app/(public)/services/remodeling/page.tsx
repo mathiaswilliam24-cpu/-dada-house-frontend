@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import ServiceHero from "@/components/services/service-hero";
 import ServiceFeatures from "@/components/services/service-features";
+import ServiceAreaLinks from "@/components/services/area-links";
 import ServiceCta from "@/components/services/service-cta";
 
 export const metadata: Metadata = {
   title: "Home Remodeling Houston — Kitchen, Bathroom & More",
   description:
     "Expert home remodeling in Houston TX. Kitchen remodeling, bathroom renovation, flooring, painting, drywall, roofing. Free estimates available.",
+  alternates: { canonical: "/services/remodeling" },
 };
 
 const remodelingIcon = (
@@ -52,6 +54,7 @@ export default function RemodelingPage() {
         badge="Licensed General Contractors"
       />
       <ServiceFeatures features={features} sectionTitle="Our Remodeling Services" />
+      <ServiceAreaLinks serviceSlug="remodeling" current="houston-tx" />
       <ServiceCta serviceName="Remodeling" />
     </>
   );

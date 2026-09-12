@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import ServiceHero from "@/components/services/service-hero";
 import ServiceFeatures from "@/components/services/service-features";
+import ServiceAreaLinks from "@/components/services/area-links";
 import ServiceCta from "@/components/services/service-cta";
 
 export const metadata: Metadata = {
   title: "AC Repair & Installation Houston — 24/7 HVAC Service",
   description:
     "Expert air conditioning repair and installation in Houston TX. AC service, refrigerant recharge, thermostat installation. Emergency HVAC available 24/7.",
+  alternates: { canonical: "/services/air-conditioning" },
 };
 
 const acIcon = (
@@ -52,6 +54,7 @@ export default function AirConditioningPage() {
         badge="Certified HVAC Technicians"
       />
       <ServiceFeatures features={features} sectionTitle="Our AC Services" />
+      <ServiceAreaLinks serviceSlug="air-conditioning" current="houston-tx" />
       <ServiceCta serviceName="Air Conditioning" />
     </>
   );

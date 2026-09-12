@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import ServiceHero from "@/components/services/service-hero";
 import ServiceFeatures from "@/components/services/service-features";
+import ServiceAreaLinks from "@/components/services/area-links";
 import ServiceCta from "@/components/services/service-cta";
 
 export const metadata: Metadata = {
   title: "Plumbing Services Houston — 24/7 Emergency Plumbers",
   description:
     "Expert plumbing repair and installation in Houston TX. Leak repair, drain cleaning, water heaters, pipe installation. Licensed & insured. Available 24/7.",
+  alternates: { canonical: "/services/plumbing" },
 };
 
 const plumbingIcon = (
@@ -52,6 +54,7 @@ export default function PlumbingPage() {
         badge="Licensed & Insured Plumbers"
       />
       <ServiceFeatures features={features} sectionTitle="Our Plumbing Services" />
+      <ServiceAreaLinks serviceSlug="plumbing" current="houston-tx" />
       <ServiceCta serviceName="Plumbing" />
     </>
   );

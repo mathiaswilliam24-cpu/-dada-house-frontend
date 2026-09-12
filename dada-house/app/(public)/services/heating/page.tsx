@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import ServiceHero from "@/components/services/service-hero";
 import ServiceFeatures from "@/components/services/service-features";
+import ServiceAreaLinks from "@/components/services/area-links";
 import ServiceCta from "@/components/services/service-cta";
 
 export const metadata: Metadata = {
   title: "Heating Services Houston — Furnace Repair & Heat Pump",
   description:
     "Expert heating repair and installation in Houston TX. Furnace repair, heat pump service, duct cleaning. Emergency heating repair available 24/7.",
+  alternates: { canonical: "/services/heating" },
 };
 
 const heatingIcon = (
@@ -53,6 +55,7 @@ export default function HeatingPage() {
         badge="Licensed HVAC Contractors"
       />
       <ServiceFeatures features={features} sectionTitle="Our Heating Services" />
+      <ServiceAreaLinks serviceSlug="heating" current="houston-tx" />
       <ServiceCta serviceName="Heating" />
     </>
   );
