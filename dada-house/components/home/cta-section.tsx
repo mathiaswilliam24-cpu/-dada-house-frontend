@@ -32,21 +32,21 @@ export default function CTASection() {
           </Link>
 
           <a
-            href="tel:+13466499353"
+            href="tel:+18449280875"
             className="flex items-center gap-2 px-8 py-4 bg-transparent hover:bg-white/10 border-2 border-white text-white font-black text-base rounded-xl transition-all"
           >
             <Phone size={18} />
-            Call +1 (346) 649-9353
+            Call +1 (844) 928-0875
           </a>
         </div>
 
         <div className="mt-8 flex items-center justify-center gap-2">
           <AlertTriangle size={14} className="text-orange-200" />
           <a
-            href="tel:+18326264398"
+            href="tel:+18449280875"
             className="text-orange-100 text-sm font-semibold hover:text-white transition-colors"
           >
-            Emergency? Call 832-626-4398 — We answer 24/7
+            Emergency? Call (346) 649-9353 — We answer 24/7
           </a>
         </div>
       </div>

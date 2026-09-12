@@ -46,6 +46,15 @@ export default function HeroSection({ heroImage = "/Backround%20dada%20house%20w
         />
 
         <div className="relative px-5 pt-8 pb-10 md:max-w-7xl md:mx-auto md:px-10 md:pt-24 md:pb-28">
+          {/* Heading + description — first text Google reads on the page */}
+          <h1 className="text-3xl md:text-5xl font-black text-white mb-4 leading-tight drop-shadow-lg">
+            Houston&apos;s Premier<br className="hidden md:block" /> Home Services
+          </h1>
+          <p className="text-slate-100 text-base md:text-lg max-w-lg leading-relaxed mb-6 drop-shadow">
+            Expert plumbing, air conditioning, heating &amp; home remodeling across Houston, TX.
+            Same-day appointments, 24/7 emergency service, and licensed background-checked technicians.
+          </p>
+
           {/* Book Appointment button */}
           <Link
             href="/booking"
@@ -85,12 +94,12 @@ export default function HeroSection({ heroImage = "/Backround%20dada%20house%20w
               <Phone size={10} className="text-blue-300" />
               <span className="text-blue-300 text-[10px] font-bold uppercase tracking-wide">Service Requests</span>
             </div>
-            <a href="tel:+13466499353" className="block text-white text-lg font-black leading-tight mb-1">
-              +1 (346) 649-9353
+            <a href="tel:+18449280875" className="block text-white text-lg font-black leading-tight mb-1">
+              +1 (844) 928-0875
             </a>
             <p className="text-slate-400 text-xs mb-3 leading-snug">Call anytime for appointments and service requests.</p>
             <a
-              href="tel:+13466499353"
+              href="tel:+18449280875"
               className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#F7921A] hover:bg-[#E07F10] text-white text-xs font-bold rounded-xl transition-colors"
             >
               <Phone size={11} />
@@ -104,12 +113,12 @@ export default function HeroSection({ heroImage = "/Backround%20dada%20house%20w
               <AlertTriangle size={10} className="text-red-300" />
               <span className="text-red-300 text-[10px] font-bold uppercase tracking-wide">Emergency Line</span>
             </div>
-            <a href="tel:+18326264398" className="block text-white text-lg font-black leading-tight mb-1">
-              832-626-4398
+            <a href="tel:+18449280875" className="block text-white text-lg font-black leading-tight mb-1">
+              (346) 649-9353
             </a>
             <p className="text-slate-400 text-xs mb-3 leading-snug">Speak directly with a technician for urgent situations.</p>
             <a
-              href="tel:+18326264398"
+              href="tel:+18449280875"
               className="inline-flex items-center gap-1.5 px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-xs font-bold rounded-xl transition-colors"
             >
               <AlertTriangle size={11} />
@@ -120,7 +129,7 @@ export default function HeroSection({ heroImage = "/Backround%20dada%20house%20w
 
         {/* SMS Card */}
         <a
-          href="sms:+13466499353"
+          href="sms:+18449280875"
           className="flex items-center gap-3 w-full bg-emerald-950/40 border border-emerald-800/50 hover:border-emerald-500/70 rounded-2xl p-4 transition-colors"
         >
           <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center">
@@ -131,7 +140,7 @@ export default function HeroSection({ heroImage = "/Backround%20dada%20house%20w
               <span className="text-emerald-300 text-[10px] font-black uppercase tracking-widest">💬 Text Message Only</span>
               <span className="px-1.5 py-0.5 bg-emerald-500/20 border border-emerald-500/30 rounded-full text-emerald-400 text-[10px] font-bold">SMS</span>
             </div>
-            <p className="text-white text-base font-black">346-649-9353</p>
+            <p className="text-white text-base font-black">844-928-0875</p>
             <p className="text-slate-400 text-xs leading-snug mt-0.5">
               Send us a text for quick questions &amp; appointment requests —{" "}
               <span className="text-emerald-400 font-semibold">text messages only</span>, no calls.

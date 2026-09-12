@@ -90,19 +90,19 @@ export default function ServicesPage() {
           </p>
           <div className="flex items-center justify-center gap-4 flex-wrap">
             <a
-              href="tel:+13466499353"
+              href="tel:+18449280875"
               className="flex items-center gap-2 text-white/70 hover:text-white text-sm font-semibold transition-colors"
             >
               <Phone size={14} />
-              +1 (346) 649-9353
+              +1 (844) 928-0875
             </a>
             <span className="text-white/20">|</span>
             <a
-              href="tel:+18326264398"
+              href="tel:+18449280875"
               className="flex items-center gap-2 text-red-400 hover:text-red-300 text-sm font-semibold transition-colors"
             >
               <AlertTriangle size={14} />
-              Emergency: 832-626-4398
+              Emergency: (346) 649-9353
             </a>
           </div>
         </div>

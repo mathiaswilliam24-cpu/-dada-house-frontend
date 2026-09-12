@@ -55,7 +55,7 @@ export default function MarylandPage() {
     "@type": "HomeAndConstructionBusiness",
     "name": "DADA HOUSE",
     "url": "https://dada-house.com",
-    "telephone": "+18326696747",
+    "telephone": "+18449280875",
     "email": "service@dada-house.com",
     "areaServed": {
       "@type": "State",
@@ -100,9 +100,9 @@ export default function MarylandPage() {
             <Link href="/booking" className={buttonVariants({ variant: "default" }) + " bg-[#F7921A] hover:bg-[#F7921A]/90 text-white px-8 py-3 text-base font-bold"}>
               Book a Service
             </Link>
-            <a href="tel:+18326696747" className="flex items-center justify-center gap-2 px-8 py-3 border-2 border-white/30 text-white rounded-lg font-bold hover:bg-white/10 transition-colors">
+            <a href="tel:+18449280875" className="flex items-center justify-center gap-2 px-8 py-3 border-2 border-white/30 text-white rounded-lg font-bold hover:bg-white/10 transition-colors">
               <Phone className="w-4 h-4" />
-              (832) 669-6747
+              (844) 928-0875
             </a>
           </div>
         </div>
@@ -177,9 +177,9 @@ export default function MarylandPage() {
             <Link href="/booking" className="px-8 py-3.5 bg-[#F7921A] text-white font-bold rounded-xl hover:bg-[#F7921A]/90 transition-colors text-base">
               Book Online — Free Estimate
             </Link>
-            <a href="tel:+18326696747" className="px-8 py-3.5 border-2 border-white/30 text-white font-bold rounded-xl hover:bg-white/10 transition-colors flex items-center justify-center gap-2 text-base">
+            <a href="tel:+18449280875" className="px-8 py-3.5 border-2 border-white/30 text-white font-bold rounded-xl hover:bg-white/10 transition-colors flex items-center justify-center gap-2 text-base">
               <Phone className="w-4 h-4" />
-              Call (832) 669-6747
+              Call (844) 928-0875
             </a>
           </div>
         </div>

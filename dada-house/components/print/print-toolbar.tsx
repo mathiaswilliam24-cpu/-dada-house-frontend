@@ -1,5 +1,5 @@
 "use client";
-export function PrintToolbar({ invoiceNum }: { invoiceNum: string }) {
+export function PrintToolbar({ invoiceNum, label = "Invoice" }: { invoiceNum: string; label?: string }) {
   return (
     <div
       className="no-print"
@@ -16,7 +16,7 @@ export function PrintToolbar({ invoiceNum }: { invoiceNum: string }) {
         ← Back
       </button>
       <span style={{ color: "white", fontWeight: 600, fontSize: "14px" }}>
-        Invoice Preview — {invoiceNum}
+        {label} Preview — {invoiceNum}
       </span>
       <button
         onClick={() => window.print()}

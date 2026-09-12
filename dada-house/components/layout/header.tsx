@@ -54,7 +54,7 @@ export default function Header() {
             <div className="flex items-center gap-2 flex-shrink-0">
               {/* Emergency — hide label on small screens */}
               <a
-                href="tel:+18326264398"
+                href="tel:+18449280875"
                 className="hidden sm:flex items-center gap-1 text-xs text-red-600 hover:text-red-700 font-semibold"
               >
                 <Phone size={11} />
@@ -154,12 +154,12 @@ export default function Header() {
       {menuOpen && (
         <div className="sm:hidden border-t border-white/10 bg-[#0D1D5E]">
           <div className="px-4 py-3 grid grid-cols-2 gap-2">
-            <a href="tel:+13466499353"
+            <a href="tel:+18449280875"
               className="flex items-center justify-center gap-1.5 px-3 py-2.5 bg-[#1B3FA8] border border-white/20 rounded-xl text-xs text-white font-semibold">
               <Phone size={12} />
               Service Line
             </a>
-            <a href="tel:+18326264398"
+            <a href="tel:+18449280875"
               className="flex items-center justify-center gap-1.5 px-3 py-2.5 bg-red-900/40 border border-red-700/40 rounded-xl text-xs text-red-300 font-semibold">
               <Phone size={12} />
               Emergency

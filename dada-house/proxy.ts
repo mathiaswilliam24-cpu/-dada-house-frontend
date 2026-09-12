@@ -19,6 +19,11 @@ const PUBLIC_PATHS = [
   "/api/gallery",
   "/api/store/products",
   "/api/ai/chat",
+  "/api/twilio",
+  "/api/resend/inbound",
+  "/print/invoice",
+  "/print/contract",
+  "/contract",
   "/sitemap.xml",
   "/robots.txt",
 ];
@@ -30,6 +35,10 @@ const PROTECTED_PATHS = [
   "/dispatcher",
   "/admin",
   "/print",
+  "/call-center",
+  "/calls",
+  "/messages",
+  "/customers",
 ];
 
 const SEMI_PROTECTED = ["/store/checkout", "/store/orders"];

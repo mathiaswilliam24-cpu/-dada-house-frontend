@@ -13,10 +13,25 @@ export const Role = {
   CLIENT: 'CLIENT',
   ADMIN: 'ADMIN',
   TECHNICIAN: 'TECHNICIAN',
-  DISPATCHER: 'DISPATCHER'
+  DISPATCHER: 'DISPATCHER',
+  SUPER_ADMIN: 'SUPER_ADMIN',
+  MANAGER: 'MANAGER',
+  CUSTOMER_SERVICE_REP: 'CUSTOMER_SERVICE_REP'
 } as const
 
 export type Role = (typeof Role)[keyof typeof Role]
+
+
+export const AgentStatus = {
+  AVAILABLE: 'AVAILABLE',
+  BUSY: 'BUSY',
+  ON_CALL: 'ON_CALL',
+  AWAY: 'AWAY',
+  BREAK: 'BREAK',
+  OFFLINE: 'OFFLINE'
+} as const
+
+export type AgentStatus = (typeof AgentStatus)[keyof typeof AgentStatus]
 
 
 export const AppointmentStatus = {
@@ -97,3 +112,92 @@ export const SubscriptionStatus = {
 } as const
 
 export type SubscriptionStatus = (typeof SubscriptionStatus)[keyof typeof SubscriptionStatus]
+
+
+export const CustomerType = {
+  RESIDENTIAL: 'RESIDENTIAL',
+  COMMERCIAL: 'COMMERCIAL',
+  ASSISTED_LIVING: 'ASSISTED_LIVING',
+  PROPERTY_MANAGER: 'PROPERTY_MANAGER'
+} as const
+
+export type CustomerType = (typeof CustomerType)[keyof typeof CustomerType]
+
+
+export const CallDirection = {
+  INBOUND: 'INBOUND',
+  OUTBOUND: 'OUTBOUND'
+} as const
+
+export type CallDirection = (typeof CallDirection)[keyof typeof CallDirection]
+
+
+export const CallStatus = {
+  RINGING: 'RINGING',
+  IN_PROGRESS: 'IN_PROGRESS',
+  COMPLETED: 'COMPLETED',
+  NO_ANSWER: 'NO_ANSWER',
+  BUSY: 'BUSY',
+  FAILED: 'FAILED',
+  CANCELED: 'CANCELED',
+  VOICEMAIL: 'VOICEMAIL'
+} as const
+
+export type CallStatus = (typeof CallStatus)[keyof typeof CallStatus]
+
+
+export const CallDisposition = {
+  BOOKED_JOB: 'BOOKED_JOB',
+  EXISTING_JOB_UPDATE: 'EXISTING_JOB_UPDATE',
+  BILLING_QUESTION: 'BILLING_QUESTION',
+  GENERAL_INQUIRY: 'GENERAL_INQUIRY',
+  COMPLAINT: 'COMPLAINT',
+  WRONG_NUMBER: 'WRONG_NUMBER',
+  SPAM: 'SPAM',
+  VOICEMAIL_LEFT: 'VOICEMAIL_LEFT',
+  NO_ANSWER: 'NO_ANSWER',
+  TRANSFERRED_TO_VAPI: 'TRANSFERRED_TO_VAPI',
+  OTHER: 'OTHER'
+} as const
+
+export type CallDisposition = (typeof CallDisposition)[keyof typeof CallDisposition]
+
+
+export const MessageDirection = {
+  INBOUND: 'INBOUND',
+  OUTBOUND: 'OUTBOUND'
+} as const
+
+export type MessageDirection = (typeof MessageDirection)[keyof typeof MessageDirection]
+
+
+export const MessageStatus = {
+  QUEUED: 'QUEUED',
+  SENT: 'SENT',
+  DELIVERED: 'DELIVERED',
+  FAILED: 'FAILED',
+  UNDELIVERED: 'UNDELIVERED',
+  RECEIVED: 'RECEIVED'
+} as const
+
+export type MessageStatus = (typeof MessageStatus)[keyof typeof MessageStatus]
+
+
+export const EmailDirection = {
+  INBOUND: 'INBOUND',
+  OUTBOUND: 'OUTBOUND'
+} as const
+
+export type EmailDirection = (typeof EmailDirection)[keyof typeof EmailDirection]
+
+
+export const MaintenanceContractStatus = {
+  SENT: 'SENT',
+  SIGNED: 'SIGNED',
+  PAID: 'PAID',
+  ACTIVE: 'ACTIVE',
+  PAST_DUE: 'PAST_DUE',
+  CANCELLED: 'CANCELLED'
+} as const
+
+export type MaintenanceContractStatus = (typeof MaintenanceContractStatus)[keyof typeof MaintenanceContractStatus]

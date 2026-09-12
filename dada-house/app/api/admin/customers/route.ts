@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/api-auth";
 import { db } from "@/lib/db";
 import bcrypt from "bcryptjs";
+import { findOrCreateCustomerByPhone } from "@/lib/customers";
 
 export const dynamic = "force-dynamic";
 
@@ -114,6 +115,14 @@ export async function POST(req: NextRequest) {
       }),
     },
   });
+
+  // Link (or create) the matching call-center Customer record so this person
+  // is immediately visible/reachable from the call center too — non-fatal.
+  if (phone) {
+    await findOrCreateCustomerByPhone(phone, { firstName: name, email }).catch((err) =>
+      console.error("Failed to link Customer for new admin-created user:", err)
+    );
+  }
 
   return NextResponse.json({ user }, { status: 201 });
 }

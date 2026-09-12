@@ -203,6 +203,7 @@ model Appointment {
   address           String
   city              String            @default("Houston")
   zipCode           String            @default("")
+  taxCounty         String?
   description       String?
   preferredDate     DateTime?
   preferredTime     String?
@@ -234,14 +235,17 @@ model Appointment {
 
   // Call center — set going forward only, no backfill of historical rows
   customerId String?
+  projectId  String?
 
   user          User?             @relation(fields: [userId], references: [id], onDelete: SetNull)
   technician    User?             @relation("technician", fields: [technicianId], references: [id], onDelete: SetNull)
   dispatcher    User?             @relation("dispatcher", fields: [dispatcherId], references: [id], onDelete: SetNull)
   customer      Customer?         @relation(fields: [customerId], references: [id], onDelete: SetNull)
+  project       Project?          @relation(fields: [projectId], references: [id], onDelete: SetNull)
   invoice       Invoice?
   notifications NotificationLog[]
   maintenanceLogs MaintenanceLog[]
+  formSubmissions FormSubmission[]
   calls           Call[]
 
   // New relations
@@ -742,6 +746,11 @@ model JobTimeLog {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
+  // Live billable-hours timer (play/pause) — non-null timerStartedAt means running.
+  // accumulatedSeconds banks the time from prior play/pause segments.
+  timerStartedAt     DateTime?
+  accumulatedSeconds Int       @default(0)
+
   appointment Appointment @relation(fields: [appointmentId], references: [id], onDelete: Cascade)
 }
 
@@ -898,9 +907,45 @@ model Customer {
   emailThreads   EmailThread[]
   doNotContact   DoNotContact?
   maintenanceContracts MaintenanceContract[]
+  equipment      Equipment[]
+  projects       Project[]
 
   @@index([phone])
   @@index([email])
+}
+
+model Equipment {
+  id            String    @id @default(cuid())
+  customerId    String
+  technicianId  String?
+  type          String    // "HVAC", "Water Heater", "Furnace", etc.
+  makeModel     String?
+  serialNumber  String?
+  installDate   DateTime?
+  age           String?
+  location      String?   // e.g. "Attic", "Backyard unit"
+  notes         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  customer Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+
+  @@index([customerId])
+}
+
+model Project {
+  id          String    @id @default(cuid())
+  customerId  String
+  name        String
+  description String?
+  status      String    @default("OPEN") // OPEN | COMPLETED | ON_HOLD
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  customer     Customer      @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  appointments Appointment[]
+
+  @@index([customerId])
 }
 
 enum CallDirection {
@@ -1125,6 +1170,47 @@ model ShortLink {
   createdAt DateTime @default(now())
 }
 
+/** HVAC system type options for the Performance Plan Contract flow (Heat Pump,
+ *  Straight Cool, Package Unit, ...) — admin-managed so the list can grow. */
+model SystemType {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  isActive  Boolean  @default(true)
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+}
+
+/** A form the super admin configures (fields defined as JSON) — e.g. "Clean and
+ *  Check Forms → First Visit". Technicians fill it out per job. */
+model FormTemplate {
+  id        String   @id @default(cuid())
+  slug      String   @unique // matches the technician-app route, e.g. "clean-and-check-first-visit"
+  name      String
+  category  String? // grouping label shown in the admin list, e.g. "Clean and Check Forms"
+  fields    Json     @default("[]") // [{ id, label, type, options?, required? }]
+  items     Json     @default("[]") // [{ id, name, taskCode?, price }] — billable items attached to the form
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  submissions FormSubmission[]
+}
+
+model FormSubmission {
+  id            String   @id @default(cuid())
+  templateId    String
+  appointmentId String
+  technicianId  String?
+  values        Json     @default("{}") // { [fieldId]: value }
+  submittedAt   DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  template    FormTemplate @relation(fields: [templateId], references: [id], onDelete: Cascade)
+  appointment Appointment  @relation(fields: [appointmentId], references: [id], onDelete: Cascade)
+
+  @@unique([templateId, appointmentId])
+}
+
 model MaintenancePlanType {
   id                   String   @id @default(cuid())
   name                 String
@@ -1158,6 +1244,8 @@ model MaintenanceContract {
   status                MaintenanceContractStatus @default(SENT)
   systemMakeModel       String?
   systemAge             String?
+  numberOfSystems       Int                       @default(1)
+  systemTypes           String[]                  @default([])
   agreementStartDate    DateTime?
   customerSignatureUrl  String?
   repName               String?

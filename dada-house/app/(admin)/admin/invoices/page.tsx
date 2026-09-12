@@ -6,6 +6,15 @@ import {
   Eye, Download, Mail, MessageSquare,
 } from "lucide-react";
 
+// Grows a textarea to fit its content instead of showing an internal scrollbar.
+function autoGrow(el: HTMLTextAreaElement) {
+  el.style.height = "auto";
+  el.style.height = `${el.scrollHeight}px`;
+}
+function autoGrowRef(el: HTMLTextAreaElement | null) {
+  if (el) autoGrow(el);
+}
+
 type Invoice = {
   id: string; amount: number; status: "DRAFT" | "SENT" | "PAID"; notes: string | null;
   pdfUrl: string | null; paidAt: string | null; createdAt: string; dueDate: string | null;
@@ -69,7 +78,7 @@ function InvoicePreview({ inv }: { inv: PreviewInvoice }) {
           <div style={{ fontWeight: "bold", fontSize: "14px", color: "#111827", marginBottom: "3px" }}>DADA HOUSE LLC</div>
           <div><strong>TX:</strong> 7001 South Texas 6 STE 246, Houston TX 77083</div>
           <div><strong>NC:</strong> 106 Thompson St, Jacksonville NC 28540</div>
-          <div>☎ (346) 649-9353 · customerservice@mydadahouse.com</div>
+          <div>☎ (844) 928-0875 · customerservice@mydadahouse.com</div>
           <div style={{ color: "#1B3FA8" }}>www.dada-house.com</div>
         </div>
         <div style={{ textAlign: "right", fontSize: "11px", minWidth: "160px" }}>
@@ -146,7 +155,7 @@ function InvoicePreview({ inv }: { inv: PreviewInvoice }) {
       <div style={{ margin: "0 32px", borderTop: "1px solid #e5e7eb", padding: "14px 0 24px" }}>
         <p style={{ fontSize: "11px", color: "#374151", margin: "0 0 4px" }}>It is a pleasure to serve you.</p>
         <p style={{ fontSize: "11px", color: "#374151", margin: "0 0 4px" }}>Our services encompass air conditioning, heating, plumbing, and remodeling.</p>
-        <p style={{ fontSize: "11px", color: "#374151", margin: 0 }}>For additional inquiries, please contact us at (910) 685-8042 or visit our website at www.dada-house.com.</p>
+        <p style={{ fontSize: "11px", color: "#374151", margin: 0 }}>For additional inquiries, please contact us at (844) 928-0875 or visit our website at www.dada-house.com.</p>
       </div>
     </div>
   );
@@ -206,6 +215,28 @@ export default function AdminInvoicesPage() {
   }, []);
 
   useEffect(() => { load(); }, [load]);
+
+  // Prefill from a customer profile "Create Estimate"/"Create Invoice" quick action.
+  // Reads window.location.search directly (not useSearchParams()) to avoid the
+  // Suspense-boundary requirement that hook imposes on this large client page.
+  const [autoSendOnCreate, setAutoSendOnCreate] = useState(false);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const name = params.get("prefillName");
+    if (!name) return;
+    setModalType(params.get("type") === "invoice" ? "invoice" : "estimate");
+    setClientMode("new");
+    setNewClient({
+      name,
+      phone: params.get("prefillPhone") ?? "",
+      email: params.get("prefillEmail") ?? "",
+      address: params.get("prefillAddress") ?? "",
+      city: params.get("prefillCity") || "Houston",
+    });
+    setShowModal(true);
+    setAutoSendOnCreate(true);
+  }, []);
 
   async function openPreview(id: string) {
     setPreviewLoading(true);
@@ -294,6 +325,11 @@ export default function AdminInvoicesPage() {
       body: JSON.stringify(body),
     });
     if (res.ok) {
+      const data = await res.json();
+      if (autoSendOnCreate && data.invoice?.id) {
+        await fetch(`/api/admin/invoices/${data.invoice.id}/send-email`, { method: "POST" }).catch(() => {});
+        setAutoSendOnCreate(false);
+      }
       setShowModal(false);
       await load();
     } else {
@@ -333,8 +369,20 @@ export default function AdminInvoicesPage() {
   const revenue = paid.reduce((s, i) => s + i.amount, 0);
   const outstanding = pending.reduce((s, i) => s + i.amount, 0);
 
+  // Arrived from a customer profile's quick action — the modal (rendered below,
+  // unconditionally) has the real form; this just replaces what sits behind it
+  // so the agent doesn't see the whole business's invoice list/revenue figures.
+  const showFullAdminView = !autoSendOnCreate;
+
   return (
     <div className="space-y-6">
+      {!showFullAdminView && (
+        <p className="text-center text-gray-400 text-sm pt-8">
+          {modalType === "invoice" ? "New Invoice" : "New Estimate"} for {newClient.name || "this client"}
+        </p>
+      )}
+      {showFullAdminView && (
+      <>
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Invoices & Estimates</h1>
@@ -559,6 +607,8 @@ export default function AdminInvoicesPage() {
           </div>
         )}
       </div>
+      </>
+      )}
 
       {/* Invoice Preview Modal */}
       {(previewLoading || previewInv) && (
@@ -626,6 +676,9 @@ export default function AdminInvoicesPage() {
             <div className="flex items-center justify-between p-5 border-b border-gray-100 shrink-0">
               <div>
                 <h2 className="text-lg font-bold text-gray-900">{modalType === "invoice" ? "New Invoice" : "New Estimate"}</h2>
+                {autoSendOnCreate && (
+                  <p className="text-xs text-[#F7921A] font-medium mt-0.5">Will be emailed to the client immediately after creating</p>
+                )}
                 <div className="flex items-center gap-2 mt-1">
                   <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${modalStep === "client" ? "bg-[#1B3FA8] text-white" : "bg-gray-100 text-gray-400"}`}>1. Client</span>
                   <span className="text-gray-300 text-xs">›</span>
@@ -781,18 +834,20 @@ export default function AdminInvoicesPage() {
                               )}
                             </div>
                             <textarea
+                              ref={autoGrowRef}
                               value={item.description}
-                              onChange={e => setLineItems(prev => prev.map((it, j) => j === i ? { ...it, description: e.target.value } : it))}
+                              onChange={e => { setLineItems(prev => prev.map((it, j) => j === i ? { ...it, description: e.target.value } : it)); autoGrow(e.target); }}
                               placeholder="Description (use Enter for multiple lines)…"
                               rows={3}
-                              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-200 resize-y bg-white"
+                              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-200 resize-none overflow-hidden bg-white"
                             />
                             <textarea
+                              ref={autoGrowRef}
                               value={item.note ?? ""}
-                              onChange={e => setLineItems(prev => prev.map((it, j) => j === i ? { ...it, note: e.target.value } : it))}
+                              onChange={e => { setLineItems(prev => prev.map((it, j) => j === i ? { ...it, note: e.target.value } : it)); autoGrow(e.target); }}
                               placeholder="Additional note (optional)…"
                               rows={1}
-                              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-200 resize-y bg-white"
+                              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-200 resize-none overflow-hidden bg-white"
                             />
                             <div className="grid grid-cols-2 gap-2">
                               <div>

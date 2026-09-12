@@ -27,18 +27,18 @@ export default function BookingPage() {
 
           <div className="flex items-center justify-center gap-6 mt-6 flex-wrap">
             <a
-              href="tel:+13466499353"
+              href="tel:+18449280875"
               className="flex items-center gap-2 text-blue-200 hover:text-white text-sm font-semibold transition-colors"
             >
               <Phone size={14} />
-              Prefer to call? +1 (346) 649-9353
+              Prefer to call? +1 (844) 928-0875
             </a>
             <a
-              href="tel:+18326264398"
+              href="tel:+18449280875"
               className="flex items-center gap-2 text-red-400 hover:text-red-300 text-sm font-semibold transition-colors"
             >
               <AlertTriangle size={14} />
-              Emergency: 832-626-4398
+              Emergency: (346) 649-9353
             </a>
           </div>
         </div>

@@ -21,6 +21,36 @@
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 }
 
+/*
+ * UploadThing injects its own compiled Tailwind CSS globally (via NextSSRPlugin
+ * in app/layout.tsx) with an unlayered `.hidden{display:none}`. CSS Cascade
+ * Layers rules mean any unlayered rule always beats a layered one — and our
+ * own Tailwind utilities live in `@layer utilities` — so `.hidden` combined
+ * with any `sm:/md:/lg:/xl:` display override (e.g. `hidden md:block`) was
+ * silently staying hidden at every breakpoint. This restores the intended
+ * responsive behavior by re-declaring the same utilities unlayered.
+ */
+@media (min-width: 640px) {
+  .sm\:hidden { display: none !important; }
+  .sm\:block { display: block !important; }
+  .sm\:flex { display: flex !important; }
+}
+@media (min-width: 768px) {
+  .md\:hidden { display: none !important; }
+  .md\:block { display: block !important; }
+  .md\:flex { display: flex !important; }
+}
+@media (min-width: 1024px) {
+  .lg\:hidden { display: none !important; }
+  .lg\:block { display: block !important; }
+  .lg\:flex { display: flex !important; }
+}
+@media (min-width: 1280px) {
+  .xl\:hidden { display: none !important; }
+  .xl\:block { display: block !important; }
+  .xl\:flex { display: flex !important; }
+}
+
 * {
   box-sizing: border-box;
 }

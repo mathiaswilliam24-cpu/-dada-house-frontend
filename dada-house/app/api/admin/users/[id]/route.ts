@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { requireAdmin } from "@/lib/api-auth";
+import { requireSuperAdmin } from "@/lib/api-auth";
 import { db } from "@/lib/db";
 import bcrypt from "bcryptjs";
 
@@ -9,7 +9,7 @@ export async function PATCH(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const auth = await requireAdmin(req);
+  const auth = await requireSuperAdmin(req);
   if (auth instanceof NextResponse) return auth;
 
   const { id } = await params;
@@ -55,7 +55,7 @@ export async function DELETE(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const auth = await requireAdmin(req);
+  const auth = await requireSuperAdmin(req);
   if (auth instanceof NextResponse) return auth;
 
   const { id } = await params;

@@ -5,7 +5,7 @@ import ContactForm from "@/components/contact/contact-form";
 export const metadata: Metadata = {
   title: "Contact DADA HOUSE — Houston Home Services",
   description:
-    "Contact DADA HOUSE for plumbing, AC, heating, and remodeling in Houston TX. Call +1 (346) 649-9353 or use our contact form. Available 24/7.",
+    "Contact DADA HOUSE for plumbing, AC, heating, and remodeling in Houston TX. Call +1 (844) 928-0875 or use our contact form. Available 24/7.",
 };
 
 export default function ContactPage() {
@@ -47,10 +47,10 @@ export default function ContactPage() {
                   📞 Service Requests
                 </p>
                 <a
-                  href="tel:+13466499353"
+                  href="tel:+18449280875"
                   className="block text-xl font-black text-white hover:text-[#F7921A] transition-colors"
                 >
-                  +1 (346) 649-9353
+                  +1 (844) 928-0875
                 </a>
                 <p className="text-slate-400 text-sm mt-1">
                   Appointments and service scheduling
@@ -66,10 +66,10 @@ export default function ContactPage() {
                   🚨 Emergency Line
                 </p>
                 <a
-                  href="tel:+18326264398"
+                  href="tel:+18449280875"
                   className="block text-xl font-black text-red-400 hover:text-red-300 transition-colors"
                 >
-                  832-626-4398
+                  (346) 649-9353
                 </a>
                 <p className="text-slate-400 text-sm mt-1">
                   24/7 emergency technician response

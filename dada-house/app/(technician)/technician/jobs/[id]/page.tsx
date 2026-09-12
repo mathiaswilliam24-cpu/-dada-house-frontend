@@ -3,9 +3,9 @@ import { useEffect, useState, useCallback } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import {
-  Phone, Navigation, MapPin, Clock, AlertTriangle, ChevronRight,
+  Phone, Navigation, MapPin, AlertTriangle, ChevronRight, ChevronDown,
   FileText, Camera, CheckSquare, Package, CreditCard, Shield, Timer,
-  StickyNote, MessageSquare, Star, Loader2, Send,
+  StickyNote, MessageSquare, Star, Loader2, Send, Play, Pause, Hash, CalendarClock,
 } from "lucide-react";
 import { formatDate } from "@/lib/utils";
 
@@ -33,7 +33,7 @@ const STATUS_COLOR: Record<string, string> = {
 type Job = {
   id: string; appointmentNumber: string; service: string; subservice?: string;
   name: string; phone: string; email: string; address: string; city: string;
-  zipCode: string; description?: string; preferredDate?: string;
+  zipCode: string; taxCounty?: string | null; description?: string; preferredDate?: string;
   preferredTime?: string; techStatus?: string; status: string;
   priority: string; isEmergency: boolean; diagnosticFee?: number;
   diagnosticFeeStatus?: string; adminNotes?: string; signatureUrl?: string;
@@ -42,10 +42,12 @@ type Job = {
   jobPhotos?: { id: string; url: string; category: string }[];
   payments?: { id: string; amount: number; method: string }[];
   checklist?: { items: unknown[] };
-  timeLog?: { arrivedAt?: string; completedAt?: string; totalMinutes?: number };
+  timeLog?: { arrivedAt?: string; completedAt?: string; totalMinutes?: number; timerStartedAt?: string | null; accumulatedSeconds?: number };
   parts?: { id: string; partName: string; totalCost: number }[];
   invoice?: { id: string; amount: number; status: string };
 };
+
+type EstimateSummary = { id: string; estimateNumber: string; total: number; status: string; isInvoice: boolean };
 
 const QUICK_ACTIONS = [
   { href: "diagnosis", label: "Diagnosis", icon: FileText, color: "bg-blue-50 text-blue-700 border-blue-200" },
@@ -61,20 +63,48 @@ export default function TechJobDetailPage() {
   const params = useParams();
   const id = params.id as string;
   const [job, setJob] = useState<Job | null>(null);
+  const [estimate, setEstimate] = useState<EstimateSummary | null>(null);
   const [loading, setLoading] = useState(true);
   const [updating, setUpdating] = useState(false);
   const [note, setNote] = useState("");
   const [savingNote, setSavingNote] = useState(false);
   const [sendingReview, setSendingReview] = useState(false);
+  const [nowTick, setNowTick] = useState(() => Date.now());
+  const [togglingTimer, setTogglingTimer] = useState(false);
+  const [showContact, setShowContact] = useState(false);
+  const [showPinnedNote, setShowPinnedNote] = useState(false);
 
   const load = useCallback(() => {
     fetch(`/api/technician/jobs/${id}`)
       .then((r) => r.json())
-      .then((d) => { if (d.job) setJob(d.job); setLoading(false); })
+      .then((d) => { if (d.job) setJob(d.job); if (d.estimate) setEstimate(d.estimate); setLoading(false); })
       .catch(() => setLoading(false));
   }, [id]);
 
   useEffect(() => { load(); }, [load]);
+
+  const timerRunning = !!job?.timeLog?.timerStartedAt;
+  useEffect(() => {
+    if (!timerRunning) return;
+    const interval = setInterval(() => setNowTick(Date.now()), 1000);
+    return () => clearInterval(interval);
+  }, [timerRunning]);
+
+  async function toggleTimer() {
+    if (togglingTimer) return;
+    setTogglingTimer(true);
+    const action = timerRunning ? "pause" : "play";
+    const res = await fetch(`/api/technician/jobs/${id}/time-log`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action }),
+    });
+    if (res.ok) {
+      const d = await res.json();
+      setJob((prev) => prev ? { ...prev, timeLog: { ...prev.timeLog, ...d.timeLog } } : prev);
+    }
+    setTogglingTimer(false);
+  }
 
   async function updateStatus(status: string) {
     if (updating) return;
@@ -126,8 +156,43 @@ export default function TechJobDetailPage() {
   const partsTotal = (job.parts ?? []).reduce((s, p) => s + p.totalCost, 0);
   const paymentsTotal = (job.payments ?? []).reduce((s, p) => s + p.amount, 0);
 
+  const accumulatedSeconds = job.timeLog?.accumulatedSeconds ?? 0;
+  const runningSeconds = timerRunning && job.timeLog?.timerStartedAt
+    ? Math.max(0, Math.round((nowTick - new Date(job.timeLog.timerStartedAt).getTime()) / 1000))
+    : 0;
+  const billableHours = ((accumulatedSeconds + runningSeconds) / 3600).toFixed(2);
+
   return (
     <div className="space-y-4 pb-4">
+      {/* Billable hours timer */}
+      <div className="bg-white rounded-2xl border border-gray-200 p-4 flex items-center gap-3">
+        <button
+          onClick={toggleTimer}
+          disabled={togglingTimer}
+          className={`w-11 h-11 rounded-full flex items-center justify-center text-white shrink-0 disabled:opacity-60 ${timerRunning ? "bg-[#1B3FA8]" : "bg-gray-300"}`}
+          title={timerRunning ? "Pause" : "Start"}
+        >
+          {togglingTimer ? <Loader2 className="w-4 h-4 animate-spin" /> : timerRunning ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4 ml-0.5" />}
+        </button>
+        <div className="flex-1">
+          <p className="text-xs text-gray-500">Billable hours</p>
+          <p className="text-lg font-bold text-[#1B3FA8]">{billableHours}</p>
+        </div>
+      </div>
+
+      {/* Secondary nav (mirrors the sidebar tabs: History / Forms / Invoice) */}
+      <div className="grid grid-cols-3 gap-2">
+        <Link href={`/technician/jobs/${id}/history`} className="flex items-center justify-center py-2.5 bg-white border border-gray-200 rounded-xl text-sm font-semibold text-[#1B3FA8]">
+          History
+        </Link>
+        <Link href={`/technician/jobs/${id}/forms`} className="flex items-center justify-center py-2.5 bg-white border border-gray-200 rounded-xl text-sm font-semibold text-[#1B3FA8]">
+          Forms
+        </Link>
+        <Link href={`/technician/jobs/${id}/invoice`} className="flex items-center justify-center py-2.5 bg-white border border-gray-200 rounded-xl text-sm font-semibold text-[#1B3FA8]">
+          Invoice
+        </Link>
+      </div>
+
       {/* Back + header */}
       <div>
         <Link href="/technician/jobs" className="text-sm text-gray-500">← Jobs</Link>
@@ -149,6 +214,127 @@ export default function TechJobDetailPage() {
             )}
           </div>
         </div>
+      </div>
+
+      {/* Location / Bill To + Scheduled / Job# */}
+      <div className="bg-white rounded-2xl border border-gray-200 p-4 space-y-3">
+        <div>
+          <p className="text-[11px] font-bold text-gray-400 uppercase tracking-wide">Location / Bill To</p>
+          <div className="flex items-center gap-2.5 mt-1.5">
+            <div className="w-9 h-9 rounded-full bg-[#1B3FA8] text-white flex items-center justify-center font-bold text-sm shrink-0">
+              {job.name.charAt(0).toUpperCase()}
+            </div>
+            <p className="font-bold text-gray-900">{job.name}</p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 gap-3 pt-2 border-t border-gray-100">
+          <div>
+            <p className="text-[11px] font-bold text-gray-400 uppercase tracking-wide flex items-center gap-1"><CalendarClock className="w-3 h-3" /> Scheduled</p>
+            <p className="text-sm text-gray-800 mt-1">
+              {job.preferredDate ? formatDate(job.preferredDate) : "Not set"}{job.preferredTime ? ` · ${job.preferredTime}` : ""}
+            </p>
+          </div>
+          <div>
+            <p className="text-[11px] font-bold text-gray-400 uppercase tracking-wide flex items-center gap-1"><Hash className="w-3 h-3" /> Job #</p>
+            <p className="text-sm text-gray-800 font-mono mt-1">{job.appointmentNumber}</p>
+          </div>
+        </div>
+
+        <button
+          onClick={() => setShowContact((v) => !v)}
+          className="flex items-center justify-between w-full pt-2 border-t border-gray-100 text-sm font-semibold text-[#1B3FA8]"
+        >
+          Contact details
+          <ChevronDown className={`w-4 h-4 transition-transform ${showContact ? "rotate-180" : ""}`} />
+        </button>
+        {showContact && (
+          <div className="space-y-1.5 text-sm text-gray-600 pb-1">
+            <p>{job.phone}</p>
+            {job.email && <p>{job.email}</p>}
+          </div>
+        )}
+      </div>
+
+      {/* Type & service area */}
+      <div className="bg-white rounded-2xl border border-gray-200 p-4 space-y-3">
+        <div>
+          <p className="text-[11px] font-bold text-gray-400 uppercase tracking-wide">Type</p>
+          <p className="text-sm font-semibold text-gray-900 mt-1">{job.service}{job.subservice ? `: ${job.subservice}` : ""}</p>
+        </div>
+        <div>
+          <p className="text-[11px] font-bold text-gray-400 uppercase tracking-wide">Service Area</p>
+          <p className="text-sm text-gray-800 mt-1">{job.city}</p>
+        </div>
+        <div className="pt-2 border-t border-gray-100">
+          <p className="text-[11px] font-bold text-gray-400 uppercase tracking-wide">Tax Zone</p>
+          <p className="text-sm text-gray-800 mt-1">{job.taxCounty ?? "—"}</p>
+        </div>
+        {(job.preferredDate || job.preferredTime) && (
+          <div className="pt-2 border-t border-gray-100">
+            <p className="text-[11px] font-bold text-gray-400 uppercase tracking-wide">Arrival Window</p>
+            <p className="text-sm text-gray-800 mt-1">
+              {job.preferredDate ? formatDate(job.preferredDate) : ""}{job.preferredTime ? ` · ${job.preferredTime}` : ""}
+            </p>
+          </div>
+        )}
+      </div>
+
+      {/* Address + directions */}
+      <div className="bg-white rounded-2xl border border-gray-200 p-4 space-y-3">
+        <p className="text-[11px] font-bold text-gray-400 uppercase tracking-wide">Address</p>
+        <div className="flex items-start gap-1.5 text-sm text-gray-800">
+          <MapPin className="w-4 h-4 text-gray-400 shrink-0 mt-0.5" />
+          <span>{job.address}, {job.city} {job.zipCode}</span>
+        </div>
+        <a
+          href={`https://maps.google.com/?q=${encodeURIComponent(`${job.address}, ${job.city} ${job.zipCode}`)}`}
+          target="_blank" rel="noopener noreferrer"
+          className="flex items-center justify-center gap-2 py-2.5 bg-[#1B3FA8] text-white rounded-xl text-sm font-bold"
+        >
+          <Navigation className="w-4 h-4" /> Get Directions
+        </a>
+        <div className="grid grid-cols-2 gap-2">
+          <a href={`tel:${job.phone}`} className="flex items-center justify-center gap-2 py-2 bg-gray-100 text-gray-700 rounded-xl text-sm font-semibold">
+            <Phone className="w-4 h-4" /> Call
+          </a>
+          <a href={`sms:${job.phone}`} className="flex items-center justify-center gap-2 py-2 bg-gray-100 text-gray-700 rounded-xl text-sm font-semibold">
+            <MessageSquare className="w-4 h-4" /> Text
+          </a>
+        </div>
+      </div>
+
+      {/* Recommended estimates / Pinned notes */}
+      <div className="bg-white rounded-2xl border border-gray-200 divide-y divide-gray-100">
+        <Link href={estimate ? `/technician/estimates/${estimate.id}` : `/technician/estimates/new?appointmentId=${id}`} className="flex items-center justify-between p-4">
+          <div className="flex items-center gap-2.5">
+            <Star className="w-4 h-4 text-[#F7921A]" />
+            <span className="text-sm font-semibold text-gray-800">Recommended estimates</span>
+          </div>
+          <div className="flex items-center gap-1.5 text-gray-400">
+            <span className="text-sm">{estimate ? 1 : 0}</span>
+            <ChevronRight className="w-4 h-4" />
+          </div>
+        </Link>
+        <button onClick={() => setShowPinnedNote((v) => !v)} className="flex items-center justify-between w-full p-4">
+          <div className="flex items-center gap-2.5">
+            <StickyNote className="w-4 h-4 text-yellow-500" />
+            <span className="text-sm font-semibold text-gray-800">Pinned notes</span>
+          </div>
+          <div className="flex items-center gap-1.5 text-gray-400">
+            <span className="text-sm">{job.adminNotes ? 1 : 0}</span>
+            <ChevronDown className={`w-4 h-4 transition-transform ${showPinnedNote ? "rotate-180" : ""}`} />
+          </div>
+        </button>
+        {showPinnedNote && (
+          <div className="p-4 pt-0">
+            {job.adminNotes ? (
+              <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-3 text-sm text-yellow-800">{job.adminNotes}</div>
+            ) : (
+              <p className="text-sm text-gray-400">No pinned notes from dispatch.</p>
+            )}
+          </div>
+        )}
       </div>
 
       {/* Status stepper */}
@@ -199,64 +385,25 @@ export default function TechJobDetailPage() {
         )}
       </div>
 
-      {/* Customer card */}
-      <div className="bg-white rounded-2xl border border-gray-200 p-4 space-y-3">
-        <h3 className="font-semibold text-gray-900 text-sm">Customer</h3>
-        <p className="font-medium text-gray-800">{job.name}</p>
-        <div className="flex items-center gap-1.5 text-sm text-gray-600">
-          <MapPin className="w-4 h-4 text-gray-400 shrink-0" />
-          {job.address}, {job.city} {job.zipCode}
+      {/* Job description + diagnostic fee */}
+      {(job.description || job.diagnosticFee) && (
+        <div className="bg-white rounded-2xl border border-gray-200 p-4 space-y-3">
+          {job.description && (
+            <div>
+              <h3 className="font-semibold text-gray-900 text-sm mb-1.5">Description</h3>
+              <div className="bg-gray-50 rounded-xl p-3 text-sm text-gray-600">{job.description}</div>
+            </div>
+          )}
+          {job.diagnosticFee && (
+            <div className="flex items-center justify-between text-sm">
+              <span className="text-gray-600">Diagnostic Fee</span>
+              <span className={`font-semibold ${job.diagnosticFeeStatus === "PAID" ? "text-green-600" : "text-orange-600"}`}>
+                ${job.diagnosticFee} — {job.diagnosticFeeStatus ?? "Pending"}
+              </span>
+            </div>
+          )}
         </div>
-        {(job.preferredDate || job.preferredTime) && (
-          <div className="flex items-center gap-1.5 text-sm text-gray-500">
-            <Clock className="w-4 h-4 text-gray-400" />
-            {job.preferredDate ? formatDate(job.preferredDate) : ""} {job.preferredTime ?? ""}
-          </div>
-        )}
-        {job.description && (
-          <div className="bg-gray-50 rounded-xl p-3 text-sm text-gray-600">{job.description}</div>
-        )}
-        {job.adminNotes && (
-          <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-3 text-sm text-yellow-800">
-            <span className="font-semibold">Admin note:</span> {job.adminNotes}
-          </div>
-        )}
-        {job.diagnosticFee && (
-          <div className="flex items-center justify-between text-sm">
-            <span className="text-gray-600">Diagnostic Fee</span>
-            <span className={`font-semibold ${job.diagnosticFeeStatus === "PAID" ? "text-green-600" : "text-orange-600"}`}>
-              ${job.diagnosticFee} — {job.diagnosticFeeStatus ?? "Pending"}
-            </span>
-          </div>
-        )}
-        <div className="grid grid-cols-2 gap-2 pt-1">
-          <a
-            href={`tel:${job.phone}`}
-            className="flex items-center justify-center gap-2 py-2.5 bg-[#1B3FA8] text-white rounded-xl text-sm font-semibold"
-          >
-            <Phone className="w-4 h-4" /> Call
-          </a>
-          <a
-            href={`sms:${job.phone}`}
-            className="flex items-center justify-center gap-2 py-2.5 bg-gray-100 text-gray-700 rounded-xl text-sm font-semibold"
-          >
-            <MessageSquare className="w-4 h-4" /> Text
-          </a>
-          <a
-            href={`https://maps.google.com/?q=${encodeURIComponent(`${job.address}, ${job.city} ${job.zipCode}`)}`}
-            target="_blank" rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2 py-2.5 bg-blue-50 text-blue-700 rounded-xl text-sm font-semibold"
-          >
-            <Navigation className="w-4 h-4" /> Google Maps
-          </a>
-          <a
-            href={`maps://maps.apple.com/?q=${encodeURIComponent(`${job.address}, ${job.city} ${job.zipCode}`)}`}
-            className="flex items-center justify-center gap-2 py-2.5 bg-gray-50 text-gray-700 rounded-xl text-sm font-semibold border border-gray-200"
-          >
-            <MapPin className="w-4 h-4" /> Apple Maps
-          </a>
-        </div>
-      </div>
+      )}
 
       {/* Quick actions grid */}
       <div>
@@ -369,17 +516,6 @@ export default function TechJobDetailPage() {
         </div>
       )}
 
-      {/* Estimate link */}
-      <Link
-        href={`/technician/estimates/new?appointmentId=${id}`}
-        className="flex items-center justify-between p-4 bg-[#F7921A]/10 border border-[#F7921A]/30 rounded-2xl"
-      >
-        <div className="flex items-center gap-3">
-          <FileText className="w-5 h-5 text-[#F7921A]" />
-          <span className="font-semibold text-[#F7921A] text-sm">Create / View Estimate</span>
-        </div>
-        <ChevronRight className="w-4 h-4 text-[#F7921A]" />
-      </Link>
     </div>
   );
 }

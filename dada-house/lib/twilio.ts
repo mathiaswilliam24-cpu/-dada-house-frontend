@@ -14,7 +14,7 @@ export function getTwilioClient() {
 
 export const TWILIO_FROM = process.env.TWILIO_PHONE_NUMBER!;
 
-export async function sendSMS(to: string, body: string, opts?: { statusCallback?: string }) {
+export async function sendSMS(to: string, body: string, opts?: { statusCallback?: string; mediaUrls?: string[] }) {
   if (!process.env.TWILIO_ACCOUNT_SID || !process.env.TWILIO_AUTH_TOKEN) {
     console.warn("Twilio not configured — skipping SMS");
     return;
@@ -23,5 +23,6 @@ export async function sendSMS(to: string, body: string, opts?: { statusCallback?
   return client.messages.create({
     from: TWILIO_FROM, to, body,
     ...(opts?.statusCallback && { statusCallback: opts.statusCallback }),
+    ...(opts?.mediaUrls?.length && { mediaUrl: opts.mediaUrls }),
   });
 }

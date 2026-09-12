@@ -9,20 +9,20 @@ export default function AnnouncementBar() {
         {/* Contact info — hidden on smallest screens */}
         <div className="hidden md:flex items-center gap-2 text-white/90 text-xs">
           <Phone size={11} />
-          <span className="font-semibold">+1 (346) 649-9353</span>
+          <span className="font-semibold">+1 (844) 928-0875</span>
           <span className="text-white/50 mx-1">|</span>
           <AlertTriangle size={11} />
-          <span className="font-semibold">832-626-4398</span>
+          <span className="font-semibold">(346) 649-9353</span>
           <span className="text-white/50 mx-1">|</span>
           <MessageSquare size={11} />
-          <span className="font-semibold">346-649-9353</span>
+          <span className="font-semibold">844-928-0875</span>
           <span className="text-white/60 text-[10px]">(text only)</span>
         </div>
 
         {/* CTA buttons */}
         <div className="flex items-center gap-2 flex-shrink-0">
           <a
-            href="tel:+13466499353"
+            href="tel:+18449280875"
             className="flex items-center gap-1.5 px-3 py-1.5 bg-white/20 hover:bg-white/30 border border-white/40 rounded-lg text-white text-xs font-bold transition-all whitespace-nowrap"
           >
             <Phone size={11} />
@@ -30,7 +30,7 @@ export default function AnnouncementBar() {
             <span className="sm:hidden">Service</span>
           </a>
           <a
-            href="sms:+13466499353"
+            href="sms:+18449280875"
             className="flex items-center gap-1.5 px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 rounded-lg text-white text-xs font-black transition-all whitespace-nowrap"
           >
             <MessageSquare size={11} />
@@ -38,7 +38,7 @@ export default function AnnouncementBar() {
             <span className="sm:hidden">Text</span>
           </a>
           <a
-            href="tel:+18326264398"
+            href="tel:+18449280875"
             className="flex items-center gap-1.5 px-3 py-1.5 bg-white text-orange-700 hover:bg-orange-50 rounded-lg text-xs font-black transition-all whitespace-nowrap shadow-lg"
           >
             <AlertTriangle size={11} />

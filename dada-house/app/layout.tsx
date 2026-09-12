@@ -15,12 +15,11 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default:
-      "DADA HOUSE — Premier Home Services Houston | Plumbing, AC, Heating, Remodeling",
+    default: "DADA HOUSE — Plumbing, AC, Heating & Remodeling in Houston",
     template: "%s | DADA HOUSE",
   },
   description:
-    "Houston's premier home services company. Expert plumbing, AC repair, heating, and remodeling. Available 24/7. Emergency service. Professional & background-checked.",
+    "Houston's trusted home services company: plumbing, AC repair, heating & remodeling. Same-day service, 24/7 emergency. Call (844) 928-0875.",
   keywords: [
     "plumbing Houston",
     "AC repair Houston",
@@ -102,7 +101,7 @@ export default function RootLayout({
               description:
                 "Premier home services in Houston TX — Plumbing, Air Conditioning, Heating, Remodeling",
               url: "https://dada-house.com",
-              telephone: "+13466499353",
+              telephone: "+18449280875",
               email: "customerservice@dada-house.com",
               address: {
                 "@type": "PostalAddress",

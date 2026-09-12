@@ -3,6 +3,7 @@ import { db } from "@/lib/db";
 import { getStripe } from "@/lib/stripe";
 import { resend, FROM_EMAIL } from "@/lib/resend";
 import { sendOutboundSms } from "@/lib/messaging";
+import { sendTechnicianAssignmentNotification, sendAppointmentConfirmationEmail, sendAppointmentConfirmationSms } from "@/lib/appointment-notifications";
 import type { Prisma } from "@/lib/generated/prisma/client";
 
 export const dynamic = "force-dynamic";
@@ -139,7 +140,7 @@ export async function POST(
 
   const invoice = await db.invoice.findUnique({
     where: { paymentToken: token },
-    include: { appointment: { select: { name: true, email: true, phone: true, service: true } } },
+    include: { appointment: { select: { id: true, name: true, email: true, phone: true, service: true, diagnosticFee: true, diagnosticFeeStatus: true, technicianId: true } } },
   });
   if (invoice) {
     return handleAdminInvoicePayment(invoice, action, body);
@@ -252,7 +253,22 @@ async function handleEstimatePayment(invoice: EstimateRow, action: string, body:
   return NextResponse.json({ error: "Unknown action" }, { status: 400 });
 }
 
-type InvoiceWithAppt = Prisma.InvoiceGetPayload<{ include: { appointment: { select: { name: true; email: true; phone: true; service: true } } } }>;
+type InvoiceWithAppt = Prisma.InvoiceGetPayload<{ include: { appointment: { select: { id: true; name: true; email: true; phone: true; service: true; diagnosticFee: true; diagnosticFeeStatus: true; technicianId: true } } } }>;
+
+async function triggerDiagnosticPaid(invoice: InvoiceWithAppt) {
+  const appt = invoice.appointment;
+  if (!appt.diagnosticFee || appt.diagnosticFeeStatus !== "PENDING") return;
+  await db.appointment.update({ where: { id: appt.id }, data: { diagnosticFeeStatus: "PAID" } });
+  // Confirm the appointment to the client
+  after(() => Promise.allSettled([
+    sendAppointmentConfirmationEmail(appt.id).catch(console.error),
+    sendAppointmentConfirmationSms(appt.id).catch(console.error),
+  ]));
+  // Notify the technician only after payment
+  if (appt.technicianId) {
+    after(() => sendTechnicianAssignmentNotification(appt.id).catch(console.error));
+  }
+}
 
 async function handleAdminInvoicePayment(invoice: InvoiceWithAppt, action: string, body: Record<string, unknown>) {
   if (invoice.paidAt) return NextResponse.json({ error: "Invoice already paid" }, { status: 400 });
@@ -281,6 +297,7 @@ async function handleAdminInvoicePayment(invoice: InvoiceWithAppt, action: strin
       where: { id: invoice.id },
       data: { paidAt: new Date(), status: "PAID", paymentMethod: "CARD", stripePaymentIntentId: intent.id },
     });
+    await triggerDiagnosticPaid(invoice);
     if (invoice.appointment.email) {
       const email = invoice.appointment.email;
       after(() =>
@@ -312,6 +329,7 @@ async function handleAdminInvoicePayment(invoice: InvoiceWithAppt, action: strin
       where: { id: invoice.id },
       data: { paidAt: new Date(), status: "PAID", paymentMethod: "CARD", stripePaymentIntentId: paymentIntentId },
     });
+    await triggerDiagnosticPaid(invoice);
 
     const cardFee = pi.amount / 100 - total;
     if (invoice.appointment.email) {
@@ -354,6 +372,7 @@ async function handleAdminInvoicePayment(invoice: InvoiceWithAppt, action: strin
       where: { id: invoice.id },
       data: { paidAt: new Date(), status: "PAID", paymentMethod: "CASHAPP", stripePaymentIntentId: paymentIntentId },
     });
+    await triggerDiagnosticPaid(invoice);
 
     if (invoice.appointment.email) {
       const email = invoice.appointment.email;

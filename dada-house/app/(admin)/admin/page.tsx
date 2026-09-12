@@ -1,3 +1,4 @@
+import { auth } from "@/auth";
 import { db } from "@/lib/db";
 import { StatsCards } from "@/components/admin/stats-cards";
 import { AppointmentsChart } from "@/components/admin/appointments-chart";
@@ -8,6 +9,7 @@ import {
   Calendar, Users, HardHat, Radio, FileText, ShoppingBag, BarChart3,
   MessageCircle, Bell, Star, Images, FolderOpen, Shield, Package,
   Map, TrendingUp, Layers, Settings, ChevronRight, AlertCircle, PhoneCall, Megaphone,
+  BookOpen, ClipboardList,
 } from "lucide-react";
 
 export const dynamic = "force-dynamic";
@@ -46,9 +48,13 @@ const modules = [
     color: "border-green-200 bg-green-50",
     iconColor: "text-green-600",
     items: [
-      { label: "Products",      href: "/admin/store",          icon: ShoppingBag, desc: "Inventory management" },
-      { label: "Orders",        href: "/admin/orders",         icon: Package,     desc: "Customer purchases" },
-      { label: "Service Plans", href: "/admin/service-plans",  icon: Layers,      desc: "Subscriptions" },
+      { label: "Products",           href: "/admin/store",             icon: ShoppingBag, desc: "Inventory management" },
+      { label: "Orders",             href: "/admin/orders",            icon: Package,     desc: "Customer purchases" },
+      { label: "Service Plans",      href: "/admin/service-plans",     icon: Layers,      desc: "Subscriptions" },
+      { label: "Maintenance Plans",  href: "/admin/maintenance-plans", icon: Layers,      desc: "E-signable contracts" },
+      { label: "Price Book",         href: "/admin/price-book",        icon: BookOpen,    desc: "Parts & pricing" },
+      { label: "Service Forms",      href: "/admin/service-forms",     icon: ClipboardList, desc: "Technician job forms", superAdminOnly: true },
+      { label: "System Types",       href: "/admin/system-types",      icon: Settings,    desc: "HVAC system type list", superAdminOnly: true },
     ],
   },
   {
@@ -93,6 +99,12 @@ const modules = [
 ];
 
 export default async function AdminDashboardPage() {
+  const session = await auth();
+  const isSuperAdmin = session?.user?.role === "SUPER_ADMIN";
+  const visibleModules = modules
+    .map((group) => ({ ...group, items: group.items.filter((i) => !("superAdminOnly" in i && i.superAdminOnly) || isSuperAdmin) }))
+    .filter((group) => group.items.length > 0);
+
   const now = new Date();
   const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
 
@@ -216,7 +228,7 @@ export default async function AdminDashboardPage() {
       <div>
         <h2 className="text-lg font-bold text-gray-900 mb-4">All Modules</h2>
         <div className="space-y-4">
-          {modules.map(group => (
+          {visibleModules.map(group => (
             <div key={group.section}>
               <p className="text-xs font-bold tracking-widest text-gray-400 uppercase mb-2">{group.section}</p>
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">

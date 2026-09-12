@@ -60,12 +60,14 @@ function LoginFormInner() {
 
     const session = await getSession();
     const role = (session?.user as { role?: string })?.role;
-    if (role === "ADMIN") {
+    if (role === "ADMIN" || role === "SUPER_ADMIN") {
       router.push("/admin");
     } else if (role === "TECHNICIAN") {
       router.push("/technician");
     } else if (role === "DISPATCHER") {
       router.push("/dispatcher");
+    } else if (role === "MANAGER" || role === "CUSTOMER_SERVICE_REP") {
+      router.push("/call-center");
     } else {
       router.push(callbackUrl);
     }
@@ -215,9 +217,9 @@ export default function LoginPage() {
         </div>
 
         <div className="relative">
-          <a href="tel:+13466499353" className="flex items-center gap-2 text-blue-300 text-sm hover:text-white transition-colors">
+          <a href="tel:+18449280875" className="flex items-center gap-2 text-blue-300 text-sm hover:text-white transition-colors">
             <Phone size={14} />
-            Need help? Call +1 (346) 649-9353
+            Need help? Call +1 (844) 928-0875
           </a>
         </div>
       </div>

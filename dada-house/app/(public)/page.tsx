@@ -13,10 +13,10 @@ import { db } from "@/lib/db";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title:
-    "DADA HOUSE — Premier Home Services Houston | Plumbing, AC, Heating, Remodeling",
+  title: "Plumbing, AC, Heating & Remodeling in Houston",
   description:
-    "Houston's premier home services company. Available 24/7 for plumbing, air conditioning, heating, and remodeling. Emergency service available.",
+    "Houston's trusted home services company: plumbing, AC repair, heating & remodeling. Same-day service, 24/7 emergency. Call (844) 928-0875.",
+  alternates: { canonical: "/" },
 };
 
 export default async function HomePage() {

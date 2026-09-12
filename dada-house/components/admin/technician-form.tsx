@@ -165,7 +165,7 @@ export default function TechnicianForm({ technician, onClose }: Props) {
                 value={form.phone}
                 onChange={(e) => set("phone", e.target.value)}
                 className="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-[#1B3FA8]"
-                placeholder="+1 (346) 649-9353"
+                placeholder="+1 (844) 928-0875"
               />
             </div>
             <div>

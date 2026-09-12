@@ -46,16 +46,23 @@ export async function PATCH(
     const existingLog = await db.jobTimeLog.findUnique({ where: { appointmentId: id } }).catch(() => null);
     const start = existingLog?.enRouteAt ?? existingLog?.startedAt;
     const totalMinutes = start ? Math.round((completedAt.getTime() - start.getTime()) / 60000) : undefined;
+    // Stop the billable timer and bank whatever segment was still running.
+    let accumulatedSeconds = existingLog?.accumulatedSeconds ?? 0;
+    if (existingLog?.timerStartedAt) {
+      accumulatedSeconds += Math.round((completedAt.getTime() - existingLog.timerStartedAt.getTime()) / 1000);
+    }
     await db.jobTimeLog.upsert({
       where: { appointmentId: id },
-      create: { appointmentId: id, technicianId: auth.id, completedAt, ...(totalMinutes != null ? { totalMinutes } : {}) },
-      update: { completedAt, ...(totalMinutes != null ? { totalMinutes } : {}) },
+      create: { appointmentId: id, technicianId: auth.id, completedAt, accumulatedSeconds, timerStartedAt: null, ...(totalMinutes != null ? { totalMinutes } : {}) },
+      update: { completedAt, accumulatedSeconds, timerStartedAt: null, ...(totalMinutes != null ? { totalMinutes } : {}) },
     }).catch(() => {});
   } else if (status === "ARRIVED") {
+    // Auto-start the billable-hours timer on arrival, unless it's already running.
+    const existingLog = await db.jobTimeLog.findUnique({ where: { appointmentId: id } }).catch(() => null);
     await db.jobTimeLog.upsert({
       where: { appointmentId: id },
-      create: { appointmentId: id, technicianId: auth.id, arrivedAt: new Date() },
-      update: { arrivedAt: new Date() },
+      create: { appointmentId: id, technicianId: auth.id, arrivedAt: new Date(), timerStartedAt: new Date() },
+      update: { arrivedAt: new Date(), ...(existingLog?.timerStartedAt ? {} : { timerStartedAt: new Date() }) },
     }).catch(() => {});
   } else if (status === "EN_ROUTE") {
     await db.jobTimeLog.upsert({
@@ -72,7 +79,7 @@ export async function PATCH(
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dada-house.com";
   const trackingUrl = `${baseUrl}/track/${id}`;
   const smsMessages: Record<string, string> = {
-    EN_ROUTE: `Hi ${appointment.name}! Your DADA HOUSE technician is on the way. Track live: ${trackingUrl}. Questions? Call (346) 649-9353.`,
+    EN_ROUTE: `Hi ${appointment.name}! Your DADA HOUSE technician is on the way. Track live: ${trackingUrl}. Questions? Call (844) 928-0875.`,
     ARRIVED: `Your DADA HOUSE technician has arrived at your location. Please let them in. Thank you!`,
     NEED_RESCHEDULE: `Hi ${appointment.name}, your DADA HOUSE appointment needs to be rescheduled. We'll contact you shortly to arrange a new time.`,
   };

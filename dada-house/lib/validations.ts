@@ -56,6 +56,7 @@ export const voiceAgentAppointmentSchema = z.object({
   preferredTime: z.string().optional(),
   // false if Google Calendar sync failed and the slot still needs admin confirmation
   calendarSynced: z.boolean().optional().default(true),
+  diagnosticFee: z.number().optional(),
 });
 
 export const reviewSchema = z.object({

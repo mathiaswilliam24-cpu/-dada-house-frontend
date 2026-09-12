@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/api-auth";
 import { db } from "@/lib/db";
 import { resend, FROM_EMAIL } from "@/lib/resend";
+import { sendTrackedEmail } from "@/lib/customer-email";
 
 export const dynamic = "force-dynamic";
 
@@ -41,7 +42,7 @@ export async function POST(
     where: { id },
     include: {
       appointment: {
-        select: { name: true, phone: true, email: true, address: true, city: true, service: true, appointmentNumber: true },
+        select: { name: true, phone: true, email: true, address: true, city: true, service: true, appointmentNumber: true, customerId: true },
       },
     },
   });
@@ -55,12 +56,17 @@ export async function POST(
   const tax        = taxEnabled ? subtotal * taxRate / 100 : 0;
   const total      = subtotal + tax;
   const isPaid     = invoice.status === "PAID";
+  const isEstimate = invoice.status === "DRAFT";
   const balanceDue = isPaid ? 0 : total;
-  const invoiceNum = `INV${id.slice(-6).toUpperCase()}`;
+  const invoiceNum = `${isEstimate ? "EST" : "INV"}${id.slice(-6).toUpperCase()}`;
+  const docLabel   = isEstimate ? "ESTIMATE" : "INVOICE";
   const dueLabel   = invoice.dueDate ? fmtDate(invoice.dueDate) : "On Receipt";
   const paidLabel  = invoice.paidAt ? fmtDate(invoice.paidAt) : "";
   const appUrl     = process.env.NEXT_PUBLIC_APP_URL ?? "https://www.dada-house.com";
-  const printUrl   = `${appUrl}/print/invoice/${id}`;
+  const printUrl   = invoice.paymentToken
+    ? `${appUrl}/print/invoice/${id}?token=${invoice.paymentToken}`
+    : `${appUrl}/print/invoice/${id}`;
+  const payUrl     = invoice.paymentToken ? `${appUrl}/pay/${invoice.paymentToken}` : null;
 
   const itemRows = items.map(item => `
     <tr>
@@ -105,15 +111,17 @@ export async function POST(
         </div>
       </div>
       <div style="text-align:right;">
-        <div style="font-size:20px;font-weight:700;color:#111827;letter-spacing:2px;">INVOICE</div>
+        <div style="font-size:20px;font-weight:700;color:#111827;letter-spacing:2px;">${docLabel}</div>
         <div style="font-size:14px;font-weight:700;color:${isPaid ? "#16a34a" : "#1B3FA8"};margin-bottom:10px;">${invoiceNum}</div>
         <div style="font-size:12px;color:#6b7280;">DATE &nbsp; <strong style="color:#111827;">${fmtDate(invoice.createdAt)}</strong></div>
-        ${isPaid
-          ? `<div style="font-size:12px;color:#6b7280;margin-top:2px;">PAID &nbsp; <strong style="color:#16a34a;">${paidLabel}</strong></div>`
-          : `<div style="font-size:12px;color:#6b7280;margin-top:2px;">DUE &nbsp; <strong style="color:#111827;">${dueLabel}</strong></div>`
+        ${isEstimate
+          ? ""
+          : isPaid
+            ? `<div style="font-size:12px;color:#6b7280;margin-top:2px;">PAID &nbsp; <strong style="color:#16a34a;">${paidLabel}</strong></div>`
+            : `<div style="font-size:12px;color:#6b7280;margin-top:2px;">DUE &nbsp; <strong style="color:#111827;">${dueLabel}</strong></div>`
         }
         <div style="font-size:13px;font-weight:700;color:${isPaid ? "#16a34a" : "#111827"};margin-top:8px;">
-          ${isPaid ? "PAID ✓ — USD $0.00" : `BALANCE DUE: USD ${fmtCur(total)}`}
+          ${isEstimate ? `ESTIMATE TOTAL: USD ${fmtCur(total)}` : isPaid ? "PAID ✓ — USD $0.00" : `BALANCE DUE: USD ${fmtCur(total)}`}
         </div>
       </div>
     </div>
@@ -168,11 +176,20 @@ export async function POST(
       </table>
     </div>
 
-    ${!isPaid ? `
+    ${isEstimate ? `
+    <!-- Acceptance note (estimates only — nothing is due yet) -->
+    <div style="margin:0 32px;padding:16px 20px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;">
+      <div style="font-size:13px;color:#374151;">This is an estimate — no payment is due yet. To accept and schedule this work, please reply to this email or call us at (844) 928-0875.</div>
+    </div>` : !isPaid ? `
     <!-- Payment instructions (only when not paid) -->
     <div style="margin:0 32px;padding:16px 20px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;">
-      <div style="font-size:11px;font-weight:600;color:#6b7280;letter-spacing:0.5px;text-transform:uppercase;margin-bottom:6px;">PAYMENT INSTRUCTIONS</div>
-      <div style="font-size:13px;color:#374151;">Zelle : <strong>payment@mydadahouse.com</strong></div>
+      <div style="font-size:11px;font-weight:600;color:#6b7280;letter-spacing:0.5px;text-transform:uppercase;margin-bottom:6px;">PAYMENT OPTIONS</div>
+      <div style="font-size:13px;color:#374151;margin-bottom:10px;">Zelle (no fee): <strong>payment@mydadahouse.com</strong></div>
+      ${payUrl ? `
+      <a href="${payUrl}" style="display:inline-block;padding:10px 22px;background:#16a34a;color:white;text-decoration:none;border-radius:8px;font-weight:700;font-size:13px;">
+        💳 Pay by Card
+      </a>
+      <div style="font-size:11px;color:#9ca3af;margin-top:8px;">A 3% card processing fee is added automatically at checkout.</div>` : ""}
     </div>` : ""}
 
     ${invoice.notes ? `
@@ -203,9 +220,9 @@ export async function POST(
 
     <!-- View Invoice CTA -->
     <div style="padding:28px 32px;text-align:center;border-top:1px solid #e5e7eb;margin-top:24px;">
-      <p style="font-size:13px;color:#374151;margin:0 0 16px;">You can view and download your invoice anytime from the link below.</p>
+      <p style="font-size:13px;color:#374151;margin:0 0 16px;">You can view and download your ${isEstimate ? "estimate" : "invoice"} anytime from the link below.</p>
       <a href="${printUrl}" style="display:inline-block;padding:12px 28px;background:${isPaid ? "#16a34a" : "#F97316"};color:white;text-decoration:none;border-radius:8px;font-weight:700;font-size:14px;">
-        ${isPaid ? "✓ View Paid Invoice" : "View Invoice"}
+        ${isPaid ? "✓ View Paid Invoice" : isEstimate ? "View Estimate" : "View Invoice"}
       </a>
     </div>
 
@@ -213,7 +230,7 @@ export async function POST(
     <div style="padding:20px 32px 28px;border-top:1px solid #e5e7eb;">
       <p style="font-size:12px;color:#374151;margin:0 0 4px;">It is a pleasure to serve you.</p>
       <p style="font-size:12px;color:#374151;margin:0 0 4px;">Our services encompass air conditioning, heating, plumbing, and remodeling.</p>
-      <p style="font-size:12px;color:#374151;margin:0;">For additional inquiries, please contact us at (910) 685-8042 or visit our website at www.dada-house.com.</p>
+      <p style="font-size:12px;color:#374151;margin:0;">For additional inquiries, please contact us at (844) 928-0875 or visit our website at www.dada-house.com.</p>
     </div>
   </div>
 </body>
@@ -228,19 +245,19 @@ export async function POST(
 <body style="margin:0;padding:20px;background:#f3f4f6;font-family:Arial,sans-serif;">
   <div style="max-width:600px;margin:0 auto;background:white;border-radius:12px;padding:28px;border:1px solid #e5e7eb;">
     <div style="background:#1B3FA8;color:white;border-radius:8px;padding:14px 18px;margin-bottom:20px;">
-      <p style="margin:0;font-size:14px;font-weight:700;">✅ Invoice sent to client</p>
+      <p style="margin:0;font-size:14px;font-weight:700;">✅ ${docLabel === "ESTIMATE" ? "Estimate" : "Invoice"} sent to client</p>
     </div>
     <table style="width:100%;border-collapse:collapse;font-size:14px;">
-      <tr><td style="padding:6px 0;color:#6b7280;width:120px;">Invoice #</td><td style="padding:6px 0;font-weight:600;color:#111827;">${invoiceNum}</td></tr>
+      <tr><td style="padding:6px 0;color:#6b7280;width:120px;">${docLabel === "ESTIMATE" ? "Estimate #" : "Invoice #"}</td><td style="padding:6px 0;font-weight:600;color:#111827;">${invoiceNum}</td></tr>
       <tr><td style="padding:6px 0;color:#6b7280;">Client</td><td style="padding:6px 0;color:#111827;">${invoice.appointment.name}</td></tr>
       <tr><td style="padding:6px 0;color:#6b7280;">Email sent to</td><td style="padding:6px 0;color:#111827;">${clientEmail}</td></tr>
       <tr><td style="padding:6px 0;color:#6b7280;">Amount</td><td style="padding:6px 0;font-weight:700;color:#1B3FA8;">${fmtCur(total)}</td></tr>
-      <tr><td style="padding:6px 0;color:#6b7280;">Due</td><td style="padding:6px 0;color:#111827;">${dueLabel}</td></tr>
+      ${isEstimate ? "" : `<tr><td style="padding:6px 0;color:#6b7280;">Due</td><td style="padding:6px 0;color:#111827;">${dueLabel}</td></tr>`}
     </table>
     <div style="margin-top:20px;padding-top:16px;border-top:1px solid #e5e7eb;">
-      <a href="${process.env.NEXT_PUBLIC_APP_URL ?? "https://www.dada-house.com"}/print/invoice/${id}"
+      <a href="${printUrl}"
         style="display:inline-block;padding:10px 20px;background:#F97316;color:white;text-decoration:none;border-radius:8px;font-weight:700;font-size:13px;">
-        View Invoice PDF
+        View ${isEstimate ? "Estimate" : "Invoice"} PDF
       </a>
     </div>
     <p style="margin-top:16px;font-size:12px;color:#9ca3af;">— DADA HOUSE Admin System</p>
@@ -252,13 +269,15 @@ export async function POST(
     // Send to client
     const subject = isPaid
       ? `✅ Payment confirmed — Invoice ${invoiceNum} · DADA HOUSE LLC`
-      : `Invoice ${invoiceNum} from DADA HOUSE LLC — ${fmtCur(total)} due ${dueLabel}`;
+      : isEstimate
+        ? `Estimate ${invoiceNum} from DADA HOUSE LLC — ${fmtCur(total)}`
+        : `Invoice ${invoiceNum} from DADA HOUSE LLC — ${fmtCur(total)} due ${dueLabel}`;
 
-    await resend.emails.send({
-      from: FROM_EMAIL,
+    await sendTrackedEmail({
       to: clientEmail,
       subject,
       html,
+      customerId: invoice.appointment.customerId,
     });
 
     // Send separate confirmation copy to admin (never blocks client delivery)
@@ -266,7 +285,7 @@ export async function POST(
       resend.emails.send({
         from: FROM_EMAIL,
         to: adminEmail,
-        subject: `[COPY] ${isPaid ? "Paid invoice" : "Invoice"} ${invoiceNum} sent to ${invoice.appointment.name} — ${fmtCur(total)}`,
+        subject: `[COPY] ${isPaid ? "Paid invoice" : isEstimate ? "Estimate" : "Invoice"} ${invoiceNum} sent to ${invoice.appointment.name} — ${fmtCur(total)}`,
         html: adminNotifHtml,
       }).catch(err => console.error("admin copy email error", err));
     }

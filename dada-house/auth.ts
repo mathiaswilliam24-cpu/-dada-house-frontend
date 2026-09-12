@@ -10,6 +10,12 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,
   adapter: PrismaAdapter(db),
   session: { strategy: "jwt" },
+  // The app is served from several custom domains (dadahouse.com, dada-house.com,
+  // mydadahouse.com, www.dadahouse.com) aliased to the same deployment, but
+  // NEXTAUTH_URL can only name one of them. Without trustHost, Auth.js rejects
+  // sign-in on any domain other than that one — the login appears to succeed but
+  // the session never persists, bouncing the user back to /auth/login.
+  trustHost: true,
   providers: [
     Google({
       clientId: process.env.GOOGLE_CLIENT_ID!,

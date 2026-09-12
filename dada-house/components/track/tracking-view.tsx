@@ -89,8 +89,8 @@ export default function TrackingView({
         </div>
 
         <div className="text-center pt-2">
-          <a href="tel:+13466499353" className="inline-flex items-center gap-1.5 text-sm text-[#1B3FA8] font-medium">
-            <Phone className="w-4 h-4" /> (346) 649-9353
+          <a href="tel:+18449280875" className="inline-flex items-center gap-1.5 text-sm text-[#1B3FA8] font-medium">
+            <Phone className="w-4 h-4" /> (844) 928-0875
           </a>
         </div>
       </div>

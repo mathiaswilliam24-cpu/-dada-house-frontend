@@ -132,7 +132,7 @@ export default function ConfirmPage() {
             {appt?.preferredTime && <div className="flex items-center gap-2 text-sm text-gray-600"><Clock className="w-4 h-4 text-[#F7921A] shrink-0" />{appt.preferredTime}</div>}
             {appt?.address && <div className="flex items-center gap-2 text-sm text-gray-600"><MapPin className="w-4 h-4 text-[#F7921A] shrink-0" />{appt.address}, {appt.city}</div>}
           </div>
-          <p className="text-xs text-gray-400 mb-5">Questions? Call us at <a href="tel:+13466499353" className="text-[#1B3FA8] font-semibold">(346) 649-9353</a></p>
+          <p className="text-xs text-gray-400 mb-5">Questions? Call us at <a href="tel:+18449280875" className="text-[#1B3FA8] font-semibold">(844) 928-0875</a></p>
           <Link href="/" className="inline-flex items-center gap-2 px-6 py-3 bg-[#F7921A] text-white rounded-xl text-sm font-bold">Back to DADA HOUSE</Link>
         </div>
       </div>
@@ -149,7 +149,7 @@ export default function ConfirmPage() {
           </div>
           <h1 className="text-xl font-black text-gray-900 mb-2">Information Sent!</h1>
           <p className="text-gray-500 text-sm mb-6">Your update has been sent to our team. We will contact you shortly to confirm the changes.</p>
-          <p className="text-xs text-gray-400 mb-5">Questions? Call <a href="tel:+13466499353" className="text-[#1B3FA8] font-semibold">(346) 649-9353</a></p>
+          <p className="text-xs text-gray-400 mb-5">Questions? Call <a href="tel:+18449280875" className="text-[#1B3FA8] font-semibold">(844) 928-0875</a></p>
           <Link href="/" className="inline-flex items-center gap-2 px-6 py-3 bg-[#F7921A] text-white rounded-xl text-sm font-bold">Back to DADA HOUSE</Link>
         </div>
       </div>
@@ -286,7 +286,7 @@ export default function ConfirmPage() {
         </div>
 
         <p className="text-center text-xs text-gray-400">
-          Questions? Call <a href="tel:+13466499353" className="text-[#1B3FA8] font-semibold">(346) 649-9353</a>
+          Questions? Call <a href="tel:+18449280875" className="text-[#1B3FA8] font-semibold">(844) 928-0875</a>
         </p>
       </div>
     </div>

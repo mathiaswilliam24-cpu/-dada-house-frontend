@@ -78,6 +78,22 @@ export const ourFileRouter = {
       return { url: file.ufsUrl ?? file.url };
     }),
 
+  messageAttachments: f({
+    image: { maxFileSize: "16MB", maxFileCount: 5 },
+    video: { maxFileSize: "64MB", maxFileCount: 2 },
+    pdf: { maxFileSize: "16MB", maxFileCount: 5 },
+    blob: { maxFileSize: "16MB", maxFileCount: 5 },
+  })
+    .middleware(async () => {
+      const session = await auth();
+      if (!session?.user || !["SUPER_ADMIN", "ADMIN", "MANAGER", "CUSTOMER_SERVICE_REP", "DISPATCHER"].includes(session.user.role))
+        throw new Error("Forbidden");
+      return { userId: session.user.id };
+    })
+    .onUploadComplete(async ({ file }) => {
+      return { url: file.ufsUrl ?? file.url };
+    }),
+
   campaignFlyer: f({
     image: { maxFileSize: "16MB", maxFileCount: 1 },
     video: { maxFileSize: "128MB", maxFileCount: 1 },

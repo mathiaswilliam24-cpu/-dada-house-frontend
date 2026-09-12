@@ -40,6 +40,14 @@ export async function POST(req: NextRequest) {
         data: { status: "PROCESSING", paidAt: new Date(), stripePaymentIntentId: intent.id },
       });
     }
+
+    // Mark a one-time (no-renew) annual maintenance contract PAID
+    if (intent.metadata.maintenanceContractId) {
+      await db.maintenanceContract.updateMany({
+        where: { id: intent.metadata.maintenanceContractId },
+        data: { status: "PAID", paidAt: new Date(), stripePaymentIntentId: intent.id },
+      });
+    }
   }
 
   if (event.type === "customer.subscription.updated" || event.type === "customer.subscription.deleted") {
@@ -55,6 +63,16 @@ export async function POST(req: NextRequest) {
         status,
         currentPeriodEnd: new Date(((sub as unknown) as { current_period_end: number }).current_period_end * 1000),
       },
+    });
+
+    const contractStatus =
+      event.type === "customer.subscription.deleted" ? "CANCELLED" :
+      sub.status === "active" ? "ACTIVE" :
+      sub.status === "past_due" ? "PAST_DUE" : "CANCELLED";
+
+    await db.maintenanceContract.updateMany({
+      where: { stripeSubscriptionId: sub.id },
+      data: { status: contractStatus },
     });
   }
 

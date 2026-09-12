@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/api-auth";
 import { db } from "@/lib/db";
 import { generateAppointmentNumber } from "@/lib/utils";
+import { findOrCreateCustomerByPhone } from "@/lib/customers";
 import crypto from "crypto";
 
 export const dynamic = "force-dynamic";
@@ -92,6 +93,13 @@ export async function POST(req: NextRequest) {
     if (!service) {
       return NextResponse.json({ error: "Service is required" }, { status: 400 });
     }
+
+    // Link (or create) the call-center Customer record so this person and the
+    // estimate/invoice email sent to them show up on the dispatcher dashboard.
+    const customer = customerPhone
+      ? await findOrCreateCustomerByPhone(customerPhone, { firstName: customerName, email: customerEmail }).catch(() => null)
+      : null;
+
     const appt = await db.appointment.create({
       data: {
         appointmentNumber: generateAppointmentNumber(),
@@ -104,6 +112,7 @@ export async function POST(req: NextRequest) {
         status: "CONFIRMED",
         source: "admin-invoice",
         ...(userId ? { userId } : {}),
+        ...(customer ? { customerId: customer.id } : {}),
       },
     });
     appointmentId = appt.id;

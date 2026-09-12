@@ -76,8 +76,8 @@ export default async function GalleryPage() {
               <Calendar size={18} />
               Book Appointment
             </Link>
-            <a href="tel:+13466499353" className={cn(buttonVariants({ variant: "outline", size: "lg" }), "gap-2")}>
-              Call (346) 649-9353
+            <a href="tel:+18449280875" className={cn(buttonVariants({ variant: "outline", size: "lg" }), "gap-2")}>
+              Call (844) 928-0875
             </a>
           </div>
         </div>

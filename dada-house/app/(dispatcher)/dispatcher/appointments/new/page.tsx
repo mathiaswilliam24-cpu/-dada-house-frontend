@@ -3,13 +3,16 @@
 import { useState, useEffect, useRef } from "react";
 import { ArrowLeft, User, Phone, Mail, MapPin, Calendar, Clock, Wrench, FileText, UserCheck, CheckCircle, Copy, Send, ExternalLink, Search, X, UserPlus } from "lucide-react";
 import Link from "next/link";
+import { AddressAutocomplete } from "@/components/ui/address-autocomplete";
 
 const SERVICES = ["Plumbing", "Air Conditioning", "Heating", "Remodeling", "Home Inspection", "Other"];
 const TIMES = ["7:00 AM","8:00 AM","9:00 AM","10:00 AM","11:00 AM","12:00 PM","1:00 PM","2:00 PM","3:00 PM","4:00 PM","5:00 PM","6:00 PM","7:00 PM","Emergency"];
 
+const DIAGNOSTIC_FEES = [2, 35, 55, 85, 95, 105, 125, 135] as const;
+
 type Tech = { id: string; name: string | null; email: string };
 type ClientResult = { name: string; phone: string; email: string; address: string; city: string; zipCode: string };
-type Created = { id: string; appointmentNumber: string; name: string; service: string; confirmUrl: string; email: string };
+type Created = { id: string; appointmentNumber: string; name: string; service: string; confirmUrl: string; email: string; emailSent: boolean; smsSent: boolean; diagnosticPaymentUrl?: string };
 
 export default function NewDispatcherAppointment() {
   const [saving, setSaving] = useState(false);
@@ -42,11 +45,30 @@ export default function NewDispatcherAppointment() {
   const [preferredDate, setPreferredDate] = useState("");
   const [preferredTime, setPreferredTime] = useState("");
   const [technicianId, setTechnicianId] = useState("");
+  const [customerId, setCustomerId] = useState("");
+  const [isDiagnostic, setIsDiagnostic] = useState(false);
+  const [diagnosticFee, setDiagnosticFee] = useState<number | null>(null);
 
   useEffect(() => {
     fetch("/api/admin/users/technicians")
       .then(r => r.json())
       .then(d => setTechs(d.technicians ?? []));
+  }, []);
+
+  // Prefill from a customer profile "Book Appointment" quick action.
+  // Reads window.location.search directly (not useSearchParams()) to avoid the
+  // Suspense-boundary requirement that hook imposes on this page.
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const prefillName = params.get("prefillName");
+    if (!prefillName) return;
+    setClientMode("new");
+    setName(prefillName);
+    setPhone(params.get("prefillPhone") ?? "");
+    setEmail(params.get("prefillEmail") ?? "");
+    setAddress(params.get("prefillAddress") ?? "");
+    setCity(params.get("prefillCity") || "Houston");
+    setCustomerId(params.get("customerId") ?? "");
   }, []);
 
   // Debounced client search
@@ -87,19 +109,23 @@ export default function NewDispatcherAppointment() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError("");
+    if (isDiagnostic && !diagnosticFee) {
+      setError("Please select a diagnostic fee amount.");
+      return;
+    }
     setSaving(true);
     try {
       const res = await fetch("/api/dispatcher/appointments", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ service, subservice, name, phone, email, address, city, zipCode, description, preferredDate: preferredDate || undefined, preferredTime: preferredTime || undefined, technicianId: technicianId || undefined, photos: [] }),
+        body: JSON.stringify({ service, subservice, name, phone, email, address, city, zipCode, description, preferredDate: preferredDate || undefined, preferredTime: preferredTime || undefined, technicianId: technicianId || undefined, customerId: customerId || undefined, photos: [], ...(isDiagnostic && diagnosticFee ? { diagnosticFee } : {}) }),
       });
       if (!res.ok) {
         const d = await res.json();
         throw new Error(d.error ?? "Failed to create appointment");
       }
       const d = await res.json();
-      setCreated({ id: d.appointment.id, appointmentNumber: d.appointment.appointmentNumber, name, service, confirmUrl: d.confirmUrl, email });
+      setCreated({ id: d.appointment.id, appointmentNumber: d.appointment.appointmentNumber, name, service, confirmUrl: d.confirmUrl, email, emailSent: !!d.emailSent, smsSent: !!d.smsSent, diagnosticPaymentUrl: d.diagnosticPaymentUrl });
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong");
     } finally {
@@ -109,7 +135,7 @@ export default function NewDispatcherAppointment() {
 
   async function copyLink() {
     if (!created) return;
-    await navigator.clipboard.writeText(created.confirmUrl);
+    await navigator.clipboard.writeText(created.diagnosticPaymentUrl ?? created.confirmUrl);
     setCopied(true);
     setTimeout(() => setCopied(false), 2500);
   }
@@ -126,13 +152,30 @@ export default function NewDispatcherAppointment() {
           <p className="text-gray-500 text-sm mt-1">
             <strong>#{created.appointmentNumber}</strong> · {created.name} · {created.service}
           </p>
+          {created.diagnosticPaymentUrl && (
+            <div className="mt-3 bg-orange-50 border border-orange-200 rounded-xl px-3 py-2 text-xs text-orange-700 font-semibold text-center">
+              🔍 Diagnostic — Technician notified after client payment
+            </div>
+          )}
+          <div className="flex items-center justify-center gap-3 mt-3 text-xs">
+            <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full ${created.emailSent ? "bg-green-50 text-green-700" : "bg-gray-100 text-gray-500"}`}>
+              {created.emailSent ? "✓ Email sent" : "Email not sent"}
+            </span>
+            <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full ${created.smsSent ? "bg-green-50 text-green-700" : "bg-gray-100 text-gray-500"}`}>
+              {created.smsSent ? "✓ SMS sent" : "SMS not sent"}
+            </span>
+          </div>
         </div>
 
         <div className="bg-white rounded-2xl border border-gray-200 p-5 space-y-3">
-          <p className="text-sm font-semibold text-gray-800">Confirmation link to send to the client:</p>
+          <p className="text-sm font-semibold text-gray-800">
+            {created.diagnosticPaymentUrl ? "Payment link to send to the client:" : "Confirmation link to send to the client:"}
+          </p>
           <div className="flex items-center gap-2 bg-gray-50 border border-gray-200 rounded-xl px-3 py-2.5">
-            <span className="flex-1 text-xs text-gray-600 truncate font-mono">{created.confirmUrl}</span>
-            <a href={created.confirmUrl} target="_blank" rel="noreferrer" className="text-gray-400 hover:text-gray-600 shrink-0">
+            <span className="flex-1 text-xs text-gray-600 truncate font-mono">
+              {created.diagnosticPaymentUrl ?? created.confirmUrl}
+            </span>
+            <a href={created.diagnosticPaymentUrl ?? created.confirmUrl} target="_blank" rel="noreferrer" className="text-gray-400 hover:text-gray-600 shrink-0">
               <ExternalLink className="w-4 h-4" />
             </a>
           </div>
@@ -148,7 +191,7 @@ export default function NewDispatcherAppointment() {
 
         {created.email && (
           <div className="bg-white rounded-2xl border border-gray-200 p-5">
-            <p className="text-sm font-semibold text-gray-800 mb-1">Or send by email:</p>
+            <p className="text-sm font-semibold text-gray-800 mb-1">Didn&apos;t arrive? Resend the email:</p>
             <p className="text-xs text-gray-500 mb-3">Will be sent to <strong>{created.email}</strong></p>
             <button
               onClick={async () => {
@@ -161,7 +204,7 @@ export default function NewDispatcherAppointment() {
               className="w-full flex items-center justify-center gap-2 py-3 bg-[#F7921A] hover:bg-[#E07F10] disabled:opacity-60 text-white rounded-xl text-sm font-bold transition-colors"
             >
               <Send className="w-4 h-4" />
-              {emailSent ? "Email Sent ✓" : sendingEmail ? "Sending…" : "Send Confirmation Email"}
+              {emailSent ? "Email Sent ✓" : sendingEmail ? "Sending…" : "Resend Confirmation Email"}
             </button>
           </div>
         )}
@@ -287,8 +330,18 @@ export default function NewDispatcherAppointment() {
           </div>
           <div>
             <label className="text-xs text-gray-500 font-medium mb-1 block">Street Address *</label>
-            <input value={address} onChange={e => setAddress(e.target.value)} required placeholder="1234 Main St"
-              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-[#1B3FA8]" />
+            <AddressAutocomplete
+              value={address}
+              onChange={setAddress}
+              onSelect={(parsed) => {
+                setAddress(parsed.streetAddress);
+                if (parsed.city) setCity(parsed.city);
+                if (parsed.zipCode) setZipCode(parsed.zipCode);
+              }}
+              required
+              placeholder="1234 Main St"
+              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-[#1B3FA8]"
+            />
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div>
@@ -357,6 +410,56 @@ export default function NewDispatcherAppointment() {
           <textarea value={description} onChange={e => setDescription(e.target.value)}
             placeholder="Describe the issue or any special instructions…" rows={3}
             className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-[#1B3FA8] resize-none" />
+        </div>
+
+        {/* ── Diagnostic fee ────────────────────────────────────────────── */}
+        <div className="bg-white rounded-xl border border-gray-200 p-4">
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center gap-2 text-sm font-semibold text-gray-700">
+              <Wrench className="w-4 h-4 text-[#F7921A]" /> Job Type
+            </div>
+          </div>
+          <div className="flex gap-2 mb-3">
+            <button
+              type="button"
+              onClick={() => { setIsDiagnostic(false); setDiagnosticFee(null); }}
+              className={`flex-1 py-2.5 rounded-xl text-sm font-semibold border transition-colors ${!isDiagnostic ? "bg-[#1B3FA8] text-white border-[#1B3FA8]" : "bg-white text-gray-600 border-gray-200 hover:border-gray-300"}`}
+            >
+              Standard Job
+            </button>
+            <button
+              type="button"
+              onClick={() => setIsDiagnostic(true)}
+              className={`flex-1 py-2.5 rounded-xl text-sm font-semibold border transition-colors ${isDiagnostic ? "bg-[#F7921A] text-white border-[#F7921A]" : "bg-white text-gray-600 border-gray-200 hover:border-gray-300"}`}
+            >
+              🔍 Diagnostic
+            </button>
+          </div>
+          {isDiagnostic && (
+            <div>
+              <p className="text-xs text-gray-500 mb-2 font-medium">Select diagnostic fee amount:</p>
+              <div className="grid grid-cols-4 gap-2">
+                {DIAGNOSTIC_FEES.map(fee => (
+                  <button
+                    key={fee}
+                    type="button"
+                    onClick={() => setDiagnosticFee(fee)}
+                    className={`py-2 rounded-xl text-sm font-bold border transition-colors ${diagnosticFee === fee ? "bg-[#F7921A] text-white border-[#F7921A]" : "bg-white text-gray-700 border-gray-200 hover:border-[#F7921A] hover:text-[#F7921A]"}`}
+                  >
+                    ${fee}
+                  </button>
+                ))}
+              </div>
+              {diagnosticFee && (
+                <div className="mt-3 bg-orange-50 border border-orange-200 rounded-xl px-3 py-2 text-xs text-orange-700 font-medium">
+                  ⚠️ Client will receive a payment link for <strong>${diagnosticFee}</strong>. Technician only notified after payment.
+                </div>
+              )}
+              {isDiagnostic && !diagnosticFee && (
+                <p className="mt-2 text-xs text-red-500 font-medium">Please select a fee amount.</p>
+              )}
+            </div>
+          )}
         </div>
 
         {/* ── Assign technician ─────────────────────────────────────────── */}

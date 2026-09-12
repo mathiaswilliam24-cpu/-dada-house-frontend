@@ -28,10 +28,12 @@ export type AggregateGalleryProject = {
 
 export type GalleryProjectAvgAggregateOutputType = {
   sortOrder: number | null
+  views: number | null
 }
 
 export type GalleryProjectSumAggregateOutputType = {
   sortOrder: number | null
+  views: number | null
 }
 
 export type GalleryProjectMinAggregateOutputType = {
@@ -43,6 +45,7 @@ export type GalleryProjectMinAggregateOutputType = {
   description: string | null
   published: boolean | null
   sortOrder: number | null
+  views: number | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -56,6 +59,7 @@ export type GalleryProjectMaxAggregateOutputType = {
   description: string | null
   published: boolean | null
   sortOrder: number | null
+  views: number | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -71,6 +75,7 @@ export type GalleryProjectCountAggregateOutputType = {
   images: number
   published: number
   sortOrder: number
+  views: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -79,10 +84,12 @@ export type GalleryProjectCountAggregateOutputType = {
 
 export type GalleryProjectAvgAggregateInputType = {
   sortOrder?: true
+  views?: true
 }
 
 export type GalleryProjectSumAggregateInputType = {
   sortOrder?: true
+  views?: true
 }
 
 export type GalleryProjectMinAggregateInputType = {
@@ -94,6 +101,7 @@ export type GalleryProjectMinAggregateInputType = {
   description?: true
   published?: true
   sortOrder?: true
+  views?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -107,6 +115,7 @@ export type GalleryProjectMaxAggregateInputType = {
   description?: true
   published?: true
   sortOrder?: true
+  views?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -122,6 +131,7 @@ export type GalleryProjectCountAggregateInputType = {
   images?: true
   published?: true
   sortOrder?: true
+  views?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -224,6 +234,7 @@ export type GalleryProjectGroupByOutputType = {
   images: string[]
   published: boolean
   sortOrder: number
+  views: number
   createdAt: Date
   updatedAt: Date
   _count: GalleryProjectCountAggregateOutputType | null
@@ -262,6 +273,7 @@ export type GalleryProjectWhereInput = {
   images?: Prisma.StringNullableListFilter<"GalleryProject">
   published?: Prisma.BoolFilter<"GalleryProject"> | boolean
   sortOrder?: Prisma.IntFilter<"GalleryProject"> | number
+  views?: Prisma.IntFilter<"GalleryProject"> | number
   createdAt?: Prisma.DateTimeFilter<"GalleryProject"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"GalleryProject"> | Date | string
 }
@@ -277,6 +289,7 @@ export type GalleryProjectOrderByWithRelationInput = {
   images?: Prisma.SortOrder
   published?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
+  views?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -295,6 +308,7 @@ export type GalleryProjectWhereUniqueInput = Prisma.AtLeast<{
   images?: Prisma.StringNullableListFilter<"GalleryProject">
   published?: Prisma.BoolFilter<"GalleryProject"> | boolean
   sortOrder?: Prisma.IntFilter<"GalleryProject"> | number
+  views?: Prisma.IntFilter<"GalleryProject"> | number
   createdAt?: Prisma.DateTimeFilter<"GalleryProject"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"GalleryProject"> | Date | string
 }, "id">
@@ -310,6 +324,7 @@ export type GalleryProjectOrderByWithAggregationInput = {
   images?: Prisma.SortOrder
   published?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
+  views?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.GalleryProjectCountOrderByAggregateInput
@@ -333,6 +348,7 @@ export type GalleryProjectScalarWhereWithAggregatesInput = {
   images?: Prisma.StringNullableListFilter<"GalleryProject">
   published?: Prisma.BoolWithAggregatesFilter<"GalleryProject"> | boolean
   sortOrder?: Prisma.IntWithAggregatesFilter<"GalleryProject"> | number
+  views?: Prisma.IntWithAggregatesFilter<"GalleryProject"> | number
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"GalleryProject"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"GalleryProject"> | Date | string
 }
@@ -348,6 +364,7 @@ export type GalleryProjectCreateInput = {
   images?: Prisma.GalleryProjectCreateimagesInput | string[]
   published?: boolean
   sortOrder?: number
+  views?: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -363,6 +380,7 @@ export type GalleryProjectUncheckedCreateInput = {
   images?: Prisma.GalleryProjectCreateimagesInput | string[]
   published?: boolean
   sortOrder?: number
+  views?: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -378,6 +396,7 @@ export type GalleryProjectUpdateInput = {
   images?: Prisma.GalleryProjectUpdateimagesInput | string[]
   published?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  views?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -393,6 +412,7 @@ export type GalleryProjectUncheckedUpdateInput = {
   images?: Prisma.GalleryProjectUpdateimagesInput | string[]
   published?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  views?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -408,6 +428,7 @@ export type GalleryProjectCreateManyInput = {
   images?: Prisma.GalleryProjectCreateimagesInput | string[]
   published?: boolean
   sortOrder?: number
+  views?: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -423,6 +444,7 @@ export type GalleryProjectUpdateManyMutationInput = {
   images?: Prisma.GalleryProjectUpdateimagesInput | string[]
   published?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  views?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -438,6 +460,7 @@ export type GalleryProjectUncheckedUpdateManyInput = {
   images?: Prisma.GalleryProjectUpdateimagesInput | string[]
   published?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  views?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -453,12 +476,14 @@ export type GalleryProjectCountOrderByAggregateInput = {
   images?: Prisma.SortOrder
   published?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
+  views?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type GalleryProjectAvgOrderByAggregateInput = {
   sortOrder?: Prisma.SortOrder
+  views?: Prisma.SortOrder
 }
 
 export type GalleryProjectMaxOrderByAggregateInput = {
@@ -470,6 +495,7 @@ export type GalleryProjectMaxOrderByAggregateInput = {
   description?: Prisma.SortOrder
   published?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
+  views?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -483,12 +509,14 @@ export type GalleryProjectMinOrderByAggregateInput = {
   description?: Prisma.SortOrder
   published?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
+  views?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type GalleryProjectSumOrderByAggregateInput = {
   sortOrder?: Prisma.SortOrder
+  views?: Prisma.SortOrder
 }
 
 export type GalleryProjectCreatetagsInput = {
@@ -522,6 +550,7 @@ export type GalleryProjectSelect<ExtArgs extends runtime.Types.Extensions.Intern
   images?: boolean
   published?: boolean
   sortOrder?: boolean
+  views?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["galleryProject"]>
@@ -537,6 +566,7 @@ export type GalleryProjectSelectCreateManyAndReturn<ExtArgs extends runtime.Type
   images?: boolean
   published?: boolean
   sortOrder?: boolean
+  views?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["galleryProject"]>
@@ -552,6 +582,7 @@ export type GalleryProjectSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
   images?: boolean
   published?: boolean
   sortOrder?: boolean
+  views?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["galleryProject"]>
@@ -567,11 +598,12 @@ export type GalleryProjectSelectScalar = {
   images?: boolean
   published?: boolean
   sortOrder?: boolean
+  views?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type GalleryProjectOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "category" | "location" | "date" | "description" | "tags" | "images" | "published" | "sortOrder" | "createdAt" | "updatedAt", ExtArgs["result"]["galleryProject"]>
+export type GalleryProjectOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "category" | "location" | "date" | "description" | "tags" | "images" | "published" | "sortOrder" | "views" | "createdAt" | "updatedAt", ExtArgs["result"]["galleryProject"]>
 
 export type $GalleryProjectPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "GalleryProject"
@@ -587,6 +619,7 @@ export type $GalleryProjectPayload<ExtArgs extends runtime.Types.Extensions.Inte
     images: string[]
     published: boolean
     sortOrder: number
+    views: number
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["galleryProject"]>
@@ -1022,6 +1055,7 @@ export interface GalleryProjectFieldRefs {
   readonly images: Prisma.FieldRef<"GalleryProject", 'String[]'>
   readonly published: Prisma.FieldRef<"GalleryProject", 'Boolean'>
   readonly sortOrder: Prisma.FieldRef<"GalleryProject", 'Int'>
+  readonly views: Prisma.FieldRef<"GalleryProject", 'Int'>
   readonly createdAt: Prisma.FieldRef<"GalleryProject", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"GalleryProject", 'DateTime'>
 }

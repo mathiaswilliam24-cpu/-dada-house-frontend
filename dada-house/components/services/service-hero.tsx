@@ -56,7 +56,7 @@ export default function ServiceHero({
               Book This Service
             </Link>
             <a
-              href="tel:+13466499353"
+              href="tel:+18449280875"
               className={cn(buttonVariants({ variant: "outline", size: "lg" }), "text-base font-bold")}
             >
               <Phone size={18} />

@@ -10,19 +10,23 @@ export async function GET(req: NextRequest) {
 
   const { searchParams } = new URL(req.url);
   const q = searchParams.get("q");
+  const category = searchParams.get("category");
 
   const items = await db.priceBookItem.findMany({
-    where: q
-      ? {
-          OR: [
-            { name: { contains: q, mode: "insensitive" } },
-            { description: { contains: q, mode: "insensitive" } },
-            { category: { contains: q, mode: "insensitive" } },
-          ],
-        }
-      : {},
+    where: {
+      ...(category ? { category } : {}),
+      ...(q
+        ? {
+            OR: [
+              { name: { contains: q, mode: "insensitive" } },
+              { description: { contains: q, mode: "insensitive" } },
+              { category: { contains: q, mode: "insensitive" } },
+            ],
+          }
+        : {}),
+    },
     orderBy: [{ category: "asc" }, { name: "asc" }],
-    take: 50,
+    take: q || category ? 200 : 500,
   });
 
   return NextResponse.json({ items });

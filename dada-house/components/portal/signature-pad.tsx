@@ -3,7 +3,7 @@ import { useRef, useState } from "react";
 import SignatureCanvas from "react-signature-canvas";
 import { buttonVariants } from "@/components/ui/button";
 
-export default function SignaturePad({ invoiceId }: { invoiceId: string }) {
+export default function SignaturePad({ invoiceId, onSubmit }: { invoiceId?: string; onSubmit?: (signatureUrl: string) => Promise<void> }) {
   const sigRef = useRef<SignatureCanvas>(null);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
@@ -18,15 +18,19 @@ export default function SignaturePad({ invoiceId }: { invoiceId: string }) {
     setError(null);
     const signatureUrl = sigRef.current.toDataURL("image/png");
 
-    const res = await fetch(`/api/portal/invoices/${invoiceId}/sign`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ signatureUrl }),
-    });
-
-    if (res.ok) {
+    try {
+      if (onSubmit) {
+        await onSubmit(signatureUrl);
+      } else {
+        const res = await fetch(`/api/portal/invoices/${invoiceId}/sign`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ signatureUrl }),
+        });
+        if (!res.ok) throw new Error();
+      }
       setSaved(true);
-    } else {
+    } catch {
       setError("Failed to save signature");
     }
     setSaving(false);

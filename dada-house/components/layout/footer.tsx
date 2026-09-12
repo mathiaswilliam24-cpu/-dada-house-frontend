@@ -62,10 +62,10 @@ export default function Footer() {
                 <div>
                   <p className="text-xs text-slate-500 uppercase tracking-wider mb-0.5">Service Requests</p>
                   <a
-                    href="tel:+13466499353"
+                    href="tel:+18449280875"
                     className="text-white font-bold text-sm hover:text-[#F7921A] transition-colors"
                   >
-                    +1 (346) 649-9353
+                    +1 (844) 928-0875
                   </a>
                 </div>
               </div>
@@ -75,10 +75,10 @@ export default function Footer() {
                 <div>
                   <p className="text-xs text-slate-500 uppercase tracking-wider mb-0.5">Emergency Line</p>
                   <a
-                    href="tel:+18326264398"
+                    href="tel:+18449280875"
                     className="text-red-400 font-bold text-sm hover:text-red-300 transition-colors"
                   >
-                    832-626-4398
+                    (346) 649-9353
                   </a>
                 </div>
               </div>

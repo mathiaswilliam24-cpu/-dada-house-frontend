@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse, after } from "next/server";
 import { requireAdminOrDispatcher } from "@/lib/api-auth";
 import { db } from "@/lib/db";
-import { sendSMS } from "@/lib/twilio";
+import { sendTechnicianAssignmentNotification } from "@/lib/appointment-notifications";
 
 export async function POST(req: NextRequest) {
   const auth = await requireAdminOrDispatcher(req);
@@ -21,15 +21,11 @@ export async function POST(req: NextRequest) {
     },
   });
 
-  const tech = await db.user.findUnique({ where: { id: technicianId }, select: { phone: true, name: true } });
-  if (tech?.phone) {
-    after(() =>
-      sendSMS(
-        tech.phone!,
-        `DADA HOUSE: You've been assigned job #${appointment.appointmentNumber}. Service: ${appointment.service} at ${appointment.address}. Date: ${appointment.preferredDate?.toLocaleDateString() ?? "TBD"}.`
-      ).catch(console.error)
-    );
-  }
+  after(() =>
+    sendTechnicianAssignmentNotification(appointmentId).catch((err) =>
+      console.error("Technician assignment notification failed", err)
+    )
+  );
 
   // Auto-add client to technician's client list (skip duplicates by email)
   if (appointment.email) {

@@ -65,7 +65,7 @@ const FROM = {
   email: "customerservice@dada-house.com",
   address: "7001 South Texas 6 STE 246",
   city: "Houston, TX 77083",
-  phone: "(346) 649-9353",
+  phone: "(844) 928-0875",
 };
 
 function newLine(): LineItem {

@@ -59,7 +59,8 @@ function BookingFormInner() {
   const preService = searchParams.get("service") ?? "";
 
   const [step, setStep] = useState(preService ? 1 : 0);
-  const [success, setSuccess] = useState<{ number: string } | null>(null);
+  const [isDiagnostic, setIsDiagnostic] = useState(false);
+  const [success, setSuccess] = useState<{ number: string; diagnosticPaymentUrl?: string } | null>(null);
   const [submitError, setSubmitError] = useState("");
   const [smsConsent, setSmsConsent] = useState(false);
   const [confirmReady, setConfirmReady] = useState(false);
@@ -187,11 +188,11 @@ function BookingFormInner() {
       const res = await fetch("/api/appointments", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...data, smsConsent }),
+        body: JSON.stringify({ ...data, smsConsent, ...(isDiagnostic ? { diagnosticFee: 35 } : {}) }),
       });
       const body = await res.json();
       if (!res.ok) throw new Error(body.error || "Failed to submit");
-      setSuccess({ number: body.appointmentNumber });
+      setSuccess({ number: body.appointmentNumber, diagnosticPaymentUrl: body.diagnosticPaymentUrl });
     } catch (err) {
       setSubmitError(
         err instanceof Error ? err.message : "Submission failed. Please try again."
@@ -209,6 +210,44 @@ function BookingFormInner() {
   };
 
   if (success) {
+    if (success.diagnosticPaymentUrl) {
+      return (
+        <div className="bg-[#0D1D5E] border border-[#F7921A]/40 rounded-2xl p-10 text-center">
+          <div className="w-20 h-20 bg-amber-900/20 border border-amber-700/30 rounded-full flex items-center justify-center mx-auto mb-6">
+            <AlertCircle size={40} className="text-[#F7921A]" />
+          </div>
+          <h2 className="text-3xl font-black text-white mb-3">One More Step!</h2>
+          <p className="text-slate-400 mb-1 text-sm">Appointment #{success.number}</p>
+          <p className="text-slate-300 text-sm mb-6 leading-relaxed">
+            Pay the <span className="text-[#F7921A] font-black">$35 diagnostic fee</span> to confirm your appointment.
+            <br />A technician will be dispatched once payment is received.
+          </p>
+          <a
+            href={success.diagnosticPaymentUrl}
+            className="flex items-center justify-center gap-2 w-full bg-[#F7921A] hover:bg-[#E07F10] text-white font-black py-4 rounded-xl text-lg mb-3 transition-all"
+          >
+            Pay $35 Now →
+          </a>
+          <p className="text-slate-500 text-xs mb-6">Payment must be received at least 8 hours before your appointment.</p>
+          <div className="grid grid-cols-2 gap-3">
+            <a
+              href="tel:+18449280875"
+              className="flex items-center justify-center gap-2 px-4 py-3 border border-[#1A3490] hover:border-[#F7921A] text-blue-200 hover:text-white rounded-xl text-sm font-semibold transition-all"
+            >
+              <Phone size={14} />
+              Call Us
+            </a>
+            <a
+              href="/"
+              className="flex items-center justify-center gap-2 px-4 py-3 bg-[#1B3FA8] hover:bg-[#1A3490] text-white rounded-xl text-sm font-bold transition-all"
+            >
+              Back to Home
+            </a>
+          </div>
+        </div>
+      );
+    }
+
     return (
       <div className="bg-[#0D1D5E] border border-[#1A3490] rounded-2xl p-10 text-center">
         <div className="w-20 h-20 bg-green-900/20 border border-green-700/30 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -222,7 +261,7 @@ function BookingFormInner() {
         </p>
         <div className="grid grid-cols-2 gap-3">
           <a
-            href="tel:+13466499353"
+            href="tel:+18449280875"
             className="flex items-center justify-center gap-2 px-4 py-3 border border-[#1A3490] hover:border-[#F7921A] text-blue-200 hover:text-white rounded-xl text-sm font-semibold transition-all"
           >
             <Phone size={14} />
@@ -274,6 +313,48 @@ function BookingFormInner() {
             </div>
             {errors.service && (
               <p className="text-red-400 text-xs mt-3">{errors.service.message}</p>
+            )}
+
+            {/* Visit type — shown once a service is selected */}
+            {selectedService && (
+              <div className="mt-6">
+                <p className="text-sm font-semibold text-white mb-3">What type of visit?</p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <button
+                    type="button"
+                    onClick={() => setIsDiagnostic(false)}
+                    className={`p-4 rounded-xl border-2 text-left transition-all ${
+                      !isDiagnostic
+                        ? "border-[#F7921A] bg-[#F7921A]/5"
+                        : "border-[#1A3490] bg-[#1B3FA8] hover:border-[#F7921A]/40"
+                    }`}
+                  >
+                    <p className="text-white font-bold">🔧 Standard Job</p>
+                    <p className="text-slate-400 text-xs mt-1">I know what&apos;s needed — just come fix it.</p>
+                    {!isDiagnostic && <CheckCircle size={14} className="text-[#F7921A] mt-2" />}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setIsDiagnostic(true)}
+                    className={`p-4 rounded-xl border-2 text-left transition-all ${
+                      isDiagnostic
+                        ? "border-[#F7921A] bg-[#F7921A]/5"
+                        : "border-[#1A3490] bg-[#1B3FA8] hover:border-[#F7921A]/40"
+                    }`}
+                  >
+                    <p className="text-white font-bold">🔍 Diagnostic <span className="text-[#F7921A] font-black text-sm">$35</span></p>
+                    <p className="text-slate-400 text-xs mt-1">Not sure what&apos;s wrong? We&apos;ll diagnose first.</p>
+                    {isDiagnostic && <CheckCircle size={14} className="text-[#F7921A] mt-2" />}
+                  </button>
+                </div>
+                {isDiagnostic && (
+                  <div className="mt-3 p-3 bg-amber-900/20 border border-amber-700/30 rounded-xl">
+                    <p className="text-amber-300 text-xs leading-snug">
+                      ⚠️ A $35 diagnostic fee is required to confirm your appointment. You&apos;ll receive a secure payment link after booking. Your appointment is only confirmed once payment is received — at least 8 hours before the scheduled time.
+                    </p>
+                  </div>
+                )}
+              </div>
             )}
           </div>
         )}
@@ -493,6 +574,7 @@ function BookingFormInner() {
             <div className="bg-[#1B3FA8] border border-[#1A3490] rounded-xl overflow-hidden mb-6">
               {[
                 { label: "Service", value: getValues("service") },
+                { label: "Visit Type", value: isDiagnostic ? "🔍 Diagnostic ($35 fee required)" : "🔧 Standard Job" },
                 { label: "Name", value: getValues("name") },
                 { label: "Phone", value: getValues("phone") },
                 { label: "Email", value: getValues("email") },

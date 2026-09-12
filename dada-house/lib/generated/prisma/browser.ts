@@ -222,3 +222,96 @@ export type Campaign = Prisma.CampaignModel
  * 
  */
 export type CampaignRecipient = Prisma.CampaignRecipientModel
+/**
+ * Model Customer
+ * 
+ */
+export type Customer = Prisma.CustomerModel
+/**
+ * Model Equipment
+ * 
+ */
+export type Equipment = Prisma.EquipmentModel
+/**
+ * Model Project
+ * 
+ */
+export type Project = Prisma.ProjectModel
+/**
+ * Model Call
+ * 
+ */
+export type Call = Prisma.CallModel
+/**
+ * Model CallRecording
+ * 
+ */
+export type CallRecording = Prisma.CallRecordingModel
+/**
+ * Model Voicemail
+ * 
+ */
+export type Voicemail = Prisma.VoicemailModel
+/**
+ * Model MessageThread
+ * 
+ */
+export type MessageThread = Prisma.MessageThreadModel
+/**
+ * Model Message
+ * 
+ */
+export type Message = Prisma.MessageModel
+/**
+ * Model MessageTemplate
+ * 
+ */
+export type MessageTemplate = Prisma.MessageTemplateModel
+/**
+ * Model DoNotContact
+ * 
+ */
+export type DoNotContact = Prisma.DoNotContactModel
+/**
+ * Model EmailThread
+ * 
+ */
+export type EmailThread = Prisma.EmailThreadModel
+/**
+ * Model EmailMessage
+ * 
+ */
+export type EmailMessage = Prisma.EmailMessageModel
+/**
+ * Model ShortLink
+ * * Short redirect links for SMS — keeps texted invoice/estimate links from
+ *  *  looking like a wall of text (raw URLs with a security token are long).
+ */
+export type ShortLink = Prisma.ShortLinkModel
+/**
+ * Model SystemType
+ * * HVAC system type options for the Performance Plan Contract flow (Heat Pump,
+ *  *  Straight Cool, Package Unit, ...) — admin-managed so the list can grow.
+ */
+export type SystemType = Prisma.SystemTypeModel
+/**
+ * Model FormTemplate
+ * * A form the super admin configures (fields defined as JSON) — e.g. "Clean and
+ *  *  Check Forms → First Visit". Technicians fill it out per job.
+ */
+export type FormTemplate = Prisma.FormTemplateModel
+/**
+ * Model FormSubmission
+ * 
+ */
+export type FormSubmission = Prisma.FormSubmissionModel
+/**
+ * Model MaintenancePlanType
+ * 
+ */
+export type MaintenancePlanType = Prisma.MaintenancePlanTypeModel
+/**
+ * Model MaintenanceContract
+ * 
+ */
+export type MaintenanceContract = Prisma.MaintenanceContractModel

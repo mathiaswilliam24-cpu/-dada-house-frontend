@@ -1,4 +1,4 @@
-const CACHE = "dada-house-v1";
+const CACHE = "dada-house-v2";
 const OFFLINE = "/offline.html";
 
 const PRECACHE = [

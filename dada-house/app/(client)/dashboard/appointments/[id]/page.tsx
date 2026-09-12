@@ -207,8 +207,8 @@ export default async function AppointmentDetailPage({
           </p>
           <p className="text-xs text-gray-400 mt-1">
             Questions?{" "}
-            <a href="tel:+13466499353" className="text-[#F7921A] hover:underline">
-              Call us: +1 (346) 649-9353
+            <a href="tel:+18449280875" className="text-[#F7921A] hover:underline">
+              Call us: +1 (844) 928-0875
             </a>
           </p>
         </div>

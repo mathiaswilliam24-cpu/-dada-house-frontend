@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/api-auth";
 import { db } from "@/lib/db";
-import { resend, FROM_EMAIL } from "@/lib/resend";
+import { sendTrackedEmail } from "@/lib/customer-email";
 import { buildEstimateEmail } from "@/lib/email-templates";
 
 export const dynamic = "force-dynamic";
@@ -76,8 +76,7 @@ export async function POST(
   if (action === "email") {
     const lineItems = (estimate.lineItems as Array<{ desc: string; rate: number; qty: number; amount: number }>) ?? [];
     const html = buildEstimateEmail(estimate, lineItems, auth.name ?? "DADA HOUSE");
-    await resend.emails.send({
-      from: FROM_EMAIL,
+    await sendTrackedEmail({
       to: estimate.clientEmail,
       subject: `Estimate ${estimate.estimateNumber} from DADA HOUSE`,
       html,

@@ -32,8 +32,8 @@ export default function PrivacyPolicyPage() {
                 customerservice@dada-house.com
               </a>{" "}
               or by phone at{" "}
-              <a href="tel:+13466499353" className="text-[#F7921A] hover:underline">
-                +1 (346) 649-9353
+              <a href="tel:+18449280875" className="text-[#F7921A] hover:underline">
+                +1 (844) 928-0875
               </a>
               .
             </p>
@@ -205,8 +205,8 @@ export default function PrivacyPolicyPage() {
               </p>
               <p>
                 Phone:{" "}
-                <a href="tel:+13466499353" className="text-[#F7921A] hover:underline">
-                  +1 (346) 649-9353
+                <a href="tel:+18449280875" className="text-[#F7921A] hover:underline">
+                  +1 (844) 928-0875
                 </a>
               </p>
             </div>

@@ -26,6 +26,30 @@ export function formatDateTime(date: Date | string): string {
   return format(d, "MMM d, yyyy 'at' h:mm a");
 }
 
+/**
+ * Call center timestamps (calls, messages, emails) are always shown in a
+ * single fixed timezone — America/Chicago, matching CALL_CENTER_TIMEZONE —
+ * instead of each viewer's own browser timezone. Without this, a dispatcher
+ * in Houston (Central) and one in Jacksonville, NC (Eastern) see different
+ * times for the exact same event.
+ */
+export function formatCallCenterTime(date: Date | string): string {
+  const d = typeof date === "string" ? new Date(date) : date;
+  return d.toLocaleString("en-US", {
+    timeZone: "America/Chicago",
+    month: "short", day: "numeric", year: "numeric",
+    hour: "numeric", minute: "2-digit",
+  }) + " CT";
+}
+
+export function formatCallCenterTimeOnly(date: Date | string): string {
+  const d = typeof date === "string" ? new Date(date) : date;
+  return d.toLocaleString("en-US", {
+    timeZone: "America/Chicago",
+    hour: "numeric", minute: "2-digit",
+  }) + " CT";
+}
+
 export function generateAppointmentNumber(): string {
   const year = new Date().getFullYear();
   const random = Math.floor(Math.random() * 90000) + 10000;

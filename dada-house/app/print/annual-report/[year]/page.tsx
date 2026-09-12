@@ -104,7 +104,7 @@ export default async function AnnualReportPage({
               <div style={{ fontWeight: "bold", fontSize: "15px", color: "#111827", marginBottom: "4px" }}>DADA HOUSE LLC</div>
               <div><strong>TX:</strong> 7001 South Texas 6 STE 246, Houston, TX 77083</div>
               <div><strong>NC:</strong> 106 Thompson Street, Jacksonville, NC 28540</div>
-              <div>☎ (346) 649-9353 · customerservice@mydadahouse.com</div>
+              <div>☎ (844) 928-0875 · customerservice@mydadahouse.com</div>
               <div style={{ color: "#1B3FA8" }}>www.dada-house.com</div>
             </div>
             <div style={{ textAlign: "right", fontSize: "12px", minWidth: "180px" }}>
@@ -246,7 +246,7 @@ export default async function AnnualReportPage({
           <div style={{ margin: "0 40px", borderTop: "1px solid #e5e7eb", padding: "20px 0 32px" }}>
             <p style={{ fontSize: "12px", color: "#374151", marginBottom: "4px" }}>Thank you for trusting DADA HOUSE with your home services in {yr}.</p>
             <p style={{ fontSize: "12px", color: "#374151" }}>
-              Questions? Contact us at (346) 649-9353 or customerservice@mydadahouse.com
+              Questions? Contact us at (844) 928-0875 or customerservice@mydadahouse.com
             </p>
           </div>
 

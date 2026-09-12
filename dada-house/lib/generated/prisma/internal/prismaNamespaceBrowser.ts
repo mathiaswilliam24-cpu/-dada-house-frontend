@@ -91,7 +91,25 @@ export const ModelName = {
   Expense: 'Expense',
   ExpenseSubscription: 'ExpenseSubscription',
   Campaign: 'Campaign',
-  CampaignRecipient: 'CampaignRecipient'
+  CampaignRecipient: 'CampaignRecipient',
+  Customer: 'Customer',
+  Equipment: 'Equipment',
+  Project: 'Project',
+  Call: 'Call',
+  CallRecording: 'CallRecording',
+  Voicemail: 'Voicemail',
+  MessageThread: 'MessageThread',
+  Message: 'Message',
+  MessageTemplate: 'MessageTemplate',
+  DoNotContact: 'DoNotContact',
+  EmailThread: 'EmailThread',
+  EmailMessage: 'EmailMessage',
+  ShortLink: 'ShortLink',
+  SystemType: 'SystemType',
+  FormTemplate: 'FormTemplate',
+  FormSubmission: 'FormSubmission',
+  MaintenancePlanType: 'MaintenancePlanType',
+  MaintenanceContract: 'MaintenanceContract'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -121,7 +139,9 @@ export const UserScalarFieldEnum = {
   role: 'role',
   mustChangePassword: 'mustChangePassword',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  agentStatus: 'agentStatus',
+  agentStatusUpdatedAt: 'agentStatusUpdatedAt'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -195,6 +215,7 @@ export const AppointmentScalarFieldEnum = {
   address: 'address',
   city: 'city',
   zipCode: 'zipCode',
+  taxCounty: 'taxCounty',
   description: 'description',
   preferredDate: 'preferredDate',
   preferredTime: 'preferredTime',
@@ -219,7 +240,9 @@ export const AppointmentScalarFieldEnum = {
   adminNotes: 'adminNotes',
   source: 'source',
   confirmationToken: 'confirmationToken',
-  confirmedAt: 'confirmedAt'
+  confirmedAt: 'confirmedAt',
+  customerId: 'customerId',
+  projectId: 'projectId'
 } as const
 
 export type AppointmentScalarFieldEnum = (typeof AppointmentScalarFieldEnum)[keyof typeof AppointmentScalarFieldEnum]
@@ -298,6 +321,7 @@ export const GalleryProjectScalarFieldEnum = {
   images: 'images',
   published: 'published',
   sortOrder: 'sortOrder',
+  views: 'views',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -719,7 +743,9 @@ export const JobTimeLogScalarFieldEnum = {
   totalMinutes: 'totalMinutes',
   workPerformed: 'workPerformed',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  timerStartedAt: 'timerStartedAt',
+  accumulatedSeconds: 'accumulatedSeconds'
 } as const
 
 export type JobTimeLogScalarFieldEnum = (typeof JobTimeLogScalarFieldEnum)[keyof typeof JobTimeLogScalarFieldEnum]
@@ -811,6 +837,8 @@ export const CampaignScalarFieldEnum = {
   subject: 'subject',
   body: 'body',
   smsText: 'smsText',
+  flyer: 'flyer',
+  flyerType: 'flyerType',
   status: 'status',
   sentAt: 'sentAt',
   createdAt: 'createdAt'
@@ -835,6 +863,297 @@ export const CampaignRecipientScalarFieldEnum = {
 } as const
 
 export type CampaignRecipientScalarFieldEnum = (typeof CampaignRecipientScalarFieldEnum)[keyof typeof CampaignRecipientScalarFieldEnum]
+
+
+export const CustomerScalarFieldEnum = {
+  id: 'id',
+  firstName: 'firstName',
+  lastName: 'lastName',
+  phone: 'phone',
+  secondaryPhone: 'secondaryPhone',
+  email: 'email',
+  address: 'address',
+  city: 'city',
+  state: 'state',
+  zipCode: 'zipCode',
+  customerType: 'customerType',
+  preferredLanguage: 'preferredLanguage',
+  tags: 'tags',
+  notes: 'notes',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CustomerScalarFieldEnum = (typeof CustomerScalarFieldEnum)[keyof typeof CustomerScalarFieldEnum]
+
+
+export const EquipmentScalarFieldEnum = {
+  id: 'id',
+  customerId: 'customerId',
+  technicianId: 'technicianId',
+  type: 'type',
+  makeModel: 'makeModel',
+  serialNumber: 'serialNumber',
+  installDate: 'installDate',
+  age: 'age',
+  location: 'location',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type EquipmentScalarFieldEnum = (typeof EquipmentScalarFieldEnum)[keyof typeof EquipmentScalarFieldEnum]
+
+
+export const ProjectScalarFieldEnum = {
+  id: 'id',
+  customerId: 'customerId',
+  name: 'name',
+  description: 'description',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ProjectScalarFieldEnum = (typeof ProjectScalarFieldEnum)[keyof typeof ProjectScalarFieldEnum]
+
+
+export const CallScalarFieldEnum = {
+  id: 'id',
+  twilioCallSid: 'twilioCallSid',
+  direction: 'direction',
+  fromNumber: 'fromNumber',
+  toNumber: 'toNumber',
+  status: 'status',
+  disposition: 'disposition',
+  dispositionNotes: 'dispositionNotes',
+  customerId: 'customerId',
+  agentId: 'agentId',
+  appointmentId: 'appointmentId',
+  startedAt: 'startedAt',
+  answeredAt: 'answeredAt',
+  endedAt: 'endedAt',
+  durationSeconds: 'durationSeconds',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  vapiCallId: 'vapiCallId',
+  aiSummary: 'aiSummary',
+  aiTranscript: 'aiTranscript',
+  aiRecordingUrl: 'aiRecordingUrl',
+  aiEndedReason: 'aiEndedReason'
+} as const
+
+export type CallScalarFieldEnum = (typeof CallScalarFieldEnum)[keyof typeof CallScalarFieldEnum]
+
+
+export const CallRecordingScalarFieldEnum = {
+  id: 'id',
+  callId: 'callId',
+  twilioRecordingSid: 'twilioRecordingSid',
+  url: 'url',
+  durationSeconds: 'durationSeconds',
+  createdAt: 'createdAt'
+} as const
+
+export type CallRecordingScalarFieldEnum = (typeof CallRecordingScalarFieldEnum)[keyof typeof CallRecordingScalarFieldEnum]
+
+
+export const VoicemailScalarFieldEnum = {
+  id: 'id',
+  callId: 'callId',
+  twilioRecordingSid: 'twilioRecordingSid',
+  fromNumber: 'fromNumber',
+  toNumber: 'toNumber',
+  url: 'url',
+  durationSeconds: 'durationSeconds',
+  customerId: 'customerId',
+  isRead: 'isRead',
+  readAt: 'readAt',
+  readById: 'readById',
+  createdAt: 'createdAt'
+} as const
+
+export type VoicemailScalarFieldEnum = (typeof VoicemailScalarFieldEnum)[keyof typeof VoicemailScalarFieldEnum]
+
+
+export const MessageThreadScalarFieldEnum = {
+  id: 'id',
+  customerId: 'customerId',
+  phoneNumber: 'phoneNumber',
+  lastMessageAt: 'lastMessageAt',
+  unreadCount: 'unreadCount',
+  createdAt: 'createdAt'
+} as const
+
+export type MessageThreadScalarFieldEnum = (typeof MessageThreadScalarFieldEnum)[keyof typeof MessageThreadScalarFieldEnum]
+
+
+export const MessageScalarFieldEnum = {
+  id: 'id',
+  threadId: 'threadId',
+  direction: 'direction',
+  body: 'body',
+  status: 'status',
+  twilioSid: 'twilioSid',
+  fromNumber: 'fromNumber',
+  toNumber: 'toNumber',
+  sentById: 'sentById',
+  templateId: 'templateId',
+  mediaUrls: 'mediaUrls',
+  createdAt: 'createdAt'
+} as const
+
+export type MessageScalarFieldEnum = (typeof MessageScalarFieldEnum)[keyof typeof MessageScalarFieldEnum]
+
+
+export const MessageTemplateScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  body: 'body',
+  category: 'category',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type MessageTemplateScalarFieldEnum = (typeof MessageTemplateScalarFieldEnum)[keyof typeof MessageTemplateScalarFieldEnum]
+
+
+export const DoNotContactScalarFieldEnum = {
+  id: 'id',
+  phoneNumber: 'phoneNumber',
+  customerId: 'customerId',
+  reason: 'reason',
+  optedOutAt: 'optedOutAt'
+} as const
+
+export type DoNotContactScalarFieldEnum = (typeof DoNotContactScalarFieldEnum)[keyof typeof DoNotContactScalarFieldEnum]
+
+
+export const EmailThreadScalarFieldEnum = {
+  id: 'id',
+  customerId: 'customerId',
+  emailAddress: 'emailAddress',
+  subject: 'subject',
+  lastMessageAt: 'lastMessageAt',
+  unreadCount: 'unreadCount',
+  createdAt: 'createdAt'
+} as const
+
+export type EmailThreadScalarFieldEnum = (typeof EmailThreadScalarFieldEnum)[keyof typeof EmailThreadScalarFieldEnum]
+
+
+export const EmailMessageScalarFieldEnum = {
+  id: 'id',
+  threadId: 'threadId',
+  direction: 'direction',
+  subject: 'subject',
+  body: 'body',
+  bodyHtml: 'bodyHtml',
+  fromAddress: 'fromAddress',
+  toAddress: 'toAddress',
+  resendId: 'resendId',
+  messageIdHeader: 'messageIdHeader',
+  sentById: 'sentById',
+  attachmentUrls: 'attachmentUrls',
+  createdAt: 'createdAt'
+} as const
+
+export type EmailMessageScalarFieldEnum = (typeof EmailMessageScalarFieldEnum)[keyof typeof EmailMessageScalarFieldEnum]
+
+
+export const ShortLinkScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  targetUrl: 'targetUrl',
+  createdAt: 'createdAt'
+} as const
+
+export type ShortLinkScalarFieldEnum = (typeof ShortLinkScalarFieldEnum)[keyof typeof ShortLinkScalarFieldEnum]
+
+
+export const SystemTypeScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  isActive: 'isActive',
+  sortOrder: 'sortOrder',
+  createdAt: 'createdAt'
+} as const
+
+export type SystemTypeScalarFieldEnum = (typeof SystemTypeScalarFieldEnum)[keyof typeof SystemTypeScalarFieldEnum]
+
+
+export const FormTemplateScalarFieldEnum = {
+  id: 'id',
+  slug: 'slug',
+  name: 'name',
+  category: 'category',
+  fields: 'fields',
+  items: 'items',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type FormTemplateScalarFieldEnum = (typeof FormTemplateScalarFieldEnum)[keyof typeof FormTemplateScalarFieldEnum]
+
+
+export const FormSubmissionScalarFieldEnum = {
+  id: 'id',
+  templateId: 'templateId',
+  appointmentId: 'appointmentId',
+  technicianId: 'technicianId',
+  values: 'values',
+  submittedAt: 'submittedAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type FormSubmissionScalarFieldEnum = (typeof FormSubmissionScalarFieldEnum)[keyof typeof FormSubmissionScalarFieldEnum]
+
+
+export const MaintenancePlanTypeScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  monthlyPrice: 'monthlyPrice',
+  annualPrice: 'annualPrice',
+  stripeMonthlyPriceId: 'stripeMonthlyPriceId',
+  stripeAnnualPriceId: 'stripeAnnualPriceId',
+  contractHtml: 'contractHtml',
+  isActive: 'isActive',
+  sortOrder: 'sortOrder',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type MaintenancePlanTypeScalarFieldEnum = (typeof MaintenancePlanTypeScalarFieldEnum)[keyof typeof MaintenancePlanTypeScalarFieldEnum]
+
+
+export const MaintenanceContractScalarFieldEnum = {
+  id: 'id',
+  customerId: 'customerId',
+  planTypeId: 'planTypeId',
+  token: 'token',
+  status: 'status',
+  systemMakeModel: 'systemMakeModel',
+  systemAge: 'systemAge',
+  numberOfSystems: 'numberOfSystems',
+  systemTypes: 'systemTypes',
+  agreementStartDate: 'agreementStartDate',
+  customerSignatureUrl: 'customerSignatureUrl',
+  repName: 'repName',
+  signedAt: 'signedAt',
+  billingInterval: 'billingInterval',
+  autoRenew: 'autoRenew',
+  stripeSubscriptionId: 'stripeSubscriptionId',
+  stripePaymentIntentId: 'stripePaymentIntentId',
+  paidAt: 'paidAt',
+  sentById: 'sentById',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type MaintenanceContractScalarFieldEnum = (typeof MaintenanceContractScalarFieldEnum)[keyof typeof MaintenanceContractScalarFieldEnum]
 
 
 export const SortOrder = {

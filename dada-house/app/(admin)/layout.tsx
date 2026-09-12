@@ -7,10 +7,11 @@ import {
   Images, HardHat, Map, BarChart3, ShoppingBag, FileText, Radio,
   Package, Layers, TrendingUp, MessageCircle, Bell, Shield,
   FolderOpen, ReceiptText, ClipboardList, Monitor, BookOpen, Megaphone,
+  PhoneCall, Phone, MessageSquare, Contact,
 } from "lucide-react";
 import { signOut } from "@/auth";
 
-type NavItem = { href: string; label: string; icon: React.ComponentType<{ size?: number; className?: string }> };
+type NavItem = { href: string; label: string; icon: React.ComponentType<{ size?: number; className?: string }>; superAdminOnly?: boolean };
 type NavGroup = { label: string | null; items: NavItem[] };
 
 const navGroups: NavGroup[] = [
@@ -29,10 +30,19 @@ const navGroups: NavGroup[] = [
     ],
   },
   {
+    label: "CALL CENTER",
+    items: [
+      { href: "/call-center", label: "Live Call Center", icon: PhoneCall },
+      { href: "/calls", label: "Call History", icon: Phone },
+      { href: "/messages", label: "Messages", icon: MessageSquare },
+      { href: "/customers", label: "Customer Lookup", icon: Contact },
+    ],
+  },
+  {
     label: "CUSTOMERS",
     items: [
       { href: "/admin/customers", label: "Customers", icon: Users },
-      { href: "/admin/users", label: "Users & Roles", icon: Shield },
+      { href: "/admin/users", label: "Users & Roles", icon: Shield, superAdminOnly: true },
     ],
   },
   {
@@ -50,6 +60,9 @@ const navGroups: NavGroup[] = [
       { href: "/admin/store", label: "Products", icon: ShoppingBag },
       { href: "/admin/orders", label: "Orders", icon: Package },
       { href: "/admin/service-plans", label: "Service Plans", icon: Layers },
+      { href: "/admin/maintenance-plans", label: "Maintenance Plans", icon: Layers },
+      { href: "/admin/service-forms", label: "Service Forms", icon: ClipboardList, superAdminOnly: true },
+      { href: "/admin/system-types", label: "System Types", icon: Settings, superAdminOnly: true },
     ],
   },
   {
@@ -89,7 +102,14 @@ const allItems = navGroups.flatMap((g) => g.items);
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const session = await auth();
-  if (!session?.user || session.user.role !== "ADMIN") redirect("/");
+  const FULL_ADMIN_ACCESS_ROLES = ["ADMIN", "SUPER_ADMIN", "MANAGER", "CUSTOMER_SERVICE_REP", "DISPATCHER"];
+  if (!session?.user || !FULL_ADMIN_ACCESS_ROLES.includes(session.user.role)) redirect("/");
+
+  const isSuperAdmin = session.user.role === "SUPER_ADMIN";
+  const visibleNavGroups = navGroups
+    .map((g) => ({ ...g, items: g.items.filter((i) => !i.superAdminOnly || isSuperAdmin) }))
+    .filter((g) => g.items.length > 0);
+  const visibleAllItems = allItems.filter((i) => !i.superAdminOnly || isSuperAdmin);
 
   return (
     <div className="min-h-screen bg-gray-50 flex">
@@ -110,7 +130,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
 
         {/* Nav */}
         <nav className="flex-1 overflow-y-auto py-3 px-2.5 space-y-0.5 scrollbar-thin">
-          {navGroups.map((group, gi) => (
+          {visibleNavGroups.map((group, gi) => (
             <div key={gi} className={gi > 0 ? "pt-3" : ""}>
               {group.label && (
                 <p className="px-2 pb-1.5 text-[10px] font-bold tracking-widest text-white/30 uppercase">
@@ -143,7 +163,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
               <p className="text-xs text-white font-medium truncate">
                 {session.user.name ?? session.user.email}
               </p>
-              <p className="text-[10px] text-orange-400">Administrator</p>
+              <p className="text-[10px] text-orange-400">{session.user.role === "SUPER_ADMIN" ? "Super Admin" : "Administrator"}</p>
             </div>
           </div>
           <form
@@ -175,7 +195,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
           </span>
         </Link>
         <nav className="flex items-center gap-1">
-          {allItems.slice(0, 5).map(({ href, icon: Icon }) => (
+          {visibleAllItems.slice(0, 5).map(({ href, icon: Icon }) => (
             <Link
               key={href}
               href={href}

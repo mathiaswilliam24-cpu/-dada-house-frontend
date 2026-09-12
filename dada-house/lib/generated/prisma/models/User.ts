@@ -36,6 +36,8 @@ export type UserMinAggregateOutputType = {
   mustChangePassword: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
+  agentStatus: $Enums.AgentStatus | null
+  agentStatusUpdatedAt: Date | null
 }
 
 export type UserMaxAggregateOutputType = {
@@ -50,6 +52,8 @@ export type UserMaxAggregateOutputType = {
   mustChangePassword: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
+  agentStatus: $Enums.AgentStatus | null
+  agentStatusUpdatedAt: Date | null
 }
 
 export type UserCountAggregateOutputType = {
@@ -64,6 +68,8 @@ export type UserCountAggregateOutputType = {
   mustChangePassword: number
   createdAt: number
   updatedAt: number
+  agentStatus: number
+  agentStatusUpdatedAt: number
   _all: number
 }
 
@@ -80,6 +86,8 @@ export type UserMinAggregateInputType = {
   mustChangePassword?: true
   createdAt?: true
   updatedAt?: true
+  agentStatus?: true
+  agentStatusUpdatedAt?: true
 }
 
 export type UserMaxAggregateInputType = {
@@ -94,6 +102,8 @@ export type UserMaxAggregateInputType = {
   mustChangePassword?: true
   createdAt?: true
   updatedAt?: true
+  agentStatus?: true
+  agentStatusUpdatedAt?: true
 }
 
 export type UserCountAggregateInputType = {
@@ -108,6 +118,8 @@ export type UserCountAggregateInputType = {
   mustChangePassword?: true
   createdAt?: true
   updatedAt?: true
+  agentStatus?: true
+  agentStatusUpdatedAt?: true
   _all?: true
 }
 
@@ -195,6 +207,8 @@ export type UserGroupByOutputType = {
   mustChangePassword: boolean
   createdAt: Date
   updatedAt: Date
+  agentStatus: $Enums.AgentStatus | null
+  agentStatusUpdatedAt: Date | null
   _count: UserCountAggregateOutputType | null
   _min: UserMinAggregateOutputType | null
   _max: UserMaxAggregateOutputType | null
@@ -230,6 +244,8 @@ export type UserWhereInput = {
   mustChangePassword?: Prisma.BoolFilter<"User"> | boolean
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  agentStatus?: Prisma.EnumAgentStatusNullableFilter<"User"> | $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   accounts?: Prisma.AccountListRelationFilter
   sessions?: Prisma.SessionListRelationFilter
   appointments?: Prisma.AppointmentListRelationFilter
@@ -253,6 +269,11 @@ export type UserWhereInput = {
   technicianClients?: Prisma.TechnicianClientListRelationFilter
   expenses?: Prisma.ExpenseListRelationFilter
   expenseSubscription?: Prisma.XOR<Prisma.ExpenseSubscriptionNullableScalarRelationFilter, Prisma.ExpenseSubscriptionWhereInput> | null
+  calls?: Prisma.CallListRelationFilter
+  sentMessages?: Prisma.MessageListRelationFilter
+  sentEmails?: Prisma.EmailMessageListRelationFilter
+  readVoicemails?: Prisma.VoicemailListRelationFilter
+  customerRecord?: Prisma.XOR<Prisma.CustomerNullableScalarRelationFilter, Prisma.CustomerWhereInput> | null
 }
 
 export type UserOrderByWithRelationInput = {
@@ -267,6 +288,8 @@ export type UserOrderByWithRelationInput = {
   mustChangePassword?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  agentStatus?: Prisma.SortOrderInput | Prisma.SortOrder
+  agentStatusUpdatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   accounts?: Prisma.AccountOrderByRelationAggregateInput
   sessions?: Prisma.SessionOrderByRelationAggregateInput
   appointments?: Prisma.AppointmentOrderByRelationAggregateInput
@@ -290,6 +313,11 @@ export type UserOrderByWithRelationInput = {
   technicianClients?: Prisma.TechnicianClientOrderByRelationAggregateInput
   expenses?: Prisma.ExpenseOrderByRelationAggregateInput
   expenseSubscription?: Prisma.ExpenseSubscriptionOrderByWithRelationInput
+  calls?: Prisma.CallOrderByRelationAggregateInput
+  sentMessages?: Prisma.MessageOrderByRelationAggregateInput
+  sentEmails?: Prisma.EmailMessageOrderByRelationAggregateInput
+  readVoicemails?: Prisma.VoicemailOrderByRelationAggregateInput
+  customerRecord?: Prisma.CustomerOrderByWithRelationInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -307,6 +335,8 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   mustChangePassword?: Prisma.BoolFilter<"User"> | boolean
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  agentStatus?: Prisma.EnumAgentStatusNullableFilter<"User"> | $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   accounts?: Prisma.AccountListRelationFilter
   sessions?: Prisma.SessionListRelationFilter
   appointments?: Prisma.AppointmentListRelationFilter
@@ -330,6 +360,11 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   technicianClients?: Prisma.TechnicianClientListRelationFilter
   expenses?: Prisma.ExpenseListRelationFilter
   expenseSubscription?: Prisma.XOR<Prisma.ExpenseSubscriptionNullableScalarRelationFilter, Prisma.ExpenseSubscriptionWhereInput> | null
+  calls?: Prisma.CallListRelationFilter
+  sentMessages?: Prisma.MessageListRelationFilter
+  sentEmails?: Prisma.EmailMessageListRelationFilter
+  readVoicemails?: Prisma.VoicemailListRelationFilter
+  customerRecord?: Prisma.XOR<Prisma.CustomerNullableScalarRelationFilter, Prisma.CustomerWhereInput> | null
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -344,6 +379,8 @@ export type UserOrderByWithAggregationInput = {
   mustChangePassword?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  agentStatus?: Prisma.SortOrderInput | Prisma.SortOrder
+  agentStatusUpdatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
   _max?: Prisma.UserMaxOrderByAggregateInput
   _min?: Prisma.UserMinOrderByAggregateInput
@@ -364,6 +401,8 @@ export type UserScalarWhereWithAggregatesInput = {
   mustChangePassword?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
+  agentStatus?: Prisma.EnumAgentStatusNullableWithAggregatesFilter<"User"> | $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
 }
 
 export type UserCreateInput = {
@@ -378,6 +417,8 @@ export type UserCreateInput = {
   mustChangePassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  agentStatus?: $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Date | string | null
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   appointments?: Prisma.AppointmentCreateNestedManyWithoutUserInput
@@ -401,6 +442,11 @@ export type UserCreateInput = {
   technicianClients?: Prisma.TechnicianClientCreateNestedManyWithoutTechnicianInput
   expenses?: Prisma.ExpenseCreateNestedManyWithoutUserInput
   expenseSubscription?: Prisma.ExpenseSubscriptionCreateNestedOneWithoutUserInput
+  calls?: Prisma.CallCreateNestedManyWithoutAgentInput
+  sentMessages?: Prisma.MessageCreateNestedManyWithoutSentByInput
+  sentEmails?: Prisma.EmailMessageCreateNestedManyWithoutSentByInput
+  readVoicemails?: Prisma.VoicemailCreateNestedManyWithoutReadByInput
+  customerRecord?: Prisma.CustomerCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -415,6 +461,8 @@ export type UserUncheckedCreateInput = {
   mustChangePassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  agentStatus?: $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Date | string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutUserInput
@@ -438,6 +486,11 @@ export type UserUncheckedCreateInput = {
   technicianClients?: Prisma.TechnicianClientUncheckedCreateNestedManyWithoutTechnicianInput
   expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutUserInput
   expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedCreateNestedOneWithoutUserInput
+  calls?: Prisma.CallUncheckedCreateNestedManyWithoutAgentInput
+  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSentByInput
+  sentEmails?: Prisma.EmailMessageUncheckedCreateNestedManyWithoutSentByInput
+  readVoicemails?: Prisma.VoicemailUncheckedCreateNestedManyWithoutReadByInput
+  customerRecord?: Prisma.CustomerUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -452,6 +505,8 @@ export type UserUpdateInput = {
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  agentStatus?: Prisma.NullableEnumAgentStatusFieldUpdateOperationsInput | $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   appointments?: Prisma.AppointmentUpdateManyWithoutUserNestedInput
@@ -475,6 +530,11 @@ export type UserUpdateInput = {
   technicianClients?: Prisma.TechnicianClientUpdateManyWithoutTechnicianNestedInput
   expenses?: Prisma.ExpenseUpdateManyWithoutUserNestedInput
   expenseSubscription?: Prisma.ExpenseSubscriptionUpdateOneWithoutUserNestedInput
+  calls?: Prisma.CallUpdateManyWithoutAgentNestedInput
+  sentMessages?: Prisma.MessageUpdateManyWithoutSentByNestedInput
+  sentEmails?: Prisma.EmailMessageUpdateManyWithoutSentByNestedInput
+  readVoicemails?: Prisma.VoicemailUpdateManyWithoutReadByNestedInput
+  customerRecord?: Prisma.CustomerUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -489,6 +549,8 @@ export type UserUncheckedUpdateInput = {
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  agentStatus?: Prisma.NullableEnumAgentStatusFieldUpdateOperationsInput | $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutUserNestedInput
@@ -512,6 +574,11 @@ export type UserUncheckedUpdateInput = {
   technicianClients?: Prisma.TechnicianClientUncheckedUpdateManyWithoutTechnicianNestedInput
   expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutUserNestedInput
   expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedUpdateOneWithoutUserNestedInput
+  calls?: Prisma.CallUncheckedUpdateManyWithoutAgentNestedInput
+  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSentByNestedInput
+  sentEmails?: Prisma.EmailMessageUncheckedUpdateManyWithoutSentByNestedInput
+  readVoicemails?: Prisma.VoicemailUncheckedUpdateManyWithoutReadByNestedInput
+  customerRecord?: Prisma.CustomerUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -526,6 +593,8 @@ export type UserCreateManyInput = {
   mustChangePassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  agentStatus?: $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Date | string | null
 }
 
 export type UserUpdateManyMutationInput = {
@@ -540,6 +609,8 @@ export type UserUpdateManyMutationInput = {
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  agentStatus?: Prisma.NullableEnumAgentStatusFieldUpdateOperationsInput | $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type UserUncheckedUpdateManyInput = {
@@ -554,6 +625,8 @@ export type UserUncheckedUpdateManyInput = {
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  agentStatus?: Prisma.NullableEnumAgentStatusFieldUpdateOperationsInput | $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type UserCountOrderByAggregateInput = {
@@ -568,6 +641,8 @@ export type UserCountOrderByAggregateInput = {
   mustChangePassword?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  agentStatus?: Prisma.SortOrder
+  agentStatusUpdatedAt?: Prisma.SortOrder
 }
 
 export type UserMaxOrderByAggregateInput = {
@@ -582,6 +657,8 @@ export type UserMaxOrderByAggregateInput = {
   mustChangePassword?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  agentStatus?: Prisma.SortOrder
+  agentStatusUpdatedAt?: Prisma.SortOrder
 }
 
 export type UserMinOrderByAggregateInput = {
@@ -596,6 +673,8 @@ export type UserMinOrderByAggregateInput = {
   mustChangePassword?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  agentStatus?: Prisma.SortOrder
+  agentStatusUpdatedAt?: Prisma.SortOrder
 }
 
 export type UserScalarRelationFilter = {
@@ -630,6 +709,10 @@ export type BoolFieldUpdateOperationsInput = {
 
 export type DateTimeFieldUpdateOperationsInput = {
   set?: Date | string
+}
+
+export type NullableEnumAgentStatusFieldUpdateOperationsInput = {
+  set?: $Enums.AgentStatus | null
 }
 
 export type UserCreateNestedOneWithoutTechnicianClientsInput = {
@@ -974,6 +1057,86 @@ export type UserUpdateOneRequiredWithoutExpenseSubscriptionNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutExpenseSubscriptionInput, Prisma.UserUpdateWithoutExpenseSubscriptionInput>, Prisma.UserUncheckedUpdateWithoutExpenseSubscriptionInput>
 }
 
+export type UserCreateNestedOneWithoutCustomerRecordInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCustomerRecordInput, Prisma.UserUncheckedCreateWithoutCustomerRecordInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCustomerRecordInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneWithoutCustomerRecordNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCustomerRecordInput, Prisma.UserUncheckedCreateWithoutCustomerRecordInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCustomerRecordInput
+  upsert?: Prisma.UserUpsertWithoutCustomerRecordInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutCustomerRecordInput, Prisma.UserUpdateWithoutCustomerRecordInput>, Prisma.UserUncheckedUpdateWithoutCustomerRecordInput>
+}
+
+export type UserCreateNestedOneWithoutCallsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCallsInput, Prisma.UserUncheckedCreateWithoutCallsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCallsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneWithoutCallsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCallsInput, Prisma.UserUncheckedCreateWithoutCallsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCallsInput
+  upsert?: Prisma.UserUpsertWithoutCallsInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutCallsInput, Prisma.UserUpdateWithoutCallsInput>, Prisma.UserUncheckedUpdateWithoutCallsInput>
+}
+
+export type UserCreateNestedOneWithoutReadVoicemailsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutReadVoicemailsInput, Prisma.UserUncheckedCreateWithoutReadVoicemailsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutReadVoicemailsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneWithoutReadVoicemailsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutReadVoicemailsInput, Prisma.UserUncheckedCreateWithoutReadVoicemailsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutReadVoicemailsInput
+  upsert?: Prisma.UserUpsertWithoutReadVoicemailsInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutReadVoicemailsInput, Prisma.UserUpdateWithoutReadVoicemailsInput>, Prisma.UserUncheckedUpdateWithoutReadVoicemailsInput>
+}
+
+export type UserCreateNestedOneWithoutSentMessagesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutSentMessagesInput, Prisma.UserUncheckedCreateWithoutSentMessagesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSentMessagesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneWithoutSentMessagesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutSentMessagesInput, Prisma.UserUncheckedCreateWithoutSentMessagesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSentMessagesInput
+  upsert?: Prisma.UserUpsertWithoutSentMessagesInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutSentMessagesInput, Prisma.UserUpdateWithoutSentMessagesInput>, Prisma.UserUncheckedUpdateWithoutSentMessagesInput>
+}
+
+export type UserCreateNestedOneWithoutSentEmailsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutSentEmailsInput, Prisma.UserUncheckedCreateWithoutSentEmailsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSentEmailsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneWithoutSentEmailsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutSentEmailsInput, Prisma.UserUncheckedCreateWithoutSentEmailsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSentEmailsInput
+  upsert?: Prisma.UserUpsertWithoutSentEmailsInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutSentEmailsInput, Prisma.UserUpdateWithoutSentEmailsInput>, Prisma.UserUncheckedUpdateWithoutSentEmailsInput>
+}
+
 export type UserCreateWithoutTechnicianClientsInput = {
   id?: string
   name?: string | null
@@ -986,6 +1149,8 @@ export type UserCreateWithoutTechnicianClientsInput = {
   mustChangePassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  agentStatus?: $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Date | string | null
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   appointments?: Prisma.AppointmentCreateNestedManyWithoutUserInput
@@ -1008,6 +1173,11 @@ export type UserCreateWithoutTechnicianClientsInput = {
   inventoryRequests?: Prisma.InventoryRequestCreateNestedManyWithoutTechnicianInput
   expenses?: Prisma.ExpenseCreateNestedManyWithoutUserInput
   expenseSubscription?: Prisma.ExpenseSubscriptionCreateNestedOneWithoutUserInput
+  calls?: Prisma.CallCreateNestedManyWithoutAgentInput
+  sentMessages?: Prisma.MessageCreateNestedManyWithoutSentByInput
+  sentEmails?: Prisma.EmailMessageCreateNestedManyWithoutSentByInput
+  readVoicemails?: Prisma.VoicemailCreateNestedManyWithoutReadByInput
+  customerRecord?: Prisma.CustomerCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutTechnicianClientsInput = {
@@ -1022,6 +1192,8 @@ export type UserUncheckedCreateWithoutTechnicianClientsInput = {
   mustChangePassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  agentStatus?: $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Date | string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutUserInput
@@ -1044,6 +1216,11 @@ export type UserUncheckedCreateWithoutTechnicianClientsInput = {
   inventoryRequests?: Prisma.InventoryRequestUncheckedCreateNestedManyWithoutTechnicianInput
   expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutUserInput
   expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedCreateNestedOneWithoutUserInput
+  calls?: Prisma.CallUncheckedCreateNestedManyWithoutAgentInput
+  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSentByInput
+  sentEmails?: Prisma.EmailMessageUncheckedCreateNestedManyWithoutSentByInput
+  readVoicemails?: Prisma.VoicemailUncheckedCreateNestedManyWithoutReadByInput
+  customerRecord?: Prisma.CustomerUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutTechnicianClientsInput = {
@@ -1074,6 +1251,8 @@ export type UserUpdateWithoutTechnicianClientsInput = {
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  agentStatus?: Prisma.NullableEnumAgentStatusFieldUpdateOperationsInput | $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   appointments?: Prisma.AppointmentUpdateManyWithoutUserNestedInput
@@ -1096,6 +1275,11 @@ export type UserUpdateWithoutTechnicianClientsInput = {
   inventoryRequests?: Prisma.InventoryRequestUpdateManyWithoutTechnicianNestedInput
   expenses?: Prisma.ExpenseUpdateManyWithoutUserNestedInput
   expenseSubscription?: Prisma.ExpenseSubscriptionUpdateOneWithoutUserNestedInput
+  calls?: Prisma.CallUpdateManyWithoutAgentNestedInput
+  sentMessages?: Prisma.MessageUpdateManyWithoutSentByNestedInput
+  sentEmails?: Prisma.EmailMessageUpdateManyWithoutSentByNestedInput
+  readVoicemails?: Prisma.VoicemailUpdateManyWithoutReadByNestedInput
+  customerRecord?: Prisma.CustomerUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTechnicianClientsInput = {
@@ -1110,6 +1294,8 @@ export type UserUncheckedUpdateWithoutTechnicianClientsInput = {
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  agentStatus?: Prisma.NullableEnumAgentStatusFieldUpdateOperationsInput | $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutUserNestedInput
@@ -1132,6 +1318,11 @@ export type UserUncheckedUpdateWithoutTechnicianClientsInput = {
   inventoryRequests?: Prisma.InventoryRequestUncheckedUpdateManyWithoutTechnicianNestedInput
   expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutUserNestedInput
   expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedUpdateOneWithoutUserNestedInput
+  calls?: Prisma.CallUncheckedUpdateManyWithoutAgentNestedInput
+  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSentByNestedInput
+  sentEmails?: Prisma.EmailMessageUncheckedUpdateManyWithoutSentByNestedInput
+  readVoicemails?: Prisma.VoicemailUncheckedUpdateManyWithoutReadByNestedInput
+  customerRecord?: Prisma.CustomerUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateWithoutAccountsInput = {
@@ -1146,6 +1337,8 @@ export type UserCreateWithoutAccountsInput = {
   mustChangePassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  agentStatus?: $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Date | string | null
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   appointments?: Prisma.AppointmentCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
@@ -1168,6 +1361,11 @@ export type UserCreateWithoutAccountsInput = {
   technicianClients?: Prisma.TechnicianClientCreateNestedManyWithoutTechnicianInput
   expenses?: Prisma.ExpenseCreateNestedManyWithoutUserInput
   expenseSubscription?: Prisma.ExpenseSubscriptionCreateNestedOneWithoutUserInput
+  calls?: Prisma.CallCreateNestedManyWithoutAgentInput
+  sentMessages?: Prisma.MessageCreateNestedManyWithoutSentByInput
+  sentEmails?: Prisma.EmailMessageCreateNestedManyWithoutSentByInput
+  readVoicemails?: Prisma.VoicemailCreateNestedManyWithoutReadByInput
+  customerRecord?: Prisma.CustomerCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAccountsInput = {
@@ -1182,6 +1380,8 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   mustChangePassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  agentStatus?: $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Date | string | null
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
@@ -1204,6 +1404,11 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   technicianClients?: Prisma.TechnicianClientUncheckedCreateNestedManyWithoutTechnicianInput
   expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutUserInput
   expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedCreateNestedOneWithoutUserInput
+  calls?: Prisma.CallUncheckedCreateNestedManyWithoutAgentInput
+  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSentByInput
+  sentEmails?: Prisma.EmailMessageUncheckedCreateNestedManyWithoutSentByInput
+  readVoicemails?: Prisma.VoicemailUncheckedCreateNestedManyWithoutReadByInput
+  customerRecord?: Prisma.CustomerUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutAccountsInput = {
@@ -1234,6 +1439,8 @@ export type UserUpdateWithoutAccountsInput = {
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  agentStatus?: Prisma.NullableEnumAgentStatusFieldUpdateOperationsInput | $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   appointments?: Prisma.AppointmentUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
@@ -1256,6 +1463,11 @@ export type UserUpdateWithoutAccountsInput = {
   technicianClients?: Prisma.TechnicianClientUpdateManyWithoutTechnicianNestedInput
   expenses?: Prisma.ExpenseUpdateManyWithoutUserNestedInput
   expenseSubscription?: Prisma.ExpenseSubscriptionUpdateOneWithoutUserNestedInput
+  calls?: Prisma.CallUpdateManyWithoutAgentNestedInput
+  sentMessages?: Prisma.MessageUpdateManyWithoutSentByNestedInput
+  sentEmails?: Prisma.EmailMessageUpdateManyWithoutSentByNestedInput
+  readVoicemails?: Prisma.VoicemailUpdateManyWithoutReadByNestedInput
+  customerRecord?: Prisma.CustomerUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -1270,6 +1482,8 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  agentStatus?: Prisma.NullableEnumAgentStatusFieldUpdateOperationsInput | $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
@@ -1292,6 +1506,11 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   technicianClients?: Prisma.TechnicianClientUncheckedUpdateManyWithoutTechnicianNestedInput
   expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutUserNestedInput
   expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedUpdateOneWithoutUserNestedInput
+  calls?: Prisma.CallUncheckedUpdateManyWithoutAgentNestedInput
+  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSentByNestedInput
+  sentEmails?: Prisma.EmailMessageUncheckedUpdateManyWithoutSentByNestedInput
+  readVoicemails?: Prisma.VoicemailUncheckedUpdateManyWithoutReadByNestedInput
+  customerRecord?: Prisma.CustomerUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSessionsInput = {
@@ -1306,6 +1525,8 @@ export type UserCreateWithoutSessionsInput = {
   mustChangePassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  agentStatus?: $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Date | string | null
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   appointments?: Prisma.AppointmentCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
@@ -1328,6 +1549,11 @@ export type UserCreateWithoutSessionsInput = {
   technicianClients?: Prisma.TechnicianClientCreateNestedManyWithoutTechnicianInput
   expenses?: Prisma.ExpenseCreateNestedManyWithoutUserInput
   expenseSubscription?: Prisma.ExpenseSubscriptionCreateNestedOneWithoutUserInput
+  calls?: Prisma.CallCreateNestedManyWithoutAgentInput
+  sentMessages?: Prisma.MessageCreateNestedManyWithoutSentByInput
+  sentEmails?: Prisma.EmailMessageCreateNestedManyWithoutSentByInput
+  readVoicemails?: Prisma.VoicemailCreateNestedManyWithoutReadByInput
+  customerRecord?: Prisma.CustomerCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSessionsInput = {
@@ -1342,6 +1568,8 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   mustChangePassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  agentStatus?: $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Date | string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
@@ -1364,6 +1592,11 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   technicianClients?: Prisma.TechnicianClientUncheckedCreateNestedManyWithoutTechnicianInput
   expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutUserInput
   expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedCreateNestedOneWithoutUserInput
+  calls?: Prisma.CallUncheckedCreateNestedManyWithoutAgentInput
+  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSentByInput
+  sentEmails?: Prisma.EmailMessageUncheckedCreateNestedManyWithoutSentByInput
+  readVoicemails?: Prisma.VoicemailUncheckedCreateNestedManyWithoutReadByInput
+  customerRecord?: Prisma.CustomerUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSessionsInput = {
@@ -1394,6 +1627,8 @@ export type UserUpdateWithoutSessionsInput = {
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  agentStatus?: Prisma.NullableEnumAgentStatusFieldUpdateOperationsInput | $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   appointments?: Prisma.AppointmentUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
@@ -1416,6 +1651,11 @@ export type UserUpdateWithoutSessionsInput = {
   technicianClients?: Prisma.TechnicianClientUpdateManyWithoutTechnicianNestedInput
   expenses?: Prisma.ExpenseUpdateManyWithoutUserNestedInput
   expenseSubscription?: Prisma.ExpenseSubscriptionUpdateOneWithoutUserNestedInput
+  calls?: Prisma.CallUpdateManyWithoutAgentNestedInput
+  sentMessages?: Prisma.MessageUpdateManyWithoutSentByNestedInput
+  sentEmails?: Prisma.EmailMessageUpdateManyWithoutSentByNestedInput
+  readVoicemails?: Prisma.VoicemailUpdateManyWithoutReadByNestedInput
+  customerRecord?: Prisma.CustomerUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -1430,6 +1670,8 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  agentStatus?: Prisma.NullableEnumAgentStatusFieldUpdateOperationsInput | $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
@@ -1452,6 +1694,11 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   technicianClients?: Prisma.TechnicianClientUncheckedUpdateManyWithoutTechnicianNestedInput
   expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutUserNestedInput
   expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedUpdateOneWithoutUserNestedInput
+  calls?: Prisma.CallUncheckedUpdateManyWithoutAgentNestedInput
+  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSentByNestedInput
+  sentEmails?: Prisma.EmailMessageUncheckedUpdateManyWithoutSentByNestedInput
+  readVoicemails?: Prisma.VoicemailUncheckedUpdateManyWithoutReadByNestedInput
+  customerRecord?: Prisma.CustomerUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateWithoutAppointmentsInput = {
@@ -1466,6 +1713,8 @@ export type UserCreateWithoutAppointmentsInput = {
   mustChangePassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  agentStatus?: $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Date | string | null
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
@@ -1488,6 +1737,11 @@ export type UserCreateWithoutAppointmentsInput = {
   technicianClients?: Prisma.TechnicianClientCreateNestedManyWithoutTechnicianInput
   expenses?: Prisma.ExpenseCreateNestedManyWithoutUserInput
   expenseSubscription?: Prisma.ExpenseSubscriptionCreateNestedOneWithoutUserInput
+  calls?: Prisma.CallCreateNestedManyWithoutAgentInput
+  sentMessages?: Prisma.MessageCreateNestedManyWithoutSentByInput
+  sentEmails?: Prisma.EmailMessageCreateNestedManyWithoutSentByInput
+  readVoicemails?: Prisma.VoicemailCreateNestedManyWithoutReadByInput
+  customerRecord?: Prisma.CustomerCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAppointmentsInput = {
@@ -1502,6 +1756,8 @@ export type UserUncheckedCreateWithoutAppointmentsInput = {
   mustChangePassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  agentStatus?: $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Date | string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
@@ -1524,6 +1780,11 @@ export type UserUncheckedCreateWithoutAppointmentsInput = {
   technicianClients?: Prisma.TechnicianClientUncheckedCreateNestedManyWithoutTechnicianInput
   expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutUserInput
   expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedCreateNestedOneWithoutUserInput
+  calls?: Prisma.CallUncheckedCreateNestedManyWithoutAgentInput
+  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSentByInput
+  sentEmails?: Prisma.EmailMessageUncheckedCreateNestedManyWithoutSentByInput
+  readVoicemails?: Prisma.VoicemailUncheckedCreateNestedManyWithoutReadByInput
+  customerRecord?: Prisma.CustomerUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutAppointmentsInput = {
@@ -1543,6 +1804,8 @@ export type UserCreateWithoutTechnicianAppointmentsInput = {
   mustChangePassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  agentStatus?: $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Date | string | null
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   appointments?: Prisma.AppointmentCreateNestedManyWithoutUserInput
@@ -1565,6 +1828,11 @@ export type UserCreateWithoutTechnicianAppointmentsInput = {
   technicianClients?: Prisma.TechnicianClientCreateNestedManyWithoutTechnicianInput
   expenses?: Prisma.ExpenseCreateNestedManyWithoutUserInput
   expenseSubscription?: Prisma.ExpenseSubscriptionCreateNestedOneWithoutUserInput
+  calls?: Prisma.CallCreateNestedManyWithoutAgentInput
+  sentMessages?: Prisma.MessageCreateNestedManyWithoutSentByInput
+  sentEmails?: Prisma.EmailMessageCreateNestedManyWithoutSentByInput
+  readVoicemails?: Prisma.VoicemailCreateNestedManyWithoutReadByInput
+  customerRecord?: Prisma.CustomerCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutTechnicianAppointmentsInput = {
@@ -1579,6 +1847,8 @@ export type UserUncheckedCreateWithoutTechnicianAppointmentsInput = {
   mustChangePassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  agentStatus?: $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Date | string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutUserInput
@@ -1601,6 +1871,11 @@ export type UserUncheckedCreateWithoutTechnicianAppointmentsInput = {
   technicianClients?: Prisma.TechnicianClientUncheckedCreateNestedManyWithoutTechnicianInput
   expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutUserInput
   expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedCreateNestedOneWithoutUserInput
+  calls?: Prisma.CallUncheckedCreateNestedManyWithoutAgentInput
+  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSentByInput
+  sentEmails?: Prisma.EmailMessageUncheckedCreateNestedManyWithoutSentByInput
+  readVoicemails?: Prisma.VoicemailUncheckedCreateNestedManyWithoutReadByInput
+  customerRecord?: Prisma.CustomerUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutTechnicianAppointmentsInput = {
@@ -1620,6 +1895,8 @@ export type UserCreateWithoutDispatchedAppointmentsInput = {
   mustChangePassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  agentStatus?: $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Date | string | null
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   appointments?: Prisma.AppointmentCreateNestedManyWithoutUserInput
@@ -1642,6 +1919,11 @@ export type UserCreateWithoutDispatchedAppointmentsInput = {
   technicianClients?: Prisma.TechnicianClientCreateNestedManyWithoutTechnicianInput
   expenses?: Prisma.ExpenseCreateNestedManyWithoutUserInput
   expenseSubscription?: Prisma.ExpenseSubscriptionCreateNestedOneWithoutUserInput
+  calls?: Prisma.CallCreateNestedManyWithoutAgentInput
+  sentMessages?: Prisma.MessageCreateNestedManyWithoutSentByInput
+  sentEmails?: Prisma.EmailMessageCreateNestedManyWithoutSentByInput
+  readVoicemails?: Prisma.VoicemailCreateNestedManyWithoutReadByInput
+  customerRecord?: Prisma.CustomerCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutDispatchedAppointmentsInput = {
@@ -1656,6 +1938,8 @@ export type UserUncheckedCreateWithoutDispatchedAppointmentsInput = {
   mustChangePassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  agentStatus?: $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Date | string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutUserInput
@@ -1678,6 +1962,11 @@ export type UserUncheckedCreateWithoutDispatchedAppointmentsInput = {
   technicianClients?: Prisma.TechnicianClientUncheckedCreateNestedManyWithoutTechnicianInput
   expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutUserInput
   expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedCreateNestedOneWithoutUserInput
+  calls?: Prisma.CallUncheckedCreateNestedManyWithoutAgentInput
+  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSentByInput
+  sentEmails?: Prisma.EmailMessageUncheckedCreateNestedManyWithoutSentByInput
+  readVoicemails?: Prisma.VoicemailUncheckedCreateNestedManyWithoutReadByInput
+  customerRecord?: Prisma.CustomerUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutDispatchedAppointmentsInput = {
@@ -1708,6 +1997,8 @@ export type UserUpdateWithoutAppointmentsInput = {
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  agentStatus?: Prisma.NullableEnumAgentStatusFieldUpdateOperationsInput | $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
@@ -1730,6 +2021,11 @@ export type UserUpdateWithoutAppointmentsInput = {
   technicianClients?: Prisma.TechnicianClientUpdateManyWithoutTechnicianNestedInput
   expenses?: Prisma.ExpenseUpdateManyWithoutUserNestedInput
   expenseSubscription?: Prisma.ExpenseSubscriptionUpdateOneWithoutUserNestedInput
+  calls?: Prisma.CallUpdateManyWithoutAgentNestedInput
+  sentMessages?: Prisma.MessageUpdateManyWithoutSentByNestedInput
+  sentEmails?: Prisma.EmailMessageUpdateManyWithoutSentByNestedInput
+  readVoicemails?: Prisma.VoicemailUpdateManyWithoutReadByNestedInput
+  customerRecord?: Prisma.CustomerUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAppointmentsInput = {
@@ -1744,6 +2040,8 @@ export type UserUncheckedUpdateWithoutAppointmentsInput = {
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  agentStatus?: Prisma.NullableEnumAgentStatusFieldUpdateOperationsInput | $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
@@ -1766,6 +2064,11 @@ export type UserUncheckedUpdateWithoutAppointmentsInput = {
   technicianClients?: Prisma.TechnicianClientUncheckedUpdateManyWithoutTechnicianNestedInput
   expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutUserNestedInput
   expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedUpdateOneWithoutUserNestedInput
+  calls?: Prisma.CallUncheckedUpdateManyWithoutAgentNestedInput
+  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSentByNestedInput
+  sentEmails?: Prisma.EmailMessageUncheckedUpdateManyWithoutSentByNestedInput
+  readVoicemails?: Prisma.VoicemailUncheckedUpdateManyWithoutReadByNestedInput
+  customerRecord?: Prisma.CustomerUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserUpsertWithoutTechnicianAppointmentsInput = {
@@ -1791,6 +2094,8 @@ export type UserUpdateWithoutTechnicianAppointmentsInput = {
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  agentStatus?: Prisma.NullableEnumAgentStatusFieldUpdateOperationsInput | $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   appointments?: Prisma.AppointmentUpdateManyWithoutUserNestedInput
@@ -1813,6 +2118,11 @@ export type UserUpdateWithoutTechnicianAppointmentsInput = {
   technicianClients?: Prisma.TechnicianClientUpdateManyWithoutTechnicianNestedInput
   expenses?: Prisma.ExpenseUpdateManyWithoutUserNestedInput
   expenseSubscription?: Prisma.ExpenseSubscriptionUpdateOneWithoutUserNestedInput
+  calls?: Prisma.CallUpdateManyWithoutAgentNestedInput
+  sentMessages?: Prisma.MessageUpdateManyWithoutSentByNestedInput
+  sentEmails?: Prisma.EmailMessageUpdateManyWithoutSentByNestedInput
+  readVoicemails?: Prisma.VoicemailUpdateManyWithoutReadByNestedInput
+  customerRecord?: Prisma.CustomerUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTechnicianAppointmentsInput = {
@@ -1827,6 +2137,8 @@ export type UserUncheckedUpdateWithoutTechnicianAppointmentsInput = {
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  agentStatus?: Prisma.NullableEnumAgentStatusFieldUpdateOperationsInput | $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutUserNestedInput
@@ -1849,6 +2161,11 @@ export type UserUncheckedUpdateWithoutTechnicianAppointmentsInput = {
   technicianClients?: Prisma.TechnicianClientUncheckedUpdateManyWithoutTechnicianNestedInput
   expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutUserNestedInput
   expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedUpdateOneWithoutUserNestedInput
+  calls?: Prisma.CallUncheckedUpdateManyWithoutAgentNestedInput
+  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSentByNestedInput
+  sentEmails?: Prisma.EmailMessageUncheckedUpdateManyWithoutSentByNestedInput
+  readVoicemails?: Prisma.VoicemailUncheckedUpdateManyWithoutReadByNestedInput
+  customerRecord?: Prisma.CustomerUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserUpsertWithoutDispatchedAppointmentsInput = {
@@ -1874,6 +2191,8 @@ export type UserUpdateWithoutDispatchedAppointmentsInput = {
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  agentStatus?: Prisma.NullableEnumAgentStatusFieldUpdateOperationsInput | $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   appointments?: Prisma.AppointmentUpdateManyWithoutUserNestedInput
@@ -1896,6 +2215,11 @@ export type UserUpdateWithoutDispatchedAppointmentsInput = {
   technicianClients?: Prisma.TechnicianClientUpdateManyWithoutTechnicianNestedInput
   expenses?: Prisma.ExpenseUpdateManyWithoutUserNestedInput
   expenseSubscription?: Prisma.ExpenseSubscriptionUpdateOneWithoutUserNestedInput
+  calls?: Prisma.CallUpdateManyWithoutAgentNestedInput
+  sentMessages?: Prisma.MessageUpdateManyWithoutSentByNestedInput
+  sentEmails?: Prisma.EmailMessageUpdateManyWithoutSentByNestedInput
+  readVoicemails?: Prisma.VoicemailUpdateManyWithoutReadByNestedInput
+  customerRecord?: Prisma.CustomerUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutDispatchedAppointmentsInput = {
@@ -1910,6 +2234,8 @@ export type UserUncheckedUpdateWithoutDispatchedAppointmentsInput = {
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  agentStatus?: Prisma.NullableEnumAgentStatusFieldUpdateOperationsInput | $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutUserNestedInput
@@ -1932,6 +2258,11 @@ export type UserUncheckedUpdateWithoutDispatchedAppointmentsInput = {
   technicianClients?: Prisma.TechnicianClientUncheckedUpdateManyWithoutTechnicianNestedInput
   expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutUserNestedInput
   expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedUpdateOneWithoutUserNestedInput
+  calls?: Prisma.CallUncheckedUpdateManyWithoutAgentNestedInput
+  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSentByNestedInput
+  sentEmails?: Prisma.EmailMessageUncheckedUpdateManyWithoutSentByNestedInput
+  readVoicemails?: Prisma.VoicemailUncheckedUpdateManyWithoutReadByNestedInput
+  customerRecord?: Prisma.CustomerUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateWithoutReviewsInput = {
@@ -1946,6 +2277,8 @@ export type UserCreateWithoutReviewsInput = {
   mustChangePassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  agentStatus?: $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Date | string | null
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   appointments?: Prisma.AppointmentCreateNestedManyWithoutUserInput
@@ -1968,6 +2301,11 @@ export type UserCreateWithoutReviewsInput = {
   technicianClients?: Prisma.TechnicianClientCreateNestedManyWithoutTechnicianInput
   expenses?: Prisma.ExpenseCreateNestedManyWithoutUserInput
   expenseSubscription?: Prisma.ExpenseSubscriptionCreateNestedOneWithoutUserInput
+  calls?: Prisma.CallCreateNestedManyWithoutAgentInput
+  sentMessages?: Prisma.MessageCreateNestedManyWithoutSentByInput
+  sentEmails?: Prisma.EmailMessageCreateNestedManyWithoutSentByInput
+  readVoicemails?: Prisma.VoicemailCreateNestedManyWithoutReadByInput
+  customerRecord?: Prisma.CustomerCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutReviewsInput = {
@@ -1982,6 +2320,8 @@ export type UserUncheckedCreateWithoutReviewsInput = {
   mustChangePassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  agentStatus?: $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Date | string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutUserInput
@@ -2004,6 +2344,11 @@ export type UserUncheckedCreateWithoutReviewsInput = {
   technicianClients?: Prisma.TechnicianClientUncheckedCreateNestedManyWithoutTechnicianInput
   expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutUserInput
   expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedCreateNestedOneWithoutUserInput
+  calls?: Prisma.CallUncheckedCreateNestedManyWithoutAgentInput
+  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSentByInput
+  sentEmails?: Prisma.EmailMessageUncheckedCreateNestedManyWithoutSentByInput
+  readVoicemails?: Prisma.VoicemailUncheckedCreateNestedManyWithoutReadByInput
+  customerRecord?: Prisma.CustomerUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutReviewsInput = {
@@ -2034,6 +2379,8 @@ export type UserUpdateWithoutReviewsInput = {
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  agentStatus?: Prisma.NullableEnumAgentStatusFieldUpdateOperationsInput | $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   appointments?: Prisma.AppointmentUpdateManyWithoutUserNestedInput
@@ -2056,6 +2403,11 @@ export type UserUpdateWithoutReviewsInput = {
   technicianClients?: Prisma.TechnicianClientUpdateManyWithoutTechnicianNestedInput
   expenses?: Prisma.ExpenseUpdateManyWithoutUserNestedInput
   expenseSubscription?: Prisma.ExpenseSubscriptionUpdateOneWithoutUserNestedInput
+  calls?: Prisma.CallUpdateManyWithoutAgentNestedInput
+  sentMessages?: Prisma.MessageUpdateManyWithoutSentByNestedInput
+  sentEmails?: Prisma.EmailMessageUpdateManyWithoutSentByNestedInput
+  readVoicemails?: Prisma.VoicemailUpdateManyWithoutReadByNestedInput
+  customerRecord?: Prisma.CustomerUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReviewsInput = {
@@ -2070,6 +2422,8 @@ export type UserUncheckedUpdateWithoutReviewsInput = {
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  agentStatus?: Prisma.NullableEnumAgentStatusFieldUpdateOperationsInput | $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutUserNestedInput
@@ -2092,6 +2446,11 @@ export type UserUncheckedUpdateWithoutReviewsInput = {
   technicianClients?: Prisma.TechnicianClientUncheckedUpdateManyWithoutTechnicianNestedInput
   expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutUserNestedInput
   expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedUpdateOneWithoutUserNestedInput
+  calls?: Prisma.CallUncheckedUpdateManyWithoutAgentNestedInput
+  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSentByNestedInput
+  sentEmails?: Prisma.EmailMessageUncheckedUpdateManyWithoutSentByNestedInput
+  readVoicemails?: Prisma.VoicemailUncheckedUpdateManyWithoutReadByNestedInput
+  customerRecord?: Prisma.CustomerUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateWithoutTechnicianRosterInput = {
@@ -2106,6 +2465,8 @@ export type UserCreateWithoutTechnicianRosterInput = {
   mustChangePassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  agentStatus?: $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Date | string | null
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   appointments?: Prisma.AppointmentCreateNestedManyWithoutUserInput
@@ -2128,6 +2489,11 @@ export type UserCreateWithoutTechnicianRosterInput = {
   technicianClients?: Prisma.TechnicianClientCreateNestedManyWithoutTechnicianInput
   expenses?: Prisma.ExpenseCreateNestedManyWithoutUserInput
   expenseSubscription?: Prisma.ExpenseSubscriptionCreateNestedOneWithoutUserInput
+  calls?: Prisma.CallCreateNestedManyWithoutAgentInput
+  sentMessages?: Prisma.MessageCreateNestedManyWithoutSentByInput
+  sentEmails?: Prisma.EmailMessageCreateNestedManyWithoutSentByInput
+  readVoicemails?: Prisma.VoicemailCreateNestedManyWithoutReadByInput
+  customerRecord?: Prisma.CustomerCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutTechnicianRosterInput = {
@@ -2142,6 +2508,8 @@ export type UserUncheckedCreateWithoutTechnicianRosterInput = {
   mustChangePassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  agentStatus?: $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Date | string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutUserInput
@@ -2164,6 +2532,11 @@ export type UserUncheckedCreateWithoutTechnicianRosterInput = {
   technicianClients?: Prisma.TechnicianClientUncheckedCreateNestedManyWithoutTechnicianInput
   expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutUserInput
   expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedCreateNestedOneWithoutUserInput
+  calls?: Prisma.CallUncheckedCreateNestedManyWithoutAgentInput
+  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSentByInput
+  sentEmails?: Prisma.EmailMessageUncheckedCreateNestedManyWithoutSentByInput
+  readVoicemails?: Prisma.VoicemailUncheckedCreateNestedManyWithoutReadByInput
+  customerRecord?: Prisma.CustomerUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutTechnicianRosterInput = {
@@ -2194,6 +2567,8 @@ export type UserUpdateWithoutTechnicianRosterInput = {
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  agentStatus?: Prisma.NullableEnumAgentStatusFieldUpdateOperationsInput | $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   appointments?: Prisma.AppointmentUpdateManyWithoutUserNestedInput
@@ -2216,6 +2591,11 @@ export type UserUpdateWithoutTechnicianRosterInput = {
   technicianClients?: Prisma.TechnicianClientUpdateManyWithoutTechnicianNestedInput
   expenses?: Prisma.ExpenseUpdateManyWithoutUserNestedInput
   expenseSubscription?: Prisma.ExpenseSubscriptionUpdateOneWithoutUserNestedInput
+  calls?: Prisma.CallUpdateManyWithoutAgentNestedInput
+  sentMessages?: Prisma.MessageUpdateManyWithoutSentByNestedInput
+  sentEmails?: Prisma.EmailMessageUpdateManyWithoutSentByNestedInput
+  readVoicemails?: Prisma.VoicemailUpdateManyWithoutReadByNestedInput
+  customerRecord?: Prisma.CustomerUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTechnicianRosterInput = {
@@ -2230,6 +2610,8 @@ export type UserUncheckedUpdateWithoutTechnicianRosterInput = {
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  agentStatus?: Prisma.NullableEnumAgentStatusFieldUpdateOperationsInput | $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutUserNestedInput
@@ -2252,6 +2634,11 @@ export type UserUncheckedUpdateWithoutTechnicianRosterInput = {
   technicianClients?: Prisma.TechnicianClientUncheckedUpdateManyWithoutTechnicianNestedInput
   expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutUserNestedInput
   expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedUpdateOneWithoutUserNestedInput
+  calls?: Prisma.CallUncheckedUpdateManyWithoutAgentNestedInput
+  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSentByNestedInput
+  sentEmails?: Prisma.EmailMessageUncheckedUpdateManyWithoutSentByNestedInput
+  readVoicemails?: Prisma.VoicemailUncheckedUpdateManyWithoutReadByNestedInput
+  customerRecord?: Prisma.CustomerUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateWithoutTechnicianProfileInput = {
@@ -2266,6 +2653,8 @@ export type UserCreateWithoutTechnicianProfileInput = {
   mustChangePassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  agentStatus?: $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Date | string | null
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   appointments?: Prisma.AppointmentCreateNestedManyWithoutUserInput
@@ -2288,6 +2677,11 @@ export type UserCreateWithoutTechnicianProfileInput = {
   technicianClients?: Prisma.TechnicianClientCreateNestedManyWithoutTechnicianInput
   expenses?: Prisma.ExpenseCreateNestedManyWithoutUserInput
   expenseSubscription?: Prisma.ExpenseSubscriptionCreateNestedOneWithoutUserInput
+  calls?: Prisma.CallCreateNestedManyWithoutAgentInput
+  sentMessages?: Prisma.MessageCreateNestedManyWithoutSentByInput
+  sentEmails?: Prisma.EmailMessageCreateNestedManyWithoutSentByInput
+  readVoicemails?: Prisma.VoicemailCreateNestedManyWithoutReadByInput
+  customerRecord?: Prisma.CustomerCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutTechnicianProfileInput = {
@@ -2302,6 +2696,8 @@ export type UserUncheckedCreateWithoutTechnicianProfileInput = {
   mustChangePassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  agentStatus?: $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Date | string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutUserInput
@@ -2324,6 +2720,11 @@ export type UserUncheckedCreateWithoutTechnicianProfileInput = {
   technicianClients?: Prisma.TechnicianClientUncheckedCreateNestedManyWithoutTechnicianInput
   expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutUserInput
   expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedCreateNestedOneWithoutUserInput
+  calls?: Prisma.CallUncheckedCreateNestedManyWithoutAgentInput
+  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSentByInput
+  sentEmails?: Prisma.EmailMessageUncheckedCreateNestedManyWithoutSentByInput
+  readVoicemails?: Prisma.VoicemailUncheckedCreateNestedManyWithoutReadByInput
+  customerRecord?: Prisma.CustomerUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutTechnicianProfileInput = {
@@ -2354,6 +2755,8 @@ export type UserUpdateWithoutTechnicianProfileInput = {
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  agentStatus?: Prisma.NullableEnumAgentStatusFieldUpdateOperationsInput | $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   appointments?: Prisma.AppointmentUpdateManyWithoutUserNestedInput
@@ -2376,6 +2779,11 @@ export type UserUpdateWithoutTechnicianProfileInput = {
   technicianClients?: Prisma.TechnicianClientUpdateManyWithoutTechnicianNestedInput
   expenses?: Prisma.ExpenseUpdateManyWithoutUserNestedInput
   expenseSubscription?: Prisma.ExpenseSubscriptionUpdateOneWithoutUserNestedInput
+  calls?: Prisma.CallUpdateManyWithoutAgentNestedInput
+  sentMessages?: Prisma.MessageUpdateManyWithoutSentByNestedInput
+  sentEmails?: Prisma.EmailMessageUpdateManyWithoutSentByNestedInput
+  readVoicemails?: Prisma.VoicemailUpdateManyWithoutReadByNestedInput
+  customerRecord?: Prisma.CustomerUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTechnicianProfileInput = {
@@ -2390,6 +2798,8 @@ export type UserUncheckedUpdateWithoutTechnicianProfileInput = {
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  agentStatus?: Prisma.NullableEnumAgentStatusFieldUpdateOperationsInput | $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutUserNestedInput
@@ -2412,6 +2822,11 @@ export type UserUncheckedUpdateWithoutTechnicianProfileInput = {
   technicianClients?: Prisma.TechnicianClientUncheckedUpdateManyWithoutTechnicianNestedInput
   expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutUserNestedInput
   expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedUpdateOneWithoutUserNestedInput
+  calls?: Prisma.CallUncheckedUpdateManyWithoutAgentNestedInput
+  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSentByNestedInput
+  sentEmails?: Prisma.EmailMessageUncheckedUpdateManyWithoutSentByNestedInput
+  readVoicemails?: Prisma.VoicemailUncheckedUpdateManyWithoutReadByNestedInput
+  customerRecord?: Prisma.CustomerUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateWithoutTechnicianLocationsInput = {
@@ -2426,6 +2841,8 @@ export type UserCreateWithoutTechnicianLocationsInput = {
   mustChangePassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  agentStatus?: $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Date | string | null
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   appointments?: Prisma.AppointmentCreateNestedManyWithoutUserInput
@@ -2448,6 +2865,11 @@ export type UserCreateWithoutTechnicianLocationsInput = {
   technicianClients?: Prisma.TechnicianClientCreateNestedManyWithoutTechnicianInput
   expenses?: Prisma.ExpenseCreateNestedManyWithoutUserInput
   expenseSubscription?: Prisma.ExpenseSubscriptionCreateNestedOneWithoutUserInput
+  calls?: Prisma.CallCreateNestedManyWithoutAgentInput
+  sentMessages?: Prisma.MessageCreateNestedManyWithoutSentByInput
+  sentEmails?: Prisma.EmailMessageCreateNestedManyWithoutSentByInput
+  readVoicemails?: Prisma.VoicemailCreateNestedManyWithoutReadByInput
+  customerRecord?: Prisma.CustomerCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutTechnicianLocationsInput = {
@@ -2462,6 +2884,8 @@ export type UserUncheckedCreateWithoutTechnicianLocationsInput = {
   mustChangePassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  agentStatus?: $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Date | string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutUserInput
@@ -2484,6 +2908,11 @@ export type UserUncheckedCreateWithoutTechnicianLocationsInput = {
   technicianClients?: Prisma.TechnicianClientUncheckedCreateNestedManyWithoutTechnicianInput
   expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutUserInput
   expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedCreateNestedOneWithoutUserInput
+  calls?: Prisma.CallUncheckedCreateNestedManyWithoutAgentInput
+  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSentByInput
+  sentEmails?: Prisma.EmailMessageUncheckedCreateNestedManyWithoutSentByInput
+  readVoicemails?: Prisma.VoicemailUncheckedCreateNestedManyWithoutReadByInput
+  customerRecord?: Prisma.CustomerUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutTechnicianLocationsInput = {
@@ -2514,6 +2943,8 @@ export type UserUpdateWithoutTechnicianLocationsInput = {
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  agentStatus?: Prisma.NullableEnumAgentStatusFieldUpdateOperationsInput | $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   appointments?: Prisma.AppointmentUpdateManyWithoutUserNestedInput
@@ -2536,6 +2967,11 @@ export type UserUpdateWithoutTechnicianLocationsInput = {
   technicianClients?: Prisma.TechnicianClientUpdateManyWithoutTechnicianNestedInput
   expenses?: Prisma.ExpenseUpdateManyWithoutUserNestedInput
   expenseSubscription?: Prisma.ExpenseSubscriptionUpdateOneWithoutUserNestedInput
+  calls?: Prisma.CallUpdateManyWithoutAgentNestedInput
+  sentMessages?: Prisma.MessageUpdateManyWithoutSentByNestedInput
+  sentEmails?: Prisma.EmailMessageUpdateManyWithoutSentByNestedInput
+  readVoicemails?: Prisma.VoicemailUpdateManyWithoutReadByNestedInput
+  customerRecord?: Prisma.CustomerUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTechnicianLocationsInput = {
@@ -2550,6 +2986,8 @@ export type UserUncheckedUpdateWithoutTechnicianLocationsInput = {
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  agentStatus?: Prisma.NullableEnumAgentStatusFieldUpdateOperationsInput | $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutUserNestedInput
@@ -2572,6 +3010,11 @@ export type UserUncheckedUpdateWithoutTechnicianLocationsInput = {
   technicianClients?: Prisma.TechnicianClientUncheckedUpdateManyWithoutTechnicianNestedInput
   expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutUserNestedInput
   expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedUpdateOneWithoutUserNestedInput
+  calls?: Prisma.CallUncheckedUpdateManyWithoutAgentNestedInput
+  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSentByNestedInput
+  sentEmails?: Prisma.EmailMessageUncheckedUpdateManyWithoutSentByNestedInput
+  readVoicemails?: Prisma.VoicemailUncheckedUpdateManyWithoutReadByNestedInput
+  customerRecord?: Prisma.CustomerUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateWithoutTechnicianClockEntriesInput = {
@@ -2586,6 +3029,8 @@ export type UserCreateWithoutTechnicianClockEntriesInput = {
   mustChangePassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  agentStatus?: $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Date | string | null
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   appointments?: Prisma.AppointmentCreateNestedManyWithoutUserInput
@@ -2608,6 +3053,11 @@ export type UserCreateWithoutTechnicianClockEntriesInput = {
   technicianClients?: Prisma.TechnicianClientCreateNestedManyWithoutTechnicianInput
   expenses?: Prisma.ExpenseCreateNestedManyWithoutUserInput
   expenseSubscription?: Prisma.ExpenseSubscriptionCreateNestedOneWithoutUserInput
+  calls?: Prisma.CallCreateNestedManyWithoutAgentInput
+  sentMessages?: Prisma.MessageCreateNestedManyWithoutSentByInput
+  sentEmails?: Prisma.EmailMessageCreateNestedManyWithoutSentByInput
+  readVoicemails?: Prisma.VoicemailCreateNestedManyWithoutReadByInput
+  customerRecord?: Prisma.CustomerCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutTechnicianClockEntriesInput = {
@@ -2622,6 +3072,8 @@ export type UserUncheckedCreateWithoutTechnicianClockEntriesInput = {
   mustChangePassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  agentStatus?: $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Date | string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutUserInput
@@ -2644,6 +3096,11 @@ export type UserUncheckedCreateWithoutTechnicianClockEntriesInput = {
   technicianClients?: Prisma.TechnicianClientUncheckedCreateNestedManyWithoutTechnicianInput
   expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutUserInput
   expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedCreateNestedOneWithoutUserInput
+  calls?: Prisma.CallUncheckedCreateNestedManyWithoutAgentInput
+  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSentByInput
+  sentEmails?: Prisma.EmailMessageUncheckedCreateNestedManyWithoutSentByInput
+  readVoicemails?: Prisma.VoicemailUncheckedCreateNestedManyWithoutReadByInput
+  customerRecord?: Prisma.CustomerUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutTechnicianClockEntriesInput = {
@@ -2674,6 +3131,8 @@ export type UserUpdateWithoutTechnicianClockEntriesInput = {
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  agentStatus?: Prisma.NullableEnumAgentStatusFieldUpdateOperationsInput | $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   appointments?: Prisma.AppointmentUpdateManyWithoutUserNestedInput
@@ -2696,6 +3155,11 @@ export type UserUpdateWithoutTechnicianClockEntriesInput = {
   technicianClients?: Prisma.TechnicianClientUpdateManyWithoutTechnicianNestedInput
   expenses?: Prisma.ExpenseUpdateManyWithoutUserNestedInput
   expenseSubscription?: Prisma.ExpenseSubscriptionUpdateOneWithoutUserNestedInput
+  calls?: Prisma.CallUpdateManyWithoutAgentNestedInput
+  sentMessages?: Prisma.MessageUpdateManyWithoutSentByNestedInput
+  sentEmails?: Prisma.EmailMessageUpdateManyWithoutSentByNestedInput
+  readVoicemails?: Prisma.VoicemailUpdateManyWithoutReadByNestedInput
+  customerRecord?: Prisma.CustomerUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTechnicianClockEntriesInput = {
@@ -2710,6 +3174,8 @@ export type UserUncheckedUpdateWithoutTechnicianClockEntriesInput = {
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  agentStatus?: Prisma.NullableEnumAgentStatusFieldUpdateOperationsInput | $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutUserNestedInput
@@ -2732,6 +3198,11 @@ export type UserUncheckedUpdateWithoutTechnicianClockEntriesInput = {
   technicianClients?: Prisma.TechnicianClientUncheckedUpdateManyWithoutTechnicianNestedInput
   expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutUserNestedInput
   expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedUpdateOneWithoutUserNestedInput
+  calls?: Prisma.CallUncheckedUpdateManyWithoutAgentNestedInput
+  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSentByNestedInput
+  sentEmails?: Prisma.EmailMessageUncheckedUpdateManyWithoutSentByNestedInput
+  readVoicemails?: Prisma.VoicemailUncheckedUpdateManyWithoutReadByNestedInput
+  customerRecord?: Prisma.CustomerUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateWithoutPropertiesInput = {
@@ -2746,6 +3217,8 @@ export type UserCreateWithoutPropertiesInput = {
   mustChangePassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  agentStatus?: $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Date | string | null
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   appointments?: Prisma.AppointmentCreateNestedManyWithoutUserInput
@@ -2768,6 +3241,11 @@ export type UserCreateWithoutPropertiesInput = {
   technicianClients?: Prisma.TechnicianClientCreateNestedManyWithoutTechnicianInput
   expenses?: Prisma.ExpenseCreateNestedManyWithoutUserInput
   expenseSubscription?: Prisma.ExpenseSubscriptionCreateNestedOneWithoutUserInput
+  calls?: Prisma.CallCreateNestedManyWithoutAgentInput
+  sentMessages?: Prisma.MessageCreateNestedManyWithoutSentByInput
+  sentEmails?: Prisma.EmailMessageCreateNestedManyWithoutSentByInput
+  readVoicemails?: Prisma.VoicemailCreateNestedManyWithoutReadByInput
+  customerRecord?: Prisma.CustomerCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutPropertiesInput = {
@@ -2782,6 +3260,8 @@ export type UserUncheckedCreateWithoutPropertiesInput = {
   mustChangePassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  agentStatus?: $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Date | string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutUserInput
@@ -2804,6 +3284,11 @@ export type UserUncheckedCreateWithoutPropertiesInput = {
   technicianClients?: Prisma.TechnicianClientUncheckedCreateNestedManyWithoutTechnicianInput
   expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutUserInput
   expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedCreateNestedOneWithoutUserInput
+  calls?: Prisma.CallUncheckedCreateNestedManyWithoutAgentInput
+  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSentByInput
+  sentEmails?: Prisma.EmailMessageUncheckedCreateNestedManyWithoutSentByInput
+  readVoicemails?: Prisma.VoicemailUncheckedCreateNestedManyWithoutReadByInput
+  customerRecord?: Prisma.CustomerUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutPropertiesInput = {
@@ -2834,6 +3319,8 @@ export type UserUpdateWithoutPropertiesInput = {
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  agentStatus?: Prisma.NullableEnumAgentStatusFieldUpdateOperationsInput | $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   appointments?: Prisma.AppointmentUpdateManyWithoutUserNestedInput
@@ -2856,6 +3343,11 @@ export type UserUpdateWithoutPropertiesInput = {
   technicianClients?: Prisma.TechnicianClientUpdateManyWithoutTechnicianNestedInput
   expenses?: Prisma.ExpenseUpdateManyWithoutUserNestedInput
   expenseSubscription?: Prisma.ExpenseSubscriptionUpdateOneWithoutUserNestedInput
+  calls?: Prisma.CallUpdateManyWithoutAgentNestedInput
+  sentMessages?: Prisma.MessageUpdateManyWithoutSentByNestedInput
+  sentEmails?: Prisma.EmailMessageUpdateManyWithoutSentByNestedInput
+  readVoicemails?: Prisma.VoicemailUpdateManyWithoutReadByNestedInput
+  customerRecord?: Prisma.CustomerUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPropertiesInput = {
@@ -2870,6 +3362,8 @@ export type UserUncheckedUpdateWithoutPropertiesInput = {
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  agentStatus?: Prisma.NullableEnumAgentStatusFieldUpdateOperationsInput | $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutUserNestedInput
@@ -2892,6 +3386,11 @@ export type UserUncheckedUpdateWithoutPropertiesInput = {
   technicianClients?: Prisma.TechnicianClientUncheckedUpdateManyWithoutTechnicianNestedInput
   expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutUserNestedInput
   expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedUpdateOneWithoutUserNestedInput
+  calls?: Prisma.CallUncheckedUpdateManyWithoutAgentNestedInput
+  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSentByNestedInput
+  sentEmails?: Prisma.EmailMessageUncheckedUpdateManyWithoutSentByNestedInput
+  readVoicemails?: Prisma.VoicemailUncheckedUpdateManyWithoutReadByNestedInput
+  customerRecord?: Prisma.CustomerUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateWithoutServicePlansInput = {
@@ -2906,6 +3405,8 @@ export type UserCreateWithoutServicePlansInput = {
   mustChangePassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  agentStatus?: $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Date | string | null
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   appointments?: Prisma.AppointmentCreateNestedManyWithoutUserInput
@@ -2928,6 +3429,11 @@ export type UserCreateWithoutServicePlansInput = {
   technicianClients?: Prisma.TechnicianClientCreateNestedManyWithoutTechnicianInput
   expenses?: Prisma.ExpenseCreateNestedManyWithoutUserInput
   expenseSubscription?: Prisma.ExpenseSubscriptionCreateNestedOneWithoutUserInput
+  calls?: Prisma.CallCreateNestedManyWithoutAgentInput
+  sentMessages?: Prisma.MessageCreateNestedManyWithoutSentByInput
+  sentEmails?: Prisma.EmailMessageCreateNestedManyWithoutSentByInput
+  readVoicemails?: Prisma.VoicemailCreateNestedManyWithoutReadByInput
+  customerRecord?: Prisma.CustomerCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutServicePlansInput = {
@@ -2942,6 +3448,8 @@ export type UserUncheckedCreateWithoutServicePlansInput = {
   mustChangePassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  agentStatus?: $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Date | string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutUserInput
@@ -2964,6 +3472,11 @@ export type UserUncheckedCreateWithoutServicePlansInput = {
   technicianClients?: Prisma.TechnicianClientUncheckedCreateNestedManyWithoutTechnicianInput
   expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutUserInput
   expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedCreateNestedOneWithoutUserInput
+  calls?: Prisma.CallUncheckedCreateNestedManyWithoutAgentInput
+  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSentByInput
+  sentEmails?: Prisma.EmailMessageUncheckedCreateNestedManyWithoutSentByInput
+  readVoicemails?: Prisma.VoicemailUncheckedCreateNestedManyWithoutReadByInput
+  customerRecord?: Prisma.CustomerUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutServicePlansInput = {
@@ -2994,6 +3507,8 @@ export type UserUpdateWithoutServicePlansInput = {
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  agentStatus?: Prisma.NullableEnumAgentStatusFieldUpdateOperationsInput | $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   appointments?: Prisma.AppointmentUpdateManyWithoutUserNestedInput
@@ -3016,6 +3531,11 @@ export type UserUpdateWithoutServicePlansInput = {
   technicianClients?: Prisma.TechnicianClientUpdateManyWithoutTechnicianNestedInput
   expenses?: Prisma.ExpenseUpdateManyWithoutUserNestedInput
   expenseSubscription?: Prisma.ExpenseSubscriptionUpdateOneWithoutUserNestedInput
+  calls?: Prisma.CallUpdateManyWithoutAgentNestedInput
+  sentMessages?: Prisma.MessageUpdateManyWithoutSentByNestedInput
+  sentEmails?: Prisma.EmailMessageUpdateManyWithoutSentByNestedInput
+  readVoicemails?: Prisma.VoicemailUpdateManyWithoutReadByNestedInput
+  customerRecord?: Prisma.CustomerUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutServicePlansInput = {
@@ -3030,6 +3550,8 @@ export type UserUncheckedUpdateWithoutServicePlansInput = {
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  agentStatus?: Prisma.NullableEnumAgentStatusFieldUpdateOperationsInput | $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutUserNestedInput
@@ -3052,6 +3574,11 @@ export type UserUncheckedUpdateWithoutServicePlansInput = {
   technicianClients?: Prisma.TechnicianClientUncheckedUpdateManyWithoutTechnicianNestedInput
   expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutUserNestedInput
   expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedUpdateOneWithoutUserNestedInput
+  calls?: Prisma.CallUncheckedUpdateManyWithoutAgentNestedInput
+  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSentByNestedInput
+  sentEmails?: Prisma.EmailMessageUncheckedUpdateManyWithoutSentByNestedInput
+  readVoicemails?: Prisma.VoicemailUncheckedUpdateManyWithoutReadByNestedInput
+  customerRecord?: Prisma.CustomerUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateWithoutWarrantiesInput = {
@@ -3066,6 +3593,8 @@ export type UserCreateWithoutWarrantiesInput = {
   mustChangePassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  agentStatus?: $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Date | string | null
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   appointments?: Prisma.AppointmentCreateNestedManyWithoutUserInput
@@ -3088,6 +3617,11 @@ export type UserCreateWithoutWarrantiesInput = {
   technicianClients?: Prisma.TechnicianClientCreateNestedManyWithoutTechnicianInput
   expenses?: Prisma.ExpenseCreateNestedManyWithoutUserInput
   expenseSubscription?: Prisma.ExpenseSubscriptionCreateNestedOneWithoutUserInput
+  calls?: Prisma.CallCreateNestedManyWithoutAgentInput
+  sentMessages?: Prisma.MessageCreateNestedManyWithoutSentByInput
+  sentEmails?: Prisma.EmailMessageCreateNestedManyWithoutSentByInput
+  readVoicemails?: Prisma.VoicemailCreateNestedManyWithoutReadByInput
+  customerRecord?: Prisma.CustomerCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutWarrantiesInput = {
@@ -3102,6 +3636,8 @@ export type UserUncheckedCreateWithoutWarrantiesInput = {
   mustChangePassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  agentStatus?: $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Date | string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutUserInput
@@ -3124,6 +3660,11 @@ export type UserUncheckedCreateWithoutWarrantiesInput = {
   technicianClients?: Prisma.TechnicianClientUncheckedCreateNestedManyWithoutTechnicianInput
   expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutUserInput
   expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedCreateNestedOneWithoutUserInput
+  calls?: Prisma.CallUncheckedCreateNestedManyWithoutAgentInput
+  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSentByInput
+  sentEmails?: Prisma.EmailMessageUncheckedCreateNestedManyWithoutSentByInput
+  readVoicemails?: Prisma.VoicemailUncheckedCreateNestedManyWithoutReadByInput
+  customerRecord?: Prisma.CustomerUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutWarrantiesInput = {
@@ -3154,6 +3695,8 @@ export type UserUpdateWithoutWarrantiesInput = {
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  agentStatus?: Prisma.NullableEnumAgentStatusFieldUpdateOperationsInput | $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   appointments?: Prisma.AppointmentUpdateManyWithoutUserNestedInput
@@ -3176,6 +3719,11 @@ export type UserUpdateWithoutWarrantiesInput = {
   technicianClients?: Prisma.TechnicianClientUpdateManyWithoutTechnicianNestedInput
   expenses?: Prisma.ExpenseUpdateManyWithoutUserNestedInput
   expenseSubscription?: Prisma.ExpenseSubscriptionUpdateOneWithoutUserNestedInput
+  calls?: Prisma.CallUpdateManyWithoutAgentNestedInput
+  sentMessages?: Prisma.MessageUpdateManyWithoutSentByNestedInput
+  sentEmails?: Prisma.EmailMessageUpdateManyWithoutSentByNestedInput
+  readVoicemails?: Prisma.VoicemailUpdateManyWithoutReadByNestedInput
+  customerRecord?: Prisma.CustomerUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutWarrantiesInput = {
@@ -3190,6 +3738,8 @@ export type UserUncheckedUpdateWithoutWarrantiesInput = {
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  agentStatus?: Prisma.NullableEnumAgentStatusFieldUpdateOperationsInput | $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutUserNestedInput
@@ -3212,6 +3762,11 @@ export type UserUncheckedUpdateWithoutWarrantiesInput = {
   technicianClients?: Prisma.TechnicianClientUncheckedUpdateManyWithoutTechnicianNestedInput
   expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutUserNestedInput
   expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedUpdateOneWithoutUserNestedInput
+  calls?: Prisma.CallUncheckedUpdateManyWithoutAgentNestedInput
+  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSentByNestedInput
+  sentEmails?: Prisma.EmailMessageUncheckedUpdateManyWithoutSentByNestedInput
+  readVoicemails?: Prisma.VoicemailUncheckedUpdateManyWithoutReadByNestedInput
+  customerRecord?: Prisma.CustomerUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateWithoutOrdersInput = {
@@ -3226,6 +3781,8 @@ export type UserCreateWithoutOrdersInput = {
   mustChangePassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  agentStatus?: $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Date | string | null
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   appointments?: Prisma.AppointmentCreateNestedManyWithoutUserInput
@@ -3248,6 +3805,11 @@ export type UserCreateWithoutOrdersInput = {
   technicianClients?: Prisma.TechnicianClientCreateNestedManyWithoutTechnicianInput
   expenses?: Prisma.ExpenseCreateNestedManyWithoutUserInput
   expenseSubscription?: Prisma.ExpenseSubscriptionCreateNestedOneWithoutUserInput
+  calls?: Prisma.CallCreateNestedManyWithoutAgentInput
+  sentMessages?: Prisma.MessageCreateNestedManyWithoutSentByInput
+  sentEmails?: Prisma.EmailMessageCreateNestedManyWithoutSentByInput
+  readVoicemails?: Prisma.VoicemailCreateNestedManyWithoutReadByInput
+  customerRecord?: Prisma.CustomerCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutOrdersInput = {
@@ -3262,6 +3824,8 @@ export type UserUncheckedCreateWithoutOrdersInput = {
   mustChangePassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  agentStatus?: $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Date | string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutUserInput
@@ -3284,6 +3848,11 @@ export type UserUncheckedCreateWithoutOrdersInput = {
   technicianClients?: Prisma.TechnicianClientUncheckedCreateNestedManyWithoutTechnicianInput
   expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutUserInput
   expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedCreateNestedOneWithoutUserInput
+  calls?: Prisma.CallUncheckedCreateNestedManyWithoutAgentInput
+  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSentByInput
+  sentEmails?: Prisma.EmailMessageUncheckedCreateNestedManyWithoutSentByInput
+  readVoicemails?: Prisma.VoicemailUncheckedCreateNestedManyWithoutReadByInput
+  customerRecord?: Prisma.CustomerUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutOrdersInput = {
@@ -3314,6 +3883,8 @@ export type UserUpdateWithoutOrdersInput = {
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  agentStatus?: Prisma.NullableEnumAgentStatusFieldUpdateOperationsInput | $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   appointments?: Prisma.AppointmentUpdateManyWithoutUserNestedInput
@@ -3336,6 +3907,11 @@ export type UserUpdateWithoutOrdersInput = {
   technicianClients?: Prisma.TechnicianClientUpdateManyWithoutTechnicianNestedInput
   expenses?: Prisma.ExpenseUpdateManyWithoutUserNestedInput
   expenseSubscription?: Prisma.ExpenseSubscriptionUpdateOneWithoutUserNestedInput
+  calls?: Prisma.CallUpdateManyWithoutAgentNestedInput
+  sentMessages?: Prisma.MessageUpdateManyWithoutSentByNestedInput
+  sentEmails?: Prisma.EmailMessageUpdateManyWithoutSentByNestedInput
+  readVoicemails?: Prisma.VoicemailUpdateManyWithoutReadByNestedInput
+  customerRecord?: Prisma.CustomerUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutOrdersInput = {
@@ -3350,6 +3926,8 @@ export type UserUncheckedUpdateWithoutOrdersInput = {
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  agentStatus?: Prisma.NullableEnumAgentStatusFieldUpdateOperationsInput | $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutUserNestedInput
@@ -3372,6 +3950,11 @@ export type UserUncheckedUpdateWithoutOrdersInput = {
   technicianClients?: Prisma.TechnicianClientUncheckedUpdateManyWithoutTechnicianNestedInput
   expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutUserNestedInput
   expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedUpdateOneWithoutUserNestedInput
+  calls?: Prisma.CallUncheckedUpdateManyWithoutAgentNestedInput
+  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSentByNestedInput
+  sentEmails?: Prisma.EmailMessageUncheckedUpdateManyWithoutSentByNestedInput
+  readVoicemails?: Prisma.VoicemailUncheckedUpdateManyWithoutReadByNestedInput
+  customerRecord?: Prisma.CustomerUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateWithoutPushSubscriptionsInput = {
@@ -3386,6 +3969,8 @@ export type UserCreateWithoutPushSubscriptionsInput = {
   mustChangePassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  agentStatus?: $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Date | string | null
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   appointments?: Prisma.AppointmentCreateNestedManyWithoutUserInput
@@ -3408,6 +3993,11 @@ export type UserCreateWithoutPushSubscriptionsInput = {
   technicianClients?: Prisma.TechnicianClientCreateNestedManyWithoutTechnicianInput
   expenses?: Prisma.ExpenseCreateNestedManyWithoutUserInput
   expenseSubscription?: Prisma.ExpenseSubscriptionCreateNestedOneWithoutUserInput
+  calls?: Prisma.CallCreateNestedManyWithoutAgentInput
+  sentMessages?: Prisma.MessageCreateNestedManyWithoutSentByInput
+  sentEmails?: Prisma.EmailMessageCreateNestedManyWithoutSentByInput
+  readVoicemails?: Prisma.VoicemailCreateNestedManyWithoutReadByInput
+  customerRecord?: Prisma.CustomerCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutPushSubscriptionsInput = {
@@ -3422,6 +4012,8 @@ export type UserUncheckedCreateWithoutPushSubscriptionsInput = {
   mustChangePassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  agentStatus?: $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Date | string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutUserInput
@@ -3444,6 +4036,11 @@ export type UserUncheckedCreateWithoutPushSubscriptionsInput = {
   technicianClients?: Prisma.TechnicianClientUncheckedCreateNestedManyWithoutTechnicianInput
   expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutUserInput
   expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedCreateNestedOneWithoutUserInput
+  calls?: Prisma.CallUncheckedCreateNestedManyWithoutAgentInput
+  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSentByInput
+  sentEmails?: Prisma.EmailMessageUncheckedCreateNestedManyWithoutSentByInput
+  readVoicemails?: Prisma.VoicemailUncheckedCreateNestedManyWithoutReadByInput
+  customerRecord?: Prisma.CustomerUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutPushSubscriptionsInput = {
@@ -3474,6 +4071,8 @@ export type UserUpdateWithoutPushSubscriptionsInput = {
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  agentStatus?: Prisma.NullableEnumAgentStatusFieldUpdateOperationsInput | $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   appointments?: Prisma.AppointmentUpdateManyWithoutUserNestedInput
@@ -3496,6 +4095,11 @@ export type UserUpdateWithoutPushSubscriptionsInput = {
   technicianClients?: Prisma.TechnicianClientUpdateManyWithoutTechnicianNestedInput
   expenses?: Prisma.ExpenseUpdateManyWithoutUserNestedInput
   expenseSubscription?: Prisma.ExpenseSubscriptionUpdateOneWithoutUserNestedInput
+  calls?: Prisma.CallUpdateManyWithoutAgentNestedInput
+  sentMessages?: Prisma.MessageUpdateManyWithoutSentByNestedInput
+  sentEmails?: Prisma.EmailMessageUpdateManyWithoutSentByNestedInput
+  readVoicemails?: Prisma.VoicemailUpdateManyWithoutReadByNestedInput
+  customerRecord?: Prisma.CustomerUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPushSubscriptionsInput = {
@@ -3510,6 +4114,8 @@ export type UserUncheckedUpdateWithoutPushSubscriptionsInput = {
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  agentStatus?: Prisma.NullableEnumAgentStatusFieldUpdateOperationsInput | $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutUserNestedInput
@@ -3532,6 +4138,11 @@ export type UserUncheckedUpdateWithoutPushSubscriptionsInput = {
   technicianClients?: Prisma.TechnicianClientUncheckedUpdateManyWithoutTechnicianNestedInput
   expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutUserNestedInput
   expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedUpdateOneWithoutUserNestedInput
+  calls?: Prisma.CallUncheckedUpdateManyWithoutAgentNestedInput
+  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSentByNestedInput
+  sentEmails?: Prisma.EmailMessageUncheckedUpdateManyWithoutSentByNestedInput
+  readVoicemails?: Prisma.VoicemailUncheckedUpdateManyWithoutReadByNestedInput
+  customerRecord?: Prisma.CustomerUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateWithoutEstimatesInput = {
@@ -3546,6 +4157,8 @@ export type UserCreateWithoutEstimatesInput = {
   mustChangePassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  agentStatus?: $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Date | string | null
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   appointments?: Prisma.AppointmentCreateNestedManyWithoutUserInput
@@ -3568,6 +4181,11 @@ export type UserCreateWithoutEstimatesInput = {
   technicianClients?: Prisma.TechnicianClientCreateNestedManyWithoutTechnicianInput
   expenses?: Prisma.ExpenseCreateNestedManyWithoutUserInput
   expenseSubscription?: Prisma.ExpenseSubscriptionCreateNestedOneWithoutUserInput
+  calls?: Prisma.CallCreateNestedManyWithoutAgentInput
+  sentMessages?: Prisma.MessageCreateNestedManyWithoutSentByInput
+  sentEmails?: Prisma.EmailMessageCreateNestedManyWithoutSentByInput
+  readVoicemails?: Prisma.VoicemailCreateNestedManyWithoutReadByInput
+  customerRecord?: Prisma.CustomerCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutEstimatesInput = {
@@ -3582,6 +4200,8 @@ export type UserUncheckedCreateWithoutEstimatesInput = {
   mustChangePassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  agentStatus?: $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Date | string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutUserInput
@@ -3604,6 +4224,11 @@ export type UserUncheckedCreateWithoutEstimatesInput = {
   technicianClients?: Prisma.TechnicianClientUncheckedCreateNestedManyWithoutTechnicianInput
   expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutUserInput
   expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedCreateNestedOneWithoutUserInput
+  calls?: Prisma.CallUncheckedCreateNestedManyWithoutAgentInput
+  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSentByInput
+  sentEmails?: Prisma.EmailMessageUncheckedCreateNestedManyWithoutSentByInput
+  readVoicemails?: Prisma.VoicemailUncheckedCreateNestedManyWithoutReadByInput
+  customerRecord?: Prisma.CustomerUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutEstimatesInput = {
@@ -3634,6 +4259,8 @@ export type UserUpdateWithoutEstimatesInput = {
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  agentStatus?: Prisma.NullableEnumAgentStatusFieldUpdateOperationsInput | $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   appointments?: Prisma.AppointmentUpdateManyWithoutUserNestedInput
@@ -3656,6 +4283,11 @@ export type UserUpdateWithoutEstimatesInput = {
   technicianClients?: Prisma.TechnicianClientUpdateManyWithoutTechnicianNestedInput
   expenses?: Prisma.ExpenseUpdateManyWithoutUserNestedInput
   expenseSubscription?: Prisma.ExpenseSubscriptionUpdateOneWithoutUserNestedInput
+  calls?: Prisma.CallUpdateManyWithoutAgentNestedInput
+  sentMessages?: Prisma.MessageUpdateManyWithoutSentByNestedInput
+  sentEmails?: Prisma.EmailMessageUpdateManyWithoutSentByNestedInput
+  readVoicemails?: Prisma.VoicemailUpdateManyWithoutReadByNestedInput
+  customerRecord?: Prisma.CustomerUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutEstimatesInput = {
@@ -3670,6 +4302,8 @@ export type UserUncheckedUpdateWithoutEstimatesInput = {
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  agentStatus?: Prisma.NullableEnumAgentStatusFieldUpdateOperationsInput | $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutUserNestedInput
@@ -3692,6 +4326,11 @@ export type UserUncheckedUpdateWithoutEstimatesInput = {
   technicianClients?: Prisma.TechnicianClientUncheckedUpdateManyWithoutTechnicianNestedInput
   expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutUserNestedInput
   expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedUpdateOneWithoutUserNestedInput
+  calls?: Prisma.CallUncheckedUpdateManyWithoutAgentNestedInput
+  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSentByNestedInput
+  sentEmails?: Prisma.EmailMessageUncheckedUpdateManyWithoutSentByNestedInput
+  readVoicemails?: Prisma.VoicemailUncheckedUpdateManyWithoutReadByNestedInput
+  customerRecord?: Prisma.CustomerUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateWithoutJobPhotosInput = {
@@ -3706,6 +4345,8 @@ export type UserCreateWithoutJobPhotosInput = {
   mustChangePassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  agentStatus?: $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Date | string | null
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   appointments?: Prisma.AppointmentCreateNestedManyWithoutUserInput
@@ -3728,6 +4369,11 @@ export type UserCreateWithoutJobPhotosInput = {
   technicianClients?: Prisma.TechnicianClientCreateNestedManyWithoutTechnicianInput
   expenses?: Prisma.ExpenseCreateNestedManyWithoutUserInput
   expenseSubscription?: Prisma.ExpenseSubscriptionCreateNestedOneWithoutUserInput
+  calls?: Prisma.CallCreateNestedManyWithoutAgentInput
+  sentMessages?: Prisma.MessageCreateNestedManyWithoutSentByInput
+  sentEmails?: Prisma.EmailMessageCreateNestedManyWithoutSentByInput
+  readVoicemails?: Prisma.VoicemailCreateNestedManyWithoutReadByInput
+  customerRecord?: Prisma.CustomerCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutJobPhotosInput = {
@@ -3742,6 +4388,8 @@ export type UserUncheckedCreateWithoutJobPhotosInput = {
   mustChangePassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  agentStatus?: $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Date | string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutUserInput
@@ -3764,6 +4412,11 @@ export type UserUncheckedCreateWithoutJobPhotosInput = {
   technicianClients?: Prisma.TechnicianClientUncheckedCreateNestedManyWithoutTechnicianInput
   expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutUserInput
   expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedCreateNestedOneWithoutUserInput
+  calls?: Prisma.CallUncheckedCreateNestedManyWithoutAgentInput
+  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSentByInput
+  sentEmails?: Prisma.EmailMessageUncheckedCreateNestedManyWithoutSentByInput
+  readVoicemails?: Prisma.VoicemailUncheckedCreateNestedManyWithoutReadByInput
+  customerRecord?: Prisma.CustomerUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutJobPhotosInput = {
@@ -3794,6 +4447,8 @@ export type UserUpdateWithoutJobPhotosInput = {
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  agentStatus?: Prisma.NullableEnumAgentStatusFieldUpdateOperationsInput | $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   appointments?: Prisma.AppointmentUpdateManyWithoutUserNestedInput
@@ -3816,6 +4471,11 @@ export type UserUpdateWithoutJobPhotosInput = {
   technicianClients?: Prisma.TechnicianClientUpdateManyWithoutTechnicianNestedInput
   expenses?: Prisma.ExpenseUpdateManyWithoutUserNestedInput
   expenseSubscription?: Prisma.ExpenseSubscriptionUpdateOneWithoutUserNestedInput
+  calls?: Prisma.CallUpdateManyWithoutAgentNestedInput
+  sentMessages?: Prisma.MessageUpdateManyWithoutSentByNestedInput
+  sentEmails?: Prisma.EmailMessageUpdateManyWithoutSentByNestedInput
+  readVoicemails?: Prisma.VoicemailUpdateManyWithoutReadByNestedInput
+  customerRecord?: Prisma.CustomerUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutJobPhotosInput = {
@@ -3830,6 +4490,8 @@ export type UserUncheckedUpdateWithoutJobPhotosInput = {
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  agentStatus?: Prisma.NullableEnumAgentStatusFieldUpdateOperationsInput | $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutUserNestedInput
@@ -3852,6 +4514,11 @@ export type UserUncheckedUpdateWithoutJobPhotosInput = {
   technicianClients?: Prisma.TechnicianClientUncheckedUpdateManyWithoutTechnicianNestedInput
   expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutUserNestedInput
   expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedUpdateOneWithoutUserNestedInput
+  calls?: Prisma.CallUncheckedUpdateManyWithoutAgentNestedInput
+  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSentByNestedInput
+  sentEmails?: Prisma.EmailMessageUncheckedUpdateManyWithoutSentByNestedInput
+  readVoicemails?: Prisma.VoicemailUncheckedUpdateManyWithoutReadByNestedInput
+  customerRecord?: Prisma.CustomerUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateWithoutJobPaymentsInput = {
@@ -3866,6 +4533,8 @@ export type UserCreateWithoutJobPaymentsInput = {
   mustChangePassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  agentStatus?: $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Date | string | null
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   appointments?: Prisma.AppointmentCreateNestedManyWithoutUserInput
@@ -3888,6 +4557,11 @@ export type UserCreateWithoutJobPaymentsInput = {
   technicianClients?: Prisma.TechnicianClientCreateNestedManyWithoutTechnicianInput
   expenses?: Prisma.ExpenseCreateNestedManyWithoutUserInput
   expenseSubscription?: Prisma.ExpenseSubscriptionCreateNestedOneWithoutUserInput
+  calls?: Prisma.CallCreateNestedManyWithoutAgentInput
+  sentMessages?: Prisma.MessageCreateNestedManyWithoutSentByInput
+  sentEmails?: Prisma.EmailMessageCreateNestedManyWithoutSentByInput
+  readVoicemails?: Prisma.VoicemailCreateNestedManyWithoutReadByInput
+  customerRecord?: Prisma.CustomerCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutJobPaymentsInput = {
@@ -3902,6 +4576,8 @@ export type UserUncheckedCreateWithoutJobPaymentsInput = {
   mustChangePassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  agentStatus?: $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Date | string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutUserInput
@@ -3924,6 +4600,11 @@ export type UserUncheckedCreateWithoutJobPaymentsInput = {
   technicianClients?: Prisma.TechnicianClientUncheckedCreateNestedManyWithoutTechnicianInput
   expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutUserInput
   expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedCreateNestedOneWithoutUserInput
+  calls?: Prisma.CallUncheckedCreateNestedManyWithoutAgentInput
+  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSentByInput
+  sentEmails?: Prisma.EmailMessageUncheckedCreateNestedManyWithoutSentByInput
+  readVoicemails?: Prisma.VoicemailUncheckedCreateNestedManyWithoutReadByInput
+  customerRecord?: Prisma.CustomerUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutJobPaymentsInput = {
@@ -3954,6 +4635,8 @@ export type UserUpdateWithoutJobPaymentsInput = {
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  agentStatus?: Prisma.NullableEnumAgentStatusFieldUpdateOperationsInput | $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   appointments?: Prisma.AppointmentUpdateManyWithoutUserNestedInput
@@ -3976,6 +4659,11 @@ export type UserUpdateWithoutJobPaymentsInput = {
   technicianClients?: Prisma.TechnicianClientUpdateManyWithoutTechnicianNestedInput
   expenses?: Prisma.ExpenseUpdateManyWithoutUserNestedInput
   expenseSubscription?: Prisma.ExpenseSubscriptionUpdateOneWithoutUserNestedInput
+  calls?: Prisma.CallUpdateManyWithoutAgentNestedInput
+  sentMessages?: Prisma.MessageUpdateManyWithoutSentByNestedInput
+  sentEmails?: Prisma.EmailMessageUpdateManyWithoutSentByNestedInput
+  readVoicemails?: Prisma.VoicemailUpdateManyWithoutReadByNestedInput
+  customerRecord?: Prisma.CustomerUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutJobPaymentsInput = {
@@ -3990,6 +4678,8 @@ export type UserUncheckedUpdateWithoutJobPaymentsInput = {
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  agentStatus?: Prisma.NullableEnumAgentStatusFieldUpdateOperationsInput | $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutUserNestedInput
@@ -4012,6 +4702,11 @@ export type UserUncheckedUpdateWithoutJobPaymentsInput = {
   technicianClients?: Prisma.TechnicianClientUncheckedUpdateManyWithoutTechnicianNestedInput
   expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutUserNestedInput
   expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedUpdateOneWithoutUserNestedInput
+  calls?: Prisma.CallUncheckedUpdateManyWithoutAgentNestedInput
+  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSentByNestedInput
+  sentEmails?: Prisma.EmailMessageUncheckedUpdateManyWithoutSentByNestedInput
+  readVoicemails?: Prisma.VoicemailUncheckedUpdateManyWithoutReadByNestedInput
+  customerRecord?: Prisma.CustomerUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateWithoutJobPartsInput = {
@@ -4026,6 +4721,8 @@ export type UserCreateWithoutJobPartsInput = {
   mustChangePassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  agentStatus?: $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Date | string | null
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   appointments?: Prisma.AppointmentCreateNestedManyWithoutUserInput
@@ -4048,6 +4745,11 @@ export type UserCreateWithoutJobPartsInput = {
   technicianClients?: Prisma.TechnicianClientCreateNestedManyWithoutTechnicianInput
   expenses?: Prisma.ExpenseCreateNestedManyWithoutUserInput
   expenseSubscription?: Prisma.ExpenseSubscriptionCreateNestedOneWithoutUserInput
+  calls?: Prisma.CallCreateNestedManyWithoutAgentInput
+  sentMessages?: Prisma.MessageCreateNestedManyWithoutSentByInput
+  sentEmails?: Prisma.EmailMessageCreateNestedManyWithoutSentByInput
+  readVoicemails?: Prisma.VoicemailCreateNestedManyWithoutReadByInput
+  customerRecord?: Prisma.CustomerCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutJobPartsInput = {
@@ -4062,6 +4764,8 @@ export type UserUncheckedCreateWithoutJobPartsInput = {
   mustChangePassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  agentStatus?: $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Date | string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutUserInput
@@ -4084,6 +4788,11 @@ export type UserUncheckedCreateWithoutJobPartsInput = {
   technicianClients?: Prisma.TechnicianClientUncheckedCreateNestedManyWithoutTechnicianInput
   expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutUserInput
   expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedCreateNestedOneWithoutUserInput
+  calls?: Prisma.CallUncheckedCreateNestedManyWithoutAgentInput
+  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSentByInput
+  sentEmails?: Prisma.EmailMessageUncheckedCreateNestedManyWithoutSentByInput
+  readVoicemails?: Prisma.VoicemailUncheckedCreateNestedManyWithoutReadByInput
+  customerRecord?: Prisma.CustomerUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutJobPartsInput = {
@@ -4114,6 +4823,8 @@ export type UserUpdateWithoutJobPartsInput = {
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  agentStatus?: Prisma.NullableEnumAgentStatusFieldUpdateOperationsInput | $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   appointments?: Prisma.AppointmentUpdateManyWithoutUserNestedInput
@@ -4136,6 +4847,11 @@ export type UserUpdateWithoutJobPartsInput = {
   technicianClients?: Prisma.TechnicianClientUpdateManyWithoutTechnicianNestedInput
   expenses?: Prisma.ExpenseUpdateManyWithoutUserNestedInput
   expenseSubscription?: Prisma.ExpenseSubscriptionUpdateOneWithoutUserNestedInput
+  calls?: Prisma.CallUpdateManyWithoutAgentNestedInput
+  sentMessages?: Prisma.MessageUpdateManyWithoutSentByNestedInput
+  sentEmails?: Prisma.EmailMessageUpdateManyWithoutSentByNestedInput
+  readVoicemails?: Prisma.VoicemailUpdateManyWithoutReadByNestedInput
+  customerRecord?: Prisma.CustomerUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutJobPartsInput = {
@@ -4150,6 +4866,8 @@ export type UserUncheckedUpdateWithoutJobPartsInput = {
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  agentStatus?: Prisma.NullableEnumAgentStatusFieldUpdateOperationsInput | $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutUserNestedInput
@@ -4172,6 +4890,11 @@ export type UserUncheckedUpdateWithoutJobPartsInput = {
   technicianClients?: Prisma.TechnicianClientUncheckedUpdateManyWithoutTechnicianNestedInput
   expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutUserNestedInput
   expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedUpdateOneWithoutUserNestedInput
+  calls?: Prisma.CallUncheckedUpdateManyWithoutAgentNestedInput
+  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSentByNestedInput
+  sentEmails?: Prisma.EmailMessageUncheckedUpdateManyWithoutSentByNestedInput
+  readVoicemails?: Prisma.VoicemailUncheckedUpdateManyWithoutReadByNestedInput
+  customerRecord?: Prisma.CustomerUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateWithoutInventoryRequestsInput = {
@@ -4186,6 +4909,8 @@ export type UserCreateWithoutInventoryRequestsInput = {
   mustChangePassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  agentStatus?: $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Date | string | null
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   appointments?: Prisma.AppointmentCreateNestedManyWithoutUserInput
@@ -4208,6 +4933,11 @@ export type UserCreateWithoutInventoryRequestsInput = {
   technicianClients?: Prisma.TechnicianClientCreateNestedManyWithoutTechnicianInput
   expenses?: Prisma.ExpenseCreateNestedManyWithoutUserInput
   expenseSubscription?: Prisma.ExpenseSubscriptionCreateNestedOneWithoutUserInput
+  calls?: Prisma.CallCreateNestedManyWithoutAgentInput
+  sentMessages?: Prisma.MessageCreateNestedManyWithoutSentByInput
+  sentEmails?: Prisma.EmailMessageCreateNestedManyWithoutSentByInput
+  readVoicemails?: Prisma.VoicemailCreateNestedManyWithoutReadByInput
+  customerRecord?: Prisma.CustomerCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutInventoryRequestsInput = {
@@ -4222,6 +4952,8 @@ export type UserUncheckedCreateWithoutInventoryRequestsInput = {
   mustChangePassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  agentStatus?: $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Date | string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutUserInput
@@ -4244,6 +4976,11 @@ export type UserUncheckedCreateWithoutInventoryRequestsInput = {
   technicianClients?: Prisma.TechnicianClientUncheckedCreateNestedManyWithoutTechnicianInput
   expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutUserInput
   expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedCreateNestedOneWithoutUserInput
+  calls?: Prisma.CallUncheckedCreateNestedManyWithoutAgentInput
+  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSentByInput
+  sentEmails?: Prisma.EmailMessageUncheckedCreateNestedManyWithoutSentByInput
+  readVoicemails?: Prisma.VoicemailUncheckedCreateNestedManyWithoutReadByInput
+  customerRecord?: Prisma.CustomerUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutInventoryRequestsInput = {
@@ -4274,6 +5011,8 @@ export type UserUpdateWithoutInventoryRequestsInput = {
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  agentStatus?: Prisma.NullableEnumAgentStatusFieldUpdateOperationsInput | $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   appointments?: Prisma.AppointmentUpdateManyWithoutUserNestedInput
@@ -4296,6 +5035,11 @@ export type UserUpdateWithoutInventoryRequestsInput = {
   technicianClients?: Prisma.TechnicianClientUpdateManyWithoutTechnicianNestedInput
   expenses?: Prisma.ExpenseUpdateManyWithoutUserNestedInput
   expenseSubscription?: Prisma.ExpenseSubscriptionUpdateOneWithoutUserNestedInput
+  calls?: Prisma.CallUpdateManyWithoutAgentNestedInput
+  sentMessages?: Prisma.MessageUpdateManyWithoutSentByNestedInput
+  sentEmails?: Prisma.EmailMessageUpdateManyWithoutSentByNestedInput
+  readVoicemails?: Prisma.VoicemailUpdateManyWithoutReadByNestedInput
+  customerRecord?: Prisma.CustomerUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutInventoryRequestsInput = {
@@ -4310,6 +5054,8 @@ export type UserUncheckedUpdateWithoutInventoryRequestsInput = {
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  agentStatus?: Prisma.NullableEnumAgentStatusFieldUpdateOperationsInput | $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutUserNestedInput
@@ -4332,6 +5078,11 @@ export type UserUncheckedUpdateWithoutInventoryRequestsInput = {
   technicianClients?: Prisma.TechnicianClientUncheckedUpdateManyWithoutTechnicianNestedInput
   expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutUserNestedInput
   expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedUpdateOneWithoutUserNestedInput
+  calls?: Prisma.CallUncheckedUpdateManyWithoutAgentNestedInput
+  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSentByNestedInput
+  sentEmails?: Prisma.EmailMessageUncheckedUpdateManyWithoutSentByNestedInput
+  readVoicemails?: Prisma.VoicemailUncheckedUpdateManyWithoutReadByNestedInput
+  customerRecord?: Prisma.CustomerUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateWithoutExpensesInput = {
@@ -4346,6 +5097,8 @@ export type UserCreateWithoutExpensesInput = {
   mustChangePassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  agentStatus?: $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Date | string | null
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   appointments?: Prisma.AppointmentCreateNestedManyWithoutUserInput
@@ -4368,6 +5121,11 @@ export type UserCreateWithoutExpensesInput = {
   inventoryRequests?: Prisma.InventoryRequestCreateNestedManyWithoutTechnicianInput
   technicianClients?: Prisma.TechnicianClientCreateNestedManyWithoutTechnicianInput
   expenseSubscription?: Prisma.ExpenseSubscriptionCreateNestedOneWithoutUserInput
+  calls?: Prisma.CallCreateNestedManyWithoutAgentInput
+  sentMessages?: Prisma.MessageCreateNestedManyWithoutSentByInput
+  sentEmails?: Prisma.EmailMessageCreateNestedManyWithoutSentByInput
+  readVoicemails?: Prisma.VoicemailCreateNestedManyWithoutReadByInput
+  customerRecord?: Prisma.CustomerCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutExpensesInput = {
@@ -4382,6 +5140,8 @@ export type UserUncheckedCreateWithoutExpensesInput = {
   mustChangePassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  agentStatus?: $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Date | string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutUserInput
@@ -4404,6 +5164,11 @@ export type UserUncheckedCreateWithoutExpensesInput = {
   inventoryRequests?: Prisma.InventoryRequestUncheckedCreateNestedManyWithoutTechnicianInput
   technicianClients?: Prisma.TechnicianClientUncheckedCreateNestedManyWithoutTechnicianInput
   expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedCreateNestedOneWithoutUserInput
+  calls?: Prisma.CallUncheckedCreateNestedManyWithoutAgentInput
+  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSentByInput
+  sentEmails?: Prisma.EmailMessageUncheckedCreateNestedManyWithoutSentByInput
+  readVoicemails?: Prisma.VoicemailUncheckedCreateNestedManyWithoutReadByInput
+  customerRecord?: Prisma.CustomerUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutExpensesInput = {
@@ -4434,6 +5199,8 @@ export type UserUpdateWithoutExpensesInput = {
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  agentStatus?: Prisma.NullableEnumAgentStatusFieldUpdateOperationsInput | $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   appointments?: Prisma.AppointmentUpdateManyWithoutUserNestedInput
@@ -4456,6 +5223,11 @@ export type UserUpdateWithoutExpensesInput = {
   inventoryRequests?: Prisma.InventoryRequestUpdateManyWithoutTechnicianNestedInput
   technicianClients?: Prisma.TechnicianClientUpdateManyWithoutTechnicianNestedInput
   expenseSubscription?: Prisma.ExpenseSubscriptionUpdateOneWithoutUserNestedInput
+  calls?: Prisma.CallUpdateManyWithoutAgentNestedInput
+  sentMessages?: Prisma.MessageUpdateManyWithoutSentByNestedInput
+  sentEmails?: Prisma.EmailMessageUpdateManyWithoutSentByNestedInput
+  readVoicemails?: Prisma.VoicemailUpdateManyWithoutReadByNestedInput
+  customerRecord?: Prisma.CustomerUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutExpensesInput = {
@@ -4470,6 +5242,8 @@ export type UserUncheckedUpdateWithoutExpensesInput = {
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  agentStatus?: Prisma.NullableEnumAgentStatusFieldUpdateOperationsInput | $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutUserNestedInput
@@ -4492,6 +5266,11 @@ export type UserUncheckedUpdateWithoutExpensesInput = {
   inventoryRequests?: Prisma.InventoryRequestUncheckedUpdateManyWithoutTechnicianNestedInput
   technicianClients?: Prisma.TechnicianClientUncheckedUpdateManyWithoutTechnicianNestedInput
   expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedUpdateOneWithoutUserNestedInput
+  calls?: Prisma.CallUncheckedUpdateManyWithoutAgentNestedInput
+  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSentByNestedInput
+  sentEmails?: Prisma.EmailMessageUncheckedUpdateManyWithoutSentByNestedInput
+  readVoicemails?: Prisma.VoicemailUncheckedUpdateManyWithoutReadByNestedInput
+  customerRecord?: Prisma.CustomerUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateWithoutExpenseSubscriptionInput = {
@@ -4506,6 +5285,8 @@ export type UserCreateWithoutExpenseSubscriptionInput = {
   mustChangePassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  agentStatus?: $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Date | string | null
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   appointments?: Prisma.AppointmentCreateNestedManyWithoutUserInput
@@ -4528,6 +5309,11 @@ export type UserCreateWithoutExpenseSubscriptionInput = {
   inventoryRequests?: Prisma.InventoryRequestCreateNestedManyWithoutTechnicianInput
   technicianClients?: Prisma.TechnicianClientCreateNestedManyWithoutTechnicianInput
   expenses?: Prisma.ExpenseCreateNestedManyWithoutUserInput
+  calls?: Prisma.CallCreateNestedManyWithoutAgentInput
+  sentMessages?: Prisma.MessageCreateNestedManyWithoutSentByInput
+  sentEmails?: Prisma.EmailMessageCreateNestedManyWithoutSentByInput
+  readVoicemails?: Prisma.VoicemailCreateNestedManyWithoutReadByInput
+  customerRecord?: Prisma.CustomerCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutExpenseSubscriptionInput = {
@@ -4542,6 +5328,8 @@ export type UserUncheckedCreateWithoutExpenseSubscriptionInput = {
   mustChangePassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  agentStatus?: $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Date | string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutUserInput
@@ -4564,6 +5352,11 @@ export type UserUncheckedCreateWithoutExpenseSubscriptionInput = {
   inventoryRequests?: Prisma.InventoryRequestUncheckedCreateNestedManyWithoutTechnicianInput
   technicianClients?: Prisma.TechnicianClientUncheckedCreateNestedManyWithoutTechnicianInput
   expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutUserInput
+  calls?: Prisma.CallUncheckedCreateNestedManyWithoutAgentInput
+  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSentByInput
+  sentEmails?: Prisma.EmailMessageUncheckedCreateNestedManyWithoutSentByInput
+  readVoicemails?: Prisma.VoicemailUncheckedCreateNestedManyWithoutReadByInput
+  customerRecord?: Prisma.CustomerUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutExpenseSubscriptionInput = {
@@ -4594,6 +5387,8 @@ export type UserUpdateWithoutExpenseSubscriptionInput = {
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  agentStatus?: Prisma.NullableEnumAgentStatusFieldUpdateOperationsInput | $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   appointments?: Prisma.AppointmentUpdateManyWithoutUserNestedInput
@@ -4616,6 +5411,11 @@ export type UserUpdateWithoutExpenseSubscriptionInput = {
   inventoryRequests?: Prisma.InventoryRequestUpdateManyWithoutTechnicianNestedInput
   technicianClients?: Prisma.TechnicianClientUpdateManyWithoutTechnicianNestedInput
   expenses?: Prisma.ExpenseUpdateManyWithoutUserNestedInput
+  calls?: Prisma.CallUpdateManyWithoutAgentNestedInput
+  sentMessages?: Prisma.MessageUpdateManyWithoutSentByNestedInput
+  sentEmails?: Prisma.EmailMessageUpdateManyWithoutSentByNestedInput
+  readVoicemails?: Prisma.VoicemailUpdateManyWithoutReadByNestedInput
+  customerRecord?: Prisma.CustomerUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutExpenseSubscriptionInput = {
@@ -4630,6 +5430,8 @@ export type UserUncheckedUpdateWithoutExpenseSubscriptionInput = {
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  agentStatus?: Prisma.NullableEnumAgentStatusFieldUpdateOperationsInput | $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutUserNestedInput
@@ -4652,6 +5454,951 @@ export type UserUncheckedUpdateWithoutExpenseSubscriptionInput = {
   inventoryRequests?: Prisma.InventoryRequestUncheckedUpdateManyWithoutTechnicianNestedInput
   technicianClients?: Prisma.TechnicianClientUncheckedUpdateManyWithoutTechnicianNestedInput
   expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutUserNestedInput
+  calls?: Prisma.CallUncheckedUpdateManyWithoutAgentNestedInput
+  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSentByNestedInput
+  sentEmails?: Prisma.EmailMessageUncheckedUpdateManyWithoutSentByNestedInput
+  readVoicemails?: Prisma.VoicemailUncheckedUpdateManyWithoutReadByNestedInput
+  customerRecord?: Prisma.CustomerUncheckedUpdateOneWithoutUserNestedInput
+}
+
+export type UserCreateWithoutCustomerRecordInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  password?: string | null
+  phone?: string | null
+  role?: $Enums.Role
+  mustChangePassword?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  agentStatus?: $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Date | string | null
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  appointments?: Prisma.AppointmentCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
+  technicianProfile?: Prisma.TechnicianProfileCreateNestedOneWithoutUserInput
+  technicianRoster?: Prisma.TechnicianCreateNestedOneWithoutUserInput
+  technicianLocations?: Prisma.TechnicianLocationCreateNestedManyWithoutUserInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryCreateNestedManyWithoutUserInput
+  properties?: Prisma.PropertyCreateNestedManyWithoutUserInput
+  servicePlans?: Prisma.CustomerServicePlanCreateNestedManyWithoutUserInput
+  warranties?: Prisma.WarrantyCreateNestedManyWithoutUserInput
+  orders?: Prisma.OrderCreateNestedManyWithoutUserInput
+  pushSubscriptions?: Prisma.PushSubscriptionCreateNestedManyWithoutUserInput
+  dispatchedAppointments?: Prisma.AppointmentCreateNestedManyWithoutDispatcherInput
+  technicianAppointments?: Prisma.AppointmentCreateNestedManyWithoutTechnicianInput
+  estimates?: Prisma.EstimateCreateNestedManyWithoutTechnicianInput
+  jobPhotos?: Prisma.JobPhotoCreateNestedManyWithoutTechnicianInput
+  jobPayments?: Prisma.JobPaymentCreateNestedManyWithoutCollectorInput
+  jobParts?: Prisma.JobPartCreateNestedManyWithoutTechnicianInput
+  inventoryRequests?: Prisma.InventoryRequestCreateNestedManyWithoutTechnicianInput
+  technicianClients?: Prisma.TechnicianClientCreateNestedManyWithoutTechnicianInput
+  expenses?: Prisma.ExpenseCreateNestedManyWithoutUserInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionCreateNestedOneWithoutUserInput
+  calls?: Prisma.CallCreateNestedManyWithoutAgentInput
+  sentMessages?: Prisma.MessageCreateNestedManyWithoutSentByInput
+  sentEmails?: Prisma.EmailMessageCreateNestedManyWithoutSentByInput
+  readVoicemails?: Prisma.VoicemailCreateNestedManyWithoutReadByInput
+}
+
+export type UserUncheckedCreateWithoutCustomerRecordInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  password?: string | null
+  phone?: string | null
+  role?: $Enums.Role
+  mustChangePassword?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  agentStatus?: $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Date | string | null
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
+  technicianProfile?: Prisma.TechnicianProfileUncheckedCreateNestedOneWithoutUserInput
+  technicianRoster?: Prisma.TechnicianUncheckedCreateNestedOneWithoutUserInput
+  technicianLocations?: Prisma.TechnicianLocationUncheckedCreateNestedManyWithoutUserInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUncheckedCreateNestedManyWithoutUserInput
+  properties?: Prisma.PropertyUncheckedCreateNestedManyWithoutUserInput
+  servicePlans?: Prisma.CustomerServicePlanUncheckedCreateNestedManyWithoutUserInput
+  warranties?: Prisma.WarrantyUncheckedCreateNestedManyWithoutUserInput
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
+  pushSubscriptions?: Prisma.PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+  dispatchedAppointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutDispatcherInput
+  technicianAppointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutTechnicianInput
+  estimates?: Prisma.EstimateUncheckedCreateNestedManyWithoutTechnicianInput
+  jobPhotos?: Prisma.JobPhotoUncheckedCreateNestedManyWithoutTechnicianInput
+  jobPayments?: Prisma.JobPaymentUncheckedCreateNestedManyWithoutCollectorInput
+  jobParts?: Prisma.JobPartUncheckedCreateNestedManyWithoutTechnicianInput
+  inventoryRequests?: Prisma.InventoryRequestUncheckedCreateNestedManyWithoutTechnicianInput
+  technicianClients?: Prisma.TechnicianClientUncheckedCreateNestedManyWithoutTechnicianInput
+  expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutUserInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedCreateNestedOneWithoutUserInput
+  calls?: Prisma.CallUncheckedCreateNestedManyWithoutAgentInput
+  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSentByInput
+  sentEmails?: Prisma.EmailMessageUncheckedCreateNestedManyWithoutSentByInput
+  readVoicemails?: Prisma.VoicemailUncheckedCreateNestedManyWithoutReadByInput
+}
+
+export type UserCreateOrConnectWithoutCustomerRecordInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutCustomerRecordInput, Prisma.UserUncheckedCreateWithoutCustomerRecordInput>
+}
+
+export type UserUpsertWithoutCustomerRecordInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutCustomerRecordInput, Prisma.UserUncheckedUpdateWithoutCustomerRecordInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutCustomerRecordInput, Prisma.UserUncheckedCreateWithoutCustomerRecordInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutCustomerRecordInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutCustomerRecordInput, Prisma.UserUncheckedUpdateWithoutCustomerRecordInput>
+}
+
+export type UserUpdateWithoutCustomerRecordInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  agentStatus?: Prisma.NullableEnumAgentStatusFieldUpdateOperationsInput | $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  appointments?: Prisma.AppointmentUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
+  technicianProfile?: Prisma.TechnicianProfileUpdateOneWithoutUserNestedInput
+  technicianRoster?: Prisma.TechnicianUpdateOneWithoutUserNestedInput
+  technicianLocations?: Prisma.TechnicianLocationUpdateManyWithoutUserNestedInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUpdateManyWithoutUserNestedInput
+  properties?: Prisma.PropertyUpdateManyWithoutUserNestedInput
+  servicePlans?: Prisma.CustomerServicePlanUpdateManyWithoutUserNestedInput
+  warranties?: Prisma.WarrantyUpdateManyWithoutUserNestedInput
+  orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
+  pushSubscriptions?: Prisma.PushSubscriptionUpdateManyWithoutUserNestedInput
+  dispatchedAppointments?: Prisma.AppointmentUpdateManyWithoutDispatcherNestedInput
+  technicianAppointments?: Prisma.AppointmentUpdateManyWithoutTechnicianNestedInput
+  estimates?: Prisma.EstimateUpdateManyWithoutTechnicianNestedInput
+  jobPhotos?: Prisma.JobPhotoUpdateManyWithoutTechnicianNestedInput
+  jobPayments?: Prisma.JobPaymentUpdateManyWithoutCollectorNestedInput
+  jobParts?: Prisma.JobPartUpdateManyWithoutTechnicianNestedInput
+  inventoryRequests?: Prisma.InventoryRequestUpdateManyWithoutTechnicianNestedInput
+  technicianClients?: Prisma.TechnicianClientUpdateManyWithoutTechnicianNestedInput
+  expenses?: Prisma.ExpenseUpdateManyWithoutUserNestedInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUpdateOneWithoutUserNestedInput
+  calls?: Prisma.CallUpdateManyWithoutAgentNestedInput
+  sentMessages?: Prisma.MessageUpdateManyWithoutSentByNestedInput
+  sentEmails?: Prisma.EmailMessageUpdateManyWithoutSentByNestedInput
+  readVoicemails?: Prisma.VoicemailUpdateManyWithoutReadByNestedInput
+}
+
+export type UserUncheckedUpdateWithoutCustomerRecordInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  agentStatus?: Prisma.NullableEnumAgentStatusFieldUpdateOperationsInput | $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
+  technicianProfile?: Prisma.TechnicianProfileUncheckedUpdateOneWithoutUserNestedInput
+  technicianRoster?: Prisma.TechnicianUncheckedUpdateOneWithoutUserNestedInput
+  technicianLocations?: Prisma.TechnicianLocationUncheckedUpdateManyWithoutUserNestedInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUncheckedUpdateManyWithoutUserNestedInput
+  properties?: Prisma.PropertyUncheckedUpdateManyWithoutUserNestedInput
+  servicePlans?: Prisma.CustomerServicePlanUncheckedUpdateManyWithoutUserNestedInput
+  warranties?: Prisma.WarrantyUncheckedUpdateManyWithoutUserNestedInput
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
+  pushSubscriptions?: Prisma.PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+  dispatchedAppointments?: Prisma.AppointmentUncheckedUpdateManyWithoutDispatcherNestedInput
+  technicianAppointments?: Prisma.AppointmentUncheckedUpdateManyWithoutTechnicianNestedInput
+  estimates?: Prisma.EstimateUncheckedUpdateManyWithoutTechnicianNestedInput
+  jobPhotos?: Prisma.JobPhotoUncheckedUpdateManyWithoutTechnicianNestedInput
+  jobPayments?: Prisma.JobPaymentUncheckedUpdateManyWithoutCollectorNestedInput
+  jobParts?: Prisma.JobPartUncheckedUpdateManyWithoutTechnicianNestedInput
+  inventoryRequests?: Prisma.InventoryRequestUncheckedUpdateManyWithoutTechnicianNestedInput
+  technicianClients?: Prisma.TechnicianClientUncheckedUpdateManyWithoutTechnicianNestedInput
+  expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutUserNestedInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedUpdateOneWithoutUserNestedInput
+  calls?: Prisma.CallUncheckedUpdateManyWithoutAgentNestedInput
+  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSentByNestedInput
+  sentEmails?: Prisma.EmailMessageUncheckedUpdateManyWithoutSentByNestedInput
+  readVoicemails?: Prisma.VoicemailUncheckedUpdateManyWithoutReadByNestedInput
+}
+
+export type UserCreateWithoutCallsInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  password?: string | null
+  phone?: string | null
+  role?: $Enums.Role
+  mustChangePassword?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  agentStatus?: $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Date | string | null
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  appointments?: Prisma.AppointmentCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
+  technicianProfile?: Prisma.TechnicianProfileCreateNestedOneWithoutUserInput
+  technicianRoster?: Prisma.TechnicianCreateNestedOneWithoutUserInput
+  technicianLocations?: Prisma.TechnicianLocationCreateNestedManyWithoutUserInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryCreateNestedManyWithoutUserInput
+  properties?: Prisma.PropertyCreateNestedManyWithoutUserInput
+  servicePlans?: Prisma.CustomerServicePlanCreateNestedManyWithoutUserInput
+  warranties?: Prisma.WarrantyCreateNestedManyWithoutUserInput
+  orders?: Prisma.OrderCreateNestedManyWithoutUserInput
+  pushSubscriptions?: Prisma.PushSubscriptionCreateNestedManyWithoutUserInput
+  dispatchedAppointments?: Prisma.AppointmentCreateNestedManyWithoutDispatcherInput
+  technicianAppointments?: Prisma.AppointmentCreateNestedManyWithoutTechnicianInput
+  estimates?: Prisma.EstimateCreateNestedManyWithoutTechnicianInput
+  jobPhotos?: Prisma.JobPhotoCreateNestedManyWithoutTechnicianInput
+  jobPayments?: Prisma.JobPaymentCreateNestedManyWithoutCollectorInput
+  jobParts?: Prisma.JobPartCreateNestedManyWithoutTechnicianInput
+  inventoryRequests?: Prisma.InventoryRequestCreateNestedManyWithoutTechnicianInput
+  technicianClients?: Prisma.TechnicianClientCreateNestedManyWithoutTechnicianInput
+  expenses?: Prisma.ExpenseCreateNestedManyWithoutUserInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionCreateNestedOneWithoutUserInput
+  sentMessages?: Prisma.MessageCreateNestedManyWithoutSentByInput
+  sentEmails?: Prisma.EmailMessageCreateNestedManyWithoutSentByInput
+  readVoicemails?: Prisma.VoicemailCreateNestedManyWithoutReadByInput
+  customerRecord?: Prisma.CustomerCreateNestedOneWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutCallsInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  password?: string | null
+  phone?: string | null
+  role?: $Enums.Role
+  mustChangePassword?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  agentStatus?: $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Date | string | null
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
+  technicianProfile?: Prisma.TechnicianProfileUncheckedCreateNestedOneWithoutUserInput
+  technicianRoster?: Prisma.TechnicianUncheckedCreateNestedOneWithoutUserInput
+  technicianLocations?: Prisma.TechnicianLocationUncheckedCreateNestedManyWithoutUserInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUncheckedCreateNestedManyWithoutUserInput
+  properties?: Prisma.PropertyUncheckedCreateNestedManyWithoutUserInput
+  servicePlans?: Prisma.CustomerServicePlanUncheckedCreateNestedManyWithoutUserInput
+  warranties?: Prisma.WarrantyUncheckedCreateNestedManyWithoutUserInput
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
+  pushSubscriptions?: Prisma.PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+  dispatchedAppointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutDispatcherInput
+  technicianAppointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutTechnicianInput
+  estimates?: Prisma.EstimateUncheckedCreateNestedManyWithoutTechnicianInput
+  jobPhotos?: Prisma.JobPhotoUncheckedCreateNestedManyWithoutTechnicianInput
+  jobPayments?: Prisma.JobPaymentUncheckedCreateNestedManyWithoutCollectorInput
+  jobParts?: Prisma.JobPartUncheckedCreateNestedManyWithoutTechnicianInput
+  inventoryRequests?: Prisma.InventoryRequestUncheckedCreateNestedManyWithoutTechnicianInput
+  technicianClients?: Prisma.TechnicianClientUncheckedCreateNestedManyWithoutTechnicianInput
+  expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutUserInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedCreateNestedOneWithoutUserInput
+  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSentByInput
+  sentEmails?: Prisma.EmailMessageUncheckedCreateNestedManyWithoutSentByInput
+  readVoicemails?: Prisma.VoicemailUncheckedCreateNestedManyWithoutReadByInput
+  customerRecord?: Prisma.CustomerUncheckedCreateNestedOneWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutCallsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutCallsInput, Prisma.UserUncheckedCreateWithoutCallsInput>
+}
+
+export type UserUpsertWithoutCallsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutCallsInput, Prisma.UserUncheckedUpdateWithoutCallsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutCallsInput, Prisma.UserUncheckedCreateWithoutCallsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutCallsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutCallsInput, Prisma.UserUncheckedUpdateWithoutCallsInput>
+}
+
+export type UserUpdateWithoutCallsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  agentStatus?: Prisma.NullableEnumAgentStatusFieldUpdateOperationsInput | $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  appointments?: Prisma.AppointmentUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
+  technicianProfile?: Prisma.TechnicianProfileUpdateOneWithoutUserNestedInput
+  technicianRoster?: Prisma.TechnicianUpdateOneWithoutUserNestedInput
+  technicianLocations?: Prisma.TechnicianLocationUpdateManyWithoutUserNestedInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUpdateManyWithoutUserNestedInput
+  properties?: Prisma.PropertyUpdateManyWithoutUserNestedInput
+  servicePlans?: Prisma.CustomerServicePlanUpdateManyWithoutUserNestedInput
+  warranties?: Prisma.WarrantyUpdateManyWithoutUserNestedInput
+  orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
+  pushSubscriptions?: Prisma.PushSubscriptionUpdateManyWithoutUserNestedInput
+  dispatchedAppointments?: Prisma.AppointmentUpdateManyWithoutDispatcherNestedInput
+  technicianAppointments?: Prisma.AppointmentUpdateManyWithoutTechnicianNestedInput
+  estimates?: Prisma.EstimateUpdateManyWithoutTechnicianNestedInput
+  jobPhotos?: Prisma.JobPhotoUpdateManyWithoutTechnicianNestedInput
+  jobPayments?: Prisma.JobPaymentUpdateManyWithoutCollectorNestedInput
+  jobParts?: Prisma.JobPartUpdateManyWithoutTechnicianNestedInput
+  inventoryRequests?: Prisma.InventoryRequestUpdateManyWithoutTechnicianNestedInput
+  technicianClients?: Prisma.TechnicianClientUpdateManyWithoutTechnicianNestedInput
+  expenses?: Prisma.ExpenseUpdateManyWithoutUserNestedInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUpdateOneWithoutUserNestedInput
+  sentMessages?: Prisma.MessageUpdateManyWithoutSentByNestedInput
+  sentEmails?: Prisma.EmailMessageUpdateManyWithoutSentByNestedInput
+  readVoicemails?: Prisma.VoicemailUpdateManyWithoutReadByNestedInput
+  customerRecord?: Prisma.CustomerUpdateOneWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutCallsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  agentStatus?: Prisma.NullableEnumAgentStatusFieldUpdateOperationsInput | $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
+  technicianProfile?: Prisma.TechnicianProfileUncheckedUpdateOneWithoutUserNestedInput
+  technicianRoster?: Prisma.TechnicianUncheckedUpdateOneWithoutUserNestedInput
+  technicianLocations?: Prisma.TechnicianLocationUncheckedUpdateManyWithoutUserNestedInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUncheckedUpdateManyWithoutUserNestedInput
+  properties?: Prisma.PropertyUncheckedUpdateManyWithoutUserNestedInput
+  servicePlans?: Prisma.CustomerServicePlanUncheckedUpdateManyWithoutUserNestedInput
+  warranties?: Prisma.WarrantyUncheckedUpdateManyWithoutUserNestedInput
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
+  pushSubscriptions?: Prisma.PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+  dispatchedAppointments?: Prisma.AppointmentUncheckedUpdateManyWithoutDispatcherNestedInput
+  technicianAppointments?: Prisma.AppointmentUncheckedUpdateManyWithoutTechnicianNestedInput
+  estimates?: Prisma.EstimateUncheckedUpdateManyWithoutTechnicianNestedInput
+  jobPhotos?: Prisma.JobPhotoUncheckedUpdateManyWithoutTechnicianNestedInput
+  jobPayments?: Prisma.JobPaymentUncheckedUpdateManyWithoutCollectorNestedInput
+  jobParts?: Prisma.JobPartUncheckedUpdateManyWithoutTechnicianNestedInput
+  inventoryRequests?: Prisma.InventoryRequestUncheckedUpdateManyWithoutTechnicianNestedInput
+  technicianClients?: Prisma.TechnicianClientUncheckedUpdateManyWithoutTechnicianNestedInput
+  expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutUserNestedInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedUpdateOneWithoutUserNestedInput
+  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSentByNestedInput
+  sentEmails?: Prisma.EmailMessageUncheckedUpdateManyWithoutSentByNestedInput
+  readVoicemails?: Prisma.VoicemailUncheckedUpdateManyWithoutReadByNestedInput
+  customerRecord?: Prisma.CustomerUncheckedUpdateOneWithoutUserNestedInput
+}
+
+export type UserCreateWithoutReadVoicemailsInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  password?: string | null
+  phone?: string | null
+  role?: $Enums.Role
+  mustChangePassword?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  agentStatus?: $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Date | string | null
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  appointments?: Prisma.AppointmentCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
+  technicianProfile?: Prisma.TechnicianProfileCreateNestedOneWithoutUserInput
+  technicianRoster?: Prisma.TechnicianCreateNestedOneWithoutUserInput
+  technicianLocations?: Prisma.TechnicianLocationCreateNestedManyWithoutUserInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryCreateNestedManyWithoutUserInput
+  properties?: Prisma.PropertyCreateNestedManyWithoutUserInput
+  servicePlans?: Prisma.CustomerServicePlanCreateNestedManyWithoutUserInput
+  warranties?: Prisma.WarrantyCreateNestedManyWithoutUserInput
+  orders?: Prisma.OrderCreateNestedManyWithoutUserInput
+  pushSubscriptions?: Prisma.PushSubscriptionCreateNestedManyWithoutUserInput
+  dispatchedAppointments?: Prisma.AppointmentCreateNestedManyWithoutDispatcherInput
+  technicianAppointments?: Prisma.AppointmentCreateNestedManyWithoutTechnicianInput
+  estimates?: Prisma.EstimateCreateNestedManyWithoutTechnicianInput
+  jobPhotos?: Prisma.JobPhotoCreateNestedManyWithoutTechnicianInput
+  jobPayments?: Prisma.JobPaymentCreateNestedManyWithoutCollectorInput
+  jobParts?: Prisma.JobPartCreateNestedManyWithoutTechnicianInput
+  inventoryRequests?: Prisma.InventoryRequestCreateNestedManyWithoutTechnicianInput
+  technicianClients?: Prisma.TechnicianClientCreateNestedManyWithoutTechnicianInput
+  expenses?: Prisma.ExpenseCreateNestedManyWithoutUserInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionCreateNestedOneWithoutUserInput
+  calls?: Prisma.CallCreateNestedManyWithoutAgentInput
+  sentMessages?: Prisma.MessageCreateNestedManyWithoutSentByInput
+  sentEmails?: Prisma.EmailMessageCreateNestedManyWithoutSentByInput
+  customerRecord?: Prisma.CustomerCreateNestedOneWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutReadVoicemailsInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  password?: string | null
+  phone?: string | null
+  role?: $Enums.Role
+  mustChangePassword?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  agentStatus?: $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Date | string | null
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
+  technicianProfile?: Prisma.TechnicianProfileUncheckedCreateNestedOneWithoutUserInput
+  technicianRoster?: Prisma.TechnicianUncheckedCreateNestedOneWithoutUserInput
+  technicianLocations?: Prisma.TechnicianLocationUncheckedCreateNestedManyWithoutUserInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUncheckedCreateNestedManyWithoutUserInput
+  properties?: Prisma.PropertyUncheckedCreateNestedManyWithoutUserInput
+  servicePlans?: Prisma.CustomerServicePlanUncheckedCreateNestedManyWithoutUserInput
+  warranties?: Prisma.WarrantyUncheckedCreateNestedManyWithoutUserInput
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
+  pushSubscriptions?: Prisma.PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+  dispatchedAppointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutDispatcherInput
+  technicianAppointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutTechnicianInput
+  estimates?: Prisma.EstimateUncheckedCreateNestedManyWithoutTechnicianInput
+  jobPhotos?: Prisma.JobPhotoUncheckedCreateNestedManyWithoutTechnicianInput
+  jobPayments?: Prisma.JobPaymentUncheckedCreateNestedManyWithoutCollectorInput
+  jobParts?: Prisma.JobPartUncheckedCreateNestedManyWithoutTechnicianInput
+  inventoryRequests?: Prisma.InventoryRequestUncheckedCreateNestedManyWithoutTechnicianInput
+  technicianClients?: Prisma.TechnicianClientUncheckedCreateNestedManyWithoutTechnicianInput
+  expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutUserInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedCreateNestedOneWithoutUserInput
+  calls?: Prisma.CallUncheckedCreateNestedManyWithoutAgentInput
+  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSentByInput
+  sentEmails?: Prisma.EmailMessageUncheckedCreateNestedManyWithoutSentByInput
+  customerRecord?: Prisma.CustomerUncheckedCreateNestedOneWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutReadVoicemailsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutReadVoicemailsInput, Prisma.UserUncheckedCreateWithoutReadVoicemailsInput>
+}
+
+export type UserUpsertWithoutReadVoicemailsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutReadVoicemailsInput, Prisma.UserUncheckedUpdateWithoutReadVoicemailsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutReadVoicemailsInput, Prisma.UserUncheckedCreateWithoutReadVoicemailsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutReadVoicemailsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutReadVoicemailsInput, Prisma.UserUncheckedUpdateWithoutReadVoicemailsInput>
+}
+
+export type UserUpdateWithoutReadVoicemailsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  agentStatus?: Prisma.NullableEnumAgentStatusFieldUpdateOperationsInput | $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  appointments?: Prisma.AppointmentUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
+  technicianProfile?: Prisma.TechnicianProfileUpdateOneWithoutUserNestedInput
+  technicianRoster?: Prisma.TechnicianUpdateOneWithoutUserNestedInput
+  technicianLocations?: Prisma.TechnicianLocationUpdateManyWithoutUserNestedInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUpdateManyWithoutUserNestedInput
+  properties?: Prisma.PropertyUpdateManyWithoutUserNestedInput
+  servicePlans?: Prisma.CustomerServicePlanUpdateManyWithoutUserNestedInput
+  warranties?: Prisma.WarrantyUpdateManyWithoutUserNestedInput
+  orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
+  pushSubscriptions?: Prisma.PushSubscriptionUpdateManyWithoutUserNestedInput
+  dispatchedAppointments?: Prisma.AppointmentUpdateManyWithoutDispatcherNestedInput
+  technicianAppointments?: Prisma.AppointmentUpdateManyWithoutTechnicianNestedInput
+  estimates?: Prisma.EstimateUpdateManyWithoutTechnicianNestedInput
+  jobPhotos?: Prisma.JobPhotoUpdateManyWithoutTechnicianNestedInput
+  jobPayments?: Prisma.JobPaymentUpdateManyWithoutCollectorNestedInput
+  jobParts?: Prisma.JobPartUpdateManyWithoutTechnicianNestedInput
+  inventoryRequests?: Prisma.InventoryRequestUpdateManyWithoutTechnicianNestedInput
+  technicianClients?: Prisma.TechnicianClientUpdateManyWithoutTechnicianNestedInput
+  expenses?: Prisma.ExpenseUpdateManyWithoutUserNestedInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUpdateOneWithoutUserNestedInput
+  calls?: Prisma.CallUpdateManyWithoutAgentNestedInput
+  sentMessages?: Prisma.MessageUpdateManyWithoutSentByNestedInput
+  sentEmails?: Prisma.EmailMessageUpdateManyWithoutSentByNestedInput
+  customerRecord?: Prisma.CustomerUpdateOneWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutReadVoicemailsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  agentStatus?: Prisma.NullableEnumAgentStatusFieldUpdateOperationsInput | $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
+  technicianProfile?: Prisma.TechnicianProfileUncheckedUpdateOneWithoutUserNestedInput
+  technicianRoster?: Prisma.TechnicianUncheckedUpdateOneWithoutUserNestedInput
+  technicianLocations?: Prisma.TechnicianLocationUncheckedUpdateManyWithoutUserNestedInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUncheckedUpdateManyWithoutUserNestedInput
+  properties?: Prisma.PropertyUncheckedUpdateManyWithoutUserNestedInput
+  servicePlans?: Prisma.CustomerServicePlanUncheckedUpdateManyWithoutUserNestedInput
+  warranties?: Prisma.WarrantyUncheckedUpdateManyWithoutUserNestedInput
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
+  pushSubscriptions?: Prisma.PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+  dispatchedAppointments?: Prisma.AppointmentUncheckedUpdateManyWithoutDispatcherNestedInput
+  technicianAppointments?: Prisma.AppointmentUncheckedUpdateManyWithoutTechnicianNestedInput
+  estimates?: Prisma.EstimateUncheckedUpdateManyWithoutTechnicianNestedInput
+  jobPhotos?: Prisma.JobPhotoUncheckedUpdateManyWithoutTechnicianNestedInput
+  jobPayments?: Prisma.JobPaymentUncheckedUpdateManyWithoutCollectorNestedInput
+  jobParts?: Prisma.JobPartUncheckedUpdateManyWithoutTechnicianNestedInput
+  inventoryRequests?: Prisma.InventoryRequestUncheckedUpdateManyWithoutTechnicianNestedInput
+  technicianClients?: Prisma.TechnicianClientUncheckedUpdateManyWithoutTechnicianNestedInput
+  expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutUserNestedInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedUpdateOneWithoutUserNestedInput
+  calls?: Prisma.CallUncheckedUpdateManyWithoutAgentNestedInput
+  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSentByNestedInput
+  sentEmails?: Prisma.EmailMessageUncheckedUpdateManyWithoutSentByNestedInput
+  customerRecord?: Prisma.CustomerUncheckedUpdateOneWithoutUserNestedInput
+}
+
+export type UserCreateWithoutSentMessagesInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  password?: string | null
+  phone?: string | null
+  role?: $Enums.Role
+  mustChangePassword?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  agentStatus?: $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Date | string | null
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  appointments?: Prisma.AppointmentCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
+  technicianProfile?: Prisma.TechnicianProfileCreateNestedOneWithoutUserInput
+  technicianRoster?: Prisma.TechnicianCreateNestedOneWithoutUserInput
+  technicianLocations?: Prisma.TechnicianLocationCreateNestedManyWithoutUserInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryCreateNestedManyWithoutUserInput
+  properties?: Prisma.PropertyCreateNestedManyWithoutUserInput
+  servicePlans?: Prisma.CustomerServicePlanCreateNestedManyWithoutUserInput
+  warranties?: Prisma.WarrantyCreateNestedManyWithoutUserInput
+  orders?: Prisma.OrderCreateNestedManyWithoutUserInput
+  pushSubscriptions?: Prisma.PushSubscriptionCreateNestedManyWithoutUserInput
+  dispatchedAppointments?: Prisma.AppointmentCreateNestedManyWithoutDispatcherInput
+  technicianAppointments?: Prisma.AppointmentCreateNestedManyWithoutTechnicianInput
+  estimates?: Prisma.EstimateCreateNestedManyWithoutTechnicianInput
+  jobPhotos?: Prisma.JobPhotoCreateNestedManyWithoutTechnicianInput
+  jobPayments?: Prisma.JobPaymentCreateNestedManyWithoutCollectorInput
+  jobParts?: Prisma.JobPartCreateNestedManyWithoutTechnicianInput
+  inventoryRequests?: Prisma.InventoryRequestCreateNestedManyWithoutTechnicianInput
+  technicianClients?: Prisma.TechnicianClientCreateNestedManyWithoutTechnicianInput
+  expenses?: Prisma.ExpenseCreateNestedManyWithoutUserInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionCreateNestedOneWithoutUserInput
+  calls?: Prisma.CallCreateNestedManyWithoutAgentInput
+  sentEmails?: Prisma.EmailMessageCreateNestedManyWithoutSentByInput
+  readVoicemails?: Prisma.VoicemailCreateNestedManyWithoutReadByInput
+  customerRecord?: Prisma.CustomerCreateNestedOneWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutSentMessagesInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  password?: string | null
+  phone?: string | null
+  role?: $Enums.Role
+  mustChangePassword?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  agentStatus?: $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Date | string | null
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
+  technicianProfile?: Prisma.TechnicianProfileUncheckedCreateNestedOneWithoutUserInput
+  technicianRoster?: Prisma.TechnicianUncheckedCreateNestedOneWithoutUserInput
+  technicianLocations?: Prisma.TechnicianLocationUncheckedCreateNestedManyWithoutUserInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUncheckedCreateNestedManyWithoutUserInput
+  properties?: Prisma.PropertyUncheckedCreateNestedManyWithoutUserInput
+  servicePlans?: Prisma.CustomerServicePlanUncheckedCreateNestedManyWithoutUserInput
+  warranties?: Prisma.WarrantyUncheckedCreateNestedManyWithoutUserInput
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
+  pushSubscriptions?: Prisma.PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+  dispatchedAppointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutDispatcherInput
+  technicianAppointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutTechnicianInput
+  estimates?: Prisma.EstimateUncheckedCreateNestedManyWithoutTechnicianInput
+  jobPhotos?: Prisma.JobPhotoUncheckedCreateNestedManyWithoutTechnicianInput
+  jobPayments?: Prisma.JobPaymentUncheckedCreateNestedManyWithoutCollectorInput
+  jobParts?: Prisma.JobPartUncheckedCreateNestedManyWithoutTechnicianInput
+  inventoryRequests?: Prisma.InventoryRequestUncheckedCreateNestedManyWithoutTechnicianInput
+  technicianClients?: Prisma.TechnicianClientUncheckedCreateNestedManyWithoutTechnicianInput
+  expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutUserInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedCreateNestedOneWithoutUserInput
+  calls?: Prisma.CallUncheckedCreateNestedManyWithoutAgentInput
+  sentEmails?: Prisma.EmailMessageUncheckedCreateNestedManyWithoutSentByInput
+  readVoicemails?: Prisma.VoicemailUncheckedCreateNestedManyWithoutReadByInput
+  customerRecord?: Prisma.CustomerUncheckedCreateNestedOneWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutSentMessagesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutSentMessagesInput, Prisma.UserUncheckedCreateWithoutSentMessagesInput>
+}
+
+export type UserUpsertWithoutSentMessagesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutSentMessagesInput, Prisma.UserUncheckedUpdateWithoutSentMessagesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutSentMessagesInput, Prisma.UserUncheckedCreateWithoutSentMessagesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutSentMessagesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutSentMessagesInput, Prisma.UserUncheckedUpdateWithoutSentMessagesInput>
+}
+
+export type UserUpdateWithoutSentMessagesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  agentStatus?: Prisma.NullableEnumAgentStatusFieldUpdateOperationsInput | $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  appointments?: Prisma.AppointmentUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
+  technicianProfile?: Prisma.TechnicianProfileUpdateOneWithoutUserNestedInput
+  technicianRoster?: Prisma.TechnicianUpdateOneWithoutUserNestedInput
+  technicianLocations?: Prisma.TechnicianLocationUpdateManyWithoutUserNestedInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUpdateManyWithoutUserNestedInput
+  properties?: Prisma.PropertyUpdateManyWithoutUserNestedInput
+  servicePlans?: Prisma.CustomerServicePlanUpdateManyWithoutUserNestedInput
+  warranties?: Prisma.WarrantyUpdateManyWithoutUserNestedInput
+  orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
+  pushSubscriptions?: Prisma.PushSubscriptionUpdateManyWithoutUserNestedInput
+  dispatchedAppointments?: Prisma.AppointmentUpdateManyWithoutDispatcherNestedInput
+  technicianAppointments?: Prisma.AppointmentUpdateManyWithoutTechnicianNestedInput
+  estimates?: Prisma.EstimateUpdateManyWithoutTechnicianNestedInput
+  jobPhotos?: Prisma.JobPhotoUpdateManyWithoutTechnicianNestedInput
+  jobPayments?: Prisma.JobPaymentUpdateManyWithoutCollectorNestedInput
+  jobParts?: Prisma.JobPartUpdateManyWithoutTechnicianNestedInput
+  inventoryRequests?: Prisma.InventoryRequestUpdateManyWithoutTechnicianNestedInput
+  technicianClients?: Prisma.TechnicianClientUpdateManyWithoutTechnicianNestedInput
+  expenses?: Prisma.ExpenseUpdateManyWithoutUserNestedInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUpdateOneWithoutUserNestedInput
+  calls?: Prisma.CallUpdateManyWithoutAgentNestedInput
+  sentEmails?: Prisma.EmailMessageUpdateManyWithoutSentByNestedInput
+  readVoicemails?: Prisma.VoicemailUpdateManyWithoutReadByNestedInput
+  customerRecord?: Prisma.CustomerUpdateOneWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutSentMessagesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  agentStatus?: Prisma.NullableEnumAgentStatusFieldUpdateOperationsInput | $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
+  technicianProfile?: Prisma.TechnicianProfileUncheckedUpdateOneWithoutUserNestedInput
+  technicianRoster?: Prisma.TechnicianUncheckedUpdateOneWithoutUserNestedInput
+  technicianLocations?: Prisma.TechnicianLocationUncheckedUpdateManyWithoutUserNestedInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUncheckedUpdateManyWithoutUserNestedInput
+  properties?: Prisma.PropertyUncheckedUpdateManyWithoutUserNestedInput
+  servicePlans?: Prisma.CustomerServicePlanUncheckedUpdateManyWithoutUserNestedInput
+  warranties?: Prisma.WarrantyUncheckedUpdateManyWithoutUserNestedInput
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
+  pushSubscriptions?: Prisma.PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+  dispatchedAppointments?: Prisma.AppointmentUncheckedUpdateManyWithoutDispatcherNestedInput
+  technicianAppointments?: Prisma.AppointmentUncheckedUpdateManyWithoutTechnicianNestedInput
+  estimates?: Prisma.EstimateUncheckedUpdateManyWithoutTechnicianNestedInput
+  jobPhotos?: Prisma.JobPhotoUncheckedUpdateManyWithoutTechnicianNestedInput
+  jobPayments?: Prisma.JobPaymentUncheckedUpdateManyWithoutCollectorNestedInput
+  jobParts?: Prisma.JobPartUncheckedUpdateManyWithoutTechnicianNestedInput
+  inventoryRequests?: Prisma.InventoryRequestUncheckedUpdateManyWithoutTechnicianNestedInput
+  technicianClients?: Prisma.TechnicianClientUncheckedUpdateManyWithoutTechnicianNestedInput
+  expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutUserNestedInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedUpdateOneWithoutUserNestedInput
+  calls?: Prisma.CallUncheckedUpdateManyWithoutAgentNestedInput
+  sentEmails?: Prisma.EmailMessageUncheckedUpdateManyWithoutSentByNestedInput
+  readVoicemails?: Prisma.VoicemailUncheckedUpdateManyWithoutReadByNestedInput
+  customerRecord?: Prisma.CustomerUncheckedUpdateOneWithoutUserNestedInput
+}
+
+export type UserCreateWithoutSentEmailsInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  password?: string | null
+  phone?: string | null
+  role?: $Enums.Role
+  mustChangePassword?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  agentStatus?: $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Date | string | null
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  appointments?: Prisma.AppointmentCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
+  technicianProfile?: Prisma.TechnicianProfileCreateNestedOneWithoutUserInput
+  technicianRoster?: Prisma.TechnicianCreateNestedOneWithoutUserInput
+  technicianLocations?: Prisma.TechnicianLocationCreateNestedManyWithoutUserInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryCreateNestedManyWithoutUserInput
+  properties?: Prisma.PropertyCreateNestedManyWithoutUserInput
+  servicePlans?: Prisma.CustomerServicePlanCreateNestedManyWithoutUserInput
+  warranties?: Prisma.WarrantyCreateNestedManyWithoutUserInput
+  orders?: Prisma.OrderCreateNestedManyWithoutUserInput
+  pushSubscriptions?: Prisma.PushSubscriptionCreateNestedManyWithoutUserInput
+  dispatchedAppointments?: Prisma.AppointmentCreateNestedManyWithoutDispatcherInput
+  technicianAppointments?: Prisma.AppointmentCreateNestedManyWithoutTechnicianInput
+  estimates?: Prisma.EstimateCreateNestedManyWithoutTechnicianInput
+  jobPhotos?: Prisma.JobPhotoCreateNestedManyWithoutTechnicianInput
+  jobPayments?: Prisma.JobPaymentCreateNestedManyWithoutCollectorInput
+  jobParts?: Prisma.JobPartCreateNestedManyWithoutTechnicianInput
+  inventoryRequests?: Prisma.InventoryRequestCreateNestedManyWithoutTechnicianInput
+  technicianClients?: Prisma.TechnicianClientCreateNestedManyWithoutTechnicianInput
+  expenses?: Prisma.ExpenseCreateNestedManyWithoutUserInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionCreateNestedOneWithoutUserInput
+  calls?: Prisma.CallCreateNestedManyWithoutAgentInput
+  sentMessages?: Prisma.MessageCreateNestedManyWithoutSentByInput
+  readVoicemails?: Prisma.VoicemailCreateNestedManyWithoutReadByInput
+  customerRecord?: Prisma.CustomerCreateNestedOneWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutSentEmailsInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  password?: string | null
+  phone?: string | null
+  role?: $Enums.Role
+  mustChangePassword?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  agentStatus?: $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Date | string | null
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
+  technicianProfile?: Prisma.TechnicianProfileUncheckedCreateNestedOneWithoutUserInput
+  technicianRoster?: Prisma.TechnicianUncheckedCreateNestedOneWithoutUserInput
+  technicianLocations?: Prisma.TechnicianLocationUncheckedCreateNestedManyWithoutUserInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUncheckedCreateNestedManyWithoutUserInput
+  properties?: Prisma.PropertyUncheckedCreateNestedManyWithoutUserInput
+  servicePlans?: Prisma.CustomerServicePlanUncheckedCreateNestedManyWithoutUserInput
+  warranties?: Prisma.WarrantyUncheckedCreateNestedManyWithoutUserInput
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
+  pushSubscriptions?: Prisma.PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+  dispatchedAppointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutDispatcherInput
+  technicianAppointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutTechnicianInput
+  estimates?: Prisma.EstimateUncheckedCreateNestedManyWithoutTechnicianInput
+  jobPhotos?: Prisma.JobPhotoUncheckedCreateNestedManyWithoutTechnicianInput
+  jobPayments?: Prisma.JobPaymentUncheckedCreateNestedManyWithoutCollectorInput
+  jobParts?: Prisma.JobPartUncheckedCreateNestedManyWithoutTechnicianInput
+  inventoryRequests?: Prisma.InventoryRequestUncheckedCreateNestedManyWithoutTechnicianInput
+  technicianClients?: Prisma.TechnicianClientUncheckedCreateNestedManyWithoutTechnicianInput
+  expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutUserInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedCreateNestedOneWithoutUserInput
+  calls?: Prisma.CallUncheckedCreateNestedManyWithoutAgentInput
+  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSentByInput
+  readVoicemails?: Prisma.VoicemailUncheckedCreateNestedManyWithoutReadByInput
+  customerRecord?: Prisma.CustomerUncheckedCreateNestedOneWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutSentEmailsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutSentEmailsInput, Prisma.UserUncheckedCreateWithoutSentEmailsInput>
+}
+
+export type UserUpsertWithoutSentEmailsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutSentEmailsInput, Prisma.UserUncheckedUpdateWithoutSentEmailsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutSentEmailsInput, Prisma.UserUncheckedCreateWithoutSentEmailsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutSentEmailsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutSentEmailsInput, Prisma.UserUncheckedUpdateWithoutSentEmailsInput>
+}
+
+export type UserUpdateWithoutSentEmailsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  agentStatus?: Prisma.NullableEnumAgentStatusFieldUpdateOperationsInput | $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  appointments?: Prisma.AppointmentUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
+  technicianProfile?: Prisma.TechnicianProfileUpdateOneWithoutUserNestedInput
+  technicianRoster?: Prisma.TechnicianUpdateOneWithoutUserNestedInput
+  technicianLocations?: Prisma.TechnicianLocationUpdateManyWithoutUserNestedInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUpdateManyWithoutUserNestedInput
+  properties?: Prisma.PropertyUpdateManyWithoutUserNestedInput
+  servicePlans?: Prisma.CustomerServicePlanUpdateManyWithoutUserNestedInput
+  warranties?: Prisma.WarrantyUpdateManyWithoutUserNestedInput
+  orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
+  pushSubscriptions?: Prisma.PushSubscriptionUpdateManyWithoutUserNestedInput
+  dispatchedAppointments?: Prisma.AppointmentUpdateManyWithoutDispatcherNestedInput
+  technicianAppointments?: Prisma.AppointmentUpdateManyWithoutTechnicianNestedInput
+  estimates?: Prisma.EstimateUpdateManyWithoutTechnicianNestedInput
+  jobPhotos?: Prisma.JobPhotoUpdateManyWithoutTechnicianNestedInput
+  jobPayments?: Prisma.JobPaymentUpdateManyWithoutCollectorNestedInput
+  jobParts?: Prisma.JobPartUpdateManyWithoutTechnicianNestedInput
+  inventoryRequests?: Prisma.InventoryRequestUpdateManyWithoutTechnicianNestedInput
+  technicianClients?: Prisma.TechnicianClientUpdateManyWithoutTechnicianNestedInput
+  expenses?: Prisma.ExpenseUpdateManyWithoutUserNestedInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUpdateOneWithoutUserNestedInput
+  calls?: Prisma.CallUpdateManyWithoutAgentNestedInput
+  sentMessages?: Prisma.MessageUpdateManyWithoutSentByNestedInput
+  readVoicemails?: Prisma.VoicemailUpdateManyWithoutReadByNestedInput
+  customerRecord?: Prisma.CustomerUpdateOneWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutSentEmailsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  agentStatus?: Prisma.NullableEnumAgentStatusFieldUpdateOperationsInput | $Enums.AgentStatus | null
+  agentStatusUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
+  technicianProfile?: Prisma.TechnicianProfileUncheckedUpdateOneWithoutUserNestedInput
+  technicianRoster?: Prisma.TechnicianUncheckedUpdateOneWithoutUserNestedInput
+  technicianLocations?: Prisma.TechnicianLocationUncheckedUpdateManyWithoutUserNestedInput
+  technicianClockEntries?: Prisma.TechnicianClockEntryUncheckedUpdateManyWithoutUserNestedInput
+  properties?: Prisma.PropertyUncheckedUpdateManyWithoutUserNestedInput
+  servicePlans?: Prisma.CustomerServicePlanUncheckedUpdateManyWithoutUserNestedInput
+  warranties?: Prisma.WarrantyUncheckedUpdateManyWithoutUserNestedInput
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
+  pushSubscriptions?: Prisma.PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+  dispatchedAppointments?: Prisma.AppointmentUncheckedUpdateManyWithoutDispatcherNestedInput
+  technicianAppointments?: Prisma.AppointmentUncheckedUpdateManyWithoutTechnicianNestedInput
+  estimates?: Prisma.EstimateUncheckedUpdateManyWithoutTechnicianNestedInput
+  jobPhotos?: Prisma.JobPhotoUncheckedUpdateManyWithoutTechnicianNestedInput
+  jobPayments?: Prisma.JobPaymentUncheckedUpdateManyWithoutCollectorNestedInput
+  jobParts?: Prisma.JobPartUncheckedUpdateManyWithoutTechnicianNestedInput
+  inventoryRequests?: Prisma.InventoryRequestUncheckedUpdateManyWithoutTechnicianNestedInput
+  technicianClients?: Prisma.TechnicianClientUncheckedUpdateManyWithoutTechnicianNestedInput
+  expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutUserNestedInput
+  expenseSubscription?: Prisma.ExpenseSubscriptionUncheckedUpdateOneWithoutUserNestedInput
+  calls?: Prisma.CallUncheckedUpdateManyWithoutAgentNestedInput
+  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSentByNestedInput
+  readVoicemails?: Prisma.VoicemailUncheckedUpdateManyWithoutReadByNestedInput
+  customerRecord?: Prisma.CustomerUncheckedUpdateOneWithoutUserNestedInput
 }
 
 
@@ -4680,6 +6427,10 @@ export type UserCountOutputType = {
   inventoryRequests: number
   technicianClients: number
   expenses: number
+  calls: number
+  sentMessages: number
+  sentEmails: number
+  readVoicemails: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -4703,6 +6454,10 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   inventoryRequests?: boolean | UserCountOutputTypeCountInventoryRequestsArgs
   technicianClients?: boolean | UserCountOutputTypeCountTechnicianClientsArgs
   expenses?: boolean | UserCountOutputTypeCountExpensesArgs
+  calls?: boolean | UserCountOutputTypeCountCallsArgs
+  sentMessages?: boolean | UserCountOutputTypeCountSentMessagesArgs
+  sentEmails?: boolean | UserCountOutputTypeCountSentEmailsArgs
+  readVoicemails?: boolean | UserCountOutputTypeCountReadVoicemailsArgs
 }
 
 /**
@@ -4855,6 +6610,34 @@ export type UserCountOutputTypeCountExpensesArgs<ExtArgs extends runtime.Types.E
   where?: Prisma.ExpenseWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountCallsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CallWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountSentMessagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.MessageWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountSentEmailsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.EmailMessageWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountReadVoicemailsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.VoicemailWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -4868,6 +6651,8 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   mustChangePassword?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  agentStatus?: boolean
+  agentStatusUpdatedAt?: boolean
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   appointments?: boolean | Prisma.User$appointmentsArgs<ExtArgs>
@@ -4891,6 +6676,11 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   technicianClients?: boolean | Prisma.User$technicianClientsArgs<ExtArgs>
   expenses?: boolean | Prisma.User$expensesArgs<ExtArgs>
   expenseSubscription?: boolean | Prisma.User$expenseSubscriptionArgs<ExtArgs>
+  calls?: boolean | Prisma.User$callsArgs<ExtArgs>
+  sentMessages?: boolean | Prisma.User$sentMessagesArgs<ExtArgs>
+  sentEmails?: boolean | Prisma.User$sentEmailsArgs<ExtArgs>
+  readVoicemails?: boolean | Prisma.User$readVoicemailsArgs<ExtArgs>
+  customerRecord?: boolean | Prisma.User$customerRecordArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -4906,6 +6696,8 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   mustChangePassword?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  agentStatus?: boolean
+  agentStatusUpdatedAt?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -4920,6 +6712,8 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   mustChangePassword?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  agentStatus?: boolean
+  agentStatusUpdatedAt?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectScalar = {
@@ -4934,9 +6728,11 @@ export type UserSelectScalar = {
   mustChangePassword?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  agentStatus?: boolean
+  agentStatusUpdatedAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "password" | "phone" | "role" | "mustChangePassword" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "password" | "phone" | "role" | "mustChangePassword" | "createdAt" | "updatedAt" | "agentStatus" | "agentStatusUpdatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
@@ -4961,6 +6757,11 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   technicianClients?: boolean | Prisma.User$technicianClientsArgs<ExtArgs>
   expenses?: boolean | Prisma.User$expensesArgs<ExtArgs>
   expenseSubscription?: boolean | Prisma.User$expenseSubscriptionArgs<ExtArgs>
+  calls?: boolean | Prisma.User$callsArgs<ExtArgs>
+  sentMessages?: boolean | Prisma.User$sentMessagesArgs<ExtArgs>
+  sentEmails?: boolean | Prisma.User$sentEmailsArgs<ExtArgs>
+  readVoicemails?: boolean | Prisma.User$readVoicemailsArgs<ExtArgs>
+  customerRecord?: boolean | Prisma.User$customerRecordArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -4992,6 +6793,11 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     technicianClients: Prisma.$TechnicianClientPayload<ExtArgs>[]
     expenses: Prisma.$ExpensePayload<ExtArgs>[]
     expenseSubscription: Prisma.$ExpenseSubscriptionPayload<ExtArgs> | null
+    calls: Prisma.$CallPayload<ExtArgs>[]
+    sentMessages: Prisma.$MessagePayload<ExtArgs>[]
+    sentEmails: Prisma.$EmailMessagePayload<ExtArgs>[]
+    readVoicemails: Prisma.$VoicemailPayload<ExtArgs>[]
+    customerRecord: Prisma.$CustomerPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -5005,6 +6811,8 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     mustChangePassword: boolean
     createdAt: Date
     updatedAt: Date
+    agentStatus: $Enums.AgentStatus | null
+    agentStatusUpdatedAt: Date | null
   }, ExtArgs["result"]["user"]>
   composites: {}
 }
@@ -5422,6 +7230,11 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   technicianClients<T extends Prisma.User$technicianClientsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$technicianClientsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TechnicianClientPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   expenses<T extends Prisma.User$expensesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$expensesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ExpensePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   expenseSubscription<T extends Prisma.User$expenseSubscriptionArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$expenseSubscriptionArgs<ExtArgs>>): Prisma.Prisma__ExpenseSubscriptionClient<runtime.Types.Result.GetResult<Prisma.$ExpenseSubscriptionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  calls<T extends Prisma.User$callsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$callsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CallPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  sentMessages<T extends Prisma.User$sentMessagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$sentMessagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  sentEmails<T extends Prisma.User$sentEmailsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$sentEmailsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EmailMessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  readVoicemails<T extends Prisma.User$readVoicemailsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$readVoicemailsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$VoicemailPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  customerRecord<T extends Prisma.User$customerRecordArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$customerRecordArgs<ExtArgs>>): Prisma.Prisma__CustomerClient<runtime.Types.Result.GetResult<Prisma.$CustomerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5462,6 +7275,8 @@ export interface UserFieldRefs {
   readonly mustChangePassword: Prisma.FieldRef<"User", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>
+  readonly agentStatus: Prisma.FieldRef<"User", 'AgentStatus'>
+  readonly agentStatusUpdatedAt: Prisma.FieldRef<"User", 'DateTime'>
 }
     
 
@@ -6389,6 +8204,121 @@ export type User$expenseSubscriptionArgs<ExtArgs extends runtime.Types.Extension
    */
   include?: Prisma.ExpenseSubscriptionInclude<ExtArgs> | null
   where?: Prisma.ExpenseSubscriptionWhereInput
+}
+
+/**
+ * User.calls
+ */
+export type User$callsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Call
+   */
+  select?: Prisma.CallSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Call
+   */
+  omit?: Prisma.CallOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CallInclude<ExtArgs> | null
+  where?: Prisma.CallWhereInput
+  orderBy?: Prisma.CallOrderByWithRelationInput | Prisma.CallOrderByWithRelationInput[]
+  cursor?: Prisma.CallWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CallScalarFieldEnum | Prisma.CallScalarFieldEnum[]
+}
+
+/**
+ * User.sentMessages
+ */
+export type User$sentMessagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Message
+   */
+  select?: Prisma.MessageSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Message
+   */
+  omit?: Prisma.MessageOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MessageInclude<ExtArgs> | null
+  where?: Prisma.MessageWhereInput
+  orderBy?: Prisma.MessageOrderByWithRelationInput | Prisma.MessageOrderByWithRelationInput[]
+  cursor?: Prisma.MessageWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.MessageScalarFieldEnum | Prisma.MessageScalarFieldEnum[]
+}
+
+/**
+ * User.sentEmails
+ */
+export type User$sentEmailsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the EmailMessage
+   */
+  select?: Prisma.EmailMessageSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the EmailMessage
+   */
+  omit?: Prisma.EmailMessageOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EmailMessageInclude<ExtArgs> | null
+  where?: Prisma.EmailMessageWhereInput
+  orderBy?: Prisma.EmailMessageOrderByWithRelationInput | Prisma.EmailMessageOrderByWithRelationInput[]
+  cursor?: Prisma.EmailMessageWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.EmailMessageScalarFieldEnum | Prisma.EmailMessageScalarFieldEnum[]
+}
+
+/**
+ * User.readVoicemails
+ */
+export type User$readVoicemailsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Voicemail
+   */
+  select?: Prisma.VoicemailSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Voicemail
+   */
+  omit?: Prisma.VoicemailOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.VoicemailInclude<ExtArgs> | null
+  where?: Prisma.VoicemailWhereInput
+  orderBy?: Prisma.VoicemailOrderByWithRelationInput | Prisma.VoicemailOrderByWithRelationInput[]
+  cursor?: Prisma.VoicemailWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.VoicemailScalarFieldEnum | Prisma.VoicemailScalarFieldEnum[]
+}
+
+/**
+ * User.customerRecord
+ */
+export type User$customerRecordArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Customer
+   */
+  select?: Prisma.CustomerSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Customer
+   */
+  omit?: Prisma.CustomerOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CustomerInclude<ExtArgs> | null
+  where?: Prisma.CustomerWhereInput
 }
 
 /**

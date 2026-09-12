@@ -1,0 +1,22 @@
+# DADA HOUSE
+
+> DADA HOUSE is a home services company serving Houston, TX and Jacksonville, NC. Services: plumbing, air conditioning, heating, and home remodeling. Same-day service and 24/7 emergency response with licensed technicians.
+
+Phone: (844) 928-0875
+Email: customerservice@dada-house.com
+
+## Services
+- [Plumbing](https://dada-house.com/services/plumbing): Repairs, installations, and emergency plumbing.
+- [Air Conditioning](https://dada-house.com/services/air-conditioning): AC repair, maintenance, and installation.
+- [Heating](https://dada-house.com/services/heating): Furnace and heating system repair and installation.
+- [Remodeling](https://dada-house.com/services/remodeling): Home renovation and remodeling projects.
+
+## Locations
+- [Houston, TX](https://dada-house.com): Primary service area.
+- [Jacksonville, NC](https://dada-house.com/locations/north-carolina)
+
+## More
+- [Book an appointment](https://dada-house.com/booking)
+- [Customer reviews](https://dada-house.com/reviews)
+- [About DADA HOUSE](https://dada-house.com/about)
+- [Contact](https://dada-house.com/contact)

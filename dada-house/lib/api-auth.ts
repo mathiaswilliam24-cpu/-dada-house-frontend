@@ -45,14 +45,30 @@ export async function requireAuth(req: NextRequest): Promise<AuthToken | NextRes
   return token;
 }
 
+/** User/role management is the one thing kept exclusive to the account owner. */
+export function requireSuperAdmin(req: NextRequest) {
+  return requireRole(req, "SUPER_ADMIN");
+}
+
 export function requireAdmin(req: NextRequest) {
-  return requireRole(req, "ADMIN");
+  return requireRole(req, "ADMIN", "SUPER_ADMIN", "MANAGER", "CUSTOMER_SERVICE_REP", "DISPATCHER");
 }
 
 export function requireAdminOrDispatcher(req: NextRequest) {
-  return requireRole(req, "ADMIN", "DISPATCHER");
+  return requireRole(req, "ADMIN", "SUPER_ADMIN", "MANAGER", "CUSTOMER_SERVICE_REP", "DISPATCHER");
 }
 
 export function requireTechnician(req: NextRequest) {
-  return requireRole(req, "ADMIN", "TECHNICIAN");
+  return requireRole(req, "ADMIN", "SUPER_ADMIN", "TECHNICIAN");
+}
+
+export function requireCallCenterStaff(req: NextRequest) {
+  return requireRole(
+    req,
+    "SUPER_ADMIN",
+    "MANAGER",
+    "CUSTOMER_SERVICE_REP",
+    "ADMIN",
+    "DISPATCHER"
+  );
 }

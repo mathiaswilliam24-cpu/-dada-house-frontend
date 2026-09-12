@@ -9,7 +9,7 @@ export async function GET(req: NextRequest) {
   if (auth instanceof NextResponse) return auth;
 
   const technicians = await db.user.findMany({
-    where: { role: "TECHNICIAN" },
+    where: { role: { in: ["TECHNICIAN", "ADMIN", "SUPER_ADMIN"] } },
     select: { id: true, name: true, phone: true, image: true },
     orderBy: { name: "asc" },
   });

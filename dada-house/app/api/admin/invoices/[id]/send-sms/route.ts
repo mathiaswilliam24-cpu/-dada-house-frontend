@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/api-auth";
 import { db } from "@/lib/db";
 import { sendSMS } from "@/lib/twilio";
+import { createShortLink } from "@/lib/short-links";
 
 export const dynamic = "force-dynamic";
 
@@ -58,7 +59,8 @@ export async function POST(
 
   const total      = computeTotal(invoice.lineItems, invoice.amount);
   const isPaid     = invoice.status === "PAID";
-  const invoiceNum = `INV${id.slice(-6).toUpperCase()}`;
+  const isEstimate = invoice.status === "DRAFT";
+  const invoiceNum = `${isEstimate ? "EST" : "INV"}${id.slice(-6).toUpperCase()}`;
   const dueLabel   = invoice.dueDate
     ? invoice.dueDate.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })
     : "On Receipt";
@@ -67,8 +69,12 @@ export async function POST(
     : "";
   const payMethod  = (invoice as { paymentMethod?: string | null }).paymentMethod;
 
-  const appUrl   = process.env.NEXT_PUBLIC_APP_URL ?? "https://www.dada-house.com";
-  const printUrl = `${appUrl}/print/invoice/${id}`;
+  const appUrl    = process.env.NEXT_PUBLIC_APP_URL ?? "https://www.dada-house.com";
+  const fullUrl   = invoice.paymentToken
+    ? `${appUrl}/print/invoice/${id}?token=${invoice.paymentToken}`
+    : `${appUrl}/print/invoice/${id}`;
+  const printUrl  = await createShortLink(fullUrl);
+  const payUrl    = invoice.paymentToken ? await createShortLink(`${appUrl}/pay/${invoice.paymentToken}`) : null;
 
   const message = isPaid
     ? `DADA HOUSE LLC — Hello ${invoice.appointment.name},
@@ -89,7 +95,18 @@ We truly appreciate your trust in DADA HOUSE! It was a pleasure serving you.
 Could you take 1 minute to leave us a review? It makes a big difference:
 https://dada-house.com/reviews
 
-Questions? Call (346) 649-9353`
+Questions? Call (844) 928-0875`
+    : isEstimate
+    ? `DADA HOUSE LLC — Hello ${invoice.appointment.name},
+
+Your estimate ${invoiceNum} for ${invoice.appointment.service} is ready.
+
+Estimated total: ${fmtCur(total)}
+
+View & Download PDF:
+${printUrl}
+
+This is an estimate — no payment is due yet. To accept and schedule, reply to this text or call (844) 928-0875.`
     : `DADA HOUSE LLC — Hello ${invoice.appointment.name},
 
 Your invoice ${invoiceNum} for ${invoice.appointment.service} is ready.
@@ -100,10 +117,13 @@ Due: ${dueLabel}
 View & Download PDF:
 ${printUrl}
 
-Payment via Zelle: payment@mydadahouse.com
+💳 Pay by card: ${payUrl}
+(a 3% card processing fee applies)
+
+Or pay via Zelle (no fee): payment@mydadahouse.com
 
 Thank you for choosing DADA HOUSE!
-Questions? Call (346) 649-9353`;
+Questions? Call (844) 928-0875`;
 
   // Always use E.164 format — strip everything then add +1
   function toE164(raw: string) {
@@ -113,7 +133,7 @@ Questions? Call (346) 649-9353`;
     return raw.startsWith("+") ? raw : `+${digits}`;
   }
 
-  const adminPhone = toE164(process.env.ADMIN_PHONE ?? "3466499353");
+  const adminPhone = toE164(process.env.ADMIN_PHONE ?? "8449280875");
   const clientPhone = toE164(phone);
 
   const copyMsg = `[COPY — sent to client ${invoice.appointment.name}]\n\n${message}`;

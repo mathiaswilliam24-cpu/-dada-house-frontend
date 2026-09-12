@@ -69,7 +69,7 @@ export default function AboutPage() {
                 Book Service
               </Link>
               <a
-                href="tel:+13466499353"
+                href="tel:+18449280875"
                 className="flex items-center gap-2 px-6 py-3 border border-[#1A3490] hover:border-[#F7921A] text-blue-200 hover:text-white rounded-xl transition-colors font-semibold"
               >
                 <Phone size={16} />
