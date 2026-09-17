@@ -89,9 +89,32 @@ export async function GET(
         include: { items: true },
         take: 10,
       },
+      // Customer record links dispatcher appointments (via customerId)
+      customerRecord: {
+        select: {
+          id: true,
+          appointments: {
+            orderBy: { createdAt: "desc" },
+            include: {
+              invoice: { select: { id: true, amount: true, status: true, paidAt: true } },
+              technician: { select: { id: true, name: true } },
+            },
+          },
+        },
+      },
     },
   });
 
   if (!user) return NextResponse.json({ error: "Not found" }, { status: 404 });
-  return NextResponse.json({ user });
+
+  // Merge dispatcher appointments (via Customer record) with direct user appointments
+  // Deduplicate by appointment id so an appointment linked both ways only appears once
+  const { customerRecord, ...userWithoutCustomer } = user as typeof user & { customerRecord?: { id: string; appointments: typeof user.appointments } | null };
+  const directIds = new Set(user.appointments.map((a) => a.id));
+  const extraAppts = (customerRecord?.appointments ?? []).filter((a) => !directIds.has(a.id));
+  const mergedAppointments = [...user.appointments, ...extraAppts].sort(
+    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+  );
+
+  return NextResponse.json({ user: { ...userWithoutCustomer, appointments: mergedAppointments } });
 }
