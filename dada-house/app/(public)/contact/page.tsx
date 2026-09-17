@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { Phone, AlertTriangle, Mail, Globe, MapPin, Clock } from "lucide-react";
 import ContactForm from "@/components/contact/contact-form";
 
@@ -69,7 +69,7 @@ export default function ContactPage() {
                   href="tel:+18449280875"
                   className="block text-xl font-black text-red-400 hover:text-red-300 transition-colors"
                 >
-                  (346) 649-9353
+                  (844) 928-0875
                 </a>
                 <p className="text-slate-400 text-sm mt-1">
                   24/7 emergency technician response

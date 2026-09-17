@@ -81,6 +81,10 @@ export const ModelName = {
   Estimate: 'Estimate',
   PriceBookItem: 'PriceBookItem',
   DiagnosisForm: 'DiagnosisForm',
+  ServiceDiagnostic: 'ServiceDiagnostic',
+  SystemStartup: 'SystemStartup',
+  VentCleaning: 'VentCleaning',
+  DuctCleaning: 'DuctCleaning',
   JobPhoto: 'JobPhoto',
   JobPayment: 'JobPayment',
   ServiceChecklist: 'ServiceChecklist',
@@ -691,6 +695,168 @@ export const DiagnosisFormScalarFieldEnum = {
 export type DiagnosisFormScalarFieldEnum = (typeof DiagnosisFormScalarFieldEnum)[keyof typeof DiagnosisFormScalarFieldEnum]
 
 
+export const ServiceDiagnosticScalarFieldEnum = {
+  id: 'id',
+  appointmentId: 'appointmentId',
+  technicianId: 'technicianId',
+  serviceType: 'serviceType',
+  customerReportedIssue: 'customerReportedIssue',
+  arrivalTime: 'arrivalTime',
+  diagnosticStartTime: 'diagnosticStartTime',
+  diagnosticCompletionTime: 'diagnosticCompletionTime',
+  equipmentInspected: 'equipmentInspected',
+  systemOperatingOnArrival: 'systemOperatingOnArrival',
+  visibleDamage: 'visibleDamage',
+  waterLeakPresent: 'waterLeakPresent',
+  unusualNoise: 'unusualNoise',
+  burningSmell: 'burningSmell',
+  immediateSafetyConcern: 'immediateSafetyConcern',
+  safetyConcernDescription: 'safetyConcernDescription',
+  sectionData: 'sectionData',
+  problemFound: 'problemFound',
+  rootCause: 'rootCause',
+  evidenceSupportingDiagnosis: 'evidenceSupportingDiagnosis',
+  affectedComponents: 'affectedComponents',
+  recommendedRepair: 'recommendedRepair',
+  additionalRecommendations: 'additionalRecommendations',
+  partsRequired: 'partsRequired',
+  repairUrgency: 'repairUrgency',
+  canCustomerContinueUsing: 'canCustomerContinueUsing',
+  cannotContinueExplanation: 'cannotContinueExplanation',
+  finalDiagnosis: 'finalDiagnosis',
+  recommendedCorrectiveWork: 'recommendedCorrectiveWork',
+  estimatedRepairType: 'estimatedRepairType',
+  systemStatusWhenLeaving: 'systemStatusWhenLeaving',
+  completedAt: 'completedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  status: 'status',
+  reviewedById: 'reviewedById',
+  reviewedAt: 'reviewedAt',
+  supervisorComment: 'supervisorComment',
+  customerReportSentAt: 'customerReportSentAt',
+  reportToken: 'reportToken'
+} as const
+
+export type ServiceDiagnosticScalarFieldEnum = (typeof ServiceDiagnosticScalarFieldEnum)[keyof typeof ServiceDiagnosticScalarFieldEnum]
+
+
+export const SystemStartupScalarFieldEnum = {
+  id: 'id',
+  appointmentId: 'appointmentId',
+  technicianId: 'technicianId',
+  additionalTechnicians: 'additionalTechnicians',
+  systemType: 'systemType',
+  installationType: 'installationType',
+  permitNumber: 'permitNumber',
+  startupDateTime: 'startupDateTime',
+  equipment: 'equipment',
+  installationChecklist: 'installationChecklist',
+  refrigerantCircuit: 'refrigerantCircuit',
+  vacuumEvacuation: 'vacuumEvacuation',
+  electricalReadings: 'electricalReadings',
+  airflowPerformance: 'airflowPerformance',
+  drainTest: 'drainTest',
+  heatingStartup: 'heatingStartup',
+  thermostatControls: 'thermostatControls',
+  finalTestResults: 'finalTestResults',
+  finalStartupResult: 'finalStartupResult',
+  failExplanation: 'failExplanation',
+  technicianCertified: 'technicianCertified',
+  technicianSignatureUrl: 'technicianSignatureUrl',
+  technicianCertifiedAt: 'technicianCertifiedAt',
+  handoverChecklist: 'handoverChecklist',
+  customerSignatureUrl: 'customerSignatureUrl',
+  customerHandoverAt: 'customerHandoverAt',
+  status: 'status',
+  reviewedById: 'reviewedById',
+  reviewedAt: 'reviewedAt',
+  supervisorComment: 'supervisorComment',
+  customerReportSentAt: 'customerReportSentAt',
+  reportToken: 'reportToken',
+  completedAt: 'completedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SystemStartupScalarFieldEnum = (typeof SystemStartupScalarFieldEnum)[keyof typeof SystemStartupScalarFieldEnum]
+
+
+export const VentCleaningScalarFieldEnum = {
+  id: 'id',
+  appointmentId: 'appointmentId',
+  technicianId: 'technicianId',
+  propertyType: 'propertyType',
+  totalVentsAuthorized: 'totalVentsAuthorized',
+  supplyVentsAuthorized: 'supplyVentsAuthorized',
+  returnVentsAuthorized: 'returnVentsAuthorized',
+  overallCondition: 'overallCondition',
+  overallConditionOther: 'overallConditionOther',
+  beforePhotos: 'beforePhotos',
+  vents: 'vents',
+  workPerformed: 'workPerformed',
+  additionalFindings: 'additionalFindings',
+  additionalFindingsOther: 'additionalFindingsOther',
+  recommendedAdditionalService: 'recommendedAdditionalService',
+  totalVentsCleaned: 'totalVentsCleaned',
+  completionStatus: 'completionStatus',
+  technicianNotes: 'technicianNotes',
+  technicianSignatureUrl: 'technicianSignatureUrl',
+  customerSignatureUrl: 'customerSignatureUrl',
+  completedAt: 'completedAt',
+  customerReportSentAt: 'customerReportSentAt',
+  reportToken: 'reportToken',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type VentCleaningScalarFieldEnum = (typeof VentCleaningScalarFieldEnum)[keyof typeof VentCleaningScalarFieldEnum]
+
+
+export const DuctCleaningScalarFieldEnum = {
+  id: 'id',
+  appointmentId: 'appointmentId',
+  technicianId: 'technicianId',
+  propertyType: 'propertyType',
+  systemsCount: 'systemsCount',
+  systemsServiced: 'systemsServiced',
+  totalSupplyRegisters: 'totalSupplyRegisters',
+  totalReturnRegisters: 'totalReturnRegisters',
+  ductMaterial: 'ductMaterial',
+  preCleaningInspection: 'preCleaningInspection',
+  contaminationObserved: 'contaminationObserved',
+  contaminationOther: 'contaminationOther',
+  systemProblemsFound: 'systemProblemsFound',
+  systemProblemsOther: 'systemProblemsOther',
+  technicianFindings: 'technicianFindings',
+  cleaningProcedure: 'cleaningProcedure',
+  equipmentMethodUsed: 'equipmentMethodUsed',
+  registers: 'registers',
+  componentCleaning: 'componentCleaning',
+  additionalIssueFound: 'additionalIssueFound',
+  issuesFound: 'issuesFound',
+  issuesOther: 'issuesOther',
+  issuePhotoUrl: 'issuePhotoUrl',
+  additionalRepairRecommended: 'additionalRepairRecommended',
+  separateEstimateRequired: 'separateEstimateRequired',
+  finalInspection: 'finalInspection',
+  systemConditionAfter: 'systemConditionAfter',
+  notOperatedExplanation: 'notOperatedExplanation',
+  beforePhotos: 'beforePhotos',
+  afterPhotos: 'afterPhotos',
+  technicianNotes: 'technicianNotes',
+  technicianSignatureUrl: 'technicianSignatureUrl',
+  customerSignatureUrl: 'customerSignatureUrl',
+  completedAt: 'completedAt',
+  customerReportSentAt: 'customerReportSentAt',
+  reportToken: 'reportToken',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type DuctCleaningScalarFieldEnum = (typeof DuctCleaningScalarFieldEnum)[keyof typeof DuctCleaningScalarFieldEnum]
+
+
 export const JobPhotoScalarFieldEnum = {
   id: 'id',
   appointmentId: 'appointmentId',
@@ -1106,7 +1272,8 @@ export const FormSubmissionScalarFieldEnum = {
   technicianId: 'technicianId',
   values: 'values',
   submittedAt: 'submittedAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  reportToken: 'reportToken'
 } as const
 
 export type FormSubmissionScalarFieldEnum = (typeof FormSubmissionScalarFieldEnum)[keyof typeof FormSubmissionScalarFieldEnum]

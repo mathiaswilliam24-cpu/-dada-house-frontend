@@ -39,6 +39,8 @@ export default async function PortalLayout({ children }: { children: React.React
   if (!session?.user) redirect("/auth/login?callbackUrl=/portal");
   if (session.user.role === "TECHNICIAN") redirect("/technician");
   if (session.user.role === "DISPATCHER") redirect("/dispatcher");
+  if (session.user.role === "ADMIN" || session.user.role === "SUPER_ADMIN") redirect("/admin");
+  if (session.user.role === "MANAGER" || session.user.role === "CUSTOMER_SERVICE_REP") redirect("/call-center");
 
   return (
     <div className="min-h-screen bg-gray-50 flex">

@@ -249,7 +249,11 @@ model Appointment {
   calls           Call[]
 
   // New relations
-  diagnosisForm DiagnosisForm?
+  diagnosisForm     DiagnosisForm?
+  serviceDiagnostic ServiceDiagnostic?
+  systemStartup     SystemStartup?
+  ventCleaning      VentCleaning?
+  ductCleaning      DuctCleaning?
   jobPhotos     JobPhoto[]
   payments      JobPayment[]
   checklist     ServiceChecklist?
@@ -689,6 +693,231 @@ model DiagnosisForm {
   customerApprovedAt  DateTime?
   createdAt           DateTime  @default(now())
   updatedAt           DateTime  @updatedAt
+
+  appointment Appointment @relation(fields: [appointmentId], references: [id], onDelete: Cascade)
+}
+
+// Replaces DiagnosisForm as the technician-facing diagnosis flow (kept, not
+// dropped, for historical rows). See lib/service-diagnostic-fields.ts for the
+// per-service-type field catalog rendered against `sectionData`.
+model ServiceDiagnostic {
+  id                       String    @id @default(cuid())
+  appointmentId            String    @unique
+  technicianId             String?
+
+  serviceType              String    // AIR_CONDITIONING | HEATING | PLUMBING | REMODELING | OTHER
+  customerReportedIssue    String?
+  arrivalTime              DateTime?
+  diagnosticStartTime      DateTime?
+  diagnosticCompletionTime DateTime?
+
+  // Section 2 — Initial Site Inspection
+  equipmentInspected       String?
+  systemOperatingOnArrival String?   // YES | NO | INTERMITTENTLY | NOT_APPLICABLE
+  visibleDamage            Boolean?
+  waterLeakPresent         String?   // YES | NO | NA
+  unusualNoise             String?   // YES | NO | NA
+  burningSmell             Boolean?
+  immediateSafetyConcern   Boolean   @default(false)
+  safetyConcernDescription String?
+
+  // Sections 3-6 — service-type-specific technical readings, keyed by field id
+  sectionData              Json      @default("{}")
+
+  // Section 7 — Diagnostic Findings
+  problemFound              String?
+  rootCause                 String?
+  evidenceSupportingDiagnosis String?
+  affectedComponents        String?
+  recommendedRepair         String?
+  additionalRecommendations String?
+
+  // Section 8 — Parts & Materials
+  partsRequired            Json      @default("[]")
+
+  // Section 9 — Repair Urgency
+  repairUrgency              String? // NORMAL | RECOMMENDED | URGENT | EMERGENCY
+  canCustomerContinueUsing   String? // YES | NO | WITH_LIMITATIONS
+  cannotContinueExplanation  String?
+
+  // Section 11 — Technician Final Diagnosis
+  finalDiagnosis            String?
+  recommendedCorrectiveWork String?
+  estimatedRepairType       String? // MINOR_REPAIR | MAJOR_REPAIR | REPLACEMENT_RECOMMENDED | FURTHER_DIAGNOSTIC_REQUIRED | NO_REPAIR_REQUIRED
+  systemStatusWhenLeaving   String? // OPERATING_NORMALLY | OPERATING_TEMPORARILY | NOT_OPERATIONAL | SHUT_DOWN_FOR_SAFETY | DIAGNOSTIC_ONLY
+
+  completedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  // Phase 2 — supervisor review workflow
+  status              DiagnosticStatus @default(DRAFT)
+  reviewedById        String?
+  reviewedAt          DateTime?
+  supervisorComment   String?
+  customerReportSentAt DateTime?
+
+  // Public, non-expiring token for the on-demand PDF view route — used to
+  // text customers a link to their report when they have no email on file.
+  reportToken String? @unique
+
+  appointment Appointment @relation(fields: [appointmentId], references: [id], onDelete: Cascade)
+}
+
+enum DiagnosticStatus {
+  DRAFT
+  AWAITING_SUPERVISOR_REVIEW
+  RETURNED
+  ADDITIONAL_TESTING_REQUESTED
+  APPROVED
+}
+
+// New-installation commissioning form — same supervisor-review shape as
+// ServiceDiagnostic (see lib/system-startup-fields.ts for the field catalog),
+// but review stays mandatory here (not simplified away like ServiceDiagnostic
+// was) since a new install carries warranty/liability weight.
+model SystemStartup {
+  id            String   @id @default(cuid())
+  appointmentId String   @unique
+  technicianId  String?
+
+  // Section 1 — Job & Installation Information
+  additionalTechnicians String?
+  systemType            String?
+  installationType      String?
+  permitNumber          String?
+  startupDateTime       DateTime?
+
+  equipment             Json @default("[]")
+  installationChecklist Json @default("[]")
+  refrigerantCircuit    Json @default("{}")
+  vacuumEvacuation      Json @default("{}")
+  electricalReadings    Json @default("{}")
+  airflowPerformance    Json @default("{}")
+  drainTest             Json @default("[]")
+  heatingStartup        Json @default("{}")
+  thermostatControls    Json @default("[]")
+
+  finalTestResults   Json    @default("{}")
+  finalStartupResult String?
+  failExplanation    String?
+
+  technicianCertified    Boolean   @default(false)
+  technicianSignatureUrl String?
+  technicianCertifiedAt  DateTime?
+
+  handoverChecklist     Json      @default("[]")
+  customerSignatureUrl  String?
+  customerHandoverAt    DateTime?
+
+  status               DiagnosticStatus @default(DRAFT)
+  reviewedById         String?
+  reviewedAt           DateTime?
+  supervisorComment    String?
+  customerReportSentAt DateTime?
+
+  // Public, non-expiring token for the on-demand PDF view route — used to
+  // text customers a link to their report when they have no email on file.
+  reportToken String? @unique
+
+  completedAt DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  appointment Appointment @relation(fields: [appointmentId], references: [id], onDelete: Cascade)
+}
+
+// Air Duct Cleaning service line — two forms, self-service (no supervisor
+// review, confirmed with the user): a light grille/register-only cleaning,
+// and a full whole-system duct cleaning with vent/register-by-vent/register
+// documentation. See lib/duct-cleaning-fields.ts for the field catalog.
+model VentCleaning {
+  id            String   @id @default(cuid())
+  appointmentId String   @unique
+  technicianId  String?
+
+  propertyType          String?
+  totalVentsAuthorized  Int?
+  supplyVentsAuthorized Int?
+  returnVentsAuthorized Int?
+
+  overallCondition       Json    @default("[]")
+  overallConditionOther  String?
+  beforePhotos           Json    @default("[]")
+
+  vents Json @default("[]")
+
+  workPerformed                Json    @default("[]")
+  additionalFindings           Json    @default("[]")
+  additionalFindingsOther      String?
+  recommendedAdditionalService String?
+
+  totalVentsCleaned Int?
+  completionStatus  String?
+  technicianNotes   String?
+
+  technicianSignatureUrl String?
+  customerSignatureUrl   String?
+
+  completedAt          DateTime?
+  customerReportSentAt DateTime?
+  reportToken          String?   @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  appointment Appointment @relation(fields: [appointmentId], references: [id], onDelete: Cascade)
+}
+
+model DuctCleaning {
+  id            String   @id @default(cuid())
+  appointmentId String   @unique
+  technicianId  String?
+
+  propertyType         String?
+  systemsCount         Int?
+  systemsServiced      Json    @default("[]")
+  totalSupplyRegisters Int?
+  totalReturnRegisters Int?
+  ductMaterial         String?
+
+  preCleaningInspection Json    @default("[]")
+  contaminationObserved Json    @default("[]")
+  contaminationOther    String?
+  systemProblemsFound   Json    @default("[]")
+  systemProblemsOther   String?
+  technicianFindings    String?
+
+  cleaningProcedure   Json    @default("[]")
+  equipmentMethodUsed String?
+
+  registers         Json @default("[]")
+  componentCleaning Json @default("{}")
+
+  additionalIssueFound        Boolean @default(false)
+  issuesFound                 Json    @default("[]")
+  issuesOther                 String?
+  issuePhotoUrl                String?
+  additionalRepairRecommended String?
+  separateEstimateRequired    Boolean?
+
+  finalInspection         Json    @default("[]")
+  systemConditionAfter    String?
+  notOperatedExplanation  String?
+
+  beforePhotos Json @default("[]")
+  afterPhotos  Json @default("[]")
+
+  technicianNotes         String?
+  technicianSignatureUrl  String?
+  customerSignatureUrl    String?
+
+  completedAt          DateTime?
+  customerReportSentAt DateTime?
+  reportToken          String?   @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   appointment Appointment @relation(fields: [appointmentId], references: [id], onDelete: Cascade)
 }
@@ -1204,6 +1433,10 @@ model FormSubmission {
   values        Json     @default("{}") // { [fieldId]: value }
   submittedAt   DateTime @default(now())
   updatedAt     DateTime @updatedAt
+
+  // Public, non-expiring token for the on-demand PDF view route — used to
+  // text customers a link to their report when they have no email on file.
+  reportToken String? @unique
 
   template    FormTemplate @relation(fields: [templateId], references: [id], onDelete: Cascade)
   appointment Appointment  @relation(fields: [appointmentId], references: [id], onDelete: Cascade)

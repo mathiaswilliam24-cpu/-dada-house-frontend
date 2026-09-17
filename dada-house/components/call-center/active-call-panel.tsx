@@ -19,7 +19,7 @@ export function ActiveCallPanel({ call }: { call: QueueCall | null }) {
     <div className="bg-white rounded-xl border border-gray-200 p-5 h-full">
       <div className="flex items-center gap-4">
         <div className="w-16 h-16 bg-[#1B3FA8] rounded-full flex items-center justify-center shrink-0">
-          <span className="text-2xl font-bold text-white">{(customer?.firstName ?? call.fromNumber)[0]?.toUpperCase()}</span>
+          <span className="text-2xl font-bold text-white">{(customer?.firstName?.trim() || call.fromNumber)[0]?.toUpperCase() ?? "?"}</span>
         </div>
         <div>
           <h2 className="text-lg font-bold text-gray-900">{customer ? `${customer.firstName} ${customer.lastName ?? ""}` : "Unknown Caller"}</h2>

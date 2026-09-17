@@ -10,6 +10,7 @@ import { formatDate } from "@/lib/utils";
 import { TECH_STATUS_LABEL, TECH_STATUS_COLOR } from "@/lib/tech-status";
 import ElapsedTimer from "@/components/technician/elapsed-timer";
 import { setActiveJobStatus } from "@/components/technician/location-tracker";
+import { CallButton, MessageButton } from "@/components/technician/call-sms-actions";
 
 type Job = {
   id: string; appointmentNumber: string; service: string;
@@ -63,7 +64,10 @@ export default function StartJobPage() {
   }
 
   function goToWork() {
-    router.push(`/technician/jobs/${id}/work`);
+    // The full Job Tools page (Diagnosis, History, Equipment, Projects, Purchase
+    // Orders, Service Forms, Invoice, etc.) — not the older standalone /work
+    // screen, which only ever exposed a small slice of what's been built since.
+    router.push(`/technician/jobs/${id}`);
   }
 
   if (loading) {
@@ -119,18 +123,18 @@ export default function StartJobPage() {
         )}
 
         <div className="grid grid-cols-3 gap-2 pt-1">
-          <a
-            href={`tel:${job.phone}`}
-            className="flex flex-col items-center justify-center gap-1 py-3 bg-[#1B3FA8] text-white rounded-xl text-xs font-semibold"
+          <CallButton
+            jobId={id}
+            className="w-full flex flex-col items-center justify-center gap-1 py-3 bg-[#1B3FA8] text-white rounded-xl text-xs font-semibold"
           >
             <Phone className="w-5 h-5" /> Call
-          </a>
-          <a
-            href={`sms:${job.phone}`}
-            className="flex flex-col items-center justify-center gap-1 py-3 bg-gray-100 text-gray-700 rounded-xl text-xs font-semibold"
+          </CallButton>
+          <MessageButton
+            jobId={id}
+            className="w-full flex flex-col items-center justify-center gap-1 py-3 bg-gray-100 text-gray-700 rounded-xl text-xs font-semibold"
           >
             <MessageSquare className="w-5 h-5" /> Message
-          </a>
+          </MessageButton>
           <a
             href={mapsUrl}
             target="_blank" rel="noopener noreferrer"

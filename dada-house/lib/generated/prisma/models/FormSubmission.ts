@@ -31,6 +31,7 @@ export type FormSubmissionMinAggregateOutputType = {
   technicianId: string | null
   submittedAt: Date | null
   updatedAt: Date | null
+  reportToken: string | null
 }
 
 export type FormSubmissionMaxAggregateOutputType = {
@@ -40,6 +41,7 @@ export type FormSubmissionMaxAggregateOutputType = {
   technicianId: string | null
   submittedAt: Date | null
   updatedAt: Date | null
+  reportToken: string | null
 }
 
 export type FormSubmissionCountAggregateOutputType = {
@@ -50,6 +52,7 @@ export type FormSubmissionCountAggregateOutputType = {
   values: number
   submittedAt: number
   updatedAt: number
+  reportToken: number
   _all: number
 }
 
@@ -61,6 +64,7 @@ export type FormSubmissionMinAggregateInputType = {
   technicianId?: true
   submittedAt?: true
   updatedAt?: true
+  reportToken?: true
 }
 
 export type FormSubmissionMaxAggregateInputType = {
@@ -70,6 +74,7 @@ export type FormSubmissionMaxAggregateInputType = {
   technicianId?: true
   submittedAt?: true
   updatedAt?: true
+  reportToken?: true
 }
 
 export type FormSubmissionCountAggregateInputType = {
@@ -80,6 +85,7 @@ export type FormSubmissionCountAggregateInputType = {
   values?: true
   submittedAt?: true
   updatedAt?: true
+  reportToken?: true
   _all?: true
 }
 
@@ -163,6 +169,7 @@ export type FormSubmissionGroupByOutputType = {
   values: runtime.JsonValue
   submittedAt: Date
   updatedAt: Date
+  reportToken: string | null
   _count: FormSubmissionCountAggregateOutputType | null
   _min: FormSubmissionMinAggregateOutputType | null
   _max: FormSubmissionMaxAggregateOutputType | null
@@ -194,6 +201,7 @@ export type FormSubmissionWhereInput = {
   values?: Prisma.JsonFilter<"FormSubmission">
   submittedAt?: Prisma.DateTimeFilter<"FormSubmission"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"FormSubmission"> | Date | string
+  reportToken?: Prisma.StringNullableFilter<"FormSubmission"> | string | null
   template?: Prisma.XOR<Prisma.FormTemplateScalarRelationFilter, Prisma.FormTemplateWhereInput>
   appointment?: Prisma.XOR<Prisma.AppointmentScalarRelationFilter, Prisma.AppointmentWhereInput>
 }
@@ -206,12 +214,14 @@ export type FormSubmissionOrderByWithRelationInput = {
   values?: Prisma.SortOrder
   submittedAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  reportToken?: Prisma.SortOrderInput | Prisma.SortOrder
   template?: Prisma.FormTemplateOrderByWithRelationInput
   appointment?: Prisma.AppointmentOrderByWithRelationInput
 }
 
 export type FormSubmissionWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  reportToken?: string
   templateId_appointmentId?: Prisma.FormSubmissionTemplateIdAppointmentIdCompoundUniqueInput
   AND?: Prisma.FormSubmissionWhereInput | Prisma.FormSubmissionWhereInput[]
   OR?: Prisma.FormSubmissionWhereInput[]
@@ -224,7 +234,7 @@ export type FormSubmissionWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"FormSubmission"> | Date | string
   template?: Prisma.XOR<Prisma.FormTemplateScalarRelationFilter, Prisma.FormTemplateWhereInput>
   appointment?: Prisma.XOR<Prisma.AppointmentScalarRelationFilter, Prisma.AppointmentWhereInput>
-}, "id" | "templateId_appointmentId">
+}, "id" | "reportToken" | "templateId_appointmentId">
 
 export type FormSubmissionOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -234,6 +244,7 @@ export type FormSubmissionOrderByWithAggregationInput = {
   values?: Prisma.SortOrder
   submittedAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  reportToken?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.FormSubmissionCountOrderByAggregateInput
   _max?: Prisma.FormSubmissionMaxOrderByAggregateInput
   _min?: Prisma.FormSubmissionMinOrderByAggregateInput
@@ -250,6 +261,7 @@ export type FormSubmissionScalarWhereWithAggregatesInput = {
   values?: Prisma.JsonWithAggregatesFilter<"FormSubmission">
   submittedAt?: Prisma.DateTimeWithAggregatesFilter<"FormSubmission"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"FormSubmission"> | Date | string
+  reportToken?: Prisma.StringNullableWithAggregatesFilter<"FormSubmission"> | string | null
 }
 
 export type FormSubmissionCreateInput = {
@@ -258,6 +270,7 @@ export type FormSubmissionCreateInput = {
   values?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   submittedAt?: Date | string
   updatedAt?: Date | string
+  reportToken?: string | null
   template: Prisma.FormTemplateCreateNestedOneWithoutSubmissionsInput
   appointment: Prisma.AppointmentCreateNestedOneWithoutFormSubmissionsInput
 }
@@ -270,6 +283,7 @@ export type FormSubmissionUncheckedCreateInput = {
   values?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   submittedAt?: Date | string
   updatedAt?: Date | string
+  reportToken?: string | null
 }
 
 export type FormSubmissionUpdateInput = {
@@ -278,6 +292,7 @@ export type FormSubmissionUpdateInput = {
   values?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  reportToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   template?: Prisma.FormTemplateUpdateOneRequiredWithoutSubmissionsNestedInput
   appointment?: Prisma.AppointmentUpdateOneRequiredWithoutFormSubmissionsNestedInput
 }
@@ -290,6 +305,7 @@ export type FormSubmissionUncheckedUpdateInput = {
   values?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  reportToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type FormSubmissionCreateManyInput = {
@@ -300,6 +316,7 @@ export type FormSubmissionCreateManyInput = {
   values?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   submittedAt?: Date | string
   updatedAt?: Date | string
+  reportToken?: string | null
 }
 
 export type FormSubmissionUpdateManyMutationInput = {
@@ -308,6 +325,7 @@ export type FormSubmissionUpdateManyMutationInput = {
   values?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  reportToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type FormSubmissionUncheckedUpdateManyInput = {
@@ -318,6 +336,7 @@ export type FormSubmissionUncheckedUpdateManyInput = {
   values?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  reportToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type FormSubmissionListRelationFilter = {
@@ -343,6 +362,7 @@ export type FormSubmissionCountOrderByAggregateInput = {
   values?: Prisma.SortOrder
   submittedAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  reportToken?: Prisma.SortOrder
 }
 
 export type FormSubmissionMaxOrderByAggregateInput = {
@@ -352,6 +372,7 @@ export type FormSubmissionMaxOrderByAggregateInput = {
   technicianId?: Prisma.SortOrder
   submittedAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  reportToken?: Prisma.SortOrder
 }
 
 export type FormSubmissionMinOrderByAggregateInput = {
@@ -361,6 +382,7 @@ export type FormSubmissionMinOrderByAggregateInput = {
   technicianId?: Prisma.SortOrder
   submittedAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  reportToken?: Prisma.SortOrder
 }
 
 export type FormSubmissionCreateNestedManyWithoutAppointmentInput = {
@@ -453,6 +475,7 @@ export type FormSubmissionCreateWithoutAppointmentInput = {
   values?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   submittedAt?: Date | string
   updatedAt?: Date | string
+  reportToken?: string | null
   template: Prisma.FormTemplateCreateNestedOneWithoutSubmissionsInput
 }
 
@@ -463,6 +486,7 @@ export type FormSubmissionUncheckedCreateWithoutAppointmentInput = {
   values?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   submittedAt?: Date | string
   updatedAt?: Date | string
+  reportToken?: string | null
 }
 
 export type FormSubmissionCreateOrConnectWithoutAppointmentInput = {
@@ -502,6 +526,7 @@ export type FormSubmissionScalarWhereInput = {
   values?: Prisma.JsonFilter<"FormSubmission">
   submittedAt?: Prisma.DateTimeFilter<"FormSubmission"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"FormSubmission"> | Date | string
+  reportToken?: Prisma.StringNullableFilter<"FormSubmission"> | string | null
 }
 
 export type FormSubmissionCreateWithoutTemplateInput = {
@@ -510,6 +535,7 @@ export type FormSubmissionCreateWithoutTemplateInput = {
   values?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   submittedAt?: Date | string
   updatedAt?: Date | string
+  reportToken?: string | null
   appointment: Prisma.AppointmentCreateNestedOneWithoutFormSubmissionsInput
 }
 
@@ -520,6 +546,7 @@ export type FormSubmissionUncheckedCreateWithoutTemplateInput = {
   values?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   submittedAt?: Date | string
   updatedAt?: Date | string
+  reportToken?: string | null
 }
 
 export type FormSubmissionCreateOrConnectWithoutTemplateInput = {
@@ -555,6 +582,7 @@ export type FormSubmissionCreateManyAppointmentInput = {
   values?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   submittedAt?: Date | string
   updatedAt?: Date | string
+  reportToken?: string | null
 }
 
 export type FormSubmissionUpdateWithoutAppointmentInput = {
@@ -563,6 +591,7 @@ export type FormSubmissionUpdateWithoutAppointmentInput = {
   values?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  reportToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   template?: Prisma.FormTemplateUpdateOneRequiredWithoutSubmissionsNestedInput
 }
 
@@ -573,6 +602,7 @@ export type FormSubmissionUncheckedUpdateWithoutAppointmentInput = {
   values?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  reportToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type FormSubmissionUncheckedUpdateManyWithoutAppointmentInput = {
@@ -582,6 +612,7 @@ export type FormSubmissionUncheckedUpdateManyWithoutAppointmentInput = {
   values?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  reportToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type FormSubmissionCreateManyTemplateInput = {
@@ -591,6 +622,7 @@ export type FormSubmissionCreateManyTemplateInput = {
   values?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   submittedAt?: Date | string
   updatedAt?: Date | string
+  reportToken?: string | null
 }
 
 export type FormSubmissionUpdateWithoutTemplateInput = {
@@ -599,6 +631,7 @@ export type FormSubmissionUpdateWithoutTemplateInput = {
   values?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  reportToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   appointment?: Prisma.AppointmentUpdateOneRequiredWithoutFormSubmissionsNestedInput
 }
 
@@ -609,6 +642,7 @@ export type FormSubmissionUncheckedUpdateWithoutTemplateInput = {
   values?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  reportToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type FormSubmissionUncheckedUpdateManyWithoutTemplateInput = {
@@ -618,6 +652,7 @@ export type FormSubmissionUncheckedUpdateManyWithoutTemplateInput = {
   values?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  reportToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -630,6 +665,7 @@ export type FormSubmissionSelect<ExtArgs extends runtime.Types.Extensions.Intern
   values?: boolean
   submittedAt?: boolean
   updatedAt?: boolean
+  reportToken?: boolean
   template?: boolean | Prisma.FormTemplateDefaultArgs<ExtArgs>
   appointment?: boolean | Prisma.AppointmentDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["formSubmission"]>
@@ -642,6 +678,7 @@ export type FormSubmissionSelectCreateManyAndReturn<ExtArgs extends runtime.Type
   values?: boolean
   submittedAt?: boolean
   updatedAt?: boolean
+  reportToken?: boolean
   template?: boolean | Prisma.FormTemplateDefaultArgs<ExtArgs>
   appointment?: boolean | Prisma.AppointmentDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["formSubmission"]>
@@ -654,6 +691,7 @@ export type FormSubmissionSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
   values?: boolean
   submittedAt?: boolean
   updatedAt?: boolean
+  reportToken?: boolean
   template?: boolean | Prisma.FormTemplateDefaultArgs<ExtArgs>
   appointment?: boolean | Prisma.AppointmentDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["formSubmission"]>
@@ -666,9 +704,10 @@ export type FormSubmissionSelectScalar = {
   values?: boolean
   submittedAt?: boolean
   updatedAt?: boolean
+  reportToken?: boolean
 }
 
-export type FormSubmissionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "templateId" | "appointmentId" | "technicianId" | "values" | "submittedAt" | "updatedAt", ExtArgs["result"]["formSubmission"]>
+export type FormSubmissionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "templateId" | "appointmentId" | "technicianId" | "values" | "submittedAt" | "updatedAt" | "reportToken", ExtArgs["result"]["formSubmission"]>
 export type FormSubmissionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   template?: boolean | Prisma.FormTemplateDefaultArgs<ExtArgs>
   appointment?: boolean | Prisma.AppointmentDefaultArgs<ExtArgs>
@@ -696,6 +735,7 @@ export type $FormSubmissionPayload<ExtArgs extends runtime.Types.Extensions.Inte
     values: runtime.JsonValue
     submittedAt: Date
     updatedAt: Date
+    reportToken: string | null
   }, ExtArgs["result"]["formSubmission"]>
   composites: {}
 }
@@ -1128,6 +1168,7 @@ export interface FormSubmissionFieldRefs {
   readonly values: Prisma.FieldRef<"FormSubmission", 'Json'>
   readonly submittedAt: Prisma.FieldRef<"FormSubmission", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"FormSubmission", 'DateTime'>
+  readonly reportToken: Prisma.FieldRef<"FormSubmission", 'String'>
 }
     
 

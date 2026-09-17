@@ -14,13 +14,15 @@ export async function GET(
 
   const { id } = await params;
 
+  const staffRoles = ["ADMIN", "SUPER_ADMIN"];
   const job = await db.appointment.findFirst({
     where: {
       id,
-      technicianId: auth.role === "ADMIN" ? undefined : auth.id,
+      technicianId: staffRoles.includes(auth.role) ? undefined : auth.id,
     },
     include: {
       diagnosisForm: true,
+      serviceDiagnostic: true,
       jobPhotos: { orderBy: { createdAt: "asc" } },
       payments: { orderBy: { createdAt: "asc" } },
       checklist: true,

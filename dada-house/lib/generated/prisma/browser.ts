@@ -168,6 +168,26 @@ export type PriceBookItem = Prisma.PriceBookItemModel
  */
 export type DiagnosisForm = Prisma.DiagnosisFormModel
 /**
+ * Model ServiceDiagnostic
+ * 
+ */
+export type ServiceDiagnostic = Prisma.ServiceDiagnosticModel
+/**
+ * Model SystemStartup
+ * 
+ */
+export type SystemStartup = Prisma.SystemStartupModel
+/**
+ * Model VentCleaning
+ * 
+ */
+export type VentCleaning = Prisma.VentCleaningModel
+/**
+ * Model DuctCleaning
+ * 
+ */
+export type DuctCleaning = Prisma.DuctCleaningModel
+/**
  * Model JobPhoto
  * 
  */

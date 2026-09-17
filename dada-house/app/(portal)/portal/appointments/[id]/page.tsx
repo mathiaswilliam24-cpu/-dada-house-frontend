@@ -72,7 +72,8 @@ export default async function AppointmentDetailPage({
     },
   });
 
-  if (!appointment || (appointment.userId !== session.user.id && session.user.role !== "ADMIN")) {
+  const staffRoles = ["ADMIN", "SUPER_ADMIN", "MANAGER", "CUSTOMER_SERVICE_REP", "DISPATCHER"];
+  if (!appointment || (appointment.userId !== session.user.id && !staffRoles.includes(session.user.role))) {
     notFound();
   }
 

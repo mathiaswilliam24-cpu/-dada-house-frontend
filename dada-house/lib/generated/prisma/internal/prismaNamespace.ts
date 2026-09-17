@@ -414,6 +414,10 @@ export const ModelName = {
   Estimate: 'Estimate',
   PriceBookItem: 'PriceBookItem',
   DiagnosisForm: 'DiagnosisForm',
+  ServiceDiagnostic: 'ServiceDiagnostic',
+  SystemStartup: 'SystemStartup',
+  VentCleaning: 'VentCleaning',
+  DuctCleaning: 'DuctCleaning',
   JobPhoto: 'JobPhoto',
   JobPayment: 'JobPayment',
   ServiceChecklist: 'ServiceChecklist',
@@ -458,7 +462,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "technicianClient" | "account" | "session" | "verificationToken" | "appointment" | "review" | "invoice" | "notificationLog" | "setting" | "galleryProject" | "technician" | "technicianProfile" | "technicianLocation" | "technicianClockEntry" | "property" | "servicePlan" | "customerServicePlan" | "warranty" | "maintenanceLog" | "aIConversation" | "product" | "order" | "orderItem" | "cart" | "payment" | "pushSubscription" | "estimate" | "priceBookItem" | "diagnosisForm" | "jobPhoto" | "jobPayment" | "serviceChecklist" | "jobTimeLog" | "jobPart" | "inventoryItem" | "inventoryRequest" | "expense" | "expenseSubscription" | "campaign" | "campaignRecipient" | "customer" | "equipment" | "project" | "call" | "callRecording" | "voicemail" | "messageThread" | "message" | "messageTemplate" | "doNotContact" | "emailThread" | "emailMessage" | "shortLink" | "systemType" | "formTemplate" | "formSubmission" | "maintenancePlanType" | "maintenanceContract"
+    modelProps: "user" | "technicianClient" | "account" | "session" | "verificationToken" | "appointment" | "review" | "invoice" | "notificationLog" | "setting" | "galleryProject" | "technician" | "technicianProfile" | "technicianLocation" | "technicianClockEntry" | "property" | "servicePlan" | "customerServicePlan" | "warranty" | "maintenanceLog" | "aIConversation" | "product" | "order" | "orderItem" | "cart" | "payment" | "pushSubscription" | "estimate" | "priceBookItem" | "diagnosisForm" | "serviceDiagnostic" | "systemStartup" | "ventCleaning" | "ductCleaning" | "jobPhoto" | "jobPayment" | "serviceChecklist" | "jobTimeLog" | "jobPart" | "inventoryItem" | "inventoryRequest" | "expense" | "expenseSubscription" | "campaign" | "campaignRecipient" | "customer" | "equipment" | "project" | "call" | "callRecording" | "voicemail" | "messageThread" | "message" | "messageTemplate" | "doNotContact" | "emailThread" | "emailMessage" | "shortLink" | "systemType" | "formTemplate" | "formSubmission" | "maintenancePlanType" | "maintenanceContract"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -2679,6 +2683,302 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.DiagnosisFormCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.DiagnosisFormCountAggregateOutputType> | number
+        }
+      }
+    }
+    ServiceDiagnostic: {
+      payload: Prisma.$ServiceDiagnosticPayload<ExtArgs>
+      fields: Prisma.ServiceDiagnosticFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ServiceDiagnosticFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServiceDiagnosticPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ServiceDiagnosticFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServiceDiagnosticPayload>
+        }
+        findFirst: {
+          args: Prisma.ServiceDiagnosticFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServiceDiagnosticPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ServiceDiagnosticFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServiceDiagnosticPayload>
+        }
+        findMany: {
+          args: Prisma.ServiceDiagnosticFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServiceDiagnosticPayload>[]
+        }
+        create: {
+          args: Prisma.ServiceDiagnosticCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServiceDiagnosticPayload>
+        }
+        createMany: {
+          args: Prisma.ServiceDiagnosticCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ServiceDiagnosticCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServiceDiagnosticPayload>[]
+        }
+        delete: {
+          args: Prisma.ServiceDiagnosticDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServiceDiagnosticPayload>
+        }
+        update: {
+          args: Prisma.ServiceDiagnosticUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServiceDiagnosticPayload>
+        }
+        deleteMany: {
+          args: Prisma.ServiceDiagnosticDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ServiceDiagnosticUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ServiceDiagnosticUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServiceDiagnosticPayload>[]
+        }
+        upsert: {
+          args: Prisma.ServiceDiagnosticUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServiceDiagnosticPayload>
+        }
+        aggregate: {
+          args: Prisma.ServiceDiagnosticAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateServiceDiagnostic>
+        }
+        groupBy: {
+          args: Prisma.ServiceDiagnosticGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ServiceDiagnosticGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ServiceDiagnosticCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ServiceDiagnosticCountAggregateOutputType> | number
+        }
+      }
+    }
+    SystemStartup: {
+      payload: Prisma.$SystemStartupPayload<ExtArgs>
+      fields: Prisma.SystemStartupFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.SystemStartupFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SystemStartupPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.SystemStartupFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SystemStartupPayload>
+        }
+        findFirst: {
+          args: Prisma.SystemStartupFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SystemStartupPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.SystemStartupFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SystemStartupPayload>
+        }
+        findMany: {
+          args: Prisma.SystemStartupFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SystemStartupPayload>[]
+        }
+        create: {
+          args: Prisma.SystemStartupCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SystemStartupPayload>
+        }
+        createMany: {
+          args: Prisma.SystemStartupCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.SystemStartupCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SystemStartupPayload>[]
+        }
+        delete: {
+          args: Prisma.SystemStartupDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SystemStartupPayload>
+        }
+        update: {
+          args: Prisma.SystemStartupUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SystemStartupPayload>
+        }
+        deleteMany: {
+          args: Prisma.SystemStartupDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.SystemStartupUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.SystemStartupUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SystemStartupPayload>[]
+        }
+        upsert: {
+          args: Prisma.SystemStartupUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SystemStartupPayload>
+        }
+        aggregate: {
+          args: Prisma.SystemStartupAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateSystemStartup>
+        }
+        groupBy: {
+          args: Prisma.SystemStartupGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SystemStartupGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.SystemStartupCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SystemStartupCountAggregateOutputType> | number
+        }
+      }
+    }
+    VentCleaning: {
+      payload: Prisma.$VentCleaningPayload<ExtArgs>
+      fields: Prisma.VentCleaningFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.VentCleaningFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VentCleaningPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.VentCleaningFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VentCleaningPayload>
+        }
+        findFirst: {
+          args: Prisma.VentCleaningFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VentCleaningPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.VentCleaningFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VentCleaningPayload>
+        }
+        findMany: {
+          args: Prisma.VentCleaningFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VentCleaningPayload>[]
+        }
+        create: {
+          args: Prisma.VentCleaningCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VentCleaningPayload>
+        }
+        createMany: {
+          args: Prisma.VentCleaningCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.VentCleaningCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VentCleaningPayload>[]
+        }
+        delete: {
+          args: Prisma.VentCleaningDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VentCleaningPayload>
+        }
+        update: {
+          args: Prisma.VentCleaningUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VentCleaningPayload>
+        }
+        deleteMany: {
+          args: Prisma.VentCleaningDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.VentCleaningUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.VentCleaningUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VentCleaningPayload>[]
+        }
+        upsert: {
+          args: Prisma.VentCleaningUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VentCleaningPayload>
+        }
+        aggregate: {
+          args: Prisma.VentCleaningAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateVentCleaning>
+        }
+        groupBy: {
+          args: Prisma.VentCleaningGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.VentCleaningGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.VentCleaningCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.VentCleaningCountAggregateOutputType> | number
+        }
+      }
+    }
+    DuctCleaning: {
+      payload: Prisma.$DuctCleaningPayload<ExtArgs>
+      fields: Prisma.DuctCleaningFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.DuctCleaningFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DuctCleaningPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.DuctCleaningFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DuctCleaningPayload>
+        }
+        findFirst: {
+          args: Prisma.DuctCleaningFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DuctCleaningPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.DuctCleaningFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DuctCleaningPayload>
+        }
+        findMany: {
+          args: Prisma.DuctCleaningFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DuctCleaningPayload>[]
+        }
+        create: {
+          args: Prisma.DuctCleaningCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DuctCleaningPayload>
+        }
+        createMany: {
+          args: Prisma.DuctCleaningCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.DuctCleaningCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DuctCleaningPayload>[]
+        }
+        delete: {
+          args: Prisma.DuctCleaningDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DuctCleaningPayload>
+        }
+        update: {
+          args: Prisma.DuctCleaningUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DuctCleaningPayload>
+        }
+        deleteMany: {
+          args: Prisma.DuctCleaningDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.DuctCleaningUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.DuctCleaningUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DuctCleaningPayload>[]
+        }
+        upsert: {
+          args: Prisma.DuctCleaningUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DuctCleaningPayload>
+        }
+        aggregate: {
+          args: Prisma.DuctCleaningAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateDuctCleaning>
+        }
+        groupBy: {
+          args: Prisma.DuctCleaningGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DuctCleaningGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.DuctCleaningCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DuctCleaningCountAggregateOutputType> | number
         }
       }
     }
@@ -5430,6 +5730,168 @@ export const DiagnosisFormScalarFieldEnum = {
 export type DiagnosisFormScalarFieldEnum = (typeof DiagnosisFormScalarFieldEnum)[keyof typeof DiagnosisFormScalarFieldEnum]
 
 
+export const ServiceDiagnosticScalarFieldEnum = {
+  id: 'id',
+  appointmentId: 'appointmentId',
+  technicianId: 'technicianId',
+  serviceType: 'serviceType',
+  customerReportedIssue: 'customerReportedIssue',
+  arrivalTime: 'arrivalTime',
+  diagnosticStartTime: 'diagnosticStartTime',
+  diagnosticCompletionTime: 'diagnosticCompletionTime',
+  equipmentInspected: 'equipmentInspected',
+  systemOperatingOnArrival: 'systemOperatingOnArrival',
+  visibleDamage: 'visibleDamage',
+  waterLeakPresent: 'waterLeakPresent',
+  unusualNoise: 'unusualNoise',
+  burningSmell: 'burningSmell',
+  immediateSafetyConcern: 'immediateSafetyConcern',
+  safetyConcernDescription: 'safetyConcernDescription',
+  sectionData: 'sectionData',
+  problemFound: 'problemFound',
+  rootCause: 'rootCause',
+  evidenceSupportingDiagnosis: 'evidenceSupportingDiagnosis',
+  affectedComponents: 'affectedComponents',
+  recommendedRepair: 'recommendedRepair',
+  additionalRecommendations: 'additionalRecommendations',
+  partsRequired: 'partsRequired',
+  repairUrgency: 'repairUrgency',
+  canCustomerContinueUsing: 'canCustomerContinueUsing',
+  cannotContinueExplanation: 'cannotContinueExplanation',
+  finalDiagnosis: 'finalDiagnosis',
+  recommendedCorrectiveWork: 'recommendedCorrectiveWork',
+  estimatedRepairType: 'estimatedRepairType',
+  systemStatusWhenLeaving: 'systemStatusWhenLeaving',
+  completedAt: 'completedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  status: 'status',
+  reviewedById: 'reviewedById',
+  reviewedAt: 'reviewedAt',
+  supervisorComment: 'supervisorComment',
+  customerReportSentAt: 'customerReportSentAt',
+  reportToken: 'reportToken'
+} as const
+
+export type ServiceDiagnosticScalarFieldEnum = (typeof ServiceDiagnosticScalarFieldEnum)[keyof typeof ServiceDiagnosticScalarFieldEnum]
+
+
+export const SystemStartupScalarFieldEnum = {
+  id: 'id',
+  appointmentId: 'appointmentId',
+  technicianId: 'technicianId',
+  additionalTechnicians: 'additionalTechnicians',
+  systemType: 'systemType',
+  installationType: 'installationType',
+  permitNumber: 'permitNumber',
+  startupDateTime: 'startupDateTime',
+  equipment: 'equipment',
+  installationChecklist: 'installationChecklist',
+  refrigerantCircuit: 'refrigerantCircuit',
+  vacuumEvacuation: 'vacuumEvacuation',
+  electricalReadings: 'electricalReadings',
+  airflowPerformance: 'airflowPerformance',
+  drainTest: 'drainTest',
+  heatingStartup: 'heatingStartup',
+  thermostatControls: 'thermostatControls',
+  finalTestResults: 'finalTestResults',
+  finalStartupResult: 'finalStartupResult',
+  failExplanation: 'failExplanation',
+  technicianCertified: 'technicianCertified',
+  technicianSignatureUrl: 'technicianSignatureUrl',
+  technicianCertifiedAt: 'technicianCertifiedAt',
+  handoverChecklist: 'handoverChecklist',
+  customerSignatureUrl: 'customerSignatureUrl',
+  customerHandoverAt: 'customerHandoverAt',
+  status: 'status',
+  reviewedById: 'reviewedById',
+  reviewedAt: 'reviewedAt',
+  supervisorComment: 'supervisorComment',
+  customerReportSentAt: 'customerReportSentAt',
+  reportToken: 'reportToken',
+  completedAt: 'completedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SystemStartupScalarFieldEnum = (typeof SystemStartupScalarFieldEnum)[keyof typeof SystemStartupScalarFieldEnum]
+
+
+export const VentCleaningScalarFieldEnum = {
+  id: 'id',
+  appointmentId: 'appointmentId',
+  technicianId: 'technicianId',
+  propertyType: 'propertyType',
+  totalVentsAuthorized: 'totalVentsAuthorized',
+  supplyVentsAuthorized: 'supplyVentsAuthorized',
+  returnVentsAuthorized: 'returnVentsAuthorized',
+  overallCondition: 'overallCondition',
+  overallConditionOther: 'overallConditionOther',
+  beforePhotos: 'beforePhotos',
+  vents: 'vents',
+  workPerformed: 'workPerformed',
+  additionalFindings: 'additionalFindings',
+  additionalFindingsOther: 'additionalFindingsOther',
+  recommendedAdditionalService: 'recommendedAdditionalService',
+  totalVentsCleaned: 'totalVentsCleaned',
+  completionStatus: 'completionStatus',
+  technicianNotes: 'technicianNotes',
+  technicianSignatureUrl: 'technicianSignatureUrl',
+  customerSignatureUrl: 'customerSignatureUrl',
+  completedAt: 'completedAt',
+  customerReportSentAt: 'customerReportSentAt',
+  reportToken: 'reportToken',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type VentCleaningScalarFieldEnum = (typeof VentCleaningScalarFieldEnum)[keyof typeof VentCleaningScalarFieldEnum]
+
+
+export const DuctCleaningScalarFieldEnum = {
+  id: 'id',
+  appointmentId: 'appointmentId',
+  technicianId: 'technicianId',
+  propertyType: 'propertyType',
+  systemsCount: 'systemsCount',
+  systemsServiced: 'systemsServiced',
+  totalSupplyRegisters: 'totalSupplyRegisters',
+  totalReturnRegisters: 'totalReturnRegisters',
+  ductMaterial: 'ductMaterial',
+  preCleaningInspection: 'preCleaningInspection',
+  contaminationObserved: 'contaminationObserved',
+  contaminationOther: 'contaminationOther',
+  systemProblemsFound: 'systemProblemsFound',
+  systemProblemsOther: 'systemProblemsOther',
+  technicianFindings: 'technicianFindings',
+  cleaningProcedure: 'cleaningProcedure',
+  equipmentMethodUsed: 'equipmentMethodUsed',
+  registers: 'registers',
+  componentCleaning: 'componentCleaning',
+  additionalIssueFound: 'additionalIssueFound',
+  issuesFound: 'issuesFound',
+  issuesOther: 'issuesOther',
+  issuePhotoUrl: 'issuePhotoUrl',
+  additionalRepairRecommended: 'additionalRepairRecommended',
+  separateEstimateRequired: 'separateEstimateRequired',
+  finalInspection: 'finalInspection',
+  systemConditionAfter: 'systemConditionAfter',
+  notOperatedExplanation: 'notOperatedExplanation',
+  beforePhotos: 'beforePhotos',
+  afterPhotos: 'afterPhotos',
+  technicianNotes: 'technicianNotes',
+  technicianSignatureUrl: 'technicianSignatureUrl',
+  customerSignatureUrl: 'customerSignatureUrl',
+  completedAt: 'completedAt',
+  customerReportSentAt: 'customerReportSentAt',
+  reportToken: 'reportToken',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type DuctCleaningScalarFieldEnum = (typeof DuctCleaningScalarFieldEnum)[keyof typeof DuctCleaningScalarFieldEnum]
+
+
 export const JobPhotoScalarFieldEnum = {
   id: 'id',
   appointmentId: 'appointmentId',
@@ -5845,7 +6307,8 @@ export const FormSubmissionScalarFieldEnum = {
   technicianId: 'technicianId',
   values: 'values',
   submittedAt: 'submittedAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  reportToken: 'reportToken'
 } as const
 
 export type FormSubmissionScalarFieldEnum = (typeof FormSubmissionScalarFieldEnum)[keyof typeof FormSubmissionScalarFieldEnum]
@@ -6139,6 +6602,20 @@ export type ListEnumOrderStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$
 
 
 /**
+ * Reference to a field of type 'DiagnosticStatus'
+ */
+export type EnumDiagnosticStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DiagnosticStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'DiagnosticStatus[]'
+ */
+export type ListEnumDiagnosticStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DiagnosticStatus[]'>
+    
+
+
+/**
  * Reference to a field of type 'PaymentMethod'
  */
 export type EnumPaymentMethodFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PaymentMethod'>
@@ -6403,6 +6880,10 @@ export type GlobalOmitConfig = {
   estimate?: Prisma.EstimateOmit
   priceBookItem?: Prisma.PriceBookItemOmit
   diagnosisForm?: Prisma.DiagnosisFormOmit
+  serviceDiagnostic?: Prisma.ServiceDiagnosticOmit
+  systemStartup?: Prisma.SystemStartupOmit
+  ventCleaning?: Prisma.VentCleaningOmit
+  ductCleaning?: Prisma.DuctCleaningOmit
   jobPhoto?: Prisma.JobPhotoOmit
   jobPayment?: Prisma.JobPaymentOmit
   serviceChecklist?: Prisma.ServiceChecklistOmit

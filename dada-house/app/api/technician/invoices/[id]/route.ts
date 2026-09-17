@@ -192,7 +192,7 @@ function buildInvoiceEmail(
     </div>
 
     <p style="color:#6b7280;font-size:12px;margin-top:24px;border-top:1px solid #e5e7eb;padding-top:16px">
-      Prepared by ${techName} · DADA HOUSE · 7001 South Texas 6 STE 246, Houston, TX 77083<br>
+      DADA HOUSE · TX: 7001 South Texas 6 STE 246, Houston, TX 77083 · NC: 106 Thompson Street, Jacksonville, NC 28540<br>
       (844) 928-0875 · customerservice@dada-house.com
     </p>
   </div>

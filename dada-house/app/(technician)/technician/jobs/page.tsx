@@ -7,6 +7,7 @@ import {
   Phone, Navigation, Search, Loader2,
 } from "lucide-react";
 import { TECH_STATUS_COLOR } from "@/lib/tech-status";
+import { CallButton } from "@/components/technician/call-sms-actions";
 
 type Job = {
   id: string; appointmentNumber: string; name: string; phone: string;
@@ -147,13 +148,12 @@ function JobsPageInner() {
                   </div>
                 </div>
                 <div className="flex gap-2 mt-3">
-                  <a
-                    href={`tel:${j.phone}`}
-                    onClick={(e) => e.stopPropagation()}
+                  <CallButton
+                    jobId={j.id}
                     className="flex-1 flex items-center justify-center gap-1 py-1.5 bg-gray-100 rounded-lg text-xs font-medium text-gray-700"
                   >
                     <Phone className="w-3.5 h-3.5" /> Call
-                  </a>
+                  </CallButton>
                   <a
                     href={`https://maps.google.com/?q=${encodeURIComponent(`${j.address} ${j.city}`)}`}
                     target="_blank" rel="noopener noreferrer"

@@ -12,7 +12,10 @@ export async function GET(req: NextRequest) {
     where: {
       status: { in: ["PENDING", "CONFIRMED", "IN_PROGRESS"] },
     },
-    orderBy: [{ preferredDate: "asc" }, { createdAt: "desc" }],
+    // Most recently booked first — a job created a minute ago (from any source:
+    // website, AI voice agent, or a dispatcher creating it manually) should
+    // always surface at the top so nothing new gets missed.
+    orderBy: { createdAt: "desc" },
     include: {
       technician: { select: { name: true } },
     },

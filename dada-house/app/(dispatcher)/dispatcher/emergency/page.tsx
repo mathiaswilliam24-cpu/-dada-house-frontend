@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState, useEffect } from "react";
 import { AlertTriangle, Phone, Zap, ChevronRight } from "lucide-react";
 import Link from "next/link";
@@ -18,7 +18,7 @@ export default function DispatcherEmergencyPage() {
       </div>
       <div className="grid grid-cols-2 gap-3">
         <a href="tel:+18449280875" className="bg-red-50 border border-red-200 rounded-xl p-4 flex items-center gap-3 hover:bg-red-100 transition-colors">
-          <Phone className="w-5 h-5 text-red-600" /><div><p className="font-semibold text-red-900 text-sm">Emergency Line</p><p className="text-xs text-red-600">(346) 649-9353</p></div>
+          <Phone className="w-5 h-5 text-red-600" /><div><p className="font-semibold text-red-900 text-sm">Emergency Line</p><p className="text-xs text-red-600">(844) 928-0875</p></div>
         </a>
         <a href="tel:+18449280875" className="bg-blue-50 border border-blue-200 rounded-xl p-4 flex items-center gap-3 hover:bg-blue-100 transition-colors">
           <Phone className="w-5 h-5 text-blue-600" /><div><p className="font-semibold text-blue-900 text-sm">Service Line</p><p className="text-xs text-blue-600">844-928-0875</p></div>

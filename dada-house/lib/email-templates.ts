@@ -1,4 +1,4 @@
-const LOGO_URL = "https://dada-house.com/logo%20dada%20house.png";
+﻿const LOGO_URL = "https://dada-house.com/logo%20dada%20house.png";
 
 interface AppointmentEmailData {
   appointmentNumber: string;
@@ -81,8 +81,8 @@ export function appointmentConfirmationHtml(data: AppointmentEmailData): string 
 
               <div style="background:#FFF7ED;border:1px solid #FED7AA;border-radius:12px;padding:20px;margin-top:24px;">
                 <p style="margin:0 0 8px;color:#c2620a;font-size:13px;font-weight:700;">📞 Need immediate assistance?</p>
-                <p style="margin:0;color:#9A3412;font-size:13px;">Service Line: <strong>+1 (346) 649-9353</strong></p>
-                <p style="margin:4px 0 0;color:#9A3412;font-size:13px;">Emergency: <strong>832-626-4398</strong></p>
+                <p style="margin:0;color:#9A3412;font-size:13px;">Service Line: <strong>+1 (844) 928-0875</strong></p>
+                <p style="margin:4px 0 0;color:#9A3412;font-size:13px;">Emergency: <strong>844-928-0875</strong></p>
               </div>
             </td>
           </tr>
@@ -144,7 +144,7 @@ export function statusUpdateHtml(data: {
               <p style="margin:0;font-size:24px;font-weight:900;color:${color};">${label}</p>
             </div>
             ${data.notes ? `<p style="margin:0;color:#475569;font-size:14px;background:#F0F9FF;border:1px solid #BAE6FD;border-radius:8px;padding:16px;">Note from our team: ${data.notes}</p>` : ""}
-            <p style="margin:24px 0 0;color:#64748B;font-size:13px;">Questions? Call us at <strong>+1 (346) 649-9353</strong> or <strong>832-626-4398</strong> (Emergency).</p>
+            <p style="margin:24px 0 0;color:#64748B;font-size:13px;">Questions? Call us at <strong>+1 (844) 928-0875</strong> or <strong>844-928-0875</strong> (Emergency).</p>
           </td>
         </tr>
         <tr>
@@ -285,8 +285,8 @@ export function buildReviewRequestEmail(name: string, service: string, reviewUrl
       ⭐ Leave a Review
     </a>
     <p style="color:#6b7280;font-size:12px;margin-top:24px;border-top:1px solid #e5e7eb;padding-top:16px">
-      DADA HOUSE · 7001 South Texas 6 STE 246, Houston, TX 77083<br>
-      (346) 649-9353 · customerservice@dada-house.com
+      DADA HOUSE · TX: 7001 South Texas 6 STE 246, Houston, TX 77083 · NC: 106 Thompson Street, Jacksonville, NC 28540<br>
+      (844) 928-0875 · customerservice@dada-house.com
     </p>
   </div>
 </body>
@@ -332,9 +332,114 @@ export function buildEstimateEmail(
     </div>
     ${est.additionalDetails ? `<p style="margin-top:16px;padding:12px;background:#f9fafb;border-radius:6px;font-size:14px">${est.additionalDetails}</p>` : ""}
     <p style="margin-top:24px">To accept this estimate or have any questions, please contact us:</p>
-    <p>📞 (346) 649-9353 · ✉️ customerservice@dada-house.com</p>
+    <p>📞 (844) 928-0875 · ✉️ customerservice@dada-house.com</p>
     <p style="color:#6b7280;font-size:12px;margin-top:24px;border-top:1px solid #e5e7eb;padding-top:16px">
-      Prepared by ${preparedBy} · DADA HOUSE · 7001 South Texas 6 STE 246, Houston, TX 77083
+      DADA HOUSE<br>
+      TX: 7001 South Texas 6 STE 246, Houston, TX 77083<br>
+      NC: 106 Thompson Street, Jacksonville, NC 28540
+    </p>
+  </div>
+</body>
+</html>`;
+}
+
+/** A "Recommended Work" estimate section with a pay link, meant to be appended to
+ *  another email's HTML (e.g. a service-form or diagnostic report email) rather than
+ *  sent standalone. Used by app/api/technician/jobs/[id]/forms/[slug]/route.ts and
+ *  app/api/admin/diagnostics/[id]/route.ts. */
+export function buildEstimateSection(
+  estimate: { estimateNumber: string; total: number; additionalDetails: string | null },
+  lineItems: Array<{ desc: string; rate: number; qty: number; amount: number }>,
+  paymentUrl: string
+): string {
+  const itemRows = lineItems
+    .map(
+      (item) =>
+        `<tr><td style="padding:8px 4px;border-bottom:1px solid #f0f0f0">${item.desc}</td><td style="padding:8px 4px;border-bottom:1px solid #f0f0f0;text-align:right">$${item.rate.toFixed(2)}</td><td style="padding:8px 4px;border-bottom:1px solid #f0f0f0;text-align:center">${item.qty}</td><td style="padding:8px 4px;border-bottom:1px solid #f0f0f0;text-align:right;font-weight:bold">$${item.amount.toFixed(2)}</td></tr>`
+    )
+    .join("");
+
+  return `
+    <div style="margin-top:24px;padding-top:20px;border-top:2px solid #e5e7eb">
+      <h3 style="color:#1B3FA8;margin:0 0 4px">Recommended Work — Estimate #${estimate.estimateNumber}</h3>
+      <p style="margin:0 0 12px;font-size:13px;color:#6b7280">Based on today's visit, here's what your technician recommends:</p>
+      <table style="width:100%;border-collapse:collapse;margin-bottom:12px">
+        <thead>
+          <tr style="background:#f9fafb">
+            <th style="padding:10px 4px;text-align:left;font-size:12px;color:#6b7280;border-bottom:2px solid #e5e7eb">DESCRIPTION</th>
+            <th style="padding:10px 4px;text-align:right;font-size:12px;color:#6b7280;border-bottom:2px solid #e5e7eb">RATE</th>
+            <th style="padding:10px 4px;text-align:center;font-size:12px;color:#6b7280;border-bottom:2px solid #e5e7eb">QTY</th>
+            <th style="padding:10px 4px;text-align:right;font-size:12px;color:#6b7280;border-bottom:2px solid #e5e7eb">AMOUNT</th>
+          </tr>
+        </thead>
+        <tbody>${itemRows}</tbody>
+      </table>
+      <div style="text-align:right;font-size:16px;font-weight:bold;color:#1B3FA8;border-top:2px solid #1B3FA8;padding-top:10px;margin-bottom:16px">
+        Total: $${estimate.total.toFixed(2)}
+      </div>
+      ${estimate.additionalDetails ? `<p style="margin:0 0 16px;padding:12px;background:#f9fafb;border-radius:6px;font-size:13px">${estimate.additionalDetails}</p>` : ""}
+      <a href="${paymentUrl}" style="display:block;text-align:center;background:#1B3FA8;color:white;padding:14px 24px;border-radius:8px;text-decoration:none;font-weight:bold;font-size:15px">
+        View Estimate & Pay
+      </a>
+    </div>`;
+}
+
+/** Same layout as buildEstimateEmail but for an estimate that's been converted to a
+ *  payable invoice — swaps the "contact us" footer for a Pay Now button + method
+ *  shortcuts, matching the existing technician-invoice email (app/api/technician/invoices/[id]/route.ts). */
+export function buildEstimateInvoiceEmail(
+  est: { estimateNumber: string; clientName: string; total: number; additionalDetails?: string | null },
+  lineItems: Array<{ desc: string; rate: number; qty: number; amount: number }>,
+  preparedBy: string,
+  paymentUrl: string
+): string {
+  const itemRows = lineItems.map((item) =>
+    `<tr><td style="padding:8px 4px;border-bottom:1px solid #f0f0f0">${item.desc}</td><td style="padding:8px 4px;border-bottom:1px solid #f0f0f0;text-align:right">$${item.rate.toFixed(2)}</td><td style="padding:8px 4px;border-bottom:1px solid #f0f0f0;text-align:center">${item.qty}</td><td style="padding:8px 4px;border-bottom:1px solid #f0f0f0;text-align:right;font-weight:bold">$${item.amount.toFixed(2)}</td></tr>`
+  ).join("");
+
+  return `
+<!DOCTYPE html>
+<html>
+<body style="font-family:Arial,sans-serif;max-width:620px;margin:0 auto;padding:20px;color:#333">
+  <div style="background:#1B3FA8;padding:24px;border-radius:8px 8px 0 0;text-align:center">
+    <div style="background:#ffffff;border-radius:8px;display:inline-block;padding:8px 20px;margin-bottom:8px">
+      <img src="${LOGO_URL}" alt="DADA HOUSE" height="40" style="display:block;height:40px" />
+    </div>
+    <p style="color:#93c5fd;margin:4px 0 0">Premier Home Services · TX · NC · MD</p>
+  </div>
+  <div style="border:1px solid #e5e7eb;border-top:none;padding:24px;border-radius:0 0 8px 8px">
+    <h2 style="color:#1B3FA8;margin-top:0">Invoice #${est.estimateNumber}</h2>
+    <p>Dear ${est.clientName},</p>
+    <p>Thank you for choosing DADA HOUSE. Please find your invoice below:</p>
+    <table style="width:100%;border-collapse:collapse;margin:16px 0">
+      <thead>
+        <tr style="background:#f9fafb">
+          <th style="padding:10px 4px;text-align:left;font-size:12px;color:#6b7280;border-bottom:2px solid #e5e7eb">DESCRIPTION</th>
+          <th style="padding:10px 4px;text-align:right;font-size:12px;color:#6b7280;border-bottom:2px solid #e5e7eb">RATE</th>
+          <th style="padding:10px 4px;text-align:center;font-size:12px;color:#6b7280;border-bottom:2px solid #e5e7eb">QTY</th>
+          <th style="padding:10px 4px;text-align:right;font-size:12px;color:#6b7280;border-bottom:2px solid #e5e7eb">AMOUNT</th>
+        </tr>
+      </thead>
+      <tbody>${itemRows}</tbody>
+    </table>
+    <div style="text-align:right;font-size:18px;font-weight:bold;color:#1B3FA8;border-top:2px solid #1B3FA8;padding-top:12px;margin-bottom:24px">
+      Total Due: $${est.total.toFixed(2)}
+    </div>
+    ${est.additionalDetails ? `<p style="padding:12px;background:#f9fafb;border-radius:6px;font-size:14px;margin-bottom:24px">${est.additionalDetails}</p>` : ""}
+
+    <p style="font-weight:bold;margin-bottom:8px">Choose how you'd like to pay:</p>
+    <a href="${paymentUrl}" style="display:block;text-align:center;background:#1B3FA8;color:white;padding:16px 24px;border-radius:8px;text-decoration:none;font-weight:bold;font-size:16px;margin-bottom:16px">
+      Pay Now — Select Payment Method
+    </a>
+    <div style="display:flex;gap:8px;margin-bottom:24px">
+      <a href="${paymentUrl}?method=zelle" style="flex:1;text-align:center;background:#6C4BEF;color:white;padding:12px;border-radius:8px;text-decoration:none;font-size:13px;font-weight:bold">Zelle</a>
+      <a href="${paymentUrl}?method=card" style="flex:1;text-align:center;background:#059669;color:white;padding:12px;border-radius:8px;text-decoration:none;font-size:13px;font-weight:bold">Credit/Debit Card</a>
+      <a href="${paymentUrl}?method=cash" style="flex:1;text-align:center;background:#78716c;color:white;padding:12px;border-radius:8px;text-decoration:none;font-size:13px;font-weight:bold">Cash</a>
+    </div>
+
+    <p style="color:#6b7280;font-size:12px;margin-top:24px;border-top:1px solid #e5e7eb;padding-top:16px">
+      DADA HOUSE · TX: 7001 South Texas 6 STE 246, Houston, TX 77083 · NC: 106 Thompson Street, Jacksonville, NC 28540<br>
+      (844) 928-0875 · customerservice@dada-house.com
     </p>
   </div>
 </body>

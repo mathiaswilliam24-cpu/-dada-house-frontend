@@ -55,7 +55,7 @@ export function ProfileForm({ user }: { user: UserProfile }) {
       <div className="flex items-center gap-4 mb-6 pb-6 border-b border-gray-100">
         <div className="w-16 h-16 bg-[#1B3FA8] rounded-full flex items-center justify-center shrink-0">
           <span className="text-2xl font-bold text-white">
-            {(user.name ?? user.email)[0].toUpperCase()}
+            {(user.name?.trim() || user.email)[0]?.toUpperCase() ?? "?"}
           </span>
         </div>
         <div>

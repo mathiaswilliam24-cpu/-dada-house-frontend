@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import BookingForm from "@/components/booking/booking-form";
 import { Phone, AlertTriangle } from "lucide-react";
 
@@ -38,7 +38,7 @@ export default function BookingPage() {
               className="flex items-center gap-2 text-red-400 hover:text-red-300 text-sm font-semibold transition-colors"
             >
               <AlertTriangle size={14} />
-              Emergency: (346) 649-9353
+              Emergency: (844) 928-0875
             </a>
           </div>
         </div>

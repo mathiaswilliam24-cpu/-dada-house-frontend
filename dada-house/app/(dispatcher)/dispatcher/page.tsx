@@ -1,9 +1,16 @@
-﻿"use client";
+"use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Clock, MapPin, User, Plus, ChevronRight, Mail, CheckCircle, Loader2 } from "lucide-react";
+import { formatDistanceToNowStrict } from "date-fns";
+import { Clock, MapPin, User, Plus, ChevronRight, Mail, CheckCircle, Loader2, HardHat, AlertTriangle, Globe, Bot, Headset } from "lucide-react";
 
-type Appt = { id: string; appointmentNumber: string; name: string; phone: string; email: string; address: string; city: string; service: string; status: string; techStatus: string | null; preferredDate: string | null; preferredTime: string | null; technicianId: string | null; };
+type Appt = {
+  id: string; appointmentNumber: string; name: string; phone: string; email: string;
+  address: string; city: string; service: string; status: string; techStatus: string | null;
+  preferredDate: string | null; preferredTime: string | null;
+  technicianId: string | null; technician: { name: string | null } | null;
+  source: string; createdAt: string;
+};
 
 const STATUS_COLORS: Record<string, string> = {
   PENDING: "bg-yellow-50 text-yellow-700 border-yellow-200",
@@ -13,12 +20,22 @@ const STATUS_COLORS: Record<string, string> = {
   CANCELLED: "bg-gray-50 text-gray-500 border-gray-200",
 };
 
+const SOURCE_INFO: Record<string, { label: string; icon: typeof Globe }> = {
+  website: { label: "Website", icon: Globe },
+  voice_agent: { label: "AI Agent", icon: Bot },
+  dispatcher: { label: "Dispatcher", icon: Headset },
+  admin: { label: "Admin", icon: Headset },
+};
+
+const NEW_WINDOW_MINUTES = 15;
+
 export default function DispatcherPage() {
   const [appts, setAppts] = useState<Appt[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("all");
   const [sending, setSending] = useState<string | null>(null);
   const [sent, setSent] = useState<Set<string>>(new Set());
+  const [now, setNow] = useState(() => Date.now());
   const today = new Date().toISOString().split("T")[0];
 
   async function sendConfirmation(e: React.MouseEvent, apptId: string) {
@@ -38,6 +55,12 @@ export default function DispatcherPage() {
       .then(r => r.json())
       .then(d => { setAppts(d.appointments ?? []); setLoading(false); })
       .catch(() => setLoading(false));
+  }, []);
+
+  // Keep "booked X min ago" / "NEW" badges live without refetching.
+  useEffect(() => {
+    const interval = setInterval(() => setNow(Date.now()), 30000);
+    return () => clearInterval(interval);
   }, []);
 
   const filtered = filter === "all" ? appts : filter === "unassigned" ? appts.filter(a => !a.technicianId) : appts.filter(a => a.status === filter.toUpperCase());
@@ -77,49 +100,78 @@ export default function DispatcherPage() {
 
       {loading ? <div className="text-center py-10 text-gray-400">Loading…</div> : (
         <div className="space-y-3">
-          {filtered.map(a => (
-            <Link key={a.id} href={`/dispatcher/assign?id=${a.id}`}
-              className="block bg-white rounded-xl border border-gray-200 p-4 hover:border-blue-200 hover:shadow-sm transition-all group">
-              <div className="flex items-start justify-between gap-3">
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className="font-semibold text-gray-900 text-sm">{a.service}</span>
-                    {!a.technicianId && a.status !== "COMPLETED" && a.status !== "CANCELLED" && (
-                      <span className="text-xs bg-red-50 text-red-600 border border-red-200 px-1.5 py-0.5 rounded-full font-medium">Unassigned</span>
-                    )}
+          {filtered.map(a => {
+            const isUnassigned = !a.technicianId && a.status !== "COMPLETED" && a.status !== "CANCELLED";
+            const source = SOURCE_INFO[a.source] ?? SOURCE_INFO.dispatcher;
+            const SourceIcon = source.icon;
+            const ageMinutes = (now - new Date(a.createdAt).getTime()) / 60000;
+            const isNew = ageMinutes < NEW_WINDOW_MINUTES;
+
+            return (
+              <Link key={a.id} href={`/dispatcher/assign?id=${a.id}`}
+                className={`block bg-white rounded-xl border p-4 hover:shadow-sm transition-all group ${isNew ? "border-[#F7921A] ring-1 ring-[#F7921A]/30" : isUnassigned ? "border-red-200" : "border-gray-200 hover:border-blue-200"}`}>
+                <div className="flex items-start justify-between gap-3">
+                  <div className="flex-1 min-w-0">
+                    {/* Top row: service, source, freshness */}
+                    <div className="flex items-center gap-2 mb-2 flex-wrap">
+                      <span className="font-semibold text-gray-900 text-sm">{a.service}</span>
+                      <span className="inline-flex items-center gap-1 text-[11px] text-gray-500 bg-gray-50 border border-gray-200 px-1.5 py-0.5 rounded-full">
+                        <SourceIcon className="w-3 h-3" /> {source.label}
+                      </span>
+                      {isNew && (
+                        <span className="text-[10px] bg-[#F7921A] text-white px-1.5 py-0.5 rounded-full font-bold animate-pulse">NEW</span>
+                      )}
+                      <span className="text-[11px] text-gray-400 ml-auto shrink-0">
+                        Booked {formatDistanceToNowStrict(new Date(a.createdAt), { addSuffix: true })}
+                      </span>
+                    </div>
+
+                    {/* Technician assignment — always visible, unmissable when missing */}
+                    <div className="mb-2">
+                      {isUnassigned ? (
+                        <span className="inline-flex items-center gap-1.5 text-xs bg-red-50 text-red-700 border border-red-200 px-2 py-1 rounded-lg font-bold">
+                          <AlertTriangle className="w-3.5 h-3.5" /> UNASSIGNED — Needs Technician
+                        </span>
+                      ) : (
+                        <span className="inline-flex items-center gap-1.5 text-xs bg-green-50 text-green-700 border border-green-200 px-2 py-1 rounded-lg font-semibold">
+                          <HardHat className="w-3.5 h-3.5" /> {a.technician?.name ?? "Assigned"}
+                        </span>
+                      )}
+                    </div>
+
+                    <div className="flex items-center gap-1 text-xs text-gray-500 mb-0.5"><User className="w-3 h-3" />{a.name} · {a.phone}</div>
+                    <div className="flex items-center gap-1 text-xs text-gray-500"><MapPin className="w-3 h-3 shrink-0" />{a.address}, {a.city}</div>
+                    {a.preferredDate && <div className="flex items-center gap-1 text-xs text-gray-400 mt-0.5"><Clock className="w-3 h-3" />{new Date(a.preferredDate).toLocaleDateString()}{a.preferredTime ? ` at ${a.preferredTime}` : ""}</div>}
+                    {/* Confirmation row */}
+                    <div className="mt-2">
+                      {a.status === "CONFIRMED" ? (
+                        <span className="inline-flex items-center gap-1 text-xs bg-green-50 text-green-700 border border-green-200 px-2 py-0.5 rounded-full font-semibold">
+                          <CheckCircle className="w-3 h-3" /> Confirmed by client
+                        </span>
+                      ) : sent.has(a.id) ? (
+                        <span className="inline-flex items-center gap-1 text-xs bg-orange-50 text-orange-700 border border-orange-200 px-2 py-0.5 rounded-full font-semibold">
+                          <Mail className="w-3 h-3" /> Confirmation email sent
+                        </span>
+                      ) : (
+                        <button
+                          onClick={(e) => sendConfirmation(e, a.id)}
+                          disabled={sending === a.id}
+                          className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#F7921A] hover:bg-[#E07F10] disabled:opacity-60 text-white text-xs font-bold rounded-lg transition-colors"
+                        >
+                          {sending === a.id ? <Loader2 className="w-3 h-3 animate-spin" /> : <Mail className="w-3 h-3" />}
+                          Send Confirmation Email
+                        </button>
+                      )}
+                    </div>
                   </div>
-                  <div className="flex items-center gap-1 text-xs text-gray-500 mb-0.5"><User className="w-3 h-3" />{a.name} · {a.phone}</div>
-                  <div className="flex items-center gap-1 text-xs text-gray-500"><MapPin className="w-3 h-3 shrink-0" />{a.address}, {a.city}</div>
-                  {a.preferredDate && <div className="flex items-center gap-1 text-xs text-gray-400 mt-0.5"><Clock className="w-3 h-3" />{new Date(a.preferredDate).toLocaleDateString()}{a.preferredTime ? ` at ${a.preferredTime}` : ""}</div>}
-                  {/* Confirmation row */}
-                  <div className="mt-2">
-                    {a.status === "CONFIRMED" ? (
-                      <span className="inline-flex items-center gap-1 text-xs bg-green-50 text-green-700 border border-green-200 px-2 py-0.5 rounded-full font-semibold">
-                        <CheckCircle className="w-3 h-3" /> Confirmed by client
-                      </span>
-                    ) : sent.has(a.id) ? (
-                      <span className="inline-flex items-center gap-1 text-xs bg-orange-50 text-orange-700 border border-orange-200 px-2 py-0.5 rounded-full font-semibold">
-                        <Mail className="w-3 h-3" /> Confirmation email sent
-                      </span>
-                    ) : (
-                      <button
-                        onClick={(e) => sendConfirmation(e, a.id)}
-                        disabled={sending === a.id}
-                        className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#F7921A] hover:bg-[#E07F10] disabled:opacity-60 text-white text-xs font-bold rounded-lg transition-colors"
-                      >
-                        {sending === a.id ? <Loader2 className="w-3 h-3 animate-spin" /> : <Mail className="w-3 h-3" />}
-                        Send Confirmation Email
-                      </button>
-                    )}
+                  <div className="flex items-center gap-2 shrink-0">
+                    <span className={`text-xs px-2 py-0.5 rounded-full font-medium border ${STATUS_COLORS[a.status] ?? "bg-gray-50 text-gray-600 border-gray-200"}`}>{a.status.replace("_"," ")}</span>
+                    <ChevronRight className="w-4 h-4 text-gray-300 group-hover:text-gray-500" />
                   </div>
                 </div>
-                <div className="flex items-center gap-2 shrink-0">
-                  <span className={`text-xs px-2 py-0.5 rounded-full font-medium border ${STATUS_COLORS[a.status] ?? "bg-gray-50 text-gray-600 border-gray-200"}`}>{a.status.replace("_"," ")}</span>
-                  <ChevronRight className="w-4 h-4 text-gray-300 group-hover:text-gray-500" />
-                </div>
-              </div>
-            </Link>
-          ))}
+              </Link>
+            );
+          })}
           {filtered.length === 0 && <div className="bg-white rounded-xl border border-gray-200 p-10 text-center text-gray-400 text-sm">No appointments</div>}
         </div>
       )}

@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import { formatCurrency } from "@/lib/utils";
 import { TECH_STATUS_LABEL, TECH_STATUS_COLOR } from "@/lib/tech-status";
+import { CallButton } from "@/components/technician/call-sms-actions";
 
 type Job = {
   id: string; appointmentNumber: string; name: string; phone: string;
@@ -58,13 +59,12 @@ function JobCard({ job }: { job: Job }) {
         <ChevronRight className="w-4 h-4 text-gray-300 shrink-0 mt-1" />
       </div>
       <div className="mt-3 flex gap-2">
-        <a
-          href={`tel:${job.phone}`}
-          onClick={(e) => e.stopPropagation()}
+        <CallButton
+          jobId={job.id}
           className="flex-1 flex items-center justify-center gap-1.5 py-2 bg-gray-100 rounded-xl text-xs font-semibold text-gray-700"
         >
           <Phone className="w-3.5 h-3.5" /> Call
-        </a>
+        </CallButton>
         <a
           href={`https://maps.google.com/?q=${encodeURIComponent(`${job.address} ${job.city}`)}`}
           target="_blank" rel="noopener noreferrer"

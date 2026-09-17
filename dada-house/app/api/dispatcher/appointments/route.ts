@@ -1,10 +1,11 @@
-import { NextRequest, NextResponse } from "next/server";
+﻿import { NextRequest, NextResponse } from "next/server";
 import { requireAdminOrDispatcher } from "@/lib/api-auth";
 import { db } from "@/lib/db";
 import { generateAppointmentNumber } from "@/lib/utils";
 import { sendAppointmentConfirmationEmail, sendAppointmentConfirmationSms, sendTechnicianAssignmentNotification } from "@/lib/appointment-notifications";
 import { resend, FROM_EMAIL } from "@/lib/resend";
 import { sendOutboundSms } from "@/lib/messaging";
+import { findOrCreateCustomerByPhone, splitName, normalizePhone } from "@/lib/customers";
 import { z } from "zod";
 import crypto from "crypto";
 
@@ -45,6 +46,20 @@ export async function POST(req: NextRequest) {
   const appointmentNumber = generateAppointmentNumber();
   const confirmationToken = crypto.randomBytes(32).toString("hex");
 
+  // Keep the call-center Customer record in sync: whether this job is for a
+  // brand-new client or one picked from search, the address typed here should
+  // stick to their profile so the next "Book Appointment" from their page
+  // doesn't ask for it again.
+  const { firstName, lastName } = splitName(data.name);
+  const customer = await findOrCreateCustomerByPhone(data.phone, {
+    firstName,
+    lastName: lastName ?? undefined,
+    email: data.email || undefined,
+    address: data.address,
+    city: data.city,
+    zipCode: data.zipCode || undefined,
+  }).catch(() => null);
+
   const appointment = await db.appointment.create({
     data: {
       appointmentNumber,
@@ -52,6 +67,12 @@ export async function POST(req: NextRequest) {
       source: "dispatcher",
       confirmationToken,
       ...data,
+      phone: normalizePhone(data.phone),
+      customerId: data.customerId || customer?.id,
+      // If this phone is already linked to a registered portal account (Customer.userId),
+      // carry that link onto the appointment too — otherwise it's invisible on the older
+      // User-based /admin/customers view, which reads appointments via userId, not customerId.
+      ...(customer?.userId ? { userId: customer.userId } : {}),
       preferredDate: data.preferredDate ? new Date(data.preferredDate) : null,
       ...(technicianId ? { technicianId } : {}),
       ...(isDiagnostic ? { diagnosticFee, diagnosticFeeStatus: "PENDING" } : {}),
@@ -163,7 +184,7 @@ function buildDiagnosticEmail({ appointmentNumber, name, service, address, city,
         </p>
       </td></tr>
       <tr><td style="background:#f4f6fb;padding:16px 32px;text-align:center;">
-        <p style="margin:0;color:#999;font-size:12px;">DADA HOUSE LLC · TX · NC · MD · (346) 649-9353</p>
+        <p style="margin:0;color:#999;font-size:12px;">DADA HOUSE LLC · TX · NC · MD · (844) 928-0875</p>
       </td></tr>
     </table>
   </td></tr>

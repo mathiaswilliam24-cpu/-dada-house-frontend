@@ -2,24 +2,35 @@
 import { useEffect, useState, useCallback } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
-import { ChevronRight, Loader2, FileText, CheckSquare, CheckCircle2 } from "lucide-react";
+import { ChevronRight, Loader2, FileText, CheckSquare, CheckCircle2, ClipboardList } from "lucide-react";
 
 type ChecklistItem = { key: string; label: string; checked: boolean; note: string };
 
+const DIAGNOSTIC_STATUS_LABEL: Record<string, string> = {
+  DRAFT: "In progress",
+  AWAITING_SUPERVISOR_REVIEW: "Awaiting review",
+  RETURNED: "Returned — needs update",
+  ADDITIONAL_TESTING_REQUESTED: "Additional testing needed",
+  APPROVED: "Approved",
+};
+
 type FormsJob = {
-  diagnosisForm?: { id: string; problemFound: string; customerApproved: boolean } | null;
+  serviceDiagnostic?: { id: string; status: string; completedAt: string | null } | null;
   checklist?: { id: string; items: ChecklistItem[]; completedAt: string | null } | null;
 };
+
+type EstimateSummary = { id: string };
 
 export default function TechFormsPage() {
   const { id } = useParams<{ id: string }>();
   const [job, setJob] = useState<FormsJob | null>(null);
+  const [estimate, setEstimate] = useState<EstimateSummary | null>(null);
   const [loading, setLoading] = useState(true);
 
   const load = useCallback(() => {
     fetch(`/api/technician/jobs/${id}`)
       .then((r) => r.json())
-      .then((d) => { if (d.job) setJob(d.job); setLoading(false); })
+      .then((d) => { if (d.job) setJob(d.job); setEstimate(d.estimate ?? null); setLoading(false); })
       .catch(() => setLoading(false));
   }, [id]);
 
@@ -48,14 +59,14 @@ export default function TechFormsPage() {
           <div className="flex items-center gap-2.5">
             <FileText className="w-4 h-4 text-blue-600" />
             <div>
-              <p className="text-sm font-semibold text-gray-800">Diagnosis Form</p>
+              <p className="text-sm font-semibold text-gray-800">Service Diagnostic Form</p>
               <p className="text-xs text-gray-400">
-                {job.diagnosisForm ? (job.diagnosisForm.customerApproved ? "Completed · Customer approved" : "Completed · Awaiting approval") : "Not started"}
+                {job.serviceDiagnostic ? (DIAGNOSTIC_STATUS_LABEL[job.serviceDiagnostic.status] ?? job.serviceDiagnostic.status) : "Not started"}
               </p>
             </div>
           </div>
           <div className="flex items-center gap-1.5 text-gray-400">
-            {job.diagnosisForm && <CheckCircle2 className="w-4 h-4 text-green-500" />}
+            {job.serviceDiagnostic?.status === "APPROVED" && <CheckCircle2 className="w-4 h-4 text-green-500" />}
             <ChevronRight className="w-4 h-4" />
           </div>
         </Link>
@@ -74,6 +85,20 @@ export default function TechFormsPage() {
             {job.checklist?.completedAt && <CheckCircle2 className="w-4 h-4 text-green-500" />}
             <ChevronRight className="w-4 h-4" />
           </div>
+        </Link>
+
+        <Link
+          href={`/technician/jobs/${id}/invoice/add-items/service-forms${estimate ? `?estimateId=${estimate.id}` : ""}`}
+          className="flex items-center justify-between p-4"
+        >
+          <div className="flex items-center gap-2.5">
+            <ClipboardList className="w-4 h-4 text-[#1B3FA8]" />
+            <div>
+              <p className="text-sm font-semibold text-gray-800">Service Forms</p>
+              <p className="text-xs text-gray-400">Residential Diagnostic, Clean and Check, System Startup, Follow Up, Retail Lead, Miscellaneous</p>
+            </div>
+          </div>
+          <ChevronRight className="w-4 h-4 text-gray-400 shrink-0" />
         </Link>
       </div>
     </div>

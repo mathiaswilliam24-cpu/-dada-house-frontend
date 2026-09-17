@@ -3,7 +3,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
-import { Phone, Mail, MapPin, ArrowLeft, Loader2, PhoneCall, MessageSquare, Calendar, ShieldAlert, CalendarPlus, ClipboardList, Receipt, Send, Pencil, X, Check, Paperclip } from "lucide-react";
+import { Phone, Mail, MapPin, ArrowLeft, Loader2, PhoneCall, MessageSquare, Calendar, ShieldAlert, CalendarPlus, ClipboardList, Receipt, Send, Pencil, X, Check, Paperclip, FileText } from "lucide-react";
 import { requestCall } from "@/components/call-center/softphone";
 import { formatCallCenterTime, formatCurrency } from "@/lib/utils";
 import { AttachmentPicker } from "@/components/call-center/attachment-picker";
@@ -14,6 +14,27 @@ function autoGrow(el: HTMLTextAreaElement) {
 }
 function autoGrowRef(el: HTMLTextAreaElement | null) {
   if (el) autoGrow(el);
+}
+
+// Email bodies are stored as their raw sent HTML (for the audit trail), but
+// this panel is a compact chat-bubble preview, not an email client — so show
+// readable text instead of either raw "<p>...</p>" tags or a full HTML
+// render (which would also mean trusting arbitrary customer-authored HTML
+// from INBOUND replies via dangerouslySetInnerHTML).
+function stripHtml(html: string): string {
+  return html
+    .replace(/<style[\s\S]*?<\/style>/gi, "")
+    .replace(/<\/(p|div|tr|li|h[1-6])>/gi, "\n")
+    .replace(/<br\s*\/?>/gi, "\n")
+    .replace(/<[^>]+>/g, "")
+    .replace(/&nbsp;/g, " ")
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&#39;/g, "'")
+    .replace(/&quot;/g, '"')
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
 }
 
 function isImageUrl(url: string) { return /\.(jpe?g|png|gif|webp|heic)(\?|$)/i.test(url); }
@@ -41,6 +62,16 @@ function AttachmentGrid({ urls, outbound }: { urls?: string[]; outbound: boolean
 
 type EmailEntry = { id: string; to: string[]; subject: string; createdAt: string; status: string };
 
+type ServiceReport = {
+  id: string;
+  label: string;
+  appointmentNumber: string;
+  service: string;
+  date: string;
+  channel: "email" | "sms" | "not sent yet";
+  url: string;
+};
+
 type ConversationEmail = {
   id: string;
   direction: "INBOUND" | "OUTBOUND";
@@ -48,6 +79,7 @@ type ConversationEmail = {
   body: string;
   createdAt: string;
   attachmentUrls?: string[];
+  resendId?: string | null;
 };
 
 type CustomerDetail = {
@@ -67,6 +99,7 @@ type CustomerDetail = {
   doNotContact: { reason: string; optedOutAt: string } | null;
   appointments: { id: string; appointmentNumber: string; service: string; status: string; createdAt: string }[];
   invoices: { id: string; amount: number; status: string; createdAt: string; paymentToken: string | null; appointment: { appointmentNumber: string; service: string } }[];
+  estimates: { id: string; estimateNumber: string; total: number; status: string; isInvoice: boolean; createdAt: string; paymentToken: string | null; sentAt: string | null }[];
   maintenanceContracts: { id: string; token: string; status: string; createdAt: string; planType: { name: string; monthlyPrice: number; annualPrice: number } }[];
   calls: { id: string; direction: string; status: string; startedAt: string; disposition: string | null; agent: { name: string | null } | null; aiSummary: string | null; aiTranscript: string | null; appointment: { id: string; appointmentNumber: string; service: string } | null }[];
   messageThreads: { id: string; messages: { id: string; direction: string; body: string; createdAt: string; mediaUrls?: string[] }[] }[];
@@ -80,6 +113,9 @@ export default function CustomerDetailPage() {
   const [emailsLoading, setEmailsLoading] = useState(true);
   const [resendingId, setResendingId] = useState<string | null>(null);
   const [resentIds, setResentIds] = useState<Set<string>>(new Set());
+
+  const [reports, setReports] = useState<ServiceReport[]>([]);
+  const [reportsLoading, setReportsLoading] = useState(true);
 
   const [smsBody, setSmsBody] = useState("");
   const [smsMedia, setSmsMedia] = useState<string[]>([]);
@@ -169,6 +205,14 @@ export default function CustomerDetailPage() {
       .then((r) => r.json())
       .then((d) => setEmails(d.emails ?? []))
       .finally(() => setEmailsLoading(false));
+  }, [params.id]);
+
+  useEffect(() => {
+    setReportsLoading(true);
+    fetch(`/api/customers/${params.id}/reports`)
+      .then((r) => r.json())
+      .then((d) => setReports(d.reports ?? []))
+      .finally(() => setReportsLoading(false));
   }, [params.id]);
 
   const loadConversation = useCallback(async () => {
@@ -373,7 +417,7 @@ export default function CustomerDetailPage() {
             <CalendarPlus className="w-4 h-4" /> Book Appointment
           </Link>
           <Link
-            href={`/admin/invoices?type=estimate&${prefillParams.toString()}`}
+            href={`/admin/estimates/new?${prefillParams.toString()}`}
             className="inline-flex items-center gap-1.5 px-3 py-2 bg-gray-100 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-200"
           >
             <ClipboardList className="w-4 h-4" /> Create Estimate
@@ -487,7 +531,57 @@ export default function CustomerDetailPage() {
                 </a>
               );
             })}
-            {customer.invoices.length === 0 && <p className="text-xs text-gray-400">No estimates or invoices yet</p>}
+            {/* Estimate model — separate system from Invoice, built via
+                Admin/Technician → Estimates (e.g. "Create Estimate" above).
+                Shown here too since it's the same conceptual billing history
+                to a call-center rep, even though it lives in a different table. */}
+            {customer.estimates.map((est) => (
+              <a
+                key={est.id}
+                href={`/admin/estimates/${est.id}`}
+                target="_blank"
+                rel="noreferrer"
+                className="flex items-center justify-between text-xs border border-gray-100 rounded-lg p-2 hover:border-[#1B3FA8] hover:bg-blue-50/40 transition-colors"
+              >
+                <div>
+                  <p className="font-medium text-gray-800">{est.isInvoice ? "Invoice" : "Estimate"} #{est.estimateNumber}</p>
+                  <p className="text-gray-400">{formatCallCenterTime(est.createdAt)} · {formatCurrency(est.total)} · {est.sentAt ? "sent" : "not sent"}</p>
+                </div>
+                <span className="text-[#1B3FA8] font-semibold shrink-0 ml-2">Open →</span>
+              </a>
+            ))}
+            {customer.invoices.length === 0 && customer.estimates.length === 0 && <p className="text-xs text-gray-400">No estimates or invoices yet</p>}
+          </div>
+        </section>
+
+        <section className="bg-white rounded-xl border border-gray-200 p-4">
+          <h2 className="flex items-center gap-2 text-sm font-bold text-gray-900 mb-3"><FileText className="w-4 h-4" /> Service Reports</h2>
+          <div className="space-y-2">
+            {reportsLoading ? (
+              <p className="text-xs text-gray-400">Loading…</p>
+            ) : (
+              <>
+                {reports.map((r) => (
+                  <a
+                    key={r.id}
+                    href={r.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex items-center justify-between text-xs border border-gray-100 rounded-lg p-2 hover:border-[#1B3FA8] hover:bg-blue-50/40 transition-colors"
+                  >
+                    <div>
+                      <p className="font-medium text-gray-800">{r.label} — {r.service}</p>
+                      <p className="text-gray-400">
+                        {formatCallCenterTime(r.date)} · #{r.appointmentNumber} ·{" "}
+                        {r.channel === "email" ? "sent by email" : r.channel === "sms" ? "sent by text" : "not sent to customer yet"}
+                      </p>
+                    </div>
+                    <span className="text-[#1B3FA8] font-semibold shrink-0 ml-2">View PDF →</span>
+                  </a>
+                ))}
+                {reports.length === 0 && <p className="text-xs text-gray-400">No service reports yet</p>}
+              </>
+            )}
           </div>
         </section>
 
@@ -568,8 +662,20 @@ export default function CustomerDetailPage() {
                     <div className={`max-w-[85%] text-xs rounded-lg p-2 ${m.direction === "OUTBOUND" ? "bg-[#1B3FA8] text-white" : "bg-gray-100 border border-gray-200 text-gray-800"}`}>
                       {m.subject && <p className="font-semibold mb-0.5">{m.subject}</p>}
                       <AttachmentGrid urls={m.attachmentUrls} outbound={m.direction === "OUTBOUND"} />
-                      <p className="whitespace-pre-wrap">{m.body}</p>
-                      <p className={`mt-0.5 ${m.direction === "OUTBOUND" ? "text-blue-200" : "text-gray-400"}`}>{formatCallCenterTime(m.createdAt)}</p>
+                      <p className="whitespace-pre-wrap">{stripHtml(m.body)}</p>
+                      <div className="flex items-center justify-between gap-2 mt-0.5">
+                        <p className={m.direction === "OUTBOUND" ? "text-blue-200" : "text-gray-400"}>{formatCallCenterTime(m.createdAt)}</p>
+                        {m.direction === "OUTBOUND" && m.resendId && (!m.attachmentUrls || m.attachmentUrls.length === 0) && (
+                          <a
+                            href={`/api/email-messages/${m.id}/attachments`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-1 text-blue-200 hover:text-white underline underline-offset-2 shrink-0"
+                          >
+                            <Paperclip className="w-3 h-3" /> View PDF
+                          </a>
+                        )}
+                      </div>
                     </div>
                   </div>
                 ))}

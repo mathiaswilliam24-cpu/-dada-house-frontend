@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse, after } from "next/server";
+﻿import { NextRequest, NextResponse, after } from "next/server";
 import { requireAuth, getAuthToken } from "@/lib/api-auth";
 import { db } from "@/lib/db";
 import { appointmentSchema } from "@/lib/validations";
@@ -220,7 +220,7 @@ function buildDiagnosticEmail({ appointmentNumber, name, service, address, city,
         <p style="margin:20px 0 0;color:#999;font-size:12px;text-align:center;">Questions? Call us at (844) 928-0875</p>
       </td></tr>
       <tr><td style="background:#f4f6fb;padding:16px 32px;text-align:center;">
-        <p style="margin:0;color:#999;font-size:12px;">DADA HOUSE LLC · TX · NC · MD · (346) 649-9353</p>
+        <p style="margin:0;color:#999;font-size:12px;">DADA HOUSE LLC · TX · NC · MD · (844) 928-0875</p>
       </td></tr>
     </table>
   </td></tr>

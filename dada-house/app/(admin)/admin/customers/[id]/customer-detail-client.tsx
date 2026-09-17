@@ -21,6 +21,10 @@ type Appt = {
   technician: { id: string; name: string } | null;
   invoice: { id: string; amount: number; status: string; paidAt: string | null } | null;
 };
+type ServiceReport = {
+  id: string; label: string; appointmentNumber: string; service: string;
+  date: string; channel: "email" | "sms" | "not sent yet"; url: string;
+};
 type Review = {
   id: string; rating: number; content: string; service: string; createdAt: string; approved: boolean;
 };
@@ -75,6 +79,10 @@ export function CustomerDetailClient({ customerId }: { customerId: string }) {
   const [customer, setCustomer]           = useState<Customer | null>(null);
   const [loading, setLoading]             = useState(true);
   const [error, setError]                 = useState("");
+
+  // Service Reports (CC copy of any PDF report sent to the customer)
+  const [reports, setReports]             = useState<ServiceReport[]>([]);
+  const [reportsLoading, setReportsLoading] = useState(true);
 
   // New Appointment modal
   const [showApptModal, setShowApptModal] = useState(false);
@@ -203,6 +211,14 @@ export function CustomerDetailClient({ customerId }: { customerId: string }) {
   }, [customerId]);
 
   useEffect(() => { load(); }, [load]);
+
+  useEffect(() => {
+    setReportsLoading(true);
+    fetch(`/api/customers/${encodedId}/reports`)
+      .then((r) => r.json())
+      .then((d) => setReports(d.reports ?? []))
+      .finally(() => setReportsLoading(false));
+  }, [encodedId]);
 
   // ── Appointment creation ───────────────────────────────────────────────────
   function openApptModal() {
@@ -418,7 +434,7 @@ export function CustomerDetailClient({ customerId }: { customerId: string }) {
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
           <div className="w-16 h-16 rounded-full bg-[#1B3FA8] flex items-center justify-center shrink-0">
             <span className="text-2xl font-bold text-white">
-              {(customer.name ?? customer.email)[0].toUpperCase()}
+              {(customer.name?.trim() || customer.email)[0]?.toUpperCase() ?? "?"}
             </span>
           </div>
           <div className="flex-1 min-w-0">
@@ -633,6 +649,34 @@ export function CustomerDetailClient({ customerId }: { customerId: string }) {
                   </div>
                 );
               })}
+            </div>
+          </div>
+
+          {/* Service Reports — CC copy of whatever PDF a technician sent (by email or, when no email is on file, by text) */}
+          <div className="bg-white rounded-xl border border-gray-200">
+            <div className="p-5 border-b border-gray-100">
+              <h2 className="font-semibold text-gray-900 flex items-center gap-2">
+                <FileText className="w-4 h-4 text-[#1B3FA8]" /> Service Reports ({reports.length})
+              </h2>
+            </div>
+            <div className="divide-y divide-gray-50 max-h-80 overflow-y-auto">
+              {reportsLoading ? (
+                <div className="py-10 text-center text-gray-400 text-sm">Loading…</div>
+              ) : reports.length === 0 ? (
+                <div className="py-10 text-center text-gray-400 text-sm">No service reports yet</div>
+              ) : reports.map(r => (
+                <a key={r.id} href={r.url} target="_blank" rel="noopener noreferrer"
+                  className="px-5 py-3.5 flex items-center justify-between gap-3 hover:bg-blue-50/40 transition-colors">
+                  <div className="min-w-0">
+                    <p className="text-sm font-medium text-gray-900 truncate">{r.label} — {r.service}</p>
+                    <p className="text-xs text-gray-400">
+                      {fmtD(r.date)} · #{r.appointmentNumber} ·{" "}
+                      {r.channel === "email" ? "sent by email" : r.channel === "sms" ? "sent by text" : "not sent to customer yet"}
+                    </p>
+                  </div>
+                  <span className="text-xs font-semibold text-[#1B3FA8] shrink-0">View PDF →</span>
+                </a>
+              ))}
             </div>
           </div>
         </div>

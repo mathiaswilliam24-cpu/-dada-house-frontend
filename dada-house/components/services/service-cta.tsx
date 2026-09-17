@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { Calendar, Phone, AlertTriangle } from "lucide-react";
 
 export default function ServiceCta({ serviceName }: { serviceName: string }) {
@@ -35,7 +35,7 @@ export default function ServiceCta({ serviceName }: { serviceName: string }) {
             className="inline-flex items-center gap-2 text-red-400 hover:text-red-300 text-sm font-semibold transition-colors"
           >
             <AlertTriangle size={14} />
-            Emergency? Call (346) 649-9353 — 24/7 Response
+            Emergency? Call (844) 928-0875 — 24/7 Response
           </a>
         </div>
       </div>

@@ -31,6 +31,8 @@ type Estimate = {
   showFinancing: boolean;
   requestSignature: boolean;
   sentAt: string | null;
+  isInvoice: boolean;
+  paymentToken: string | null;
 };
 
 export default function AdminEstimateDetailPage() {
@@ -100,6 +102,8 @@ export default function AdminEstimateDetailPage() {
     showFinancing: estimate.showFinancing,
     requestSignature: estimate.requestSignature,
     sentAt: estimate.sentAt,
+    isInvoice: estimate.isInvoice,
+    paymentToken: estimate.paymentToken,
   };
 
   return <EstimateEditor mode="edit" initialData={initialData} basePath="admin" />;

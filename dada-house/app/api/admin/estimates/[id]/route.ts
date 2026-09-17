@@ -2,7 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/api-auth";
 import { db } from "@/lib/db";
 import { sendTrackedEmail } from "@/lib/customer-email";
-import { buildEstimateEmail } from "@/lib/email-templates";
+import { buildEstimateEmail, buildEstimateInvoiceEmail } from "@/lib/email-templates";
+import { sendOutboundSms } from "@/lib/messaging";
+import { randomUUID } from "crypto";
 
 export const dynamic = "force-dynamic";
 
@@ -75,14 +77,47 @@ export async function POST(
 
   if (action === "email") {
     const lineItems = (estimate.lineItems as Array<{ desc: string; rate: number; qty: number; amount: number }>) ?? [];
-    const html = buildEstimateEmail(estimate, lineItems, auth.name ?? "DADA HOUSE");
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dada-house.com";
+    const html = estimate.isInvoice
+      ? buildEstimateInvoiceEmail(estimate, lineItems, auth.name ?? "DADA HOUSE", `${baseUrl}/pay/${estimate.paymentToken}`)
+      : buildEstimateEmail(estimate, lineItems, auth.name ?? "DADA HOUSE");
     await sendTrackedEmail({
       to: estimate.clientEmail,
-      subject: `Estimate ${estimate.estimateNumber} from DADA HOUSE`,
+      subject: estimate.isInvoice
+        ? `Invoice ${estimate.estimateNumber} from DADA HOUSE — $${estimate.total.toFixed(2)} due`
+        : `Estimate ${estimate.estimateNumber} from DADA HOUSE`,
       html,
     });
-    await db.estimate.update({ where: { id }, data: { sentAt: new Date() } });
+    await db.estimate.update({ where: { id }, data: { sentAt: new Date(), status: "OPEN" } });
     return NextResponse.json({ success: true });
+  }
+
+  if (action === "sms") {
+    if (!estimate.isInvoice || !estimate.paymentToken) {
+      return NextResponse.json({ error: "Convert this estimate to an invoice before sending a payment text." }, { status: 400 });
+    }
+    const phone = estimate.clientMobile || estimate.clientPhone;
+    if (!phone) return NextResponse.json({ error: "No client phone number on file" }, { status: 400 });
+
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dada-house.com";
+    const payUrl = `${baseUrl}/pay/${estimate.paymentToken}`;
+    await sendOutboundSms(phone, `DADA HOUSE: Hi ${estimate.clientName}, your invoice #${estimate.estimateNumber} for $${estimate.total.toFixed(2)} is ready. Pay here: ${payUrl}`);
+
+    await db.estimate.update({ where: { id }, data: { sentAt: new Date(), status: "OPEN" } });
+    return NextResponse.json({ success: true });
+  }
+
+  if (action === "convert") {
+    if (estimate.isInvoice) return NextResponse.json({ estimate });
+    const updated = await db.estimate.update({
+      where: { id },
+      data: {
+        isInvoice: true,
+        convertedAt: new Date(),
+        paymentToken: estimate.paymentToken ?? randomUUID(),
+      },
+    });
+    return NextResponse.json({ estimate: updated });
   }
 
   return NextResponse.json({ error: "Unknown action" }, { status: 400 });

@@ -1,4 +1,4 @@
-import { auth } from "@/auth";
+﻿import { auth } from "@/auth";
 import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
 import Link from "next/link";
@@ -179,8 +179,8 @@ export default async function PortalDashboardPage() {
           <p className="font-semibold text-red-800">24/7 Emergency Service</p>
           <p className="text-sm text-red-600">We're always here when you need us most</p>
         </div>
-        <a href="tel:+13466499353" className="bg-red-600 text-white text-sm font-semibold px-4 py-2 rounded-lg hover:bg-red-700 transition-colors">
-          Call (346) 649-9353
+        <a href="tel:+18449280875" className="bg-red-600 text-white text-sm font-semibold px-4 py-2 rounded-lg hover:bg-red-700 transition-colors">
+          Call (844) 928-0875
         </a>
       </div>
     </div>

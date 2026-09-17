@@ -8,6 +8,14 @@ import {
 } from "lucide-react";
 import { formatCurrency } from "@/lib/utils";
 
+function autoGrow(el: HTMLTextAreaElement) {
+  el.style.height = "auto";
+  el.style.height = `${el.scrollHeight}px`;
+}
+function autoGrowRef(el: HTMLTextAreaElement | null) {
+  if (el) autoGrow(el);
+}
+
 type LineItem = {
   id: string;
   desc: string;
@@ -595,9 +603,12 @@ export default function InvoiceEditor({ initialData, mode }: Props) {
           <div key={item.id} className={`px-4 py-3 ${idx < items.length - 1 ? "border-b border-gray-50" : ""}`}>
             <div className="grid grid-cols-12 gap-1 items-start">
               <div className="col-span-5">
-                <input value={item.desc} onChange={(e) => updateItem(item.id, "desc", e.target.value)}
-                  placeholder="Description" disabled={isPaid}
-                  className="w-full px-2 py-1.5 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1B3FA8]/20 focus:border-[#1B3FA8] disabled:bg-gray-50" />
+                <textarea
+                  ref={autoGrowRef}
+                  value={item.desc}
+                  onChange={(e) => { updateItem(item.id, "desc", e.target.value); autoGrow(e.target); }}
+                  placeholder="Description" disabled={isPaid} rows={1}
+                  className="w-full px-2 py-1.5 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1B3FA8]/20 focus:border-[#1B3FA8] disabled:bg-gray-50 resize-none overflow-hidden" />
               </div>
               <div className="col-span-2">
                 <input type="number" min="0" step="0.01" value={item.rate || ""} disabled={isPaid}

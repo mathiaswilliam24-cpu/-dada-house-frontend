@@ -6,10 +6,15 @@ import { ChevronRight, Loader2 } from "lucide-react";
 
 const FORM_TYPES = [
   { slug: "residential-diagnostic", name: "Residential Diagnostic Forms" },
+  { slug: "ac-quick-diagnostic", name: "AC Diagnostic (Simple)" },
   { slug: "clean-and-check", name: "Clean and Check Forms" },
   { slug: "system-startup", name: "System Startup Forms" },
   { slug: "follow-up", name: "Follow Up Form" },
   { slug: "retail-lead", name: "Retail Lead Form" },
+  { slug: "parts-replacement", name: "Parts Replacement / Repair Completion" },
+  { slug: "drain-line-cleaning", name: "Drain Line Cleaning" },
+  { slug: "air-vent-cleaning", name: "Air Vent & Register Cleaning" },
+  { slug: "whole-system-duct-cleaning", name: "Whole-System Air Duct Cleaning" },
   { slug: "miscellaneous", name: "Miscellaneous" },
 ];
 

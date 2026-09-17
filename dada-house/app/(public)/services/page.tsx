@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Phone, AlertTriangle } from "lucide-react";
 import CTASection from "@/components/home/cta-section";
@@ -102,7 +102,7 @@ export default function ServicesPage() {
               className="flex items-center gap-2 text-red-400 hover:text-red-300 text-sm font-semibold transition-colors"
             >
               <AlertTriangle size={14} />
-              Emergency: (346) 649-9353
+              Emergency: (844) 928-0875
             </a>
           </div>
         </div>

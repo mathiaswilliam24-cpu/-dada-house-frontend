@@ -4,9 +4,17 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import {
   Plus, Trash2, Send, ChevronDown, ChevronUp, Check,
-  Loader2, ArrowLeft, Mail, Settings2, X, Users, Search, BookOpen
+  Loader2, ArrowLeft, Mail, MessageSquare, Settings2, X, Users, Search, BookOpen, ArrowRightLeft
 } from "lucide-react";
 import { formatCurrency } from "@/lib/utils";
+
+function autoGrow(el: HTMLTextAreaElement) {
+  el.style.height = "auto";
+  el.style.height = `${el.scrollHeight}px`;
+}
+function autoGrowRef(el: HTMLTextAreaElement | null) {
+  if (el) autoGrow(el);
+}
 
 type LineItem = {
   id: string;
@@ -45,6 +53,8 @@ export type EstimateData = {
   showFinancing: boolean;
   requestSignature: boolean;
   sentAt?: string | null;
+  isInvoice?: boolean;
+  paymentToken?: string | null;
 };
 
 const TEMPLATE_COLORS = [
@@ -124,13 +134,19 @@ export default function EstimateEditor({ initialData, mode, quick: _quick, baseP
   const router = useRouter();
   const [saving, setSaving] = useState(false);
   const [sending, setSending] = useState(false);
+  const [sendingSms, setSendingSms] = useState(false);
+  const [converting, setConverting] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [saved, setSaved] = useState(false);
   const [sentSuccess, setSentSuccess] = useState(false);
+  const [smsSentSuccess, setSmsSentSuccess] = useState(false);
   const [error, setError] = useState("");
   const [showSettings, setShowSettings] = useState(false);
   const [activeTab, setActiveTab] = useState<"edit" | "preview">("edit");
   const [sentAt, setSentAt] = useState<string | null>(initialData?.sentAt ?? null);
+  const [isInvoice, setIsInvoice] = useState(initialData?.isInvoice ?? false);
+  const [paymentToken, setPaymentToken] = useState<string | null>(initialData?.paymentToken ?? null);
+  const [linkCopied, setLinkCopied] = useState(false);
 
   // Client picker
   const [clientSearch, setClientSearch] = useState("");
@@ -358,6 +374,65 @@ export default function EstimateEditor({ initialData, mode, quick: _quick, baseP
     }
   };
 
+  const handleSendSms = async () => {
+    if (!initialData?.id) return;
+    const phone = clientMobile || clientPhone;
+    if (!phone) { setError("Add the client's phone number before sending."); return; }
+    if (!confirm(`Send this invoice by text to ${phone}?`)) return;
+
+    setSendingSms(true);
+    setError("");
+    try {
+      const res = await fetch(`${estimatesApi}/${initialData.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(buildPayload()),
+      });
+      if (!res.ok) throw new Error("Save failed");
+
+      const smsRes = await fetch(`${estimatesApi}/${initialData.id}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "sms" }),
+      });
+      if (!smsRes.ok) {
+        const d = await smsRes.json().catch(() => ({}));
+        throw new Error(d.error ?? "SMS failed");
+      }
+
+      setSentAt(new Date().toISOString());
+      setSmsSentSuccess(true);
+      setTimeout(() => setSmsSentSuccess(false), 4000);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to send text. Please try again.");
+    } finally {
+      setSendingSms(false);
+    }
+  };
+
+  const handleConvert = async () => {
+    if (!initialData?.id) { setError("Save the estimate first, then convert it to an invoice."); return; }
+    if (!confirm("Convert this estimate to an invoice? The client will then be able to pay it online.")) return;
+
+    setConverting(true);
+    setError("");
+    try {
+      const res = await fetch(`${estimatesApi}/${initialData.id}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "convert" }),
+      });
+      if (!res.ok) throw new Error("Convert failed");
+      const data = await res.json();
+      setIsInvoice(true);
+      setPaymentToken(data.estimate?.paymentToken ?? null);
+    } catch {
+      setError("Failed to convert to invoice. Please try again.");
+    } finally {
+      setConverting(false);
+    }
+  };
+
   const handleDelete = async () => {
     if (!initialData?.id) return;
     if (!confirm("Delete this estimate?")) return;
@@ -387,7 +462,7 @@ export default function EstimateEditor({ initialData, mode, quick: _quick, baseP
     clientName, clientEmail, clientAddress, clientCity, clientState, clientZip,
     estimateNumber: initialData?.estimateNumber ?? "DRAFT",
     items, additionalDetails, subtotal, tax, discount, total,
-    taxLabel, taxType, discountType, templateColor, showFinancing,
+    taxLabel, taxType, discountType, templateColor, showFinancing, isInvoice,
     onBack: () => setActiveTab("edit" as const),
   };
 
@@ -436,7 +511,36 @@ export default function EstimateEditor({ initialData, mode, quick: _quick, baseP
       {sentSuccess && (
         <div className="bg-green-50 border border-green-200 text-green-700 text-xs rounded-xl px-3 py-2 flex items-center gap-2">
           <Check className="w-3.5 h-3.5 shrink-0" />
-          Estimate sent to <span className="font-semibold">{clientEmail}</span>
+          {isInvoice ? "Invoice" : "Estimate"} sent to <span className="font-semibold">{clientEmail}</span>
+        </div>
+      )}
+
+      {smsSentSuccess && (
+        <div className="bg-green-50 border border-green-200 text-green-700 text-xs rounded-xl px-3 py-2 flex items-center gap-2">
+          <Check className="w-3.5 h-3.5 shrink-0" />
+          Invoice texted to <span className="font-semibold">{clientMobile || clientPhone}</span>
+        </div>
+      )}
+
+      {isInvoice && (
+        <div className="bg-blue-50 border border-blue-200 text-[#1B3FA8] text-xs rounded-xl px-3 py-2 space-y-1.5">
+          <div className="flex items-center gap-2">
+            <ArrowRightLeft className="w-3.5 h-3.5 shrink-0" />
+            Converted to invoice — the client can pay it online.
+          </div>
+          {paymentToken && (
+            <button
+              type="button"
+              onClick={async () => {
+                await navigator.clipboard.writeText(`${window.location.origin}/pay/${paymentToken}`);
+                setLinkCopied(true);
+                setTimeout(() => setLinkCopied(false), 2500);
+              }}
+              className="font-semibold underline underline-offset-2"
+            >
+              {linkCopied ? "Payment link copied!" : "Copy payment link"}
+            </button>
+          )}
         </div>
       )}
 
@@ -455,9 +559,29 @@ export default function EstimateEditor({ initialData, mode, quick: _quick, baseP
         {sending ? (
           <><Loader2 className="w-4 h-4 animate-spin" /> Sending…</>
         ) : (
-          <><Mail className="w-4 h-4" /> {sentAt ? "Resend Estimate by Email" : "Send Estimate by Email"}</>
+          <><Mail className="w-4 h-4" /> {sentAt ? `Resend ${isInvoice ? "Invoice" : "Estimate"} by Email` : `Send ${isInvoice ? "Invoice" : "Estimate"} by Email`}</>
         )}
       </button>
+
+      {isInvoice && mode === "edit" && (
+        <button
+          onClick={handleSendSms}
+          disabled={sendingSms}
+          className={`w-full flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-bold transition-colors ${
+            sendingSms
+              ? "bg-gray-100 text-gray-400"
+              : (clientMobile || clientPhone)
+              ? "bg-white border-2 border-[#1B3FA8] text-[#1B3FA8] hover:bg-blue-50 active:scale-[0.98]"
+              : "bg-gray-100 text-gray-400 cursor-not-allowed"
+          }`}
+        >
+          {sendingSms ? (
+            <><Loader2 className="w-4 h-4 animate-spin" /> Sending…</>
+          ) : (
+            <><MessageSquare className="w-4 h-4" /> Send Invoice by Text</>
+          )}
+        </button>
+      )}
 
       {sentAt && !sentSuccess && (
         <p className="text-center text-xs text-gray-400">
@@ -471,6 +595,16 @@ export default function EstimateEditor({ initialData, mode, quick: _quick, baseP
 
       {/* Secondary actions */}
       <div className="flex gap-2">
+        {mode === "edit" && !isInvoice && (
+          <button
+            onClick={handleConvert}
+            disabled={converting}
+            className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2.5 bg-white border border-[#1B3FA8]/30 rounded-xl text-xs font-bold text-[#1B3FA8] hover:bg-blue-50 disabled:opacity-50 transition-colors"
+          >
+            {converting ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <ArrowRightLeft className="w-3.5 h-3.5" />}
+            {converting ? "Converting…" : "Convert to Invoice"}
+          </button>
+        )}
         {mode === "edit" && (
           <button
             onClick={handleDelete}
@@ -498,7 +632,7 @@ export default function EstimateEditor({ initialData, mode, quick: _quick, baseP
           </div>
           <div>
             <p className="font-bold text-white text-sm">DADA HOUSE</p>
-            <p className="text-xs text-white/70">Estimate #{initialData?.estimateNumber ?? "—"}</p>
+            <p className="text-xs text-white/70">{isInvoice ? "Invoice" : "Estimate"} #{initialData?.estimateNumber ?? "—"}</p>
           </div>
           <div className="ml-auto text-right">
             <p className="text-xs text-white/70">Date</p>
@@ -701,11 +835,13 @@ export default function EstimateEditor({ initialData, mode, quick: _quick, baseP
           <div key={item.id} className={`px-4 py-3 ${idx < items.length - 1 ? "border-b border-gray-50" : ""}`}>
             <div className="grid grid-cols-12 gap-1 items-start">
               <div className="col-span-5">
-                <input
+                <textarea
+                  ref={autoGrowRef}
                   value={item.desc}
-                  onChange={(e) => updateItem(item.id, "desc", e.target.value)}
+                  onChange={(e) => { updateItem(item.id, "desc", e.target.value); autoGrow(e.target); }}
                   placeholder="Description"
-                  className="w-full px-2 py-1.5 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1B3FA8]/20 focus:border-[#1B3FA8]"
+                  rows={1}
+                  className="w-full px-2 py-1.5 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1B3FA8]/20 focus:border-[#1B3FA8] resize-none overflow-hidden"
                 />
               </div>
               <div className="col-span-2">
@@ -957,17 +1093,19 @@ type PreviewProps = {
   discountType: string;
   templateColor: string;
   showFinancing: boolean;
+  isInvoice?: boolean;
   onBack: () => void;
 };
 
 function PreviewPanel(p: PreviewProps) {
+  const docLabel = p.isInvoice ? "Invoice" : "Estimate";
   return (
     <div className="space-y-4 pb-4">
       <div className="flex items-center gap-3 sticky top-0 bg-gray-50 py-2 z-10 -mx-4 px-4 border-b border-gray-200">
         <button onClick={p.onBack} className="p-2 rounded-xl hover:bg-gray-200 transition-colors">
           <ArrowLeft className="w-5 h-5 text-gray-600" />
         </button>
-        <p className="text-sm font-bold text-gray-700">Estimate Preview</p>
+        <p className="text-sm font-bold text-gray-700">{docLabel} Preview</p>
       </div>
 
       <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden">
@@ -984,7 +1122,7 @@ function PreviewPanel(p: PreviewProps) {
               </div>
             </div>
             <div className="text-right">
-              <p className="text-white font-bold">ESTIMATE</p>
+              <p className="text-white font-bold">{docLabel.toUpperCase()}</p>
               <p className="text-white/70 text-xs">#{p.estimateNumber}</p>
               <p className="text-white/70 text-xs">{new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</p>
             </div>
@@ -1023,8 +1161,8 @@ function PreviewPanel(p: PreviewProps) {
             {p.items.filter(i => i.desc).map((item, idx) => (
               <div key={idx} className="grid grid-cols-12 gap-1 py-2 border-b border-gray-50">
                 <div className="col-span-6">
-                  <p className="text-sm text-gray-900">{item.desc}</p>
-                  {item.details && <p className="text-xs text-gray-400 mt-0.5">{item.details}</p>}
+                  <p className="text-sm text-gray-900 whitespace-pre-wrap">{item.desc}</p>
+                  {item.details && <p className="text-xs text-gray-400 mt-0.5 whitespace-pre-wrap">{item.details}</p>}
                 </div>
                 <div className="col-span-2 text-right text-sm text-gray-600">{formatCurrency(item.rate)}</div>
                 <div className="col-span-1 text-center text-sm text-gray-600">{item.qty}</div>

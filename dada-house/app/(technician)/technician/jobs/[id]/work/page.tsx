@@ -3,7 +3,7 @@ import { useEffect, useState, useCallback } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import {
-  Loader2, FileText, Mail, MessageSquare,
+  Loader2, FileText, Mail, MessageSquare, ClipboardList,
   CreditCard, CheckCircle, ChevronRight, Trash2,
 } from "lucide-react";
 import { UploadButton } from "@uploadthing/react";
@@ -14,9 +14,25 @@ import { formatCurrency } from "@/lib/utils";
 type Photo = { id: string; url: string; category: string };
 type Job = {
   id: string; appointmentNumber: string; service: string;
-  diagnosisForm?: { problemFound: string } | null;
+  serviceDiagnostic?: { status: string; completedAt: string | null } | null;
   timeLog?: { workPerformed?: string | null } | null;
   jobPhotos?: Photo[];
+};
+
+const DIAGNOSTIC_STATUS_LABEL: Record<string, string> = {
+  DRAFT: "In progress",
+  AWAITING_SUPERVISOR_REVIEW: "Awaiting review",
+  RETURNED: "Returned — needs update",
+  ADDITIONAL_TESTING_REQUESTED: "Additional testing needed",
+  APPROVED: "Approved",
+};
+
+const DIAGNOSTIC_STATUS_COLOR: Record<string, string> = {
+  DRAFT: "bg-gray-100 text-gray-600",
+  AWAITING_SUPERVISOR_REVIEW: "bg-orange-100 text-orange-700",
+  RETURNED: "bg-red-100 text-red-700",
+  ADDITIONAL_TESTING_REQUESTED: "bg-yellow-100 text-yellow-700",
+  APPROVED: "bg-green-100 text-green-700",
 };
 type Estimate = {
   id: string; estimateNumber: string; total: number; status: string;
@@ -31,11 +47,8 @@ export default function WorkPage() {
   const [estimate, setEstimate] = useState<Estimate | null>(null);
   const [photos, setPhotos] = useState<Photo[]>([]);
   const [loading, setLoading] = useState(true);
-  const [problemFound, setProblemFound] = useState("");
   const [workPerformed, setWorkPerformed] = useState("");
-  const [savingProblem, setSavingProblem] = useState(false);
   const [savingWork, setSavingWork] = useState(false);
-  const [savedProblem, setSavedProblem] = useState(false);
   const [savedWork, setSavedWork] = useState(false);
   const [sendingEmail, setSendingEmail] = useState(false);
   const [sendingSms, setSendingSms] = useState(false);
@@ -48,7 +61,6 @@ export default function WorkPage() {
         if (d.job) {
           setJob(d.job);
           setPhotos(d.job.jobPhotos ?? []);
-          setProblemFound(d.job.diagnosisForm?.problemFound ?? "");
           setWorkPerformed(d.job.timeLog?.workPerformed ?? "");
         }
         setEstimate(d.estimate ?? null);
@@ -76,18 +88,6 @@ export default function WorkPage() {
   async function deletePhoto(photoId: string) {
     await fetch(`/api/technician/jobs/${id}/photos/${photoId}`, { method: "DELETE" });
     setPhotos((p) => p.filter((x) => x.id !== photoId));
-  }
-
-  async function saveProblem() {
-    if (!problemFound.trim()) return;
-    setSavingProblem(true);
-    const res = await fetch(`/api/technician/jobs/${id}/diagnosis`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ...(job?.diagnosisForm ?? {}), problemFound }),
-    });
-    if (res.ok) { setSavedProblem(true); setTimeout(() => setSavedProblem(false), 2000); }
-    setSavingProblem(false);
   }
 
   async function saveWork() {
@@ -186,23 +186,25 @@ export default function WorkPage() {
           />
         </div>
 
-        <div className="bg-white rounded-2xl border border-gray-200 p-4 space-y-2">
-          <p className="text-sm font-semibold text-gray-900">Problem Observed</p>
-          <textarea
-            value={problemFound}
-            onChange={(e) => setProblemFound(e.target.value)}
-            rows={3}
-            placeholder="Describe the problem found…"
-            className="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-[#1B3FA8]/20 focus:border-[#1B3FA8]"
-          />
-          <button
-            onClick={saveProblem}
-            disabled={savingProblem || !problemFound.trim()}
-            className="w-full py-2.5 bg-[#1B3FA8] text-white rounded-xl text-sm font-semibold disabled:opacity-40"
-          >
-            {savingProblem ? "Saving…" : savedProblem ? "Saved!" : "Save"}
-          </button>
-        </div>
+        <Link
+          href={`/technician/jobs/${id}/diagnosis`}
+          className="flex items-center justify-between p-4 bg-white border border-gray-200 rounded-2xl"
+        >
+          <div className="flex items-center gap-3">
+            <ClipboardList className="w-5 h-5 text-[#1B3FA8]" />
+            <div>
+              <p className="font-semibold text-gray-900 text-sm">Service Diagnostic Form</p>
+              {job.serviceDiagnostic ? (
+                <span className={`inline-block mt-1 text-[10px] px-2 py-0.5 rounded-full font-bold ${DIAGNOSTIC_STATUS_COLOR[job.serviceDiagnostic.status] ?? "bg-gray-100 text-gray-600"}`}>
+                  {DIAGNOSTIC_STATUS_LABEL[job.serviceDiagnostic.status] ?? job.serviceDiagnostic.status}
+                </span>
+              ) : (
+                <span className="text-xs text-gray-400">Not started</span>
+              )}
+            </div>
+          </div>
+          <ChevronRight className="w-4 h-4 text-gray-400" />
+        </Link>
       </section>
 
       {/* AFTER section */}

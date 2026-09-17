@@ -17,6 +17,8 @@ const styles = StyleSheet.create({
   fieldRow: { flexDirection: "row", borderBottom: 1, borderBottomColor: "#f3f4f6", paddingVertical: 4 },
   fieldLabel: { width: 220, color: "#374151" },
   fieldValue: { flex: 1, fontWeight: 700, color: "#111827" },
+  commentsBox: { backgroundColor: "#f9fafb", borderRadius: 4, padding: 10, borderWidth: 1, borderColor: "#e5e7eb" },
+  commentsText: { color: "#111827", lineHeight: 1.4 },
   photosGrid: { flexDirection: "row", flexWrap: "wrap", gap: 8, marginTop: 6 },
   photoBox: { width: 140 },
   photo: { width: 140, height: 105, objectFit: "cover", borderRadius: 4 },
@@ -28,17 +30,18 @@ function isImageUrl(url: string) {
   return /\.(jpe?g|png|gif|webp)(\?|$)/i.test(url);
 }
 
-export type CleanCheckReportProps = {
+export type ServiceFormReportProps = {
   reportNumber: string;
   formName: string;
   submittedAt: string | Date;
   technicianName: string | null;
+  technicianComments?: string;
   customer: { name: string; phone: string; email: string | null; address: string; city: string; zipCode: string };
   fields: FormField[];
   submission: Submission;
 };
 
-export function CleanCheckReportDocument({ reportNumber, formName, submittedAt, technicianName, customer, fields, submission }: CleanCheckReportProps) {
+export function ServiceFormReportDocument({ reportNumber, formName, submittedAt, technicianName, technicianComments, customer, fields, submission }: ServiceFormReportProps) {
   const values = submission.values ?? {};
 
   const dataRows = fields.filter((f) => f.type !== "media" && f.label.trim());
@@ -93,6 +96,15 @@ export function CleanCheckReportDocument({ reportNumber, formName, submittedAt, 
           })}
         </View>
 
+        {technicianComments && (
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Technician Notes — Problems Observed & Recommendations</Text>
+            <View style={styles.commentsBox}>
+              <Text style={styles.commentsText}>{technicianComments}</Text>
+            </View>
+          </View>
+        )}
+
         {allPhotos.length > 0 && (
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Photos</Text>
@@ -114,6 +126,6 @@ export function CleanCheckReportDocument({ reportNumber, formName, submittedAt, 
   );
 }
 
-export async function renderCleanCheckReportPdf(props: CleanCheckReportProps): Promise<Buffer> {
-  return renderToBuffer(<CleanCheckReportDocument {...props} />);
+export async function renderServiceFormReportPdf(props: ServiceFormReportProps): Promise<Buffer> {
+  return renderToBuffer(<ServiceFormReportDocument {...props} />);
 }

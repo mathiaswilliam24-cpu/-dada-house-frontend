@@ -197,7 +197,7 @@ export default function UsersClient() {
                       <div className="flex items-center gap-3">
                         <div className="w-8 h-8 rounded-full bg-[#1B3FA8] flex items-center justify-center shrink-0">
                           <span className="text-xs font-bold text-white">
-                            {(user.name ?? user.email)[0].toUpperCase()}
+                            {(user.name?.trim() || user.email)[0]?.toUpperCase() ?? "?"}
                           </span>
                         </div>
                         <div>

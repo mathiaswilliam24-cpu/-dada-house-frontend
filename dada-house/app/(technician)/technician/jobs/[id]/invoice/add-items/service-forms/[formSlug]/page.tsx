@@ -4,13 +4,22 @@ import { useParams, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { ChevronRight, Loader2 } from "lucide-react";
 import { DynamicForm } from "@/components/technician/dynamic-form";
+import { ServiceDiagnosticForm } from "@/components/technician/service-diagnostic-form";
+import { SystemStartupForm } from "@/components/technician/system-startup-form";
+import { VentCleaningForm } from "@/components/technician/vent-cleaning-form";
+import { DuctCleaningForm } from "@/components/technician/duct-cleaning-form";
 
 const FORM_NAMES: Record<string, string> = {
   "residential-diagnostic": "Residential Diagnostic Forms",
+  "ac-quick-diagnostic": "AC Diagnostic (Simple)",
   "clean-and-check": "Clean and Check Forms",
   "system-startup": "System Startup Forms",
   "follow-up": "Follow Up Form",
   "retail-lead": "Retail Lead Form",
+  "parts-replacement": "Parts Replacement / Repair Completion",
+  "drain-line-cleaning": "Drain Line Cleaning",
+  "air-vent-cleaning": "Air Vent & Register Cleaning",
+  "whole-system-duct-cleaning": "Whole-System Air Duct Cleaning",
   miscellaneous: "Miscellaneous",
 };
 
@@ -41,7 +50,17 @@ function ServiceFormInner() {
         </div>
       )}
 
-      <DynamicForm jobId={id} slug={formSlug} estimateId={estimateId} />
+      {formSlug === "residential-diagnostic" ? (
+        <ServiceDiagnosticForm jobId={id} />
+      ) : formSlug === "system-startup" ? (
+        <SystemStartupForm jobId={id} />
+      ) : formSlug === "air-vent-cleaning" ? (
+        <VentCleaningForm jobId={id} />
+      ) : formSlug === "whole-system-duct-cleaning" ? (
+        <DuctCleaningForm jobId={id} />
+      ) : (
+        <DynamicForm jobId={id} slug={formSlug} estimateId={estimateId} />
+      )}
     </div>
   );
 }

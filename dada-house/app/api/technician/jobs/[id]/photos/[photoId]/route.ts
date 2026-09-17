@@ -10,10 +10,11 @@ export async function DELETE(
   if (auth instanceof NextResponse) return auth;
 
   const { photoId } = await params;
+  const staffRoles = ["ADMIN", "SUPER_ADMIN"];
   const photo = await db.jobPhoto.findFirst({
     where: {
       id: photoId,
-      technicianId: auth.role === "ADMIN" ? undefined : auth.id,
+      technicianId: staffRoles.includes(auth.role) ? undefined : auth.id,
     },
   });
   if (!photo) return NextResponse.json({ error: "Not found" }, { status: 404 });

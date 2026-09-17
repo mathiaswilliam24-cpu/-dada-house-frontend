@@ -4,6 +4,7 @@ import { redirect, notFound } from "next/navigation";
 import { formatDate, formatCurrency, getStatusColor } from "@/lib/utils";
 import Link from "next/link";
 import { AppointmentActions } from "@/components/admin/appointment-actions";
+import { generateReportToken } from "@/lib/report-sms-fallback";
 import {
   ArrowLeft, Calendar, MapPin, Phone, Mail, User,
   FileText, Clock, HardHat, StickyNote, Camera, Mic,
@@ -17,7 +18,8 @@ export default async function AdminAppointmentDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const session = await auth();
-  if (!session?.user || session.user.role !== "ADMIN") redirect("/");
+  const allowedRoles = ["ADMIN", "SUPER_ADMIN", "MANAGER", "CUSTOMER_SERVICE_REP", "DISPATCHER"];
+  if (!session?.user || !allowedRoles.includes(session.user.role)) redirect("/");
 
   const { id } = await params;
 
@@ -32,6 +34,43 @@ export default async function AdminAppointmentDetailPage({
   });
 
   if (!appt) notFound();
+
+  type ReportRow = { key: string; label: string; date: Date; sentAt: Date | null; url: string };
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://dada-house.com";
+  const reports: ReportRow[] = [];
+
+  const submissions = await db.formSubmission.findMany({
+    where: { appointmentId: id },
+    include: { template: { select: { name: true } } },
+  });
+  for (const s of submissions) {
+    let token = s.reportToken;
+    if (!token) {
+      token = generateReportToken();
+      await db.formSubmission.update({ where: { id: s.id }, data: { reportToken: token } });
+    }
+    reports.push({ key: s.id, label: s.template.name, date: s.submittedAt, sentAt: appt.email || appt.phone ? s.submittedAt : null, url: `${baseUrl}/api/reports/${token}` });
+  }
+
+  const diagnostic = await db.serviceDiagnostic.findUnique({ where: { appointmentId: id } });
+  if (diagnostic) {
+    let token = diagnostic.reportToken;
+    if (!token) {
+      token = generateReportToken();
+      await db.serviceDiagnostic.update({ where: { id: diagnostic.id }, data: { reportToken: token } });
+    }
+    reports.push({ key: diagnostic.id, label: "Service Diagnostic Report", date: diagnostic.completedAt ?? diagnostic.createdAt, sentAt: diagnostic.customerReportSentAt, url: `${baseUrl}/api/reports/${token}` });
+  }
+
+  const startup = await db.systemStartup.findUnique({ where: { appointmentId: id } });
+  if (startup) {
+    let token = startup.reportToken;
+    if (!token) {
+      token = generateReportToken();
+      await db.systemStartup.update({ where: { id: startup.id }, data: { reportToken: token } });
+    }
+    reports.push({ key: startup.id, label: "System Startup & Commissioning Report", date: startup.completedAt ?? startup.createdAt, sentAt: startup.customerReportSentAt, url: `${baseUrl}/api/reports/${token}` });
+  }
 
   return (
     <div className="space-y-6 max-w-4xl">
@@ -219,6 +258,32 @@ export default async function AdminAppointmentDetailPage({
               </div>
             )}
           </div>
+
+          {/* Service Reports */}
+          {reports.length > 0 && (
+            <div className="bg-white rounded-xl border border-gray-200 p-5">
+              <h2 className="font-semibold text-gray-900 mb-3 flex items-center gap-2 text-sm">
+                <FileText className="w-4 h-4 text-[#1B3FA8]" /> Service Reports
+              </h2>
+              <div className="space-y-2">
+                {reports.map((r) => (
+                  <a
+                    key={r.key}
+                    href={r.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex items-center justify-between text-xs border border-gray-100 rounded-lg p-2 hover:border-[#1B3FA8] hover:bg-blue-50/40 transition-colors"
+                  >
+                    <div>
+                      <p className="font-medium text-gray-800">{r.label}</p>
+                      <p className="text-gray-400">{formatDate(r.date.toISOString())}{r.sentAt ? " · sent to customer" : " · not sent yet"}</p>
+                    </div>
+                    <span className="text-[#1B3FA8] font-semibold shrink-0 ml-2">View PDF →</span>
+                  </a>
+                ))}
+              </div>
+            </div>
+          )}
 
           {/* Invoice */}
           <div className="bg-white rounded-xl border border-gray-200 p-5">

@@ -41,9 +41,13 @@ async function findMatchingClientUser(normalizedPhone: string) {
  * closes the gap where a customer added via /admin/customers has no
  * call-center record, or vice versa, and contact info silently goes missing.
  */
+type CustomerDefaults = Partial<
+  Pick<Customer, "firstName" | "lastName" | "email" | "address" | "city" | "state" | "zipCode">
+>;
+
 export async function findOrCreateCustomerByPhone(
   rawPhone: string,
-  defaults?: Partial<Pick<Customer, "firstName" | "lastName" | "email">>
+  defaults?: CustomerDefaults
 ): Promise<Customer> {
   const phone = normalizePhone(rawPhone);
 
@@ -51,23 +55,23 @@ export async function findOrCreateCustomerByPhone(
   if (existing) {
     // Link + backfill even for a customer that already existed (e.g. created by
     // an earlier call, before this person was ever added as a User) — link
-    // detection must work regardless of which record was created first.
-    if (!existing.userId) {
-      const matchingUser = await findMatchingClientUser(phone).catch(() => null);
-      if (matchingUser) {
-        return db.customer.update({
-          where: { id: existing.id },
-          data: {
-            userId: matchingUser.id,
-            email: existing.email || matchingUser.email,
-            address: existing.address || matchingUser.properties[0]?.address,
-            city: existing.city || matchingUser.properties[0]?.city,
-            zipCode: existing.zipCode || matchingUser.properties[0]?.zipCode,
-          },
-        });
-      }
-    }
-    return existing;
+    // detection must work regardless of which record was created first. Also
+    // backfills address fields whenever this call supplies one and the record
+    // on file is blank, so an address entered on a job (dispatcher-created
+    // appointment, etc.) sticks to the customer's profile for next time.
+    const matchingUser = existing.userId ? null : await findMatchingClientUser(phone).catch(() => null);
+    const property = matchingUser?.properties[0];
+
+    const updates: Partial<Customer> = {};
+    if (matchingUser && !existing.userId) updates.userId = matchingUser.id;
+    if (!existing.email && (defaults?.email || matchingUser?.email)) updates.email = defaults?.email || matchingUser?.email;
+    if (!existing.address && (defaults?.address || property?.address)) updates.address = defaults?.address || property?.address;
+    if (!existing.city && (defaults?.city || property?.city)) updates.city = defaults?.city || property?.city;
+    if (!existing.state && (defaults?.state || property?.state)) updates.state = defaults?.state || property?.state;
+    if (!existing.zipCode && (defaults?.zipCode || property?.zipCode)) updates.zipCode = defaults?.zipCode || property?.zipCode;
+
+    if (Object.keys(updates).length === 0) return existing;
+    return db.customer.update({ where: { id: existing.id }, data: updates });
   }
 
   const matchingUser = await findMatchingClientUser(phone).catch(() => null);
@@ -80,12 +84,20 @@ export async function findOrCreateCustomerByPhone(
       lastName: defaults?.lastName,
       email: defaults?.email || matchingUser?.email,
       userId: matchingUser?.id,
-      address: property?.address,
-      city: property?.city,
-      state: property?.state,
-      zipCode: property?.zipCode,
+      address: defaults?.address || property?.address,
+      city: defaults?.city || property?.city,
+      state: defaults?.state || property?.state,
+      zipCode: defaults?.zipCode || property?.zipCode,
     },
   });
+}
+
+export function splitName(fullName: string | null | undefined): { firstName: string; lastName: string | null } {
+  const trimmed = (fullName ?? "").trim();
+  if (!trimmed) return { firstName: "Unknown", lastName: null };
+  const parts = trimmed.split(/\s+/);
+  if (parts.length === 1) return { firstName: parts[0], lastName: null };
+  return { firstName: parts[0], lastName: parts.slice(1).join(" ") };
 }
 
 export async function searchCustomers(query: string, limit = 50) {

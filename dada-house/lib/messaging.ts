@@ -1,4 +1,4 @@
-import { db } from "@/lib/db";
+﻿import { db } from "@/lib/db";
 import { sendSMS } from "@/lib/twilio";
 import { normalizePhone, findOrCreateCustomerByPhone } from "@/lib/customers";
 
@@ -13,7 +13,7 @@ const OPT_IN_CONFIRMATION_MESSAGE =
   "DADA HOUSE: You're now subscribed to appointment and service updates by text. Msg frequency varies. Msg & data rates may apply. Reply STOP to unsubscribe, HELP for help.";
 
 const HELP_MESSAGE =
-  "DADA HOUSE Help: For assistance, call us at +1 (346) 649-9353 or email customerservice@dada-house.com. Msg & data rates may apply. Reply STOP to unsubscribe.";
+  "DADA HOUSE Help: For assistance, call us at +1 (844) 928-0875 or email customerservice@dada-house.com. Msg & data rates may apply. Reply STOP to unsubscribe.";
 
 export class DoNotContactError extends Error {
   constructor(phone: string) {

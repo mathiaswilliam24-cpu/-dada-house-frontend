@@ -13,9 +13,9 @@ import { db } from "@/lib/db";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Plumbing, AC, Heating & Remodeling in Houston",
+  title: "DADA HOUSE — Home Services in Texas & North Carolina",
   description:
-    "Houston's trusted home services company: plumbing, AC repair, heating & remodeling. Same-day service, 24/7 emergency. Call (844) 928-0875.",
+    "Trusted home services in Texas & North Carolina. Expert plumbing, AC repair, heating & remodeling. Same-day service, 24/7 emergency, licensed technicians. Call (844) 928-0875.",
   alternates: { canonical: "/" },
 };
 
@@ -36,7 +36,7 @@ export default async function HomePage() {
     }).catch(() => []),
   ]);
 
-  const heroImage = heroSetting?.value ?? "/Backround%20dada%20house%20web%20site.png";
+  const heroImage = heroSetting?.value ?? "/hero-desktop.webp";
 
   return (
     <>

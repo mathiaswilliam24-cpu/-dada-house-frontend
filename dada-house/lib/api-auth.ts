@@ -62,6 +62,11 @@ export function requireTechnician(req: NextRequest) {
   return requireRole(req, "ADMIN", "SUPER_ADMIN", "TECHNICIAN");
 }
 
+/** Diagnostic supervisor review is management-level — not open to dispatchers/CSRs. */
+export function requireSupervisor(req: NextRequest) {
+  return requireRole(req, "ADMIN", "SUPER_ADMIN", "MANAGER");
+}
+
 export function requireCallCenterStaff(req: NextRequest) {
   return requireRole(
     req,

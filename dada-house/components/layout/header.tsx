@@ -12,6 +12,14 @@ import {
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 
+function getRoleHome(role: string | undefined): { href: string; label: string } {
+  if (role === "ADMIN" || role === "SUPER_ADMIN") return { href: "/admin", label: "Admin Panel" };
+  if (role === "TECHNICIAN") return { href: "/technician", label: "Technician App" };
+  if (role === "DISPATCHER") return { href: "/dispatcher", label: "Dispatch" };
+  if (role === "MANAGER" || role === "CUSTOMER_SERVICE_REP") return { href: "/call-center", label: "Call Center" };
+  return { href: "/portal", label: "My Portal" };
+}
+
 const navLinks = [
   { href: "/services",  label: "Services",       icon: Wrench },
   { href: "/about",     label: "About",           icon: Info },
@@ -75,19 +83,17 @@ export default function Header() {
                   </button>
                   {dropOpen && (
                     <div className="absolute right-0 top-full mt-2 w-52 bg-[#1B3FA8] border border-[#1A3490] rounded-xl shadow-2xl z-50">
-                      {session.user?.role === "ADMIN" ? (
-                        <Link href="/admin" onClick={() => setDropOpen(false)}
-                          className="flex items-center gap-3 px-4 py-3 text-sm text-white hover:bg-white/10 rounded-t-xl transition-colors">
-                          <ShieldCheck size={16} className="text-[#F7921A]" />
-                          Admin Panel
-                        </Link>
-                      ) : (
-                        <Link href="/portal" onClick={() => setDropOpen(false)}
-                          className="flex items-center gap-3 px-4 py-3 text-sm text-white hover:bg-white/10 rounded-t-xl transition-colors">
-                          <User size={16} className="text-[#F7921A]" />
-                          My Portal
-                        </Link>
-                      )}
+                      {(() => {
+                        const { href, label } = getRoleHome(session.user?.role);
+                        const Icon = href === "/portal" ? User : ShieldCheck;
+                        return (
+                          <Link href={href} onClick={() => setDropOpen(false)}
+                            className="flex items-center gap-3 px-4 py-3 text-sm text-white hover:bg-white/10 rounded-t-xl transition-colors">
+                            <Icon size={16} className="text-[#F7921A]" />
+                            {label}
+                          </Link>
+                        );
+                      })()}
                       <div className="h-px bg-[#1A3490]" />
                       <button
                         onClick={() => { signOut({ callbackUrl: "/" }); setDropOpen(false); }}

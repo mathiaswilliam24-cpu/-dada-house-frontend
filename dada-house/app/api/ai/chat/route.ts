@@ -1,11 +1,11 @@
-import { NextRequest, NextResponse } from "next/server";
+﻿import { NextRequest, NextResponse } from "next/server";
 import { getAuthToken } from "@/lib/api-auth";
 import { db } from "@/lib/db";
 import { getOpenAI } from "@/lib/openai";
 
 const SYSTEM_PROMPT = `You are an AI assistant for DADA HOUSE, a professional home services company serving Texas (TX), North Carolina (NC), and Maryland (MD).
 Services offered: HVAC (AC repair, heating), Plumbing, Electrical, Air Duct Cleaning, Remodeling.
-Phone: +1 (844) 928-0875 | Emergency: (346) 649-9353 | Available 24/7.
+Phone: +1 (844) 928-0875 | Emergency: (844) 928-0875 | Available 24/7.
 
 When a customer describes a problem:
 1. Ask 1-2 clarifying questions to understand urgency and service type.

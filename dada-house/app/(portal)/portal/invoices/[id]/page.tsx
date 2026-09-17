@@ -18,7 +18,8 @@ export default async function InvoiceDetailPage({ params }: { params: Promise<{ 
     include: { appointment: true },
   });
 
-  if (!invoice || (invoice.appointment.userId !== session.user.id && session.user.role !== "ADMIN")) {
+  const staffRoles = ["ADMIN", "SUPER_ADMIN", "MANAGER", "CUSTOMER_SERVICE_REP", "DISPATCHER"];
+  if (!invoice || (invoice.appointment.userId !== session.user.id && !staffRoles.includes(session.user.role))) {
     notFound();
   }
 

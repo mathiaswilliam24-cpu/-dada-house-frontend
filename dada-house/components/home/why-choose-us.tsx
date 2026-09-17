@@ -59,7 +59,7 @@ export default function WhyChooseUs() {
             Why DADA HOUSE
           </span>
           <h2 className="text-3xl sm:text-4xl font-black text-white mb-4">
-            Houston&apos;s Most Trusted Home Service Team
+            Houston &amp; North Carolina&apos;s Most Trusted Home Service Team
           </h2>
           <p className="text-blue-200/70 max-w-xl mx-auto">
             We&apos;ve built our reputation on reliability, quality work, and

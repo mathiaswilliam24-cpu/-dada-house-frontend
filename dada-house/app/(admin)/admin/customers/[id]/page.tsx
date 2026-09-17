@@ -10,7 +10,8 @@ export default async function CustomerDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const session = await auth();
-  if (!session?.user || session.user.role !== "ADMIN") redirect("/");
+  const allowedRoles = ["ADMIN", "SUPER_ADMIN", "MANAGER", "CUSTOMER_SERVICE_REP", "DISPATCHER"];
+  if (!session?.user || !allowedRoles.includes(session.user.role)) redirect("/");
 
   const { id } = await params;
   const customerId = decodeURIComponent(id);

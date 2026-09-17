@@ -1,7 +1,7 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Loader2, Check, Plus, Tag, ChevronRight, Camera, X } from "lucide-react";
+import { Loader2, Check, Plus, Tag, ChevronRight, Camera, X, Download } from "lucide-react";
 import { formatCurrency } from "@/lib/utils";
 import { useEstimateItems } from "@/lib/hooks/use-estimate-items";
 import { useUploadThing } from "@/lib/uploadthing-components";
@@ -55,7 +55,13 @@ function MediaField({ value, onChange, compact, required }: { value: string[]; o
           <div className="flex gap-1">
             {value.map((url) => (
               <div key={url} className="relative">
-                <img src={url} alt="" className="w-8 h-8 rounded-lg object-cover border border-gray-200" />
+                {/* Tap the photo to save a copy to the phone — browsers can't
+                    write to the camera roll silently, this is the one
+                    reliable, user-gesture-driven way to get a local backup
+                    beyond the cloud copy already uploaded. */}
+                <a href={url} download target="_blank" rel="noreferrer">
+                  <img src={url} alt="" className="w-8 h-8 rounded-lg object-cover border border-gray-200" />
+                </a>
                 <button type="button" onClick={() => onChange(value.filter((u) => u !== url))} className="absolute -top-1 -right-1 bg-gray-700 rounded-full p-0.5">
                   <X className="w-2.5 h-2.5 text-white" />
                 </button>
@@ -74,6 +80,18 @@ function MediaField({ value, onChange, compact, required }: { value: string[]; o
           {value.map((url) => (
             <div key={url} className="relative">
               <img src={url} alt="" className="w-16 h-16 rounded-lg object-cover border border-gray-200" />
+              {/* Save a copy to the phone — the app can't silently write to
+                  the camera roll, this is the reliable tap-to-save path. */}
+              <a
+                href={url}
+                download
+                target="_blank"
+                rel="noreferrer"
+                className="absolute bottom-0.5 left-0.5 bg-black/60 rounded-md p-0.5"
+                title="Save to phone"
+              >
+                <Download className="w-3 h-3 text-white" />
+              </a>
               <button type="button" onClick={() => onChange(value.filter((u) => u !== url))} className="absolute -top-1.5 -right-1.5 bg-gray-700 rounded-full p-0.5">
                 <X className="w-3 h-3 text-white" />
               </button>
@@ -105,9 +123,35 @@ export function DynamicForm({ jobId, slug, estimateId }: { jobId: string; slug: 
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [submitError, setSubmitError] = useState("");
+  const [autoReport, setAutoReport] = useState(false);
   const { addItem } = useEstimateItems(estimateId ?? null);
   const [addingId, setAddingId] = useState<string | null>(null);
   const [addedIds, setAddedIds] = useState<Set<string>>(new Set());
+
+  // Autosave — a technician filling this out in the field can lose the
+  // whole thing (fields + already-uploaded photos) the moment the phone
+  // screen locks or the OS kills the tab, e.g. right after the camera app
+  // hands control back. Debounce every change to the server so reopening
+  // the form after a crash resumes from the last saved state instead of
+  // starting over from empty.
+  const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  function scheduleSave(next: Record<string, unknown>) {
+    if (saveTimer.current) clearTimeout(saveTimer.current);
+    saveTimer.current = setTimeout(() => {
+      fetch(`/api/technician/jobs/${jobId}/forms/${slug}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ values: next }),
+      }).catch(() => {});
+    }, 600);
+  }
+  function updateValues(updater: (v: Record<string, unknown>) => Record<string, unknown>) {
+    setValues((v) => {
+      const next = updater(v);
+      scheduleSave(next);
+      return next;
+    });
+  }
 
   useEffect(() => {
     fetch(`/api/technician/jobs/${jobId}/forms/${slug}`)
@@ -115,6 +159,7 @@ export function DynamicForm({ jobId, slug, estimateId }: { jobId: string; slug: 
       .then((d) => {
         setTemplate(d.template);
         setValues(d.submission?.values ?? {});
+        setAutoReport(!!d.autoReport);
         setLoading(false);
       })
       .catch(() => setLoading(false));
@@ -123,21 +168,33 @@ export function DynamicForm({ jobId, slug, estimateId }: { jobId: string; slug: 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setSubmitError("");
-    const missingMedia = (template?.fields ?? []).find(
-      (f) => f.type !== "media" && f.allowMedia && f.mediaRequired && fieldVisible(f, values) && !((values[`${f.id}__media`] as string[])?.length)
-    );
+    const missingMedia = (template?.fields ?? []).find((f) => {
+      if (!fieldVisible(f, values)) return false;
+      if (f.type === "media") return f.required && !((values[f.id] as string[])?.length);
+      return f.allowMedia && f.mediaRequired && !((values[`${f.id}__media`] as string[])?.length);
+    });
     if (missingMedia) {
       setSubmitError(`A photo/video is required for "${missingMedia.label}".`);
       return;
     }
+    if (autoReport && !(values.__technicianComments as string | undefined)?.trim()) {
+      setSubmitError("Please add your comments (problems observed and recommendations) before saving.");
+      return;
+    }
+    if (saveTimer.current) clearTimeout(saveTimer.current);
     setSaving(true);
     setSaved(false);
-    await fetch(`/api/technician/jobs/${jobId}/forms/${slug}`, {
+    const res = await fetch(`/api/technician/jobs/${jobId}/forms/${slug}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ values }),
+      body: JSON.stringify({ values, estimateId: estimateId ?? null }),
     });
     setSaving(false);
+    if (!res.ok) {
+      const d = await res.json().catch(() => ({}));
+      setSubmitError(d.error ?? "Failed to save form.");
+      return;
+    }
     setSaved(true);
   }
 
@@ -166,7 +223,7 @@ export function DynamicForm({ jobId, slug, estimateId }: { jobId: string; slug: 
 
   return (
     <div className="space-y-4">
-      {visibleFields.length > 0 && (
+      {(visibleFields.length > 0 || autoReport) && (
         <form onSubmit={handleSubmit} className="bg-white rounded-2xl border border-gray-200 p-4 space-y-4">
           {visibleFields.map((field) => (
             <div key={field.id}>
@@ -177,20 +234,20 @@ export function DynamicForm({ jobId, slug, estimateId }: { jobId: string; slug: 
                     compact
                     required={field.mediaRequired}
                     value={(values[`${field.id}__media`] as string[]) ?? []}
-                    onChange={(urls) => setValues((v) => ({ ...v, [`${field.id}__media`]: urls }))}
+                    onChange={(urls) => updateValues((v) => ({ ...v, [`${field.id}__media`]: urls }))}
                   />
                 )}
               </label>
               {field.type === "media" ? (
                 <MediaField
                   value={(values[field.id] as string[]) ?? []}
-                  onChange={(urls) => setValues((v) => ({ ...v, [field.id]: urls }))}
+                  onChange={(urls) => updateValues((v) => ({ ...v, [field.id]: urls }))}
                 />
               ) : field.type === "textarea" ? (
                 <textarea
                   required={field.required}
                   value={(values[field.id] as string) ?? ""}
-                  onChange={(e) => setValues((v) => ({ ...v, [field.id]: e.target.value }))}
+                  onChange={(e) => updateValues((v) => ({ ...v, [field.id]: e.target.value }))}
                   rows={3}
                   className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm resize-none"
                 />
@@ -198,7 +255,7 @@ export function DynamicForm({ jobId, slug, estimateId }: { jobId: string; slug: 
                 <select
                   required={field.required}
                   value={(values[field.id] as string) ?? ""}
-                  onChange={(e) => setValues((v) => ({ ...v, [field.id]: e.target.value }))}
+                  onChange={(e) => updateValues((v) => ({ ...v, [field.id]: e.target.value }))}
                   className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm"
                 >
                   <option value="">Select…</option>
@@ -209,7 +266,7 @@ export function DynamicForm({ jobId, slug, estimateId }: { jobId: string; slug: 
                   <input
                     type="checkbox"
                     checked={!!values[field.id]}
-                    onChange={(e) => setValues((v) => ({ ...v, [field.id]: e.target.checked }))}
+                    onChange={(e) => updateValues((v) => ({ ...v, [field.id]: e.target.checked }))}
                   />
                   Yes
                 </label>
@@ -218,12 +275,28 @@ export function DynamicForm({ jobId, slug, estimateId }: { jobId: string; slug: 
                   type={field.type === "number" ? "number" : field.type === "date" ? "date" : "text"}
                   required={field.required}
                   value={(values[field.id] as string) ?? ""}
-                  onChange={(e) => setValues((v) => ({ ...v, [field.id]: e.target.value }))}
+                  onChange={(e) => updateValues((v) => ({ ...v, [field.id]: e.target.value }))}
                   className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm"
                 />
               )}
             </div>
           ))}
+
+          {autoReport && (
+            <div className="border-t border-gray-100 pt-4">
+              <label className="text-xs text-gray-500 font-medium mb-1 block">
+                Technician Comments — problems observed & recommendations<span className="text-red-500"> *</span>
+              </label>
+              <p className="text-[11px] text-gray-400 mb-1.5">This is sent to the customer along with their report PDF.</p>
+              <textarea
+                value={(values.__technicianComments as string) ?? ""}
+                onChange={(e) => updateValues((v) => ({ ...v, __technicianComments: e.target.value }))}
+                rows={4}
+                placeholder="e.g. Found the run capacitor reading below spec, recommend replacement within 30 days to avoid compressor strain…"
+                className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm resize-none"
+              />
+            </div>
+          )}
 
           {submitError && <p className="text-xs text-red-600 bg-red-50 rounded-lg px-3 py-2">{submitError}</p>}
           <button

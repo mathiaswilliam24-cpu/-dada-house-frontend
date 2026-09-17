@@ -58,7 +58,8 @@ export default async function PrintInvoicePage({
     const user = session?.user as { id?: string; role?: string } | undefined;
     if (!user) redirect("/auth/login");
     // Clients can only view their own invoices
-    if (user.role !== "ADMIN" && invoice.appointment.userId !== user.id) {
+    const staffRoles = ["ADMIN", "SUPER_ADMIN", "MANAGER", "CUSTOMER_SERVICE_REP", "DISPATCHER"];
+    if (!staffRoles.includes(user.role ?? "") && invoice.appointment.userId !== user.id) {
       redirect("/dashboard");
     }
   }

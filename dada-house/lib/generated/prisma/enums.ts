@@ -114,6 +114,17 @@ export const SubscriptionStatus = {
 export type SubscriptionStatus = (typeof SubscriptionStatus)[keyof typeof SubscriptionStatus]
 
 
+export const DiagnosticStatus = {
+  DRAFT: 'DRAFT',
+  AWAITING_SUPERVISOR_REVIEW: 'AWAITING_SUPERVISOR_REVIEW',
+  RETURNED: 'RETURNED',
+  ADDITIONAL_TESTING_REQUESTED: 'ADDITIONAL_TESTING_REQUESTED',
+  APPROVED: 'APPROVED'
+} as const
+
+export type DiagnosticStatus = (typeof DiagnosticStatus)[keyof typeof DiagnosticStatus]
+
+
 export const CustomerType = {
   RESIDENTIAL: 'RESIDENTIAL',
   COMMERCIAL: 'COMMERCIAL',

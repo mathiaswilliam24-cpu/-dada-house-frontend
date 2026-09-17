@@ -15,11 +15,11 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "DADA HOUSE — Plumbing, AC, Heating & Remodeling in Houston",
+    default: "DADA HOUSE — Home Services in Texas & North Carolina",
     template: "%s | DADA HOUSE",
   },
   description:
-    "Houston's trusted home services company: plumbing, AC repair, heating & remodeling. Same-day service, 24/7 emergency. Call (844) 928-0875.",
+    "Trusted home services in Texas & North Carolina. Expert plumbing, AC repair, heating & remodeling. Same-day service, 24/7 emergency, licensed technicians. Call (844) 928-0875.",
   keywords: [
     "plumbing Houston",
     "AC repair Houston",
@@ -67,6 +67,9 @@ export const metadata: Metadata = {
   },
   metadataBase: new URL("https://dada-house.com"),
   robots: { index: true, follow: true },
+  verification: {
+    google: "H1hdW2K9_U_pTC-qifOtnuMFu8WT5u10PzWYcL8kRAA",
+  },
 };
 
 export default function RootLayout({

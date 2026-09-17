@@ -7,12 +7,24 @@ import {
   Images, HardHat, Map, BarChart3, ShoppingBag, FileText, Radio,
   Package, Layers, TrendingUp, MessageCircle, Bell, Shield,
   FolderOpen, ReceiptText, ClipboardList, Monitor, BookOpen, Megaphone,
-  PhoneCall, Phone, MessageSquare, Contact,
+  PhoneCall, Phone, MessageSquare, Contact, ClipboardCheck, Wrench,
 } from "lucide-react";
 import { signOut } from "@/auth";
 
 type NavItem = { href: string; label: string; icon: React.ComponentType<{ size?: number; className?: string }>; superAdminOnly?: boolean };
 type NavGroup = { label: string | null; items: NavItem[] };
+
+// Dispatchers/CSRs/managers land in this same admin-shell layout for shared
+// pages (e.g. creating an estimate) — the footer used to hardcode
+// "Administrator" for anyone who wasn't SUPER_ADMIN, which looked like the
+// account had switched. Show the account's actual role instead.
+const ROLE_LABEL: Record<string, string> = {
+  SUPER_ADMIN: "Super Admin",
+  ADMIN: "Administrator",
+  MANAGER: "Manager",
+  CUSTOMER_SERVICE_REP: "Customer Service Rep",
+  DISPATCHER: "Dispatcher",
+};
 
 const navGroups: NavGroup[] = [
   {
@@ -49,6 +61,8 @@ const navGroups: NavGroup[] = [
     label: "FIELD",
     items: [
       { href: "/admin/technicians", label: "Technicians", icon: HardHat },
+      { href: "/admin/diagnostics", label: "Diagnostic Reviews", icon: ClipboardCheck },
+      { href: "/admin/system-startups", label: "System Startup Reviews", icon: Wrench },
       { href: "/admin/invoices", label: "Invoices", icon: ReceiptText },
       { href: "/admin/estimates", label: "Estimates", icon: ClipboardList },
       { href: "/admin/price-book", label: "Price Book", icon: BookOpen },
@@ -156,14 +170,14 @@ export default async function AdminLayout({ children }: { children: React.ReactN
           <div className="flex items-center gap-2.5 px-2 py-1.5 mb-1">
             <div className="w-7 h-7 rounded-full bg-[#F7921A] flex items-center justify-center shrink-0">
               <span className="text-xs font-bold text-white">
-                {(session.user.name ?? session.user.email ?? "A")[0].toUpperCase()}
+                {(session.user.name?.trim() || session.user.email || "A")[0]?.toUpperCase() ?? "A"}
               </span>
             </div>
             <div className="min-w-0">
               <p className="text-xs text-white font-medium truncate">
                 {session.user.name ?? session.user.email}
               </p>
-              <p className="text-[10px] text-orange-400">{session.user.role === "SUPER_ADMIN" ? "Super Admin" : "Administrator"}</p>
+              <p className="text-[10px] text-orange-400">{ROLE_LABEL[session.user.role] ?? "Administrator"}</p>
             </div>
           </div>
           <form

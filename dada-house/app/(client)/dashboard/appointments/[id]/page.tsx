@@ -77,7 +77,8 @@ export default async function AppointmentDetailPage({
   });
 
   if (!appt) notFound();
-  if (appt.userId !== session.user.id && session.user.role !== "ADMIN") {
+  const staffRoles = ["ADMIN", "SUPER_ADMIN", "MANAGER", "CUSTOMER_SERVICE_REP", "DISPATCHER"];
+  if (appt.userId !== session.user.id && !staffRoles.includes(session.user.role)) {
     redirect("/dashboard");
   }
 

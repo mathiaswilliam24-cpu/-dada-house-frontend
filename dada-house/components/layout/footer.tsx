@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import Image from "next/image";
 import {
   Phone,
@@ -51,8 +51,8 @@ export default function Footer() {
             </div>
 
             <p className="text-slate-400 text-sm leading-relaxed mb-6">
-              Houston&apos;s premier home services company. Expert plumbing, AC,
-              heating, and remodeling — available around the clock.
+              Premier home services company serving Houston, TX and North Carolina.
+              Expert plumbing, AC, heating, and remodeling — available around the clock.
             </p>
 
             {/* Contact info */}
@@ -78,7 +78,7 @@ export default function Footer() {
                     href="tel:+18449280875"
                     className="text-red-400 font-bold text-sm hover:text-red-300 transition-colors"
                   >
-                    (346) 649-9353
+                    (844) 928-0875
                   </a>
                 </div>
               </div>

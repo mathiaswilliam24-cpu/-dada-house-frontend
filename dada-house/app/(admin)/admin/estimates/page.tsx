@@ -14,6 +14,7 @@ type Estimate = {
   sentAt: string | null;
   createdAt: string;
   technician: { name: string | null } | null;
+  isInvoice: boolean;
 };
 
 const fmt = (n: number) =>
@@ -147,6 +148,11 @@ export default function AdminEstimatesPage() {
                         }`}>
                           {est.status}
                         </span>
+                        {est.isInvoice && (
+                          <span className="ml-1 text-xs px-2.5 py-1 rounded-full font-medium border text-purple-600 bg-purple-50 border-purple-200">
+                            Invoice
+                          </span>
+                        )}
                         {est.sentAt && (
                           <div className="flex items-center gap-1">
                             <Send className="w-3 h-3 text-blue-500" />

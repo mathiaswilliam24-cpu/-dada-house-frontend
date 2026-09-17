@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { Calendar, Phone, AlertTriangle } from "lucide-react";
 
 export default function CTASection() {
@@ -46,7 +46,7 @@ export default function CTASection() {
             href="tel:+18449280875"
             className="text-orange-100 text-sm font-semibold hover:text-white transition-colors"
           >
-            Emergency? Call (346) 649-9353 — We answer 24/7
+            Emergency? Call (844) 928-0875 — We answer 24/7
           </a>
         </div>
       </div>

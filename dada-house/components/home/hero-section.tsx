@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { Phone, AlertTriangle, Calendar, Star, CheckCircle, MessageSquare } from "lucide-react";
@@ -11,7 +11,7 @@ const trustBadges = [
   { icon: CheckCircle, label: "Same-Day Service" },
 ];
 
-export default function HeroSection({ heroImage = "/Backround%20dada%20house%20web%20site.png" }: { heroImage?: string }) {
+export default function HeroSection({ heroImage = "/hero-desktop.webp" }: { heroImage?: string }) {
   return (
     <div>
       {/* ── Badge + Trust (white background) ── */}
@@ -37,7 +37,7 @@ export default function HeroSection({ heroImage = "/Backround%20dada%20house%20w
         {/* Mobile background */}
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat md:hidden"
-          style={{ backgroundImage: `url('/Backround%20dada%20house%20phone.png')` }}
+          style={{ backgroundImage: `url('/hero-mobile.webp')` }}
         />
         {/* Desktop background */}
         <div
@@ -48,10 +48,10 @@ export default function HeroSection({ heroImage = "/Backround%20dada%20house%20w
         <div className="relative px-5 pt-8 pb-10 md:max-w-7xl md:mx-auto md:px-10 md:pt-24 md:pb-28">
           {/* Heading + description — first text Google reads on the page */}
           <h1 className="text-3xl md:text-5xl font-black text-white mb-4 leading-tight drop-shadow-lg">
-            Houston&apos;s Premier<br className="hidden md:block" /> Home Services
+            Premier<br className="hidden md:block" /> Home Services
           </h1>
           <p className="text-slate-100 text-base md:text-lg max-w-lg leading-relaxed mb-6 drop-shadow">
-            Expert plumbing, air conditioning, heating &amp; home remodeling across Houston, TX.
+            Expert plumbing, air conditioning, heating &amp; home remodeling across Texas &amp; North Carolina.
             Same-day appointments, 24/7 emergency service, and licensed background-checked technicians.
           </p>
 
@@ -114,7 +114,7 @@ export default function HeroSection({ heroImage = "/Backround%20dada%20house%20w
               <span className="text-red-300 text-[10px] font-bold uppercase tracking-wide">Emergency Line</span>
             </div>
             <a href="tel:+18449280875" className="block text-white text-lg font-black leading-tight mb-1">
-              (346) 649-9353
+              (844) 928-0875
             </a>
             <p className="text-slate-400 text-xs mb-3 leading-snug">Speak directly with a technician for urgent situations.</p>
             <a

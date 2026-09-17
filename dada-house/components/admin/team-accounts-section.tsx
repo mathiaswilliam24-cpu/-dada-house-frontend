@@ -161,7 +161,7 @@ export function TeamAccountsSection({ users: initial }: { users: TeamUser[] }) {
           {users.map(u => (
             <div key={u.id} className="px-5 py-3.5 flex items-center gap-3">
               <div className="w-9 h-9 rounded-full bg-[#1B3FA8] flex items-center justify-center shrink-0">
-                <span className="text-sm font-bold text-white">{(u.name ?? u.email)[0].toUpperCase()}</span>
+                <span className="text-sm font-bold text-white">{(u.name?.trim() || u.email)[0]?.toUpperCase() ?? "?"}</span>
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-medium text-gray-900">{u.name ?? "(No name)"}</p>

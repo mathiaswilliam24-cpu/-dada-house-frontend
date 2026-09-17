@@ -40,7 +40,27 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
   // record has none of its own (e.g. added via /admin/customers separately).
   const email = customer.email || customer.user?.email || null;
 
-  return NextResponse.json({ customer: { ...customer, email, invoices } });
+  // Estimate has no customerId relation at all (only a loose clientEmail /
+  // clientPhone / optional appointmentId) — match on whichever contact info
+  // this customer actually has, since a dispatcher-created estimate is
+  // usually not tied to an existing appointment yet.
+  const apptIds = customer.appointments.map((a) => a.id);
+  const estimates = await db.estimate.findMany({
+    where: {
+      OR: [
+        ...(email ? [{ clientEmail: { equals: email, mode: "insensitive" as const } }] : []),
+        ...(customer.phone ? [{ clientPhone: customer.phone }, { clientMobile: customer.phone }] : []),
+        ...(apptIds.length > 0 ? [{ appointmentId: { in: apptIds } }] : []),
+      ],
+    },
+    orderBy: { createdAt: "desc" },
+    select: {
+      id: true, estimateNumber: true, total: true, status: true, isInvoice: true,
+      createdAt: true, paymentToken: true, sentAt: true,
+    },
+  });
+
+  return NextResponse.json({ customer: { ...customer, email, invoices, estimates } });
 }
 
 export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {

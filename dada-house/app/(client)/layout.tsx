@@ -14,9 +14,10 @@ export default async function ClientLayout({
   if (!session?.user) {
     redirect("/auth/login?callbackUrl=/dashboard");
   }
-  if (session.user.role === "ADMIN") redirect("/admin");
+  if (session.user.role === "ADMIN" || session.user.role === "SUPER_ADMIN") redirect("/admin");
   if (session.user.role === "TECHNICIAN") redirect("/technician");
   if (session.user.role === "DISPATCHER") redirect("/dispatcher");
+  if (session.user.role === "MANAGER" || session.user.role === "CUSTOMER_SERVICE_REP") redirect("/call-center");
 
   return (
     <div className="bg-gray-50">

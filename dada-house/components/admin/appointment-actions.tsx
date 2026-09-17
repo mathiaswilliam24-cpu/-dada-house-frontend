@@ -36,7 +36,7 @@ export function AppointmentActions({
   const containerRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
-  const [dropdownPos, setDropdownPos] = useState<{ top: number; right: number } | null>(null);
+  const [dropdownPos, setDropdownPos] = useState<{ top?: number; bottom?: number; right: number } | null>(null);
   const [status, setStatus] = useState(currentStatus);
   const [notes, setNotes] = useState(currentNotes ?? "");
   const [technicianId, setTechnicianId] = useState(currentTechnicianId ?? "");
@@ -110,10 +110,21 @@ export function AppointmentActions({
     }
   };
 
+  // The panel is tall (status + technician + notes + invoice section) — anchoring it
+  // to the button's bottom edge alone pushes the Save button off-screen for any row
+  // near the bottom of the viewport. Flip it to open upward from the button's top
+  // edge instead whenever there isn't enough room below.
   function handleToggle() {
     if (!open && buttonRef.current) {
       const rect = buttonRef.current.getBoundingClientRect();
-      setDropdownPos({ top: rect.bottom + 4, right: window.innerWidth - rect.right });
+      const estimatedHeight = 460;
+      const spaceBelow = window.innerHeight - rect.bottom;
+      const right = window.innerWidth - rect.right;
+      if (spaceBelow < estimatedHeight && rect.top > spaceBelow) {
+        setDropdownPos({ bottom: window.innerHeight - rect.top + 4, right });
+      } else {
+        setDropdownPos({ top: rect.bottom + 4, right });
+      }
     }
     setOpen(o => !o);
   }
@@ -121,7 +132,14 @@ export function AppointmentActions({
   const dropdown = open && dropdownPos ? createPortal(
     <div
       ref={panelRef}
-      style={{ position: "fixed", top: dropdownPos.top, right: dropdownPos.right, zIndex: 9999 }}
+      style={{
+        position: "fixed",
+        ...(dropdownPos.top !== undefined ? { top: dropdownPos.top } : { bottom: dropdownPos.bottom }),
+        right: dropdownPos.right,
+        zIndex: 9999,
+        maxHeight: "calc(100vh - 16px)",
+        overflowY: "auto",
+      }}
       className="w-72 bg-white border border-gray-200 rounded-xl shadow-2xl px-4 pb-4 pt-3 space-y-4"
     >
           <div className="flex items-center justify-between pb-1">

@@ -11,7 +11,8 @@ export const dynamic = "force-dynamic";
 export default async function TechnicianLayout({ children }: { children: React.ReactNode }) {
   const session = await auth();
   if (!session?.user) redirect("/auth/login?callbackUrl=/technician");
-  if (session.user.role !== "TECHNICIAN" && session.user.role !== "ADMIN") redirect("/");
+  const allowedRoles = ["TECHNICIAN", "ADMIN", "SUPER_ADMIN"];
+  if (!allowedRoles.includes(session.user.role)) redirect("/");
 
   if (session.user.role === "TECHNICIAN") {
     const lastClock = await db.technicianClockEntry.findFirst({

@@ -1,4 +1,4 @@
-import { db } from "@/lib/db";
+﻿import { db } from "@/lib/db";
 import { sendTrackedEmail } from "@/lib/customer-email";
 import { sendOutboundSms, DoNotContactError } from "@/lib/messaging";
 import { resend, FROM_EMAIL } from "@/lib/resend";
@@ -74,7 +74,7 @@ export async function sendAppointmentConfirmationEmail(appointmentId: string) {
           </p>
         </td></tr>
         <tr><td style="background:#f4f6fb;padding:16px 32px;text-align:center;">
-          <p style="margin:0;color:#999;font-size:12px;">DADA HOUSE LLC · TX · NC · MD · (346) 649-9353</p>
+          <p style="margin:0;color:#999;font-size:12px;">DADA HOUSE LLC · TX · NC · MD · (844) 928-0875</p>
         </td></tr>
       </table>
     </td></tr>
@@ -179,7 +179,7 @@ export async function sendTechnicianAssignmentNotification(appointmentId: string
           </table>
         </td></tr>
         <tr><td style="background:#f4f6fb;padding:16px 32px;text-align:center;">
-          <p style="margin:0;color:#999;font-size:12px;">DADA HOUSE LLC · TX · NC · MD · (346) 649-9353</p>
+          <p style="margin:0;color:#999;font-size:12px;">DADA HOUSE LLC · TX · NC · MD · (844) 928-0875</p>
         </td></tr>
       </table>
     </td></tr>

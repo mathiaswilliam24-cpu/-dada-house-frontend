@@ -8,6 +8,7 @@ import {
   StickyNote, MessageSquare, Star, Loader2, Send, Play, Pause, Hash, CalendarClock,
 } from "lucide-react";
 import { formatDate } from "@/lib/utils";
+import { CallButton, MessageButton } from "@/components/technician/call-sms-actions";
 
 const ALL_STATUSES = [
   "ASSIGNED", "ACCEPTED", "EN_ROUTE", "ARRIVED", "DIAGNOSING",
@@ -39,6 +40,7 @@ type Job = {
   diagnosticFeeStatus?: string; adminNotes?: string; signatureUrl?: string;
   photos: string[];
   diagnosisForm?: { id: string; problemFound: string };
+  serviceDiagnostic?: { completedAt: string | null };
   jobPhotos?: { id: string; url: string; category: string }[];
   payments?: { id: string; amount: number; method: string }[];
   checklist?: { items: unknown[] };
@@ -295,12 +297,12 @@ export default function TechJobDetailPage() {
           <Navigation className="w-4 h-4" /> Get Directions
         </a>
         <div className="grid grid-cols-2 gap-2">
-          <a href={`tel:${job.phone}`} className="flex items-center justify-center gap-2 py-2 bg-gray-100 text-gray-700 rounded-xl text-sm font-semibold">
+          <CallButton jobId={id} className="flex items-center justify-center gap-2 py-2 bg-gray-100 text-gray-700 rounded-xl text-sm font-semibold w-full">
             <Phone className="w-4 h-4" /> Call
-          </a>
-          <a href={`sms:${job.phone}`} className="flex items-center justify-center gap-2 py-2 bg-gray-100 text-gray-700 rounded-xl text-sm font-semibold">
+          </CallButton>
+          <MessageButton jobId={id} className="flex items-center justify-center gap-2 py-2 bg-gray-100 text-gray-700 rounded-xl text-sm font-semibold w-full">
             <MessageSquare className="w-4 h-4" /> Text
-          </a>
+          </MessageButton>
         </div>
       </div>
 
@@ -411,7 +413,7 @@ export default function TechJobDetailPage() {
         <div className="grid grid-cols-3 gap-2">
           {QUICK_ACTIONS.map(({ href, label, icon: Icon, color }) => {
             const hasData =
-              (href === "diagnosis" && job.diagnosisForm) ||
+              (href === "diagnosis" && !!job.serviceDiagnostic?.completedAt) ||
               (href === "photos" && (job.jobPhotos?.length ?? 0) > 0) ||
               (href === "checklist" && job.checklist) ||
               (href === "parts" && (job.parts?.length ?? 0) > 0) ||

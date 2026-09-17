@@ -13,6 +13,7 @@ type Estimate = {
   status: string;
   sentAt: string | null;
   createdAt: string;
+  isInvoice: boolean;
 };
 
 const TABS = ["ALL", "OPEN", "CLOSED"] as const;
@@ -174,6 +175,11 @@ export default function TechnicianEstimatesPage() {
                             {est.sentAt && (
                               <span className="text-[10px] px-1.5 py-0.5 rounded-full font-bold bg-green-50 text-green-600">
                                 Sent
+                              </span>
+                            )}
+                            {est.isInvoice && (
+                              <span className="text-[10px] px-1.5 py-0.5 rounded-full font-bold bg-purple-50 text-purple-600">
+                                Invoice
                               </span>
                             )}
                           </div>

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { Phone, AlertTriangle, MessageSquare } from "lucide-react";
 
@@ -12,7 +12,7 @@ export default function AnnouncementBar() {
           <span className="font-semibold">+1 (844) 928-0875</span>
           <span className="text-white/50 mx-1">|</span>
           <AlertTriangle size={11} />
-          <span className="font-semibold">(346) 649-9353</span>
+          <span className="font-semibold">(844) 928-0875</span>
           <span className="text-white/50 mx-1">|</span>
           <MessageSquare size={11} />
           <span className="font-semibold">844-928-0875</span>

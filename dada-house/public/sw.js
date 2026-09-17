@@ -1,4 +1,4 @@
-const CACHE = "dada-house-v2";
+const CACHE = "dada-house-v3";
 const OFFLINE = "/offline.html";
 
 const PRECACHE = [
@@ -44,6 +44,7 @@ self.addEventListener("fetch", (event) => {
     url.pathname.startsWith("/icon-") ||
     url.pathname.endsWith(".png") ||
     url.pathname.endsWith(".jpg") ||
+    url.pathname.endsWith(".webp") ||
     url.pathname.endsWith(".svg")
   ) {
     event.respondWith(
@@ -58,7 +59,16 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  // Everything else → network-first, offline fallback
+  // Next.js App Router client-side navigations fetch the RSC payload (React
+  // Flight, not HTML) via a plain GET to the *same pathname* as the page —
+  // caching that under the page's URL and later serving it back for a real
+  // document navigation (e.g. after a network hiccup on a technician's phone)
+  // renders a blank page, since Flight data isn't valid HTML. Only real
+  // top-level document navigations get the cache/offline treatment; every
+  // other GET (RSC data requests, API calls) goes straight to the network
+  // with no caching and no stale/wrong-shaped fallback.
+  if (event.request.mode !== "navigate") return;
+
   event.respondWith(
     fetch(event.request)
       .then((res) => {
@@ -69,11 +79,7 @@ self.addEventListener("fetch", (event) => {
         return res;
       })
       .catch(() =>
-        caches.match(event.request).then((cached) =>
-          cached || (event.request.headers.get("accept")?.includes("text/html")
-            ? caches.match(OFFLINE)
-            : Response.error())
-        )
+        caches.match(event.request).then((cached) => cached || caches.match(OFFLINE))
       )
   );
 });
