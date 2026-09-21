@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { formatDistanceToNowStrict } from "date-fns";
-import { Clock, MapPin, User, Plus, ChevronRight, Mail, CheckCircle, Loader2, HardHat, AlertTriangle, Globe, Bot, Headset } from "lucide-react";
+import { Clock, MapPin, User, Plus, ChevronRight, Mail, CheckCircle, Loader2, HardHat, AlertTriangle, Globe, Bot, Headset, RefreshCw } from "lucide-react";
 
 type Appt = {
   id: string; appointmentNumber: string; name: string; phone: string; email: string;
@@ -36,6 +36,7 @@ export default function DispatcherPage() {
   const [sending, setSending] = useState<string | null>(null);
   const [sent, setSent] = useState<Set<string>>(new Set());
   const [now, setNow] = useState(() => Date.now());
+  const [lastRefresh, setLastRefresh] = useState(() => Date.now());
   const today = new Date().toISOString().split("T")[0];
 
   async function sendConfirmation(e: React.MouseEvent, apptId: string) {
@@ -50,11 +51,19 @@ export default function DispatcherPage() {
     }
   }
 
-  useEffect(() => {
+  function fetchAppts() {
     fetch("/api/dispatcher/requests")
       .then(r => r.json())
-      .then(d => { setAppts(d.appointments ?? []); setLoading(false); })
+      .then(d => { setAppts(d.appointments ?? []); setLoading(false); setLastRefresh(Date.now()); })
       .catch(() => setLoading(false));
+  }
+
+  useEffect(() => { fetchAppts(); }, []);
+
+  // Auto-refresh every 60 s so new online bookings appear without manual reload.
+  useEffect(() => {
+    const interval = setInterval(fetchAppts, 60000);
+    return () => clearInterval(interval);
   }, []);
 
   // Keep "booked X min ago" / "NEW" badges live without refetching.
@@ -75,9 +84,21 @@ export default function DispatcherPage() {
           <h1 className="text-2xl font-bold text-gray-900">Schedule Board</h1>
           <p className="text-gray-500 text-sm mt-0.5">{new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" })}</p>
         </div>
-        <Link href="/dispatcher/appointments/new" className="inline-flex items-center gap-2 px-4 py-2 bg-[#F7921A] text-white rounded-lg text-sm font-semibold hover:bg-[#F7921A]/90">
-          <Plus className="w-4 h-4" />New Job
-        </Link>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={fetchAppts}
+            title="Refresh"
+            className="inline-flex items-center gap-1.5 px-3 py-2 bg-white border border-gray-200 text-gray-600 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors"
+          >
+            <RefreshCw className="w-4 h-4" />
+            <span className="hidden sm:inline text-xs text-gray-400">
+              {new Date(lastRefresh).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+            </span>
+          </button>
+          <Link href="/dispatcher/appointments/new" className="inline-flex items-center gap-2 px-4 py-2 bg-[#F7921A] text-white rounded-lg text-sm font-semibold hover:bg-[#F7921A]/90">
+            <Plus className="w-4 h-4" />New Job
+          </Link>
+        </div>
       </div>
 
       <div className="grid grid-cols-3 gap-3">
