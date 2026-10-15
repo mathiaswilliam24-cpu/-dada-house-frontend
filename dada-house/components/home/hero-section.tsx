@@ -1,166 +1,172 @@
 ﻿"use client";
 
 import Link from "next/link";
-import { Phone, AlertTriangle, Calendar, Star, CheckCircle, MessageSquare } from "lucide-react";
+import { Phone, Calendar, Star, CheckCircle, ArrowRight, Wrench, Shield, Clock } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 
-const trustBadges = [
-  { icon: CheckCircle, label: "Background-Checked" },
-  { icon: Star, label: "5-Star Rated" },
-  { icon: CheckCircle, label: "Same-Day Service" },
+const stats = [
+  { value: "500+", label: "Jobs Completed" },
+  { value: "5.0★", label: "Average Rating" },
+  { value: "Same Day", label: "Availability" },
+  { value: "100%", label: "Satisfaction" },
 ];
 
-export default function HeroSection({ heroImage = "/hero-desktop.webp" }: { heroImage?: string }) {
+const services = [
+  "TV Mounting",
+  "Furniture Assembly",
+  "Bathroom Remodeling",
+  "Kitchen Remodeling",
+  "Flooring & Tile",
+  "Painting",
+  "Plumbing",
+  "Pressure Washing",
+];
+
+export default function HeroSection({ heroImage: _heroImage = "/hero-desktop.webp" }: { heroImage?: string }) {
   return (
-    <div>
-      {/* ── Badge + Trust (white background) ── */}
-      <div className="bg-white px-4 pt-5 pb-4 text-center">
-        <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#F7921A]/10 border border-[#F7921A]/30 rounded-full mb-4">
-          <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-          <span className="text-[#F7921A] text-sm font-bold tracking-wide uppercase">
-            Available 24 Hours / 7 Days a Week
-          </span>
+    <div className="bg-white">
+      {/* ── HERO ── */}
+      <section className="relative overflow-hidden" style={{ background: "linear-gradient(135deg, #0A1628 0%, #102050 40%, #1B3FA8 100%)" }}>
+
+        {/* Blueprint grid pattern */}
+        <div className="absolute inset-0 opacity-[0.07]" style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Cpath d='M60 0 L0 0 0 60' fill='none' stroke='%23ffffff' stroke-width='0.5'/%3E%3C/svg%3E")`,
+          backgroundSize: "60px 60px",
+        }} />
+
+        {/* Orange glow accent */}
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] rounded-full opacity-10 blur-3xl"
+          style={{ background: "radial-gradient(circle, #F7921A 0%, transparent 70%)", transform: "translate(30%, -30%)" }} />
+        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full opacity-10 blur-3xl"
+          style={{ background: "radial-gradient(circle, #3B82F6 0%, transparent 70%)", transform: "translate(-30%, 30%)" }} />
+
+        {/* Decorative tool shapes */}
+        <div className="absolute right-8 top-1/2 -translate-y-1/2 opacity-5 hidden lg:block">
+          <svg width="320" height="320" viewBox="0 0 24 24" fill="white">
+            <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+          </svg>
         </div>
-        <div className="flex flex-wrap items-center justify-center gap-4">
-          {trustBadges.map((badge) => (
-            <div key={badge.label} className="flex items-center gap-1.5 text-gray-700 text-sm font-semibold">
-              <badge.icon size={15} className="text-[#F7921A]" />
-              <span>{badge.label}</span>
+
+        <div className="relative max-w-7xl mx-auto px-5 md:px-10 pt-14 pb-16 md:pt-24 md:pb-28">
+          <div className="max-w-2xl">
+
+            {/* Badge */}
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6"
+              style={{ background: "rgba(247,146,26,0.15)", border: "1px solid rgba(247,146,26,0.35)" }}>
+              <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+              <span className="text-[#F7921A] text-xs font-bold tracking-widest uppercase">Available Now · TX &amp; NC</span>
             </div>
-          ))}
-        </div>
-      </div>
 
-      {/* ── Hero image with overlaid content ── */}
-      <section className="relative min-h-[400px] md:min-h-[640px]">
-        {/* Mobile background */}
-        <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat md:hidden"
-          style={{ backgroundImage: `url('/hero-mobile.webp')` }}
-        />
-        {/* Desktop background */}
-        <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat hidden md:block"
-          style={{ backgroundImage: `url('${heroImage}')` }}
-        />
+            {/* Headline */}
+            <h1 className="text-4xl md:text-6xl font-black text-white leading-[1.05] mb-5">
+              Your Trusted<br />
+              <span className="text-[#F7921A]">Handyman</span> &amp;<br />
+              Remodeling Pros
+            </h1>
 
-        <div className="relative px-5 pt-8 pb-10 md:max-w-7xl md:mx-auto md:px-10 md:pt-24 md:pb-28">
-          {/* Heading + description — first text Google reads on the page */}
-          <h1 className="text-3xl md:text-5xl font-black text-white mb-4 leading-tight drop-shadow-lg">
-            Handyman &amp;<br className="hidden md:block" /> Remodeling Experts
-          </h1>
-          <p className="text-slate-100 text-base md:text-lg max-w-lg leading-relaxed mb-6 drop-shadow">
-            TV mounting, furniture assembly, bathroom &amp; kitchen remodeling, flooring, painting, plumbing &amp; more across Texas &amp; North Carolina.
-            Same-day service, background-checked technicians.
-          </p>
+            <p className="text-slate-300 text-lg md:text-xl max-w-xl leading-relaxed mb-8">
+              From TV mounting to full kitchen remodels — skilled, background-checked technicians across Texas &amp; North Carolina. Same-day service.
+            </p>
 
-          {/* Book Appointment button */}
-          <Link
-            href="/booking"
-            className={cn(buttonVariants({ size: "default" }), "gap-2 font-bold")}
-          >
-            <Calendar size={16} />
-            Book Appointment
-          </Link>
+            {/* CTAs */}
+            <div className="flex flex-col sm:flex-row gap-3 mb-10">
+              <Link href="/booking" className={cn(buttonVariants({ size: "lg" }), "gap-2 font-bold text-base shadow-lg shadow-orange-900/30")}>
+                <Calendar size={18} />
+                Book a Free Estimate
+              </Link>
+              <a href="tel:+18449280875"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg font-bold text-base text-white transition-colors"
+                style={{ background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)" }}>
+                <Phone size={18} />
+                (844) 928-0875
+              </a>
+            </div>
 
-          {/* Rating row */}
-          <div className="flex items-center gap-2 mt-5">
-            <div className="flex -space-x-2">
-              {["#3B82F6", "#8B5CF6", "#EF4444", "#10B981"].map((color, i) => (
-                <div
-                  key={i}
-                  style={{ backgroundColor: color }}
-                  className="w-8 h-8 rounded-full border-2 border-white"
-                />
+            {/* Service tags */}
+            <div className="flex flex-wrap gap-2">
+              {services.map((s) => (
+                <span key={s} className="px-3 py-1 text-xs font-semibold rounded-full"
+                  style={{ background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.12)", color: "rgba(255,255,255,0.7)" }}>
+                  {s}
+                </span>
               ))}
             </div>
-            <div className="flex">
-              {[...Array(5)].map((_, i) => (
-                <Star key={i} size={13} className="fill-[#F7921A] text-[#F7921A]" />
-              ))}
-            </div>
-            <span className="text-[#F7921A] text-sm font-bold">5.0 (200+ Reviews)</span>
+          </div>
+        </div>
+
+        {/* Stats bar */}
+        <div className="relative border-t" style={{ borderColor: "rgba(255,255,255,0.08)", background: "rgba(0,0,0,0.25)" }}>
+          <div className="max-w-7xl mx-auto px-5 md:px-10 py-5 grid grid-cols-2 md:grid-cols-4 gap-4">
+            {stats.map((s) => (
+              <div key={s.label} className="text-center">
+                <p className="text-2xl font-black text-[#F7921A]">{s.value}</p>
+                <p className="text-xs text-slate-400 font-medium mt-0.5">{s.label}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* ── Contact cards ── */}
-      <div className="bg-white px-4 py-5">
-        <div className="grid grid-cols-2 gap-3 mb-3">
-          {/* Service Requests */}
-          <div className="bg-[#0D1D5E] rounded-2xl p-4">
-            <div className="inline-flex items-center gap-1.5 px-2 py-1 bg-blue-500/20 border border-blue-500/20 rounded-full mb-2">
-              <Phone size={10} className="text-blue-300" />
-              <span className="text-blue-300 text-[10px] font-bold uppercase tracking-wide">Service Requests</span>
+      {/* ── TRUST STRIP ── */}
+      <section className="bg-white border-b border-slate-100 py-4">
+        <div className="max-w-7xl mx-auto px-5 md:px-10 flex flex-wrap items-center justify-center gap-6">
+          {[
+            { icon: Shield, text: "Background-Checked Technicians" },
+            { icon: CheckCircle, text: "Licensed & Insured" },
+            { icon: Star, text: "5-Star Rated Service" },
+            { icon: Clock, text: "Same-Day Availability" },
+            { icon: Wrench, text: "Free Estimates" },
+          ].map(({ icon: Icon, text }) => (
+            <div key={text} className="flex items-center gap-2 text-slate-600">
+              <Icon size={15} className="text-[#F7921A]" />
+              <span className="text-sm font-semibold">{text}</span>
             </div>
-            <a href="tel:+18449280875" className="block text-white text-lg font-black leading-tight mb-1">
-              +1 (844) 928-0875
-            </a>
-            <p className="text-slate-400 text-xs mb-3 leading-snug">Call anytime for appointments and service requests.</p>
-            <a
-              href="tel:+18449280875"
-              className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#F7921A] hover:bg-[#E07F10] text-white text-xs font-bold rounded-xl transition-colors"
-            >
-              <Phone size={11} />
-              Call Now
-            </a>
-          </div>
-
-          {/* Emergency Line */}
-          <div className="bg-red-950/90 border border-red-900/40 rounded-2xl p-4">
-            <div className="inline-flex items-center gap-1.5 px-2 py-1 bg-red-500/20 border border-red-500/20 rounded-full mb-2">
-              <AlertTriangle size={10} className="text-red-300" />
-              <span className="text-red-300 text-[10px] font-bold uppercase tracking-wide">Emergency Line</span>
-            </div>
-            <a href="tel:+18449280875" className="block text-white text-lg font-black leading-tight mb-1">
-              (844) 928-0875
-            </a>
-            <p className="text-slate-400 text-xs mb-3 leading-snug">Speak directly with a technician for urgent situations.</p>
-            <a
-              href="tel:+18449280875"
-              className="inline-flex items-center gap-1.5 px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-xs font-bold rounded-xl transition-colors"
-            >
-              <AlertTriangle size={11} />
-              Emergency Call
-            </a>
-          </div>
+          ))}
         </div>
+      </section>
 
-        {/* SMS Card */}
-        <a
-          href="sms:+18449280875"
-          className="flex items-center gap-3 w-full bg-emerald-950/40 border border-emerald-800/50 hover:border-emerald-500/70 rounded-2xl p-4 transition-colors"
-        >
-          <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center">
-            <MessageSquare size={18} className="text-emerald-400" />
-          </div>
-          <div className="flex-1 min-w-0">
-            <div className="flex flex-wrap items-center gap-1.5 mb-0.5">
-              <span className="text-emerald-300 text-[10px] font-black uppercase tracking-widest">💬 Text Message Only</span>
-              <span className="px-1.5 py-0.5 bg-emerald-500/20 border border-emerald-500/30 rounded-full text-emerald-400 text-[10px] font-bold">SMS</span>
+      {/* ── CONTACT CARDS ── */}
+      <section className="bg-[#F8FAFC] py-8 px-5">
+        <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-4">
+          {/* Book Online */}
+          <Link href="/booking"
+            className="group flex flex-col items-center text-center bg-[#1B3FA8] rounded-2xl p-6 hover:bg-[#0D1D5E] transition-colors shadow-md shadow-blue-900/20">
+            <div className="w-12 h-12 rounded-xl bg-[#F7921A]/20 border border-[#F7921A]/30 flex items-center justify-center mb-3">
+              <Calendar size={22} className="text-[#F7921A]" />
             </div>
-            <p className="text-white text-base font-black">844-928-0875</p>
-            <p className="text-slate-400 text-xs leading-snug mt-0.5">
-              Send us a text for quick questions &amp; appointment requests —{" "}
-              <span className="text-emerald-400 font-semibold">text messages only</span>, no calls.
-            </p>
-          </div>
-          <div className="flex-shrink-0 flex items-center gap-1.5 px-3 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] font-bold rounded-xl transition-colors whitespace-nowrap">
-            <MessageSquare size={12} />
-            Send Text
-          </div>
-        </a>
-      </div>
+            <p className="text-white font-bold text-sm mb-1">Book Online</p>
+            <p className="text-slate-400 text-xs leading-snug mb-3">Pick your service &amp; schedule</p>
+            <span className="inline-flex items-center gap-1 text-[#F7921A] text-xs font-bold group-hover:gap-2 transition-all">
+              Get Started <ArrowRight size={12} />
+            </span>
+          </Link>
 
-      {/* ── 24 HOURS divider ── */}
-      <div className="flex items-center justify-center gap-3 py-5 bg-white">
-        <div className="h-px w-16 bg-gradient-to-r from-transparent to-[#1A3490]" />
-        <span className="text-[#1B3FA8] text-sm font-bold tracking-[0.3em] uppercase">
-          24 HOURS • 7 DAYS A WEEK
-        </span>
-        <div className="h-px w-16 bg-gradient-to-l from-transparent to-[#1A3490]" />
-      </div>
+          {/* Call */}
+          <a href="tel:+18449280875"
+            className="group flex flex-col items-center text-center bg-[#1B3FA8] rounded-2xl p-6 hover:bg-[#0D1D5E] transition-colors shadow-md shadow-blue-900/20">
+            <div className="w-12 h-12 rounded-xl bg-[#F7921A]/20 border border-[#F7921A]/30 flex items-center justify-center mb-3">
+              <Phone size={22} className="text-[#F7921A]" />
+            </div>
+            <p className="text-white font-bold text-sm mb-1">Call Us Now</p>
+            <p className="text-[#F7921A] font-black text-lg leading-none mb-1">(844) 928-0875</p>
+            <p className="text-slate-400 text-xs">24 / 7 · Emergency line</p>
+          </a>
+
+          {/* Text */}
+          <a href="sms:+18449280875"
+            className="group flex flex-col items-center text-center bg-[#1B3FA8] rounded-2xl p-6 hover:bg-[#0D1D5E] transition-colors shadow-md shadow-blue-900/20">
+            <div className="w-12 h-12 rounded-xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center mb-3">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-6 h-6 text-emerald-400">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+              </svg>
+            </div>
+            <p className="text-white font-bold text-sm mb-1">Send a Text</p>
+            <p className="text-white font-black text-lg leading-none mb-1">844-928-0875</p>
+            <p className="text-slate-400 text-xs">Quick questions &amp; quotes</p>
+          </a>
+        </div>
+      </section>
     </div>
   );
 }

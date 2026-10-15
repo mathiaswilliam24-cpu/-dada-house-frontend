@@ -95,38 +95,41 @@ export default function ServicesGrid() {
         {/* Header */}
         <div className="text-center mb-14">
           <span className="inline-block px-3 py-1 bg-[#F7921A]/10 border border-[#F7921A]/30 text-[#F7921A] text-xs font-bold rounded-full uppercase tracking-wider mb-4">
-            Our Expertise
+            What We Do
           </span>
-          <h2 className="text-3xl sm:text-4xl font-black text-[#1B3FA8] mb-4">
+          <h2 className="text-3xl sm:text-4xl font-black text-[#0A1628] mb-4">
             Handyman &amp; Home Improvement Services
           </h2>
-          <p className="text-slate-500 max-w-xl mx-auto">
+          <p className="text-slate-500 max-w-xl mx-auto text-lg">
             From small repairs to full remodels — skilled, background-checked
-            handymen ready same-day across Texas &amp; North Carolina.
+            pros ready same-day across Texas &amp; North Carolina.
           </p>
         </div>
 
         {/* Cards grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {services.map((service, i) => (
             <Link
               key={service.slug}
               href={`/services/${service.slug}`}
-              className={`service-card relative bg-[#1B3FA8] bg-gradient-to-br ${service.color} border ${service.border} rounded-2xl p-6 flex flex-col group transition-all`}
+              className="group relative bg-white border border-slate-200 hover:border-[#F7921A]/50 rounded-2xl p-6 flex flex-col transition-all hover:shadow-xl hover:shadow-orange-900/10 hover:-translate-y-1"
               style={{ animationDelay: `${i * 0.1}s` }}
             >
+              {/* Top accent bar */}
+              <div className="absolute top-0 left-6 right-6 h-0.5 rounded-full bg-gradient-to-r from-[#F7921A] to-[#1B3FA8] opacity-0 group-hover:opacity-100 transition-opacity" />
+
               {/* Icon */}
-              <div className="w-14 h-14 bg-[#F7921A]/10 border border-[#F7921A]/20 rounded-xl flex items-center justify-center mb-5 group-hover:bg-[#F7921A]/20 transition-colors text-[#F7921A]">
+              <div className="w-14 h-14 bg-[#F8FAFC] border border-slate-200 group-hover:bg-[#F7921A]/10 group-hover:border-[#F7921A]/30 rounded-xl flex items-center justify-center mb-5 transition-colors text-[#1B3FA8] group-hover:text-[#F7921A]">
                 {service.icon}
               </div>
 
               {/* Title */}
-              <h3 className="text-white font-bold text-lg mb-2">
+              <h3 className="text-[#0A1628] font-bold text-lg mb-2 group-hover:text-[#1B3FA8] transition-colors">
                 {service.label}
               </h3>
 
               {/* Description */}
-              <p className="text-slate-400 text-sm leading-relaxed mb-5 flex-1">
+              <p className="text-slate-500 text-sm leading-relaxed mb-5 flex-1">
                 {service.description}
               </p>
 
@@ -135,21 +138,21 @@ export default function ServicesGrid() {
                 {service.subservices.slice(0, 3).map((sub) => (
                   <span
                     key={sub}
-                    className="px-2 py-0.5 bg-white/5 border border-white/10 rounded-full text-xs text-slate-400"
+                    className="px-2 py-0.5 bg-slate-100 rounded-full text-xs text-slate-500 font-medium"
                   >
                     {sub}
                   </span>
                 ))}
                 {service.subservices.length > 3 && (
-                  <span className="px-2 py-0.5 bg-white/5 border border-white/10 rounded-full text-xs text-slate-400">
+                  <span className="px-2 py-0.5 bg-[#F7921A]/10 rounded-full text-xs text-[#F7921A] font-semibold">
                     +{service.subservices.length - 3} more
                   </span>
                 )}
               </div>
 
               {/* Learn more */}
-              <div className="flex items-center gap-2 text-[#F7921A] text-sm font-semibold group-hover:gap-3 transition-all">
-                Learn More
+              <div className="flex items-center gap-2 text-[#1B3FA8] group-hover:text-[#F7921A] text-sm font-bold transition-colors group-hover:gap-3">
+                See Services
                 <ArrowRight size={15} />
               </div>
             </Link>
@@ -159,10 +162,10 @@ export default function ServicesGrid() {
         {/* Bottom CTA */}
         <div className="text-center mt-12">
           <Link
-            href="/services"
-            className="inline-flex items-center gap-2 px-6 py-3 border border-[#1A3490] hover:border-[#F7921A] text-[#1B3FA8] hover:text-[#F7921A] text-sm font-semibold rounded-xl transition-all"
+            href="/booking"
+            className="inline-flex items-center gap-2 px-8 py-4 bg-[#1B3FA8] hover:bg-[#0D1D5E] text-white text-sm font-bold rounded-xl transition-colors shadow-lg shadow-blue-900/20"
           >
-            View All Services
+            Get a Free Estimate Today
             <ArrowRight size={15} />
           </Link>
         </div>
