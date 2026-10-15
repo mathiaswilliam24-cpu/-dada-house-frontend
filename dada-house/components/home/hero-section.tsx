@@ -48,11 +48,11 @@ export default function HeroSection({ heroImage = "/hero-desktop.webp" }: { hero
         <div className="relative px-5 pt-8 pb-10 md:max-w-7xl md:mx-auto md:px-10 md:pt-24 md:pb-28">
           {/* Heading + description — first text Google reads on the page */}
           <h1 className="text-3xl md:text-5xl font-black text-white mb-4 leading-tight drop-shadow-lg">
-            Premier<br className="hidden md:block" /> Home Services
+            Handyman &amp;<br className="hidden md:block" /> Remodeling Experts
           </h1>
           <p className="text-slate-100 text-base md:text-lg max-w-lg leading-relaxed mb-6 drop-shadow">
-            Expert plumbing, air conditioning, heating &amp; home remodeling across Texas &amp; North Carolina.
-            Same-day appointments, 24/7 emergency service, and licensed background-checked technicians.
+            TV mounting, furniture assembly, bathroom &amp; kitchen remodeling, flooring, painting, plumbing &amp; more across Texas &amp; North Carolina.
+            Same-day service, background-checked technicians.
           </p>
 
           {/* Book Appointment button */}

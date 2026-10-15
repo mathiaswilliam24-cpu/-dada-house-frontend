@@ -4,18 +4,50 @@ import { ArrowRight, Phone, AlertTriangle } from "lucide-react";
 import CTASection from "@/components/home/cta-section";
 
 export const metadata: Metadata = {
-  title: "Home Services Houston — Plumbing, AC, Heating, Remodeling",
+  title: "Handyman & Remodeling Services — Texas & North Carolina | DADA HOUSE",
   description:
-    "DADA HOUSE offers professional plumbing, air conditioning, heating, and remodeling services in Houston TX. Available 24/7.",
+    "DADA HOUSE offers professional handyman, remodeling, and plumbing services in Texas & North Carolina. TV mounting, bathroom remodeling, flooring, painting & more. Same-day service. Call (844) 928-0875.",
 };
 
 const services = [
+  {
+    slug: "handyman",
+    label: "Handyman",
+    emoji: "🔨",
+    description:
+      "No job too small. Our skilled handymen handle all your home repair and maintenance needs — fast, affordable, and done right the first time.",
+    features: [
+      "TV Mounting",
+      "Furniture Assembly",
+      "Door & Window Repair",
+      "Ceiling Fan Installation",
+      "Pressure Washing",
+      "Caulking & Weatherstripping",
+      "Gutter Cleaning",
+      "General Home Repairs",
+    ],
+  },
+  {
+    slug: "remodeling",
+    label: "Remodeling",
+    emoji: "🏠",
+    description:
+      "Transform your home with professional remodeling — kitchens, bathrooms, flooring, painting, and more. Free estimates, quality materials, no shortcuts.",
+    features: [
+      "Bathroom Remodeling",
+      "Kitchen Remodeling",
+      "Flooring & Tile",
+      "Painting (Interior & Exterior)",
+      "Drywall",
+      "Roofing",
+    ],
+  },
   {
     slug: "plumbing",
     label: "Plumbing",
     emoji: "🔧",
     description:
-      "From emergency leak repairs to full pipe installations. Our plumbers are licensed and ready 24/7.",
+      "From emergency leak repairs to full pipe installations. Our licensed plumbers are available 24/7.",
     features: [
       "Leak Repair",
       "Faucet Repair",
@@ -30,44 +62,14 @@ const services = [
     label: "Air Conditioning",
     emoji: "❄️",
     description:
-      "Keep your home cool year-round with expert AC installation, repair, and maintenance services.",
+      "Keep your home comfortable year-round. We handle AC repairs, thermostat installs, tune-ups, and emergency cooling calls.",
     features: [
       "AC Repair",
-      "AC Installation",
-      "Refrigerant Recharge",
       "Thermostat Install",
       "Seasonal Tune-Up",
+      "Filter Replacement",
       "Emergency Repair",
-    ],
-  },
-  {
-    slug: "heating",
-    label: "Heating",
-    emoji: "🔥",
-    description:
-      "Stay warm with our furnace repair, heat pump service, and full HVAC maintenance programs.",
-    features: [
-      "Furnace Repair",
-      "Heating Installation",
-      "Heat Pump Services",
-      "Duct Cleaning",
-      "Maintenance Plans",
-      "Emergency Repair",
-    ],
-  },
-  {
-    slug: "remodeling",
-    label: "Remodeling",
-    emoji: "🏠",
-    description:
-      "Transform your home with professional remodeling — kitchens, bathrooms, flooring, and more.",
-    features: [
-      "Bathroom Remodeling",
-      "Kitchen Remodeling",
-      "Flooring",
-      "Painting",
-      "Drywall",
-      "Roofing",
+      "AC Consultation",
     ],
   },
 ];
@@ -82,11 +84,10 @@ export default function ServicesPage() {
             What We Do
           </span>
           <h1 className="text-4xl sm:text-5xl font-black text-white mb-5">
-            Our Home Services
+            Handyman &amp; Home Improvement
           </h1>
           <p className="text-blue-200 text-xl max-w-2xl mx-auto mb-8">
-            Professional home services across Houston — available 24 hours a
-            day, 7 days a week.
+            Skilled handymen &amp; remodeling pros across Texas &amp; North Carolina — same-day service, 24/7 emergency, background-checked technicians.
           </p>
           <div className="flex items-center justify-center gap-4 flex-wrap">
             <a
