@@ -27,26 +27,25 @@ export default function HeroSection({ heroImage: _heroImage = "/hero-desktop.web
   return (
     <div className="bg-white">
       {/* ── HERO ── */}
-      <section className="relative overflow-hidden" style={{ background: "linear-gradient(135deg, #0A1628 0%, #102050 40%, #1B3FA8 100%)" }}>
+      <section className="relative overflow-hidden min-h-[520px] md:min-h-[640px]">
 
-        {/* Blueprint grid pattern */}
-        <div className="absolute inset-0 opacity-[0.07]" style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Cpath d='M60 0 L0 0 0 60' fill='none' stroke='%23ffffff' stroke-width='0.5'/%3E%3C/svg%3E")`,
-          backgroundSize: "60px 60px",
-        }} />
+        {/* Background photo — mobile */}
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat md:hidden"
+          style={{ backgroundImage: `url('/hero-mobile.webp')` }}
+        />
+        {/* Background photo — desktop */}
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat hidden md:block"
+          style={{ backgroundImage: `url('${_heroImage}')` }}
+        />
+
+        {/* Dark overlay so text stays readable */}
+        <div className="absolute inset-0" style={{ background: "linear-gradient(135deg, rgba(10,22,40,0.88) 0%, rgba(27,63,168,0.70) 60%, rgba(10,22,40,0.75) 100%)" }} />
 
         {/* Orange glow accent */}
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] rounded-full opacity-10 blur-3xl"
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full opacity-15 blur-3xl pointer-events-none"
           style={{ background: "radial-gradient(circle, #F7921A 0%, transparent 70%)", transform: "translate(30%, -30%)" }} />
-        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full opacity-10 blur-3xl"
-          style={{ background: "radial-gradient(circle, #3B82F6 0%, transparent 70%)", transform: "translate(-30%, 30%)" }} />
-
-        {/* Decorative tool shapes */}
-        <div className="absolute right-8 top-1/2 -translate-y-1/2 opacity-5 hidden lg:block">
-          <svg width="320" height="320" viewBox="0 0 24 24" fill="white">
-            <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
-          </svg>
-        </div>
 
         <div className="relative max-w-7xl mx-auto px-5 md:px-10 pt-14 pb-16 md:pt-24 md:pb-28">
           <div className="max-w-2xl">
