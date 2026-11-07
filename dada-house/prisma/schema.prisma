@@ -292,6 +292,10 @@ model Invoice {
   lineItems             Json?
   paidAt                DateTime?
 
+  // Loyalty points applied to this invoice
+  loyaltyDiscount   Float     @default(0)
+  loyaltyPointsUsed Int       @default(0)
+
   // Payment flow
   paymentToken      String?   @unique
   paymentMethod     String?   // ZELLE | CARD | CASH
@@ -1138,6 +1142,7 @@ model Customer {
   maintenanceContracts MaintenanceContract[]
   equipment      Equipment[]
   projects       Project[]
+  loyaltyAccount LoyaltyAccount?
 
   @@index([phone])
   @@index([email])
@@ -1575,5 +1580,34 @@ model ContractHvacSystem {
 
   @@index([contractId])
   @@index([propertyId])
+}
+
+// ── Loyalty Points System ──────────────────────────────────────────────────────
+
+model LoyaltyAccount {
+  id          String   @id @default(cuid())
+  customerId  String   @unique
+  balance     Int      @default(0)   // current redeemable points
+  totalEarned Int      @default(0)   // lifetime points earned
+  totalSpent  Int      @default(0)   // lifetime points redeemed
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  customer     Customer             @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  transactions LoyaltyTransaction[]
+}
+
+model LoyaltyTransaction {
+  id          String   @id @default(cuid())
+  accountId   String
+  type        String   // EARN | REDEEM | ADJUSTMENT
+  points      Int      // positive = earn, negative = spend
+  description String
+  invoiceId   String?
+  createdAt   DateTime @default(now())
+
+  account LoyaltyAccount @relation(fields: [accountId], references: [id], onDelete: Cascade)
+
+  @@index([accountId])
 }
 

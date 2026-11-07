@@ -1,0 +1,9 @@
+# This repo's root ended up being C:\Users\User by accident — only the
+# dada-house/ subfolder is actually part of this project. Ignore everything
+# else in the home directory so git status/add never touches personal files,
+# credentials, or unrelated projects.
+/*
+!/dada-house
+!/.gitignore
+
+.vercel

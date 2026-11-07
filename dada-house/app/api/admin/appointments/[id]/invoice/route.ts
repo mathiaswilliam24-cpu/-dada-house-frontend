@@ -3,6 +3,7 @@ import { requireAdmin } from "@/lib/api-auth";
 import { db } from "@/lib/db";
 import { z } from "zod";
 import { resend, FROM_EMAIL } from "@/lib/resend";
+import { dollarToPoints, earnPoints } from "@/lib/loyalty";
 
 const schema = z.object({
   amount: z.number().positive(),
@@ -44,6 +45,28 @@ export async function POST(
       status: parsed.data.status,
     },
   });
+
+  // Auto-earn loyalty points when invoice is marked PAID
+  if (parsed.data.status === "PAID" && invoice.status !== "PAID") {
+    after(async () => {
+      try {
+        const apptWithCustomer = await db.appointment.findUnique({
+          where: { id },
+          select: { customerId: true },
+        });
+        const customerId = apptWithCustomer?.customerId;
+        if (customerId) {
+          const netAmount = invoice.amount - (invoice.loyaltyDiscount ?? 0);
+          const pts = dollarToPoints(netAmount);
+          if (pts > 0) {
+            await earnPoints(customerId, pts, invoice.id, `Facture #${appt.appointmentNumber} payée`);
+          }
+        }
+      } catch (e) {
+        console.error("Loyalty earn error:", e);
+      }
+    });
+  }
 
   after(() =>
     resend.emails

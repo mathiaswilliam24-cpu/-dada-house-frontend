@@ -1,27 +1,38 @@
 import { Pool } from "pg";
 import { PrismaPg } from "@prisma/adapter-pg";
-import { PrismaClient } from "../lib/generated/prisma/client/index.js";
+import { PrismaClient } from "../lib/generated/prisma/client.js";
 import bcrypt from "bcryptjs";
-import * as dotenv from "dotenv";
+import { readFileSync } from "fs";
+import { resolve, dirname } from "path";
+import { fileURLToPath } from "url";
 
-dotenv.config();
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const env = readFileSync(resolve(__dirname, "../.env"), "utf8");
+env.split("\n").forEach(line => {
+  const [k, ...v] = line.split("=");
+  if (k && v.length) process.env[k.trim()] = v.join("=").trim().replace(/^"|"$/g, "");
+});
 
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 const adapter = new PrismaPg(pool);
 const db = new PrismaClient({ adapter });
 
-const email = "mathias@dada-house.com";
-const password = "Mathias123@";
-const name = "Mathias";
+const email = process.argv[2] || "admin@dada-house.com";
+const password = process.argv[3] || "Admin2024!";
 
-const hashed = await bcrypt.hash(password, 12);
+const existing = await db.user.findUnique({ where: { email } });
+if (existing) {
+  console.log(`✓ User already exists: ${email} (role: ${existing.role})`);
+  if (existing.role !== "ADMIN") {
+    await db.user.update({ where: { email }, data: { role: "ADMIN" } });
+    console.log("✓ Role updated to ADMIN");
+  }
+} else {
+  const hash = await bcrypt.hash(password, 12);
+  await db.user.create({
+    data: { email, password: hash, role: "ADMIN", name: "Admin" },
+  });
+  console.log(`✓ Admin created: ${email} / ${password}`);
+}
 
-const user = await db.user.upsert({
-  where: { email },
-  update: { password: hashed, role: "ADMIN", name },
-  create: { email, password: hashed, name, role: "ADMIN" },
-});
-
-console.log("✅ Admin created:", user.email, "| role:", user.role);
-await db.$disconnect();
 await pool.end();

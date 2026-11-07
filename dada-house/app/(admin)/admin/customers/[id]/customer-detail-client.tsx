@@ -2,6 +2,7 @@
 import { useEffect, useState, useCallback } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
+import LoyaltyPanel from "@/components/admin/loyalty-panel";
 import { useRouter } from "next/navigation";
 import {
   ArrowLeft, Mail, Phone, Calendar, FileText, Star, Home,
@@ -756,6 +757,11 @@ export function CustomerDetailClient({ customerId }: { customerId: string }) {
               ))}
             </div>
           </div>
+
+          {/* Loyalty Points */}
+          {!customerId.startsWith("appt:") && (
+            <LoyaltyPanel customerId={customerId} />
+          )}
 
           {/* Service Plans */}
           <div className="bg-white rounded-xl border border-gray-200">
