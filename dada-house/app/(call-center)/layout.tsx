@@ -6,6 +6,7 @@ import { PhoneCall, Phone, MessageSquare, Contact, LogOut } from "lucide-react";
 import { signOut } from "@/auth";
 import { AgentStatusControl } from "@/components/call-center/agent-status-control";
 import { Softphone } from "@/components/call-center/softphone";
+import { StaffPushPrompt } from "@/components/call-center/staff-push-prompt";
 
 const CALL_CENTER_ROLES = ["SUPER_ADMIN", "MANAGER", "CUSTOMER_SERVICE_REP", "ADMIN", "DISPATCHER"];
 
@@ -62,6 +63,7 @@ export default async function CallCenterLayout({ children }: { children: React.R
         <div className="pt-14 lg:pt-0 p-4 sm:p-6 lg:p-8">{children}</div>
       </main>
       <Softphone />
+      <StaffPushPrompt />
     </div>
   );
 }

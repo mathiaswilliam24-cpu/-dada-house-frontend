@@ -25,6 +25,42 @@ self.addEventListener("activate", (event) => {
   );
 });
 
+// Push — display the notification sent by the server (web-push payload:
+// { title, body, url }). Without this handler the browser receives the push
+// but shows nothing.
+self.addEventListener("push", (event) => {
+  let data = {};
+  try {
+    data = event.data ? event.data.json() : {};
+  } catch {
+    data = { body: event.data ? event.data.text() : "" };
+  }
+  event.waitUntil(
+    self.registration.showNotification(data.title || "DADA HOUSE", {
+      body: data.body || "",
+      icon: "/icon-192.png",
+      badge: "/icon-192.png",
+      data: { url: data.url || "/" },
+      tag: data.tag,
+      renotify: !!data.tag,
+    })
+  );
+});
+
+self.addEventListener("notificationclick", (event) => {
+  event.notification.close();
+  const url = (event.notification.data && event.notification.data.url) || "/";
+  event.waitUntil(
+    self.clients.matchAll({ type: "window", includeUncontrolled: true }).then((list) => {
+      const existing = list.find((c) => "focus" in c);
+      if (existing) {
+        return existing.focus().then(() => ("navigate" in existing ? existing.navigate(url) : undefined));
+      }
+      return self.clients.openWindow(url);
+    })
+  );
+});
+
 // Fetch — network-first with offline fallback
 self.addEventListener("fetch", (event) => {
   if (event.request.method !== "GET") return;

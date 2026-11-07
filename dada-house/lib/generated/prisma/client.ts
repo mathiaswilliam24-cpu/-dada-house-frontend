@@ -359,3 +359,13 @@ export type MaintenancePlanType = Prisma.MaintenancePlanTypeModel
  * 
  */
 export type MaintenanceContract = Prisma.MaintenanceContractModel
+/**
+ * Model ContractProperty
+ * 
+ */
+export type ContractProperty = Prisma.ContractPropertyModel
+/**
+ * Model ContractHvacSystem
+ * 
+ */
+export type ContractHvacSystem = Prisma.ContractHvacSystemModel

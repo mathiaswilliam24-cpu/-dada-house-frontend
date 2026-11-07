@@ -28,10 +28,16 @@ export type AggregateMaintenanceContract = {
 
 export type MaintenanceContractAvgAggregateOutputType = {
   numberOfSystems: number | null
+  annualTotal: number | null
+  monthlyTotal: number | null
+  taxAmount: number | null
 }
 
 export type MaintenanceContractSumAggregateOutputType = {
   numberOfSystems: number | null
+  annualTotal: number | null
+  monthlyTotal: number | null
+  taxAmount: number | null
 }
 
 export type MaintenanceContractMinAggregateOutputType = {
@@ -55,6 +61,29 @@ export type MaintenanceContractMinAggregateOutputType = {
   sentById: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  selfEnrolled: boolean | null
+  membershipNumber: string | null
+  stripeCustomerId: string | null
+  stripeCheckoutSessionId: string | null
+  annualTotal: number | null
+  monthlyTotal: number | null
+  taxAmount: number | null
+  firstName: string | null
+  lastName: string | null
+  email: string | null
+  phone: string | null
+  preferredContact: string | null
+  preferredLanguage: string | null
+  marketingSmsConsent: boolean | null
+  marketingEmailConsent: boolean | null
+  agreementVersion: string | null
+  agreementAcceptedAt: Date | null
+  firstAppointmentAt: Date | null
+  firstAppointmentNotes: string | null
+  confirmationEmailSentAt: Date | null
+  commitmentEndDate: Date | null
+  membershipStartDate: Date | null
+  renewalDate: Date | null
 }
 
 export type MaintenanceContractMaxAggregateOutputType = {
@@ -78,6 +107,29 @@ export type MaintenanceContractMaxAggregateOutputType = {
   sentById: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  selfEnrolled: boolean | null
+  membershipNumber: string | null
+  stripeCustomerId: string | null
+  stripeCheckoutSessionId: string | null
+  annualTotal: number | null
+  monthlyTotal: number | null
+  taxAmount: number | null
+  firstName: string | null
+  lastName: string | null
+  email: string | null
+  phone: string | null
+  preferredContact: string | null
+  preferredLanguage: string | null
+  marketingSmsConsent: boolean | null
+  marketingEmailConsent: boolean | null
+  agreementVersion: string | null
+  agreementAcceptedAt: Date | null
+  firstAppointmentAt: Date | null
+  firstAppointmentNotes: string | null
+  confirmationEmailSentAt: Date | null
+  commitmentEndDate: Date | null
+  membershipStartDate: Date | null
+  renewalDate: Date | null
 }
 
 export type MaintenanceContractCountAggregateOutputType = {
@@ -102,16 +154,46 @@ export type MaintenanceContractCountAggregateOutputType = {
   sentById: number
   createdAt: number
   updatedAt: number
+  selfEnrolled: number
+  membershipNumber: number
+  stripeCustomerId: number
+  stripeCheckoutSessionId: number
+  annualTotal: number
+  monthlyTotal: number
+  taxAmount: number
+  firstName: number
+  lastName: number
+  email: number
+  phone: number
+  billingAddress: number
+  preferredContact: number
+  preferredLanguage: number
+  marketingSmsConsent: number
+  marketingEmailConsent: number
+  agreementVersion: number
+  agreementAcceptedAt: number
+  firstAppointmentAt: number
+  firstAppointmentNotes: number
+  confirmationEmailSentAt: number
+  commitmentEndDate: number
+  membershipStartDate: number
+  renewalDate: number
   _all: number
 }
 
 
 export type MaintenanceContractAvgAggregateInputType = {
   numberOfSystems?: true
+  annualTotal?: true
+  monthlyTotal?: true
+  taxAmount?: true
 }
 
 export type MaintenanceContractSumAggregateInputType = {
   numberOfSystems?: true
+  annualTotal?: true
+  monthlyTotal?: true
+  taxAmount?: true
 }
 
 export type MaintenanceContractMinAggregateInputType = {
@@ -135,6 +217,29 @@ export type MaintenanceContractMinAggregateInputType = {
   sentById?: true
   createdAt?: true
   updatedAt?: true
+  selfEnrolled?: true
+  membershipNumber?: true
+  stripeCustomerId?: true
+  stripeCheckoutSessionId?: true
+  annualTotal?: true
+  monthlyTotal?: true
+  taxAmount?: true
+  firstName?: true
+  lastName?: true
+  email?: true
+  phone?: true
+  preferredContact?: true
+  preferredLanguage?: true
+  marketingSmsConsent?: true
+  marketingEmailConsent?: true
+  agreementVersion?: true
+  agreementAcceptedAt?: true
+  firstAppointmentAt?: true
+  firstAppointmentNotes?: true
+  confirmationEmailSentAt?: true
+  commitmentEndDate?: true
+  membershipStartDate?: true
+  renewalDate?: true
 }
 
 export type MaintenanceContractMaxAggregateInputType = {
@@ -158,6 +263,29 @@ export type MaintenanceContractMaxAggregateInputType = {
   sentById?: true
   createdAt?: true
   updatedAt?: true
+  selfEnrolled?: true
+  membershipNumber?: true
+  stripeCustomerId?: true
+  stripeCheckoutSessionId?: true
+  annualTotal?: true
+  monthlyTotal?: true
+  taxAmount?: true
+  firstName?: true
+  lastName?: true
+  email?: true
+  phone?: true
+  preferredContact?: true
+  preferredLanguage?: true
+  marketingSmsConsent?: true
+  marketingEmailConsent?: true
+  agreementVersion?: true
+  agreementAcceptedAt?: true
+  firstAppointmentAt?: true
+  firstAppointmentNotes?: true
+  confirmationEmailSentAt?: true
+  commitmentEndDate?: true
+  membershipStartDate?: true
+  renewalDate?: true
 }
 
 export type MaintenanceContractCountAggregateInputType = {
@@ -182,6 +310,30 @@ export type MaintenanceContractCountAggregateInputType = {
   sentById?: true
   createdAt?: true
   updatedAt?: true
+  selfEnrolled?: true
+  membershipNumber?: true
+  stripeCustomerId?: true
+  stripeCheckoutSessionId?: true
+  annualTotal?: true
+  monthlyTotal?: true
+  taxAmount?: true
+  firstName?: true
+  lastName?: true
+  email?: true
+  phone?: true
+  billingAddress?: true
+  preferredContact?: true
+  preferredLanguage?: true
+  marketingSmsConsent?: true
+  marketingEmailConsent?: true
+  agreementVersion?: true
+  agreementAcceptedAt?: true
+  firstAppointmentAt?: true
+  firstAppointmentNotes?: true
+  confirmationEmailSentAt?: true
+  commitmentEndDate?: true
+  membershipStartDate?: true
+  renewalDate?: true
   _all?: true
 }
 
@@ -293,6 +445,30 @@ export type MaintenanceContractGroupByOutputType = {
   sentById: string | null
   createdAt: Date
   updatedAt: Date
+  selfEnrolled: boolean
+  membershipNumber: string | null
+  stripeCustomerId: string | null
+  stripeCheckoutSessionId: string | null
+  annualTotal: number | null
+  monthlyTotal: number | null
+  taxAmount: number | null
+  firstName: string | null
+  lastName: string | null
+  email: string | null
+  phone: string | null
+  billingAddress: runtime.JsonValue | null
+  preferredContact: string | null
+  preferredLanguage: string | null
+  marketingSmsConsent: boolean
+  marketingEmailConsent: boolean
+  agreementVersion: string | null
+  agreementAcceptedAt: Date | null
+  firstAppointmentAt: Date | null
+  firstAppointmentNotes: string | null
+  confirmationEmailSentAt: Date | null
+  commitmentEndDate: Date | null
+  membershipStartDate: Date | null
+  renewalDate: Date | null
   _count: MaintenanceContractCountAggregateOutputType | null
   _avg: MaintenanceContractAvgAggregateOutputType | null
   _sum: MaintenanceContractSumAggregateOutputType | null
@@ -340,8 +516,34 @@ export type MaintenanceContractWhereInput = {
   sentById?: Prisma.StringNullableFilter<"MaintenanceContract"> | string | null
   createdAt?: Prisma.DateTimeFilter<"MaintenanceContract"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"MaintenanceContract"> | Date | string
+  selfEnrolled?: Prisma.BoolFilter<"MaintenanceContract"> | boolean
+  membershipNumber?: Prisma.StringNullableFilter<"MaintenanceContract"> | string | null
+  stripeCustomerId?: Prisma.StringNullableFilter<"MaintenanceContract"> | string | null
+  stripeCheckoutSessionId?: Prisma.StringNullableFilter<"MaintenanceContract"> | string | null
+  annualTotal?: Prisma.FloatNullableFilter<"MaintenanceContract"> | number | null
+  monthlyTotal?: Prisma.FloatNullableFilter<"MaintenanceContract"> | number | null
+  taxAmount?: Prisma.FloatNullableFilter<"MaintenanceContract"> | number | null
+  firstName?: Prisma.StringNullableFilter<"MaintenanceContract"> | string | null
+  lastName?: Prisma.StringNullableFilter<"MaintenanceContract"> | string | null
+  email?: Prisma.StringNullableFilter<"MaintenanceContract"> | string | null
+  phone?: Prisma.StringNullableFilter<"MaintenanceContract"> | string | null
+  billingAddress?: Prisma.JsonNullableFilter<"MaintenanceContract">
+  preferredContact?: Prisma.StringNullableFilter<"MaintenanceContract"> | string | null
+  preferredLanguage?: Prisma.StringNullableFilter<"MaintenanceContract"> | string | null
+  marketingSmsConsent?: Prisma.BoolFilter<"MaintenanceContract"> | boolean
+  marketingEmailConsent?: Prisma.BoolFilter<"MaintenanceContract"> | boolean
+  agreementVersion?: Prisma.StringNullableFilter<"MaintenanceContract"> | string | null
+  agreementAcceptedAt?: Prisma.DateTimeNullableFilter<"MaintenanceContract"> | Date | string | null
+  firstAppointmentAt?: Prisma.DateTimeNullableFilter<"MaintenanceContract"> | Date | string | null
+  firstAppointmentNotes?: Prisma.StringNullableFilter<"MaintenanceContract"> | string | null
+  confirmationEmailSentAt?: Prisma.DateTimeNullableFilter<"MaintenanceContract"> | Date | string | null
+  commitmentEndDate?: Prisma.DateTimeNullableFilter<"MaintenanceContract"> | Date | string | null
+  membershipStartDate?: Prisma.DateTimeNullableFilter<"MaintenanceContract"> | Date | string | null
+  renewalDate?: Prisma.DateTimeNullableFilter<"MaintenanceContract"> | Date | string | null
   customer?: Prisma.XOR<Prisma.CustomerScalarRelationFilter, Prisma.CustomerWhereInput>
   planType?: Prisma.XOR<Prisma.MaintenancePlanTypeScalarRelationFilter, Prisma.MaintenancePlanTypeWhereInput>
+  properties?: Prisma.ContractPropertyListRelationFilter
+  hvacSystems?: Prisma.ContractHvacSystemListRelationFilter
 }
 
 export type MaintenanceContractOrderByWithRelationInput = {
@@ -366,13 +568,41 @@ export type MaintenanceContractOrderByWithRelationInput = {
   sentById?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  selfEnrolled?: Prisma.SortOrder
+  membershipNumber?: Prisma.SortOrderInput | Prisma.SortOrder
+  stripeCustomerId?: Prisma.SortOrderInput | Prisma.SortOrder
+  stripeCheckoutSessionId?: Prisma.SortOrderInput | Prisma.SortOrder
+  annualTotal?: Prisma.SortOrderInput | Prisma.SortOrder
+  monthlyTotal?: Prisma.SortOrderInput | Prisma.SortOrder
+  taxAmount?: Prisma.SortOrderInput | Prisma.SortOrder
+  firstName?: Prisma.SortOrderInput | Prisma.SortOrder
+  lastName?: Prisma.SortOrderInput | Prisma.SortOrder
+  email?: Prisma.SortOrderInput | Prisma.SortOrder
+  phone?: Prisma.SortOrderInput | Prisma.SortOrder
+  billingAddress?: Prisma.SortOrderInput | Prisma.SortOrder
+  preferredContact?: Prisma.SortOrderInput | Prisma.SortOrder
+  preferredLanguage?: Prisma.SortOrderInput | Prisma.SortOrder
+  marketingSmsConsent?: Prisma.SortOrder
+  marketingEmailConsent?: Prisma.SortOrder
+  agreementVersion?: Prisma.SortOrderInput | Prisma.SortOrder
+  agreementAcceptedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  firstAppointmentAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  firstAppointmentNotes?: Prisma.SortOrderInput | Prisma.SortOrder
+  confirmationEmailSentAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  commitmentEndDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  membershipStartDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  renewalDate?: Prisma.SortOrderInput | Prisma.SortOrder
   customer?: Prisma.CustomerOrderByWithRelationInput
   planType?: Prisma.MaintenancePlanTypeOrderByWithRelationInput
+  properties?: Prisma.ContractPropertyOrderByRelationAggregateInput
+  hvacSystems?: Prisma.ContractHvacSystemOrderByRelationAggregateInput
 }
 
 export type MaintenanceContractWhereUniqueInput = Prisma.AtLeast<{
   id?: string
   token?: string
+  membershipNumber?: string
+  stripeCheckoutSessionId?: string
   AND?: Prisma.MaintenanceContractWhereInput | Prisma.MaintenanceContractWhereInput[]
   OR?: Prisma.MaintenanceContractWhereInput[]
   NOT?: Prisma.MaintenanceContractWhereInput | Prisma.MaintenanceContractWhereInput[]
@@ -395,9 +625,33 @@ export type MaintenanceContractWhereUniqueInput = Prisma.AtLeast<{
   sentById?: Prisma.StringNullableFilter<"MaintenanceContract"> | string | null
   createdAt?: Prisma.DateTimeFilter<"MaintenanceContract"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"MaintenanceContract"> | Date | string
+  selfEnrolled?: Prisma.BoolFilter<"MaintenanceContract"> | boolean
+  stripeCustomerId?: Prisma.StringNullableFilter<"MaintenanceContract"> | string | null
+  annualTotal?: Prisma.FloatNullableFilter<"MaintenanceContract"> | number | null
+  monthlyTotal?: Prisma.FloatNullableFilter<"MaintenanceContract"> | number | null
+  taxAmount?: Prisma.FloatNullableFilter<"MaintenanceContract"> | number | null
+  firstName?: Prisma.StringNullableFilter<"MaintenanceContract"> | string | null
+  lastName?: Prisma.StringNullableFilter<"MaintenanceContract"> | string | null
+  email?: Prisma.StringNullableFilter<"MaintenanceContract"> | string | null
+  phone?: Prisma.StringNullableFilter<"MaintenanceContract"> | string | null
+  billingAddress?: Prisma.JsonNullableFilter<"MaintenanceContract">
+  preferredContact?: Prisma.StringNullableFilter<"MaintenanceContract"> | string | null
+  preferredLanguage?: Prisma.StringNullableFilter<"MaintenanceContract"> | string | null
+  marketingSmsConsent?: Prisma.BoolFilter<"MaintenanceContract"> | boolean
+  marketingEmailConsent?: Prisma.BoolFilter<"MaintenanceContract"> | boolean
+  agreementVersion?: Prisma.StringNullableFilter<"MaintenanceContract"> | string | null
+  agreementAcceptedAt?: Prisma.DateTimeNullableFilter<"MaintenanceContract"> | Date | string | null
+  firstAppointmentAt?: Prisma.DateTimeNullableFilter<"MaintenanceContract"> | Date | string | null
+  firstAppointmentNotes?: Prisma.StringNullableFilter<"MaintenanceContract"> | string | null
+  confirmationEmailSentAt?: Prisma.DateTimeNullableFilter<"MaintenanceContract"> | Date | string | null
+  commitmentEndDate?: Prisma.DateTimeNullableFilter<"MaintenanceContract"> | Date | string | null
+  membershipStartDate?: Prisma.DateTimeNullableFilter<"MaintenanceContract"> | Date | string | null
+  renewalDate?: Prisma.DateTimeNullableFilter<"MaintenanceContract"> | Date | string | null
   customer?: Prisma.XOR<Prisma.CustomerScalarRelationFilter, Prisma.CustomerWhereInput>
   planType?: Prisma.XOR<Prisma.MaintenancePlanTypeScalarRelationFilter, Prisma.MaintenancePlanTypeWhereInput>
-}, "id" | "token">
+  properties?: Prisma.ContractPropertyListRelationFilter
+  hvacSystems?: Prisma.ContractHvacSystemListRelationFilter
+}, "id" | "token" | "membershipNumber" | "stripeCheckoutSessionId">
 
 export type MaintenanceContractOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -421,6 +675,30 @@ export type MaintenanceContractOrderByWithAggregationInput = {
   sentById?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  selfEnrolled?: Prisma.SortOrder
+  membershipNumber?: Prisma.SortOrderInput | Prisma.SortOrder
+  stripeCustomerId?: Prisma.SortOrderInput | Prisma.SortOrder
+  stripeCheckoutSessionId?: Prisma.SortOrderInput | Prisma.SortOrder
+  annualTotal?: Prisma.SortOrderInput | Prisma.SortOrder
+  monthlyTotal?: Prisma.SortOrderInput | Prisma.SortOrder
+  taxAmount?: Prisma.SortOrderInput | Prisma.SortOrder
+  firstName?: Prisma.SortOrderInput | Prisma.SortOrder
+  lastName?: Prisma.SortOrderInput | Prisma.SortOrder
+  email?: Prisma.SortOrderInput | Prisma.SortOrder
+  phone?: Prisma.SortOrderInput | Prisma.SortOrder
+  billingAddress?: Prisma.SortOrderInput | Prisma.SortOrder
+  preferredContact?: Prisma.SortOrderInput | Prisma.SortOrder
+  preferredLanguage?: Prisma.SortOrderInput | Prisma.SortOrder
+  marketingSmsConsent?: Prisma.SortOrder
+  marketingEmailConsent?: Prisma.SortOrder
+  agreementVersion?: Prisma.SortOrderInput | Prisma.SortOrder
+  agreementAcceptedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  firstAppointmentAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  firstAppointmentNotes?: Prisma.SortOrderInput | Prisma.SortOrder
+  confirmationEmailSentAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  commitmentEndDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  membershipStartDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  renewalDate?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.MaintenanceContractCountOrderByAggregateInput
   _avg?: Prisma.MaintenanceContractAvgOrderByAggregateInput
   _max?: Prisma.MaintenanceContractMaxOrderByAggregateInput
@@ -453,6 +731,30 @@ export type MaintenanceContractScalarWhereWithAggregatesInput = {
   sentById?: Prisma.StringNullableWithAggregatesFilter<"MaintenanceContract"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"MaintenanceContract"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"MaintenanceContract"> | Date | string
+  selfEnrolled?: Prisma.BoolWithAggregatesFilter<"MaintenanceContract"> | boolean
+  membershipNumber?: Prisma.StringNullableWithAggregatesFilter<"MaintenanceContract"> | string | null
+  stripeCustomerId?: Prisma.StringNullableWithAggregatesFilter<"MaintenanceContract"> | string | null
+  stripeCheckoutSessionId?: Prisma.StringNullableWithAggregatesFilter<"MaintenanceContract"> | string | null
+  annualTotal?: Prisma.FloatNullableWithAggregatesFilter<"MaintenanceContract"> | number | null
+  monthlyTotal?: Prisma.FloatNullableWithAggregatesFilter<"MaintenanceContract"> | number | null
+  taxAmount?: Prisma.FloatNullableWithAggregatesFilter<"MaintenanceContract"> | number | null
+  firstName?: Prisma.StringNullableWithAggregatesFilter<"MaintenanceContract"> | string | null
+  lastName?: Prisma.StringNullableWithAggregatesFilter<"MaintenanceContract"> | string | null
+  email?: Prisma.StringNullableWithAggregatesFilter<"MaintenanceContract"> | string | null
+  phone?: Prisma.StringNullableWithAggregatesFilter<"MaintenanceContract"> | string | null
+  billingAddress?: Prisma.JsonNullableWithAggregatesFilter<"MaintenanceContract">
+  preferredContact?: Prisma.StringNullableWithAggregatesFilter<"MaintenanceContract"> | string | null
+  preferredLanguage?: Prisma.StringNullableWithAggregatesFilter<"MaintenanceContract"> | string | null
+  marketingSmsConsent?: Prisma.BoolWithAggregatesFilter<"MaintenanceContract"> | boolean
+  marketingEmailConsent?: Prisma.BoolWithAggregatesFilter<"MaintenanceContract"> | boolean
+  agreementVersion?: Prisma.StringNullableWithAggregatesFilter<"MaintenanceContract"> | string | null
+  agreementAcceptedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"MaintenanceContract"> | Date | string | null
+  firstAppointmentAt?: Prisma.DateTimeNullableWithAggregatesFilter<"MaintenanceContract"> | Date | string | null
+  firstAppointmentNotes?: Prisma.StringNullableWithAggregatesFilter<"MaintenanceContract"> | string | null
+  confirmationEmailSentAt?: Prisma.DateTimeNullableWithAggregatesFilter<"MaintenanceContract"> | Date | string | null
+  commitmentEndDate?: Prisma.DateTimeNullableWithAggregatesFilter<"MaintenanceContract"> | Date | string | null
+  membershipStartDate?: Prisma.DateTimeNullableWithAggregatesFilter<"MaintenanceContract"> | Date | string | null
+  renewalDate?: Prisma.DateTimeNullableWithAggregatesFilter<"MaintenanceContract"> | Date | string | null
 }
 
 export type MaintenanceContractCreateInput = {
@@ -475,8 +777,34 @@ export type MaintenanceContractCreateInput = {
   sentById?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  selfEnrolled?: boolean
+  membershipNumber?: string | null
+  stripeCustomerId?: string | null
+  stripeCheckoutSessionId?: string | null
+  annualTotal?: number | null
+  monthlyTotal?: number | null
+  taxAmount?: number | null
+  firstName?: string | null
+  lastName?: string | null
+  email?: string | null
+  phone?: string | null
+  billingAddress?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  preferredContact?: string | null
+  preferredLanguage?: string | null
+  marketingSmsConsent?: boolean
+  marketingEmailConsent?: boolean
+  agreementVersion?: string | null
+  agreementAcceptedAt?: Date | string | null
+  firstAppointmentAt?: Date | string | null
+  firstAppointmentNotes?: string | null
+  confirmationEmailSentAt?: Date | string | null
+  commitmentEndDate?: Date | string | null
+  membershipStartDate?: Date | string | null
+  renewalDate?: Date | string | null
   customer: Prisma.CustomerCreateNestedOneWithoutMaintenanceContractsInput
   planType: Prisma.MaintenancePlanTypeCreateNestedOneWithoutContractsInput
+  properties?: Prisma.ContractPropertyCreateNestedManyWithoutContractInput
+  hvacSystems?: Prisma.ContractHvacSystemCreateNestedManyWithoutContractInput
 }
 
 export type MaintenanceContractUncheckedCreateInput = {
@@ -501,6 +829,32 @@ export type MaintenanceContractUncheckedCreateInput = {
   sentById?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  selfEnrolled?: boolean
+  membershipNumber?: string | null
+  stripeCustomerId?: string | null
+  stripeCheckoutSessionId?: string | null
+  annualTotal?: number | null
+  monthlyTotal?: number | null
+  taxAmount?: number | null
+  firstName?: string | null
+  lastName?: string | null
+  email?: string | null
+  phone?: string | null
+  billingAddress?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  preferredContact?: string | null
+  preferredLanguage?: string | null
+  marketingSmsConsent?: boolean
+  marketingEmailConsent?: boolean
+  agreementVersion?: string | null
+  agreementAcceptedAt?: Date | string | null
+  firstAppointmentAt?: Date | string | null
+  firstAppointmentNotes?: string | null
+  confirmationEmailSentAt?: Date | string | null
+  commitmentEndDate?: Date | string | null
+  membershipStartDate?: Date | string | null
+  renewalDate?: Date | string | null
+  properties?: Prisma.ContractPropertyUncheckedCreateNestedManyWithoutContractInput
+  hvacSystems?: Prisma.ContractHvacSystemUncheckedCreateNestedManyWithoutContractInput
 }
 
 export type MaintenanceContractUpdateInput = {
@@ -523,8 +877,34 @@ export type MaintenanceContractUpdateInput = {
   sentById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  selfEnrolled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  membershipNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCheckoutSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  annualTotal?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  monthlyTotal?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  taxAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddress?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  preferredContact?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preferredLanguage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  marketingSmsConsent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  marketingEmailConsent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  agreementVersion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  agreementAcceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  firstAppointmentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  firstAppointmentNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  confirmationEmailSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  commitmentEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  membershipStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  renewalDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customer?: Prisma.CustomerUpdateOneRequiredWithoutMaintenanceContractsNestedInput
   planType?: Prisma.MaintenancePlanTypeUpdateOneRequiredWithoutContractsNestedInput
+  properties?: Prisma.ContractPropertyUpdateManyWithoutContractNestedInput
+  hvacSystems?: Prisma.ContractHvacSystemUpdateManyWithoutContractNestedInput
 }
 
 export type MaintenanceContractUncheckedUpdateInput = {
@@ -549,6 +929,32 @@ export type MaintenanceContractUncheckedUpdateInput = {
   sentById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  selfEnrolled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  membershipNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCheckoutSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  annualTotal?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  monthlyTotal?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  taxAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddress?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  preferredContact?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preferredLanguage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  marketingSmsConsent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  marketingEmailConsent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  agreementVersion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  agreementAcceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  firstAppointmentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  firstAppointmentNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  confirmationEmailSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  commitmentEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  membershipStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  renewalDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  properties?: Prisma.ContractPropertyUncheckedUpdateManyWithoutContractNestedInput
+  hvacSystems?: Prisma.ContractHvacSystemUncheckedUpdateManyWithoutContractNestedInput
 }
 
 export type MaintenanceContractCreateManyInput = {
@@ -573,6 +979,30 @@ export type MaintenanceContractCreateManyInput = {
   sentById?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  selfEnrolled?: boolean
+  membershipNumber?: string | null
+  stripeCustomerId?: string | null
+  stripeCheckoutSessionId?: string | null
+  annualTotal?: number | null
+  monthlyTotal?: number | null
+  taxAmount?: number | null
+  firstName?: string | null
+  lastName?: string | null
+  email?: string | null
+  phone?: string | null
+  billingAddress?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  preferredContact?: string | null
+  preferredLanguage?: string | null
+  marketingSmsConsent?: boolean
+  marketingEmailConsent?: boolean
+  agreementVersion?: string | null
+  agreementAcceptedAt?: Date | string | null
+  firstAppointmentAt?: Date | string | null
+  firstAppointmentNotes?: string | null
+  confirmationEmailSentAt?: Date | string | null
+  commitmentEndDate?: Date | string | null
+  membershipStartDate?: Date | string | null
+  renewalDate?: Date | string | null
 }
 
 export type MaintenanceContractUpdateManyMutationInput = {
@@ -595,6 +1025,30 @@ export type MaintenanceContractUpdateManyMutationInput = {
   sentById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  selfEnrolled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  membershipNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCheckoutSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  annualTotal?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  monthlyTotal?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  taxAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddress?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  preferredContact?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preferredLanguage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  marketingSmsConsent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  marketingEmailConsent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  agreementVersion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  agreementAcceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  firstAppointmentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  firstAppointmentNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  confirmationEmailSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  commitmentEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  membershipStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  renewalDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type MaintenanceContractUncheckedUpdateManyInput = {
@@ -619,6 +1073,30 @@ export type MaintenanceContractUncheckedUpdateManyInput = {
   sentById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  selfEnrolled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  membershipNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCheckoutSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  annualTotal?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  monthlyTotal?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  taxAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddress?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  preferredContact?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preferredLanguage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  marketingSmsConsent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  marketingEmailConsent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  agreementVersion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  agreementAcceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  firstAppointmentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  firstAppointmentNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  confirmationEmailSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  commitmentEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  membershipStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  renewalDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type MaintenanceContractListRelationFilter = {
@@ -653,10 +1131,37 @@ export type MaintenanceContractCountOrderByAggregateInput = {
   sentById?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  selfEnrolled?: Prisma.SortOrder
+  membershipNumber?: Prisma.SortOrder
+  stripeCustomerId?: Prisma.SortOrder
+  stripeCheckoutSessionId?: Prisma.SortOrder
+  annualTotal?: Prisma.SortOrder
+  monthlyTotal?: Prisma.SortOrder
+  taxAmount?: Prisma.SortOrder
+  firstName?: Prisma.SortOrder
+  lastName?: Prisma.SortOrder
+  email?: Prisma.SortOrder
+  phone?: Prisma.SortOrder
+  billingAddress?: Prisma.SortOrder
+  preferredContact?: Prisma.SortOrder
+  preferredLanguage?: Prisma.SortOrder
+  marketingSmsConsent?: Prisma.SortOrder
+  marketingEmailConsent?: Prisma.SortOrder
+  agreementVersion?: Prisma.SortOrder
+  agreementAcceptedAt?: Prisma.SortOrder
+  firstAppointmentAt?: Prisma.SortOrder
+  firstAppointmentNotes?: Prisma.SortOrder
+  confirmationEmailSentAt?: Prisma.SortOrder
+  commitmentEndDate?: Prisma.SortOrder
+  membershipStartDate?: Prisma.SortOrder
+  renewalDate?: Prisma.SortOrder
 }
 
 export type MaintenanceContractAvgOrderByAggregateInput = {
   numberOfSystems?: Prisma.SortOrder
+  annualTotal?: Prisma.SortOrder
+  monthlyTotal?: Prisma.SortOrder
+  taxAmount?: Prisma.SortOrder
 }
 
 export type MaintenanceContractMaxOrderByAggregateInput = {
@@ -680,6 +1185,29 @@ export type MaintenanceContractMaxOrderByAggregateInput = {
   sentById?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  selfEnrolled?: Prisma.SortOrder
+  membershipNumber?: Prisma.SortOrder
+  stripeCustomerId?: Prisma.SortOrder
+  stripeCheckoutSessionId?: Prisma.SortOrder
+  annualTotal?: Prisma.SortOrder
+  monthlyTotal?: Prisma.SortOrder
+  taxAmount?: Prisma.SortOrder
+  firstName?: Prisma.SortOrder
+  lastName?: Prisma.SortOrder
+  email?: Prisma.SortOrder
+  phone?: Prisma.SortOrder
+  preferredContact?: Prisma.SortOrder
+  preferredLanguage?: Prisma.SortOrder
+  marketingSmsConsent?: Prisma.SortOrder
+  marketingEmailConsent?: Prisma.SortOrder
+  agreementVersion?: Prisma.SortOrder
+  agreementAcceptedAt?: Prisma.SortOrder
+  firstAppointmentAt?: Prisma.SortOrder
+  firstAppointmentNotes?: Prisma.SortOrder
+  confirmationEmailSentAt?: Prisma.SortOrder
+  commitmentEndDate?: Prisma.SortOrder
+  membershipStartDate?: Prisma.SortOrder
+  renewalDate?: Prisma.SortOrder
 }
 
 export type MaintenanceContractMinOrderByAggregateInput = {
@@ -703,10 +1231,41 @@ export type MaintenanceContractMinOrderByAggregateInput = {
   sentById?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  selfEnrolled?: Prisma.SortOrder
+  membershipNumber?: Prisma.SortOrder
+  stripeCustomerId?: Prisma.SortOrder
+  stripeCheckoutSessionId?: Prisma.SortOrder
+  annualTotal?: Prisma.SortOrder
+  monthlyTotal?: Prisma.SortOrder
+  taxAmount?: Prisma.SortOrder
+  firstName?: Prisma.SortOrder
+  lastName?: Prisma.SortOrder
+  email?: Prisma.SortOrder
+  phone?: Prisma.SortOrder
+  preferredContact?: Prisma.SortOrder
+  preferredLanguage?: Prisma.SortOrder
+  marketingSmsConsent?: Prisma.SortOrder
+  marketingEmailConsent?: Prisma.SortOrder
+  agreementVersion?: Prisma.SortOrder
+  agreementAcceptedAt?: Prisma.SortOrder
+  firstAppointmentAt?: Prisma.SortOrder
+  firstAppointmentNotes?: Prisma.SortOrder
+  confirmationEmailSentAt?: Prisma.SortOrder
+  commitmentEndDate?: Prisma.SortOrder
+  membershipStartDate?: Prisma.SortOrder
+  renewalDate?: Prisma.SortOrder
 }
 
 export type MaintenanceContractSumOrderByAggregateInput = {
   numberOfSystems?: Prisma.SortOrder
+  annualTotal?: Prisma.SortOrder
+  monthlyTotal?: Prisma.SortOrder
+  taxAmount?: Prisma.SortOrder
+}
+
+export type MaintenanceContractScalarRelationFilter = {
+  is?: Prisma.MaintenanceContractWhereInput
+  isNot?: Prisma.MaintenanceContractWhereInput
 }
 
 export type MaintenanceContractCreateNestedManyWithoutCustomerInput = {
@@ -806,6 +1365,34 @@ export type MaintenanceContractUpdatesystemTypesInput = {
   push?: string | string[]
 }
 
+export type MaintenanceContractCreateNestedOneWithoutPropertiesInput = {
+  create?: Prisma.XOR<Prisma.MaintenanceContractCreateWithoutPropertiesInput, Prisma.MaintenanceContractUncheckedCreateWithoutPropertiesInput>
+  connectOrCreate?: Prisma.MaintenanceContractCreateOrConnectWithoutPropertiesInput
+  connect?: Prisma.MaintenanceContractWhereUniqueInput
+}
+
+export type MaintenanceContractUpdateOneRequiredWithoutPropertiesNestedInput = {
+  create?: Prisma.XOR<Prisma.MaintenanceContractCreateWithoutPropertiesInput, Prisma.MaintenanceContractUncheckedCreateWithoutPropertiesInput>
+  connectOrCreate?: Prisma.MaintenanceContractCreateOrConnectWithoutPropertiesInput
+  upsert?: Prisma.MaintenanceContractUpsertWithoutPropertiesInput
+  connect?: Prisma.MaintenanceContractWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.MaintenanceContractUpdateToOneWithWhereWithoutPropertiesInput, Prisma.MaintenanceContractUpdateWithoutPropertiesInput>, Prisma.MaintenanceContractUncheckedUpdateWithoutPropertiesInput>
+}
+
+export type MaintenanceContractCreateNestedOneWithoutHvacSystemsInput = {
+  create?: Prisma.XOR<Prisma.MaintenanceContractCreateWithoutHvacSystemsInput, Prisma.MaintenanceContractUncheckedCreateWithoutHvacSystemsInput>
+  connectOrCreate?: Prisma.MaintenanceContractCreateOrConnectWithoutHvacSystemsInput
+  connect?: Prisma.MaintenanceContractWhereUniqueInput
+}
+
+export type MaintenanceContractUpdateOneRequiredWithoutHvacSystemsNestedInput = {
+  create?: Prisma.XOR<Prisma.MaintenanceContractCreateWithoutHvacSystemsInput, Prisma.MaintenanceContractUncheckedCreateWithoutHvacSystemsInput>
+  connectOrCreate?: Prisma.MaintenanceContractCreateOrConnectWithoutHvacSystemsInput
+  upsert?: Prisma.MaintenanceContractUpsertWithoutHvacSystemsInput
+  connect?: Prisma.MaintenanceContractWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.MaintenanceContractUpdateToOneWithWhereWithoutHvacSystemsInput, Prisma.MaintenanceContractUpdateWithoutHvacSystemsInput>, Prisma.MaintenanceContractUncheckedUpdateWithoutHvacSystemsInput>
+}
+
 export type MaintenanceContractCreateWithoutCustomerInput = {
   id?: string
   token: string
@@ -826,7 +1413,33 @@ export type MaintenanceContractCreateWithoutCustomerInput = {
   sentById?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  selfEnrolled?: boolean
+  membershipNumber?: string | null
+  stripeCustomerId?: string | null
+  stripeCheckoutSessionId?: string | null
+  annualTotal?: number | null
+  monthlyTotal?: number | null
+  taxAmount?: number | null
+  firstName?: string | null
+  lastName?: string | null
+  email?: string | null
+  phone?: string | null
+  billingAddress?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  preferredContact?: string | null
+  preferredLanguage?: string | null
+  marketingSmsConsent?: boolean
+  marketingEmailConsent?: boolean
+  agreementVersion?: string | null
+  agreementAcceptedAt?: Date | string | null
+  firstAppointmentAt?: Date | string | null
+  firstAppointmentNotes?: string | null
+  confirmationEmailSentAt?: Date | string | null
+  commitmentEndDate?: Date | string | null
+  membershipStartDate?: Date | string | null
+  renewalDate?: Date | string | null
   planType: Prisma.MaintenancePlanTypeCreateNestedOneWithoutContractsInput
+  properties?: Prisma.ContractPropertyCreateNestedManyWithoutContractInput
+  hvacSystems?: Prisma.ContractHvacSystemCreateNestedManyWithoutContractInput
 }
 
 export type MaintenanceContractUncheckedCreateWithoutCustomerInput = {
@@ -850,6 +1463,32 @@ export type MaintenanceContractUncheckedCreateWithoutCustomerInput = {
   sentById?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  selfEnrolled?: boolean
+  membershipNumber?: string | null
+  stripeCustomerId?: string | null
+  stripeCheckoutSessionId?: string | null
+  annualTotal?: number | null
+  monthlyTotal?: number | null
+  taxAmount?: number | null
+  firstName?: string | null
+  lastName?: string | null
+  email?: string | null
+  phone?: string | null
+  billingAddress?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  preferredContact?: string | null
+  preferredLanguage?: string | null
+  marketingSmsConsent?: boolean
+  marketingEmailConsent?: boolean
+  agreementVersion?: string | null
+  agreementAcceptedAt?: Date | string | null
+  firstAppointmentAt?: Date | string | null
+  firstAppointmentNotes?: string | null
+  confirmationEmailSentAt?: Date | string | null
+  commitmentEndDate?: Date | string | null
+  membershipStartDate?: Date | string | null
+  renewalDate?: Date | string | null
+  properties?: Prisma.ContractPropertyUncheckedCreateNestedManyWithoutContractInput
+  hvacSystems?: Prisma.ContractHvacSystemUncheckedCreateNestedManyWithoutContractInput
 }
 
 export type MaintenanceContractCreateOrConnectWithoutCustomerInput = {
@@ -903,6 +1542,30 @@ export type MaintenanceContractScalarWhereInput = {
   sentById?: Prisma.StringNullableFilter<"MaintenanceContract"> | string | null
   createdAt?: Prisma.DateTimeFilter<"MaintenanceContract"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"MaintenanceContract"> | Date | string
+  selfEnrolled?: Prisma.BoolFilter<"MaintenanceContract"> | boolean
+  membershipNumber?: Prisma.StringNullableFilter<"MaintenanceContract"> | string | null
+  stripeCustomerId?: Prisma.StringNullableFilter<"MaintenanceContract"> | string | null
+  stripeCheckoutSessionId?: Prisma.StringNullableFilter<"MaintenanceContract"> | string | null
+  annualTotal?: Prisma.FloatNullableFilter<"MaintenanceContract"> | number | null
+  monthlyTotal?: Prisma.FloatNullableFilter<"MaintenanceContract"> | number | null
+  taxAmount?: Prisma.FloatNullableFilter<"MaintenanceContract"> | number | null
+  firstName?: Prisma.StringNullableFilter<"MaintenanceContract"> | string | null
+  lastName?: Prisma.StringNullableFilter<"MaintenanceContract"> | string | null
+  email?: Prisma.StringNullableFilter<"MaintenanceContract"> | string | null
+  phone?: Prisma.StringNullableFilter<"MaintenanceContract"> | string | null
+  billingAddress?: Prisma.JsonNullableFilter<"MaintenanceContract">
+  preferredContact?: Prisma.StringNullableFilter<"MaintenanceContract"> | string | null
+  preferredLanguage?: Prisma.StringNullableFilter<"MaintenanceContract"> | string | null
+  marketingSmsConsent?: Prisma.BoolFilter<"MaintenanceContract"> | boolean
+  marketingEmailConsent?: Prisma.BoolFilter<"MaintenanceContract"> | boolean
+  agreementVersion?: Prisma.StringNullableFilter<"MaintenanceContract"> | string | null
+  agreementAcceptedAt?: Prisma.DateTimeNullableFilter<"MaintenanceContract"> | Date | string | null
+  firstAppointmentAt?: Prisma.DateTimeNullableFilter<"MaintenanceContract"> | Date | string | null
+  firstAppointmentNotes?: Prisma.StringNullableFilter<"MaintenanceContract"> | string | null
+  confirmationEmailSentAt?: Prisma.DateTimeNullableFilter<"MaintenanceContract"> | Date | string | null
+  commitmentEndDate?: Prisma.DateTimeNullableFilter<"MaintenanceContract"> | Date | string | null
+  membershipStartDate?: Prisma.DateTimeNullableFilter<"MaintenanceContract"> | Date | string | null
+  renewalDate?: Prisma.DateTimeNullableFilter<"MaintenanceContract"> | Date | string | null
 }
 
 export type MaintenanceContractCreateWithoutPlanTypeInput = {
@@ -925,7 +1588,33 @@ export type MaintenanceContractCreateWithoutPlanTypeInput = {
   sentById?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  selfEnrolled?: boolean
+  membershipNumber?: string | null
+  stripeCustomerId?: string | null
+  stripeCheckoutSessionId?: string | null
+  annualTotal?: number | null
+  monthlyTotal?: number | null
+  taxAmount?: number | null
+  firstName?: string | null
+  lastName?: string | null
+  email?: string | null
+  phone?: string | null
+  billingAddress?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  preferredContact?: string | null
+  preferredLanguage?: string | null
+  marketingSmsConsent?: boolean
+  marketingEmailConsent?: boolean
+  agreementVersion?: string | null
+  agreementAcceptedAt?: Date | string | null
+  firstAppointmentAt?: Date | string | null
+  firstAppointmentNotes?: string | null
+  confirmationEmailSentAt?: Date | string | null
+  commitmentEndDate?: Date | string | null
+  membershipStartDate?: Date | string | null
+  renewalDate?: Date | string | null
   customer: Prisma.CustomerCreateNestedOneWithoutMaintenanceContractsInput
+  properties?: Prisma.ContractPropertyCreateNestedManyWithoutContractInput
+  hvacSystems?: Prisma.ContractHvacSystemCreateNestedManyWithoutContractInput
 }
 
 export type MaintenanceContractUncheckedCreateWithoutPlanTypeInput = {
@@ -949,6 +1638,32 @@ export type MaintenanceContractUncheckedCreateWithoutPlanTypeInput = {
   sentById?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  selfEnrolled?: boolean
+  membershipNumber?: string | null
+  stripeCustomerId?: string | null
+  stripeCheckoutSessionId?: string | null
+  annualTotal?: number | null
+  monthlyTotal?: number | null
+  taxAmount?: number | null
+  firstName?: string | null
+  lastName?: string | null
+  email?: string | null
+  phone?: string | null
+  billingAddress?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  preferredContact?: string | null
+  preferredLanguage?: string | null
+  marketingSmsConsent?: boolean
+  marketingEmailConsent?: boolean
+  agreementVersion?: string | null
+  agreementAcceptedAt?: Date | string | null
+  firstAppointmentAt?: Date | string | null
+  firstAppointmentNotes?: string | null
+  confirmationEmailSentAt?: Date | string | null
+  commitmentEndDate?: Date | string | null
+  membershipStartDate?: Date | string | null
+  renewalDate?: Date | string | null
+  properties?: Prisma.ContractPropertyUncheckedCreateNestedManyWithoutContractInput
+  hvacSystems?: Prisma.ContractHvacSystemUncheckedCreateNestedManyWithoutContractInput
 }
 
 export type MaintenanceContractCreateOrConnectWithoutPlanTypeInput = {
@@ -977,6 +1692,430 @@ export type MaintenanceContractUpdateManyWithWhereWithoutPlanTypeInput = {
   data: Prisma.XOR<Prisma.MaintenanceContractUpdateManyMutationInput, Prisma.MaintenanceContractUncheckedUpdateManyWithoutPlanTypeInput>
 }
 
+export type MaintenanceContractCreateWithoutPropertiesInput = {
+  id?: string
+  token: string
+  status?: $Enums.MaintenanceContractStatus
+  systemMakeModel?: string | null
+  systemAge?: string | null
+  numberOfSystems?: number
+  systemTypes?: Prisma.MaintenanceContractCreatesystemTypesInput | string[]
+  agreementStartDate?: Date | string | null
+  customerSignatureUrl?: string | null
+  repName?: string | null
+  signedAt?: Date | string | null
+  billingInterval?: string | null
+  autoRenew?: boolean
+  stripeSubscriptionId?: string | null
+  stripePaymentIntentId?: string | null
+  paidAt?: Date | string | null
+  sentById?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  selfEnrolled?: boolean
+  membershipNumber?: string | null
+  stripeCustomerId?: string | null
+  stripeCheckoutSessionId?: string | null
+  annualTotal?: number | null
+  monthlyTotal?: number | null
+  taxAmount?: number | null
+  firstName?: string | null
+  lastName?: string | null
+  email?: string | null
+  phone?: string | null
+  billingAddress?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  preferredContact?: string | null
+  preferredLanguage?: string | null
+  marketingSmsConsent?: boolean
+  marketingEmailConsent?: boolean
+  agreementVersion?: string | null
+  agreementAcceptedAt?: Date | string | null
+  firstAppointmentAt?: Date | string | null
+  firstAppointmentNotes?: string | null
+  confirmationEmailSentAt?: Date | string | null
+  commitmentEndDate?: Date | string | null
+  membershipStartDate?: Date | string | null
+  renewalDate?: Date | string | null
+  customer: Prisma.CustomerCreateNestedOneWithoutMaintenanceContractsInput
+  planType: Prisma.MaintenancePlanTypeCreateNestedOneWithoutContractsInput
+  hvacSystems?: Prisma.ContractHvacSystemCreateNestedManyWithoutContractInput
+}
+
+export type MaintenanceContractUncheckedCreateWithoutPropertiesInput = {
+  id?: string
+  customerId: string
+  planTypeId: string
+  token: string
+  status?: $Enums.MaintenanceContractStatus
+  systemMakeModel?: string | null
+  systemAge?: string | null
+  numberOfSystems?: number
+  systemTypes?: Prisma.MaintenanceContractCreatesystemTypesInput | string[]
+  agreementStartDate?: Date | string | null
+  customerSignatureUrl?: string | null
+  repName?: string | null
+  signedAt?: Date | string | null
+  billingInterval?: string | null
+  autoRenew?: boolean
+  stripeSubscriptionId?: string | null
+  stripePaymentIntentId?: string | null
+  paidAt?: Date | string | null
+  sentById?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  selfEnrolled?: boolean
+  membershipNumber?: string | null
+  stripeCustomerId?: string | null
+  stripeCheckoutSessionId?: string | null
+  annualTotal?: number | null
+  monthlyTotal?: number | null
+  taxAmount?: number | null
+  firstName?: string | null
+  lastName?: string | null
+  email?: string | null
+  phone?: string | null
+  billingAddress?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  preferredContact?: string | null
+  preferredLanguage?: string | null
+  marketingSmsConsent?: boolean
+  marketingEmailConsent?: boolean
+  agreementVersion?: string | null
+  agreementAcceptedAt?: Date | string | null
+  firstAppointmentAt?: Date | string | null
+  firstAppointmentNotes?: string | null
+  confirmationEmailSentAt?: Date | string | null
+  commitmentEndDate?: Date | string | null
+  membershipStartDate?: Date | string | null
+  renewalDate?: Date | string | null
+  hvacSystems?: Prisma.ContractHvacSystemUncheckedCreateNestedManyWithoutContractInput
+}
+
+export type MaintenanceContractCreateOrConnectWithoutPropertiesInput = {
+  where: Prisma.MaintenanceContractWhereUniqueInput
+  create: Prisma.XOR<Prisma.MaintenanceContractCreateWithoutPropertiesInput, Prisma.MaintenanceContractUncheckedCreateWithoutPropertiesInput>
+}
+
+export type MaintenanceContractUpsertWithoutPropertiesInput = {
+  update: Prisma.XOR<Prisma.MaintenanceContractUpdateWithoutPropertiesInput, Prisma.MaintenanceContractUncheckedUpdateWithoutPropertiesInput>
+  create: Prisma.XOR<Prisma.MaintenanceContractCreateWithoutPropertiesInput, Prisma.MaintenanceContractUncheckedCreateWithoutPropertiesInput>
+  where?: Prisma.MaintenanceContractWhereInput
+}
+
+export type MaintenanceContractUpdateToOneWithWhereWithoutPropertiesInput = {
+  where?: Prisma.MaintenanceContractWhereInput
+  data: Prisma.XOR<Prisma.MaintenanceContractUpdateWithoutPropertiesInput, Prisma.MaintenanceContractUncheckedUpdateWithoutPropertiesInput>
+}
+
+export type MaintenanceContractUpdateWithoutPropertiesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  token?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumMaintenanceContractStatusFieldUpdateOperationsInput | $Enums.MaintenanceContractStatus
+  systemMakeModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  systemAge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  numberOfSystems?: Prisma.IntFieldUpdateOperationsInput | number
+  systemTypes?: Prisma.MaintenanceContractUpdatesystemTypesInput | string[]
+  agreementStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  customerSignatureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  repName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  signedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  billingInterval?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  autoRenew?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripePaymentIntentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  sentById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  selfEnrolled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  membershipNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCheckoutSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  annualTotal?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  monthlyTotal?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  taxAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddress?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  preferredContact?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preferredLanguage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  marketingSmsConsent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  marketingEmailConsent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  agreementVersion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  agreementAcceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  firstAppointmentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  firstAppointmentNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  confirmationEmailSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  commitmentEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  membershipStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  renewalDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  customer?: Prisma.CustomerUpdateOneRequiredWithoutMaintenanceContractsNestedInput
+  planType?: Prisma.MaintenancePlanTypeUpdateOneRequiredWithoutContractsNestedInput
+  hvacSystems?: Prisma.ContractHvacSystemUpdateManyWithoutContractNestedInput
+}
+
+export type MaintenanceContractUncheckedUpdateWithoutPropertiesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  customerId?: Prisma.StringFieldUpdateOperationsInput | string
+  planTypeId?: Prisma.StringFieldUpdateOperationsInput | string
+  token?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumMaintenanceContractStatusFieldUpdateOperationsInput | $Enums.MaintenanceContractStatus
+  systemMakeModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  systemAge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  numberOfSystems?: Prisma.IntFieldUpdateOperationsInput | number
+  systemTypes?: Prisma.MaintenanceContractUpdatesystemTypesInput | string[]
+  agreementStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  customerSignatureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  repName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  signedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  billingInterval?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  autoRenew?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripePaymentIntentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  sentById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  selfEnrolled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  membershipNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCheckoutSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  annualTotal?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  monthlyTotal?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  taxAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddress?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  preferredContact?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preferredLanguage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  marketingSmsConsent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  marketingEmailConsent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  agreementVersion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  agreementAcceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  firstAppointmentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  firstAppointmentNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  confirmationEmailSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  commitmentEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  membershipStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  renewalDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  hvacSystems?: Prisma.ContractHvacSystemUncheckedUpdateManyWithoutContractNestedInput
+}
+
+export type MaintenanceContractCreateWithoutHvacSystemsInput = {
+  id?: string
+  token: string
+  status?: $Enums.MaintenanceContractStatus
+  systemMakeModel?: string | null
+  systemAge?: string | null
+  numberOfSystems?: number
+  systemTypes?: Prisma.MaintenanceContractCreatesystemTypesInput | string[]
+  agreementStartDate?: Date | string | null
+  customerSignatureUrl?: string | null
+  repName?: string | null
+  signedAt?: Date | string | null
+  billingInterval?: string | null
+  autoRenew?: boolean
+  stripeSubscriptionId?: string | null
+  stripePaymentIntentId?: string | null
+  paidAt?: Date | string | null
+  sentById?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  selfEnrolled?: boolean
+  membershipNumber?: string | null
+  stripeCustomerId?: string | null
+  stripeCheckoutSessionId?: string | null
+  annualTotal?: number | null
+  monthlyTotal?: number | null
+  taxAmount?: number | null
+  firstName?: string | null
+  lastName?: string | null
+  email?: string | null
+  phone?: string | null
+  billingAddress?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  preferredContact?: string | null
+  preferredLanguage?: string | null
+  marketingSmsConsent?: boolean
+  marketingEmailConsent?: boolean
+  agreementVersion?: string | null
+  agreementAcceptedAt?: Date | string | null
+  firstAppointmentAt?: Date | string | null
+  firstAppointmentNotes?: string | null
+  confirmationEmailSentAt?: Date | string | null
+  commitmentEndDate?: Date | string | null
+  membershipStartDate?: Date | string | null
+  renewalDate?: Date | string | null
+  customer: Prisma.CustomerCreateNestedOneWithoutMaintenanceContractsInput
+  planType: Prisma.MaintenancePlanTypeCreateNestedOneWithoutContractsInput
+  properties?: Prisma.ContractPropertyCreateNestedManyWithoutContractInput
+}
+
+export type MaintenanceContractUncheckedCreateWithoutHvacSystemsInput = {
+  id?: string
+  customerId: string
+  planTypeId: string
+  token: string
+  status?: $Enums.MaintenanceContractStatus
+  systemMakeModel?: string | null
+  systemAge?: string | null
+  numberOfSystems?: number
+  systemTypes?: Prisma.MaintenanceContractCreatesystemTypesInput | string[]
+  agreementStartDate?: Date | string | null
+  customerSignatureUrl?: string | null
+  repName?: string | null
+  signedAt?: Date | string | null
+  billingInterval?: string | null
+  autoRenew?: boolean
+  stripeSubscriptionId?: string | null
+  stripePaymentIntentId?: string | null
+  paidAt?: Date | string | null
+  sentById?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  selfEnrolled?: boolean
+  membershipNumber?: string | null
+  stripeCustomerId?: string | null
+  stripeCheckoutSessionId?: string | null
+  annualTotal?: number | null
+  monthlyTotal?: number | null
+  taxAmount?: number | null
+  firstName?: string | null
+  lastName?: string | null
+  email?: string | null
+  phone?: string | null
+  billingAddress?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  preferredContact?: string | null
+  preferredLanguage?: string | null
+  marketingSmsConsent?: boolean
+  marketingEmailConsent?: boolean
+  agreementVersion?: string | null
+  agreementAcceptedAt?: Date | string | null
+  firstAppointmentAt?: Date | string | null
+  firstAppointmentNotes?: string | null
+  confirmationEmailSentAt?: Date | string | null
+  commitmentEndDate?: Date | string | null
+  membershipStartDate?: Date | string | null
+  renewalDate?: Date | string | null
+  properties?: Prisma.ContractPropertyUncheckedCreateNestedManyWithoutContractInput
+}
+
+export type MaintenanceContractCreateOrConnectWithoutHvacSystemsInput = {
+  where: Prisma.MaintenanceContractWhereUniqueInput
+  create: Prisma.XOR<Prisma.MaintenanceContractCreateWithoutHvacSystemsInput, Prisma.MaintenanceContractUncheckedCreateWithoutHvacSystemsInput>
+}
+
+export type MaintenanceContractUpsertWithoutHvacSystemsInput = {
+  update: Prisma.XOR<Prisma.MaintenanceContractUpdateWithoutHvacSystemsInput, Prisma.MaintenanceContractUncheckedUpdateWithoutHvacSystemsInput>
+  create: Prisma.XOR<Prisma.MaintenanceContractCreateWithoutHvacSystemsInput, Prisma.MaintenanceContractUncheckedCreateWithoutHvacSystemsInput>
+  where?: Prisma.MaintenanceContractWhereInput
+}
+
+export type MaintenanceContractUpdateToOneWithWhereWithoutHvacSystemsInput = {
+  where?: Prisma.MaintenanceContractWhereInput
+  data: Prisma.XOR<Prisma.MaintenanceContractUpdateWithoutHvacSystemsInput, Prisma.MaintenanceContractUncheckedUpdateWithoutHvacSystemsInput>
+}
+
+export type MaintenanceContractUpdateWithoutHvacSystemsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  token?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumMaintenanceContractStatusFieldUpdateOperationsInput | $Enums.MaintenanceContractStatus
+  systemMakeModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  systemAge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  numberOfSystems?: Prisma.IntFieldUpdateOperationsInput | number
+  systemTypes?: Prisma.MaintenanceContractUpdatesystemTypesInput | string[]
+  agreementStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  customerSignatureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  repName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  signedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  billingInterval?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  autoRenew?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripePaymentIntentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  sentById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  selfEnrolled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  membershipNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCheckoutSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  annualTotal?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  monthlyTotal?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  taxAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddress?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  preferredContact?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preferredLanguage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  marketingSmsConsent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  marketingEmailConsent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  agreementVersion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  agreementAcceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  firstAppointmentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  firstAppointmentNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  confirmationEmailSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  commitmentEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  membershipStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  renewalDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  customer?: Prisma.CustomerUpdateOneRequiredWithoutMaintenanceContractsNestedInput
+  planType?: Prisma.MaintenancePlanTypeUpdateOneRequiredWithoutContractsNestedInput
+  properties?: Prisma.ContractPropertyUpdateManyWithoutContractNestedInput
+}
+
+export type MaintenanceContractUncheckedUpdateWithoutHvacSystemsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  customerId?: Prisma.StringFieldUpdateOperationsInput | string
+  planTypeId?: Prisma.StringFieldUpdateOperationsInput | string
+  token?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumMaintenanceContractStatusFieldUpdateOperationsInput | $Enums.MaintenanceContractStatus
+  systemMakeModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  systemAge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  numberOfSystems?: Prisma.IntFieldUpdateOperationsInput | number
+  systemTypes?: Prisma.MaintenanceContractUpdatesystemTypesInput | string[]
+  agreementStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  customerSignatureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  repName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  signedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  billingInterval?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  autoRenew?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripePaymentIntentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  sentById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  selfEnrolled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  membershipNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCheckoutSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  annualTotal?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  monthlyTotal?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  taxAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddress?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  preferredContact?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preferredLanguage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  marketingSmsConsent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  marketingEmailConsent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  agreementVersion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  agreementAcceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  firstAppointmentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  firstAppointmentNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  confirmationEmailSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  commitmentEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  membershipStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  renewalDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  properties?: Prisma.ContractPropertyUncheckedUpdateManyWithoutContractNestedInput
+}
+
 export type MaintenanceContractCreateManyCustomerInput = {
   id?: string
   planTypeId: string
@@ -998,6 +2137,30 @@ export type MaintenanceContractCreateManyCustomerInput = {
   sentById?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  selfEnrolled?: boolean
+  membershipNumber?: string | null
+  stripeCustomerId?: string | null
+  stripeCheckoutSessionId?: string | null
+  annualTotal?: number | null
+  monthlyTotal?: number | null
+  taxAmount?: number | null
+  firstName?: string | null
+  lastName?: string | null
+  email?: string | null
+  phone?: string | null
+  billingAddress?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  preferredContact?: string | null
+  preferredLanguage?: string | null
+  marketingSmsConsent?: boolean
+  marketingEmailConsent?: boolean
+  agreementVersion?: string | null
+  agreementAcceptedAt?: Date | string | null
+  firstAppointmentAt?: Date | string | null
+  firstAppointmentNotes?: string | null
+  confirmationEmailSentAt?: Date | string | null
+  commitmentEndDate?: Date | string | null
+  membershipStartDate?: Date | string | null
+  renewalDate?: Date | string | null
 }
 
 export type MaintenanceContractUpdateWithoutCustomerInput = {
@@ -1020,7 +2183,33 @@ export type MaintenanceContractUpdateWithoutCustomerInput = {
   sentById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  selfEnrolled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  membershipNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCheckoutSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  annualTotal?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  monthlyTotal?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  taxAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddress?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  preferredContact?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preferredLanguage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  marketingSmsConsent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  marketingEmailConsent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  agreementVersion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  agreementAcceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  firstAppointmentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  firstAppointmentNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  confirmationEmailSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  commitmentEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  membershipStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  renewalDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   planType?: Prisma.MaintenancePlanTypeUpdateOneRequiredWithoutContractsNestedInput
+  properties?: Prisma.ContractPropertyUpdateManyWithoutContractNestedInput
+  hvacSystems?: Prisma.ContractHvacSystemUpdateManyWithoutContractNestedInput
 }
 
 export type MaintenanceContractUncheckedUpdateWithoutCustomerInput = {
@@ -1044,6 +2233,32 @@ export type MaintenanceContractUncheckedUpdateWithoutCustomerInput = {
   sentById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  selfEnrolled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  membershipNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCheckoutSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  annualTotal?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  monthlyTotal?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  taxAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddress?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  preferredContact?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preferredLanguage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  marketingSmsConsent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  marketingEmailConsent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  agreementVersion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  agreementAcceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  firstAppointmentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  firstAppointmentNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  confirmationEmailSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  commitmentEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  membershipStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  renewalDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  properties?: Prisma.ContractPropertyUncheckedUpdateManyWithoutContractNestedInput
+  hvacSystems?: Prisma.ContractHvacSystemUncheckedUpdateManyWithoutContractNestedInput
 }
 
 export type MaintenanceContractUncheckedUpdateManyWithoutCustomerInput = {
@@ -1067,6 +2282,30 @@ export type MaintenanceContractUncheckedUpdateManyWithoutCustomerInput = {
   sentById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  selfEnrolled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  membershipNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCheckoutSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  annualTotal?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  monthlyTotal?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  taxAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddress?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  preferredContact?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preferredLanguage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  marketingSmsConsent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  marketingEmailConsent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  agreementVersion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  agreementAcceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  firstAppointmentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  firstAppointmentNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  confirmationEmailSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  commitmentEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  membershipStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  renewalDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type MaintenanceContractCreateManyPlanTypeInput = {
@@ -1090,6 +2329,30 @@ export type MaintenanceContractCreateManyPlanTypeInput = {
   sentById?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  selfEnrolled?: boolean
+  membershipNumber?: string | null
+  stripeCustomerId?: string | null
+  stripeCheckoutSessionId?: string | null
+  annualTotal?: number | null
+  monthlyTotal?: number | null
+  taxAmount?: number | null
+  firstName?: string | null
+  lastName?: string | null
+  email?: string | null
+  phone?: string | null
+  billingAddress?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  preferredContact?: string | null
+  preferredLanguage?: string | null
+  marketingSmsConsent?: boolean
+  marketingEmailConsent?: boolean
+  agreementVersion?: string | null
+  agreementAcceptedAt?: Date | string | null
+  firstAppointmentAt?: Date | string | null
+  firstAppointmentNotes?: string | null
+  confirmationEmailSentAt?: Date | string | null
+  commitmentEndDate?: Date | string | null
+  membershipStartDate?: Date | string | null
+  renewalDate?: Date | string | null
 }
 
 export type MaintenanceContractUpdateWithoutPlanTypeInput = {
@@ -1112,7 +2375,33 @@ export type MaintenanceContractUpdateWithoutPlanTypeInput = {
   sentById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  selfEnrolled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  membershipNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCheckoutSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  annualTotal?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  monthlyTotal?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  taxAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddress?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  preferredContact?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preferredLanguage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  marketingSmsConsent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  marketingEmailConsent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  agreementVersion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  agreementAcceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  firstAppointmentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  firstAppointmentNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  confirmationEmailSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  commitmentEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  membershipStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  renewalDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customer?: Prisma.CustomerUpdateOneRequiredWithoutMaintenanceContractsNestedInput
+  properties?: Prisma.ContractPropertyUpdateManyWithoutContractNestedInput
+  hvacSystems?: Prisma.ContractHvacSystemUpdateManyWithoutContractNestedInput
 }
 
 export type MaintenanceContractUncheckedUpdateWithoutPlanTypeInput = {
@@ -1136,6 +2425,32 @@ export type MaintenanceContractUncheckedUpdateWithoutPlanTypeInput = {
   sentById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  selfEnrolled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  membershipNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCheckoutSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  annualTotal?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  monthlyTotal?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  taxAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddress?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  preferredContact?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preferredLanguage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  marketingSmsConsent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  marketingEmailConsent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  agreementVersion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  agreementAcceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  firstAppointmentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  firstAppointmentNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  confirmationEmailSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  commitmentEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  membershipStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  renewalDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  properties?: Prisma.ContractPropertyUncheckedUpdateManyWithoutContractNestedInput
+  hvacSystems?: Prisma.ContractHvacSystemUncheckedUpdateManyWithoutContractNestedInput
 }
 
 export type MaintenanceContractUncheckedUpdateManyWithoutPlanTypeInput = {
@@ -1159,8 +2474,70 @@ export type MaintenanceContractUncheckedUpdateManyWithoutPlanTypeInput = {
   sentById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  selfEnrolled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  membershipNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCheckoutSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  annualTotal?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  monthlyTotal?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  taxAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddress?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  preferredContact?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preferredLanguage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  marketingSmsConsent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  marketingEmailConsent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  agreementVersion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  agreementAcceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  firstAppointmentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  firstAppointmentNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  confirmationEmailSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  commitmentEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  membershipStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  renewalDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
+
+/**
+ * Count Type MaintenanceContractCountOutputType
+ */
+
+export type MaintenanceContractCountOutputType = {
+  properties: number
+  hvacSystems: number
+}
+
+export type MaintenanceContractCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  properties?: boolean | MaintenanceContractCountOutputTypeCountPropertiesArgs
+  hvacSystems?: boolean | MaintenanceContractCountOutputTypeCountHvacSystemsArgs
+}
+
+/**
+ * MaintenanceContractCountOutputType without action
+ */
+export type MaintenanceContractCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the MaintenanceContractCountOutputType
+   */
+  select?: Prisma.MaintenanceContractCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * MaintenanceContractCountOutputType without action
+ */
+export type MaintenanceContractCountOutputTypeCountPropertiesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ContractPropertyWhereInput
+}
+
+/**
+ * MaintenanceContractCountOutputType without action
+ */
+export type MaintenanceContractCountOutputTypeCountHvacSystemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ContractHvacSystemWhereInput
+}
 
 
 export type MaintenanceContractSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1185,8 +2562,35 @@ export type MaintenanceContractSelect<ExtArgs extends runtime.Types.Extensions.I
   sentById?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  selfEnrolled?: boolean
+  membershipNumber?: boolean
+  stripeCustomerId?: boolean
+  stripeCheckoutSessionId?: boolean
+  annualTotal?: boolean
+  monthlyTotal?: boolean
+  taxAmount?: boolean
+  firstName?: boolean
+  lastName?: boolean
+  email?: boolean
+  phone?: boolean
+  billingAddress?: boolean
+  preferredContact?: boolean
+  preferredLanguage?: boolean
+  marketingSmsConsent?: boolean
+  marketingEmailConsent?: boolean
+  agreementVersion?: boolean
+  agreementAcceptedAt?: boolean
+  firstAppointmentAt?: boolean
+  firstAppointmentNotes?: boolean
+  confirmationEmailSentAt?: boolean
+  commitmentEndDate?: boolean
+  membershipStartDate?: boolean
+  renewalDate?: boolean
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
   planType?: boolean | Prisma.MaintenancePlanTypeDefaultArgs<ExtArgs>
+  properties?: boolean | Prisma.MaintenanceContract$propertiesArgs<ExtArgs>
+  hvacSystems?: boolean | Prisma.MaintenanceContract$hvacSystemsArgs<ExtArgs>
+  _count?: boolean | Prisma.MaintenanceContractCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["maintenanceContract"]>
 
 export type MaintenanceContractSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1211,6 +2615,30 @@ export type MaintenanceContractSelectCreateManyAndReturn<ExtArgs extends runtime
   sentById?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  selfEnrolled?: boolean
+  membershipNumber?: boolean
+  stripeCustomerId?: boolean
+  stripeCheckoutSessionId?: boolean
+  annualTotal?: boolean
+  monthlyTotal?: boolean
+  taxAmount?: boolean
+  firstName?: boolean
+  lastName?: boolean
+  email?: boolean
+  phone?: boolean
+  billingAddress?: boolean
+  preferredContact?: boolean
+  preferredLanguage?: boolean
+  marketingSmsConsent?: boolean
+  marketingEmailConsent?: boolean
+  agreementVersion?: boolean
+  agreementAcceptedAt?: boolean
+  firstAppointmentAt?: boolean
+  firstAppointmentNotes?: boolean
+  confirmationEmailSentAt?: boolean
+  commitmentEndDate?: boolean
+  membershipStartDate?: boolean
+  renewalDate?: boolean
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
   planType?: boolean | Prisma.MaintenancePlanTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["maintenanceContract"]>
@@ -1237,6 +2665,30 @@ export type MaintenanceContractSelectUpdateManyAndReturn<ExtArgs extends runtime
   sentById?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  selfEnrolled?: boolean
+  membershipNumber?: boolean
+  stripeCustomerId?: boolean
+  stripeCheckoutSessionId?: boolean
+  annualTotal?: boolean
+  monthlyTotal?: boolean
+  taxAmount?: boolean
+  firstName?: boolean
+  lastName?: boolean
+  email?: boolean
+  phone?: boolean
+  billingAddress?: boolean
+  preferredContact?: boolean
+  preferredLanguage?: boolean
+  marketingSmsConsent?: boolean
+  marketingEmailConsent?: boolean
+  agreementVersion?: boolean
+  agreementAcceptedAt?: boolean
+  firstAppointmentAt?: boolean
+  firstAppointmentNotes?: boolean
+  confirmationEmailSentAt?: boolean
+  commitmentEndDate?: boolean
+  membershipStartDate?: boolean
+  renewalDate?: boolean
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
   planType?: boolean | Prisma.MaintenancePlanTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["maintenanceContract"]>
@@ -1263,12 +2715,39 @@ export type MaintenanceContractSelectScalar = {
   sentById?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  selfEnrolled?: boolean
+  membershipNumber?: boolean
+  stripeCustomerId?: boolean
+  stripeCheckoutSessionId?: boolean
+  annualTotal?: boolean
+  monthlyTotal?: boolean
+  taxAmount?: boolean
+  firstName?: boolean
+  lastName?: boolean
+  email?: boolean
+  phone?: boolean
+  billingAddress?: boolean
+  preferredContact?: boolean
+  preferredLanguage?: boolean
+  marketingSmsConsent?: boolean
+  marketingEmailConsent?: boolean
+  agreementVersion?: boolean
+  agreementAcceptedAt?: boolean
+  firstAppointmentAt?: boolean
+  firstAppointmentNotes?: boolean
+  confirmationEmailSentAt?: boolean
+  commitmentEndDate?: boolean
+  membershipStartDate?: boolean
+  renewalDate?: boolean
 }
 
-export type MaintenanceContractOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "customerId" | "planTypeId" | "token" | "status" | "systemMakeModel" | "systemAge" | "numberOfSystems" | "systemTypes" | "agreementStartDate" | "customerSignatureUrl" | "repName" | "signedAt" | "billingInterval" | "autoRenew" | "stripeSubscriptionId" | "stripePaymentIntentId" | "paidAt" | "sentById" | "createdAt" | "updatedAt", ExtArgs["result"]["maintenanceContract"]>
+export type MaintenanceContractOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "customerId" | "planTypeId" | "token" | "status" | "systemMakeModel" | "systemAge" | "numberOfSystems" | "systemTypes" | "agreementStartDate" | "customerSignatureUrl" | "repName" | "signedAt" | "billingInterval" | "autoRenew" | "stripeSubscriptionId" | "stripePaymentIntentId" | "paidAt" | "sentById" | "createdAt" | "updatedAt" | "selfEnrolled" | "membershipNumber" | "stripeCustomerId" | "stripeCheckoutSessionId" | "annualTotal" | "monthlyTotal" | "taxAmount" | "firstName" | "lastName" | "email" | "phone" | "billingAddress" | "preferredContact" | "preferredLanguage" | "marketingSmsConsent" | "marketingEmailConsent" | "agreementVersion" | "agreementAcceptedAt" | "firstAppointmentAt" | "firstAppointmentNotes" | "confirmationEmailSentAt" | "commitmentEndDate" | "membershipStartDate" | "renewalDate", ExtArgs["result"]["maintenanceContract"]>
 export type MaintenanceContractInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
   planType?: boolean | Prisma.MaintenancePlanTypeDefaultArgs<ExtArgs>
+  properties?: boolean | Prisma.MaintenanceContract$propertiesArgs<ExtArgs>
+  hvacSystems?: boolean | Prisma.MaintenanceContract$hvacSystemsArgs<ExtArgs>
+  _count?: boolean | Prisma.MaintenanceContractCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type MaintenanceContractIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
@@ -1284,6 +2763,8 @@ export type $MaintenanceContractPayload<ExtArgs extends runtime.Types.Extensions
   objects: {
     customer: Prisma.$CustomerPayload<ExtArgs>
     planType: Prisma.$MaintenancePlanTypePayload<ExtArgs>
+    properties: Prisma.$ContractPropertyPayload<ExtArgs>[]
+    hvacSystems: Prisma.$ContractHvacSystemPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1307,6 +2788,30 @@ export type $MaintenanceContractPayload<ExtArgs extends runtime.Types.Extensions
     sentById: string | null
     createdAt: Date
     updatedAt: Date
+    selfEnrolled: boolean
+    membershipNumber: string | null
+    stripeCustomerId: string | null
+    stripeCheckoutSessionId: string | null
+    annualTotal: number | null
+    monthlyTotal: number | null
+    taxAmount: number | null
+    firstName: string | null
+    lastName: string | null
+    email: string | null
+    phone: string | null
+    billingAddress: runtime.JsonValue | null
+    preferredContact: string | null
+    preferredLanguage: string | null
+    marketingSmsConsent: boolean
+    marketingEmailConsent: boolean
+    agreementVersion: string | null
+    agreementAcceptedAt: Date | null
+    firstAppointmentAt: Date | null
+    firstAppointmentNotes: string | null
+    confirmationEmailSentAt: Date | null
+    commitmentEndDate: Date | null
+    membershipStartDate: Date | null
+    renewalDate: Date | null
   }, ExtArgs["result"]["maintenanceContract"]>
   composites: {}
 }
@@ -1703,6 +3208,8 @@ export interface Prisma__MaintenanceContractClient<T, Null = never, ExtArgs exte
   readonly [Symbol.toStringTag]: "PrismaPromise"
   customer<T extends Prisma.CustomerDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CustomerDefaultArgs<ExtArgs>>): Prisma.Prisma__CustomerClient<runtime.Types.Result.GetResult<Prisma.$CustomerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   planType<T extends Prisma.MaintenancePlanTypeDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MaintenancePlanTypeDefaultArgs<ExtArgs>>): Prisma.Prisma__MaintenancePlanTypeClient<runtime.Types.Result.GetResult<Prisma.$MaintenancePlanTypePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  properties<T extends Prisma.MaintenanceContract$propertiesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MaintenanceContract$propertiesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ContractPropertyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  hvacSystems<T extends Prisma.MaintenanceContract$hvacSystemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MaintenanceContract$hvacSystemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ContractHvacSystemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1753,6 +3260,30 @@ export interface MaintenanceContractFieldRefs {
   readonly sentById: Prisma.FieldRef<"MaintenanceContract", 'String'>
   readonly createdAt: Prisma.FieldRef<"MaintenanceContract", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"MaintenanceContract", 'DateTime'>
+  readonly selfEnrolled: Prisma.FieldRef<"MaintenanceContract", 'Boolean'>
+  readonly membershipNumber: Prisma.FieldRef<"MaintenanceContract", 'String'>
+  readonly stripeCustomerId: Prisma.FieldRef<"MaintenanceContract", 'String'>
+  readonly stripeCheckoutSessionId: Prisma.FieldRef<"MaintenanceContract", 'String'>
+  readonly annualTotal: Prisma.FieldRef<"MaintenanceContract", 'Float'>
+  readonly monthlyTotal: Prisma.FieldRef<"MaintenanceContract", 'Float'>
+  readonly taxAmount: Prisma.FieldRef<"MaintenanceContract", 'Float'>
+  readonly firstName: Prisma.FieldRef<"MaintenanceContract", 'String'>
+  readonly lastName: Prisma.FieldRef<"MaintenanceContract", 'String'>
+  readonly email: Prisma.FieldRef<"MaintenanceContract", 'String'>
+  readonly phone: Prisma.FieldRef<"MaintenanceContract", 'String'>
+  readonly billingAddress: Prisma.FieldRef<"MaintenanceContract", 'Json'>
+  readonly preferredContact: Prisma.FieldRef<"MaintenanceContract", 'String'>
+  readonly preferredLanguage: Prisma.FieldRef<"MaintenanceContract", 'String'>
+  readonly marketingSmsConsent: Prisma.FieldRef<"MaintenanceContract", 'Boolean'>
+  readonly marketingEmailConsent: Prisma.FieldRef<"MaintenanceContract", 'Boolean'>
+  readonly agreementVersion: Prisma.FieldRef<"MaintenanceContract", 'String'>
+  readonly agreementAcceptedAt: Prisma.FieldRef<"MaintenanceContract", 'DateTime'>
+  readonly firstAppointmentAt: Prisma.FieldRef<"MaintenanceContract", 'DateTime'>
+  readonly firstAppointmentNotes: Prisma.FieldRef<"MaintenanceContract", 'String'>
+  readonly confirmationEmailSentAt: Prisma.FieldRef<"MaintenanceContract", 'DateTime'>
+  readonly commitmentEndDate: Prisma.FieldRef<"MaintenanceContract", 'DateTime'>
+  readonly membershipStartDate: Prisma.FieldRef<"MaintenanceContract", 'DateTime'>
+  readonly renewalDate: Prisma.FieldRef<"MaintenanceContract", 'DateTime'>
 }
     
 
@@ -2151,6 +3682,54 @@ export type MaintenanceContractDeleteManyArgs<ExtArgs extends runtime.Types.Exte
    * Limit how many MaintenanceContracts to delete.
    */
   limit?: number
+}
+
+/**
+ * MaintenanceContract.properties
+ */
+export type MaintenanceContract$propertiesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ContractProperty
+   */
+  select?: Prisma.ContractPropertySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ContractProperty
+   */
+  omit?: Prisma.ContractPropertyOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ContractPropertyInclude<ExtArgs> | null
+  where?: Prisma.ContractPropertyWhereInput
+  orderBy?: Prisma.ContractPropertyOrderByWithRelationInput | Prisma.ContractPropertyOrderByWithRelationInput[]
+  cursor?: Prisma.ContractPropertyWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ContractPropertyScalarFieldEnum | Prisma.ContractPropertyScalarFieldEnum[]
+}
+
+/**
+ * MaintenanceContract.hvacSystems
+ */
+export type MaintenanceContract$hvacSystemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ContractHvacSystem
+   */
+  select?: Prisma.ContractHvacSystemSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ContractHvacSystem
+   */
+  omit?: Prisma.ContractHvacSystemOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ContractHvacSystemInclude<ExtArgs> | null
+  where?: Prisma.ContractHvacSystemWhereInput
+  orderBy?: Prisma.ContractHvacSystemOrderByWithRelationInput | Prisma.ContractHvacSystemOrderByWithRelationInput[]
+  cursor?: Prisma.ContractHvacSystemWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ContractHvacSystemScalarFieldEnum | Prisma.ContractHvacSystemScalarFieldEnum[]
 }
 
 /**

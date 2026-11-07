@@ -446,7 +446,9 @@ export const ModelName = {
   FormTemplate: 'FormTemplate',
   FormSubmission: 'FormSubmission',
   MaintenancePlanType: 'MaintenancePlanType',
-  MaintenanceContract: 'MaintenanceContract'
+  MaintenanceContract: 'MaintenanceContract',
+  ContractProperty: 'ContractProperty',
+  ContractHvacSystem: 'ContractHvacSystem'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -462,7 +464,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "technicianClient" | "account" | "session" | "verificationToken" | "appointment" | "review" | "invoice" | "notificationLog" | "setting" | "galleryProject" | "technician" | "technicianProfile" | "technicianLocation" | "technicianClockEntry" | "property" | "servicePlan" | "customerServicePlan" | "warranty" | "maintenanceLog" | "aIConversation" | "product" | "order" | "orderItem" | "cart" | "payment" | "pushSubscription" | "estimate" | "priceBookItem" | "diagnosisForm" | "serviceDiagnostic" | "systemStartup" | "ventCleaning" | "ductCleaning" | "jobPhoto" | "jobPayment" | "serviceChecklist" | "jobTimeLog" | "jobPart" | "inventoryItem" | "inventoryRequest" | "expense" | "expenseSubscription" | "campaign" | "campaignRecipient" | "customer" | "equipment" | "project" | "call" | "callRecording" | "voicemail" | "messageThread" | "message" | "messageTemplate" | "doNotContact" | "emailThread" | "emailMessage" | "shortLink" | "systemType" | "formTemplate" | "formSubmission" | "maintenancePlanType" | "maintenanceContract"
+    modelProps: "user" | "technicianClient" | "account" | "session" | "verificationToken" | "appointment" | "review" | "invoice" | "notificationLog" | "setting" | "galleryProject" | "technician" | "technicianProfile" | "technicianLocation" | "technicianClockEntry" | "property" | "servicePlan" | "customerServicePlan" | "warranty" | "maintenanceLog" | "aIConversation" | "product" | "order" | "orderItem" | "cart" | "payment" | "pushSubscription" | "estimate" | "priceBookItem" | "diagnosisForm" | "serviceDiagnostic" | "systemStartup" | "ventCleaning" | "ductCleaning" | "jobPhoto" | "jobPayment" | "serviceChecklist" | "jobTimeLog" | "jobPart" | "inventoryItem" | "inventoryRequest" | "expense" | "expenseSubscription" | "campaign" | "campaignRecipient" | "customer" | "equipment" | "project" | "call" | "callRecording" | "voicemail" | "messageThread" | "message" | "messageTemplate" | "doNotContact" | "emailThread" | "emailMessage" | "shortLink" | "systemType" | "formTemplate" | "formSubmission" | "maintenancePlanType" | "maintenanceContract" | "contractProperty" | "contractHvacSystem"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -5128,6 +5130,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    ContractProperty: {
+      payload: Prisma.$ContractPropertyPayload<ExtArgs>
+      fields: Prisma.ContractPropertyFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ContractPropertyFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContractPropertyPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ContractPropertyFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContractPropertyPayload>
+        }
+        findFirst: {
+          args: Prisma.ContractPropertyFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContractPropertyPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ContractPropertyFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContractPropertyPayload>
+        }
+        findMany: {
+          args: Prisma.ContractPropertyFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContractPropertyPayload>[]
+        }
+        create: {
+          args: Prisma.ContractPropertyCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContractPropertyPayload>
+        }
+        createMany: {
+          args: Prisma.ContractPropertyCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ContractPropertyCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContractPropertyPayload>[]
+        }
+        delete: {
+          args: Prisma.ContractPropertyDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContractPropertyPayload>
+        }
+        update: {
+          args: Prisma.ContractPropertyUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContractPropertyPayload>
+        }
+        deleteMany: {
+          args: Prisma.ContractPropertyDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ContractPropertyUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ContractPropertyUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContractPropertyPayload>[]
+        }
+        upsert: {
+          args: Prisma.ContractPropertyUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContractPropertyPayload>
+        }
+        aggregate: {
+          args: Prisma.ContractPropertyAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateContractProperty>
+        }
+        groupBy: {
+          args: Prisma.ContractPropertyGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ContractPropertyGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ContractPropertyCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ContractPropertyCountAggregateOutputType> | number
+        }
+      }
+    }
+    ContractHvacSystem: {
+      payload: Prisma.$ContractHvacSystemPayload<ExtArgs>
+      fields: Prisma.ContractHvacSystemFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ContractHvacSystemFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContractHvacSystemPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ContractHvacSystemFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContractHvacSystemPayload>
+        }
+        findFirst: {
+          args: Prisma.ContractHvacSystemFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContractHvacSystemPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ContractHvacSystemFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContractHvacSystemPayload>
+        }
+        findMany: {
+          args: Prisma.ContractHvacSystemFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContractHvacSystemPayload>[]
+        }
+        create: {
+          args: Prisma.ContractHvacSystemCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContractHvacSystemPayload>
+        }
+        createMany: {
+          args: Prisma.ContractHvacSystemCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ContractHvacSystemCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContractHvacSystemPayload>[]
+        }
+        delete: {
+          args: Prisma.ContractHvacSystemDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContractHvacSystemPayload>
+        }
+        update: {
+          args: Prisma.ContractHvacSystemUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContractHvacSystemPayload>
+        }
+        deleteMany: {
+          args: Prisma.ContractHvacSystemDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ContractHvacSystemUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ContractHvacSystemUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContractHvacSystemPayload>[]
+        }
+        upsert: {
+          args: Prisma.ContractHvacSystemUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContractHvacSystemPayload>
+        }
+        aggregate: {
+          args: Prisma.ContractHvacSystemAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateContractHvacSystem>
+        }
+        groupBy: {
+          args: Prisma.ContractHvacSystemGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ContractHvacSystemGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ContractHvacSystemCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ContractHvacSystemCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -6352,10 +6502,77 @@ export const MaintenanceContractScalarFieldEnum = {
   paidAt: 'paidAt',
   sentById: 'sentById',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  selfEnrolled: 'selfEnrolled',
+  membershipNumber: 'membershipNumber',
+  stripeCustomerId: 'stripeCustomerId',
+  stripeCheckoutSessionId: 'stripeCheckoutSessionId',
+  annualTotal: 'annualTotal',
+  monthlyTotal: 'monthlyTotal',
+  taxAmount: 'taxAmount',
+  firstName: 'firstName',
+  lastName: 'lastName',
+  email: 'email',
+  phone: 'phone',
+  billingAddress: 'billingAddress',
+  preferredContact: 'preferredContact',
+  preferredLanguage: 'preferredLanguage',
+  marketingSmsConsent: 'marketingSmsConsent',
+  marketingEmailConsent: 'marketingEmailConsent',
+  agreementVersion: 'agreementVersion',
+  agreementAcceptedAt: 'agreementAcceptedAt',
+  firstAppointmentAt: 'firstAppointmentAt',
+  firstAppointmentNotes: 'firstAppointmentNotes',
+  confirmationEmailSentAt: 'confirmationEmailSentAt',
+  commitmentEndDate: 'commitmentEndDate',
+  membershipStartDate: 'membershipStartDate',
+  renewalDate: 'renewalDate'
 } as const
 
 export type MaintenanceContractScalarFieldEnum = (typeof MaintenanceContractScalarFieldEnum)[keyof typeof MaintenanceContractScalarFieldEnum]
+
+
+export const ContractPropertyScalarFieldEnum = {
+  id: 'id',
+  contractId: 'contractId',
+  nickname: 'nickname',
+  address: 'address',
+  apt: 'apt',
+  city: 'city',
+  state: 'state',
+  zipCode: 'zipCode',
+  propertyType: 'propertyType',
+  systemCount: 'systemCount',
+  accessInstructions: 'accessInstructions',
+  gateCode: 'gateCode',
+  tenantName: 'tenantName',
+  tenantPhone: 'tenantPhone',
+  tenantEmail: 'tenantEmail',
+  createdAt: 'createdAt'
+} as const
+
+export type ContractPropertyScalarFieldEnum = (typeof ContractPropertyScalarFieldEnum)[keyof typeof ContractPropertyScalarFieldEnum]
+
+
+export const ContractHvacSystemScalarFieldEnum = {
+  id: 'id',
+  contractId: 'contractId',
+  propertyId: 'propertyId',
+  nickname: 'nickname',
+  coolingType: 'coolingType',
+  heatingType: 'heatingType',
+  brand: 'brand',
+  model: 'model',
+  serialNumber: 'serialNumber',
+  age: 'age',
+  indoorLocation: 'indoorLocation',
+  outdoorLocation: 'outdoorLocation',
+  condition: 'condition',
+  unknownDetails: 'unknownDetails',
+  createdAt: 'createdAt'
+} as const
+
+export type ContractHvacSystemScalarFieldEnum = (typeof ContractHvacSystemScalarFieldEnum)[keyof typeof ContractHvacSystemScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -6913,6 +7130,8 @@ export type GlobalOmitConfig = {
   formSubmission?: Prisma.FormSubmissionOmit
   maintenancePlanType?: Prisma.MaintenancePlanTypeOmit
   maintenanceContract?: Prisma.MaintenanceContractOmit
+  contractProperty?: Prisma.ContractPropertyOmit
+  contractHvacSystem?: Prisma.ContractHvacSystemOmit
 }
 
 /* Types for Logging */

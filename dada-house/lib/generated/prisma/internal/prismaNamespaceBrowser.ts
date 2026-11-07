@@ -113,7 +113,9 @@ export const ModelName = {
   FormTemplate: 'FormTemplate',
   FormSubmission: 'FormSubmission',
   MaintenancePlanType: 'MaintenancePlanType',
-  MaintenanceContract: 'MaintenanceContract'
+  MaintenanceContract: 'MaintenanceContract',
+  ContractProperty: 'ContractProperty',
+  ContractHvacSystem: 'ContractHvacSystem'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1317,10 +1319,77 @@ export const MaintenanceContractScalarFieldEnum = {
   paidAt: 'paidAt',
   sentById: 'sentById',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  selfEnrolled: 'selfEnrolled',
+  membershipNumber: 'membershipNumber',
+  stripeCustomerId: 'stripeCustomerId',
+  stripeCheckoutSessionId: 'stripeCheckoutSessionId',
+  annualTotal: 'annualTotal',
+  monthlyTotal: 'monthlyTotal',
+  taxAmount: 'taxAmount',
+  firstName: 'firstName',
+  lastName: 'lastName',
+  email: 'email',
+  phone: 'phone',
+  billingAddress: 'billingAddress',
+  preferredContact: 'preferredContact',
+  preferredLanguage: 'preferredLanguage',
+  marketingSmsConsent: 'marketingSmsConsent',
+  marketingEmailConsent: 'marketingEmailConsent',
+  agreementVersion: 'agreementVersion',
+  agreementAcceptedAt: 'agreementAcceptedAt',
+  firstAppointmentAt: 'firstAppointmentAt',
+  firstAppointmentNotes: 'firstAppointmentNotes',
+  confirmationEmailSentAt: 'confirmationEmailSentAt',
+  commitmentEndDate: 'commitmentEndDate',
+  membershipStartDate: 'membershipStartDate',
+  renewalDate: 'renewalDate'
 } as const
 
 export type MaintenanceContractScalarFieldEnum = (typeof MaintenanceContractScalarFieldEnum)[keyof typeof MaintenanceContractScalarFieldEnum]
+
+
+export const ContractPropertyScalarFieldEnum = {
+  id: 'id',
+  contractId: 'contractId',
+  nickname: 'nickname',
+  address: 'address',
+  apt: 'apt',
+  city: 'city',
+  state: 'state',
+  zipCode: 'zipCode',
+  propertyType: 'propertyType',
+  systemCount: 'systemCount',
+  accessInstructions: 'accessInstructions',
+  gateCode: 'gateCode',
+  tenantName: 'tenantName',
+  tenantPhone: 'tenantPhone',
+  tenantEmail: 'tenantEmail',
+  createdAt: 'createdAt'
+} as const
+
+export type ContractPropertyScalarFieldEnum = (typeof ContractPropertyScalarFieldEnum)[keyof typeof ContractPropertyScalarFieldEnum]
+
+
+export const ContractHvacSystemScalarFieldEnum = {
+  id: 'id',
+  contractId: 'contractId',
+  propertyId: 'propertyId',
+  nickname: 'nickname',
+  coolingType: 'coolingType',
+  heatingType: 'heatingType',
+  brand: 'brand',
+  model: 'model',
+  serialNumber: 'serialNumber',
+  age: 'age',
+  indoorLocation: 'indoorLocation',
+  outdoorLocation: 'outdoorLocation',
+  condition: 'condition',
+  unknownDetails: 'unknownDetails',
+  createdAt: 'createdAt'
+} as const
+
+export type ContractHvacSystemScalarFieldEnum = (typeof ContractHvacSystemScalarFieldEnum)[keyof typeof ContractHvacSystemScalarFieldEnum]
 
 
 export const SortOrder = {

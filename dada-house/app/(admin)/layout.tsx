@@ -10,6 +10,7 @@ import {
   PhoneCall, Phone, MessageSquare, Contact, ClipboardCheck, Wrench,
 } from "lucide-react";
 import { signOut } from "@/auth";
+import { StaffPushPrompt } from "@/components/call-center/staff-push-prompt";
 
 type NavItem = { href: string; label: string; icon: React.ComponentType<{ size?: number; className?: string }>; superAdminOnly?: boolean };
 type NavGroup = { label: string | null; items: NavItem[] };
@@ -227,6 +228,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
           <div className="p-4 sm:p-6 lg:p-8">{children}</div>
         </div>
       </main>
+      <StaffPushPrompt />
     </div>
   );
 }

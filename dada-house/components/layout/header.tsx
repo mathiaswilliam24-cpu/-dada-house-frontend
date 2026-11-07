@@ -7,7 +7,7 @@ import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import {
   Wrench, Star, Info, Mail, ShoppingBag, Images,
-  Calendar, User, LogOut, ShieldCheck, Phone, Menu, X,
+  Calendar, User, LogOut, ShieldCheck, Phone, Menu, X, Thermometer,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
@@ -21,12 +21,13 @@ function getRoleHome(role: string | undefined): { href: string; label: string } 
 }
 
 const navLinks = [
-  { href: "/services",  label: "Services",       icon: Wrench },
-  { href: "/about",     label: "About",           icon: Info },
-  { href: "/reviews",   label: "Reviews",         icon: Star },
-  { href: "/store",     label: "Store",           icon: ShoppingBag },
-  { href: "/gallery",   label: "Project Gallery", icon: Images },
-  { href: "/contact",   label: "Contact",         icon: Mail },
+  { href: "/services",              label: "Services",       icon: Wrench },
+  { href: "/hvac-maintenance-plan", label: "Maintenance Plan", icon: Thermometer },
+  { href: "/about",                 label: "About",          icon: Info },
+  { href: "/reviews",               label: "Reviews",        icon: Star },
+  { href: "/store",                 label: "Store",          icon: ShoppingBag },
+  { href: "/gallery",               label: "Project Gallery",icon: Images },
+  { href: "/contact",               label: "Contact",        icon: Mail },
 ];
 
 export default function Header() {

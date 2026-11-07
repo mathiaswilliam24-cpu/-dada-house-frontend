@@ -11,18 +11,18 @@ import {
 import PwaInstallBadges from "./pwa-install-badges";
 
 const serviceLinks = [
-  { href: "/services/plumbing", label: "Plumbing" },
   { href: "/services/air-conditioning", label: "Air Conditioning" },
   { href: "/services/heating", label: "Heating" },
-  { href: "/services/remodeling", label: "Remodeling" },
+  { href: "/services/air-duct-cleaning", label: "Air Duct Cleaning" },
+  { href: "/hvac-maintenance-plan", label: "HVAC Maintenance Plan" },
 ];
 
 const quickLinks = [
   { href: "/booking", label: "Book Service" },
+  { href: "/hvac-maintenance-plan/enroll", label: "Join Maintenance Plan" },
   { href: "/reviews", label: "Customer Reviews" },
   { href: "/about", label: "About Us" },
   { href: "/contact", label: "Contact" },
-  { href: "/store", label: "Store" },
 ];
 
 const accountLinks = [
@@ -51,8 +51,8 @@ export default function Footer() {
             </div>
 
             <p className="text-slate-400 text-sm leading-relaxed mb-6">
-              Premier home services company serving Houston, TX and North Carolina.
-              Expert plumbing, AC, heating, and remodeling — available around the clock.
+              Premier HVAC and air quality company serving Texas and North Carolina.
+              Expert AC, heating, and air duct cleaning — available around the clock.
             </p>
 
             {/* Contact info */}

@@ -7,6 +7,7 @@ import { signOut } from "@/auth";
 import { PageTransition } from "@/components/layout/page-transition";
 import { AgentStatusControl } from "@/components/call-center/agent-status-control";
 import { Softphone } from "@/components/call-center/softphone";
+import { StaffPushPrompt } from "@/components/call-center/staff-push-prompt";
 
 const navItems = [
   { href: "/dispatcher", label: "Schedule", icon: LayoutDashboard },
@@ -66,6 +67,7 @@ export default async function DispatcherLayout({ children }: { children: React.R
         <div className="pt-14 lg:pt-0 p-4 sm:p-6 lg:p-8"><PageTransition>{children}</PageTransition></div>
       </main>
       <Softphone />
+      <StaffPushPrompt />
     </div>
   );
 }

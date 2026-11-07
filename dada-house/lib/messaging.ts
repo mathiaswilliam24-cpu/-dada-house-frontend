@@ -1,6 +1,7 @@
 ﻿import { db } from "@/lib/db";
 import { sendSMS } from "@/lib/twilio";
 import { normalizePhone, findOrCreateCustomerByPhone } from "@/lib/customers";
+import { notifyStaff } from "@/lib/staff-push";
 
 const STOP_KEYWORDS = ["STOP", "STOPALL", "UNSUBSCRIBE", "CANCEL", "END", "QUIT"];
 const START_KEYWORDS = ["START", "YES", "UNSTOP"];
@@ -142,6 +143,14 @@ export async function handleInboundSms(from: string, to: string, body: string, t
   await db.messageThread.update({
     where: { id: thread.id },
     data: { lastMessageAt: new Date(), unreadCount: { increment: 1 } },
+  });
+
+  const senderName = [customer.firstName, customer.lastName].filter(Boolean).join(" ").trim();
+  await notifyStaff({
+    title: `New message from ${senderName || phone}`,
+    body: body.length > 140 ? `${body.slice(0, 137)}...` : body,
+    url: "/messages",
+    tag: `sms-${thread.id}`,
   });
 
   return { optedOut: false };

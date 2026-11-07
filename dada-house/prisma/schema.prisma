@@ -1492,10 +1492,88 @@ model MaintenanceContract {
   createdAt             DateTime                  @default(now())
   updatedAt             DateTime                  @updatedAt
 
-  customer Customer            @relation(fields: [customerId], references: [id], onDelete: Cascade)
-  planType MaintenancePlanType @relation(fields: [planTypeId], references: [id])
+  // Self-enrollment fields
+  selfEnrolled            Boolean   @default(false)
+  membershipNumber        String?   @unique
+  stripeCustomerId        String?
+  stripeCheckoutSessionId String?   @unique
+  annualTotal             Float?
+  monthlyTotal            Float?
+  taxAmount               Float?
+  firstName               String?
+  lastName                String?
+  email                   String?
+  phone                   String?
+  billingAddress          Json?
+  preferredContact        String?
+  preferredLanguage       String?   @default("en")
+  marketingSmsConsent     Boolean   @default(false)
+  marketingEmailConsent   Boolean   @default(false)
+  agreementVersion        String?
+  agreementAcceptedAt     DateTime?
+  firstAppointmentAt      DateTime?
+  firstAppointmentNotes   String?
+  confirmationEmailSentAt DateTime?
+  commitmentEndDate       DateTime?
+  membershipStartDate     DateTime?
+  renewalDate             DateTime?
+
+  customer   Customer             @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  planType   MaintenancePlanType  @relation(fields: [planTypeId], references: [id])
+  properties ContractProperty[]
+  hvacSystems ContractHvacSystem[]
 
   @@index([customerId])
   @@index([stripeSubscriptionId])
+  @@index([stripeCheckoutSessionId])
+  @@index([membershipNumber])
+}
+
+model ContractProperty {
+  id                 String   @id @default(cuid())
+  contractId         String
+  nickname           String?
+  address            String
+  apt                String?
+  city               String
+  state              String
+  zipCode            String
+  propertyType       String   @default("Residential")
+  systemCount        Int      @default(1)
+  accessInstructions String?
+  gateCode           String?
+  tenantName         String?
+  tenantPhone        String?
+  tenantEmail        String?
+  createdAt          DateTime @default(now())
+
+  contract MaintenanceContract @relation(fields: [contractId], references: [id], onDelete: Cascade)
+  systems  ContractHvacSystem[]
+
+  @@index([contractId])
+}
+
+model ContractHvacSystem {
+  id             String   @id @default(cuid())
+  contractId     String
+  propertyId     String?
+  nickname       String?
+  coolingType    String?
+  heatingType    String?
+  brand          String?
+  model          String?
+  serialNumber   String?
+  age            String?
+  indoorLocation String?
+  outdoorLocation String?
+  condition      String?
+  unknownDetails Boolean  @default(false)
+  createdAt      DateTime @default(now())
+
+  contract  MaintenanceContract @relation(fields: [contractId], references: [id], onDelete: Cascade)
+  property  ContractProperty?   @relation(fields: [propertyId], references: [id], onDelete: SetNull)
+
+  @@index([contractId])
+  @@index([propertyId])
 }
 
