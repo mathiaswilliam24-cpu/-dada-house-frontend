@@ -3,7 +3,7 @@ import { CheckCircle, Shield, Star, Zap, ArrowRight, BadgePercent, Thermometer }
 
 const highlights = [
   { icon: Thermometer,  label: "2 Tune-Ups / Year",    sub: "Spring AC + Fall Heating" },
-  { icon: Zap,          label: "$49 Service Call Fee", sub: "vs. $99 standard rate" },
+  { icon: Zap,          label: "$69 Service Call Fee", sub: "vs. $99 standard rate" },
   { icon: Star,         label: "Priority Scheduling",  sub: "Skip the wait list" },
   { icon: BadgePercent, label: "10% Off All Repairs",  sub: "Parts & labor included" },
 ];
@@ -51,14 +51,14 @@ export default function MaintenancePlanBanner() {
 
             <div className="flex flex-col sm:flex-row gap-3">
               <Link
-                href="/services/maintenance-plan"
+                href="/hvac-maintenance-plan/enroll"
                 className="inline-flex items-center justify-center gap-2 px-7 py-4 bg-[#F7921A] hover:bg-[#e07f10] text-white font-bold text-base rounded-xl transition-colors shadow-lg shadow-orange-900/30"
               >
-                Subscribe — $199/Year
+                Enroll Online — $199/Year
                 <ArrowRight size={18} />
               </Link>
               <Link
-                href="/services/maintenance-plan#checklist"
+                href="/hvac-maintenance-plan"
                 className="inline-flex items-center justify-center gap-2 px-7 py-4 font-bold text-base rounded-xl transition-colors text-white"
                 style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.15)" }}
               >
@@ -92,7 +92,7 @@ export default function MaintenancePlanBanner() {
           <p className="text-slate-400 text-sm">
             Covers <span className="text-white font-semibold">Air Conditioning · Heating · Air Duct Cleaning</span> — TX &amp; NC
           </p>
-          <p className="text-slate-500 text-xs">No contract required · Cancel anytime · Renews annually</p>
+          <p className="text-slate-500 text-xs">Annual plan — no commitment · Monthly plan — 12-month minimum · Renews automatically</p>
         </div>
       </div>
     </section>

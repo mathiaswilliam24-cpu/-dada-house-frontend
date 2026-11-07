@@ -125,45 +125,57 @@ export default function HeroSection({ heroImage: _heroImage = "/hero-desktop.web
         </div>
       </section>
 
-      {/* ── CONTACT CARDS ── */}
-      <section className="bg-[#F8FAFC] py-8 px-5">
-        <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-4">
-          {/* Book Online */}
-          <Link href="/booking"
-            className="group flex flex-col items-center text-center bg-[#1B3FA8] rounded-2xl p-6 hover:bg-[#0D1D5E] transition-colors shadow-md shadow-blue-900/20">
-            <div className="w-12 h-12 rounded-xl bg-[#F7921A]/20 border border-[#F7921A]/30 flex items-center justify-center mb-3">
-              <Calendar size={22} className="text-[#F7921A]" />
-            </div>
-            <p className="text-white font-bold text-sm mb-1">Book Online</p>
-            <p className="text-slate-400 text-xs leading-snug mb-3">Pick your service &amp; schedule</p>
-            <span className="inline-flex items-center gap-1 text-[#F7921A] text-xs font-bold group-hover:gap-2 transition-all">
-              Get Started <ArrowRight size={12} />
-            </span>
-          </Link>
+      {/* ── WHAT DO YOU NEED TODAY? ── */}
+      <section className="bg-[#F8FAFC] py-10 px-5">
+        <div className="max-w-5xl mx-auto">
+          <p className="text-center text-slate-500 text-xs font-bold uppercase tracking-widest mb-6">
+            What brings you here today?
+          </p>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
 
-          {/* Call */}
-          <a href="tel:+18449280875"
-            className="group flex flex-col items-center text-center bg-[#1B3FA8] rounded-2xl p-6 hover:bg-[#0D1D5E] transition-colors shadow-md shadow-blue-900/20">
-            <div className="w-12 h-12 rounded-xl bg-[#F7921A]/20 border border-[#F7921A]/30 flex items-center justify-center mb-3">
-              <Phone size={22} className="text-[#F7921A]" />
-            </div>
-            <p className="text-white font-bold text-sm mb-1">Call Us Now</p>
-            <p className="text-[#F7921A] font-black text-lg leading-none mb-1">(844) 928-0875</p>
-            <p className="text-slate-400 text-xs">24 / 7 · Emergency line</p>
-          </a>
+            {/* Emergency */}
+            <a href="tel:+18449280875"
+              className="group flex flex-col items-center text-center p-5 md:p-7 rounded-2xl bg-red-600 hover:bg-red-700 transition-all shadow-lg shadow-red-900/25 cursor-pointer">
+              <span className="text-4xl mb-3">🚨</span>
+              <p className="text-white font-black text-sm leading-tight mb-1">AC Broke Down</p>
+              <p className="text-red-200 text-xs mb-3">Same-day emergency service</p>
+              <span className="px-3 py-1.5 bg-white/20 rounded-lg text-white font-black text-xs">(844) 928-0875</span>
+            </a>
 
-          {/* Text */}
-          <a href="sms:+18449280875"
-            className="group flex flex-col items-center text-center bg-[#1B3FA8] rounded-2xl p-6 hover:bg-[#0D1D5E] transition-colors shadow-md shadow-blue-900/20">
-            <div className="w-12 h-12 rounded-xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center mb-3">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-6 h-6 text-emerald-400">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
-              </svg>
-            </div>
-            <p className="text-white font-bold text-sm mb-1">Send a Text</p>
-            <p className="text-white font-black text-lg leading-none mb-1">844-928-0875</p>
-            <p className="text-slate-400 text-xs">Quick questions &amp; quotes</p>
-          </a>
+            {/* Book */}
+            <Link href="/booking"
+              className="group flex flex-col items-center text-center p-5 md:p-7 rounded-2xl bg-[#1B3FA8] hover:bg-[#0D1D5E] transition-all shadow-lg shadow-blue-900/25">
+              <span className="text-4xl mb-3">📅</span>
+              <p className="text-white font-black text-sm leading-tight mb-1">Book a Service</p>
+              <p className="text-slate-300 text-xs mb-3">AC · Heating · Duct Cleaning</p>
+              <span className="inline-flex items-center gap-1 px-3 py-1.5 bg-[#F7921A] rounded-lg text-white font-black text-xs group-hover:bg-[#e07f10] transition-colors">
+                Book Online <ArrowRight size={11} />
+              </span>
+            </Link>
+
+            {/* Air duct */}
+            <Link href="/services/air-duct-cleaning"
+              className="group flex flex-col items-center text-center p-5 md:p-7 rounded-2xl bg-teal-700 hover:bg-teal-800 transition-all shadow-lg shadow-teal-900/25">
+              <span className="text-4xl mb-3">🌬️</span>
+              <p className="text-white font-black text-sm leading-tight mb-1">Air Duct Cleaning</p>
+              <p className="text-teal-200 text-xs mb-3">Ducts · Dryer vents · Mold</p>
+              <span className="inline-flex items-center gap-1 px-3 py-1.5 bg-white/20 rounded-lg text-white font-black text-xs">
+                Get a Quote <ArrowRight size={11} />
+              </span>
+            </Link>
+
+            {/* Maintenance Plan */}
+            <Link href="/hvac-maintenance-plan"
+              className="group flex flex-col items-center text-center p-5 md:p-7 rounded-2xl bg-[#0A1628] hover:bg-[#061020] border-2 border-[#F7921A]/50 hover:border-[#F7921A] transition-all shadow-lg">
+              <span className="text-4xl mb-3">🛡️</span>
+              <p className="text-white font-black text-sm leading-tight mb-1">Maintenance Plan</p>
+              <p className="text-[#F7921A] font-black text-xl leading-none mb-3">$199<span className="text-sm font-semibold text-slate-400">/yr</span></p>
+              <span className="inline-flex items-center gap-1 px-3 py-1.5 bg-[#F7921A] rounded-lg text-white font-black text-xs group-hover:bg-[#e07f10] transition-colors">
+                Enroll Now <ArrowRight size={11} />
+              </span>
+            </Link>
+
+          </div>
         </div>
       </section>
     </div>

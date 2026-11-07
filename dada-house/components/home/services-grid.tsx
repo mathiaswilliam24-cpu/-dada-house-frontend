@@ -61,16 +61,16 @@ const services = [
     ),
   },
   {
-    slug: "services/maintenance-plan",
+    slug: "hvac-maintenance-plan",
     label: "Maintenance Plan",
     description:
-      "Annual HVAC maintenance plan — 2 tune-ups per year, priority scheduling, $49 service calls, and 10% off all repairs.",
+      "Annual HVAC maintenance plan — 2 tune-ups per year, priority scheduling, $69 service calls, and 10% off all repairs.",
     subservices: [
       "Spring AC Tune-Up",
       "Fall Heating Tune-Up",
       "Priority Scheduling",
       "10% Off Repairs",
-      "$49 Service Call",
+      "$69 Service Call",
       "Military Discount",
     ],
     icon: (
