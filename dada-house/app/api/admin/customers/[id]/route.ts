@@ -61,6 +61,53 @@ export async function GET(
     return NextResponse.json({ user });
   }
 
+  // ── Phone number lookup (Customer record from dispatcher, no User account) ─
+  // Handles URLs like /admin/customers/+13466499353
+  const looksLikePhone = /^[+\d\s\-()]{7,}$/.test(id) && !id.includes("-") || id.startsWith("+");
+  if (looksLikePhone) {
+    const appts = await db.appointment.findMany({
+      where: { OR: [{ phone: id }, { phone: id.replace(/\D/g, "") }] },
+      orderBy: { createdAt: "desc" },
+      include: {
+        invoice: { select: { id: true, amount: true, status: true, paidAt: true } },
+        technician: { select: { id: true, name: true } },
+      },
+    });
+    if (appts.length > 0) {
+      const first = appts[0];
+      return NextResponse.json({
+        user: {
+          id: `appt:${id}`,
+          name: first.name,
+          email: first.email ?? "",
+          phone: first.phone ?? id,
+          role: "CLIENT",
+          createdAt: first.createdAt.toISOString(),
+          appointments: appts.map(a => ({
+            id: a.id,
+            appointmentNumber: a.appointmentNumber,
+            service: a.service,
+            subservice: a.subservice,
+            status: a.status,
+            notes: a.notes,
+            photos: a.photos,
+            createdAt: a.createdAt.toISOString(),
+            preferredDate: a.preferredDate?.toISOString() ?? null,
+            preferredTime: a.preferredTime,
+            address: a.address,
+            city: a.city,
+            description: a.description,
+            technician: a.technician ? { id: a.technician.id, name: a.technician.name } : null,
+            invoice: a.invoice ? { id: a.invoice.id, amount: a.invoice.amount, status: a.invoice.status, paidAt: a.invoice.paidAt?.toISOString() ?? null } : null,
+          })),
+          reviews: [],
+          properties: [],
+          servicePlans: [],
+        },
+      });
+    }
+  }
+
   // ── Registered user ───────────────────────────────────────────────────────
   const user = await db.user.findUnique({
     where: { id },
