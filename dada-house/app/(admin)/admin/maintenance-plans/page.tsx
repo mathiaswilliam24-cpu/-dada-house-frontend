@@ -10,7 +10,7 @@ export default async function AdminMaintenancePlansPage() {
     db.maintenanceContract.findMany({
       where: { selfEnrolled: true },
       include: {
-        customer: { select: { firstName: true, lastName: true, phone: true } },
+        customer: { select: { firstName: true, lastName: true, phone: true, userId: true } },
         properties: { select: { id: true, address: true, city: true, state: true, systemCount: true } },
         planType: { select: { name: true } },
       },

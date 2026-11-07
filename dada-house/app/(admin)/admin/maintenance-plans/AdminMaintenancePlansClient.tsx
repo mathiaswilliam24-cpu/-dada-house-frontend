@@ -19,7 +19,7 @@ type Contract = {
   renewalDate: string | null;
   membershipStartDate: string | null;
   createdAt: string;
-  customer: { firstName: string; lastName: string | null; phone: string };
+  customer: { firstName: string; lastName: string | null; phone: string; userId: string | null };
   properties: { id: string; address: string; city: string; state: string; systemCount: number }[];
   planType: { name: string };
 };
@@ -184,7 +184,7 @@ export default function AdminMaintenancePlansClient({
 
                       <div className="flex gap-2 pt-2">
                         <a
-                          href={`/admin/customers/${c.customer.phone}`}
+                          href={`/admin/customers/${c.customer.userId ?? `appt:${c.customer.phone}`}`}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="flex items-center gap-1.5 px-3 py-2 text-xs font-bold text-[#1B3FA8] bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors"
