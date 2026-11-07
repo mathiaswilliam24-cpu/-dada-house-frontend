@@ -1,11 +1,11 @@
 import Link from "next/link";
-import { CheckCircle, Shield, Star, Zap, ArrowRight, BadgePercent } from "lucide-react";
+import { CheckCircle, Shield, Star, Zap, ArrowRight, BadgePercent, Thermometer } from "lucide-react";
 
 const highlights = [
-  { icon: CheckCircle, label: "2 Tune-Ups / Year", sub: "Spring AC + Fall Heating" },
-  { icon: Zap,         label: "$69 Diagnostic Fee", sub: "vs. $139 standard rate" },
-  { icon: Star,        label: "Priority Scheduling", sub: "Skip the wait list" },
-  { icon: BadgePercent, label: "10% Off All Repairs", sub: "Parts & labor included" },
+  { icon: Thermometer,  label: "2 Tune-Ups / Year",    sub: "Spring AC + Fall Heating" },
+  { icon: Zap,          label: "$49 Service Call Fee", sub: "vs. $99 standard rate" },
+  { icon: Star,         label: "Priority Scheduling",  sub: "Skip the wait list" },
+  { icon: BadgePercent, label: "10% Off All Repairs",  sub: "Parts & labor included" },
 ];
 
 export default function MaintenancePlanBanner() {
@@ -25,19 +25,18 @@ export default function MaintenancePlanBanner() {
 
           {/* Left — copy */}
           <div>
-            {/* tag */}
             <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase mb-5"
               style={{ background: "rgba(247,146,26,0.15)", border: "1px solid rgba(247,146,26,0.4)", color: "#F7921A" }}>
-              ★ Most Popular Plan
+              ★ HVAC Maintenance Plan
             </span>
 
             <h2 className="text-3xl md:text-5xl font-black text-white leading-[1.05] mb-4">
-              HVAC Maintenance<br />
-              <span className="text-[#F7921A]">Plan</span> — $199<span className="text-2xl md:text-3xl text-slate-400 font-semibold">/year</span>
+              Annual HVAC<br />
+              <span className="text-[#F7921A]">Maintenance Plan</span> — $199<span className="text-2xl md:text-3xl text-slate-400 font-semibold">/year</span>
             </h2>
 
             <p className="text-slate-300 text-lg mb-6 max-w-md leading-relaxed">
-              Keep your AC and heating running at peak efficiency all year. Two complete tune-ups, priority service, and repair discounts — all in one affordable plan.
+              Two professional HVAC tune-ups per year — spring AC checkup and fall heating tune-up — plus priority service and repair discounts all year long.
             </p>
 
             {/* Military badge */}
@@ -91,7 +90,7 @@ export default function MaintenancePlanBanner() {
         <div className="mt-10 pt-8 border-t flex flex-wrap gap-6 items-center justify-between"
           style={{ borderColor: "rgba(255,255,255,0.08)" }}>
           <p className="text-slate-400 text-sm">
-            Covers <span className="text-white font-semibold">Air Conditioning · Heating · Duct Inspection</span> — TX &amp; NC
+            Covers <span className="text-white font-semibold">Air Conditioning · Heating · Air Duct Cleaning</span> — TX &amp; NC
           </p>
           <p className="text-slate-500 text-xs">No contract required · Cancel anytime · Renews annually</p>
         </div>

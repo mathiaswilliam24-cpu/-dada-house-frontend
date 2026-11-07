@@ -13,14 +13,14 @@ const stats = [
 ];
 
 const services = [
-  "TV Mounting",
-  "Furniture Assembly",
-  "Bathroom Remodeling",
-  "Kitchen Remodeling",
-  "Flooring & Tile",
-  "Painting",
-  "Plumbing",
-  "Pressure Washing",
+  "AC Installation",
+  "AC Repair",
+  "Heating Repair",
+  "Furnace Tune-Up",
+  "Air Duct Cleaning",
+  "Dryer Vent Cleaning",
+  "Mini-Split Install",
+  "Maintenance Plan",
 ];
 
 export default function HeroSection({ heroImage: _heroImage = "/hero-desktop.webp" }: { heroImage?: string }) {
@@ -60,12 +60,12 @@ export default function HeroSection({ heroImage: _heroImage = "/hero-desktop.web
             {/* Headline */}
             <h1 className="text-4xl md:text-6xl font-black text-white leading-[1.05] mb-5">
               Your Trusted<br />
-              <span className="text-[#F7921A]">Handyman</span> &amp;<br />
-              Remodeling Pros
+              <span className="text-[#F7921A]">HVAC</span> &amp;<br />
+              Air Quality Pros
             </h1>
 
             <p className="text-slate-300 text-lg md:text-xl max-w-xl leading-relaxed mb-8">
-              From TV mounting to full kitchen remodels — skilled, background-checked technicians across Texas &amp; North Carolina. Same-day service.
+              AC installation, heating, and air duct cleaning — licensed, background-checked HVAC technicians across Texas &amp; North Carolina. Same-day service.
             </p>
 
             {/* CTAs */}

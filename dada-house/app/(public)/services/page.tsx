@@ -4,72 +4,70 @@ import { ArrowRight, Phone, AlertTriangle } from "lucide-react";
 import CTASection from "@/components/home/cta-section";
 
 export const metadata: Metadata = {
-  title: "Handyman & Remodeling Services — Texas & North Carolina | DADA HOUSE",
+  title: "HVAC & Air Duct Cleaning Services — Texas & North Carolina | DADA HOUSE",
   description:
-    "DADA HOUSE offers professional handyman, remodeling, and plumbing services in Texas & North Carolina. TV mounting, bathroom remodeling, flooring, painting & more. Same-day service. Call (844) 928-0875.",
+    "DADA HOUSE offers professional HVAC and air duct cleaning services in Texas & North Carolina. AC installation & repair, heating, duct cleaning, and maintenance plans. Same-day service. Call (844) 928-0875.",
 };
 
 const services = [
-  {
-    slug: "handyman",
-    label: "Handyman",
-    emoji: "🔨",
-    description:
-      "No job too small. Our skilled handymen handle all your home repair and maintenance needs — fast, affordable, and done right the first time.",
-    features: [
-      "TV Mounting",
-      "Furniture Assembly",
-      "Door & Window Repair",
-      "Ceiling Fan Installation",
-      "Pressure Washing",
-      "Caulking & Weatherstripping",
-      "Gutter Cleaning",
-      "General Home Repairs",
-    ],
-  },
-  {
-    slug: "remodeling",
-    label: "Remodeling",
-    emoji: "🏠",
-    description:
-      "Transform your home with professional remodeling — kitchens, bathrooms, flooring, painting, and more. Free estimates, quality materials, no shortcuts.",
-    features: [
-      "Bathroom Remodeling",
-      "Kitchen Remodeling",
-      "Flooring & Tile",
-      "Painting (Interior & Exterior)",
-      "Drywall",
-      "Roofing",
-    ],
-  },
-  {
-    slug: "plumbing",
-    label: "Plumbing",
-    emoji: "🔧",
-    description:
-      "From emergency leak repairs to full pipe installations. Our licensed plumbers are available 24/7.",
-    features: [
-      "Leak Repair",
-      "Faucet Repair",
-      "Drain Cleaning",
-      "Pipe Installation",
-      "Water Heater",
-      "Toilet Repair",
-    ],
-  },
   {
     slug: "air-conditioning",
     label: "Air Conditioning",
     emoji: "❄️",
     description:
-      "Keep your home comfortable year-round. We handle AC repairs, thermostat installs, tune-ups, and emergency cooling calls.",
+      "Expert AC installation, repair, and seasonal tune-ups. Keep your home cool and energy-efficient all summer long with our licensed HVAC technicians.",
     features: [
+      "AC Installation",
       "AC Repair",
-      "Thermostat Install",
-      "Seasonal Tune-Up",
+      "AC Tune-Up",
+      "Refrigerant Recharge",
+      "Thermostat Installation",
+      "Ductless Mini-Split",
+    ],
+  },
+  {
+    slug: "heating",
+    label: "Heating",
+    emoji: "🔥",
+    description:
+      "Furnace and heat pump installation, repair, and seasonal tune-ups. Stay warm and efficient all winter with our heating experts.",
+    features: [
+      "Furnace Installation",
+      "Furnace Repair",
+      "Heat Pump Service",
+      "Heating Tune-Up",
+      "Thermostat Installation",
+      "Carbon Monoxide Testing",
+    ],
+  },
+  {
+    slug: "air-duct-cleaning",
+    label: "Air Duct Cleaning",
+    emoji: "💨",
+    description:
+      "Professional duct cleaning removes dust, allergens, mold spores, and debris — improving your indoor air quality and HVAC efficiency.",
+    features: [
+      "Full Duct Cleaning",
+      "Dryer Vent Cleaning",
+      "Sanitization & Deodorizing",
+      "Mold Inspection",
+      "Air Quality Test",
       "Filter Replacement",
-      "Emergency Repair",
-      "AC Consultation",
+    ],
+  },
+  {
+    slug: "services/maintenance-plan",
+    label: "HVAC Maintenance Plan",
+    emoji: "🛡️",
+    description:
+      "Annual maintenance plan — 2 professional tune-ups per year (spring AC + fall heating), priority scheduling, $49 service calls, and 10% off all repairs.",
+    features: [
+      "Spring AC Tune-Up",
+      "Fall Heating Tune-Up",
+      "Priority Scheduling",
+      "10% Off All Repairs",
+      "$49 Service Call Fee",
+      "Military Discount",
     ],
   },
 ];
@@ -84,10 +82,10 @@ export default function ServicesPage() {
             What We Do
           </span>
           <h1 className="text-4xl sm:text-5xl font-black text-white mb-5">
-            Handyman &amp; Home Improvement
+            HVAC &amp; Air Quality Services
           </h1>
           <p className="text-blue-200 text-xl max-w-2xl mx-auto mb-8">
-            Skilled handymen &amp; remodeling pros across Texas &amp; North Carolina — same-day service, 24/7 emergency, background-checked technicians.
+            Licensed HVAC technicians across Texas &amp; North Carolina — same-day service, 24/7 emergency, background-checked professionals.
           </p>
           <div className="flex items-center justify-center gap-4 flex-wrap">
             <a
@@ -142,10 +140,10 @@ export default function ServicesPage() {
                     ))}
                   </div>
                   <Link
-                    href={`/services/${service.slug}`}
+                    href={`/${service.slug}`}
                     className="inline-flex items-center gap-2 px-6 py-3 bg-[#1B3FA8] hover:bg-[#0D1D5E] text-white text-sm font-bold rounded-xl transition-colors"
                   >
-                    View {service.label} Services
+                    View {service.label}
                     <ArrowRight size={15} />
                   </Link>
                 </div>

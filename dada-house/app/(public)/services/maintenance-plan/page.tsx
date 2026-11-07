@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { CheckCircle, ArrowRight, Phone, Calendar, BadgePercent, Shield, Zap, Star, AlertTriangle } from "lucide-react";
+import { CheckCircle, ArrowRight, Phone, Calendar, BadgePercent, Shield, Zap, Star } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 import CTASection from "@/components/home/cta-section";
@@ -8,64 +8,64 @@ import CTASection from "@/components/home/cta-section";
 export const metadata: Metadata = {
   title: "HVAC Maintenance Plan — $199/Year | DADA HOUSE",
   description:
-    "DADA HOUSE HVAC Maintenance Plan: 2 professional tune-ups per year (AC + Heating), $69 diagnostic fee, priority scheduling, 10% off all repairs. Texas & North Carolina. Call (844) 928-0875.",
+    "DADA HOUSE HVAC Maintenance Plan: 2 professional tune-ups per year (spring AC + fall heating), $49 service call fee, priority scheduling, 10% off all repairs. Texas & North Carolina. Call (844) 928-0875.",
   alternates: { canonical: "/services/maintenance-plan" },
 };
 
 // ── Exact checklist of every task performed ───────────────────────────
-const acChecklist = [
-  { task: "Inspect & clean evaporator coil", detail: "Remove dust and debris buildup that reduces cooling efficiency" },
-  { task: "Inspect & clean condenser coil", detail: "Clear outdoor unit fins and coil of dirt and obstructions" },
-  { task: "Check refrigerant levels", detail: "Measure charge; note leaks — recharge billed separately if needed" },
-  { task: "Flush condensate drain line", detail: "Clear blockages to prevent water damage and mold growth" },
-  { task: "Inspect & tighten electrical connections", detail: "Loose connections cause failures and are a fire hazard" },
-  { task: "Test capacitors & contactors", detail: "Measure microfarad rating; flag components nearing failure" },
-  { task: "Calibrate thermostat", detail: "Verify accuracy; check staging and scheduling" },
-  { task: "Inspect & clean blower motor and wheel", detail: "Dirty blower reduces airflow and spikes energy bills" },
-  { task: "Check / replace air filter", detail: "Standard 1" filter included; media filter replacement billed separately" },
-  { task: "Measure supply & return air temperatures", detail: "Verify ΔT is within 14–22 °F of specification" },
-  { task: "Lubricate all moving parts", detail: "Bearings, motor shafts — reduces wear and noise" },
-  { task: "Measure voltage & amperage on all motors", detail: "Confirm readings are within manufacturer tolerance" },
-  { task: "Inspect ductwork connections at air handler", detail: "Seal obvious leaks with mastic or foil tape" },
-  { task: "Test all safety switches & cutoffs", detail: "High-pressure, low-pressure, float switch — verify proper shutdown" },
-  { task: "Inspect disconnect box & wiring", detail: "Check for corrosion, overheating signs, and proper breaker sizing" },
-  { task: "Document system findings & performance report", detail: "Written summary left with homeowner after every visit" },
+const springChecklist = [
+  { task: "Inspect & clean evaporator coil", detail: "Remove dust and debris buildup that reduces cooling efficiency and airflow" },
+  { task: "Inspect & clean condenser coil", detail: "Outdoor unit fins cleared of dirt, grass, and debris for optimal heat transfer" },
+  { task: "Check refrigerant level (Freon/R-410A)", detail: "Measure superheat and subcooling; note any potential leak points" },
+  { task: "Inspect & lubricate fan motors and bearings", detail: "Blower motor, condenser fan motor — reduce friction and extend life" },
+  { task: "Inspect & tighten all electrical connections", detail: "Capacitors, contactors, disconnect box — loose connections cause failures" },
+  { task: "Test capacitors and contactors", detail: "Check microfarad ratings; replace worn capacitors before failure" },
+  { task: "Inspect & clean condensate drain line", detail: "Flush with treatment to prevent algae buildup and water damage" },
+  { task: "Measure supply and return air temperatures", detail: "Verify 15-20 degree temperature split across the coil for proper cooling" },
+  { task: "Inspect & replace air filter", detail: "Standard 1-inch filter included; thicker media filters at additional cost" },
+  { task: "Test thermostat calibration and operation", detail: "Verify accuracy; check cooling and fan settings" },
+  { task: "Measure system amperage draws", detail: "Compare to nameplate ratings; flag any that exceed safe limits" },
+  { task: "Inspect refrigerant lines and insulation", detail: "Check suction line insulation; look for signs of oil indicating a leak" },
+  { task: "Inspect ductwork at accessible connections", detail: "Check for loose joints, leaks, and disconnected sections near unit" },
+  { task: "Inspect and test safety switches", detail: "High-pressure and low-pressure cutouts; float switch on drain pan" },
+  { task: "Clean blower wheel (if accessible)", detail: "Dirty blower wheels reduce airflow by 20-30% and strain the motor" },
+  { task: "Document findings & leave written report", detail: "Full written summary with photos of any items found, left with the homeowner" },
 ];
 
-const heatingChecklist = [
-  { task: "Inspect heat exchanger for cracks", detail: "Cracked exchanger causes CO leaks — safety-critical check" },
-  { task: "Clean & adjust burners", detail: "Ensure even flame pattern and complete combustion" },
-  { task: "Check gas pressure & connections", detail: "Verify manifold pressure; soap-test all fittings for leaks" },
-  { task: "Inspect & clean igniter and flame sensor", detail: "Failed sensor is the #1 cause of no-heat calls" },
-  { task: "Inspect flue / venting system", detail: "Check for blockages, corrosion, proper pitch and termination" },
-  { task: "Inspect & clean blower motor and belt", detail: "Adjust belt tension; lubricate bearings" },
-  { task: "Calibrate thermostat & test heating stages", detail: "Verify accurate temp sensing and proper stage sequencing" },
-  { task: "Test limit switches & safety controls", detail: "Verify high-temperature limit and pressure switches operate" },
-  { task: "Check / replace air filter", detail: "Standard 1" filter included; media filter billed separately" },
-  { task: "Measure carbon monoxide (CO) levels", detail: "Test flue gases and living area — document readings" },
-  { task: "Test all safety shutoffs & rollout switches", detail: "Confirm system shuts down safely under fault conditions" },
-  { task: "Measure voltage & amperage on motors", detail: "Confirm readings within manufacturer tolerance" },
-  { task: "Inspect heat pump reversing valve (if applicable)", detail: "Check switchover operation and refrigerant charge" },
-  { task: "Inspect ductwork connections at furnace", detail: "Seal obvious leaks; check return air path" },
-  { task: "Inspect vent drain (high-efficiency only)", detail: "Clear condensate trap on 90%+ AFUE systems" },
-  { task: "Document findings & leave performance report", detail: "Written summary with any recommended repairs" },
+const fallChecklist = [
+  { task: "Inspect & clean heat exchanger (gas furnaces)", detail: "Look for cracks or rust that can allow carbon monoxide to enter the home" },
+  { task: "Perform carbon monoxide safety test", detail: "Measure CO levels at registers; test CO detector function" },
+  { task: "Inspect & clean burners", detail: "Remove buildup for clean combustion; check flame pattern and color" },
+  { task: "Test ignitor and flame sensor", detail: "Measure ignitor resistance; clean flame sensor rod to prevent no-heat calls" },
+  { task: "Inspect flue and venting", detail: "Check for blockages, corrosion, and proper draft — critical for safety" },
+  { task: "Test pressure switches and limit controls", detail: "Verify safety cutouts function; replace weak switches before winter" },
+  { task: "Inspect & lubricate blower motor and bearings", detail: "Extend motor life and reduce energy consumption" },
+  { task: "Inspect & tighten all electrical connections", detail: "Control board, relay, blower capacitor — loose wiring causes intermittent faults" },
+  { task: "Measure temperature rise across the heat exchanger", detail: "Verify within manufacturer specs (typically 35-65 degrees) for safe, efficient operation" },
+  { task: "Inspect & replace air filter", detail: "Standard 1-inch filter included; thicker media filters at additional cost" },
+  { task: "Test thermostat calibration and operation", detail: "Verify accuracy; check heating stages and emergency heat settings" },
+  { task: "Inspect heat pump auxiliary and defrost settings", detail: "Heat pumps: verify AUX heat staging, defrost board, and reversing valve" },
+  { task: "Measure gas pressure (gas furnaces)", detail: "Check manifold and static pressure against manufacturer specifications" },
+  { task: "Inspect ductwork at accessible connections", detail: "Check for loose joints, leaks, and disconnected sections near the furnace" },
+  { task: "Test all system safeties", detail: "Inducer pressure switch, limit switch, rollout switch — verify they trip correctly" },
+  { task: "Document findings & leave written report", detail: "Full written summary with photos of any items found, left with the homeowner" },
 ];
 
 const planBenefits = [
-  { icon: Calendar, title: "2 Tune-Ups Per Year", body: "One spring AC visit + one fall heating visit — scheduled at a time that works for you." },
-  { icon: Zap,      title: "$69 Diagnostic Fee", body: "Service call diagnostic reduced from the standard $139 — saves you $70 every time we come out." },
-  { icon: Star,     title: "Priority Scheduling", body: "Plan members are booked before non-members. No waiting weeks during peak season." },
-  { icon: BadgePercent, title: "10% Off All Repairs", body: "Every repair — parts and labor — is discounted 10% for the life of your plan." },
-  { icon: Shield,   title: "Safety Documentation", body: "Written performance report left after every visit: temperatures, amperage, CO levels, and noted concerns." },
+  { icon: Calendar,     title: "2 Tune-Ups Per Year",    body: "One spring AC tune-up + one fall heating tune-up — scheduled at your convenience." },
+  { icon: Zap,          title: "$49 Service Call Fee",   body: "Diagnostic service call reduced from $99 — saves you $50 every time we come out." },
+  { icon: Star,         title: "Priority Scheduling",    body: "Plan members are booked before non-members. No waiting weeks in the busy season." },
+  { icon: BadgePercent, title: "10% Off All Repairs",    body: "Every job — parts and labor — is discounted 10% for plan members year-round." },
+  { icon: Shield,       title: "Written Report Each Visit", body: "Full written summary with photos of any items found, left with you after every visit." },
 ];
 
 const faqs = [
-  { q: "When do you schedule the two visits?", a: "Typically spring (March–May) for AC and fall (September–November) for heating. We'll reach out 2–3 weeks in advance to book a time." },
-  { q: "What is NOT included in the plan?", a: "Refrigerant recharges, replacement parts, media filter upgrades, and repairs beyond the tune-up scope are billed separately. We'll always give you a quote before any additional work." },
-  { q: "Do I have to be home?", a: "Yes — a responsible adult 18+ must be present. We'll give you a 2-hour arrival window and call 30 minutes before we arrive." },
-  { q: "Does the plan cover multiple systems?", a: "The $199 plan covers one HVAC system (one furnace + one AC). Multi-system homes can add additional systems at $99/year each." },
-  { q: "What if I need a repair between tune-ups?", a: "Call (844) 928-0875 anytime. Plan members get priority dispatch and 10% off any repair we perform." },
-  { q: "How do I cancel?", a: "Call or email anytime. Plans are prorated — if no visits have occurred you'll receive a full refund within 5 business days." },
+  { q: "What is included in the spring AC tune-up?", a: "We perform 16 inspection and service points including coil cleaning, refrigerant check, electrical connections, capacitor test, drain line flush, filter replacement, and a full written report." },
+  { q: "What is included in the fall heating tune-up?", a: "We perform 16 inspection and service points including heat exchanger inspection, carbon monoxide safety test, burner cleaning, ignitor and flame sensor service, flue check, and a full written report." },
+  { q: "What is NOT included in the plan price?", a: "Parts for repairs, refrigerant (if a recharge is needed), and any work beyond the standard tune-up scope are billed separately. We always give you a quote before any additional work." },
+  { q: "Do I have to be home?", a: "Yes — a responsible adult 18+ must be present. We give you a 2-hour arrival window and call 30 minutes before we arrive." },
+  { q: "What if my system breaks down between visits?", a: "Call (844) 928-0875 anytime. Plan members get priority dispatch and a $49 service call fee instead of the standard $99." },
+  { q: "How do I cancel?", a: "Call or email anytime. Plans are prorated — if no visits have occurred you will receive a full refund within 5 business days." },
 ];
 
 export default function MaintenancePlanPage() {
@@ -83,13 +83,13 @@ export default function MaintenancePlanPage() {
         <div className="relative max-w-5xl mx-auto px-5 md:px-10 py-16 md:py-24 text-center">
           <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase mb-5"
             style={{ background: "rgba(247,146,26,0.15)", border: "1px solid rgba(247,146,26,0.4)", color: "#F7921A" }}>
-            ★ Most Popular Plan
+            ★ HVAC Maintenance Plan
           </span>
           <h1 className="text-4xl md:text-6xl font-black text-white leading-tight mb-4">
-            HVAC Maintenance Plan
+            Annual HVAC Maintenance Plan
           </h1>
           <p className="text-slate-300 text-xl max-w-2xl mx-auto mb-3">
-            Two complete professional tune-ups per year — one for your AC, one for your heating system — plus priority service and repair discounts.
+            Two complete HVAC tune-ups per year — spring AC and fall heating — to keep your system running efficiently and prevent costly breakdowns.
           </p>
           <div className="flex items-baseline justify-center gap-2 mb-8">
             <span className="text-6xl font-black text-[#F7921A]">$199</span>
@@ -134,8 +134,8 @@ export default function MaintenancePlanPage() {
         <div className="max-w-4xl mx-auto px-5 md:px-10 flex flex-col sm:flex-row items-center justify-center gap-4 text-center sm:text-left">
           <span className="text-4xl">🇺🇸</span>
           <div>
-            <p className="text-white font-black text-lg">Military Discount — 10% Off All Repairs</p>
-            <p className="text-slate-400 text-sm">We honor active duty, veterans, and military families with an additional 10% off every repair service.</p>
+            <p className="text-white font-black text-lg">Military Discount — 10% Off All Work</p>
+            <p className="text-slate-400 text-sm">We honor active duty, veterans, and military families with an additional 10% off every job.</p>
           </div>
         </div>
       </div>
@@ -156,18 +156,18 @@ export default function MaintenancePlanPage() {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* AC Tune-Up */}
+            {/* Spring AC Visit */}
             <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden">
-              <div className="px-6 py-5 flex items-center gap-3" style={{ background: "linear-gradient(90deg, #0D1D5E, #1B3FA8)" }}>
+              <div className="px-6 py-5 flex items-center gap-3" style={{ background: "linear-gradient(90deg, #0369a1, #0284c7)" }}>
                 <span className="text-2xl">❄️</span>
                 <div>
                   <p className="text-white font-black text-lg">Spring AC Tune-Up</p>
-                  <p className="text-blue-200 text-xs">Scheduled March – May · {acChecklist.length} inspection points</p>
+                  <p className="text-sky-200 text-xs">Scheduled March – May · {springChecklist.length} inspection points</p>
                 </div>
               </div>
               <div className="divide-y divide-slate-100">
-                {acChecklist.map(({ task, detail }) => (
-                  <div key={task} className="px-6 py-3 flex items-start gap-3 group hover:bg-slate-50 transition-colors">
+                {springChecklist.map(({ task, detail }) => (
+                  <div key={task} className="px-6 py-3 flex items-start gap-3 hover:bg-slate-50 transition-colors">
                     <CheckCircle size={16} className="text-[#F7921A] mt-0.5 shrink-0" />
                     <div>
                       <p className="text-[#0A1628] text-sm font-semibold">{task}</p>
@@ -178,17 +178,17 @@ export default function MaintenancePlanPage() {
               </div>
             </div>
 
-            {/* Heating Tune-Up */}
+            {/* Fall Heating Visit */}
             <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden">
-              <div className="px-6 py-5 flex items-center gap-3" style={{ background: "linear-gradient(90deg, #7c1d0a, #c2410c)" }}>
+              <div className="px-6 py-5 flex items-center gap-3" style={{ background: "linear-gradient(90deg, #b45309, #d97706)" }}>
                 <span className="text-2xl">🔥</span>
                 <div>
                   <p className="text-white font-black text-lg">Fall Heating Tune-Up</p>
-                  <p className="text-orange-200 text-xs">Scheduled September – November · {heatingChecklist.length} inspection points</p>
+                  <p className="text-orange-200 text-xs">Scheduled September – November · {fallChecklist.length} inspection points</p>
                 </div>
               </div>
               <div className="divide-y divide-slate-100">
-                {heatingChecklist.map(({ task, detail }) => (
+                {fallChecklist.map(({ task, detail }) => (
                   <div key={task} className="px-6 py-3 flex items-start gap-3 hover:bg-slate-50 transition-colors">
                     <CheckCircle size={16} className="text-[#F7921A] mt-0.5 shrink-0" />
                     <div>
@@ -200,15 +200,6 @@ export default function MaintenancePlanPage() {
               </div>
             </div>
           </div>
-
-          {/* Note on exclusions */}
-          <div className="mt-8 flex items-start gap-3 p-5 rounded-xl"
-            style={{ background: "rgba(247,146,26,0.08)", border: "1px solid rgba(247,146,26,0.25)" }}>
-            <AlertTriangle size={18} className="text-[#F7921A] shrink-0 mt-0.5" />
-            <p className="text-slate-600 text-sm leading-relaxed">
-              <strong className="text-[#0A1628]">Not included in the plan price:</strong> Refrigerant recharges, replacement parts, media/HEPA filter upgrades, and any repair work outside the tune-up scope. We provide a written quote for any additional work and never proceed without your approval.
-            </p>
-          </div>
         </div>
       </section>
 
@@ -216,13 +207,13 @@ export default function MaintenancePlanPage() {
       <section className="py-16 bg-white">
         <div className="max-w-2xl mx-auto px-5 md:px-10 text-center">
           <div className="border-2 border-[#F7921A] rounded-3xl p-8 shadow-xl shadow-orange-900/10">
-            <p className="text-[#F7921A] text-xs font-bold uppercase tracking-widest mb-2">Annual Plan</p>
+            <p className="text-[#F7921A] text-xs font-bold uppercase tracking-widest mb-2">Annual HVAC Plan</p>
             <div className="flex items-baseline justify-center gap-2 mb-4">
               <span className="text-6xl font-black text-[#0A1628]">$199</span>
               <span className="text-xl text-slate-400">/year</span>
             </div>
             <ul className="space-y-2.5 mb-8 text-left max-w-xs mx-auto">
-              {["2 professional tune-ups (AC + Heating)", "Priority scheduling year-round", "$69 diagnostic fee (save $70/visit)", "10% off all parts & labor", "Written performance report each visit", "Military 10% discount on repairs"].map(item => (
+              {["Spring AC tune-up (16 inspection points)", "Fall heating tune-up (16 inspection points)", "Priority scheduling year-round", "$49 service call fee (save $50/visit)", "10% off all parts & labor", "Military 10% discount on all work"].map(item => (
                 <li key={item} className="flex items-center gap-2.5 text-sm text-slate-700">
                   <CheckCircle size={16} className="text-[#F7921A] shrink-0" />
                   {item}

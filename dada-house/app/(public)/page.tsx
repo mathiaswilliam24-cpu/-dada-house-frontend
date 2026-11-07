@@ -14,9 +14,9 @@ import { db } from "@/lib/db";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "DADA HOUSE — Handyman & Remodeling Services in Texas & North Carolina",
+  title: "DADA HOUSE — HVAC & Air Duct Cleaning in Texas & North Carolina",
   description:
-    "Professional handyman & remodeling services in Texas & North Carolina. TV mounting, furniture assembly, bathroom remodeling, flooring, plumbing & more. Same-day service. Call (844) 928-0875.",
+    "Professional HVAC and air duct cleaning services in Texas & North Carolina. AC installation & repair, heating, duct cleaning, and HVAC maintenance plans. Same-day service. Call (844) 928-0875.",
   alternates: { canonical: "/" },
 };
 
