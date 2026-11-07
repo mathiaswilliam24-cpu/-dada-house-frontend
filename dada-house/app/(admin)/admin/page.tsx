@@ -9,7 +9,7 @@ import {
   Calendar, Users, HardHat, Radio, FileText, ShoppingBag, BarChart3,
   MessageCircle, Bell, Star, Images, FolderOpen, Shield, Package,
   Map, TrendingUp, Layers, Settings, ChevronRight, AlertCircle, PhoneCall, Megaphone,
-  BookOpen, ClipboardList,
+  BookOpen, ClipboardList, Tag, Gift,
 } from "lucide-react";
 
 export const dynamic = "force-dynamic";
@@ -51,7 +51,9 @@ const modules = [
       { label: "Products",           href: "/admin/store",             icon: ShoppingBag, desc: "Inventory management" },
       { label: "Orders",             href: "/admin/orders",            icon: Package,     desc: "Customer purchases" },
       { label: "Service Plans",      href: "/admin/service-plans",     icon: Layers,      desc: "Subscriptions" },
-      { label: "Maintenance Plans",  href: "/admin/maintenance-plans", icon: Layers,      desc: "E-signable contracts" },
+      { label: "Maintenance Plans",  href: "/admin/maintenance-plans", icon: Layers,      desc: "HVAC plan subscribers" },
+      { label: "Promo Codes",        href: "/admin/promo-codes",       icon: Tag,         desc: "Discount & referral codes" },
+      { label: "Loyalty Points",     href: "/admin/customers",         icon: Gift,        desc: "Points par client (voir fiche client)" },
       { label: "Price Book",         href: "/admin/price-book",        icon: BookOpen,    desc: "Parts & pricing" },
       { label: "Service Forms",      href: "/admin/service-forms",     icon: ClipboardList, desc: "Technician job forms", superAdminOnly: true },
       { label: "System Types",       href: "/admin/system-types",      icon: Settings,    desc: "HVAC system type list", superAdminOnly: true },
