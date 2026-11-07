@@ -22,13 +22,12 @@ const springChecklist = [
   { task: "Test capacitors and contactors", detail: "Check microfarad ratings; replace worn capacitors before failure" },
   { task: "Inspect & clean condensate drain line", detail: "Flush with treatment to prevent algae buildup and water damage" },
   { task: "Measure supply and return air temperatures", detail: "Verify 15-20 degree temperature split across the coil for proper cooling" },
-  { task: "Inspect & replace air filter", detail: "Standard 1-inch filter included; thicker media filters at additional cost" },
+  { task: "Inspect air filter", detail: "Check filter condition and advise on replacement if needed" },
   { task: "Test thermostat calibration and operation", detail: "Verify accuracy; check cooling and fan settings" },
   { task: "Measure system amperage draws", detail: "Compare to nameplate ratings; flag any that exceed safe limits" },
   { task: "Inspect refrigerant lines and insulation", detail: "Check suction line insulation; look for signs of oil indicating a leak" },
   { task: "Inspect ductwork at accessible connections", detail: "Check for loose joints, leaks, and disconnected sections near unit" },
   { task: "Inspect and test safety switches", detail: "High-pressure and low-pressure cutouts; float switch on drain pan" },
-  { task: "Clean blower wheel (if accessible)", detail: "Dirty blower wheels reduce airflow by 20-30% and strain the motor" },
   { task: "Document findings & leave written report", detail: "Full written summary with photos of any items found, left with the homeowner" },
 ];
 
