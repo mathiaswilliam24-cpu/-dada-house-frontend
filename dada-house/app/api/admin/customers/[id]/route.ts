@@ -14,59 +14,56 @@ export async function GET(
   const rawId = await params;
   const id = decodeURIComponent(rawId.id);
 
-  // ── Walk-in / phone client (no registered account) ──────────────────────
-  if (id.startsWith("appt:")) {
-    const key = id.slice(5); // strip "appt:" prefix
-    const appts = await db.appointment.findMany({
-      where: {
-        userId: null,
-        OR: [{ phone: key }, { email: key }, { name: key }],
-      },
-      orderBy: { createdAt: "desc" },
+  // ── Helper: build response from a Customer record (maintenance-plan enrollees) ─
+  async function buildFromCustomer(phone: string, displayId: string) {
+    const customer = await db.customer.findFirst({
+      where: { OR: [{ phone }, { phone: phone.replace(/\D/g, "") }] },
       include: {
-        invoice: { select: { id: true, amount: true, status: true, paidAt: true } },
-        technician: { select: { id: true, name: true } },
+        appointments: {
+          orderBy: { createdAt: "desc" },
+          include: {
+            invoice: { select: { id: true, amount: true, status: true, paidAt: true } },
+            technician: { select: { id: true, name: true } },
+          },
+        },
       },
     });
-    if (appts.length === 0) return NextResponse.json({ error: "Not found" }, { status: 404 });
-    const first = appts[0];
-    const user = {
-      id,
-      name:      first.name,
-      email:     first.email ?? "",
-      phone:     first.phone ?? null,
-      role:      "CLIENT",
-      createdAt: first.createdAt.toISOString(),
-      appointments: appts.map(a => ({
-        id:               a.id,
+    if (!customer) return null;
+    return {
+      id: displayId,
+      name: [customer.firstName, customer.lastName].filter(Boolean).join(" "),
+      email: customer.email ?? "",
+      phone: customer.phone,
+      role: "CLIENT",
+      createdAt: customer.createdAt.toISOString(),
+      appointments: customer.appointments.map(a => ({
+        id: a.id,
         appointmentNumber: a.appointmentNumber,
-        service:          a.service,
-        subservice:       a.subservice,
-        status:           a.status,
-        notes:            a.notes,
-        photos:           a.photos,
-        createdAt:        a.createdAt.toISOString(),
-        preferredDate:    a.preferredDate?.toISOString() ?? null,
-        preferredTime:    a.preferredTime,
-        address:          a.address,
-        city:             a.city,
-        description:      a.description,
-        technician:       a.technician ? { id: a.technician.id, name: a.technician.name } : null,
-        invoice:          a.invoice ? { id: a.invoice.id, amount: a.invoice.amount, status: a.invoice.status, paidAt: a.invoice.paidAt?.toISOString() ?? null } : null,
+        service: a.service,
+        subservice: a.subservice,
+        status: a.status,
+        notes: a.notes,
+        photos: a.photos,
+        createdAt: a.createdAt.toISOString(),
+        preferredDate: a.preferredDate?.toISOString() ?? null,
+        preferredTime: a.preferredTime,
+        address: a.address,
+        city: a.city,
+        description: a.description,
+        technician: a.technician ? { id: a.technician.id, name: a.technician.name } : null,
+        invoice: a.invoice ? { id: a.invoice.id, amount: a.invoice.amount, status: a.invoice.status, paidAt: a.invoice.paidAt?.toISOString() ?? null } : null,
       })),
-      reviews:      [],
-      properties:   [],
+      reviews: [],
+      properties: customer.address ? [{ id: customer.id, address: customer.address, city: customer.city ?? "", zipCode: customer.zipCode ?? "", type: "Residential", sqft: null }] : [],
       servicePlans: [],
     };
-    return NextResponse.json({ user });
   }
 
-  // ── Phone number lookup (Customer record from dispatcher, no User account) ─
-  // Handles URLs like /admin/customers/+13466499353
-  const looksLikePhone = /^[+\d\s\-()]{7,}$/.test(id) && !id.includes("-") || id.startsWith("+");
-  if (looksLikePhone) {
+  // ── Walk-in / phone client (no registered account) ──────────────────────
+  if (id.startsWith("appt:")) {
+    const key = id.slice(5);
     const appts = await db.appointment.findMany({
-      where: { OR: [{ phone: id }, { phone: id.replace(/\D/g, "") }] },
+      where: { userId: null, OR: [{ phone: key }, { email: key }, { name: key }] },
       orderBy: { createdAt: "desc" },
       include: {
         invoice: { select: { id: true, amount: true, status: true, paidAt: true } },
@@ -77,35 +74,34 @@ export async function GET(
       const first = appts[0];
       return NextResponse.json({
         user: {
-          id: `appt:${id}`,
+          id,
           name: first.name,
           email: first.email ?? "",
-          phone: first.phone ?? id,
+          phone: first.phone ?? null,
           role: "CLIENT",
           createdAt: first.createdAt.toISOString(),
           appointments: appts.map(a => ({
-            id: a.id,
-            appointmentNumber: a.appointmentNumber,
-            service: a.service,
-            subservice: a.subservice,
-            status: a.status,
-            notes: a.notes,
-            photos: a.photos,
-            createdAt: a.createdAt.toISOString(),
-            preferredDate: a.preferredDate?.toISOString() ?? null,
-            preferredTime: a.preferredTime,
-            address: a.address,
-            city: a.city,
-            description: a.description,
+            id: a.id, appointmentNumber: a.appointmentNumber, service: a.service,
+            subservice: a.subservice, status: a.status, notes: a.notes, photos: a.photos,
+            createdAt: a.createdAt.toISOString(), preferredDate: a.preferredDate?.toISOString() ?? null,
+            preferredTime: a.preferredTime, address: a.address, city: a.city, description: a.description,
             technician: a.technician ? { id: a.technician.id, name: a.technician.name } : null,
             invoice: a.invoice ? { id: a.invoice.id, amount: a.invoice.amount, status: a.invoice.status, paidAt: a.invoice.paidAt?.toISOString() ?? null } : null,
           })),
-          reviews: [],
-          properties: [],
-          servicePlans: [],
+          reviews: [], properties: [], servicePlans: [],
         },
       });
     }
+    // No appointments — may be a maintenance-plan-only enrollee in Customer table
+    const fromCustomer = await buildFromCustomer(key, id);
+    if (fromCustomer) return NextResponse.json({ user: fromCustomer });
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
+  }
+
+  // ── Phone number in URL → look up Customer record ─────────────────────────
+  if (id.startsWith("+") || /^\d{10,}$/.test(id)) {
+    const fromCustomer = await buildFromCustomer(id, `appt:${id}`);
+    if (fromCustomer) return NextResponse.json({ user: fromCustomer });
   }
 
   // ── Registered user ───────────────────────────────────────────────────────
