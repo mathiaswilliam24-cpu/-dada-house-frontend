@@ -69,7 +69,8 @@ export async function POST(req: NextRequest) {
       ...(expiresAt ? { redeem_by: Math.floor(new Date(expiresAt).getTime() / 1000) } : {}),
     });
 
-    const promoCode = await stripe.promotionCodes.create({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const promoCode = await (stripe.promotionCodes.create as any)({
       coupon: coupon.id,
       code,
       ...(maxUses ? { max_redemptions: maxUses } : {}),
