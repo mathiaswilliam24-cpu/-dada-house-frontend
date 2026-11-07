@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import HeroSection from "@/components/home/hero-section";
+import MaintenancePlanBanner from "@/components/home/maintenance-plan-banner";
 import ServicesGrid from "@/components/home/services-grid";
 import WhyChooseUs from "@/components/home/why-choose-us";
 import StatsBanner from "@/components/home/stats-banner";
@@ -41,6 +42,7 @@ export default async function HomePage() {
   return (
     <>
       <HeroSection heroImage={heroImage} />
+      <MaintenancePlanBanner />
       <ServicesGrid />
       <StatsBanner />
       <WhyChooseUs />
