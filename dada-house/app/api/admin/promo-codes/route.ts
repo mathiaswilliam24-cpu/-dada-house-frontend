@@ -20,20 +20,22 @@ export async function GET(req: NextRequest) {
 
   const stripe = getStripe();
   const [activeCodes, inactiveCodes] = await Promise.all([
-    stripe.promotionCodes.list({ limit: 100, active: true }),
-    stripe.promotionCodes.list({ limit: 50, active: false }),
+    stripe.promotionCodes.list({ limit: 100, active: true, expand: ["data.promotion.coupon"] }),
+    stripe.promotionCodes.list({ limit: 50, active: false, expand: ["data.promotion.coupon"] }),
   ]);
 
   const all = [...activeCodes.data, ...inactiveCodes.data].map((pc) => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const coupon = (pc as any).coupon as { name?: string; percent_off?: number | null; amount_off?: number | null } ?? {};
+    const promotionCoupon = pc.promotion?.coupon;
+    const coupon = typeof promotionCoupon === "object" && promotionCoupon !== null
+      ? promotionCoupon as { name?: string | null; percent_off?: number | null; amount_off?: number | null }
+      : null;
     return {
       id: pc.id,
       code: pc.code,
-      name: (coupon.name as string | undefined) ?? pc.code,
+      name: coupon?.name ?? pc.code,
       active: pc.active,
-      type: coupon.percent_off != null ? "percent" : "fixed",
-      amount: coupon.percent_off ?? (coupon.amount_off != null ? coupon.amount_off / 100 : 0),
+      type: coupon?.percent_off != null ? "percent" : "fixed",
+      amount: coupon?.percent_off ?? (coupon?.amount_off != null ? coupon.amount_off / 100 : 0),
       timesRedeemed: pc.times_redeemed,
       maxRedemptions: pc.max_redemptions,
       expiresAt: pc.expires_at ? new Date(pc.expires_at * 1000).toISOString() : null,
@@ -69,9 +71,8 @@ export async function POST(req: NextRequest) {
       ...(expiresAt ? { redeem_by: Math.floor(new Date(expiresAt).getTime() / 1000) } : {}),
     });
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const promoCode = await (stripe.promotionCodes.create as any)({
-      coupon: coupon.id,
+    const promoCode = await stripe.promotionCodes.create({
+      promotion: { type: "coupon", coupon: coupon.id },
       code,
       ...(maxUses ? { max_redemptions: maxUses } : {}),
       ...(expiresAt ? { expires_at: Math.floor(new Date(expiresAt).getTime() / 1000) } : {}),
