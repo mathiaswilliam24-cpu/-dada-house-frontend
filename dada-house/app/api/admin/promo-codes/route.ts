@@ -25,11 +25,12 @@ export async function GET(req: NextRequest) {
   ]);
 
   const all = [...activeCodes.data, ...inactiveCodes.data].map((pc) => {
-    const coupon = pc.coupon as typeof pc.coupon & { name?: string; percent_off?: number | null; amount_off?: number | null; currency?: string };
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const coupon = (pc as any).coupon as { name?: string; percent_off?: number | null; amount_off?: number | null } ?? {};
     return {
       id: pc.id,
       code: pc.code,
-      name: coupon.name ?? pc.code,
+      name: (coupon.name as string | undefined) ?? pc.code,
       active: pc.active,
       type: coupon.percent_off != null ? "percent" : "fixed",
       amount: coupon.percent_off ?? (coupon.amount_off != null ? coupon.amount_off / 100 : 0),
