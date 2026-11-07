@@ -76,6 +76,7 @@ const navGroups: NavGroup[] = [
       { href: "/admin/orders", label: "Orders", icon: Package },
       { href: "/admin/service-plans", label: "Service Plans", icon: Layers },
       { href: "/admin/maintenance-plans", label: "Maintenance Plans", icon: Layers },
+      { href: "/admin/promo-codes", label: "Promo Codes", icon: TrendingUp },
       { href: "/admin/service-forms", label: "Service Forms", icon: ClipboardList, superAdminOnly: true },
       { href: "/admin/system-types", label: "System Types", icon: Settings, superAdminOnly: true },
     ],
