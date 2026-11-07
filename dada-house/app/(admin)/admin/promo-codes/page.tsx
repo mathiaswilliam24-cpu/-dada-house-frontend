@@ -138,14 +138,21 @@ export default function PromoCodesPage() {
 
               {/* Name */}
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1">Description *</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-1">
+                  Description *
+                  <span className={`ml-2 text-xs font-normal ${form.name.length > 36 ? "text-red-500" : "text-gray-400"}`}>
+                    {form.name.length}/40
+                  </span>
+                </label>
                 <input
                   value={form.name}
-                  onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
-                  placeholder="ex: Réduction parrainage ami"
+                  onChange={e => setForm(f => ({ ...f, name: e.target.value.slice(0, 40) }))}
+                  placeholder="ex: Military Discount"
+                  maxLength={40}
                   className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1B3FA8]/30"
                   required
                 />
+                <p className="text-xs text-gray-400 mt-1">Max 40 caractères (limite Stripe)</p>
               </div>
 
               {/* Type + Amount */}

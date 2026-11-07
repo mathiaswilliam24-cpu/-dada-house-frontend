@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic";
 
 const createSchema = z.object({
   code: z.string().min(3).max(20).regex(/^[A-Z0-9_-]+$/, "Uppercase letters, numbers, dashes only"),
-  name: z.string().min(1),
+  name: z.string().min(1).max(40, "Description must be 40 characters or less (Stripe limit)"),
   type: z.enum(["percent", "fixed"]),
   amount: z.number().positive(),
   maxUses: z.number().int().positive().optional().nullable(),
