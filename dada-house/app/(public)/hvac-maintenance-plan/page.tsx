@@ -8,6 +8,9 @@ import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 import CTASection from "@/components/home/cta-section";
 import { calcPropertyAnnual, calcPropertyMonthly } from "@/lib/enrollment-pricing";
+import { db } from "@/lib/db";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "HVAC Maintenance Plan — DADA HOUSE | Texas & North Carolina",
@@ -59,14 +62,6 @@ const planFeatures = [
   },
 ];
 
-// Per-property pricing: each address starts at $199/yr for 1st system
-const tiers = [
-  { systems: 1, annual: calcPropertyAnnual(1), monthly: calcPropertyMonthly(1) },
-  { systems: 2, annual: calcPropertyAnnual(2), monthly: calcPropertyMonthly(2) },
-  { systems: 3, annual: calcPropertyAnnual(3), monthly: calcPropertyMonthly(3) },
-  { systems: 4, annual: calcPropertyAnnual(4), monthly: calcPropertyMonthly(4) },
-  { systems: 5, annual: calcPropertyAnnual(5), monthly: calcPropertyMonthly(5) },
-];
 
 const faqs = [
   {
@@ -95,7 +90,23 @@ const faqs = [
   },
 ];
 
-export default function HvacMaintenancePlanPage() {
+export default async function HvacMaintenancePlanPage() {
+  const activePlan = await db.maintenancePlanType.findFirst({
+    where: { isActive: true },
+    orderBy: { sortOrder: "asc" },
+  });
+
+  const baseAnnual  = activePlan?.annualPrice  ?? 199;
+  const baseMonthly = activePlan?.monthlyPrice ?? 21;
+  const addlAnnual  = Math.round(baseAnnual  * 0.8);
+  const addlMonthly = +(baseMonthly * 0.8).toFixed(2);
+
+  const tiers = [1, 2, 3, 4, 5].map(n => ({
+    systems: n,
+    annual:  calcPropertyAnnual(n),
+    monthly: calcPropertyMonthly(n),
+  }));
+
   return (
     <>
       {/* ── HERO ── */}
@@ -122,14 +133,14 @@ export default function HvacMaintenancePlanPage() {
               </h1>
 
               <p className="text-slate-300 text-xl mb-8 leading-relaxed max-w-lg">
-                Two professional HVAC tune-ups per year, priority scheduling, and repair discounts — starting at just $199/year or $21/month.
+                Two professional HVAC tune-ups per year, priority scheduling, and repair discounts — starting at just ${baseAnnual}/year or ${baseMonthly}/month.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-3 mb-8">
                 <Link href="/hvac-maintenance-plan/enroll"
                   className={cn(buttonVariants({ size: "lg" }), "gap-2 font-bold text-base shadow-xl shadow-orange-900/30")}>
                   <Calendar size={18} />
-                  Enroll Now — Starting at $199/Year
+                  Enroll Now — Starting at ${baseAnnual}/Year
                 </Link>
                 <a href="#benefits"
                   className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-bold text-base text-white transition-colors"
@@ -158,10 +169,10 @@ export default function HvacMaintenancePlanPage() {
                   <span className="px-3 py-1 bg-[#F7921A] text-white text-xs font-bold rounded-full uppercase">Best Value</span>
                 </div>
                 <div className="flex items-baseline gap-2 mb-2">
-                  <span className="text-5xl font-black text-[#F7921A]">$199</span>
+                  <span className="text-5xl font-black text-[#F7921A]">${baseAnnual}</span>
                   <span className="text-slate-400 text-lg">/year</span>
                 </div>
-                <p className="text-slate-400 text-sm">for 1 system · $159/yr each additional</p>
+                <p className="text-slate-400 text-sm">for 1 system · ${addlAnnual}/yr each additional</p>
               </div>
               <div className="rounded-2xl p-6 border border-slate-700" style={{ background: "rgba(255,255,255,0.04)" }}>
                 <div className="flex items-center justify-between mb-3">
@@ -169,10 +180,10 @@ export default function HvacMaintenancePlanPage() {
                   <span className="px-3 py-1 bg-slate-700 text-slate-300 text-xs font-bold rounded-full uppercase">Flexible</span>
                 </div>
                 <div className="flex items-baseline gap-2 mb-2">
-                  <span className="text-5xl font-black text-slate-200">$21</span>
+                  <span className="text-5xl font-black text-slate-200">${baseMonthly}</span>
                   <span className="text-slate-400 text-lg">/month</span>
                 </div>
-                <p className="text-slate-400 text-sm">for 1 system · additional rate configurable</p>
+                <p className="text-slate-400 text-sm">for 1 system · ${addlMonthly}/mo each additional</p>
               </div>
               <div className="flex items-center gap-3 p-4 rounded-xl" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}>
                 <span className="text-2xl">🇺🇸</span>
