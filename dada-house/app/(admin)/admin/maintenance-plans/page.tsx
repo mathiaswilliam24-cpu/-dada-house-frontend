@@ -8,6 +8,12 @@ export const metadata: Metadata = { title: "Maintenance Plans — Admin | DADA H
 export default async function AdminMaintenancePlansPage() {
   const [contracts, stats, planTypes] = await Promise.all([
     db.maintenanceContract.findMany({
+      where: {
+        OR: [
+          { selfEnrolled: true },
+          { selfEnrolled: false, membershipNumber: { not: null } },
+        ],
+      },
       include: {
         customer: { select: { firstName: true, lastName: true, phone: true, userId: true } },
         properties: { select: { id: true, address: true, city: true, state: true, systemCount: true } },
@@ -16,7 +22,10 @@ export default async function AdminMaintenancePlansPage() {
       orderBy: { createdAt: "desc" },
     }),
     db.maintenanceContract.aggregate({
-      where: { status: "ACTIVE" },
+      where: {
+        status: "ACTIVE",
+        OR: [{ selfEnrolled: true }, { selfEnrolled: false, membershipNumber: { not: null } }],
+      },
       _count: { id: true },
       _sum: { annualTotal: true, numberOfSystems: true },
     }),
@@ -28,7 +37,11 @@ export default async function AdminMaintenancePlansPage() {
   ]);
 
   const monthlyRevenue = await db.maintenanceContract.aggregate({
-    where: { status: "ACTIVE", billingInterval: "monthly" },
+    where: {
+      status: "ACTIVE",
+      billingInterval: "monthly",
+      OR: [{ selfEnrolled: true }, { selfEnrolled: false, membershipNumber: { not: null } }],
+    },
     _sum: { monthlyTotal: true },
   });
 
