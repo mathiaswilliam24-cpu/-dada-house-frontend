@@ -2,6 +2,7 @@
 import { sendSMS } from "@/lib/twilio";
 import { normalizePhone, findOrCreateCustomerByPhone } from "@/lib/customers";
 import { notifyStaff } from "@/lib/staff-push";
+import { alertOwnerOfInboundSms } from "@/lib/inbound-sms-alert";
 
 const STOP_KEYWORDS = ["STOP", "STOPALL", "UNSUBSCRIBE", "CANCEL", "END", "QUIT"];
 const START_KEYWORDS = ["START", "YES", "UNSTOP"];
@@ -146,6 +147,7 @@ export async function handleInboundSms(from: string, to: string, body: string, t
   });
 
   const senderName = [customer.firstName, customer.lastName].filter(Boolean).join(" ").trim();
+  await alertOwnerOfInboundSms({ from: phone, senderName, body });
   await notifyStaff({
     title: `New message from ${senderName || phone}`,
     body: body.length > 140 ? `${body.slice(0, 137)}...` : body,
