@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import twilio from "twilio";
 import { db } from "@/lib/db";
 import { validateTwilioRequest } from "@/lib/twilio-validate";
+import { SAY_VOICE } from "@/lib/twilio-voice";
 
 export const dynamic = "force-dynamic";
 
@@ -52,7 +53,7 @@ export async function POST(req: NextRequest) {
     action: `/api/twilio/voice/screen?${qs.toString()}`,
     method: "POST",
   });
-  gather.say("DADA HOUSE customer call. Press 1 to accept.");
+  gather.say(SAY_VOICE, "DADA HOUSE customer call. Press 1 to accept.");
   twiml.hangup();
   return xml(twiml);
 }

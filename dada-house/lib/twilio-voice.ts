@@ -40,3 +40,13 @@ export function createVoiceAccessToken(userId: string): string {
 
   return token.toJwt();
 }
+
+/**
+ * Voice for every <Say> callers/dispatchers hear. Amazon Polly neural voice —
+ * far more natural than Twilio's default. Override with TWILIO_SAY_VOICE
+ * (e.g. "Polly.Matthew-Neural" for a male voice).
+ */
+export const SAY_VOICE = {
+  voice: (process.env.TWILIO_SAY_VOICE || "Polly.Joanna-Neural") as "Polly.Joanna-Neural",
+  language: "en-US" as const,
+};

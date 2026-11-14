@@ -3,7 +3,7 @@ import twilio from "twilio";
 import { db } from "@/lib/db";
 import { validateTwilioRequest } from "@/lib/twilio-validate";
 import { findOrCreateCustomerByPhone } from "@/lib/customers";
-import { agentIdentity } from "@/lib/twilio-voice";
+import { agentIdentity, SAY_VOICE } from "@/lib/twilio-voice";
 import { isWithinBusinessHours } from "@/lib/business-hours";
 import { normalizePhone } from "@/lib/customers";
 import { alertOwner } from "@/lib/inbound-sms-alert";
@@ -174,7 +174,7 @@ export async function POST(req: NextRequest) {
   // which in practice meant callers hung up before any cell rang.
   // Calls with dispatchers are recorded (then transcribed + summarized for
   // Call History), so callers are told up front.
-  twiml.say("Thank you for calling DADA HOUSE. This call may be recorded for quality purposes.");
+  twiml.say(SAY_VOICE, "Thank you for calling DADA HOUSE. This call may be recorded for quality purposes.");
   const dial = twiml.dial({
     timeout: MOBILE_RING_TIMEOUT + BROWSER_RING_TIMEOUT,
     action: `/api/twilio/voice/incoming?stage=noanswer&callId=${call.id}`,
@@ -210,6 +210,7 @@ function buildOverflowTwiml() {
     twiml.redirect({ method: "POST" }, overflowWebhookUrl);
   } else {
     twiml.say(
+      SAY_VOICE,
       "Thank you for calling DADA HOUSE. We're sorry we missed your call. Please leave your name, phone number and a short message after the tone, and we will call you back as soon as possible."
     );
     twiml.record({
