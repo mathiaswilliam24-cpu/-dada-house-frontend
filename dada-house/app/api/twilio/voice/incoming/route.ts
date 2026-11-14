@@ -172,16 +172,28 @@ export async function POST(req: NextRequest) {
   // leg is screened ("press 1"), so a personal voicemail can no longer win the
   // race — the reason the old flow made cells wait BROWSER_RING_TIMEOUT first,
   // which in practice meant callers hung up before any cell rang.
+  // Calls with dispatchers are recorded (then transcribed + summarized for
+  // Call History), so callers are told up front.
+  twiml.say("Thank you for calling DADA HOUSE. This call may be recorded for quality purposes.");
   const dial = twiml.dial({
     timeout: MOBILE_RING_TIMEOUT + BROWSER_RING_TIMEOUT,
     action: `/api/twilio/voice/incoming?stage=noanswer&callId=${call.id}`,
     method: "POST",
+    record: "record-from-answer",
+    recordingStatusCallback: `/api/twilio/voice/call-recording?callId=${call.id}`,
+    recordingStatusCallbackMethod: "POST",
+    recordingStatusCallbackEvent: ["completed"],
   });
   for (const agent of availableAgents) {
     dial.client(agentIdentity(agent.id));
   }
   for (const agent of availableAgents) {
-    if (agent.phone) dial.number({ url: "/api/twilio/voice/screen", method: "POST" }, normalizePhone(agent.phone));
+    if (agent.phone) {
+      dial.number(
+        { url: `/api/twilio/voice/screen?callId=${call.id}&agentId=${agent.id}`, method: "POST" },
+        normalizePhone(agent.phone)
+      );
+    }
   }
 
   return xml(twiml);

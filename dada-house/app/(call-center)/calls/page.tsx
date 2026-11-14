@@ -112,6 +112,9 @@ export default function CallsPage() {
               <tbody className="divide-y divide-gray-50">
                 {calls.map((c) => {
                   const hasAiData = !!(c.aiSummary || c.aiTranscript);
+                  // Dispatcher calls carry a CallRecording; Emma (Vapi) calls don't.
+                  const isAiCall = hasAiData && !c.recording;
+                  const callerNumber = c.direction === "INBOUND" ? c.fromNumber : c.toNumber;
                   return (
                   <>
                   <tr
@@ -124,11 +127,14 @@ export default function CallsPage() {
                         {c.direction === "INBOUND" ? <PhoneIncoming className="w-4 h-4 text-green-500" /> : <PhoneOutgoing className="w-4 h-4 text-blue-500" />}
                         <div>
                           {c.customer ? (
-                            <Link href={`/customers/${c.customer.id}`} onClick={(e) => e.stopPropagation()} className="font-medium text-[#1B3FA8] hover:underline">
-                              {c.customer.firstName} {c.customer.lastName ?? ""}
-                            </Link>
+                            <>
+                              <Link href={`/customers/${c.customer.id}`} onClick={(e) => e.stopPropagation()} className="font-medium text-[#1B3FA8] hover:underline">
+                                {c.customer.firstName} {c.customer.lastName ?? ""}
+                              </Link>
+                              <a href={`tel:${callerNumber}`} onClick={(e) => e.stopPropagation()} className="block text-xs text-gray-500 hover:underline">{callerNumber}</a>
+                            </>
                           ) : (
-                            <span className="font-medium text-gray-800">{c.direction === "INBOUND" ? c.fromNumber : c.toNumber}</span>
+                            <a href={`tel:${callerNumber}`} onClick={(e) => e.stopPropagation()} className="font-medium text-gray-800 hover:underline">{callerNumber}</a>
                           )}
                         </div>
                       </div>
@@ -136,7 +142,7 @@ export default function CallsPage() {
                     <td className="px-4 py-3 text-gray-500">{formatCallCenterTime(c.startedAt)}</td>
                     <td className="px-4 py-3 text-gray-500">{formatDuration(c.durationSeconds)}</td>
                     <td className="px-4 py-3 text-gray-500 hidden md:table-cell">
-                      {c.agent?.name ?? (hasAiData ? (
+                      {c.agent?.name ?? (isAiCall ? (
                         <span className="inline-flex items-center gap-1 text-xs bg-purple-50 text-purple-700 px-2 py-0.5 rounded-full">
                           <Bot className="w-3 h-3" /> Emma (AI)
                         </span>
@@ -173,7 +179,7 @@ export default function CallsPage() {
                         <div className="flex items-start gap-2 mb-2">
                           <Bot className="w-4 h-4 text-purple-600 mt-0.5 shrink-0" />
                           <div>
-                            <p className="text-xs font-semibold text-purple-700 uppercase tracking-wide mb-1">Emma's Call Summary</p>
+                            <p className="text-xs font-semibold text-purple-700 uppercase tracking-wide mb-1">{isAiCall ? "Emma's Call Summary" : "Call Summary"}</p>
                             <p className="text-sm text-gray-700 whitespace-pre-wrap">{c.aiSummary || "(No summary generated for this call — see full transcript below.)"}</p>
                           </div>
                         </div>
@@ -187,9 +193,14 @@ export default function CallsPage() {
                             <PlayCircle className="w-3.5 h-3.5" /> Listen to AI call recording
                           </a>
                         )}
+                        {c.recording && (
+                          <a href={c.recording.url} target="_blank" rel="noreferrer" onClick={(e) => e.stopPropagation()} className="inline-flex items-center gap-1 text-xs text-purple-700 ml-6 hover:underline">
+                            <PlayCircle className="w-3.5 h-3.5" /> Listen to call recording
+                          </a>
+                        )}
                         {c.aiTranscript && (
                           <details className="mt-2 ml-6">
-                            <summary className="text-xs text-gray-500 cursor-pointer hover:underline">Full transcript</summary>
+                            <summary className="text-xs text-gray-500 cursor-pointer hover:underline">Full transcript (automatic — may contain errors)</summary>
                             <p className="text-xs text-gray-600 whitespace-pre-wrap mt-2 bg-white rounded-lg p-3 border border-gray-100">{c.aiTranscript}</p>
                           </details>
                         )}
