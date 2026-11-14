@@ -160,13 +160,20 @@ export async function POST(req: NextRequest) {
     return xml(buildOverflowTwiml());
   }
 
+  // Ring browser softphones AND dispatchers' cells at the same time. The cell
+  // leg is screened ("press 1"), so a personal voicemail can no longer win the
+  // race — the reason the old flow made cells wait BROWSER_RING_TIMEOUT first,
+  // which in practice meant callers hung up before any cell rang.
   const dial = twiml.dial({
-    timeout: BROWSER_RING_TIMEOUT,
-    action: `/api/twilio/voice/incoming?stage=mobile-fallback&callId=${call.id}`,
+    timeout: MOBILE_RING_TIMEOUT + BROWSER_RING_TIMEOUT,
+    action: `/api/twilio/voice/incoming?stage=noanswer&callId=${call.id}`,
     method: "POST",
   });
   for (const agent of availableAgents) {
     dial.client(agentIdentity(agent.id));
+  }
+  for (const agent of availableAgents) {
+    if (agent.phone) dial.number({ url: "/api/twilio/voice/screen", method: "POST" }, normalizePhone(agent.phone));
   }
 
   return xml(twiml);
