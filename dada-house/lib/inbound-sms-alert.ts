@@ -55,3 +55,15 @@ export async function alertOwnerOfInboundSms(opts: { from: string; senderName?: 
       : []),
   ]);
 }
+
+/** Plain text alert to the owner phone(s) — used for missed calls and voicemails. Never throws. */
+export async function alertOwner(text: string, exclude: string[] = []) {
+  const businessNumber = toE164(process.env.TWILIO_PHONE_NUMBER ?? "");
+  const skip = new Set([businessNumber, ...exclude.map(toE164)]);
+  const phones = list(process.env.INBOUND_SMS_ALERT_PHONES || process.env.ADMIN_PHONE)
+    .map(toE164)
+    .filter((p) => !skip.has(p));
+  await Promise.all(
+    phones.map((to) => sendSMS(to, text).catch((err) => console.error(`Owner alert to ${to} failed`, err)))
+  );
+}

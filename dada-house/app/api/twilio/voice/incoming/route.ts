@@ -6,6 +6,7 @@ import { findOrCreateCustomerByPhone } from "@/lib/customers";
 import { agentIdentity } from "@/lib/twilio-voice";
 import { isWithinBusinessHours } from "@/lib/business-hours";
 import { normalizePhone } from "@/lib/customers";
+import { alertOwner } from "@/lib/inbound-sms-alert";
 import { AgentStatus, Role } from "@/lib/generated/prisma/enums";
 
 export const dynamic = "force-dynamic";
@@ -15,6 +16,7 @@ export const dynamic = "force-dynamic";
 const BROWSER_RING_TIMEOUT = Number(process.env.BROWSER_RING_TIMEOUT_SECONDS ?? "12");
 const MOBILE_RING_TIMEOUT = Number(process.env.NO_ANSWER_TIMEOUT_SECONDS ?? "20");
 
+const APP_URL = (process.env.NEXT_PUBLIC_APP_URL || "https://dada-house.com").replace(/\/$/, "");
 const CALL_CENTER_ROLES: Role[] = ["SUPER_ADMIN", "MANAGER", "CUSTOMER_SERVICE_REP", "ADMIN", "DISPATCHER"];
 
 function xml(twiml: InstanceType<typeof twilio.twiml.VoiceResponse>) {
@@ -49,14 +51,20 @@ async function markCompleted(callId: string, dialCallDuration: FormDataEntryValu
  */
 async function markOverflowed(callId: string) {
   const toVapi = !!process.env.VAPI_OVERFLOW_WEBHOOK_URL;
-  await db.call.update({
+  const call = await db.call.update({
     where: { id: callId },
     data: {
       status: "NO_ANSWER",
       endedAt: toVapi ? new Date() : undefined,
       disposition: toVapi ? "TRANSFERRED_TO_VAPI" : undefined,
     },
-  }).catch(() => {});
+  }).catch(() => null);
+  if (call && !toVapi) {
+    await alertOwner(
+      `DADA HOUSE - missed call from ${call.fromNumber} (no dispatcher answered). Call back: ${APP_URL}/calls`,
+      [call.fromNumber]
+    );
+  }
 }
 
 /**
@@ -125,7 +133,8 @@ export async function POST(req: NextRequest) {
       method: "POST",
     });
     for (const agent of agentsWithPhone) {
-      dial.number(normalizePhone(agent.phone!));
+      // Screened: dispatcher must press 1, so a personal voicemail can't take the call.
+      dial.number({ url: "/api/twilio/voice/screen", method: "POST" }, normalizePhone(agent.phone!));
     }
     return xml(twiml);
   }
@@ -173,7 +182,9 @@ function buildOverflowTwiml() {
     // Twilio to fetch fresh TwiML from that URL for this same call.
     twiml.redirect({ method: "POST" }, overflowWebhookUrl);
   } else {
-    twiml.say("We're sorry we missed your call. Please leave a message after the tone.");
+    twiml.say(
+      "Thank you for calling DADA HOUSE. We're sorry we missed your call. Please leave your name, phone number and a short message after the tone, and we will call you back as soon as possible."
+    );
     twiml.record({
       recordingStatusCallback: "/api/twilio/voice/recording",
       recordingStatusCallbackMethod: "POST",

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { validateTwilioRequest } from "@/lib/twilio-validate";
+import { alertOwner } from "@/lib/inbound-sms-alert";
 
 export const dynamic = "force-dynamic";
 
@@ -36,6 +37,12 @@ export async function POST(req: NextRequest) {
   if (call) {
     await db.call.update({ where: { id: call.id }, data: { status: "VOICEMAIL", endedAt: new Date() } }).catch(() => {});
   }
+
+  const appUrl = (process.env.NEXT_PUBLIC_APP_URL || "https://dada-house.com").replace(/\/$/, "");
+  await alertOwner(
+    `DADA HOUSE - new voicemail${call?.fromNumber ? ` from ${call.fromNumber}` : ""}${duration ? ` (${duration}s)` : ""}. Listen: ${appUrl}/calls`,
+    call?.fromNumber ? [call.fromNumber] : []
+  );
 
   return new NextResponse("<Response></Response>", { headers: { "Content-Type": "text/xml" } });
 }
