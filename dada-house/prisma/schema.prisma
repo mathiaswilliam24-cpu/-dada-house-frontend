@@ -1238,6 +1238,9 @@ model Call {
   aiRecordingUrl String?
   aiEndedReason String?
 
+  // Twilio SIDs of the outbound legs ringing dispatchers for this inbound call (cancelled once one accepts)
+  ringLegSids String[] @default([])
+
   customer    Customer?      @relation(fields: [customerId], references: [id], onDelete: SetNull)
   agent       User?          @relation("agentCalls", fields: [agentId], references: [id], onDelete: SetNull)
   appointment Appointment?   @relation(fields: [appointmentId], references: [id], onDelete: SetNull)
