@@ -20,7 +20,9 @@ function toE164(phone: string) {
   return digits.length === 10 ? `+1${digits}` : `+${digits}`;
 }
 
-export async function alertOwnerOfInboundSms(opts: { from: string; senderName?: string; body: string }) {
+export async function alertOwnerOfInboundSms(opts: { from: string; senderName?: string; body: string; mediaUrls?: string[] }) {
+  // MMS carries max 10 files; strip the "#name.ext" display fragment.
+  const mediaUrls = (opts.mediaUrls ?? []).slice(0, 10).map((u) => u.split("#")[0]);
   const businessNumber = toE164(process.env.TWILIO_PHONE_NUMBER ?? "");
   const sender = toE164(opts.from);
   const who = opts.senderName ? `${opts.senderName} (${sender})` : sender;
@@ -37,7 +39,7 @@ export async function alertOwnerOfInboundSms(opts: { from: string; senderName?: 
 
   await Promise.all([
     ...phones.map((to) =>
-      sendSMS(to, smsText).catch((err) => console.error(`Inbound SMS alert to ${to} failed`, err))
+      sendSMS(to, smsText, mediaUrls.length ? { mediaUrls } : undefined).catch((err) => console.error(`Inbound SMS alert to ${to} failed`, err))
     ),
     ...(emails.length
       ? [
@@ -46,7 +48,7 @@ export async function alertOwnerOfInboundSms(opts: { from: string; senderName?: 
               from: FROM_EMAIL,
               to: emails,
               subject: `New customer text from ${who}`,
-              text: `${who} texted DADA HOUSE:\n\n${opts.body}\n\nReply here: ${baseUrl}/messages`,
+              text: `${who} texted DADA HOUSE:\n\n${opts.body}\n${mediaUrls.map((u) => `\n${u}`).join("")}\n\nReply here: ${baseUrl}/messages`,
             })
             .catch((err) => console.error("Inbound SMS email alert failed", err)),
         ]

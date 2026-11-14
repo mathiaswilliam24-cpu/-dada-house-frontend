@@ -3,6 +3,7 @@ import { sendSMS } from "@/lib/twilio";
 import { normalizePhone, findOrCreateCustomerByPhone } from "@/lib/customers";
 import { notifyStaff } from "@/lib/staff-push";
 import { alertOwnerOfInboundSms } from "@/lib/inbound-sms-alert";
+import { rehostTwilioMedia, type InboundMedia } from "@/lib/inbound-media";
 
 const STOP_KEYWORDS = ["STOP", "STOPALL", "UNSUBSCRIBE", "CANCEL", "END", "QUIT"];
 const START_KEYWORDS = ["START", "YES", "UNSTOP"];
@@ -103,7 +104,7 @@ export async function sendMissedCallSms(fromNumber: string, customerId?: string 
 }
 
 /** Handles an inbound SMS webhook: STOP/START compliance keywords, or logs to the customer's thread. */
-export async function handleInboundSms(from: string, to: string, body: string, twilioSid?: string) {
+export async function handleInboundSms(from: string, to: string, body: string, twilioSid?: string, media: InboundMedia[] = []) {
   const phone = normalizePhone(from);
   const trimmed = body.trim().toUpperCase();
 
@@ -129,6 +130,8 @@ export async function handleInboundSms(from: string, to: string, body: string, t
     await dispatchSms(thread.id, phone, HELP_MESSAGE).catch(() => {});
   }
 
+  const mediaUrls = await rehostTwilioMedia(media, `sms-${twilioSid || Date.now()}`);
+
   await db.message.create({
     data: {
       threadId: thread.id,
@@ -138,6 +141,7 @@ export async function handleInboundSms(from: string, to: string, body: string, t
       twilioSid,
       fromNumber: phone,
       toNumber: normalizePhone(to),
+      mediaUrls,
     },
   });
 
@@ -147,10 +151,12 @@ export async function handleInboundSms(from: string, to: string, body: string, t
   });
 
   const senderName = [customer.firstName, customer.lastName].filter(Boolean).join(" ").trim();
-  await alertOwnerOfInboundSms({ from: phone, senderName, body });
+  const mediaNote = media.length ? `📷 ${media.length} attachment${media.length > 1 ? "s" : ""}` : "";
+  const preview = [body.trim(), mediaNote].filter(Boolean).join("\n");
+  await alertOwnerOfInboundSms({ from: phone, senderName, body: preview, mediaUrls });
   await notifyStaff({
     title: `New message from ${senderName || phone}`,
-    body: body.length > 140 ? `${body.slice(0, 137)}...` : body,
+    body: preview.length > 140 ? `${preview.slice(0, 137)}...` : preview,
     url: "/messages",
     tag: `sms-${thread.id}`,
   });
