@@ -101,7 +101,15 @@ export async function POST(req: NextRequest) {
 
   // Third hit: the mobile-fallback <Dial> just ended.
   if (stage === "noanswer") {
-    if (dialCallStatus === "completed" || dialCallStatus === "answered") {
+    // A screened cell leg answered by a personal voicemail reports "completed"
+    // even though nobody pressed 1 — only a real bridge counts as answered.
+    const dialBridged = formData.get("DialBridged");
+    console.log("Inbound dial ended", { callId, dialCallStatus, dialBridged, dialCallDuration });
+    const answered =
+      dialBridged !== null
+        ? String(dialBridged) === "true"
+        : dialCallStatus === "completed" || dialCallStatus === "answered";
+    if (answered) {
       if (callId) await markCompleted(callId, dialCallDuration);
       twiml.hangup();
       return xml(twiml);
