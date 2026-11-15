@@ -99,36 +99,36 @@ export default function PwaInstallBadges() {
             <div className="p-5 space-y-4">
               {platform === "ios" && (
                 <>
-                  <p className="text-sm text-gray-600">Installe l'app DADA HOUSE sur ton iPhone / iPad en 3 étapes :</p>
+                  <p className="text-sm text-gray-600">Install the DADA HOUSE app on your iPhone / iPad in 3 steps:</p>
                   <div className="space-y-3">
                     <div className="flex items-start gap-3">
                       <div className="w-7 h-7 rounded-full bg-[#1B3FA8] text-white text-xs font-bold flex items-center justify-center shrink-0">1</div>
                       <div>
-                        <p className="text-sm font-semibold text-gray-800">Ouvre dans Safari</p>
-                        <p className="text-xs text-gray-500">Cette fonctionnalité nécessite Safari (pas Chrome)</p>
+                        <p className="text-sm font-semibold text-gray-800">Open in Safari</p>
+                        <p className="text-xs text-gray-500">This feature requires Safari (not Chrome)</p>
                       </div>
                     </div>
                     <div className="flex items-start gap-3">
                       <div className="w-7 h-7 rounded-full bg-[#1B3FA8] text-white text-xs font-bold flex items-center justify-center shrink-0">2</div>
                       <div>
                         <p className="text-sm font-semibold text-gray-800 flex items-center gap-1.5">
-                          Tape le bouton Partager <Share className="w-4 h-4 text-blue-500" />
+                          Tap the Share button <Share className="w-4 h-4 text-blue-500" />
                         </p>
-                        <p className="text-xs text-gray-500">En bas de l'écran (iOS 14 et +)</p>
+                        <p className="text-xs text-gray-500">At the bottom of the screen (iOS 14+)</p>
                       </div>
                     </div>
                     <div className="flex items-start gap-3">
                       <div className="w-7 h-7 rounded-full bg-[#1B3FA8] text-white text-xs font-bold flex items-center justify-center shrink-0">3</div>
                       <div>
                         <p className="text-sm font-semibold text-gray-800 flex items-center gap-1.5">
-                          Sélectionne <Plus className="w-3.5 h-3.5" /> Sur l'écran d'accueil
+                          Select <Plus className="w-3.5 h-3.5" /> Add to Home Screen
                         </p>
-                        <p className="text-xs text-gray-500">L'app apparaîtra comme une vraie application</p>
+                        <p className="text-xs text-gray-500">The app will appear like a regular app</p>
                       </div>
                     </div>
                   </div>
                   <div className="bg-blue-50 rounded-xl p-3">
-                    <p className="text-xs text-blue-700 font-medium">URL à ouvrir dans Safari :</p>
+                    <p className="text-xs text-blue-700 font-medium">URL to open in Safari:</p>
                     <p className="text-xs text-blue-600 font-mono mt-0.5">dada-house.com</p>
                   </div>
                 </>
@@ -136,34 +136,34 @@ export default function PwaInstallBadges() {
 
               {platform === "android" && (
                 <>
-                  <p className="text-sm text-gray-600">Installe l'app DADA HOUSE sur ton appareil Android :</p>
+                  <p className="text-sm text-gray-600">Install the DADA HOUSE app on your Android device:</p>
                   <div className="space-y-3">
                     <div className="flex items-start gap-3">
                       <div className="w-7 h-7 rounded-full bg-[#1B3FA8] text-white text-xs font-bold flex items-center justify-center shrink-0">1</div>
                       <div>
-                        <p className="text-sm font-semibold text-gray-800">Ouvre dans Chrome</p>
-                        <p className="text-xs text-gray-500">Va sur dada-house.com avec Chrome</p>
+                        <p className="text-sm font-semibold text-gray-800">Open in Chrome</p>
+                        <p className="text-xs text-gray-500">Go to dada-house.com in Chrome</p>
                       </div>
                     </div>
                     <div className="flex items-start gap-3">
                       <div className="w-7 h-7 rounded-full bg-[#1B3FA8] text-white text-xs font-bold flex items-center justify-center shrink-0">2</div>
                       <div>
                         <p className="text-sm font-semibold text-gray-800 flex items-center gap-1.5">
-                          Tape les 3 points <MoreVertical className="w-4 h-4 text-gray-600" />
+                          Tap the 3 dots <MoreVertical className="w-4 h-4 text-gray-600" />
                         </p>
-                        <p className="text-xs text-gray-500">En haut à droite de Chrome</p>
+                        <p className="text-xs text-gray-500">At the top right of Chrome</p>
                       </div>
                     </div>
                     <div className="flex items-start gap-3">
                       <div className="w-7 h-7 rounded-full bg-[#1B3FA8] text-white text-xs font-bold flex items-center justify-center shrink-0">3</div>
                       <div>
-                        <p className="text-sm font-semibold text-gray-800">Ajouter à l'écran d'accueil</p>
-                        <p className="text-xs text-gray-500">L'app s'installe comme une vraie application</p>
+                        <p className="text-sm font-semibold text-gray-800">Add to Home screen</p>
+                        <p className="text-xs text-gray-500">The app installs like a regular app</p>
                       </div>
                     </div>
                   </div>
                   <div className="bg-green-50 rounded-xl p-3">
-                    <p className="text-xs text-green-700 font-medium">URL à ouvrir dans Chrome :</p>
+                    <p className="text-xs text-green-700 font-medium">URL to open in Chrome:</p>
                     <p className="text-xs text-green-600 font-mono mt-0.5">dada-house.com</p>
                   </div>
                 </>

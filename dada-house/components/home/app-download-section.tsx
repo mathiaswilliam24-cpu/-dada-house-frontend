@@ -2,10 +2,10 @@ import PwaInstallBadges from "@/components/layout/pwa-install-badges";
 import { Smartphone, Wifi, Bell, Shield } from "lucide-react";
 
 const features = [
-  { icon: Smartphone, label: "Interface mobile optimisée" },
-  { icon: Wifi, label: "Fonctionne hors-ligne" },
-  { icon: Bell, label: "Notifications en temps réel" },
-  { icon: Shield, label: "Sécurisé & rapide" },
+  { icon: Smartphone, label: "Mobile-optimized interface" },
+  { icon: Wifi, label: "Works offline" },
+  { icon: Bell, label: "Real-time notifications" },
+  { icon: Shield, label: "Secure & fast" },
 ];
 
 export default function AppDownloadSection() {
@@ -19,12 +19,12 @@ export default function AppDownloadSection() {
               Mobile App
             </p>
             <h2 className="text-3xl sm:text-4xl font-black text-white mb-4 leading-tight">
-              Télécharge l'App
+              Download the App
               <br />
               <span className="text-[#F7921A]">DADA HOUSE</span>
             </h2>
             <p className="text-slate-400 text-base mb-8 max-w-md mx-auto lg:mx-0">
-              Accède à ton compte, suis tes demandes de service et contacte-nous directement depuis ton téléphone.
+              Access your account, track your service requests and contact us directly from your phone.
             </p>
 
             <div className="grid grid-cols-2 gap-3 mb-8 max-w-sm mx-auto lg:mx-0">

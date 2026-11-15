@@ -59,7 +59,7 @@ export default function LoyaltyPanel({ customerId }: { customerId: string }) {
         body: JSON.stringify({
           action: "adjust",
           points: adjType === "add" ? pts : -pts,
-          description: adjDesc || (adjType === "add" ? "Ajustement manuel (ajout)" : "Ajustement manuel (retrait)"),
+          description: adjDesc || (adjType === "add" ? "Manual adjustment (added)" : "Manual adjustment (removed)"),
         }),
       });
       const d = await res.json();
@@ -99,8 +99,8 @@ export default function LoyaltyPanel({ customerId }: { customerId: string }) {
             <Gift size={16} className="text-amber-600" />
           </div>
           <div>
-            <p className="text-sm font-bold text-slate-800">Points de fidélité</p>
-            <p className="text-xs text-slate-500">1 pt par $1 payé · 100 pts = $1</p>
+            <p className="text-sm font-bold text-slate-800">Loyalty Points</p>
+            <p className="text-xs text-slate-500">1 pt per $1 paid · 100 pts = $1</p>
           </div>
         </div>
         <div className="flex items-center gap-4">
@@ -118,9 +118,9 @@ export default function LoyaltyPanel({ customerId }: { customerId: string }) {
           {account && (
             <div className="grid grid-cols-3 gap-3">
               {[
-                { label: "Solde", value: balance.toLocaleString(), color: "text-amber-600" },
-                { label: "Total gagné", value: account.totalEarned.toLocaleString(), color: "text-green-600" },
-                { label: "Total utilisé", value: account.totalSpent.toLocaleString(), color: "text-red-500" },
+                { label: "Balance", value: balance.toLocaleString(), color: "text-amber-600" },
+                { label: "Total earned", value: account.totalEarned.toLocaleString(), color: "text-green-600" },
+                { label: "Total redeemed", value: account.totalSpent.toLocaleString(), color: "text-red-500" },
               ].map(s => (
                 <div key={s.label} className="bg-slate-50 rounded-lg p-3 text-center">
                   <p className={`text-lg font-black ${s.color}`}>{s.value}</p>
@@ -137,36 +137,36 @@ export default function LoyaltyPanel({ customerId }: { customerId: string }) {
               className="flex items-center gap-2 text-xs font-bold text-[#1B3FA8] hover:text-[#0D1D5E] transition-colors"
             >
               <Star size={13} />
-              Ajustement manuel
+              Manual adjustment
             </button>
           ) : (
             <form onSubmit={handleAdjust} className="bg-amber-50 border border-amber-200 rounded-xl p-4 space-y-3">
-              <p className="text-xs font-bold text-amber-800">Ajustement manuel de points</p>
+              <p className="text-xs font-bold text-amber-800">Manual points adjustment</p>
               <div className="grid grid-cols-2 gap-2">
                 <button type="button" onClick={() => setAdjType("add")}
                   className={`flex items-center justify-center gap-1.5 py-2 rounded-lg text-xs font-bold border-2 transition-all ${adjType === "add" ? "border-green-500 bg-green-50 text-green-700" : "border-slate-200 text-slate-400"}`}>
-                  <Plus size={12} /> Ajouter
+                  <Plus size={12} /> Add
                 </button>
                 <button type="button" onClick={() => setAdjType("remove")}
                   className={`flex items-center justify-center gap-1.5 py-2 rounded-lg text-xs font-bold border-2 transition-all ${adjType === "remove" ? "border-red-500 bg-red-50 text-red-700" : "border-slate-200 text-slate-400"}`}>
-                  <Minus size={12} /> Retirer
+                  <Minus size={12} /> Remove
                 </button>
               </div>
               <input type="number" min="1" value={adjPoints} onChange={e => setAdjPoints(e.target.value)}
-                placeholder="Nombre de points" required
+                placeholder="Number of points" required
                 className="w-full px-3 py-2 border border-amber-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-amber-400/30" />
               <input value={adjDesc} onChange={e => setAdjDesc(e.target.value)}
-                placeholder="Raison (optionnel)"
+                placeholder="Reason (optional)"
                 className="w-full px-3 py-2 border border-amber-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-amber-400/30" />
               {error && <p className="text-red-600 text-xs">{error}</p>}
               <div className="flex gap-2">
                 <button type="submit" disabled={saving || saved}
                   className="flex-1 flex items-center justify-center gap-1.5 py-2 bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold rounded-lg transition-colors disabled:opacity-60">
-                  {saved ? <><CheckCircle size={12} /> Appliqué</> : saving ? <><Loader2 size={12} className="animate-spin" /> ...</> : "Confirmer"}
+                  {saved ? <><CheckCircle size={12} /> Applied</> : saving ? <><Loader2 size={12} className="animate-spin" /> ...</> : "Confirm"}
                 </button>
                 <button type="button" onClick={() => setShowAdjust(false)}
                   className="px-4 py-2 text-xs text-slate-500 hover:text-slate-700 font-semibold">
-                  Annuler
+                  Cancel
                 </button>
               </div>
             </form>
@@ -175,7 +175,7 @@ export default function LoyaltyPanel({ customerId }: { customerId: string }) {
           {/* Transaction history */}
           {transactions.length > 0 && (
             <div>
-              <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Historique</p>
+              <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">History</p>
               <div className="space-y-1">
                 {transactions.map(t => (
                   <div key={t.id} className="flex items-center justify-between py-1.5 border-b border-slate-50">
@@ -193,7 +193,7 @@ export default function LoyaltyPanel({ customerId }: { customerId: string }) {
           )}
 
           {transactions.length === 0 && !account && (
-            <p className="text-xs text-slate-400 text-center py-2">Aucune transaction — les points s&apos;accumulent dès la première facture payée</p>
+            <p className="text-xs text-slate-400 text-center py-2">No transactions yet — points are earned starting with the first paid invoice</p>
           )}
         </div>
       )}

@@ -59,7 +59,7 @@ export async function POST(
           const netAmount = invoice.amount - (invoice.loyaltyDiscount ?? 0);
           const pts = dollarToPoints(netAmount);
           if (pts > 0) {
-            await earnPoints(customerId, pts, invoice.id, `Facture #${appt.appointmentNumber} payée`);
+            await earnPoints(customerId, pts, invoice.id, `Invoice #${appt.appointmentNumber} paid`);
           }
         }
       } catch (e) {

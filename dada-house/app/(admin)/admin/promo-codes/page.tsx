@@ -100,7 +100,7 @@ export default function PromoCodesPage() {
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Promo Codes</h1>
           <p className="text-gray-500 text-sm mt-0.5">
-            Codes de réduction pour le plan de maintenance HVAC — appliqués automatiquement lors du paiement Stripe
+            Discount codes for the HVAC maintenance plan — applied automatically at Stripe checkout
           </p>
         </div>
         <button
@@ -108,7 +108,7 @@ export default function PromoCodesPage() {
           className="flex items-center gap-2 px-4 py-2 bg-[#1B3FA8] hover:bg-[#0D1D5E] text-white text-sm font-bold rounded-xl transition-colors"
         >
           <Plus size={16} />
-          Nouveau Code
+          New Code
         </button>
       </div>
 
@@ -117,7 +117,7 @@ export default function PromoCodesPage() {
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md">
             <div className="flex items-center justify-between p-6 border-b">
-              <h2 className="text-lg font-bold text-gray-900">Créer un code promo</h2>
+              <h2 className="text-lg font-bold text-gray-900">Create a promo code</h2>
               <button onClick={() => setShowForm(false)} className="text-gray-400 hover:text-gray-600">
                 <X size={20} />
               </button>
@@ -129,11 +129,11 @@ export default function PromoCodesPage() {
                 <input
                   value={form.code}
                   onChange={e => setForm(f => ({ ...f, code: e.target.value.toUpperCase() }))}
-                  placeholder="ex: FRIEND20, AMIS15"
+                  placeholder="e.g. FRIEND20, SAVE15"
                   className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm font-mono uppercase focus:outline-none focus:ring-2 focus:ring-[#1B3FA8]/30"
                   required
                 />
-                <p className="text-xs text-gray-400 mt-1">Lettres majuscules, chiffres et tirets uniquement</p>
+                <p className="text-xs text-gray-400 mt-1">Uppercase letters, numbers and dashes only</p>
               </div>
 
               {/* Name */}
@@ -147,17 +147,17 @@ export default function PromoCodesPage() {
                 <input
                   value={form.name}
                   onChange={e => setForm(f => ({ ...f, name: e.target.value.slice(0, 40) }))}
-                  placeholder="ex: Military Discount"
+                  placeholder="e.g. Military Discount"
                   maxLength={40}
                   className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1B3FA8]/30"
                   required
                 />
-                <p className="text-xs text-gray-400 mt-1">Max 40 caractères (limite Stripe)</p>
+                <p className="text-xs text-gray-400 mt-1">Max 40 characters (Stripe limit)</p>
               </div>
 
               {/* Type + Amount */}
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">Type de réduction *</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Discount type *</label>
                 <div className="grid grid-cols-2 gap-2 mb-3">
                   <button
                     type="button"
@@ -165,7 +165,7 @@ export default function PromoCodesPage() {
                     className={`flex items-center justify-center gap-2 py-2.5 rounded-xl border-2 text-sm font-bold transition-all ${form.type === "percent" ? "border-[#1B3FA8] bg-[#1B3FA8]/5 text-[#1B3FA8]" : "border-gray-200 text-gray-500 hover:border-gray-300"}`}
                   >
                     <Percent size={15} />
-                    Pourcentage
+                    Percentage
                   </button>
                   <button
                     type="button"
@@ -173,7 +173,7 @@ export default function PromoCodesPage() {
                     className={`flex items-center justify-center gap-2 py-2.5 rounded-xl border-2 text-sm font-bold transition-all ${form.type === "fixed" ? "border-[#F7921A] bg-[#F7921A]/5 text-[#F7921A]" : "border-gray-200 text-gray-500 hover:border-gray-300"}`}
                   >
                     <DollarSign size={15} />
-                    Montant fixe
+                    Fixed amount
                   </button>
                 </div>
                 <div className="flex items-center gap-2">
@@ -185,7 +185,7 @@ export default function PromoCodesPage() {
                     step="0.01"
                     value={form.amount}
                     onChange={e => setForm(f => ({ ...f, amount: e.target.value }))}
-                    placeholder={form.type === "percent" ? "ex: 10 (= 10%)" : "ex: 20 (= $20 off)"}
+                    placeholder={form.type === "percent" ? "e.g. 10 (= 10%)" : "e.g. 20 (= $20 off)"}
                     className="flex-1 px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1B3FA8]/30"
                     required
                   />
@@ -195,18 +195,18 @@ export default function PromoCodesPage() {
               {/* Optional fields */}
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-1">Utilisations max</label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-1">Max uses</label>
                   <input
                     type="number"
                     min="1"
                     value={form.maxUses}
                     onChange={e => setForm(f => ({ ...f, maxUses: e.target.value }))}
-                    placeholder="Illimité"
+                    placeholder="Unlimited"
                     className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1B3FA8]/30"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-1">Expire le</label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-1">Expires on</label>
                   <input
                     type="date"
                     value={form.expiresAt}
@@ -223,7 +223,7 @@ export default function PromoCodesPage() {
                 disabled={saving || saved}
                 className="w-full flex items-center justify-center gap-2 py-3 bg-[#1B3FA8] hover:bg-[#0D1D5E] disabled:opacity-60 text-white font-bold rounded-xl transition-colors"
               >
-                {saved ? <><CheckCircle size={16} /> Créé !</> : saving ? <><Loader2 size={16} className="animate-spin" /> Création...</> : <><Plus size={16} /> Créer le code</>}
+                {saved ? <><CheckCircle size={16} /> Created!</> : saving ? <><Loader2 size={16} className="animate-spin" /> Creating...</> : <><Plus size={16} /> Create code</>}
               </button>
             </form>
           </div>
@@ -232,8 +232,8 @@ export default function PromoCodesPage() {
 
       {/* Info box */}
       <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 text-sm text-blue-800">
-        <p className="font-semibold mb-1">Comment ça fonctionne</p>
-        <p>Le champ de code promo est affiché automatiquement lors du paiement Stripe. Le client entre le code et la réduction s&apos;applique immédiatement. Les codes sont gérés directement dans Stripe.</p>
+        <p className="font-semibold mb-1">How it works</p>
+        <p>The promo code field is shown automatically at Stripe checkout. The customer enters the code and the discount applies immediately. Codes are managed directly in Stripe.</p>
       </div>
 
       {/* List */}
@@ -244,8 +244,8 @@ export default function PromoCodesPage() {
       ) : codes.length === 0 ? (
         <div className="text-center py-20 text-gray-400">
           <Tag size={40} className="mx-auto mb-3 opacity-30" />
-          <p className="font-semibold">Aucun code promo créé</p>
-          <p className="text-sm mt-1">Cliquez sur &quot;Nouveau Code&quot; pour commencer</p>
+          <p className="font-semibold">No promo codes yet</p>
+          <p className="text-sm mt-1">Click &quot;New Code&quot; to get started</p>
         </div>
       ) : (
         <div className="space-y-3">
@@ -259,7 +259,7 @@ export default function PromoCodesPage() {
                 <button
                   onClick={() => copyCode(c.code)}
                   className="text-gray-400 hover:text-gray-600 transition-colors"
-                  title="Copier le code"
+                  title="Copy code"
                 >
                   {copied === c.code ? <Check size={14} className="text-green-500" /> : <Copy size={14} />}
                 </button>
@@ -274,19 +274,19 @@ export default function PromoCodesPage() {
                     {c.type === "percent" ? `${c.amount}% off` : `$${c.amount} off`}
                   </span>
                   <span className="text-xs text-gray-400">
-                    {c.timesRedeemed} utilisation{c.timesRedeemed !== 1 ? "s" : ""}
+                    {c.timesRedeemed} use{c.timesRedeemed !== 1 ? "s" : ""}
                     {c.maxRedemptions ? ` / ${c.maxRedemptions} max` : ""}
                   </span>
                   {c.expiresAt && (
-                    <span className="text-xs text-gray-400">Expire le {fmtDate(c.expiresAt)}</span>
+                    <span className="text-xs text-gray-400">Expires {fmtDate(c.expiresAt)}</span>
                   )}
-                  {!c.active && <span className="text-xs text-red-500 font-semibold">Désactivé</span>}
+                  {!c.active && <span className="text-xs text-red-500 font-semibold">Disabled</span>}
                 </div>
               </div>
 
               {/* Created */}
               <div className="text-xs text-gray-400 hidden sm:block">
-                Créé le {fmtDate(c.createdAt)}
+                Created {fmtDate(c.createdAt)}
               </div>
 
               {/* Delete */}
@@ -295,7 +295,7 @@ export default function PromoCodesPage() {
                   onClick={() => handleDelete(c.id)}
                   disabled={deleting === c.id}
                   className="text-gray-300 hover:text-red-500 transition-colors disabled:opacity-40"
-                  title="Désactiver"
+                  title="Disable"
                 >
                   {deleting === c.id ? <Loader2 size={16} className="animate-spin" /> : <Trash2 size={16} />}
                 </button>
