@@ -6,6 +6,7 @@ import { Loader2, Plus, Check } from "lucide-react";
 import { formatCurrency } from "@/lib/utils";
 import { useAddableItems } from "@/lib/hooks/use-addable-items";
 import { useEstimateItems } from "@/lib/hooks/use-estimate-items";
+import { ItemThumb } from "@/components/price-book/item-photo";
 
 const PLACEHOLDER_CATEGORIES = new Set(["Training", "Service Discounts and Coupons"]);
 
@@ -49,9 +50,10 @@ function CategoryItemsInner() {
           {items.map((item) => {
             const added = addedIds.has(item.id);
             return (
-              <div key={item.id} className="flex items-center justify-between p-4">
-                <div className="min-w-0">
-                  <p className="text-sm font-semibold text-gray-900 truncate">{item.name}</p>
+              <div key={item.id} className="flex items-center justify-between gap-3 p-4">
+                {item.imageUrl !== undefined && <ItemThumb item={item} size="w-16 h-16" />}
+                <div className="min-w-0 flex-1">
+                  <p className="text-sm font-semibold text-gray-900">{item.name}</p>
                   <p className="text-xs text-gray-400">{formatCurrency(item.price)}</p>
                 </div>
                 <button

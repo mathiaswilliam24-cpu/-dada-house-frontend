@@ -49,7 +49,7 @@ export async function POST(req: NextRequest) {
   const {
     industry, category, subcategory1, subcategory2,
     name, description, price, cost, taxable,
-    unit, taskCode, onlineBooking,
+    unit, taskCode, onlineBooking, imageUrl,
   } = body;
 
   if (!name || !category) {
@@ -70,6 +70,7 @@ export async function POST(req: NextRequest) {
       unit: unit || null,
       taskCode: taskCode || null,
       onlineBooking: onlineBooking ?? false,
+      imageUrl: imageUrl || null,
     },
   });
 

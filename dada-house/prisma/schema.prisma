@@ -673,6 +673,7 @@ model PriceBookItem {
   unit          String?
   taskCode      String?
   onlineBooking Boolean  @default(false)
+  imageUrl      String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

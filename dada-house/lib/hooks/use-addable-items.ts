@@ -1,9 +1,9 @@
 "use client";
 import { useEffect, useMemo, useState } from "react";
 
-export type AddableItem = { id: string; name: string; category: string; price: number };
+export type AddableItem = { id: string; name: string; category: string; price: number; imageUrl?: string | null; description?: string | null };
 
-type PriceBookItem = { id: string; category: string; name: string; description: string | null; price: number };
+type PriceBookItem = { id: string; category: string; name: string; description: string | null; price: number; imageUrl: string | null };
 type MaintenancePlan = { id: string; name: string; monthlyPrice: number; annualPrice: number };
 
 /** Shared data source for the technician "Add Items" flow — real DADA HOUSE
@@ -43,7 +43,7 @@ export function useAddableItems(jobId: string) {
   );
 
   const pricebookAsAddable: AddableItem[] = useMemo(
-    () => priceBookItems.map((i) => ({ id: i.id, name: i.name, category: i.category, price: i.price })),
+    () => priceBookItems.map((i) => ({ id: i.id, name: i.name, category: i.category, price: i.price, imageUrl: i.imageUrl, description: i.description })),
     [priceBookItems]
   );
 

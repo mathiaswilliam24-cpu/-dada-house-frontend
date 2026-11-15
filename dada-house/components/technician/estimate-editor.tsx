@@ -7,6 +7,7 @@ import {
   Loader2, ArrowLeft, Mail, MessageSquare, Settings2, X, Users, Search, BookOpen, ArrowRightLeft
 } from "lucide-react";
 import { formatCurrency } from "@/lib/utils";
+import { ItemThumb } from "@/components/price-book/item-photo";
 
 function autoGrow(el: HTMLTextAreaElement) {
   el.style.height = "auto";
@@ -117,6 +118,7 @@ type PriceBookItem = {
   taskCode?: string | null;
   onlineBooking: boolean;
   industry: string;
+  imageUrl?: string | null;
 };
 
 type Props = {
@@ -773,7 +775,7 @@ export default function EstimateEditor({ initialData, mode, quick: _quick, baseP
                 <BookOpen className="w-3.5 h-3.5" /> From Price Book
               </button>
               {showPriceBookPicker && (
-                <div className="absolute right-0 top-full mt-1.5 w-80 bg-white rounded-2xl shadow-xl border border-gray-200 z-50 overflow-hidden">
+                <div className="absolute right-0 top-full mt-1.5 w-80 sm:w-96 max-w-[calc(100vw-2rem)] bg-white rounded-2xl shadow-xl border border-gray-200 z-50 overflow-hidden">
                   <div className="p-2 border-b border-gray-100">
                     <div className="relative">
                       <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400" />
@@ -786,7 +788,7 @@ export default function EstimateEditor({ initialData, mode, quick: _quick, baseP
                       />
                     </div>
                   </div>
-                  <div className="max-h-64 overflow-y-auto">
+                  <div className="max-h-80 overflow-y-auto">
                     {priceBookSearching ? (
                       <div className="flex justify-center py-4"><Loader2 className="w-4 h-4 animate-spin text-gray-400" /></div>
                     ) : priceBookResults.length === 0 ? (
@@ -799,13 +801,18 @@ export default function EstimateEditor({ initialData, mode, quick: _quick, baseP
                           onClick={() => addItemFromPriceBook(p)}
                           className="w-full text-left px-3 py-2.5 hover:bg-blue-50 transition-colors border-b border-gray-50 last:border-0"
                         >
-                          <div className="flex items-center justify-between gap-2">
-                            <p className="text-sm font-semibold text-gray-900 truncate">{p.name}</p>
-                            <p className="text-sm font-bold text-[#1B3FA8] shrink-0">{formatCurrency(p.price)}</p>
+                          <div className="flex items-center gap-2.5">
+                            <ItemThumb item={p} />
+                            <div className="min-w-0 flex-1">
+                              <div className="flex items-center justify-between gap-2">
+                                <p className="text-sm font-semibold text-gray-900 truncate">{p.name}</p>
+                                <p className="text-sm font-bold text-[#1B3FA8] shrink-0">{formatCurrency(p.price)}</p>
+                              </div>
+                              <p className="text-xs text-gray-400">
+                                {p.category}{p.subcategory1 ? ` · ${p.subcategory1}` : ""}
+                              </p>
+                            </div>
                           </div>
-                          <p className="text-xs text-gray-400">
-                            {p.category}{p.subcategory1 ? ` · ${p.subcategory1}` : ""}
-                          </p>
                         </button>
                       ))
                     )}

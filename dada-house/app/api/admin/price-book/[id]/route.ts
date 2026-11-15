@@ -17,12 +17,12 @@ export async function PATCH(
   const allowed = [
     "industry", "category", "subcategory1", "subcategory2",
     "name", "description", "price", "cost", "taxable",
-    "unit", "taskCode", "onlineBooking",
+    "unit", "taskCode", "onlineBooking", "imageUrl",
   ];
 
   const data: Record<string, unknown> = {};
   for (const key of allowed) {
-    if (key in body) data[key] = body[key];
+    if (key in body) data[key] = key === "imageUrl" ? body[key] || null : body[key];
   }
 
   const item = await db.priceBookItem.update({ where: { id }, data });

@@ -2,9 +2,11 @@
 import { useEffect, useState, useCallback, useRef } from "react";
 import {
   BookOpen, Plus, Search, RefreshCw, Upload, Pencil, Trash2,
-  X, Loader2, Layers, DollarSign,
+  X, Loader2, Layers, DollarSign, ImageIcon,
 } from "lucide-react";
 import { formatCurrency } from "@/lib/utils";
+import { useUploadThing } from "@/lib/uploadthing-components";
+import { ItemThumb } from "@/components/price-book/item-photo";
 
 type PriceBookItem = {
   id: string;
@@ -20,6 +22,7 @@ type PriceBookItem = {
   unit: string | null;
   taskCode: string | null;
   onlineBooking: boolean;
+  imageUrl: string | null;
 };
 
 const emptyForm = {
@@ -35,6 +38,7 @@ const emptyForm = {
   unit: "",
   taskCode: "",
   onlineBooking: false,
+  imageUrl: "",
 };
 
 export default function AdminPriceBookPage() {
@@ -53,6 +57,14 @@ export default function AdminPriceBookPage() {
   const [importing, setImporting] = useState(false);
   const [importMsg, setImportMsg] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const imageInputRef = useRef<HTMLInputElement>(null);
+  const { startUpload, isUploading } = useUploadThing("productImages", {
+    onClientUploadComplete: (res) => {
+      const url = res?.[0]?.ufsUrl ?? res?.[0]?.url;
+      if (url) setForm((f) => ({ ...f, imageUrl: url }));
+    },
+    onUploadError: () => setError("Image upload failed. Please try again."),
+  });
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -93,6 +105,7 @@ export default function AdminPriceBookPage() {
       unit: item.unit ?? "",
       taskCode: item.taskCode ?? "",
       onlineBooking: item.onlineBooking,
+      imageUrl: item.imageUrl ?? "",
     });
     setError("");
     setShowModal(true);
@@ -243,8 +256,13 @@ export default function AdminPriceBookPage() {
                 {items.map((item) => (
                   <tr key={item.id} className="hover:bg-gray-50 transition-colors">
                     <td className="px-4 py-3">
-                      <p className="font-medium text-gray-900">{item.name}</p>
-                      {item.description && <p className="text-xs text-gray-500 line-clamp-1 max-w-md">{item.description}</p>}
+                      <div className="flex items-center gap-3">
+                        <ItemThumb item={item} size="w-14 h-14" />
+                        <div className="min-w-0">
+                          <p className="font-medium text-gray-900">{item.name}</p>
+                          {item.description && <p className="text-xs text-gray-500 line-clamp-1 max-w-md">{item.description}</p>}
+                        </div>
+                      </div>
                     </td>
                     <td className="px-4 py-3 hidden md:table-cell">
                       <p className="text-sm text-gray-700">{item.category}</p>
@@ -299,6 +317,43 @@ export default function AdminPriceBookPage() {
               {error && (
                 <div className="bg-red-50 border border-red-200 text-red-700 text-xs rounded-xl px-3 py-2">{error}</div>
               )}
+              <div className="flex items-center gap-3">
+                {form.imageUrl ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={form.imageUrl} alt="" className="w-20 h-20 rounded-xl object-cover border border-gray-200 bg-white shrink-0" />
+                ) : (
+                  <div className="w-20 h-20 rounded-xl border border-dashed border-gray-300 flex items-center justify-center text-gray-300 shrink-0">
+                    <ImageIcon className="w-6 h-6" />
+                  </div>
+                )}
+                <div className="flex flex-col gap-1.5 items-start">
+                  <button
+                    type="button"
+                    onClick={() => imageInputRef.current?.click()}
+                    disabled={isUploading}
+                    className="flex items-center gap-2 px-3 py-2 border border-gray-200 text-xs font-semibold text-gray-700 rounded-xl hover:bg-gray-50 disabled:opacity-50"
+                  >
+                    {isUploading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Upload className="w-3.5 h-3.5" />}
+                    {form.imageUrl ? "Change photo" : "Upload photo"}
+                  </button>
+                  {form.imageUrl && (
+                    <button type="button" onClick={() => setForm((f) => ({ ...f, imageUrl: "" }))} className="text-xs text-red-500 hover:underline">
+                      Remove photo
+                    </button>
+                  )}
+                  <input
+                    ref={imageInputRef}
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) startUpload([file]);
+                      e.target.value = "";
+                    }}
+                  />
+                </div>
+              </div>
               <input
                 value={form.name}
                 onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
@@ -393,7 +448,7 @@ export default function AdminPriceBookPage() {
               </button>
               <button
                 onClick={handleSave}
-                disabled={saving}
+                disabled={saving || isUploading}
                 className="flex-1 px-4 py-2.5 bg-[#F97316] text-white text-sm font-semibold rounded-xl hover:bg-orange-600 disabled:opacity-50 flex items-center justify-center gap-2"
               >
                 {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
