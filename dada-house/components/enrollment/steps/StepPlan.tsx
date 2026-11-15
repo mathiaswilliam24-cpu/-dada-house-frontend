@@ -121,7 +121,7 @@ export default function StepPlan({ value, onChange, totalSystems }: Props) {
         <div className="flex items-start gap-2">
           <Calendar size={14} className="text-slate-400 mt-0.5 shrink-0" />
           <p className="text-xs text-slate-500">
-            <strong>Multi-property pricing:</strong> each address is billed independently — $199/yr (or $21/mo) per property for the first system, +$159/yr (+$16.78/mo) for each additional system at the same address.
+            <strong>Multi-property pricing:</strong> each address is billed independently — $169/yr (or $17/mo) per property for the first system, +$159/yr (+$16.78/mo) for each additional system at the same address.
           </p>
         </div>
       </div>

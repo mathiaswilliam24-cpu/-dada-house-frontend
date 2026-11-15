@@ -169,7 +169,7 @@ export default function HeroSection({ heroImage: _heroImage = "/hero-desktop.web
               className="group flex flex-col items-center text-center p-5 md:p-7 rounded-2xl bg-[#0A1628] hover:bg-[#061020] border-2 border-[#F7921A]/50 hover:border-[#F7921A] transition-all shadow-lg">
               <span className="text-4xl mb-3">🛡️</span>
               <p className="text-white font-black text-sm leading-tight mb-1">Maintenance Plan</p>
-              <p className="text-[#F7921A] font-black text-xl leading-none mb-3">$199<span className="text-sm font-semibold text-slate-400">/yr</span></p>
+              <p className="text-[#F7921A] font-black text-xl leading-none mb-3">$169<span className="text-sm font-semibold text-slate-400">/yr</span></p>
               <span className="inline-flex items-center gap-1 px-3 py-1.5 bg-[#F7921A] rounded-lg text-white font-black text-xs group-hover:bg-[#e07f10] transition-colors">
                 Enroll Now <ArrowRight size={11} />
               </span>

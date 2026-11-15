@@ -267,7 +267,7 @@ export default function PlanSettingsPage() {
                   <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">$</span>
                   <input type="number" min="0" step="1" value={newForm.annualPrice}
                     onChange={e => setNewForm(f => ({ ...f, annualPrice: e.target.value }))} required
-                    placeholder="199"
+                    placeholder="169"
                     className="w-full pl-7 pr-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1B3FA8]/30" />
                 </div>
               </div>

@@ -32,7 +32,7 @@ export default function MaintenancePlanBanner() {
 
             <h2 className="text-3xl md:text-5xl font-black text-white leading-[1.05] mb-4">
               Annual HVAC<br />
-              <span className="text-[#F7921A]">Maintenance Plan</span> — $199<span className="text-2xl md:text-3xl text-slate-400 font-semibold">/year</span>
+              <span className="text-[#F7921A]">Maintenance Plan</span> — $169<span className="text-2xl md:text-3xl text-slate-400 font-semibold">/year</span>
             </h2>
 
             <p className="text-slate-300 text-lg mb-6 max-w-md leading-relaxed">
@@ -54,7 +54,7 @@ export default function MaintenancePlanBanner() {
                 href="/hvac-maintenance-plan/enroll"
                 className="inline-flex items-center justify-center gap-2 px-7 py-4 bg-[#F7921A] hover:bg-[#e07f10] text-white font-bold text-base rounded-xl transition-colors shadow-lg shadow-orange-900/30"
               >
-                Enroll Online — $199/Year
+                Enroll Online — $169/Year
                 <ArrowRight size={18} />
               </Link>
               <Link

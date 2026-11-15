@@ -85,14 +85,14 @@ export default function StepSystems({ value, onChange }: Props) {
           </div>
           {value > 1 && (
             <div className="pt-2 border-t border-slate-100 text-xs text-slate-400">
-              $199 base + {value - 1} extra system{value > 2 ? "s" : ""} × $159/yr at same address
+              $169 base + {value - 1} extra system{value > 2 ? "s" : ""} × $159/yr at same address
             </div>
           )}
         </div>
       </div>
 
       <p className="text-center text-xs text-slate-400 mt-5">
-        You&apos;ll assign systems to specific properties next. Each property starts at $199/yr (1st system).
+        You&apos;ll assign systems to specific properties next. Each property starts at $169/yr (1st system).
         Max 20 systems via online enrollment — call for larger portfolios.
       </p>
     </div>
