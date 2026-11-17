@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireTechnician } from "@/lib/api-auth";
 import { db } from "@/lib/db";
-import { startOfDay, endOfDay, startOfWeek, endOfWeek, addWeeks } from "date-fns";
+import { startOfWeek, endOfWeek, addWeeks } from "date-fns";
+import { ctParts, ctInstant } from "@/lib/dispatch-time";
 
 export const dynamic = "force-dynamic";
 
@@ -11,19 +12,28 @@ export async function GET(req: NextRequest) {
 
   const techId = auth.id;
   const now = new Date();
-  const todayStart = startOfDay(now);
-  const todayEnd = endOfDay(now);
+  // North Carolina calendar day (the server runs in UTC).
+  const todayYmd = ctParts(now).ymd;
+  const todayStart = ctInstant(todayYmd, 0);
+  const todayEnd = new Date(ctInstant(todayYmd, 1440).getTime() - 1);
 
-  const allJobs = await db.appointment.findMany({
-    where: { technicianId: techId },
-    orderBy: { preferredDate: "asc" },
+  const rawJobs = await db.appointment.findMany({
+    where: { OR: [{ technicianId: techId }, { assignments: { some: { technicianId: techId } } }] },
+    orderBy: [{ scheduledStart: "asc" }, { preferredDate: "asc" }],
     include: {
+      assignments: { where: { technicianId: techId }, select: { role: true } },
       invoice: { select: { amount: true, status: true } },
       diagnosisForm: { select: { id: true, customerApproved: true } },
       timeLog: { select: { arrivedAt: true, completedAt: true, totalMinutes: true } },
       parts: { select: { totalCost: true } },
     },
   });
+  // The board slot (scheduledStart) is the source of truth for the day when present.
+  const allJobs = rawJobs.map((j) => ({
+    ...j,
+    preferredDate: j.scheduledStart ?? j.preferredDate,
+    crewRole: j.technicianId === techId ? null : j.assignments[0]?.role ?? "HELPER",
+  }));
 
   const today = allJobs.filter(
     (j) =>

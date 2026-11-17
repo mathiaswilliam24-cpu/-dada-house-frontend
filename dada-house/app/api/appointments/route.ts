@@ -1,8 +1,8 @@
-﻿import { NextRequest, NextResponse, after } from "next/server";
+import { NextRequest, NextResponse, after } from "next/server";
 import { requireAuth, getAuthToken } from "@/lib/api-auth";
 import { db } from "@/lib/db";
 import { appointmentSchema } from "@/lib/validations";
-import { generateAppointmentNumber } from "@/lib/utils";
+import { nextCallNumber } from "@/lib/dispatch";
 import { resend, FROM_EMAIL } from "@/lib/resend";
 import { sendSMS } from "@/lib/twilio";
 import { sendOutboundSms } from "@/lib/messaging";
@@ -45,7 +45,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const appointmentNumber = generateAppointmentNumber();
+    const appointmentNumber = await nextCallNumber();
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://www.mydadahouse.com";
 
     if (diagnosticFee) {

@@ -1,8 +1,8 @@
-﻿import { redirect } from "next/navigation";
+import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import Link from "next/link";
 import Image from "next/image";
-import { LayoutDashboard, Users, AlertTriangle, Map, LogOut, PlusCircle, PhoneCall, Phone, MessageSquare, Contact } from "lucide-react";
+import { LayoutDashboard, CalendarRange, Users, AlertTriangle, Map, LogOut, PlusCircle, PhoneCall, Phone, MessageSquare, Contact } from "lucide-react";
 import { signOut } from "@/auth";
 import { PageTransition } from "@/components/layout/page-transition";
 import { AgentStatusControl } from "@/components/call-center/agent-status-control";
@@ -10,7 +10,8 @@ import { Softphone } from "@/components/call-center/softphone";
 import { StaffPushPrompt } from "@/components/call-center/staff-push-prompt";
 
 const navItems = [
-  { href: "/dispatcher", label: "Schedule", icon: LayoutDashboard },
+  { href: "/dispatcher/board", label: "Dispatch Board", icon: CalendarRange },
+  { href: "/dispatcher", label: "Requests", icon: LayoutDashboard },
   { href: "/dispatcher/appointments/new", label: "New Job", icon: PlusCircle, highlight: true },
   { href: "/dispatcher/assign", label: "Assign Jobs", icon: Users },
   { href: "/dispatcher/map", label: "Live Map", icon: Map },

@@ -2,7 +2,7 @@
  * Minimal Phase-1 business-hours check, driven entirely by env vars —
  * there is no BusinessHours/Holiday table yet (Phase 3). Format:
  *   CALL_CENTER_BUSINESS_HOURS="MON-SAT:08:00-18:00"
- *   CALL_CENTER_TIMEZONE="America/Chicago"
+ *   CALL_CENTER_TIMEZONE="America/New_York"
  */
 const DAY_NAMES = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
 
@@ -32,7 +32,7 @@ export function isWithinBusinessHours(now: Date = new Date()): boolean {
   const range = parseRange(spec);
   if (!range) return true;
 
-  const timeZone = process.env.CALL_CENTER_TIMEZONE || "America/Chicago";
+  const timeZone = process.env.CALL_CENTER_TIMEZONE || "America/New_York";
   const parts = new Intl.DateTimeFormat("en-US", {
     timeZone,
     weekday: "short",

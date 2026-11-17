@@ -18,7 +18,7 @@ export async function GET(
   const job = await db.appointment.findFirst({
     where: {
       id,
-      technicianId: staffRoles.includes(auth.role) ? undefined : auth.id,
+      ...(staffRoles.includes(auth.role) ? {} : { OR: [{ technicianId: auth.id }, { assignments: { some: { technicianId: auth.id } } }] }),
     },
     include: {
       diagnosisForm: true,

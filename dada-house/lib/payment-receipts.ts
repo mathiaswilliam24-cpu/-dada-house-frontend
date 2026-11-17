@@ -42,7 +42,7 @@ export async function notifyAdminPayment(clientName: string, invoiceNum: string,
       ${cardFee > 0 ? `<tr><td style="padding:8px 0;color:#6b7280">Card fee</td><td style="padding:8px 0">$${cardFee.toFixed(2)}</td></tr>` : ""}
       <tr style="border-top:2px solid #1B3FA8"><td style="padding:10px 0;font-weight:700;color:#1B3FA8">Total Charged</td><td style="padding:10px 0;font-weight:700;color:#1B3FA8;font-size:18px">$${chargeTotal.toFixed(2)}</td></tr>
     </table>
-    <p style="margin:16px 0 0;font-size:12px;color:#9ca3af">Received ${new Date().toLocaleString("en-US", { timeZone: "America/Chicago" })} CT</p>
+    <p style="margin:16px 0 0;font-size:12px;color:#9ca3af">Received ${new Date().toLocaleString("en-US", { timeZone: "America/New_York" })} ET</p>
   </div>
 </body></html>`,
     }).catch(console.error);

@@ -4,15 +4,17 @@ import { useState, useEffect, useRef } from "react";
 import { ArrowLeft, User, Phone, Mail, MapPin, Calendar, Clock, Wrench, FileText, UserCheck, CheckCircle, Copy, Send, ExternalLink, Search, X, UserPlus } from "lucide-react";
 import Link from "next/link";
 import { AddressAutocomplete } from "@/components/ui/address-autocomplete";
+import { JOB_TYPES, JOB_TYPE_KEYS, type JobType } from "@/lib/dispatch-catalog";
 
-const SERVICES = ["Plumbing", "Air Conditioning", "Heating", "Remodeling", "Home Inspection", "Other"];
-const TIMES = ["7:00 AM","8:00 AM","9:00 AM","10:00 AM","11:00 AM","12:00 PM","1:00 PM","2:00 PM","3:00 PM","4:00 PM","5:00 PM","6:00 PM","7:00 PM","Emergency"];
+const TIMES = [...Array.from({ length: 26 }, (_, i) => { const m = 7 * 60 + i * 30; const h = Math.floor(m / 60); return `${h % 12 || 12}:${m % 60 ? "30" : "00"} ${h < 12 ? "AM" : "PM"}`; }), "Emergency"];
+const LEAD_SOURCES = ["Phone call", "Website", "Google", "Facebook / Instagram", "Referral", "Repeat customer", "Maintenance member", "Yard sign / Truck", "Home warranty", "Other"];
+const DURATIONS = [30, 45, 60, 90, 120, 180, 240, 360, 480];
 
 const DIAGNOSTIC_FEES = [2, 35, 55, 85, 95, 105, 125, 135] as const;
 
 type Tech = { id: string; name: string | null; email: string };
 type ClientResult = { name: string; phone: string; email: string; address: string; city: string; zipCode: string };
-type Created = { id: string; appointmentNumber: string; name: string; service: string; confirmUrl: string; email: string; emailSent: boolean; smsSent: boolean; diagnosticPaymentUrl?: string };
+type Created = { id: string; appointmentNumber: string; name: string; service: string; confirmUrl: string; email: string; emailSent: boolean; smsSent: boolean; diagnosticPaymentUrl?: string; conflicts: { message: string }[]; scheduled: boolean };
 
 export default function NewDispatcherAppointment() {
   const [saving, setSaving] = useState(false);
@@ -48,6 +50,15 @@ export default function NewDispatcherAppointment() {
   const [customerId, setCustomerId] = useState("");
   const [isDiagnostic, setIsDiagnostic] = useState(false);
   const [diagnosticFee, setDiagnosticFee] = useState<number | null>(null);
+  const [jobType, setJobType] = useState<JobType>("SERVICE");
+  const [jobCategory, setJobCategory] = useState("");
+  const [customerType, setCustomerType] = useState<"RESIDENTIAL" | "COMMERCIAL">("RESIDENTIAL");
+  const [priority, setPriority] = useState("NORMAL");
+  const [isEmergency, setIsEmergency] = useState(false);
+  const [estimatedMinutes, setEstimatedMinutes] = useState<number>(JOB_TYPES.SERVICE.minutes);
+  const [leadSource, setLeadSource] = useState("Phone call");
+  const [billingAddress, setBillingAddress] = useState("");
+  const [adminNotes, setAdminNotes] = useState("");
 
   useEffect(() => {
     fetch("/api/admin/users/technicians")
@@ -60,6 +71,9 @@ export default function NewDispatcherAppointment() {
   // Suspense-boundary requirement that hook imposes on this page.
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
+    if (params.get("date")) setPreferredDate(params.get("date")!);
+    if (params.get("time")) setPreferredTime(params.get("time")!);
+    if (params.get("tech")) setTechnicianId(params.get("tech")!);
     const prefillName = params.get("prefillName");
     if (!prefillName) return;
     setClientMode("new");
@@ -118,14 +132,14 @@ export default function NewDispatcherAppointment() {
       const res = await fetch("/api/dispatcher/appointments", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ service, subservice, name, phone, email, address, city, zipCode, description, preferredDate: preferredDate || undefined, preferredTime: preferredTime || undefined, technicianId: technicianId || undefined, customerId: customerId || undefined, photos: [], ...(isDiagnostic && diagnosticFee ? { diagnosticFee } : {}) }),
+        body: JSON.stringify({ service: jobCategory || JOB_TYPES[jobType].label, subservice, jobType, jobCategory: jobCategory || undefined, customerType, priority: isEmergency ? "EMERGENCY" : priority, isEmergency, estimatedMinutes, leadSource, billingAddress: billingAddress || undefined, adminNotes: adminNotes || undefined, name, phone, email, address, city, zipCode, description, preferredDate: preferredDate || undefined, preferredTime: preferredTime || undefined, technicianId: technicianId || undefined, customerId: customerId || undefined, photos: [], ...(isDiagnostic && diagnosticFee ? { diagnosticFee } : {}) }),
       });
       if (!res.ok) {
         const d = await res.json();
         throw new Error(d.error ?? "Failed to create appointment");
       }
       const d = await res.json();
-      setCreated({ id: d.appointment.id, appointmentNumber: d.appointment.appointmentNumber, name, service, confirmUrl: d.confirmUrl, email, emailSent: !!d.emailSent, smsSent: !!d.smsSent, diagnosticPaymentUrl: d.diagnosticPaymentUrl });
+      setCreated({ id: d.appointment.id, appointmentNumber: d.appointment.appointmentNumber, name, service: jobCategory || JOB_TYPES[jobType].label, confirmUrl: d.confirmUrl, email, emailSent: !!d.emailSent, smsSent: !!d.smsSent, diagnosticPaymentUrl: d.diagnosticPaymentUrl, conflicts: d.scheduleConflicts ?? [], scheduled: !!technicianId && !!preferredDate && !!preferredTime && preferredTime !== "Emergency" && !(d.scheduleConflicts ?? []).length });
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong");
     } finally {
@@ -165,6 +179,15 @@ export default function NewDispatcherAppointment() {
               {created.smsSent ? "✓ SMS sent" : "SMS not sent"}
             </span>
           </div>
+          {created.scheduled && <p className="mt-3 text-xs text-green-700 font-semibold">✓ Placed on the Dispatch Board and technician notified.</p>}
+          {created.conflicts.length > 0 && (
+            <div className="mt-3 text-left bg-orange-50 border border-orange-200 rounded-xl px-3 py-2 text-xs text-orange-800">
+              <p className="font-bold">Not scheduled — conflict:</p>
+              {created.conflicts.map((c, i) => <p key={i}>• {c.message}</p>)}
+              <p className="mt-1">The call is waiting in the Unassigned queue.</p>
+            </div>
+          )}
+          <Link href="/dispatcher/board" className="mt-4 inline-flex items-center gap-1.5 px-4 py-2 bg-[#0A1628] text-white rounded-xl text-sm font-bold">Open Dispatch Board</Link>
         </div>
 
         <div className="bg-white rounded-2xl border border-gray-200 p-5 space-y-3">
@@ -357,24 +380,66 @@ export default function NewDispatcherAppointment() {
           </div>
         </div>
 
-        {/* ── Service ───────────────────────────────────────────────────── */}
+        {/* ── Call type ───────────────────────────────────────────────── */}
         <div className="bg-white rounded-xl border border-gray-200 p-4 space-y-3">
           <div className="flex items-center gap-2 text-sm font-semibold text-gray-700">
-            <Wrench className="w-4 h-4 text-[#F7921A]" /> Service
+            <Wrench className="w-4 h-4 text-[#F7921A]" /> Call Type
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+            {JOB_TYPE_KEYS.map((k) => (
+              <button key={k} type="button"
+                onClick={() => { setJobType(k); setJobCategory(""); setEstimatedMinutes(JOB_TYPES[k].minutes); }}
+                className={`py-2 px-2 rounded-xl text-xs font-bold border transition-colors ${jobType === k ? "text-white" : "bg-white text-gray-600 border-gray-200 hover:border-gray-300"}`}
+                style={jobType === k ? { background: JOB_TYPES[k].color, borderColor: JOB_TYPES[k].color } : undefined}>
+                {JOB_TYPES[k].label}
+              </button>
+            ))}
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="text-xs text-gray-500 font-medium mb-1 block">Service *</label>
-              <select value={service} onChange={e => setService(e.target.value)} required
+              <label className="text-xs text-gray-500 font-medium mb-1 block">Category *</label>
+              <select value={jobCategory} onChange={e => setJobCategory(e.target.value)} required
                 className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-[#1B3FA8] bg-white">
                 <option value="">Select…</option>
-                {SERVICES.map(s => <option key={s} value={s}>{s}</option>)}
+                {JOB_TYPES[jobType].categories.map(c => <option key={c} value={c}>{c}</option>)}
               </select>
             </div>
             <div>
-              <label className="text-xs text-gray-500 font-medium mb-1 block">Sub-service</label>
-              <input value={subservice} onChange={e => setSubservice(e.target.value)} placeholder="e.g. Leak repair"
+              <label className="text-xs text-gray-500 font-medium mb-1 block">Details</label>
+              <input value={subservice} onChange={e => setSubservice(e.target.value)} placeholder="e.g. upstairs unit, 3-ton Trane"
                 className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-[#1B3FA8]" />
+            </div>
+            <div>
+              <label className="text-xs text-gray-500 font-medium mb-1 block">Customer type</label>
+              <select value={customerType} onChange={e => setCustomerType(e.target.value as "RESIDENTIAL" | "COMMERCIAL")}
+                className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white">
+                <option value="RESIDENTIAL">Residential</option>
+                <option value="COMMERCIAL">Commercial</option>
+              </select>
+            </div>
+            <div>
+              <label className="text-xs text-gray-500 font-medium mb-1 block">Priority</label>
+              <select value={isEmergency ? "EMERGENCY" : priority} onChange={e => { setPriority(e.target.value); setIsEmergency(e.target.value === "EMERGENCY"); }}
+                className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white">
+                <option value="LOW">Low</option>
+                <option value="NORMAL">Normal</option>
+                <option value="HIGH">High</option>
+                <option value="EMERGENCY">🚨 Emergency</option>
+              </select>
+            </div>
+            <div>
+              <label className="text-xs text-gray-500 font-medium mb-1 block">Estimated duration</label>
+              <select value={estimatedMinutes} onChange={e => setEstimatedMinutes(Number(e.target.value))}
+                className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white">
+                {[...new Set([...DURATIONS, estimatedMinutes])].sort((a, b) => a - b).map(m => <option key={m} value={m}>{m < 60 ? `${m} min` : `${m / 60} h`}</option>)}
+              </select>
+            </div>
+            <div>
+              <label className="text-xs text-gray-500 font-medium mb-1 block">Lead source</label>
+              <select value={leadSource} onChange={e => setLeadSource(e.target.value)}
+                className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white">
+                {LEAD_SOURCES.map(l => <option key={l} value={l}>{l}</option>)}
+              </select>
             </div>
           </div>
         </div>
@@ -410,6 +475,12 @@ export default function NewDispatcherAppointment() {
           <textarea value={description} onChange={e => setDescription(e.target.value)}
             placeholder="Describe the issue or any special instructions…" rows={3}
             className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-[#1B3FA8] resize-none" />
+          <textarea value={adminNotes} onChange={e => setAdminNotes(e.target.value)}
+            placeholder="Internal notes (team only — never shown to the customer)" rows={2}
+            className="mt-2 w-full border border-gray-200 rounded-lg px-3 py-2 text-sm bg-yellow-50/50 focus:outline-none focus:border-[#1B3FA8] resize-none" />
+          <input value={billingAddress} onChange={e => setBillingAddress(e.target.value)}
+            placeholder="Billing address (leave empty if same as service address)"
+            className="mt-2 w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-[#1B3FA8]" />
         </div>
 
         {/* ── Diagnostic fee ────────────────────────────────────────────── */}
@@ -470,9 +541,10 @@ export default function NewDispatcherAppointment() {
             </div>
             <select value={technicianId} onChange={e => setTechnicianId(e.target.value)}
               className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-[#1B3FA8] bg-white">
-              <option value="">— Assign later —</option>
+              <option value="">— Assign later (Unassigned queue) —</option>
               {techs.map(t => <option key={t.id} value={t.id}>{t.name ?? t.email}</option>)}
             </select>
+            <p className="mt-2 text-xs text-gray-500">With a date and a time, the call goes straight onto the Dispatch Board (conflicts are checked).</p>
           </div>
         )}
 
@@ -486,7 +558,7 @@ export default function NewDispatcherAppointment() {
           </Link>
           <button type="submit" disabled={saving}
             className="flex-1 py-3 bg-[#F7921A] hover:bg-[#E07F10] disabled:opacity-60 text-white rounded-xl text-sm font-bold transition-colors">
-            {saving ? "Creating…" : "Create Appointment"}
+            {saving ? "Creating…" : "Create Call"}
           </button>
         </div>
       </form>

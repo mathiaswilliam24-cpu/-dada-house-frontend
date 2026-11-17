@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/api-auth";
 import { db } from "@/lib/db";
-import { generateAppointmentNumber } from "@/lib/utils";
+import { nextCallNumber } from "@/lib/dispatch";
 import { findOrCreateCustomerByPhone } from "@/lib/customers";
 import crypto from "crypto";
 
@@ -102,7 +102,7 @@ export async function POST(req: NextRequest) {
 
     const appt = await db.appointment.create({
       data: {
-        appointmentNumber: generateAppointmentNumber(),
+        appointmentNumber: await nextCallNumber(),
         name: customerName || "Client",
         phone: customerPhone || "",
         email: customerEmail || "",

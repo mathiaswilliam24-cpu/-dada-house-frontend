@@ -1,7 +1,7 @@
-﻿import { NextRequest, NextResponse, after } from "next/server";
+import { NextRequest, NextResponse, after } from "next/server";
 import { db } from "@/lib/db";
 import { voiceAgentAppointmentSchema } from "@/lib/validations";
-import { generateAppointmentNumber } from "@/lib/utils";
+import { nextCallNumber } from "@/lib/dispatch";
 import { resend, FROM_EMAIL } from "@/lib/resend";
 import { sendSMS } from "@/lib/twilio";
 import { sendOutboundSms } from "@/lib/messaging";
@@ -47,7 +47,7 @@ export async function POST(req: NextRequest) {
     const { calendarSynced, diagnosticFee, ...data } = parsed.data;
     const isDiagnostic = typeof diagnosticFee === "number" && diagnosticFee > 0;
 
-    const appointmentNumber = generateAppointmentNumber();
+    const appointmentNumber = await nextCallNumber();
     const customer = await findOrCreateCustomerByPhone(data.phone, {
       firstName: data.name,
       email: data.email,

@@ -237,6 +237,24 @@ model Appointment {
   customerId String?
   projectId  String?
 
+  // Service operations / dispatch (set going forward)
+  jobType          String?   // MAINTENANCE | SERVICE | REPAIR | INSTALLATION | DUCT_CLEANING | REMODELING | OTHER
+  jobCategory      String?   // e.g. "AC Not Cooling", "Seasonal AC Tune-Up"
+  customerType     String?   // RESIDENTIAL | COMMERCIAL
+  scheduledStart   DateTime? // dispatch board slot
+  scheduledEnd     DateTime?
+  estimatedMinutes Int?
+  arrivalWindow    String?   // customer-facing window, e.g. "10 AM - 12 PM"
+  billingAddress   String?
+  equipmentId      String?
+  createdById      String?
+  leadSource       String?   // Google, Facebook, Referral, Repeat customer, Yard sign…
+  lat              Float?    // geocoded service address (travel estimates)
+  lng              Float?
+
+  assignments   JobAssignment[]
+  events        JobEvent[]
+
   user          User?             @relation(fields: [userId], references: [id], onDelete: SetNull)
   technician    User?             @relation("technician", fields: [technicianId], references: [id], onDelete: SetNull)
   dispatcher    User?             @relation("dispatcher", fields: [dispatcherId], references: [id], onDelete: SetNull)
@@ -259,6 +277,9 @@ model Appointment {
   checklist     ServiceChecklist?
   timeLog       JobTimeLog?
   parts         JobPart[]
+
+  @@index([scheduledStart])
+  @@index([technicianId, scheduledStart])
 }
 
 model Review {
@@ -376,6 +397,18 @@ model TechnicianProfile {
   certifications Json?
   photo         String?
   bio           String?
+
+  // Dispatch
+  employeeId        String?
+  employmentType    String?  // W2 | 1099
+  techRole          String?  // PRIMARY | LEAD_INSTALLER | HELPER | SUPERVISOR
+  workingHours      Json?    // { mon: { start: "08:00", end: "17:00" } | null, ... }
+  emergencyAvailable Boolean @default(false)
+  hourlyRate        Float?
+  commissionRate    Float?
+  boardColor        String?
+  homeLat           Float?   // start-of-day location for travel estimates
+  homeLng           Float?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
@@ -1639,4 +1672,43 @@ model CustomerSignature {
 
   @@index([estimateId])
   @@index([appointmentId])
+}
+
+/// Every technician on a job (primary is mirrored in Appointment.technicianId for the technician app).
+model JobAssignment {
+  id            String   @id @default(cuid())
+  appointmentId String
+  technicianId  String
+  role          String   @default("PRIMARY") // PRIMARY | LEAD_INSTALLER | HELPER | SUPERVISOR
+  createdById   String?
+  createdAt     DateTime @default(now())
+
+  appointment Appointment @relation(fields: [appointmentId], references: [id], onDelete: Cascade)
+
+  @@unique([appointmentId, technicianId])
+  @@index([technicianId])
+}
+
+/// Audit trail of a job: created, scheduled, assigned, status changes, notes, forced overrides.
+model JobEvent {
+  id            String   @id @default(cuid())
+  appointmentId String
+  type          String   // CREATED | SCHEDULED | ASSIGNED | UNASSIGNED | STATUS | TECH_STATUS | CANCELED | NOTE | FORCED
+  message       String
+  fromValue     String?
+  toValue       String?
+  userId        String?
+  userName      String?
+  metadata      Json?
+  createdAt     DateTime @default(now())
+
+  appointment Appointment @relation(fields: [appointmentId], references: [id], onDelete: Cascade)
+
+  @@index([appointmentId, createdAt])
+}
+
+/// Atomic sequential counters (e.g. call numbers DH-2026-000001).
+model Counter {
+  key   String @id
+  value Int    @default(0)
 }

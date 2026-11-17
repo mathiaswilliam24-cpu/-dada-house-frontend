@@ -5,6 +5,8 @@ import { techJobStatusSchema } from "@/lib/validations";
 import { getWebPush } from "@/lib/web-push";
 import { sendSMS } from "@/lib/twilio";
 import { sendReviewRequest } from "@/lib/review-request";
+import { logJobEvent } from "@/lib/dispatch";
+import { TECH_STATUS_LABEL } from "@/lib/tech-status";
 
 export async function PATCH(
   req: NextRequest,
@@ -23,7 +25,7 @@ export async function PATCH(
   const { status } = result.data;
 
   const appointment = await db.appointment.findFirst({
-    where: { id, technicianId: auth.role === "ADMIN" ? undefined : auth.id },
+    where: { id, ...(["ADMIN", "SUPER_ADMIN"].includes(auth.role) ? {} : { OR: [{ technicianId: auth.id }, { assignments: { some: { technicianId: auth.id } } }] }) },
   });
   if (!appointment) return NextResponse.json({ error: "Not found" }, { status: 404 });
 
@@ -73,6 +75,11 @@ export async function PATCH(
   }
 
   const updated = await db.appointment.update({ where: { id }, data: updateData });
+  await logJobEvent({
+    appointmentId: id, type: "TECH_STATUS", userId: auth.id, userName: auth.name ?? null,
+    message: `${auth.name ?? "Technician"}: ${TECH_STATUS_LABEL[status] ?? status}`,
+    fromValue: appointment.techStatus, toValue: status,
+  });
 
   // Customer notifications
   const customerPhone = appointment.phone;

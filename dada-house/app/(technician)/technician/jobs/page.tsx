@@ -14,7 +14,11 @@ type Job = {
   address: string; city: string; service: string;
   preferredDate: string | null; techStatus: string | null;
   status: string; priority: string; isEmergency: boolean;
+  scheduledStart?: string | null; scheduledEnd?: string | null; arrivalWindow?: string | null;
+  jobCategory?: string | null; crewRole?: string | null;
 };
+
+const timeCT = (iso: string) => new Date(iso).toLocaleTimeString("en-US", { timeZone: "America/New_York", hour: "numeric", minute: "2-digit" });
 
 const TABS = ["today", "upcoming", "pending", "emergency", "completed"] as const;
 type Tab = typeof TABS[number];
@@ -125,7 +129,8 @@ function JobsPageInner() {
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-0.5">
                       {isEmergency && <AlertTriangle className="w-3.5 h-3.5 text-red-500 shrink-0" />}
-                      <p className="font-semibold text-gray-900 text-sm truncate">{j.service}</p>
+                      <p className="font-semibold text-gray-900 text-sm truncate">{j.jobCategory || j.service}</p>
+                      {j.crewRole && <span className="text-[10px] px-1.5 py-0.5 rounded bg-gray-100 text-gray-600 font-bold shrink-0">{j.crewRole.replace("_", " ").toLowerCase()}</span>}
                     </div>
                     <p className="text-sm text-gray-600">{j.name}</p>
                     <div className="flex items-center gap-1 text-xs text-gray-500 mt-1">
@@ -134,7 +139,9 @@ function JobsPageInner() {
                     {j.preferredDate && (
                       <div className="flex items-center gap-1 text-xs text-gray-400 mt-0.5">
                         <Clock className="w-3 h-3" />
-                        {new Date(j.preferredDate).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
+                        {new Date(j.preferredDate).toLocaleDateString("en-US", { timeZone: "America/New_York", month: "short", day: "numeric" })}
+                        {j.scheduledStart && j.scheduledEnd ? ` · ${timeCT(j.scheduledStart)}–${timeCT(j.scheduledEnd)}` : ""}
+                        {j.arrivalWindow ? ` · window ${j.arrivalWindow}` : ""}
                       </div>
                     )}
                   </div>

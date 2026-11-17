@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireAuth } from "@/lib/api-auth";
 import { db } from "@/lib/db";
-import { generateAppointmentNumber } from "@/lib/utils";
+import { nextCallNumber } from "@/lib/dispatch";
 
 export async function POST(
   req: NextRequest,
@@ -20,7 +20,7 @@ export async function POST(
   const user = await db.user.findUnique({ where: { id: auth.id } });
   const appointment = await db.appointment.create({
     data: {
-      appointmentNumber: generateAppointmentNumber(),
+      appointmentNumber: await nextCallNumber(),
       userId: auth.id,
       service: conversation.serviceType ?? "General",
       name: user?.name ?? "Customer",

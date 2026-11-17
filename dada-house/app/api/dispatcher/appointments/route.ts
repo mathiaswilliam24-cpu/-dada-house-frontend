@@ -1,7 +1,7 @@
-﻿import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { requireAdminOrDispatcher } from "@/lib/api-auth";
 import { db } from "@/lib/db";
-import { generateAppointmentNumber } from "@/lib/utils";
+import { nextCallNumber, logJobEvent, scheduleJob, ConflictError, ctInstant, getDispatchConfig, JOB_TYPE_KEYS, type JobType, type Conflict } from "@/lib/dispatch";
 import { sendAppointmentConfirmationEmail, sendAppointmentConfirmationSms, sendTechnicianAssignmentNotification } from "@/lib/appointment-notifications";
 import { resend, FROM_EMAIL } from "@/lib/resend";
 import { sendOutboundSms } from "@/lib/messaging";
@@ -27,7 +27,26 @@ const schema = z.object({
   customerId: z.string().optional(),
   photos: z.array(z.string()).default([]),
   diagnosticFee: z.number().optional(),
+  // Service operations
+  jobType: z.enum(JOB_TYPE_KEYS as [JobType, ...JobType[]]).optional(),
+  jobCategory: z.string().max(120).optional(),
+  customerType: z.enum(["RESIDENTIAL", "COMMERCIAL"]).optional(),
+  priority: z.enum(["LOW", "NORMAL", "HIGH", "EMERGENCY"]).optional(),
+  isEmergency: z.boolean().optional(),
+  estimatedMinutes: z.number().int().min(15).max(7200).optional(),
+  billingAddress: z.string().max(300).optional(),
+  adminNotes: z.string().max(5000).optional(),
+  leadSource: z.string().max(60).optional(),
 });
+
+/** "10:00 AM" → minutes after midnight. */
+function slotMinutes(t: string | undefined) {
+  const m = /^(\d{1,2}):(\d{2})\s*(AM|PM)$/i.exec((t ?? "").trim());
+  if (!m) return null;
+  let h = Number(m[1]) % 12;
+  if (m[3].toUpperCase() === "PM") h += 12;
+  return h * 60 + Number(m[2]);
+}
 
 export async function POST(req: NextRequest) {
   const auth = await requireAdminOrDispatcher(req);
@@ -42,8 +61,11 @@ export async function POST(req: NextRequest) {
   }
 
   const { technicianId, diagnosticFee, ...data } = parsed.data;
+  // Board slot when a technician, date and time are all chosen: scheduled with conflict checks after creation.
+  const startMin = slotMinutes(data.preferredTime);
+  const scheduleNow = !!technicianId && !!data.preferredDate && startMin != null;
   const isDiagnostic = typeof diagnosticFee === "number" && diagnosticFee > 0;
-  const appointmentNumber = generateAppointmentNumber();
+  const appointmentNumber = await nextCallNumber();
   const confirmationToken = crypto.randomBytes(32).toString("hex");
 
   // Keep the call-center Customer record in sync: whether this job is for a
@@ -74,10 +96,33 @@ export async function POST(req: NextRequest) {
       // User-based /admin/customers view, which reads appointments via userId, not customerId.
       ...(customer?.userId ? { userId: customer.userId } : {}),
       preferredDate: data.preferredDate ? new Date(data.preferredDate) : null,
-      ...(technicianId ? { technicianId } : {}),
+      ...(technicianId && !scheduleNow ? { technicianId } : {}),
+      createdById: auth.id,
       ...(isDiagnostic ? { diagnosticFee, diagnosticFeeStatus: "PENDING" } : {}),
     },
   });
+
+  await logJobEvent({
+    appointmentId: appointment.id, type: "CREATED", userId: auth.id, userName: auth.name ?? null,
+    message: `Call created by ${auth.name ?? "dispatcher"}${data.leadSource ? ` · lead source: ${data.leadSource}` : ""}`,
+  });
+
+  let scheduleConflicts: Conflict[] = [];
+  if (scheduleNow) {
+    const cfg = await getDispatchConfig();
+    const start = ctInstant(data.preferredDate!.slice(0, 10), startMin!);
+    const minutes = data.estimatedMinutes ?? cfg.defaultMinutes[(data.jobType ?? "SERVICE") as JobType] ?? 60;
+    try {
+      await scheduleJob({
+        appointmentId: appointment.id, technicianId: technicianId!, start, end: new Date(start.getTime() + minutes * 60000),
+        user: { id: auth.id, name: auth.name ?? null, role: auth.role },
+      });
+    } catch (err) {
+      if (err instanceof ConflictError) scheduleConflicts = err.conflicts;
+      else console.error("schedule on create failed", err);
+    }
+  }
+  const assigned = !!technicianId && (!scheduleNow || scheduleConflicts.length === 0);
 
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://www.mydadahouse.com";
   const confirmUrl = `${baseUrl}/confirm/${confirmationToken}`;
@@ -120,14 +165,15 @@ export async function POST(req: NextRequest) {
       }).then(() => true).catch(() => false);
     }
 
-    return NextResponse.json({ appointment, confirmUrl, emailSent, smsSent, diagnosticPaymentUrl: payUrl }, { status: 201 });
+    if (assigned) await sendTechnicianAssignmentNotification(appointment.id).catch(console.error);
+    return NextResponse.json({ appointment, confirmUrl, emailSent, smsSent, diagnosticPaymentUrl: payUrl, scheduleConflicts }, { status: 201 });
   }
 
   // Standard flow — no diagnostic fee
   const [emailResult, smsResult] = await Promise.allSettled([
     sendAppointmentConfirmationEmail(appointment.id),
     sendAppointmentConfirmationSms(appointment.id),
-    ...(technicianId ? [sendTechnicianAssignmentNotification(appointment.id)] : []),
+    ...(assigned ? [sendTechnicianAssignmentNotification(appointment.id)] : []),
   ]);
   if (emailResult.status === "rejected") console.error("Appointment confirmation email failed", emailResult.reason);
   if (smsResult.status === "rejected") console.error("Appointment confirmation SMS failed", smsResult.reason);
@@ -137,6 +183,7 @@ export async function POST(req: NextRequest) {
     confirmUrl,
     emailSent: emailResult.status === "fulfilled" && !!emailResult.value,
     smsSent: smsResult.status === "fulfilled" && !!smsResult.value,
+    scheduleConflicts,
   }, { status: 201 });
 }
 

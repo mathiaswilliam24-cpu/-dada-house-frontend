@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/api-auth";
 import { db } from "@/lib/db";
-import { generateAppointmentNumber } from "@/lib/utils";
+import { nextCallNumber } from "@/lib/dispatch";
 import crypto from "crypto";
 
 export const dynamic = "force-dynamic";
@@ -33,7 +33,7 @@ export async function POST(
 
   const appointment = await db.appointment.create({
     data: {
-      appointmentNumber: generateAppointmentNumber(),
+      appointmentNumber: await nextCallNumber(),
       userId: isWalkIn ? null : id,
       name,
       phone: phone || "",
