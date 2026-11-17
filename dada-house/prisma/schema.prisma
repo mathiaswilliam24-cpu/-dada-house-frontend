@@ -409,6 +409,7 @@ model TechnicianProfile {
   boardColor        String?
   homeLat           Float?   // start-of-day location for travel estimates
   homeLng           Float?
+  homeAddress       String?  // start-of-day address (geocoded into homeLat/homeLng)
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

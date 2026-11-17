@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import Link from "next/link";
 import Image from "next/image";
-import { LayoutDashboard, CalendarRange, Users, AlertTriangle, Map, LogOut, PlusCircle, PhoneCall, Phone, MessageSquare, Contact } from "lucide-react";
+import { LayoutDashboard, CalendarRange, Users, AlertTriangle, Map, LogOut, PlusCircle, PhoneCall, Phone, MessageSquare, Contact, Gauge, HardHat, Settings2 } from "lucide-react";
 import { signOut } from "@/auth";
 import { PageTransition } from "@/components/layout/page-transition";
 import { AgentStatusControl } from "@/components/call-center/agent-status-control";
@@ -10,6 +10,7 @@ import { Softphone } from "@/components/call-center/softphone";
 import { StaffPushPrompt } from "@/components/call-center/staff-push-prompt";
 
 const navItems = [
+  { href: "/dispatcher/command", label: "Command Center", icon: Gauge },
   { href: "/dispatcher/board", label: "Dispatch Board", icon: CalendarRange },
   { href: "/dispatcher", label: "Requests", icon: LayoutDashboard },
   { href: "/dispatcher/appointments/new", label: "New Job", icon: PlusCircle, highlight: true },
@@ -20,6 +21,8 @@ const navItems = [
   { href: "/calls", label: "Call History", icon: Phone },
   { href: "/messages", label: "Messages", icon: MessageSquare },
   { href: "/customers", label: "Customers", icon: Contact },
+  { href: "/dispatcher/technicians", label: "Technicians", icon: HardHat },
+  { href: "/dispatcher/settings", label: "Dispatch Settings", icon: Settings2 },
 ];
 
 export default async function DispatcherLayout({ children }: { children: React.ReactNode }) {

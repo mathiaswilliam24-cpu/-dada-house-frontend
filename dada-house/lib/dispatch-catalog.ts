@@ -36,6 +36,12 @@ export const JOB_TYPE_KEYS = Object.keys(JOB_TYPES) as JobType[];
 
 export const TECH_ROLES = ["PRIMARY", "LEAD_INSTALLER", "HELPER", "SUPERVISOR"] as const;
 
+/** Roles that may see and change technician pay (hourly rate, commission) and dispatch settings. */
+export const PAY_ROLES = ["ADMIN", "SUPER_ADMIN", "MANAGER"];
+
+/** Suggested skill tags (free text is allowed too). */
+export const SKILL_SUGGESTIONS = ["maintenance", "diagnostic", "repair", "installation", "duct cleaning", "remodeling", "refrigerant", "electrical", "heat pump", "mini-split", "furnace", "commercial", "plumbing", "cleaning", "pressure washing"];
+
 /** Best-effort job type for older jobs that only have a free-text service name. */
 export function inferJobType(service: string | null | undefined): JobType {
   const s = (service ?? "").toLowerCase();

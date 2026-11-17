@@ -38,7 +38,8 @@ const navGroups: NavGroup[] = [
     label: "OPERATIONS",
     items: [
       { href: "/admin/appointments", label: "Appointments", icon: Calendar },
-      { href: "/admin/dispatch", label: "Dispatch Board", icon: Radio },
+      { href: "/dispatcher/command", label: "Command Center", icon: Radio },
+      { href: "/dispatcher/board", label: "Dispatch Board", icon: Calendar },
       { href: "/admin/map", label: "Live Map", icon: Map },
     ],
   },
@@ -61,7 +62,8 @@ const navGroups: NavGroup[] = [
   {
     label: "FIELD",
     items: [
-      { href: "/admin/technicians", label: "Technicians", icon: HardHat },
+      { href: "/dispatcher/technicians", label: "Technician Profiles", icon: HardHat },
+      { href: "/admin/technicians", label: "Team Page (website)", icon: HardHat },
       { href: "/admin/diagnostics", label: "Diagnostic Reviews", icon: ClipboardCheck },
       { href: "/admin/system-startups", label: "System Startup Reviews", icon: Wrench },
       { href: "/admin/invoices", label: "Invoices", icon: ReceiptText },

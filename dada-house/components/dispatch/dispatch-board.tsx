@@ -60,6 +60,14 @@ export default function DispatchBoard() {
     setLoading(false);
   }, [date, view]);
 
+  // Deep link from the Command Center: /dispatcher/board?job=<id>&date=YYYY-MM-DD
+  useEffect(() => {
+    const sp = new URLSearchParams(window.location.search);
+    const d = sp.get("date"), j = sp.get("job");
+    if (d && /^\d{4}-\d{2}-\d{2}$/.test(d)) setDate(d);
+    if (j) setSelected(j);
+  }, []);
+
   useEffect(() => { load(); }, [load]);
   useEffect(() => {
     const t = setInterval(() => { if (!dragRef.current) load(true); }, 20000);

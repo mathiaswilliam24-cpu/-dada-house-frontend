@@ -289,13 +289,28 @@ export async function ensureJobCoords(job: { id: string; address: string; city: 
   const key = process.env.GOOGLE_MAPS_API_KEY;
   if (!key || !job.address) return null;
   try {
-    const q = encodeURIComponent(`${job.address}, ${job.city}, TX ${job.zipCode}`);
+    const q = encodeURIComponent(`${job.address}, ${job.city} ${job.zipCode}`.trim());
     const r = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${q}&key=${key}`, { signal: AbortSignal.timeout(6000) });
     const d = await r.json();
     const loc = d.results?.[0]?.geometry?.location;
     if (!loc) return null;
     await db.appointment.update({ where: { id: job.id }, data: { lat: loc.lat, lng: loc.lng } });
     return { lat: loc.lat as number, lng: loc.lng as number };
+  } catch {
+    return null;
+  }
+}
+
+/** Geocodes a free-text address (Google). Null when unavailable. */
+export async function geocodeAddress(address: string) {
+  const key = process.env.GOOGLE_MAPS_API_KEY;
+  if (!key || !address.trim()) return null;
+  try {
+    const r = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${key}`, { signal: AbortSignal.timeout(6000) });
+    const d = await r.json();
+    const hit = d.results?.[0];
+    if (!hit?.geometry?.location) return null;
+    return { lat: hit.geometry.location.lat as number, lng: hit.geometry.location.lng as number, formatted: (hit.formatted_address as string) ?? address };
   } catch {
     return null;
   }
