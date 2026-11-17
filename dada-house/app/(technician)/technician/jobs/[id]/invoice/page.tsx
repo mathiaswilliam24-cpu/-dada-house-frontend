@@ -21,7 +21,6 @@ export default function TechInvoicePage() {
   const [adminInvoice, setAdminInvoice] = useState<AdminInvoice | null>(null);
   const [poCount, setPoCount] = useState(0);
   const [loading, setLoading] = useState(true);
-  const [closingOut, setClosingOut] = useState(false);
 
   const load = useCallback(() => {
     fetch(`/api/technician/jobs/${id}`)
@@ -39,19 +38,6 @@ export default function TechInvoicePage() {
   }, [id]);
 
   useEffect(() => { load(); }, [load]);
-
-  async function closeout() {
-    if (closingOut) return;
-    if (!confirm("Mark this job as completed?")) return;
-    setClosingOut(true);
-    await fetch(`/api/technician/jobs/${id}/status`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ status: "COMPLETED" }),
-    });
-    setClosingOut(false);
-    alert("Job marked as completed!");
-  }
 
   if (loading) {
     return <div className="flex justify-center py-16"><Loader2 className="w-6 h-6 animate-spin text-[#1B3FA8]" /></div>;
@@ -75,14 +61,22 @@ export default function TechInvoicePage() {
         >
           Pay
         </Link>
-        <button
-          onClick={closeout}
-          disabled={closingOut}
-          className="flex items-center justify-center py-2.5 border-2 border-[#1B3FA8] text-[#1B3FA8] rounded-xl text-sm font-bold disabled:opacity-60"
+        <Link
+          href={`/technician/jobs/${id}/closeout`}
+          className="flex items-center justify-center py-2.5 border-2 border-[#1B3FA8] text-[#1B3FA8] rounded-xl text-sm font-bold"
         >
-          {closingOut ? "Closing…" : "Closeout"}
-        </button>
+          Closeout
+        </Link>
       </div>
+
+      {estimate && !isPaid && (
+        <Link
+          href={`/technician/estimates/${estimate.id}/present`}
+          className="flex items-center justify-center py-3 bg-green-600 text-white rounded-xl text-sm font-bold"
+        >
+          Present to Customer & Collect Card
+        </Link>
+      )}
 
       {!estimate && !adminInvoice ? (
         <Link

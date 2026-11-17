@@ -1130,6 +1130,7 @@ model Customer {
   tags              String[]     @default([])
   notes             String?
   userId            String?      @unique
+  stripeCustomerId  String?      @unique // Stripe customer holding the cards on file
   createdAt         DateTime     @default(now())
   updatedAt         DateTime     @updatedAt
 
@@ -1615,3 +1616,27 @@ model LoyaltyTransaction {
   @@index([accountId])
 }
 
+
+/// Evidence log: every signature a customer gives on a technician's device, with
+/// the exact statement they agreed to (used to answer card disputes/chargebacks).
+model CustomerSignature {
+  id                    String   @id @default(cuid())
+  kind                  String   // ESTIMATE_APPROVAL | PAYMENT_AUTHORIZATION | WORK_COMPLETION | PAYMENT_ACKNOWLEDGMENT
+  estimateId            String?
+  appointmentId         String?
+  customerId            String?
+  signerName            String
+  signatureUrl          String
+  statement             String
+  amount                Float?
+  cardBrand             String?
+  cardLast4             String?
+  stripePaymentIntentId String?
+  collectedById         String?
+  ipAddress             String?
+  userAgent             String?
+  createdAt             DateTime @default(now())
+
+  @@index([estimateId])
+  @@index([appointmentId])
+}

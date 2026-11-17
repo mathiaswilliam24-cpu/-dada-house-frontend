@@ -4,8 +4,9 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import {
   Plus, Trash2, Send, ChevronDown, ChevronUp, Check,
-  Loader2, ArrowLeft, Mail, MessageSquare, Settings2, X, Users, Search, BookOpen, ArrowRightLeft
+  Loader2, ArrowLeft, Mail, MessageSquare, Settings2, X, Users, Search, BookOpen, ArrowRightLeft, Presentation
 } from "lucide-react";
+import Link from "next/link";
 import { formatCurrency } from "@/lib/utils";
 import { ItemThumb } from "@/components/price-book/item-photo";
 
@@ -544,6 +545,22 @@ export default function EstimateEditor({ initialData, mode, quick: _quick, baseP
             </button>
           )}
         </div>
+      )}
+
+      {/* Present on this device: customer reviews, signs and pays */}
+      {basePath === "technician" && initialData?.id && (
+        <Link
+          href={`/technician/estimates/${initialData.id}/present`}
+          onClick={async (e) => {
+            // Save the latest edits first so the customer sees exactly what was built.
+            e.preventDefault();
+            await handleSave();
+            router.push(`/technician/estimates/${initialData.id}/present`);
+          }}
+          className="w-full flex items-center justify-center gap-2 py-3.5 bg-green-600 text-white rounded-2xl font-bold hover:bg-green-700 transition-colors"
+        >
+          <Presentation className="w-4 h-4" /> Present to Customer
+        </Link>
       )}
 
       {/* Send email button — prominent */}
