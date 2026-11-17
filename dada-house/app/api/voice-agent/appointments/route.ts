@@ -46,7 +46,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { calendarSynced, diagnosticFee, slotStart, ...data } = parsed.data;
+    const { calendarSynced, diagnosticFee, slotStart, language, ...data } = parsed.data;
     const isDiagnostic = typeof diagnosticFee === "number" && diagnosticFee > 0;
 
     // Arrival window chosen from /api/voice-agent/availability — re-checked against the
@@ -74,6 +74,7 @@ export async function POST(req: NextRequest) {
       firstName: data.name,
       email: data.email,
     });
+    if (language) await db.customer.update({ where: { id: customer.id }, data: { preferredLanguage: language } }).catch(console.error);
 
     const appointment = await db.appointment.create({
       data: {

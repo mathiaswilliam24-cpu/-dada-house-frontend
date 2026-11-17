@@ -59,6 +59,8 @@ export const voiceAgentAppointmentSchema = z.object({
   diagnosticFee: z.number().optional(),
   // ISO start of an arrival window returned by /api/voice-agent/availability
   slotStart: z.string().refine((v) => !Number.isNaN(Date.parse(v)), "slotStart must be an ISO date-time").optional(),
+  // Caller's language (Emma detects it) — customer texts go out in it.
+  language: z.preprocess((v) => (typeof v === "string" ? v.toLowerCase().slice(0, 2) : v), z.enum(["en", "fr", "es"])).optional(),
 });
 
 export const reviewSchema = z.object({

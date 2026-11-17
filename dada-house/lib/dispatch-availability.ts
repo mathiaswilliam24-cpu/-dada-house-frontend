@@ -18,7 +18,7 @@ const MIN_LEAD_MINUTES = 120; // never offer a window starting sooner than this
 export function windowLabel(start: Date, end: Date) {
   const day = start.toLocaleDateString("en-US", { timeZone: "America/New_York", weekday: "long", month: "long", day: "numeric" });
   const t = (d: Date) => d.toLocaleTimeString("en-US", { timeZone: "America/New_York", hour: "numeric", minute: "2-digit" }).replace(":00", "");
-  return `${day}, ${t(start)} – ${t(end)}`;
+  return `${day}, ${t(start)} to ${t(end)}`;
 }
 
 function eligible(techs: BoardTech[], type: JobType) {
