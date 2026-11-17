@@ -1,3 +1,4 @@
+import { sendCustomerTemplate, customerLang, jobVars } from "@/lib/customer-notify";
 ﻿import { db } from "@/lib/db";
 import { sendTrackedEmail } from "@/lib/customer-email";
 import { sendOutboundSms, DoNotContactError } from "@/lib/messaging";
@@ -97,28 +98,15 @@ export async function sendAppointmentConfirmationSms(appointmentId: string) {
   const appointment = await db.appointment.findUnique({
     where: { id: appointmentId },
     select: {
-      phone: true, appointmentNumber: true, service: true, address: true, city: true,
-      preferredDate: true, preferredTime: true, description: true,
-      technician: { select: { name: true } },
+      phone: true, name: true, appointmentNumber: true, service: true, jobCategory: true, customerId: true,
+      preferredDate: true, scheduledStart: true, arrivalWindow: true,
     },
   });
   if (!appointment?.phone) return null;
-
-  const date = appointment.preferredDate
-    ? new Date(appointment.preferredDate).toLocaleDateString("en-US", { month: "short", day: "numeric" })
-    : "a date to be scheduled";
-  const time = appointment.preferredTime ? ` at ${appointment.preferredTime}` : "";
-  const techLine = appointment.technician?.name ? ` Technician: ${appointment.technician.name}.` : "";
-
-  const descLine = appointment.description ? ` Notes: ${appointment.description}.` : "";
-  const body = `DADA HOUSE: Your appointment #${appointment.appointmentNumber} (${appointment.service}) is booked for ${date}${time} at ${appointment.address}, ${appointment.city}.${techLine}${descLine} We'll confirm by email/text with any updates.`;
-
-  try {
-    return await sendOutboundSms(appointment.phone, body);
-  } catch (err) {
-    if (err instanceof DoNotContactError) return null;
-    throw err;
-  }
+  // Customer's language (EN/FR/ES); manager-editable text in Dispatch → Customer Messages.
+  const lang = await customerLang({ customerId: appointment.customerId });
+  const sent = await sendCustomerTemplate({ key: "BOOKING_CONFIRMED", phone: appointment.phone, lang, vars: jobVars(appointment, lang) });
+  return sent || null;
 }
 
 /**

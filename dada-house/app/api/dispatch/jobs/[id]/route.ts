@@ -73,6 +73,7 @@ const patchSchema = z.object({
   adminNotes: z.string().max(5000).nullable().optional(),
   description: z.string().max(5000).nullable().optional(),
   billingAddress: z.string().max(300).nullable().optional(),
+  customerLanguage: z.enum(["en", "fr", "es"]).optional(), // saved on the Customer record
 });
 
 /** Edit call details from the board. */
@@ -85,7 +86,14 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 
   const before = await db.appointment.findUnique({ where: { id } });
   if (!before) return NextResponse.json({ error: "Not found" }, { status: 404 });
-  const data = parsed.data;
+  const { customerLanguage, ...data } = parsed.data;
+  if (customerLanguage && before.customerId) {
+    const c = await db.customer.findUnique({ where: { id: before.customerId }, select: { preferredLanguage: true } });
+    if ((c?.preferredLanguage ?? "en") !== customerLanguage) {
+      await db.customer.update({ where: { id: before.customerId }, data: { preferredLanguage: customerLanguage } });
+      await logJobEvent({ appointmentId: id, type: "NOTE", userId: auth.id, userName: auth.name ?? null, message: `Customer text language set to ${customerLanguage.toUpperCase()}` });
+    }
+  }
   // Keep the board slot in sync with a new duration.
   const extra = data.estimatedMinutes && before.scheduledStart
     ? { scheduledEnd: new Date(before.scheduledStart.getTime() + data.estimatedMinutes * 60000) }

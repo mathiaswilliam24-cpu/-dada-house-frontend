@@ -15,7 +15,7 @@ type Detail = {
     technicianName: string | null; crew: { technicianId: string; role: string; name: string | null }[];
     events: { id: string; type: string; message: string; userName: string | null; createdAt: string }[];
     customer: null | {
-      id: string; firstName: string; lastName: string | null; customerType: string; notes: string | null;
+      id: string; firstName: string; lastName: string | null; customerType: string; notes: string | null; preferredLanguage: string | null;
       equipment: { id: string; type: string; makeModel: string | null; serialNumber: string | null; location: string | null; age: string | null }[];
       maintenanceContracts: { id: string; status: string; numberOfSystems: number; planType: { name: string } }[];
     };
@@ -44,7 +44,7 @@ export default function JobPanel({ jobId, technicians, jobTypes, defaultDate, on
   const [busy, setBusy] = useState<string | null>(null);
 
   // Editable details
-  const [form, setForm] = useState({ jobType: "", jobCategory: "", priority: "NORMAL", isEmergency: false, estimatedMinutes: 60, description: "", adminNotes: "", customerType: "" });
+  const [form, setForm] = useState({ jobType: "", jobCategory: "", priority: "NORMAL", isEmergency: false, estimatedMinutes: 60, description: "", adminNotes: "", customerType: "", customerLanguage: "en" });
   // Scheduling
   const [techId, setTechId] = useState<string>("");
   const [day, setDay] = useState(defaultDate);
@@ -64,6 +64,7 @@ export default function JobPanel({ jobId, technicians, jobTypes, defaultDate, on
       jobType: j.jobType, jobCategory: j.jobCategory ?? "", priority: j.priority, isEmergency: j.isEmergency,
       estimatedMinutes: j.estimatedMinutes ?? jobTypes[j.jobType]?.minutes ?? 60, description: j.description ?? "", adminNotes: j.adminNotes ?? "",
       customerType: j.customerType ?? "",
+      customerLanguage: (["en", "fr", "es"].includes(j.customer?.preferredLanguage ?? "") ? j.customer!.preferredLanguage! : "en"),
     });
     setTechId(j.technicianId ?? "");
     setCrew(j.crew.map((c) => ({ technicianId: c.technicianId, role: c.role })));
@@ -105,6 +106,7 @@ export default function JobPanel({ jobId, technicians, jobTypes, defaultDate, on
         jobType: form.jobType, jobCategory: form.jobCategory || null, priority: form.priority, isEmergency: form.isEmergency,
         estimatedMinutes: Number(form.estimatedMinutes) || null, description: form.description || null, adminNotes: form.adminNotes || null,
         customerType: form.customerType || null,
+        ...(j.customer ? { customerLanguage: form.customerLanguage } : {}),
       }),
     });
     const res = await r.json().catch(() => ({}));
@@ -287,6 +289,13 @@ export default function JobPanel({ jobId, technicians, jobTypes, defaultDate, on
               <option value="RESIDENTIAL">Residential</option>
               <option value="COMMERCIAL">Commercial</option>
             </select>
+            {j.customer && (
+              <select value={form.customerLanguage} onChange={(e) => setForm((f) => ({ ...f, customerLanguage: e.target.value }))} title="Language of the customer's text messages" className="border border-gray-200 rounded-lg px-2 py-1.5 text-xs">
+                <option value="en">Texts: English</option>
+                <option value="fr">Texts: Français</option>
+                <option value="es">Texts: Español</option>
+              </select>
+            )}
           </div>
           {j.inferredType && <p className="text-[11px] text-amber-700">Job type was guessed from “{j.service}”. Confirm it and save.</p>}
           <label className="flex items-center gap-2 text-xs text-gray-700">

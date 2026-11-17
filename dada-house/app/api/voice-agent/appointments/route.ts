@@ -8,6 +8,7 @@ import { sendSMS } from "@/lib/twilio";
 import { sendOutboundSms } from "@/lib/messaging";
 import { appointmentConfirmationHtml, adminAppointmentAlertHtml } from "@/lib/email-templates";
 import { findOrCreateCustomerByPhone } from "@/lib/customers";
+import { sendAppointmentConfirmationSms } from "@/lib/appointment-notifications";
 import crypto from "crypto";
 
 // Maps the Vapi voice agent's `service_type` enum to the labels used
@@ -191,10 +192,8 @@ export async function POST(req: NextRequest) {
               .catch(console.error)
           : Promise.resolve(),
 
-        sendSMS(
-          data.phone,
-          `DADA HOUSE: Hi ${data.name}, your appointment #${appointmentNumber} for ${data.service} is confirmed${data.preferredDate ? ` for ${data.preferredDate}${data.preferredTime ? ` at ${data.preferredTime}` : ""}` : ""}. Questions? Call (844) 928-0875.`
-        ).catch(console.error),
+        // Customer's language + STOP list respected (Dispatch → Customer Messages).
+        sendAppointmentConfirmationSms(appointment.id).catch(console.error),
 
         process.env.ADMIN_PHONE
           ? sendSMS(

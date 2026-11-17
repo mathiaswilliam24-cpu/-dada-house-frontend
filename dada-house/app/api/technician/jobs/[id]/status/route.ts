@@ -1,9 +1,9 @@
+import { sendCustomerTemplate, customerLang, jobVars } from "@/lib/customer-notify";
 import { NextRequest, NextResponse, after } from "next/server";
 import { requireTechnician } from "@/lib/api-auth";
 import { db } from "@/lib/db";
 import { techJobStatusSchema } from "@/lib/validations";
 import { getWebPush } from "@/lib/web-push";
-import { sendSMS } from "@/lib/twilio";
 import { sendReviewRequest } from "@/lib/review-request";
 import { logJobEvent } from "@/lib/dispatch";
 import { TECH_STATUS_LABEL } from "@/lib/tech-status";
@@ -85,10 +85,8 @@ export async function PATCH(
   const customerPhone = appointment.phone;
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dada-house.com";
   const trackingUrl = `${baseUrl}/track/${id}`;
-  const smsMessages: Record<string, string> = {
-    EN_ROUTE: `Hi ${appointment.name}! Your DADA HOUSE technician is on the way. Track live: ${trackingUrl}. Questions? Call (844) 928-0875.`,
-    ARRIVED: `Your DADA HOUSE technician has arrived at your location. Please let them in. Thank you!`,
-    NEED_RESCHEDULE: `Hi ${appointment.name}, your DADA HOUSE appointment needs to be rescheduled. We'll contact you shortly to arrange a new time.`,
+  const STATUS_TEMPLATE: Record<string, "TECH_EN_ROUTE" | "TECH_ARRIVED" | "NEED_RESCHEDULE"> = {
+    EN_ROUTE: "TECH_EN_ROUTE", ARRIVED: "TECH_ARRIVED", NEED_RESCHEDULE: "NEED_RESCHEDULE",
   };
 
   after(async () => {
@@ -101,8 +99,13 @@ export async function PATCH(
         email: appointment.email,
         service: appointment.service,
       }).catch(console.error));
-    } else if (smsMessages[status] && customerPhone) {
-      tasks.push(sendSMS(customerPhone, smsMessages[status]).catch(console.error));
+    } else if (STATUS_TEMPLATE[status] && customerPhone) {
+      // Customer's language, STOP/Do-Not-Contact respected, logged to their message thread.
+      tasks.push((async () => {
+        const lang = await customerLang({ customerId: appointment.customerId });
+        const techFirst = (auth.name ?? "").trim().split(/\s+/)[0] || (lang === "fr" ? "Votre technicien" : lang === "es" ? "Su técnico" : "Your technician");
+        await sendCustomerTemplate({ key: STATUS_TEMPLATE[status], phone: customerPhone, lang, vars: jobVars(appointment, lang, { tech: techFirst, link: trackingUrl }) });
+      })().catch(console.error));
     }
 
     // Push notification to customer

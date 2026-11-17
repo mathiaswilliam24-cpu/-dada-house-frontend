@@ -1,7 +1,7 @@
 "use client";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { CalendarCheck, Loader2, Search, Snowflake, Flame, PlusCircle, ExternalLink, Ban, RotateCcw, AlertTriangle } from "lucide-react";
+import { CalendarCheck, Loader2, Search, Snowflake, Flame, PlusCircle, ExternalLink, Ban, RotateCcw, AlertTriangle, MessageSquare } from "lucide-react";
 
 type Visit = {
   id: string; state: "OVERDUE" | "DUE_NOW" | "UPCOMING" | "SCHEDULED" | "COMPLETED" | "SKIPPED";
@@ -50,8 +50,9 @@ export default function MaintenanceScheduler() {
     return (data?.visits ?? []).filter((v) => v.state === tab && (!s || `${v.customer.name} ${v.customer.phone} ${v.customer.address} ${v.membershipNumber ?? ""}`.toLowerCase().includes(s)));
   }, [data, tab, q]);
 
-  async function act(v: Visit, action: "create_job" | "skip" | "reopen") {
+  async function act(v: Visit, action: "create_job" | "skip" | "reopen" | "text") {
     let note: string | undefined;
+    if (action === "text" && !confirm(`Text ${v.customer.name} (${v.customer.phone}) to book their ${v.seasonLabel.toLowerCase()}?`)) return;
     if (action === "skip") {
       note = prompt("Reason for skipping this visit (e.g. customer declined, no access):") ?? undefined;
       if (!note) return;
@@ -61,6 +62,7 @@ export default function MaintenanceScheduler() {
       const r = await fetch(`/api/dispatch/maintenance/${v.id}`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action, note }) });
       const res = await r.json().catch(() => ({}));
       if (!r.ok) { setMsg({ text: res.error ?? "Action failed", error: true }); return; }
+      if (action === "text") setMsg({ text: `Text sent to ${v.customer.name}.` });
       if (action === "create_job") setMsg({ text: `Job #${res.appointmentNumber} created for ${v.customer.name} — it's in "Needs scheduling" on the board.`, jobId: res.jobId });
       await load();
     } finally {
@@ -157,6 +159,7 @@ export default function MaintenanceScheduler() {
                       <button onClick={() => act(v, "create_job")} disabled={!!busy} className="px-3 py-2 rounded-lg bg-[#1B3FA8] text-white text-xs font-bold flex items-center gap-1.5 disabled:opacity-60">
                         {busy === v.id ? <Loader2 size={13} className="animate-spin" /> : <PlusCircle size={13} />} Create job
                       </button>
+                      <button onClick={() => act(v, "text")} disabled={!!busy} title="Text the member to book" className="px-2.5 py-2 rounded-lg border border-gray-200 text-gray-700 text-xs font-bold flex items-center gap-1"><MessageSquare size={13} /> Text</button>
                       <button onClick={() => act(v, "skip")} disabled={!!busy} title="Skip (manager)" className="px-2.5 py-2 rounded-lg border border-gray-200 text-gray-500 text-xs font-bold flex items-center gap-1"><Ban size={13} /> Skip</button>
                     </>
                   )}

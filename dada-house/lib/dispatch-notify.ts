@@ -1,6 +1,6 @@
 import { db } from "@/lib/db";
 import { sendSMS } from "@/lib/twilio";
-import { sendOutboundSms } from "@/lib/messaging";
+import { sendCustomerTemplate, customerLang, jobVars } from "@/lib/customer-notify";
 import { sendTechnicianAssignmentNotification } from "@/lib/appointment-notifications";
 import { ctParts, fmtTimeCT, logJobEvent } from "@/lib/dispatch";
 
@@ -41,10 +41,13 @@ export async function notifyAfterSchedule(opts: {
   }
 
   if (opts.notifyCustomer && moved && job.scheduledStart && job.phone) {
-    const body = `DADA HOUSE: Your appointment #${job.appointmentNumber} is scheduled for ${when(job.scheduledStart, job.arrivalWindow)}. Reply to this message if you need assistance.`;
     try {
-      await sendOutboundSms(job.phone, body, { sentById: opts.userId });
-      await logJobEvent({ appointmentId: job.id, type: "NOTE", message: `Customer texted: scheduled ${ctParts(job.scheduledStart).ymd} ${job.arrivalWindow ?? ""}`.trim(), userId: opts.userId });
+      const lang = await customerLang({ customerId: job.customerId });
+      const sent = await sendCustomerTemplate({ key: "JOB_SCHEDULED", phone: job.phone, lang, vars: jobVars(job, lang), sentById: opts.userId });
+      await logJobEvent({
+        appointmentId: job.id, type: "NOTE", userId: opts.userId,
+        message: sent ? `Customer texted (${lang.toUpperCase()}): scheduled ${ctParts(job.scheduledStart).ymd} ${job.arrivalWindow ?? ""}`.trim() : "Customer not texted (message turned off or customer opted out)",
+      });
     } catch (e) {
       await logJobEvent({ appointmentId: job.id, type: "NOTE", message: `Customer text failed: ${e instanceof Error ? e.message : "error"}`, userId: opts.userId });
     }
@@ -56,6 +59,7 @@ export async function notifyCanceled(appointmentId: string, techIds: string[], n
   if (!job) return;
   for (const id of techIds) await techSms(id, `DADA HOUSE: Job #${job.appointmentNumber} (${job.name}, ${when(job.scheduledStart)}) was CANCELED.`);
   if (notifyCustomer && job.phone) {
-    await sendOutboundSms(job.phone, `DADA HOUSE: Your appointment #${job.appointmentNumber} has been canceled. Reply to this message or call (346) 649-9353 to reschedule.`, { sentById: userId }).catch(console.error);
+    const lang = await customerLang({ customerId: job.customerId });
+    await sendCustomerTemplate({ key: "JOB_CANCELED", phone: job.phone, lang, vars: jobVars(job, lang), sentById: userId }).catch(console.error);
   }
 }

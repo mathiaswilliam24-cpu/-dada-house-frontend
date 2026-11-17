@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import Link from "next/link";
 import Image from "next/image";
-import { LayoutDashboard, CalendarRange, Users, AlertTriangle, Map, LogOut, PlusCircle, PhoneCall, Phone, MessageSquare, Contact, Gauge, HardHat, Settings2, CalendarCheck, FolderKanban } from "lucide-react";
+import { LayoutDashboard, CalendarRange, Users, AlertTriangle, Map, LogOut, PlusCircle, PhoneCall, Phone, MessageSquare, Contact, Gauge, HardHat, Settings2, CalendarCheck, FolderKanban, Boxes, Calculator, MessageSquareText } from "lucide-react";
 import { signOut } from "@/auth";
 import { PageTransition } from "@/components/layout/page-transition";
 import { AgentStatusControl } from "@/components/call-center/agent-status-control";
@@ -24,6 +24,9 @@ const navItems = [
   { href: "/messages", label: "Messages", icon: MessageSquare },
   { href: "/customers", label: "Customers", icon: Contact },
   { href: "/dispatcher/technicians", label: "Technicians", icon: HardHat },
+  { href: "/dispatcher/inventory", label: "Inventory", icon: Boxes },
+  { href: "/dispatcher/job-costing", label: "Job Costing", icon: Calculator },
+  { href: "/dispatcher/customer-messages", label: "Customer Messages", icon: MessageSquareText },
   { href: "/dispatcher/settings", label: "Dispatch Settings", icon: Settings2 },
 ];
 

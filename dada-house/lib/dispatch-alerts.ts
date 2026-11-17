@@ -258,6 +258,17 @@ export async function getCommandCenter() {
   ]);
   if (overdueVisits) push({ id: "mv-overdue", code: "MAINTENANCE_OVERDUE", severity: "high", title: `${overdueVisits} maintenance visit${overdueVisits > 1 ? "s" : ""} past due`, detail: "Members didn't get their included tune-up in its season window. Open Maintenance Visits → Overdue.", link: "/dispatcher/maintenance" });
   if (dueVisits) push({ id: "mv-due", code: "MAINTENANCE_DUE", severity: "low", title: `${dueVisits} maintenance visit${dueVisits > 1 ? "s" : ""} due now with no job`, detail: "Create the jobs from Maintenance Visits → Due now.", link: "/dispatcher/maintenance" });
+  // 13. Stock: technician requests waiting, and parts below minimum / negative on a van.
+  const [pendingReqs, levels] = await Promise.all([
+    db.inventoryRequest.count({ where: { status: "PENDING" } }),
+    db.stockLevel.findMany({ where: { item: { isActive: true } }, select: { quantity: true, minQuantity: true, location: { select: { kind: true } }, item: { select: { minQuantity: true } } } }),
+  ]);
+  if (pendingReqs) push({ id: "inv-req", code: "STOCK_REQUESTS", severity: "medium", title: `${pendingReqs} parts request${pendingReqs > 1 ? "s" : ""} from technicians`, detail: "Send the parts to their vans or reject — Inventory → Technician requests.", link: "/dispatcher/inventory" });
+  const low = levels.filter((l) => { const min = l.minQuantity || (l.location.kind === "WAREHOUSE" ? l.item.minQuantity : 0); return min > 0 && l.quantity < min; }).length;
+  const negative = levels.filter((l) => l.quantity < 0).length;
+  if (low) push({ id: "inv-low", code: "STOCK_LOW", severity: "low", title: `${low} stock level${low > 1 ? "s" : ""} below minimum`, detail: "Reorder or restock vans — Inventory → Below minimum.", link: "/dispatcher/inventory" });
+  if (negative) push({ id: "inv-neg", code: "STOCK_NEGATIVE", severity: "low", title: `${negative} negative stock count${negative > 1 ? "s" : ""}`, detail: "Parts were used that weren't in the count — recount those vans.", link: "/dispatcher/inventory" });
+
   // 12. Installation projects stuck in a stage for 14+ days.
   for (const p of stuckProjects) {
     push({

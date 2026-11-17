@@ -2,7 +2,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
-import { Package, Plus, Trash2, Loader2 } from "lucide-react";
+import { Package, Plus, Trash2, Loader2, Truck, Search } from "lucide-react";
 import { formatCurrency } from "@/lib/utils";
 
 type Part = {
@@ -10,6 +10,8 @@ type Part = {
   quantity: number; unitCost: number; totalCost: number;
   warrantyPeriod?: string; supplier?: string; notes?: string;
 };
+
+type VanItem = { id: string; name: string; partNumber: string | null; unit: string | null; unitCost: number | null; onVan: number };
 
 const EMPTY_FORM = {
   partName: "", partNumber: "", quantity: 1, unitCost: 0,
@@ -23,11 +25,16 @@ export default function PartsPage() {
   const [form, setForm] = useState(EMPTY_FORM);
   const [adding, setAdding] = useState(false);
   const [showForm, setShowForm] = useState(false);
+  const [stock, setStock] = useState<VanItem[]>([]);
+  const [showVan, setShowVan] = useState(false);
+  const [vanQ, setVanQ] = useState("");
+  const [vanQty, setVanQty] = useState<Record<string, number>>({});
+  const [vanErr, setVanErr] = useState("");
 
   const load = useCallback(() => {
     fetch(`/api/technician/jobs/${id}/parts`)
       .then((r) => r.json())
-      .then((d) => { setParts(d.parts ?? []); setLoading(false); })
+      .then((d) => { setParts(d.parts ?? []); setStock(d.stock ?? []); setLoading(false); })
       .catch(() => setLoading(false));
   }, [id]);
 
@@ -54,10 +61,23 @@ export default function PartsPage() {
     setAdding(false);
   }
 
+  async function takeFromVan(item: VanItem) {
+    const qty = vanQty[item.id] ?? 1;
+    setAdding(true); setVanErr("");
+    const res = await fetch(`/api/technician/jobs/${id}/parts`, {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ inventoryItemId: item.id, quantity: qty }),
+    });
+    const d = await res.json().catch(() => ({}));
+    setAdding(false);
+    if (!res.ok) { setVanErr(d.error ?? "Could not add part"); return; }
+    setShowVan(false); setVanQ(""); load();
+  }
+
   async function deletePart(partId: string) {
     if (!confirm("Remove this part?")) return;
     await fetch(`/api/technician/jobs/${id}/parts?partId=${partId}`, { method: "DELETE" });
-    setParts((p) => p.filter((x) => x.id !== partId));
+    load();
   }
 
   const total = parts.reduce((s, p) => s + p.totalCost, 0);
@@ -112,6 +132,40 @@ export default function PartsPage() {
             </div>
           ))}
         </div>
+      )}
+
+      {/* From my van */}
+      {showVan ? (
+        <div className="bg-white border border-gray-200 rounded-2xl p-4 space-y-3">
+          <div className="flex items-center justify-between">
+            <h3 className="font-semibold text-gray-900 text-sm flex items-center gap-2"><Truck className="w-4 h-4 text-[#1B3FA8]" /> Use from my van</h3>
+            <button onClick={() => setShowVan(false)} className="text-xs text-gray-500">Close</button>
+          </div>
+          <div className="relative">
+            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+            <input value={vanQ} onChange={(e) => setVanQ(e.target.value)} placeholder="Search parts" className="w-full border border-gray-300 rounded-xl pl-9 pr-3 py-2.5 text-sm" />
+          </div>
+          {vanErr && <p className="text-xs text-red-600">{vanErr}</p>}
+          <div className="max-h-80 overflow-y-auto divide-y divide-gray-100">
+            {stock.filter((s) => !vanQ || `${s.name} ${s.partNumber ?? ""}`.toLowerCase().includes(vanQ.toLowerCase()))
+              .sort((a, b) => Number(b.onVan > 0) - Number(a.onVan > 0))
+              .map((s) => (
+                <div key={s.id} className="py-2 flex items-center gap-2">
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-semibold text-gray-900 truncate">{s.name}</p>
+                    <p className={`text-xs ${s.onVan > 0 ? "text-gray-500" : "text-amber-700"}`}>On van: {s.onVan}{s.unit ? ` ${s.unit}` : ""}{s.partNumber ? ` · #${s.partNumber}` : ""}</p>
+                  </div>
+                  <input type="number" min={1} value={vanQty[s.id] ?? 1} onChange={(e) => setVanQty((q) => ({ ...q, [s.id]: Number(e.target.value) }))} className="w-16 border border-gray-300 rounded-lg px-2 py-1.5 text-sm" />
+                  <button disabled={adding} onClick={() => takeFromVan(s)} className="px-3 py-1.5 bg-[#1B3FA8] text-white rounded-lg text-xs font-bold disabled:opacity-40">Use</button>
+                </div>
+              ))}
+            {stock.length === 0 && <p className="text-sm text-gray-400 py-4 text-center">No parts in the catalog yet. Use “Add Part” below.</p>}
+          </div>
+        </div>
+      ) : (
+        <button onClick={() => { setShowVan(true); setShowForm(false); }} className="w-full py-3 flex items-center justify-center gap-2 bg-white border-2 border-[#1B3FA8] text-[#1B3FA8] rounded-2xl font-bold">
+          <Truck className="w-5 h-5" /> Use from my van
+        </button>
       )}
 
       {/* Add form */}

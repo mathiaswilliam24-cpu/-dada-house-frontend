@@ -1037,6 +1037,9 @@ model JobPart {
   notes          String?
   createdAt      DateTime @default(now())
 
+  inventoryItemId String? // when taken from stock
+  locationId      String? // stock location it came from (returned there if the part is removed)
+
   appointment Appointment @relation(fields: [appointmentId], references: [id], onDelete: Cascade)
   technician  User?       @relation(fields: [technicianId], references: [id], onDelete: SetNull)
 }
@@ -1054,6 +1057,12 @@ model InventoryItem {
   isActive    Boolean  @default(true)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+
+  // Phase 4 — multi-location stock
+  sellPrice Float?
+  unit      String? // each, ft, lb, gal…
+  levels    StockLevel[]
+  movements StockMovement[]
 
   requests InventoryRequest[]
 }
@@ -1778,4 +1787,53 @@ model JobEvent {
 model Counter {
   key   String @id
   value Int    @default(0)
+}
+
+// ── Stock locations (warehouse + one van per technician) ─────────────────────
+
+model StockLocation {
+  id           String   @id @default(cuid())
+  name         String
+  kind         String   @default("VAN") // WAREHOUSE | VAN
+  technicianId String?  @unique
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+
+  levels StockLevel[]
+}
+
+model StockLevel {
+  id          String   @id @default(cuid())
+  itemId      String
+  locationId  String
+  quantity    Float    @default(0)
+  minQuantity Float    @default(0)
+  updatedAt   DateTime @updatedAt
+
+  item     InventoryItem @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  location StockLocation @relation(fields: [locationId], references: [id], onDelete: Cascade)
+
+  @@unique([itemId, locationId])
+  @@index([locationId])
+}
+
+model StockMovement {
+  id             String   @id @default(cuid())
+  itemId         String
+  type           String // RECEIVE | TRANSFER | USE | RETURN | ADJUST
+  quantity       Float
+  fromLocationId String?
+  toLocationId   String?
+  appointmentId  String?
+  unitCost       Float?
+  userId         String?
+  userName       String?
+  note           String?
+  createdAt      DateTime @default(now())
+
+  item InventoryItem @relation(fields: [itemId], references: [id], onDelete: Cascade)
+
+  @@index([itemId, createdAt])
+  @@index([appointmentId])
+  @@index([createdAt])
 }
