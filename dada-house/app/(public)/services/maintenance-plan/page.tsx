@@ -8,7 +8,7 @@ import CTASection from "@/components/home/cta-section";
 export const metadata: Metadata = {
   title: "HVAC Maintenance Plan — $169/Year | DADA HOUSE",
   description:
-    "DADA HOUSE HVAC Maintenance Plan: 2 professional tune-ups per year (spring AC + fall heating), $49 service call fee, priority scheduling, 10% off all repairs. Texas & North Carolina. Call (844) 928-0875.",
+    "DADA HOUSE HVAC Maintenance Plan: 2 professional tune-ups per year (spring AC + fall heating), $69 service call fee, priority scheduling, 10% off all repairs. Texas & North Carolina. Call (844) 928-0875.",
   alternates: { canonical: "/services/maintenance-plan" },
 };
 
@@ -52,7 +52,7 @@ const fallChecklist = [
 
 const planBenefits = [
   { icon: Calendar,     title: "2 Tune-Ups Per Year",    body: "One spring AC tune-up + one fall heating tune-up — scheduled at your convenience." },
-  { icon: Zap,          title: "$49 Service Call Fee",   body: "Diagnostic service call reduced from $99 — saves you $50 every time we come out." },
+  { icon: Zap,          title: "$69 Service Call Fee",   body: "Diagnostic service call reduced from $99 — saves you $30 every time we come out." },
   { icon: Star,         title: "Priority Scheduling",    body: "Plan members are booked before non-members. No waiting weeks in the busy season." },
   { icon: BadgePercent, title: "10% Off All Repairs",    body: "Every job — parts and labor — is discounted 10% for plan members year-round." },
   { icon: Shield,       title: "Written Report Each Visit", body: "Full written summary with photos of any items found, left with you after every visit." },
@@ -63,7 +63,7 @@ const faqs = [
   { q: "What is included in the fall heating tune-up?", a: "We perform 16 inspection and service points including heat exchanger inspection, carbon monoxide safety test, burner cleaning, ignitor and flame sensor service, flue check, and a full written report." },
   { q: "What is NOT included in the plan price?", a: "Parts for repairs, refrigerant (if a recharge is needed), and any work beyond the standard tune-up scope are billed separately. We always give you a quote before any additional work." },
   { q: "Do I have to be home?", a: "Yes — a responsible adult 18+ must be present. We give you a 2-hour arrival window and call 30 minutes before we arrive." },
-  { q: "What if my system breaks down between visits?", a: "Call (844) 928-0875 anytime. Plan members get priority dispatch and a $49 service call fee instead of the standard $99." },
+  { q: "What if my system breaks down between visits?", a: "Call (844) 928-0875 anytime. Plan members get priority dispatch and a $69 service call fee instead of the standard $99." },
   { q: "How do I cancel?", a: "Call or email anytime. Plans are prorated — if no visits have occurred you will receive a full refund within 5 business days." },
 ];
 
@@ -212,7 +212,7 @@ export default function MaintenancePlanPage() {
               <span className="text-xl text-slate-400">/year</span>
             </div>
             <ul className="space-y-2.5 mb-8 text-left max-w-xs mx-auto">
-              {["Spring AC tune-up (16 inspection points)", "Fall heating tune-up (16 inspection points)", "Priority scheduling year-round", "$49 service call fee (save $50/visit)", "10% off all parts & labor", "Military 10% discount on all work"].map(item => (
+              {["Spring AC tune-up (16 inspection points)", "Fall heating tune-up (16 inspection points)", "Priority scheduling year-round", "$69 service call fee (save $30/visit)", "10% off all parts & labor", "Military 10% discount on all work"].map(item => (
                 <li key={item} className="flex items-center gap-2.5 text-sm text-slate-700">
                   <CheckCircle size={16} className="text-[#F7921A] shrink-0" />
                   {item}

@@ -60,13 +60,13 @@ const services = [
     label: "HVAC Maintenance Plan",
     emoji: "🛡️",
     description:
-      "Annual maintenance plan — 2 professional tune-ups per year (spring AC + fall heating), priority scheduling, $49 service calls, and 10% off all repairs.",
+      "Annual maintenance plan — 2 professional tune-ups per year (spring AC + fall heating), priority scheduling, $69 service calls, and 10% off all repairs.",
     features: [
       "Spring AC Tune-Up",
       "Fall Heating Tune-Up",
       "Priority Scheduling",
       "10% Off All Repairs",
-      "$49 Service Call Fee",
+      "$69 Service Call Fee",
       "Military Discount",
     ],
   },

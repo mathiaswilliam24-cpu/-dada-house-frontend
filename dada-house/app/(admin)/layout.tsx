@@ -40,6 +40,8 @@ const navGroups: NavGroup[] = [
       { href: "/admin/appointments", label: "Appointments", icon: Calendar },
       { href: "/dispatcher/command", label: "Command Center", icon: Radio },
       { href: "/dispatcher/board", label: "Dispatch Board", icon: Calendar },
+      { href: "/dispatcher/maintenance", label: "Maintenance Visits", icon: Calendar },
+      { href: "/dispatcher/projects", label: "Install Projects", icon: Layers },
       { href: "/admin/map", label: "Live Map", icon: Map },
     ],
   },

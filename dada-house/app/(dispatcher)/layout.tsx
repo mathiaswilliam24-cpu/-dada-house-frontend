@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import Link from "next/link";
 import Image from "next/image";
-import { LayoutDashboard, CalendarRange, Users, AlertTriangle, Map, LogOut, PlusCircle, PhoneCall, Phone, MessageSquare, Contact, Gauge, HardHat, Settings2 } from "lucide-react";
+import { LayoutDashboard, CalendarRange, Users, AlertTriangle, Map, LogOut, PlusCircle, PhoneCall, Phone, MessageSquare, Contact, Gauge, HardHat, Settings2, CalendarCheck, FolderKanban } from "lucide-react";
 import { signOut } from "@/auth";
 import { PageTransition } from "@/components/layout/page-transition";
 import { AgentStatusControl } from "@/components/call-center/agent-status-control";
@@ -16,6 +16,8 @@ const navItems = [
   { href: "/dispatcher/appointments/new", label: "New Job", icon: PlusCircle, highlight: true },
   { href: "/dispatcher/assign", label: "Assign Jobs", icon: Users },
   { href: "/dispatcher/map", label: "Live Map", icon: Map },
+  { href: "/dispatcher/maintenance", label: "Maintenance Visits", icon: CalendarCheck },
+  { href: "/dispatcher/projects", label: "Install Projects", icon: FolderKanban },
   { href: "/dispatcher/emergency", label: "Emergency", icon: AlertTriangle },
   { href: "/call-center", label: "Live Call Center", icon: PhoneCall },
   { href: "/calls", label: "Call History", icon: Phone },

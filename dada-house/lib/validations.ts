@@ -57,6 +57,8 @@ export const voiceAgentAppointmentSchema = z.object({
   // false if Google Calendar sync failed and the slot still needs admin confirmation
   calendarSynced: z.boolean().optional().default(true),
   diagnosticFee: z.number().optional(),
+  // ISO start of an arrival window returned by /api/voice-agent/availability
+  slotStart: z.string().refine((v) => !Number.isNaN(Date.parse(v)), "slotStart must be an ISO date-time").optional(),
 });
 
 export const reviewSchema = z.object({

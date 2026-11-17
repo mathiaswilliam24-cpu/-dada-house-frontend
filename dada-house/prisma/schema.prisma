@@ -86,13 +86,13 @@ enum SubscriptionStatus {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String    @unique
-  emailVerified DateTime?
-  image         String?
-  password      String?
-  phone         String?
+  id                 String    @id @default(cuid())
+  name               String?
+  email              String    @unique
+  emailVerified      DateTime?
+  image              String?
+  password           String?
+  phone              String?
   role               Role      @default(CLIENT)
   mustChangePassword Boolean   @default(false)
   createdAt          DateTime  @default(now())
@@ -116,23 +116,23 @@ model User {
   warranties             Warranty[]
   orders                 Order[]
   pushSubscriptions      PushSubscription[]
-  dispatchedAppointments Appointment[]        @relation("dispatcher")
-  technicianAppointments Appointment[]        @relation("technician")
-  estimates              Estimate[]           @relation("technicianEstimates")
+  dispatchedAppointments Appointment[]          @relation("dispatcher")
+  technicianAppointments Appointment[]          @relation("technician")
+  estimates              Estimate[]             @relation("technicianEstimates")
   jobPhotos              JobPhoto[]
   jobPayments            JobPayment[]
   jobParts               JobPart[]
   inventoryRequests      InventoryRequest[]
-  technicianClients      TechnicianClient[]   @relation("technicianClients")
+  technicianClients      TechnicianClient[]     @relation("technicianClients")
   expenses               Expense[]
   expenseSubscription    ExpenseSubscription?
 
   // Call center
-  calls           Call[]      @relation("agentCalls")
-  sentMessages    Message[]
-  sentEmails      EmailMessage[]
-  readVoicemails  Voicemail[]
-  customerRecord  Customer?
+  calls          Call[]         @relation("agentCalls")
+  sentMessages   Message[]
+  sentEmails     EmailMessage[]
+  readVoicemails Voicemail[]
+  customerRecord Customer?
 }
 
 model TechnicianClient {
@@ -238,33 +238,34 @@ model Appointment {
   projectId  String?
 
   // Service operations / dispatch (set going forward)
-  jobType          String?   // MAINTENANCE | SERVICE | REPAIR | INSTALLATION | DUCT_CLEANING | REMODELING | OTHER
-  jobCategory      String?   // e.g. "AC Not Cooling", "Seasonal AC Tune-Up"
-  customerType     String?   // RESIDENTIAL | COMMERCIAL
+  jobType          String? // MAINTENANCE | SERVICE | REPAIR | INSTALLATION | DUCT_CLEANING | REMODELING | OTHER
+  jobCategory      String? // e.g. "AC Not Cooling", "Seasonal AC Tune-Up"
+  customerType     String? // RESIDENTIAL | COMMERCIAL
   scheduledStart   DateTime? // dispatch board slot
   scheduledEnd     DateTime?
   estimatedMinutes Int?
-  arrivalWindow    String?   // customer-facing window, e.g. "10 AM - 12 PM"
+  arrivalWindow    String? // customer-facing window, e.g. "10 AM - 12 PM"
   billingAddress   String?
   equipmentId      String?
   createdById      String?
-  leadSource       String?   // Google, Facebook, Referral, Repeat customer, Yard sign…
-  lat              Float?    // geocoded service address (travel estimates)
+  leadSource       String? // Google, Facebook, Referral, Repeat customer, Yard sign…
+  lat              Float? // geocoded service address (travel estimates)
   lng              Float?
 
-  assignments   JobAssignment[]
-  events        JobEvent[]
+  assignments JobAssignment[]
+  events      JobEvent[]
 
-  user          User?             @relation(fields: [userId], references: [id], onDelete: SetNull)
-  technician    User?             @relation("technician", fields: [technicianId], references: [id], onDelete: SetNull)
-  dispatcher    User?             @relation("dispatcher", fields: [dispatcherId], references: [id], onDelete: SetNull)
-  customer      Customer?         @relation(fields: [customerId], references: [id], onDelete: SetNull)
-  project       Project?          @relation(fields: [projectId], references: [id], onDelete: SetNull)
-  invoice       Invoice?
-  notifications NotificationLog[]
-  maintenanceLogs MaintenanceLog[]
-  formSubmissions FormSubmission[]
-  calls           Call[]
+  user             User?             @relation(fields: [userId], references: [id], onDelete: SetNull)
+  technician       User?             @relation("technician", fields: [technicianId], references: [id], onDelete: SetNull)
+  dispatcher       User?             @relation("dispatcher", fields: [dispatcherId], references: [id], onDelete: SetNull)
+  customer         Customer?         @relation(fields: [customerId], references: [id], onDelete: SetNull)
+  project          Project?          @relation(fields: [projectId], references: [id], onDelete: SetNull)
+  maintenanceVisit MaintenanceVisit?
+  invoice          Invoice?
+  notifications    NotificationLog[]
+  maintenanceLogs  MaintenanceLog[]
+  formSubmissions  FormSubmission[]
+  calls            Call[]
 
   // New relations
   diagnosisForm     DiagnosisForm?
@@ -272,11 +273,11 @@ model Appointment {
   systemStartup     SystemStartup?
   ventCleaning      VentCleaning?
   ductCleaning      DuctCleaning?
-  jobPhotos     JobPhoto[]
-  payments      JobPayment[]
-  checklist     ServiceChecklist?
-  timeLog       JobTimeLog?
-  parts         JobPart[]
+  jobPhotos         JobPhoto[]
+  payments          JobPayment[]
+  checklist         ServiceChecklist?
+  timeLog           JobTimeLog?
+  parts             JobPart[]
 
   @@index([scheduledStart])
   @@index([technicianId, scheduledStart])
@@ -314,14 +315,14 @@ model Invoice {
   paidAt                DateTime?
 
   // Loyalty points applied to this invoice
-  loyaltyDiscount   Float     @default(0)
-  loyaltyPointsUsed Int       @default(0)
+  loyaltyDiscount   Float @default(0)
+  loyaltyPointsUsed Int   @default(0)
 
   // Payment flow
-  paymentToken      String?   @unique
-  paymentMethod     String?   // ZELLE | CARD | CASH
-  technicianId    String?
-  sentByName      String?
+  paymentToken  String? @unique
+  paymentMethod String? // ZELLE | CARD | CASH
+  technicianId  String?
+  sentByName    String?
 
   appointment Appointment @relation(fields: [appointmentId], references: [id], onDelete: Cascade)
 }
@@ -391,25 +392,25 @@ model TechnicianProfile {
   updatedAt     DateTime @updatedAt
 
   // New fields
-  skills        String[] @default([])
-  serviceAreas  String[] @default([])
-  vehicleInfo   Json?
+  skills         String[] @default([])
+  serviceAreas   String[] @default([])
+  vehicleInfo    Json?
   certifications Json?
-  photo         String?
-  bio           String?
+  photo          String?
+  bio            String?
 
   // Dispatch
-  employeeId        String?
-  employmentType    String?  // W2 | 1099
-  techRole          String?  // PRIMARY | LEAD_INSTALLER | HELPER | SUPERVISOR
-  workingHours      Json?    // { mon: { start: "08:00", end: "17:00" } | null, ... }
+  employeeId         String?
+  employmentType     String? // W2 | 1099
+  techRole           String? // PRIMARY | LEAD_INSTALLER | HELPER | SUPERVISOR
+  workingHours       Json? // { mon: { start: "08:00", end: "17:00" } | null, ... }
   emergencyAvailable Boolean @default(false)
-  hourlyRate        Float?
-  commissionRate    Float?
-  boardColor        String?
-  homeLat           Float?   // start-of-day location for travel estimates
-  homeLng           Float?
-  homeAddress       String?  // start-of-day address (geocoded into homeLat/homeLng)
+  hourlyRate         Float?
+  commissionRate     Float?
+  boardColor         String?
+  homeLat            Float? // start-of-day location for travel estimates
+  homeLng            Float?
+  homeAddress        String? // start-of-day address (geocoded into homeLat/homeLng)
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
@@ -462,33 +463,33 @@ model Property {
 }
 
 model ServicePlan {
-  id            String   @id @default(cuid())
-  name          String
-  description   String?
-  price         Float
-  interval      String
-  features      String[] @default([])
+  id              String   @id @default(cuid())
+  name            String
+  description     String?
+  price           Float
+  interval        String
+  features        String[] @default([])
   stripeProductId String?
   stripePriceId   String?
-  isActive      Boolean  @default(true)
-  sortOrder     Int      @default(0)
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  isActive        Boolean  @default(true)
+  sortOrder       Int      @default(0)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 
   customerPlans CustomerServicePlan[]
 }
 
 model CustomerServicePlan {
-  id                  String             @id @default(cuid())
-  userId              String
-  planId              String
-  status              SubscriptionStatus @default(ACTIVE)
+  id                   String             @id @default(cuid())
+  userId               String
+  planId               String
+  status               SubscriptionStatus @default(ACTIVE)
   stripeSubscriptionId String?
-  currentPeriodEnd    DateTime?
-  nextBilling         DateTime?
-  cancelledAt         DateTime?
-  createdAt           DateTime           @default(now())
-  updatedAt           DateTime           @updatedAt
+  currentPeriodEnd     DateTime?
+  nextBilling          DateTime?
+  cancelledAt          DateTime?
+  createdAt            DateTime           @default(now())
+  updatedAt            DateTime           @updatedAt
 
   user User        @relation(fields: [userId], references: [id], onDelete: Cascade)
   plan ServicePlan @relation(fields: [planId], references: [id], onDelete: Cascade)
@@ -513,16 +514,16 @@ model Warranty {
 }
 
 model MaintenanceLog {
-  id            String    @id @default(cuid())
+  id            String   @id @default(cuid())
   appointmentId String?
   userId        String
   technicianId  String?
   notes         String?
   partsUsed     Json?
   laborHours    Float?
-  photos        String[]  @default([])
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  photos        String[] @default([])
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 
   appointment Appointment? @relation(fields: [appointmentId], references: [id], onDelete: SetNull)
 }
@@ -541,22 +542,22 @@ model AIConversation {
 }
 
 model Product {
-  id            String   @id @default(cuid())
-  name          String
-  slug          String   @unique
-  description   String?
-  price         Float
-  comparePrice  Float?
-  images        String[] @default([])
-  videoUrl      String?
-  category      String
-  inStock       Boolean  @default(true)
-  stockCount    Int?
-  featured      Boolean  @default(false)
-  sortOrder     Int      @default(0)
+  id              String   @id @default(cuid())
+  name            String
+  slug            String   @unique
+  description     String?
+  price           Float
+  comparePrice    Float?
+  images          String[] @default([])
+  videoUrl        String?
+  category        String
+  inStock         Boolean  @default(true)
+  stockCount      Int?
+  featured        Boolean  @default(false)
+  sortOrder       Int      @default(0)
   stripeProductId String?
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 
   orderItems OrderItem[]
 }
@@ -583,18 +584,18 @@ model Order {
   installationCity      String?
   installationDate      DateTime?
   installationTime      String?
-  appointmentId         String?     @unique
+  appointmentId         String?   @unique
   technicianId          String?
   technicianName        String?
-  jobComplete           Boolean     @default(false)
-  adminConfirmed        Boolean     @default(false)
-  installationPhotos    String[]    @default([])
+  jobComplete           Boolean   @default(false)
+  adminConfirmed        Boolean   @default(false)
+  installationPhotos    String[]  @default([])
   customerEmail         String?
   customerPhone         String?
 
-  user       User?       @relation(fields: [userId], references: [id], onDelete: SetNull)
-  items      OrderItem[]
-  payments   Payment[]
+  user     User?       @relation(fields: [userId], references: [id], onDelete: SetNull)
+  items    OrderItem[]
+  payments Payment[]
 }
 
 model OrderItem {
@@ -644,69 +645,69 @@ model PushSubscription {
 }
 
 model Estimate {
-  id             String    @id @default(cuid())
-  estimateNumber String    @unique
+  id             String  @id @default(cuid())
+  estimateNumber String  @unique
   technicianId   String?
   appointmentId  String?
 
-  clientName     String
-  clientEmail    String
-  clientPhone    String?
-  clientMobile   String?
-  clientFax      String?
-  clientAddress  String?
-  clientCity     String?
-  clientState    String    @default("TX")
-  clientZip      String?
+  clientName    String
+  clientEmail   String
+  clientPhone   String?
+  clientMobile  String?
+  clientFax     String?
+  clientAddress String?
+  clientCity    String?
+  clientState   String  @default("TX")
+  clientZip     String?
 
-  lineItems      Json      @default("[]")
+  lineItems         Json    @default("[]")
   additionalDetails String?
 
-  subtotal       Float     @default(0)
-  taxType        String    @default("none")
-  taxLabel       String?
-  taxRate        Float     @default(0)
-  taxInclusive   Boolean   @default(false)
-  discountType   String    @default("none")
-  discountValue  Float     @default(0)
-  total          Float     @default(0)
+  subtotal      Float   @default(0)
+  taxType       String  @default("none")
+  taxLabel      String?
+  taxRate       Float   @default(0)
+  taxInclusive  Boolean @default(false)
+  discountType  String  @default("none")
+  discountValue Float   @default(0)
+  total         Float   @default(0)
 
-  status         String    @default("OPEN")
-  templateColor  String    @default("#1B3FA8")
-  showFinancing  Boolean   @default(false)
-  requestSignature Boolean @default(true)
-  signatureUrl   String?
-  sentAt         DateTime?
-  convertedAt    DateTime?
-  invoiceId      String?
+  status           String    @default("OPEN")
+  templateColor    String    @default("#1B3FA8")
+  showFinancing    Boolean   @default(false)
+  requestSignature Boolean   @default(true)
+  signatureUrl     String?
+  sentAt           DateTime?
+  convertedAt      DateTime?
+  invoiceId        String?
 
   // Invoice mode
-  isInvoice      Boolean   @default(false)
-  paymentToken   String?   @unique
-  paymentMethod  String?   // ZELLE | CARD | CASH
-  paidAt         DateTime?
-  sentByName     String?
+  isInvoice     Boolean   @default(false)
+  paymentToken  String?   @unique
+  paymentMethod String? // ZELLE | CARD | CASH
+  paidAt        DateTime?
+  sentByName    String?
 
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   technician User? @relation("technicianEstimates", fields: [technicianId], references: [id], onDelete: SetNull)
 }
 
 model PriceBookItem {
-  id            String   @id @default(cuid())
+  id            String  @id @default(cuid())
   industry      String
   category      String
   subcategory1  String?
   subcategory2  String?
   name          String
   description   String?
-  price         Float    @default(0)
-  cost          Float    @default(0)
-  taxable       Boolean  @default(true)
+  price         Float   @default(0)
+  cost          Float   @default(0)
+  taxable       Boolean @default(true)
   unit          String?
   taskCode      String?
-  onlineBooking Boolean  @default(false)
+  onlineBooking Boolean @default(false)
   imageUrl      String?
 
   createdAt DateTime @default(now())
@@ -740,11 +741,11 @@ model DiagnosisForm {
 // dropped, for historical rows). See lib/service-diagnostic-fields.ts for the
 // per-service-type field catalog rendered against `sectionData`.
 model ServiceDiagnostic {
-  id                       String    @id @default(cuid())
-  appointmentId            String    @unique
-  technicianId             String?
+  id            String  @id @default(cuid())
+  appointmentId String  @unique
+  technicianId  String?
 
-  serviceType              String    // AIR_CONDITIONING | HEATING | PLUMBING | REMODELING | OTHER
+  serviceType              String // AIR_CONDITIONING | HEATING | PLUMBING | REMODELING | OTHER
   customerReportedIssue    String?
   arrivalTime              DateTime?
   diagnosticStartTime      DateTime?
@@ -752,32 +753,32 @@ model ServiceDiagnostic {
 
   // Section 2 — Initial Site Inspection
   equipmentInspected       String?
-  systemOperatingOnArrival String?   // YES | NO | INTERMITTENTLY | NOT_APPLICABLE
+  systemOperatingOnArrival String? // YES | NO | INTERMITTENTLY | NOT_APPLICABLE
   visibleDamage            Boolean?
-  waterLeakPresent         String?   // YES | NO | NA
-  unusualNoise             String?   // YES | NO | NA
+  waterLeakPresent         String? // YES | NO | NA
+  unusualNoise             String? // YES | NO | NA
   burningSmell             Boolean?
-  immediateSafetyConcern   Boolean   @default(false)
+  immediateSafetyConcern   Boolean  @default(false)
   safetyConcernDescription String?
 
   // Sections 3-6 — service-type-specific technical readings, keyed by field id
-  sectionData              Json      @default("{}")
+  sectionData Json @default("{}")
 
   // Section 7 — Diagnostic Findings
-  problemFound              String?
-  rootCause                 String?
+  problemFound                String?
+  rootCause                   String?
   evidenceSupportingDiagnosis String?
-  affectedComponents        String?
-  recommendedRepair         String?
-  additionalRecommendations String?
+  affectedComponents          String?
+  recommendedRepair           String?
+  additionalRecommendations   String?
 
   // Section 8 — Parts & Materials
-  partsRequired            Json      @default("[]")
+  partsRequired Json @default("[]")
 
   // Section 9 — Repair Urgency
-  repairUrgency              String? // NORMAL | RECOMMENDED | URGENT | EMERGENCY
-  canCustomerContinueUsing   String? // YES | NO | WITH_LIMITATIONS
-  cannotContinueExplanation  String?
+  repairUrgency             String? // NORMAL | RECOMMENDED | URGENT | EMERGENCY
+  canCustomerContinueUsing  String? // YES | NO | WITH_LIMITATIONS
+  cannotContinueExplanation String?
 
   // Section 11 — Technician Final Diagnosis
   finalDiagnosis            String?
@@ -790,10 +791,10 @@ model ServiceDiagnostic {
   updatedAt   DateTime  @updatedAt
 
   // Phase 2 — supervisor review workflow
-  status              DiagnosticStatus @default(DRAFT)
-  reviewedById        String?
-  reviewedAt          DateTime?
-  supervisorComment   String?
+  status               DiagnosticStatus @default(DRAFT)
+  reviewedById         String?
+  reviewedAt           DateTime?
+  supervisorComment    String?
   customerReportSentAt DateTime?
 
   // Public, non-expiring token for the on-demand PDF view route — used to
@@ -816,8 +817,8 @@ enum DiagnosticStatus {
 // but review stays mandatory here (not simplified away like ServiceDiagnostic
 // was) since a new install carries warranty/liability weight.
 model SystemStartup {
-  id            String   @id @default(cuid())
-  appointmentId String   @unique
+  id            String  @id @default(cuid())
+  appointmentId String  @unique
   technicianId  String?
 
   // Section 1 — Job & Installation Information
@@ -845,9 +846,9 @@ model SystemStartup {
   technicianSignatureUrl String?
   technicianCertifiedAt  DateTime?
 
-  handoverChecklist     Json      @default("[]")
-  customerSignatureUrl  String?
-  customerHandoverAt    DateTime?
+  handoverChecklist    Json      @default("[]")
+  customerSignatureUrl String?
+  customerHandoverAt   DateTime?
 
   status               DiagnosticStatus @default(DRAFT)
   reviewedById         String?
@@ -860,8 +861,8 @@ model SystemStartup {
   reportToken String? @unique
 
   completedAt DateTime?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 
   appointment Appointment @relation(fields: [appointmentId], references: [id], onDelete: Cascade)
 }
@@ -871,8 +872,8 @@ model SystemStartup {
 // and a full whole-system duct cleaning with vent/register-by-vent/register
 // documentation. See lib/duct-cleaning-fields.ts for the field catalog.
 model VentCleaning {
-  id            String   @id @default(cuid())
-  appointmentId String   @unique
+  id            String  @id @default(cuid())
+  appointmentId String  @unique
   technicianId  String?
 
   propertyType          String?
@@ -880,9 +881,9 @@ model VentCleaning {
   supplyVentsAuthorized Int?
   returnVentsAuthorized Int?
 
-  overallCondition       Json    @default("[]")
-  overallConditionOther  String?
-  beforePhotos           Json    @default("[]")
+  overallCondition      Json    @default("[]")
+  overallConditionOther String?
+  beforePhotos          Json    @default("[]")
 
   vents Json @default("[]")
 
@@ -909,8 +910,8 @@ model VentCleaning {
 }
 
 model DuctCleaning {
-  id            String   @id @default(cuid())
-  appointmentId String   @unique
+  id            String  @id @default(cuid())
+  appointmentId String  @unique
   technicianId  String?
 
   propertyType         String?
@@ -933,23 +934,23 @@ model DuctCleaning {
   registers         Json @default("[]")
   componentCleaning Json @default("{}")
 
-  additionalIssueFound        Boolean @default(false)
-  issuesFound                 Json    @default("[]")
+  additionalIssueFound        Boolean  @default(false)
+  issuesFound                 Json     @default("[]")
   issuesOther                 String?
-  issuePhotoUrl                String?
+  issuePhotoUrl               String?
   additionalRepairRecommended String?
   separateEstimateRequired    Boolean?
 
-  finalInspection         Json    @default("[]")
-  systemConditionAfter    String?
-  notOperatedExplanation  String?
+  finalInspection        Json    @default("[]")
+  systemConditionAfter   String?
+  notOperatedExplanation String?
 
   beforePhotos Json @default("[]")
   afterPhotos  Json @default("[]")
 
-  technicianNotes         String?
-  technicianSignatureUrl  String?
-  customerSignatureUrl    String?
+  technicianNotes        String?
+  technicianSignatureUrl String?
+  customerSignatureUrl   String?
 
   completedAt          DateTime?
   customerReportSentAt DateTime?
@@ -1089,29 +1090,29 @@ model Expense {
 }
 
 model ExpenseSubscription {
-  id                   String   @id @default(cuid())
-  userId               String   @unique
+  id                   String    @id @default(cuid())
+  userId               String    @unique
   stripeCustomerId     String?
   stripeSubscriptionId String?
-  status               String   @default("inactive")
+  status               String    @default("inactive")
   currentPeriodEnd     DateTime?
-  createdAt            DateTime @default(now())
-  updatedAt            DateTime @updatedAt
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Campaign {
-  id        String   @id @default(cuid())
+  id        String    @id @default(cuid())
   name      String
   subject   String?
   body      String?
   smsText   String?
   flyer     String?
   flyerType String?
-  status    String   @default("DRAFT")
+  status    String    @default("DRAFT")
   sentAt    DateTime?
-  createdAt DateTime @default(now())
+  createdAt DateTime  @default(now())
 
   recipients CampaignRecipient[]
 }
@@ -1168,35 +1169,35 @@ model Customer {
   createdAt         DateTime     @default(now())
   updatedAt         DateTime     @updatedAt
 
-  user           User?           @relation(fields: [userId], references: [id], onDelete: SetNull)
-  appointments   Appointment[]
-  calls          Call[]
-  voicemails     Voicemail[]
-  messageThreads MessageThread[]
-  emailThreads   EmailThread[]
-  doNotContact   DoNotContact?
+  user                 User?                 @relation(fields: [userId], references: [id], onDelete: SetNull)
+  appointments         Appointment[]
+  calls                Call[]
+  voicemails           Voicemail[]
+  messageThreads       MessageThread[]
+  emailThreads         EmailThread[]
+  doNotContact         DoNotContact?
   maintenanceContracts MaintenanceContract[]
-  equipment      Equipment[]
-  projects       Project[]
-  loyaltyAccount LoyaltyAccount?
+  equipment            Equipment[]
+  projects             Project[]
+  loyaltyAccount       LoyaltyAccount?
 
   @@index([phone])
   @@index([email])
 }
 
 model Equipment {
-  id            String    @id @default(cuid())
-  customerId    String
-  technicianId  String?
-  type          String    // "HVAC", "Water Heater", "Furnace", etc.
-  makeModel     String?
-  serialNumber  String?
-  installDate   DateTime?
-  age           String?
-  location      String?   // e.g. "Attic", "Backyard unit"
-  notes         String?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  id           String    @id @default(cuid())
+  customerId   String
+  technicianId String?
+  type         String // "HVAC", "Water Heater", "Furnace", etc.
+  makeModel    String?
+  serialNumber String?
+  installDate  DateTime?
+  age          String?
+  location     String? // e.g. "Attic", "Backyard unit"
+  notes        String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
 
   customer Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
 
@@ -1204,18 +1205,77 @@ model Equipment {
 }
 
 model Project {
-  id          String    @id @default(cuid())
+  id          String   @id @default(cuid())
   customerId  String
   name        String
   description String?
-  status      String    @default("OPEN") // OPEN | COMPLETED | ON_HOLD
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  status      String   @default("OPEN") // OPEN | COMPLETED | ON_HOLD | CANCELED
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
-  customer     Customer      @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  // Installation projects (Service Operations phase 3)
+  projectNumber    String?   @unique // IP-2026-0001
+  kind             String    @default("INSTALLATION")
+  stage            String    @default("LEAD") // see lib/projects.ts PROJECT_STAGES
+  stageUpdatedAt   DateTime?
+  address          String?
+  city             String?
+  zipCode          String?
+  equipmentSummary String?
+  contractAmount   Float?
+  depositAmount    Float?
+  permitNumber     String?
+  targetDate       DateTime?
+  salesRepId       String?
+  leadInstallerId  String?
+  createdById      String?
+
+  customer     Customer       @relation(fields: [customerId], references: [id], onDelete: Cascade)
   appointments Appointment[]
+  events       ProjectEvent[]
 
   @@index([customerId])
+  @@index([stage])
+}
+
+model ProjectEvent {
+  id        String   @id @default(cuid())
+  projectId String
+  type      String // CREATED | STAGE | NOTE | JOB | UPDATED
+  message   String
+  fromStage String?
+  toStage   String?
+  userId    String?
+  userName  String?
+  createdAt DateTime @default(now())
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([projectId, createdAt])
+}
+
+/// One included tune-up of a maintenance membership (2 per contract year: spring AC + fall heating).
+model MaintenanceVisit {
+  id            String    @id @default(cuid())
+  contractId    String
+  customerId    String
+  periodStart   DateTime // start of the contract year this visit belongs to
+  visitNumber   Int // 1 or 2
+  season        String // SPRING_AC | FALL_HEATING
+  windowStart   DateTime
+  windowEnd     DateTime // due by
+  status        String    @default("DUE") // DUE | SCHEDULED | COMPLETED | SKIPPED
+  appointmentId String?   @unique
+  completedAt   DateTime?
+  notes         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  contract    MaintenanceContract @relation(fields: [contractId], references: [id], onDelete: Cascade)
+  appointment Appointment?        @relation(fields: [appointmentId], references: [id], onDelete: SetNull)
+
+  @@unique([contractId, periodStart, visitNumber])
+  @@index([status, windowEnd])
 }
 
 enum CallDirection {
@@ -1268,11 +1328,11 @@ model Call {
   updatedAt        DateTime         @updatedAt
 
   // AI voice agent (Vapi/"Emma") — populated when a call is handled or overflowed to the AI
-  vapiCallId    String? @unique
-  aiSummary     String? @db.Text
-  aiTranscript  String? @db.Text
+  vapiCallId     String? @unique
+  aiSummary      String? @db.Text
+  aiTranscript   String? @db.Text
   aiRecordingUrl String?
-  aiEndedReason String?
+  aiEndedReason  String?
 
   // Twilio SIDs of the outbound legs ringing dispatchers for this inbound call (cancelled once one accepts)
   ringLegSids String[] @default([])
@@ -1434,8 +1494,10 @@ model EmailMessage {
   @@index([threadId])
 }
 
-/** Short redirect links for SMS — keeps texted invoice/estimate links from
- *  looking like a wall of text (raw URLs with a security token are long). */
+/**
+ * Short redirect links for SMS — keeps texted invoice/estimate links from
+ * looking like a wall of text (raw URLs with a security token are long).
+ */
 model ShortLink {
   id        String   @id @default(cuid())
   code      String   @unique
@@ -1443,8 +1505,10 @@ model ShortLink {
   createdAt DateTime @default(now())
 }
 
-/** HVAC system type options for the Performance Plan Contract flow (Heat Pump,
- *  Straight Cool, Package Unit, ...) — admin-managed so the list can grow. */
+/**
+ * HVAC system type options for the Performance Plan Contract flow (Heat Pump,
+ * Straight Cool, Package Unit, ...) — admin-managed so the list can grow.
+ */
 model SystemType {
   id        String   @id @default(cuid())
   name      String   @unique
@@ -1453,8 +1517,10 @@ model SystemType {
   createdAt DateTime @default(now())
 }
 
-/** A form the super admin configures (fields defined as JSON) — e.g. "Clean and
- *  Check Forms → First Visit". Technicians fill it out per job. */
+/**
+ * A form the super admin configures (fields defined as JSON) — e.g. "Clean and
+ * Check Forms → First Visit". Technicians fill it out per job.
+ */
 model FormTemplate {
   id        String   @id @default(cuid())
   slug      String   @unique // matches the technician-app route, e.g. "clean-and-check-first-visit"
@@ -1562,10 +1628,11 @@ model MaintenanceContract {
   membershipStartDate     DateTime?
   renewalDate             DateTime?
 
-  customer   Customer             @relation(fields: [customerId], references: [id], onDelete: Cascade)
-  planType   MaintenancePlanType  @relation(fields: [planTypeId], references: [id])
-  properties ContractProperty[]
+  customer    Customer             @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  planType    MaintenancePlanType  @relation(fields: [planTypeId], references: [id])
+  properties  ContractProperty[]
   hvacSystems ContractHvacSystem[]
+  visits      MaintenanceVisit[]
 
   @@index([customerId])
   @@index([stripeSubscriptionId])
@@ -1591,31 +1658,31 @@ model ContractProperty {
   tenantEmail        String?
   createdAt          DateTime @default(now())
 
-  contract MaintenanceContract @relation(fields: [contractId], references: [id], onDelete: Cascade)
+  contract MaintenanceContract  @relation(fields: [contractId], references: [id], onDelete: Cascade)
   systems  ContractHvacSystem[]
 
   @@index([contractId])
 }
 
 model ContractHvacSystem {
-  id             String   @id @default(cuid())
-  contractId     String
-  propertyId     String?
-  nickname       String?
-  coolingType    String?
-  heatingType    String?
-  brand          String?
-  model          String?
-  serialNumber   String?
-  age            String?
-  indoorLocation String?
+  id              String   @id @default(cuid())
+  contractId      String
+  propertyId      String?
+  nickname        String?
+  coolingType     String?
+  heatingType     String?
+  brand           String?
+  model           String?
+  serialNumber    String?
+  age             String?
+  indoorLocation  String?
   outdoorLocation String?
-  condition      String?
-  unknownDetails Boolean  @default(false)
-  createdAt      DateTime @default(now())
+  condition       String?
+  unknownDetails  Boolean  @default(false)
+  createdAt       DateTime @default(now())
 
-  contract  MaintenanceContract @relation(fields: [contractId], references: [id], onDelete: Cascade)
-  property  ContractProperty?   @relation(fields: [propertyId], references: [id], onDelete: SetNull)
+  contract MaintenanceContract @relation(fields: [contractId], references: [id], onDelete: Cascade)
+  property ContractProperty?   @relation(fields: [propertyId], references: [id], onDelete: SetNull)
 
   @@index([contractId])
   @@index([propertyId])
@@ -1626,9 +1693,9 @@ model ContractHvacSystem {
 model LoyaltyAccount {
   id          String   @id @default(cuid())
   customerId  String   @unique
-  balance     Int      @default(0)   // current redeemable points
-  totalEarned Int      @default(0)   // lifetime points earned
-  totalSpent  Int      @default(0)   // lifetime points redeemed
+  balance     Int      @default(0) // current redeemable points
+  totalEarned Int      @default(0) // lifetime points earned
+  totalSpent  Int      @default(0) // lifetime points redeemed
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
@@ -1639,8 +1706,8 @@ model LoyaltyAccount {
 model LoyaltyTransaction {
   id          String   @id @default(cuid())
   accountId   String
-  type        String   // EARN | REDEEM | ADJUSTMENT
-  points      Int      // positive = earn, negative = spend
+  type        String // EARN | REDEEM | ADJUSTMENT
+  points      Int // positive = earn, negative = spend
   description String
   invoiceId   String?
   createdAt   DateTime @default(now())
@@ -1650,12 +1717,11 @@ model LoyaltyTransaction {
   @@index([accountId])
 }
 
-
 /// Evidence log: every signature a customer gives on a technician's device, with
 /// the exact statement they agreed to (used to answer card disputes/chargebacks).
 model CustomerSignature {
   id                    String   @id @default(cuid())
-  kind                  String   // ESTIMATE_APPROVAL | PAYMENT_AUTHORIZATION | WORK_COMPLETION | PAYMENT_ACKNOWLEDGMENT
+  kind                  String // ESTIMATE_APPROVAL | PAYMENT_AUTHORIZATION | WORK_COMPLETION | PAYMENT_ACKNOWLEDGMENT
   estimateId            String?
   appointmentId         String?
   customerId            String?
@@ -1694,7 +1760,7 @@ model JobAssignment {
 model JobEvent {
   id            String   @id @default(cuid())
   appointmentId String
-  type          String   // CREATED | SCHEDULED | ASSIGNED | UNASSIGNED | STATUS | TECH_STATUS | CANCELED | NOTE | FORCED
+  type          String // CREATED | SCHEDULED | ASSIGNED | UNASSIGNED | STATUS | TECH_STATUS | CANCELED | NOTE | FORCED
   message       String
   fromValue     String?
   toValue       String?

@@ -1,4 +1,5 @@
 import { db } from "@/lib/db";
+import { syncMaintenanceVisits } from "@/lib/maintenance-visits";
 import {
   getDispatchConfig, getBoardTechnicians, techHoursFor, boardStatus, ctParts, ctInstant, hm, fmtTimeCT,
 } from "@/lib/dispatch";
@@ -21,6 +22,7 @@ export type CommandAlert = {
   appointmentNumber?: string;
   technicianId?: string;
   date?: string; // board day (YYYY-MM-DD) to open
+  link?: string; // explicit page to open instead of the board
   at?: string; // ISO of the triggering time
 };
 
@@ -110,7 +112,7 @@ export async function getCommandCenter() {
   // 2. Open requests due today or earlier that have no slot/technician yet.
   //    Recent ones one by one; anything older than 14 days is grouped into one clean-up alert.
   const staleCutoff = ctParts(new Date(now.getTime() - 14 * 86400000)).ymd;
-  const dueList = queue.filter((j) => !j.isEmergency && j.preferredDate && ctParts(j.preferredDate).ymd <= today);
+  const dueList = queue.filter((j) => !j.isEmergency && !j.scheduledStart && j.preferredDate && ctParts(j.preferredDate).ymd <= today);
   const stale = dueList.filter((j) => ctParts(j.preferredDate!).ymd < staleCutoff);
   if (stale.length) {
     const oldest = stale.reduce((a, b) => (a.preferredDate! < b.preferredDate! ? a : b));
@@ -130,6 +132,17 @@ export async function getCommandCenter() {
       date: today,
     });
   }
+  // 2b. Booked into a time slot (AI receptionist, maintenance, projects…) but no technician yet.
+  for (const j of queue.filter((j) => j.scheduledStart && !j.technicianId)) {
+    const hoursAway = (j.scheduledStart!.getTime() - now.getTime()) / 3600000;
+    push({
+      id: `slot-${j.id}`, code: "SLOT_WITHOUT_TECH", severity: hoursAway < 24 ? "high" : "medium", ...ref(j),
+      title: `Booked for ${ctParts(j.scheduledStart!).ymd === today ? "today" : ctParts(j.scheduledStart!).ymd} ${fmtTimeCT(j.scheduledStart!)} — no technician`,
+      detail: `${j.name} · ${j.jobCategory || j.service}. Open it and use "Assign recommended technician".`,
+      at: j.scheduledStart!.toISOString(), date: ctParts(j.scheduledStart!).ymd,
+    });
+  }
+
 
   const tracked = new Map<string, { jobs: typeof todayJobs }>();
   for (const id of techIds) tracked.set(id, { jobs: [] });
@@ -229,6 +242,29 @@ export async function getCommandCenter() {
       id: `est-${e.id}`, code: "ESTIMATE_FOLLOW_UP", severity: "low", appointmentId: e.appointmentId ?? undefined,
       title: `Follow up estimate #${e.estimateNumber} — ${e.clientName}`,
       detail: `$${e.total.toFixed(2)} · open since ${ctParts(e.createdAt).ymd}`,
+    });
+  }
+
+  // 11. Maintenance memberships: visits past their window, and visits due now without a job.
+  await syncMaintenanceVisits().catch((e) => console.error("maintenance sync failed", e));
+  const [overdueVisits, dueVisits, stuckProjects] = await Promise.all([
+    db.maintenanceVisit.count({ where: { status: "DUE", windowEnd: { lt: now } } }),
+    db.maintenanceVisit.count({ where: { status: "DUE", windowStart: { lte: now }, windowEnd: { gte: now } } }),
+    db.project.findMany({
+      where: { status: "OPEN", stageUpdatedAt: { lt: new Date(now.getTime() - 14 * 86400000) } },
+      select: { id: true, projectNumber: true, name: true, stage: true, stageUpdatedAt: true, customer: { select: { firstName: true, lastName: true } } },
+      take: 20,
+    }),
+  ]);
+  if (overdueVisits) push({ id: "mv-overdue", code: "MAINTENANCE_OVERDUE", severity: "high", title: `${overdueVisits} maintenance visit${overdueVisits > 1 ? "s" : ""} past due`, detail: "Members didn't get their included tune-up in its season window. Open Maintenance Visits → Overdue.", link: "/dispatcher/maintenance" });
+  if (dueVisits) push({ id: "mv-due", code: "MAINTENANCE_DUE", severity: "low", title: `${dueVisits} maintenance visit${dueVisits > 1 ? "s" : ""} due now with no job`, detail: "Create the jobs from Maintenance Visits → Due now.", link: "/dispatcher/maintenance" });
+  // 12. Installation projects stuck in a stage for 14+ days.
+  for (const p of stuckProjects) {
+    push({
+      id: `proj-${p.id}`, code: "PROJECT_STUCK", severity: "low",
+      title: `Project ${p.projectNumber} idle for ${Math.floor((now.getTime() - p.stageUpdatedAt!.getTime()) / 86400000)} days`,
+      detail: `${[p.customer.firstName, p.customer.lastName].filter(Boolean).join(" ")} — ${p.name} · stage: ${p.stage.replace(/_/g, " ").toLowerCase()}`,
+      link: `/dispatcher/projects?project=${p.id}`,
     });
   }
 

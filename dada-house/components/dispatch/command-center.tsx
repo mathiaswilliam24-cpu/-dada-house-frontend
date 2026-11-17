@@ -160,9 +160,9 @@ export default function CommandCenter() {
                       </div>
                       <p className="text-xs text-gray-600 mt-0.5">{a.detail}</p>
                     </div>
-                    {(a.appointmentId || a.date) && (
-                      <Link href={boardLink(a)} className="shrink-0 text-xs font-bold px-2.5 py-1.5 rounded-lg bg-white border border-gray-200 text-[#1B3FA8] hover:bg-blue-50">
-                        {a.appointmentNumber ? `#${a.appointmentNumber}` : a.appointmentId ? "Open" : "Open board"}
+                    {(a.link || a.appointmentId || a.date) && (
+                      <Link href={a.link ?? boardLink(a)} className="shrink-0 text-xs font-bold px-2.5 py-1.5 rounded-lg bg-white border border-gray-200 text-[#1B3FA8] hover:bg-blue-50">
+                        {a.appointmentNumber ? `#${a.appointmentNumber}` : a.appointmentId || a.link ? "Open" : "Open board"}
                       </Link>
                     )}
                   </li>

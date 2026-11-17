@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse, after } from "next/server";
 import { db } from "@/lib/db";
 import { voiceAgentAppointmentSchema } from "@/lib/validations";
-import { nextCallNumber } from "@/lib/dispatch";
+import { nextCallNumber, inferJobType, ctParts, fmtTimeCT, logJobEvent } from "@/lib/dispatch";
+import { findOpenWindows } from "@/lib/dispatch-availability";
 import { resend, FROM_EMAIL } from "@/lib/resend";
 import { sendSMS } from "@/lib/twilio";
 import { sendOutboundSms } from "@/lib/messaging";
@@ -44,8 +45,28 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { calendarSynced, diagnosticFee, ...data } = parsed.data;
+    const { calendarSynced, diagnosticFee, slotStart, ...data } = parsed.data;
     const isDiagnostic = typeof diagnosticFee === "number" && diagnosticFee > 0;
+
+    // Arrival window chosen from /api/voice-agent/availability — re-checked against the
+    // live board so two callers can't take the last open spot.
+    const jobType = inferJobType(data.service);
+    let slot: { start: Date; end: Date; window: string; minutes: number } | null = null;
+    if (slotStart) {
+      const start = new Date(slotStart);
+      const check = await findOpenWindows({ jobType, fromYmd: ctParts(start).ymd, days: 1 });
+      const w = check.windows.find((x) => new Date(x.start).getTime() === start.getTime());
+      if (!w) {
+        const alt = await findOpenWindows({ jobType, fromYmd: ctParts(start).ymd, days: 3, limit: 6 });
+        return NextResponse.json({
+          error: "slot_unavailable",
+          message: "That arrival window was just taken. Offer one of these instead.",
+          slots: alt.windows,
+        }, { status: 409 });
+      }
+      const t = (d: Date) => fmtTimeCT(d).replace(":00", "");
+      slot = { start, end: new Date(start.getTime() + check.durationMinutes * 60000), window: `${t(start)} - ${t(new Date(w.end))}`, minutes: check.durationMinutes };
+    }
 
     const appointmentNumber = await nextCallNumber();
     const customer = await findOrCreateCustomerByPhone(data.phone, {
@@ -57,12 +78,32 @@ export async function POST(req: NextRequest) {
       data: {
         appointmentNumber,
         ...data,
-        preferredDate: data.preferredDate ? new Date(data.preferredDate) : null,
+        preferredDate: slot ? slot.start : data.preferredDate ? new Date(data.preferredDate) : null,
+        ...(slot ? {
+          preferredTime: fmtTimeCT(slot.start),
+          scheduledStart: slot.start,
+          scheduledEnd: slot.end,
+          estimatedMinutes: slot.minutes,
+          arrivalWindow: slot.window,
+          eta: slot.start,
+        } : {}),
+        jobType,
         status: isDiagnostic ? "PENDING" : (calendarSynced ? "CONFIRMED" : "PENDING"),
         source: "voice_agent",
         customerId: customer.id,
         ...(isDiagnostic ? { diagnosticFee, diagnosticFeeStatus: "PENDING" } : {}),
       },
+    });
+
+    // Customer messages show the real arrival window.
+    if (slot) {
+      data.preferredDate = slot.start.toLocaleDateString("en-US", { timeZone: "America/New_York", weekday: "short", month: "short", day: "numeric" });
+      data.preferredTime = `${slot.window} (arrival window)`;
+    }
+
+    await logJobEvent({
+      appointmentId: appointment.id, type: "CREATED", userName: "AI receptionist",
+      message: slot ? `Booked by the AI receptionist for ${ctParts(slot.start).ymd}, ${slot.window} — needs a technician` : "Booked by the AI receptionist (no time slot)",
     });
 
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://www.mydadahouse.com";
@@ -87,7 +128,7 @@ export async function POST(req: NextRequest) {
 
       const payUrl = `${baseUrl}/pay/${paymentToken}`;
       const date = appointment.preferredDate
-        ? new Date(appointment.preferredDate).toLocaleDateString("en-US", { month: "short", day: "numeric" })
+        ? new Date(appointment.preferredDate).toLocaleDateString("en-US", { timeZone: "America/New_York", month: "short", day: "numeric" })
         : "a date TBD";
       const timeStr = appointment.preferredTime ? ` at ${appointment.preferredTime}` : "";
 
