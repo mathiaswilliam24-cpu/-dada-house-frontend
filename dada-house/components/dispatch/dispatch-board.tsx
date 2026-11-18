@@ -51,6 +51,9 @@ export default function DispatchBoard() {
   const [toast, setToast] = useState<{ text: string; jobId?: string; offerText?: boolean; error?: boolean } | null>(null);
   const [saving, setSaving] = useState(false);
   const dragRef = useRef<DragState | null>(null);
+  // Resize: drag the right edge of a scheduled card to change its end time.
+  const [resize, setResize] = useState<{ job: BoardJob; x0: number; base: number; duration: number } | null>(null);
+  const resizeRef = useRef<typeof resize>(null);
   const targetRef = useRef<DropTarget>(null);
 
   const load = useCallback(async (silent = false) => {
@@ -70,7 +73,7 @@ export default function DispatchBoard() {
 
   useEffect(() => { load(); }, [load]);
   useEffect(() => {
-    const t = setInterval(() => { if (!dragRef.current) load(true); }, 20000);
+    const t = setInterval(() => { if (!dragRef.current && !resizeRef.current) load(true); }, 20000);
     return () => clearInterval(t);
   }, [load]);
 
@@ -147,7 +150,12 @@ export default function DispatchBoard() {
         return;
       }
       const start = ctInstant(t.ymd, t.minutes);
-      const end = new Date(start.getTime() + st.duration * 60000);
+      // A long job (e.g. 8 h install/remodel) dropped late in the day is trimmed to the technician's
+      // end of day instead of being refused; drag the card's right edge to adjust afterwards.
+      let duration = st.duration;
+      const dayEnd = data.technicians.find((x) => x.id === t.techId)?.hours[t.ymd]?.end;
+      if (dayEnd && t.minutes + duration > hm(dayEnd) && hm(dayEnd) - t.minutes >= 30) duration = hm(dayEnd) - t.minutes;
+      const end = new Date(start.getTime() + duration * 60000);
       if (st.job.technicianId === t.techId && st.job.scheduledStart && new Date(st.job.scheduledStart).getTime() === start.getTime()) return;
       // Keep the crew when moving the primary technician's card.
       const crew = st.job.crew.filter((c) => c.technicianId !== t.techId);
@@ -157,6 +165,38 @@ export default function DispatchBoard() {
     window.addEventListener("pointerup", onUp, { once: true });
     return () => { window.removeEventListener("pointermove", onMove); window.removeEventListener("pointerup", onUp); };
   }, [drag, data, schedule]);
+
+  const startResize = (e: React.PointerEvent, job: BoardJob) => {
+    if (e.button !== 0 || !data || !job.scheduledStart) return;
+    e.stopPropagation();
+    const base = durationOf(job, data.config);
+    const st = { job, x0: e.clientX, base, duration: base };
+    resizeRef.current = st;
+    setResize(st);
+  };
+
+  useEffect(() => {
+    if (!resize) return;
+    const onMove = (e: PointerEvent) => {
+      const st = resizeRef.current!;
+      const startMin = minsOf(st.job.scheduledStart!);
+      let d = st.base + (e.clientX - st.x0) / PX;
+      d = Math.max(SNAP, Math.min(1440 - startMin, Math.round(d / SNAP) * SNAP));
+      if (d !== st.duration) { resizeRef.current = { ...st, duration: d }; setResize(resizeRef.current); }
+    };
+    const onUp = async () => {
+      const st = resizeRef.current!;
+      resizeRef.current = null;
+      setResize(null);
+      if (st.duration === st.base) return;
+      const start = new Date(st.job.scheduledStart!);
+      const end = new Date(start.getTime() + st.duration * 60000);
+      await schedule(st.job, { technicianId: st.job.technicianId, start: start.toISOString(), end: end.toISOString(), crew: st.job.crew });
+    };
+    window.addEventListener("pointermove", onMove);
+    window.addEventListener("pointerup", onUp, { once: true });
+    return () => { window.removeEventListener("pointermove", onMove); window.removeEventListener("pointerup", onUp); };
+  }, [resize, schedule]);
 
   const match = useCallback((j: BoardJob) => {
     if (typeFilter !== "ALL" && j.jobType !== typeFilter) return false;
@@ -295,7 +335,7 @@ export default function DispatchBoard() {
                   key={t.id} tech={t} date={date} jobs={jobs} boardStart={boardStart} gridW={gridW}
                   config={data.config} selected={selected} drag={drag} target={target}
                   nowMin={nowParts.ymd === date ? nowParts.minutes : null}
-                  onPointerDown={startDrag}
+                  onPointerDown={startDrag} resize={resize} onResizeStart={startResize}
                 />
               ))}
               {data.technicians.length === 0 && (
@@ -377,16 +417,18 @@ export default function DispatchBoard() {
   );
 }
 
-function JobCard({ job, style, selected, faded, crewRole, onPointerDown }: {
+function JobCard({ job, style, selected, faded, crewRole, onPointerDown, onResizeStart, endOverride }: {
   job: BoardJob; style?: React.CSSProperties; selected: boolean; faded: boolean; crewRole?: string;
   onPointerDown: (e: React.PointerEvent, j: BoardJob) => void;
+  onResizeStart?: (e: React.PointerEvent, j: BoardJob) => void;
+  endOverride?: Date;
 }) {
   const st = STATUS_STYLE[job.boardStatus];
   return (
     <div
       onPointerDown={(e) => onPointerDown(e, job)}
       style={{ ...style, borderLeftColor: job.color }}
-      className={`rounded-lg border border-l-4 px-2 py-1 overflow-hidden cursor-grab active:cursor-grabbing touch-none shadow-sm hover:shadow ${st.card} ${selected ? "ring-2 ring-[#1B3FA8] z-10" : ""} ${faded ? "opacity-40" : ""} ${crewRole ? "border-dashed" : ""}`}
+      className={`relative rounded-lg border border-l-4 pl-2 pr-3 py-1 overflow-hidden cursor-grab active:cursor-grabbing touch-none shadow-sm hover:shadow ${st.card} ${selected ? "ring-2 ring-[#1B3FA8] z-10" : ""} ${faded ? "opacity-40" : ""} ${crewRole ? "border-dashed" : ""}`}
       title={`${job.name} — ${job.jobCategory || job.service}`}
     >
       <div className="flex items-center gap-1">
@@ -398,16 +440,27 @@ function JobCard({ job, style, selected, faded, crewRole, onPointerDown }: {
       </div>
       <p className="text-[11px] truncate opacity-80">{crewRole ? `${crewRole.replace("_", " ").toLowerCase()} · ` : ""}{job.jobCategory || job.service}</p>
       {job.scheduledStart && job.scheduledEnd && (
-        <p className="text-[10px] opacity-60 truncate">{fmtTimeCT(new Date(job.scheduledStart))}–{fmtTimeCT(new Date(job.scheduledEnd))} · {job.city}</p>
+        <p className="text-[10px] opacity-60 truncate">{fmtTimeCT(new Date(job.scheduledStart))}–{fmtTimeCT(endOverride ?? new Date(job.scheduledEnd))} · {job.city}</p>
+      )}
+      {onResizeStart && job.scheduledStart && (
+        <div
+          onPointerDown={(e) => onResizeStart(e, job)}
+          title="Drag to change the end time"
+          className="absolute top-0 right-0 h-full w-2.5 cursor-ew-resize touch-none flex items-center justify-center group/rs"
+        >
+          <span className="w-1 h-6 rounded-full bg-current opacity-20 group-hover/rs:opacity-60" />
+        </div>
       )}
     </div>
   );
 }
 
-function TechRow({ tech, date, jobs, boardStart, gridW, config, selected, drag, target, nowMin, onPointerDown }: {
+function TechRow({ tech, date, jobs, boardStart, gridW, config, selected, drag, target, nowMin, onPointerDown, resize, onResizeStart }: {
   tech: BoardTech; date: string; jobs: BoardJob[]; boardStart: number; gridW: number; config: BoardData["config"];
   selected: string | null; drag: DragState | null; target: DropTarget; nowMin: number | null;
   onPointerDown: (e: React.PointerEvent, j: BoardJob) => void;
+  resize?: { job: BoardJob; duration: number } | null;
+  onResizeStart?: (e: React.PointerEvent, j: BoardJob) => void;
 }) {
   const hours = tech.hours[date];
   const mine = jobs.filter((j) => j.scheduledStart && ctParts(new Date(j.scheduledStart)).ymd === date && (j.technicianId === tech.id || j.assignments.some((a) => a.technicianId === tech.id)));
@@ -447,13 +500,16 @@ function TechRow({ tech, date, jobs, boardStart, gridW, config, selected, drag, 
         )}
         {mine.map((j) => {
           const s = minsOf(j.scheduledStart!);
-          const d = durationOf(j, config);
+          const resizing = resize?.job.id === j.id;
+          const d = resizing ? resize!.duration : durationOf(j, config);
           const crewRole = j.technicianId === tech.id ? undefined : j.assignments.find((a) => a.technicianId === tech.id)?.role;
           return (
             <JobCard
               key={j.id + tech.id} job={j} crewRole={crewRole}
               selected={selected === j.id} faded={!!drag?.moved && drag.job.id === j.id}
               onPointerDown={onPointerDown}
+              onResizeStart={crewRole || j.boardStatus === "COMPLETED" || j.boardStatus === "CANCELED" ? undefined : onResizeStart}
+              endOverride={resizing ? new Date(new Date(j.scheduledStart!).getTime() + d * 60000) : undefined}
               style={{ position: "absolute", top: 6, height: ROW_H - 12, left: Math.max(0, x(s)) + 1, width: Math.max(28, d * PX - 2) }}
             />
           );

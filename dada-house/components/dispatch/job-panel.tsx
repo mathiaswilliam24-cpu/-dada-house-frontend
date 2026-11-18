@@ -71,6 +71,10 @@ export default function JobPanel({ jobId, technicians, jobTypes, defaultDate, on
     if (j.scheduledStart) {
       const p = ctParts(new Date(j.scheduledStart));
       setDay(p.ymd); setTime(toHHMM(p.minutes));
+      if (j.scheduledEnd) {
+        const mins = Math.round((new Date(j.scheduledEnd).getTime() - new Date(j.scheduledStart).getTime()) / 60000);
+        if (mins >= 15) setForm((f) => ({ ...f, estimatedMinutes: mins }));
+      }
     } else if (j.preferredDate) {
       setDay(ctParts(new Date(j.preferredDate)).ymd);
     }
@@ -184,14 +188,32 @@ export default function JobPanel({ jobId, technicians, jobTypes, defaultDate, on
             {technicians.map((t) => <option key={t.id} value={t.id}>{t.name}{t.hours[day] === null ? " (day off)" : ""}</option>)}
           </select>
           <div className="grid grid-cols-3 gap-2">
-            <input type="date" value={day} onChange={(e) => setDay(e.target.value)} disabled={closed} className="col-span-1 border border-gray-200 rounded-lg px-2 py-1.5 text-xs" />
-            <select value={time} onChange={(e) => setTime(e.target.value)} disabled={closed} className="border border-gray-200 rounded-lg px-2 py-1.5 text-xs">
-              {timeOptions.map((m) => <option key={m} value={toHHMM(m)}>{fmtTimeCT(ctInstant(day, m))}</option>)}
-            </select>
-            <select value={form.estimatedMinutes} onChange={(e) => setForm((f) => ({ ...f, estimatedMinutes: Number(e.target.value) }))} disabled={closed} className="border border-gray-200 rounded-lg px-2 py-1.5 text-xs">
-              {[30, 45, 60, 90, 120, 150, 180, 240, 300, 360, 480, 600].map((m) => <option key={m} value={m}>{m < 60 ? `${m} min` : `${m / 60} h`}</option>)}
-            </select>
+            <label className="text-[10px] font-semibold text-gray-500 uppercase">Date
+              <input type="date" value={day} onChange={(e) => setDay(e.target.value)} disabled={closed} className="mt-0.5 w-full border border-gray-200 rounded-lg px-2 py-1.5 text-xs font-normal text-gray-900 normal-case" />
+            </label>
+            <label className="text-[10px] font-semibold text-gray-500 uppercase">Start
+              <select value={time} onChange={(e) => setTime(e.target.value)} disabled={closed} className="mt-0.5 w-full border border-gray-200 rounded-lg px-2 py-1.5 text-xs font-normal text-gray-900 normal-case">
+                {timeOptions.map((m) => <option key={m} value={toHHMM(m)}>{fmtTimeCT(ctInstant(day, m))}</option>)}
+              </select>
+            </label>
+            <label className="text-[10px] font-semibold text-gray-500 uppercase">End
+              <select
+                value={hm(time) + (Number(form.estimatedMinutes) || 60)}
+                onChange={(e) => setForm((f) => ({ ...f, estimatedMinutes: Number(e.target.value) - hm(time) }))}
+                disabled={closed}
+                className="mt-0.5 w-full border border-gray-200 rounded-lg px-2 py-1.5 text-xs font-normal text-gray-900 normal-case"
+              >
+                {Array.from({ length: Math.max(0, (1440 - hm(time)) / 15) }, (_, i) => hm(time) + (i + 1) * 15)
+                  .concat(hm(time) + (Number(form.estimatedMinutes) || 60))
+                  .filter((m, i, a) => m <= 1440 && a.indexOf(m) === i).sort((a, b) => a - b)
+                  .map((m) => {
+                    const d = m - hm(time);
+                    return <option key={m} value={m}>{fmtTimeCT(ctInstant(day, m))} ({d < 60 ? `${d} min` : `${Math.floor(d / 60)}h${d % 60 ? String(d % 60).padStart(2, "0") : ""}`})</option>;
+                  })}
+              </select>
+            </label>
           </div>
+          {!closed && j.scheduledStart && <p className="text-[10px] text-gray-400">Tip: on the board, drag the right edge of a job to change its end time.</p>}
 
           {/* Crew */}
           <div className="space-y-1.5">
