@@ -48,7 +48,8 @@ export async function renderHvacReportPdf(sessionId: string): Promise<Buffer | n
     },
   });
   if (!s) return null;
-  const r = s.results as unknown as AnalysisResult | null;
+  // Built-in PDF fonts lack some glyphs (− ✓): normalize them.
+  const r = (s.results ? JSON.parse(JSON.stringify(s.results).replace(/−/g, "-").replace(/✓ ?/g, "").replace(/✗ ?/g, "")) : null) as AnalysisResult | null;
   const eq = (s.equipment ?? {}) as Record<string, unknown> & { specs?: Record<string, number | null> };
   const f = (s.findings ?? {}) as Findings;
   const hyps = r?.rules?.hypotheses ?? [];
@@ -152,13 +153,14 @@ export async function renderHvacReportPdf(sessionId: string): Promise<Buffer | n
         <View style={st.th}><Text style={{ width: "50%", paddingLeft: 4 }}>Measurement</Text><Text style={{ width: "20%" }}>Value</Text><Text style={{ width: "15%" }}>Circuit</Text><Text style={{ width: "15%" }}>Source</Text></View>
         {s.measurements.map((m) => {
           const fd = FIELD_BY_KEY[m.key];
-          const val = m.value != null ? `${fmt(m.value)} ${m.unit ?? ""}` : (fd?.options?.[m.text ?? ""] ?? (m.text === "YES" ? "Yes" : m.text === "NO" ? "No" : m.text) ?? "");
+          const unit = fd ? (fd.kind === "temp" || fd.kind === "tempDiff" ? "°F" : fd.kind === "pressure" ? "psig" : fd.kind === "static" ? "in. w.c." : fd.unit ?? "") : m.unit ?? "";
+          const val = m.value != null ? `${fmt(m.value)} ${unit}` : (fd?.options?.[m.text ?? ""] ?? (m.text === "YES" ? "Yes" : m.text === "NO" ? "No" : m.text) ?? "");
           return (
             <View key={m.id} style={st.tr} wrap={false}>
               <Text style={{ width: "50%", paddingLeft: 4 }}>{fd?.label ?? m.key}</Text>
               <Text style={{ width: "20%" }}>{val}</Text>
               <Text style={{ width: "15%" }}>{fd?.perCircuit ? m.circuit : ""}</Text>
-              <Text style={{ width: "15%" }}>{m.source === "AI_PHOTO" ? "Photo (AI) ✓" : "Manual"}</Text>
+              <Text style={{ width: "15%" }}>{m.source === "AI_PHOTO" ? "Photo (AI), verified" : "Manual"}</Text>
             </View>
           );
         })}
