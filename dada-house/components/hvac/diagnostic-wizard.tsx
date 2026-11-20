@@ -28,6 +28,9 @@ type Session = {
   appointment: { id: string; appointmentNumber: string; name: string; address: string; city: string; service: string; description: string | null } | null;
 };
 type EquipmentRow = Record<string, unknown> & { id: string; type: string; makeModel: string | null; specsVerifiedAt: string | null };
+type HistoryRow = { id: string; date: string; mode: string | null; complaint: string | null; status: string; technician: string | null; reportNumber: string | null; values: Record<string, number>; confirmed: string[] };
+type ModelSpec = { id: string; manufacturer: string; modelPrefix: string; description: string | null; specs: Record<string, number | null>; sourceDocument: string; approvedByName: string | null; approvedAt: string | null };
+type Suggestion = { id: string; name: string; description: string | null; category: string; price: number; unit: string | null; hasPrice: boolean };
 
 const STEPS = [
   { n: 1, label: "Equipment", icon: ClipboardList },
@@ -83,6 +86,12 @@ export default function DiagnosticWizard({ id }: { id: string }) {
   const [savedEquipment, setSavedEquipment] = useState(false);
   const [scanOpen, setScanOpen] = useState(false);
   const [noteDraft, setNoteDraft] = useState<Record<string, string>>({});
+  const [history, setHistory] = useState<HistoryRow[]>([]);
+  const [modelSpec, setModelSpec] = useState<ModelSpec | null>(null);
+  const [estGroups, setEstGroups] = useState<{ hypothesisId: string; fault: string; items: Suggestion[] }[] | null>(null);
+  const [estPick, setEstPick] = useState<Record<string, number>>({});
+  const [estimateId, setEstimateId] = useState<string | null>(null);
+  const [estBusy, setEstBusy] = useState(false);
 
   useEffect(() => {
     try {
@@ -99,6 +108,7 @@ export default function DiagnosticWizard({ id }: { id: string }) {
     const d = await r.json().catch(() => ({}));
     if (!r.ok) { setErr(d.error ?? "Could not load the diagnostic."); return; }
     setSession(d.session); setEquipmentList(d.equipment ?? []);
+    setHistory(d.history ?? []); setModelSpec(d.modelSpec ?? null);
     setStep(Math.min(12, Math.max(1, d.session.step ?? 1)));
   }, [id]);
   useEffect(() => { load(); }, [load]);
@@ -131,6 +141,8 @@ export default function DiagnosticWizard({ id }: { id: string }) {
     setSaving(false);
     if (!r.ok) { setErr(d.error ?? "Save failed"); return false; }
     setSession(d.session);
+    if ("history" in d) setHistory(d.history ?? []);
+    if ("modelSpec" in d) setModelSpec(d.modelSpec ?? null);
     return true;
   }, [id]);
 
@@ -369,6 +381,14 @@ export default function DiagnosticWizard({ id }: { id: string }) {
       {/* ── Step 1: equipment ── */}
       {curStep.n === 1 && (
         <div className="space-y-3">
+          {modelSpec && (
+            <div className="rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-900 p-3 text-sm space-y-1.5">
+              <p className="font-bold">Approved manufacturer data on file — {modelSpec.manufacturer} {modelSpec.modelPrefix}*</p>
+              <p className="text-xs">{Object.entries(modelSpec.specs).filter(([, v]) => v != null).map(([k, v]) => `${SPEC_FIELDS.find((x) => x.key === k)?.label ?? k}: ${v}`).join(" · ")}</p>
+              <p className="text-[11px] opacity-80">Source: {modelSpec.sourceDocument}{modelSpec.approvedByName ? ` · approved by ${modelSpec.approvedByName}` : ""}. Check it matches this unit before using it.</p>
+              {!locked && <button onClick={() => patch({ equipment: { specs: modelSpec.specs } })} className="px-3 py-2 rounded-lg bg-emerald-600 text-white text-xs font-bold">Use these values</button>}
+            </div>
+          )}
           {equipmentList.length > 0 && (
             <div className={`rounded-xl border p-3 ${c.card}`}>
               <Label>Customer equipment on file</Label>
@@ -639,6 +659,35 @@ export default function DiagnosticWizard({ id }: { id: string }) {
             <div key={n} className="space-y-1.5">{circuits > 1 && <p className="text-xs font-bold">Circuit {n}</p>}<RefDashboard circ={n} /></div>
           ))}
 
+          {history.length > 0 && (
+            <div className={`rounded-xl border overflow-x-auto ${c.card}`}>
+              <p className="px-3 py-2 font-bold text-sm">History on this equipment</p>
+              <table className="min-w-full text-xs">
+                <thead><tr className={c.muted}>
+                  <th className="px-2 py-1 text-left">Date</th>
+                  {[["superheat_f", "SH"], ["subcooling_f", "SC"], ["evap_sat_f", "Evap"], ["cond_sat_bubble_f", "Cond"], ["air_dt_f", "ΔT"], ["comp_pct_rla", "%RLA"]].map(([, l]) => <th key={l} className="px-2 py-1 text-right">{l}</th>)}
+                  <th className="px-2 py-1 text-left">Confirmed</th>
+                </tr></thead>
+                <tbody>
+                  <tr className="font-bold">
+                    <td className="px-2 py-1">Today</td>
+                    {["superheat_f", "subcooling_f", "evap_sat_f", "cond_sat_bubble_f", "air_dt_f", "comp_pct_rla"].map((k) => { const v = calc(k, 1); return <td key={k} className="px-2 py-1 text-right">{v ? fmt(fromCanonical(v.kind, v.value, prefs)) : "—"}</td>; })}
+                    <td className="px-2 py-1">{results.rules.hypotheses.filter((h) => h.status === "CONFIRMED").map((h) => h.fault).join("; ") || "—"}</td>
+                  </tr>
+                  {history.map((h) => (
+                    <tr key={h.id} className={`border-t ${dark ? "border-[#22304d]" : "border-gray-100"}`}>
+                      <td className="px-2 py-1 whitespace-nowrap">{new Date(h.date).toLocaleDateString("en-US", { timeZone: "America/New_York", month: "short", day: "numeric", year: "2-digit" })}</td>
+                      {[["superheat_f", "tempDiff"], ["subcooling_f", "tempDiff"], ["evap_sat_f", "temp"], ["cond_sat_bubble_f", "temp"], ["air_dt_f", "tempDiff"], ["comp_pct_rla", "plain"]].map(([k, kind]) => (
+                        <td key={k} className="px-2 py-1 text-right">{h.values[k] != null ? fmt(fromCanonical(kind as Kind, h.values[k], prefs)) : "—"}</td>
+                      ))}
+                      <td className="px-2 py-1">{h.confirmed.join("; ") || "—"}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+
           <div className={`rounded-xl border overflow-hidden ${c.card}`}>
             <p className="px-3 py-2 font-bold text-sm">Calculated values</p>
             {results.calculated.length === 0 && <p className={`px-3 pb-3 text-sm ${c.muted}`}>Enter measurements to see calculations.</p>}
@@ -725,7 +774,55 @@ export default function DiagnosticWizard({ id }: { id: string }) {
               Copy the customer report link
             </button>
           )}
-          <p className={`text-[11px] ${c.muted}`}>The report separates technician-confirmed findings from automated hypotheses. Repair estimate from the price book comes in the next phase.</p>
+          <div className={`rounded-xl border p-3 space-y-2 ${c.card}`}>
+            <p className="font-bold text-sm">Repair estimate</p>
+            {(estimateId ?? (session.findings?.estimateId as string | undefined)) ? (
+              <Link href={`/technician/estimates/${estimateId ?? session.findings?.estimateId}`} className="block text-center py-2.5 rounded-lg bg-[#1B3FA8] text-white font-bold text-sm">Open the draft estimate</Link>
+            ) : !results?.rules.hypotheses.some((h) => h.status === "CONFIRMED") ? (
+              <p className={`text-xs ${c.muted}`}>Confirm at least one finding (step Causes) to build an estimate from the price book.</p>
+            ) : estGroups === null ? (
+              <button disabled={estBusy} onClick={async () => {
+                setEstBusy(true);
+                const r = await fetch(`/api/technician/hvac-diagnostic/${session.id}/estimate`, { cache: "no-store" });
+                const d = await r.json().catch(() => ({}));
+                setEstBusy(false);
+                if (!r.ok) { setErr(d.error ?? "Could not load the price book"); return; }
+                setEstGroups(d.groups ?? []);
+                if (d.estimateId) setEstimateId(d.estimateId);
+              }} className="w-full py-2.5 rounded-lg bg-orange-500 text-white font-bold text-sm">{estBusy ? "Loading…" : "Create repair estimate"}</button>
+            ) : (
+              <div className="space-y-2">
+                {estGroups.map((g) => (
+                  <div key={g.hypothesisId}>
+                    <p className="text-xs font-bold uppercase">{g.fault}</p>
+                    {g.items.length === 0 && <p className={`text-xs ${c.muted}`}>No matching price-book item — add lines in the estimate editor.</p>}
+                    {g.items.map((it) => {
+                      const q = estPick[it.id] ?? 0;
+                      return (
+                        <label key={it.id} className={`flex items-center gap-2 py-1.5 text-sm border-b ${dark ? "border-[#22304d]" : "border-gray-100"}`}>
+                          <input type="checkbox" className="w-5 h-5" checked={q > 0} onChange={(e) => setEstPick((x) => ({ ...x, [it.id]: e.target.checked ? 1 : 0 }))} />
+                          <span className="flex-1">{it.name}<span className={`block text-[10px] ${c.muted}`}>{it.category}</span></span>
+                          {q > 0 && <input inputMode="numeric" value={q} onChange={(e) => setEstPick((x) => ({ ...x, [it.id]: Math.max(1, Number(e.target.value) || 1) }))} className={`w-12 rounded border px-1 py-0.5 text-center ${c.input}`} />}
+                          <span className={`w-20 text-right font-semibold ${it.hasPrice ? "" : "text-amber-600 text-[11px]"}`}>{it.hasPrice ? `$${it.price.toFixed(2)}` : "no price set"}</span>
+                        </label>
+                      );
+                    })}
+                  </div>
+                ))}
+                <button disabled={estBusy || !Object.values(estPick).some((q) => q > 0)} onClick={async () => {
+                  setEstBusy(true); setErr("");
+                  const items = Object.entries(estPick).filter(([, q]) => q > 0).map(([id, qty]) => ({ id, qty }));
+                  const r = await fetch(`/api/technician/hvac-diagnostic/${session.id}/estimate`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ items }) });
+                  const d = await r.json().catch(() => ({}));
+                  setEstBusy(false);
+                  if (!r.ok) { setErr(d.error ?? "Could not create the estimate"); return; }
+                  setEstimateId(d.estimateId);
+                }} className="w-full py-2.5 rounded-lg bg-orange-500 text-white font-bold text-sm disabled:opacity-40">{estBusy ? "Creating…" : "Create draft estimate"}</button>
+                <p className={`text-[11px] ${c.muted}`}>Prices come from the DADA HOUSE price book; items without a price must be priced in the estimate. The estimate is a draft — nothing is sent or charged.</p>
+              </div>
+            )}
+          </div>
+          <p className={`text-[11px] ${c.muted}`}>The report separates technician-confirmed findings from automated hypotheses.</p>
         </div>
       )}
 

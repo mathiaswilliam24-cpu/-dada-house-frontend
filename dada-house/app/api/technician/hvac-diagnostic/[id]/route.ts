@@ -3,7 +3,8 @@ import { z } from "zod";
 import { requireTechnician } from "@/lib/api-auth";
 import { db } from "@/lib/db";
 import type { Prisma } from "@/lib/generated/prisma/client";
-import { loadSession, canAccess, analyze, saveEquipmentFromSession, EQUIPMENT_SPEC_SELECT } from "@/lib/hvac/server";
+import { loadSession, canAccess, analyze, saveEquipmentFromSession, EQUIPMENT_SPEC_SELECT, type AnalysisResult } from "@/lib/hvac/server";
+import { findModelSpec } from "@/lib/hvac/admin-data";
 import { COMPLAINTS, MODES, EQUIPMENT_CATEGORIES, FIELD_BY_KEY, SAFETY_CHECKS } from "@/lib/hvac/catalog";
 import { REFRIGERANT_KEYS } from "@/lib/hvac/refrigerants";
 import { CANONICAL_UNIT } from "@/lib/hvac/units";
@@ -30,7 +31,34 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
     ? await db.equipment.findMany({ where: { customerId }, orderBy: { updatedAt: "desc" }, select: EQUIPMENT_SPEC_SELECT })
     : [];
   const results = session.results ?? (await analyze(session));
-  return NextResponse.json({ session: { ...session, results }, equipment });
+  return NextResponse.json({ session: { ...session, results }, equipment, ...(await extras(session)) });
+}
+
+/** Previous diagnostics on the same equipment + matching approved manufacturer data. */
+async function extras(session: { id: string; equipmentId: string | null; equipment: unknown }) {
+  const eq = (session.equipment ?? {}) as { manufacturer?: string | null; modelNumber?: string | null };
+  const [previous, spec] = await Promise.all([
+    session.equipmentId
+      ? db.hvacDiagnosticSession.findMany({
+          where: { equipmentId: session.equipmentId, id: { not: session.id } },
+          orderBy: { startedAt: "desc" }, take: 6,
+          select: { id: true, startedAt: true, mode: true, complaint: true, status: true, technicianName: true, results: true, reportNumber: true },
+        })
+      : [],
+    findModelSpec(eq.manufacturer, eq.modelNumber),
+  ]);
+  const KEYS = ["superheat_f", "subcooling_f", "evap_sat_f", "cond_sat_bubble_f", "air_dt_f", "temp_rise_f", "comp_pct_rla", "voltage_imbalance_pct"];
+  return {
+    history: previous.map((p) => {
+      const r = p.results as unknown as AnalysisResult | null;
+      return {
+        id: p.id, date: p.startedAt, mode: p.mode, complaint: p.complaint, status: p.status, technician: p.technicianName, reportNumber: p.reportNumber,
+        values: Object.fromEntries((r?.calculated ?? []).filter((c) => KEYS.includes(c.key) && (c.circuit ?? 1) === 1).map((c) => [c.key, c.value])),
+        confirmed: (r?.rules?.hypotheses ?? []).filter((h) => h.status === "CONFIRMED").map((h) => h.fault),
+      };
+    }),
+    modelSpec: spec ? { id: spec.id, manufacturer: spec.manufacturer, modelPrefix: spec.modelPrefix, description: spec.description, specs: spec.specs, sourceDocument: spec.sourceDocument, approvedByName: spec.approvedByName, approvedAt: spec.approvedAt } : null,
+  };
 }
 
 const n = z.number().finite().nullable().optional();
@@ -130,9 +158,17 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   if (!session.customerId && session.appointment?.customerId) data.customerId = session.appointment.customerId;
   if (p.decisions) {
     const cur = { ...((session.decisions ?? {}) as Record<string, unknown>) };
+    // Snapshot where the automated engine ranked this hypothesis (ignoring technician decisions) — used to
+    // measure how often the engine's top suggestion matches the technician-confirmed fault.
+    const auto = ((session.results as unknown as AnalysisResult | null)?.rules?.hypotheses ?? []).filter((h) => !h.decision);
     for (const [hid, d] of Object.entries(p.decisions)) {
       if (d === null) delete cur[hid];
-      else cur[hid] = { ...d, at: new Date().toISOString(), by: auth.name ?? auth.id };
+      else {
+        const idx = auto.findIndex((h) => h.id === hid);
+        const prev = cur[hid] as { autoRank?: number; autoStatus?: string } | undefined;
+        cur[hid] = { ...d, at: new Date().toISOString(), by: auth.name ?? auth.id,
+          autoRank: prev?.autoRank ?? (idx >= 0 ? idx + 1 : null), autoStatus: prev?.autoStatus ?? (idx >= 0 ? auto[idx].status : null) };
+      }
     }
     data.decisions = cur as Prisma.InputJsonValue;
   }
@@ -182,5 +218,5 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     });
     fresh = (await loadSession(id))!;
   }
-  return NextResponse.json({ session: { ...fresh, results } });
+  return NextResponse.json({ session: { ...fresh, results }, ...(await extras(fresh)) });
 }

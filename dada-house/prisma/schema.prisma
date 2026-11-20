@@ -1971,3 +1971,25 @@ model HvacScan {
 
   @@index([sessionId])
 }
+
+// Manufacturer reference data by model (charging targets, temperature rise, rated static/airflow…),
+// entered from the manufacturer's documents. Used by the diagnostic only once APPROVED by a second admin.
+model HvacModelSpec {
+  id             String    @id @default(cuid())
+  manufacturer   String
+  modelPrefix    String // matches equipment model numbers starting with this (spaces/dashes ignored)
+  description    String?
+  specs          Json // same keys as Equipment.specs (targetSubcooling, tempRiseMin/Max, maxTesp, ratedCfm, …)
+  sourceDocument String // title / URL of the manufacturer document the values come from
+  notes          String?
+  status         String    @default("PENDING") // PENDING | APPROVED | RETIRED
+  createdById    String
+  createdByName  String?
+  approvedById   String?
+  approvedByName String?
+  approvedAt     DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  @@index([manufacturer, status])
+}

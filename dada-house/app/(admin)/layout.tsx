@@ -7,8 +7,7 @@ import {
   Images, HardHat, Map, BarChart3, ShoppingBag, FileText, Radio,
   Package, Layers, TrendingUp, MessageCircle, Bell, Shield,
   FolderOpen, ReceiptText, ClipboardList, Monitor, BookOpen, Megaphone,
-  PhoneCall, Phone, MessageSquare, Contact, ClipboardCheck, Wrench,
-} from "lucide-react";
+  PhoneCall, Phone, MessageSquare, Contact, ClipboardCheck, Wrench, Gauge } from "lucide-react";
 import { signOut } from "@/auth";
 import { StaffPushPrompt } from "@/components/call-center/staff-push-prompt";
 
@@ -44,6 +43,7 @@ const navGroups: NavGroup[] = [
       { href: "/dispatcher/projects", label: "Install Projects", icon: Layers },
       { href: "/dispatcher/inventory", label: "Inventory", icon: Package },
       { href: "/dispatcher/job-costing", label: "Job Costing", icon: TrendingUp },
+      { href: "/admin/hvac-diagnostic", label: "HVAC Diagnostics", icon: Gauge },
       { href: "/dispatcher/customer-messages", label: "Customer Messages", icon: MessageSquare },
       { href: "/admin/map", label: "Live Map", icon: Map },
     ],

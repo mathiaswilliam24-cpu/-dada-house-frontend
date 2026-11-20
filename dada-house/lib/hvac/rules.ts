@@ -13,14 +13,26 @@ import type { Ctx } from "./catalog";
  */
 export const RULESET_VERSION = "hvac-rules 1.0.0";
 
-/** Company field rules — not manufacturer data. Shown to the technician as such; to be reviewed/approved by DADA HOUSE. */
-export const FIELD_RULES = {
-  drierDropF: { value: 3, label: "Temperature drop across the liquid-line filter drier above 3 °F suggests a restriction", source: "Common field practice (drier manufacturers' service guidance)" },
-  windingMismatchPct: { value: 10, label: "C–S + C–R should equal R–S within 10 %", source: "Field practice for single-phase PSC compressors" },
-  lowCompressionRatio: { value: 2.0, label: "Compression ratio below 2:1 in cooling with the compressor running suggests poor pumping", source: "Field practice — confirm with the manufacturer's performance data" },
-  voltageImbalancePct: { value: 2, label: "Voltage imbalance above 2 % — many manufacturers set this limit; check the unit's instructions", source: "Common manufacturer limit (verify per unit)" },
-  transformerMinVac: { value: 20, label: "Control voltage below 20 VAC on a 24 VAC system is suspect", source: "Field practice" },
+/** Company field rules — not manufacturer data. Shown to the technician as such. Values can be changed by an
+ *  administrator in Admin → HVAC Diagnostics (two-step: proposed, then approved), stored in Setting "hvac.fieldRules". */
+export const FIELD_RULE_DEFS = {
+  drierDropF: { value: 3, unit: "°F", min: 0.5, max: 15, label: (v: number) => `Temperature drop across the liquid-line filter drier above ${v} °F suggests a restriction`, source: "Common field practice (drier manufacturers' service guidance)" },
+  windingMismatchPct: { value: 10, unit: "%", min: 1, max: 50, label: (v: number) => `C–S + C–R should equal R–S within ${v} %`, source: "Field practice for single-phase PSC compressors" },
+  lowCompressionRatio: { value: 2.0, unit: ":1", min: 1.1, max: 5, label: (v: number) => `Compression ratio below ${v}:1 in cooling with the compressor running suggests poor pumping`, source: "Field practice — confirm with the manufacturer's performance data" },
+  voltageImbalancePct: { value: 2, unit: "%", min: 0.5, max: 10, label: (v: number) => `Voltage imbalance above ${v} % — many manufacturers set this limit; check the unit's instructions`, source: "Common manufacturer limit (verify per unit)" },
+  transformerMinVac: { value: 20, unit: "VAC", min: 10, max: 24, label: (v: number) => `Control voltage below ${v} VAC on a 24 VAC system is suspect`, source: "Field practice" },
 } as const;
+export type FieldRuleKey = keyof typeof FIELD_RULE_DEFS;
+export type FieldRuleValues = Record<FieldRuleKey, number>;
+export const DEFAULT_FIELD_RULES = Object.fromEntries(Object.entries(FIELD_RULE_DEFS).map(([k, d]) => [k, d.value])) as FieldRuleValues;
+export function resolveFieldRules(overrides?: Partial<FieldRuleValues> | null): FieldRuleValues {
+  const out = { ...DEFAULT_FIELD_RULES };
+  for (const [k, v] of Object.entries(overrides ?? {})) {
+    const d = FIELD_RULE_DEFS[k as FieldRuleKey];
+    if (d && typeof v === "number" && v >= d.min && v <= d.max) out[k as FieldRuleKey] = v;
+  }
+  return out;
+}
 
 export type HypothesisStatus = "INSUFFICIENT_DATA" | "POSSIBLE" | "STRONGLY_SUSPECTED" | "CONFIRMED" | "RULED_OUT";
 export type Decision = { decision: "CONFIRMED" | "REJECTED"; note?: string | null; at?: string; by?: string | null };
@@ -39,7 +51,7 @@ type Facts = {
   num: (k: string, c?: number) => number | null; txt: (k: string, c?: number) => string | null;
   calc: (k: string, c?: number) => number | null; alert: (code: string) => boolean;
   sh: "HIGH" | "LOW" | "OK" | null; sc: "HIGH" | "LOW" | "OK" | null; shNote: string | null; scNote: string | null;
-  cooling: boolean; circuit: number;
+  cooling: boolean; circuit: number; fr: FieldRuleValues;
 };
 
 type Out = { support: string[]; contradict: string[]; missing: string[]; fieldRules?: string[] };
@@ -106,7 +118,7 @@ const RULES: Rule[] = [
       if (f.sc === "HIGH") o.support.push(`High subcooling (${f.scNote}) — liquid backing up before the restriction`);
       if (f.sc === "LOW") o.contradict.push(`Subcooling is low (${f.scNote}) — points to undercharge instead`);
       const dropIn = f.num("drier_in_f"), dropOut = f.num("drier_out_f");
-      if (dropIn != null && dropOut != null && dropIn - dropOut <= FIELD_RULES.drierDropF.value) o.support.push(`No significant drop across the filter drier (${r1(dropIn - dropOut)} °F) — restriction is downstream`);
+      if (dropIn != null && dropOut != null && dropIn - dropOut <= f.fr.drierDropF) o.support.push(`No significant drop across the filter drier (${r1(dropIn - dropOut)} °F) — restriction is downstream`);
       if (f.sh == null || f.sc == null) o.missing.push("Both superheat and subcooling targets");
       return o;
     },
@@ -118,11 +130,11 @@ const RULES: Rule[] = [
     applies: (f) => f.ctx.refrigeration && f.cooling,
     key: ["drier_in_f", "drier_out_f"],
     evaluate: (f) => {
-      const o: Out = { support: [], contradict: [], missing: [], fieldRules: [FIELD_RULES.drierDropF.label] };
+      const o: Out = { support: [], contradict: [], missing: [], fieldRules: [FIELD_RULE_DEFS.drierDropF.label(f.fr.drierDropF)] };
       const a = f.num("drier_in_f"), b = f.num("drier_out_f");
       if (a != null && b != null) {
         const d = a - b;
-        if (d > FIELD_RULES.drierDropF.value) o.support.push(`Temperature drop across the drier ${r1(d)} °F`);
+        if (d > f.fr.drierDropF) o.support.push(`Temperature drop across the drier ${r1(d)} °F`);
         else o.contradict.push(`Drop across the drier is only ${r1(d)} °F`);
       } else if (f.sh === "HIGH" && f.sc === "HIGH") {
         o.support.push("High superheat with high subcooling (restriction pattern)");
@@ -222,8 +234,8 @@ const RULES: Rule[] = [
       const o: Out = { support: [], contradict: [], missing: [] };
       const cond = f.txt("contactor_condition"), coil = f.num("contactor_coil_v");
       if (cond === "PITTED" || cond === "WELDED") o.support.push(`Contacts ${cond === "WELDED" ? "welded closed" : "pitted / burnt"}`);
-      if (cond === "NOT_PULLING_IN" && coil != null && coil >= FIELD_RULES.transformerMinVac.value) o.support.push(`Coil has ${coil} VAC but does not pull in`);
-      if (cond === "NOT_PULLING_IN" && coil != null && coil < FIELD_RULES.transformerMinVac.value) o.contradict.push(`Coil only gets ${coil} VAC — the control signal is missing, not the contactor`);
+      if (cond === "NOT_PULLING_IN" && coil != null && coil >= f.fr.transformerMinVac) o.support.push(`Coil has ${coil} VAC but does not pull in`);
+      if (cond === "NOT_PULLING_IN" && coil != null && coil < f.fr.transformerMinVac) o.contradict.push(`Coil only gets ${coil} VAC — the control signal is missing, not the contactor`);
       if (cond === "OK") o.contradict.push("Contactor inspected OK");
       return o;
     },
@@ -235,12 +247,12 @@ const RULES: Rule[] = [
     applies: (f) => ["THERMOSTAT_NOT_RESPONDING", "AC_NOT_ON", "COMPRESSOR_NOT_STARTING", "OUTDOOR_FAN_NOT_RUNNING", "SHORT_CYCLING"].includes(f.complaint ?? ""),
     key: ["transformer_v", "thermostat_signals"],
     evaluate: (f) => {
-      const o: Out = { support: [], contradict: [], missing: [], fieldRules: [FIELD_RULES.transformerMinVac.label] };
+      const o: Out = { support: [], contradict: [], missing: [], fieldRules: [FIELD_RULE_DEFS.transformerMinVac.label(f.fr.transformerMinVac)] };
       const tv = f.num("transformer_v");
-      if (tv != null && tv < FIELD_RULES.transformerMinVac.value) o.support.push(`Transformer secondary ${tv} VAC`);
-      if (tv != null && tv >= FIELD_RULES.transformerMinVac.value) o.contradict.push(`Transformer secondary ${tv} VAC is normal`);
+      if (tv != null && tv < f.fr.transformerMinVac) o.support.push(`Transformer secondary ${tv} VAC`);
+      if (tv != null && tv >= f.fr.transformerMinVac) o.contradict.push(`Transformer secondary ${tv} VAC is normal`);
       const coil = f.num("contactor_coil_v");
-      if (coil != null && coil < FIELD_RULES.transformerMinVac.value && tv != null && tv >= FIELD_RULES.transformerMinVac.value) o.support.push("Control voltage at the transformer but not at the contactor — open thermostat call, wiring or safety switch");
+      if (coil != null && coil < f.fr.transformerMinVac && tv != null && tv >= f.fr.transformerMinVac) o.support.push("Control voltage at the transformer but not at the contactor — open thermostat call, wiring or safety switch");
       if (f.txt("pressure_switch_status")?.startsWith("OPEN") || f.txt("pressure_switch_status") === "LOCKOUT") o.support.push("A pressure switch is open / locked out (find WHY before resetting)");
       if (tv == null) o.missing.push("Control transformer secondary voltage");
       return o;
@@ -253,10 +265,10 @@ const RULES: Rule[] = [
     applies: () => true,
     key: ["supply_v"],
     evaluate: (f) => {
-      const o: Out = { support: [], contradict: [], missing: [], fieldRules: [FIELD_RULES.voltageImbalancePct.label] };
+      const o: Out = { support: [], contradict: [], missing: [], fieldRules: [FIELD_RULE_DEFS.voltageImbalancePct.label(f.fr.voltageImbalancePct)] };
       for (const c of ["LOW_supply_v", "HIGH_supply_v", "LOW_loaded_v", "HIGH_loaded_v"]) if (f.alert(c)) o.support.push(c.includes("LOW") ? "Voltage below the nameplate minimum" : "Voltage above the nameplate maximum");
       const imb = f.calc("voltage_imbalance_pct");
-      if (imb != null && imb > FIELD_RULES.voltageImbalancePct.value) o.support.push(`Voltage imbalance ${r1(imb)} %`);
+      if (imb != null && imb > f.fr.voltageImbalancePct) o.support.push(`Voltage imbalance ${r1(imb)} %`);
       if (o.support.length === 0 && f.num("supply_v") != null && f.eq.minVoltage != null) o.contradict.push("Supply voltage within the nameplate range");
       return o;
     },
@@ -268,11 +280,11 @@ const RULES: Rule[] = [
     applies: (f) => f.ctx.refrigeration && !f.ctx.inverter && ["COMPRESSOR_NOT_STARTING", "BREAKER_TRIPPING", "AC_NOT_COOLING", "SHORT_CYCLING"].includes(f.complaint ?? ""),
     key: ["winding_c_s_ohm", "winding_c_r_ohm", "winding_r_s_ohm"],
     evaluate: (f) => {
-      const o: Out = { support: [], contradict: [], missing: [], fieldRules: [FIELD_RULES.windingMismatchPct.label] };
+      const o: Out = { support: [], contradict: [], missing: [], fieldRules: [FIELD_RULE_DEFS.windingMismatchPct.label(f.fr.windingMismatchPct)] };
       const cs = f.num("winding_c_s_ohm", f.circuit), cr = f.num("winding_c_r_ohm", f.circuit), rs = f.num("winding_r_s_ohm", f.circuit);
       if (cs != null && cr != null && rs != null) {
         if (cs === 0 || cr === 0 || rs === 0) o.support.push("A winding reads 0 Ω (shorted)");
-        else if (Math.abs(cs + cr - rs) / rs * 100 > FIELD_RULES.windingMismatchPct.value) o.support.push(`C–S + C–R (${r1(cs + cr)} Ω) ≠ R–S (${rs} Ω)`);
+        else if (Math.abs(cs + cr - rs) / rs * 100 > f.fr.windingMismatchPct) o.support.push(`C–S + C–R (${r1(cs + cr)} Ω) ≠ R–S (${rs} Ω)`);
         else o.contradict.push("Winding resistances are consistent");
       } else o.missing.push("Compressor winding resistances (power off, locked out; let an overload cool first)");
       const start = f.num("comp_start_amps", f.circuit), lra = f.eq.lra;
@@ -289,10 +301,10 @@ const RULES: Rule[] = [
     applies: (f) => f.ctx.refrigeration && !f.ctx.inverter && f.cooling,
     key: ["suction_psig", "high_psig", "comp_amps"],
     evaluate: (f) => {
-      const o: Out = { support: [], contradict: [], missing: [], fieldRules: [FIELD_RULES.lowCompressionRatio.label] };
+      const o: Out = { support: [], contradict: [], missing: [], fieldRules: [FIELD_RULE_DEFS.lowCompressionRatio.label(f.fr.lowCompressionRatio)] };
       const cr = f.calc("compression_ratio", f.circuit);
-      if (cr != null && f.txt("comp_running") !== "NO" && cr < FIELD_RULES.lowCompressionRatio.value) o.support.push(`Compression ratio ${r1(cr)}:1`);
-      if (cr != null && cr >= FIELD_RULES.lowCompressionRatio.value) o.contradict.push(`Compression ratio ${r1(cr)}:1 is normal for cooling`);
+      if (cr != null && f.txt("comp_running") !== "NO" && cr < f.fr.lowCompressionRatio) o.support.push(`Compression ratio ${r1(cr)}:1`);
+      if (cr != null && cr >= f.fr.lowCompressionRatio) o.contradict.push(`Compression ratio ${r1(cr)}:1 is normal for cooling`);
       if (f.sc === "LOW" && f.sh === "LOW") o.support.push("Low subcooling with low superheat (not an undercharge pattern)");
       if (f.sh === "HIGH" && f.sc === "LOW") o.contradict.push("High superheat + low subcooling points to undercharge first");
       return o;
@@ -429,8 +441,9 @@ const RULES: Rule[] = [
 
 export function runRules(input: {
   engine: EngineResult; equipment: EquipmentSpec; mode: string | null; complaint: string | null; safety: Record<string, boolean>;
-  measurements: M; decisions?: Record<string, Decision>;
+  measurements: M; decisions?: Record<string, Decision>; fieldRules?: Partial<FieldRuleValues> | null;
 }): RulesResult {
+  const fr = resolveFieldRules(input.fieldRules);
   const { engine } = input;
   const ctx = engine.ctx;
   const circuits = Math.max(1, engine.charge.length || 1);
@@ -448,7 +461,7 @@ export function runRules(input: {
       txt: (k, c) => input.measurements[c ?? 1]?.[k]?.text ?? input.measurements[1]?.[k]?.text ?? null,
       calc, alert: (code) => engine.alerts.some((a) => a.code === code && (a.circuit == null || a.circuit === circuit)),
       sh: sh.state, sc: sc.state, shNote: sh.note, scNote: sc.note,
-      cooling: input.mode === "COOLING",
+      cooling: input.mode === "COOLING", fr,
     };
     for (const rule of RULES) {
       if (circuit > 1 && !["REFRIGERANT", "COMPRESSOR"].includes(rule.category)) continue;

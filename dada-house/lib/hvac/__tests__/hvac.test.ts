@@ -215,3 +215,18 @@ test("inverter equipment: no fixed-speed charge rules", () => {
   const r = rulesFor(base({ equipment: { ...tgt, category: "MINI_SPLIT", meteringDevice: "EEV" } }, { suction_psig: 100, high_psig: 300, suction_line_f: 55, liquid_line_f: 94 }));
   assert.ok(!r.hypotheses.some((x) => ["LOW_CHARGE", "OVERCHARGE", "METERING_RESTRICTION", "COMPRESSOR_MECHANICAL"].includes(x.id)));
 });
+
+// ── Phase 3: admin-approved field rules ──
+import { resolveFieldRules, DEFAULT_FIELD_RULES } from "../rules";
+test("field-rule overrides: valid values apply, out-of-range values are ignored", () => {
+  const fr = resolveFieldRules({ drierDropF: 5, transformerMinVac: 99 });
+  assert.equal(fr.drierDropF, 5);
+  assert.equal(fr.transformerMinVac, DEFAULT_FIELD_RULES.transformerMinVac);
+});
+test("a stricter drier threshold changes the evidence", () => {
+  const input = base({ equipment: tgt }, { drier_in_f: 95, drier_out_f: 91 }); // 4 °F drop
+  const engine = runEngine(input);
+  const args = { engine, equipment: input.equipment, mode: input.mode, complaint: input.complaint, safety: input.safety, measurements: input.measurements };
+  assert.ok(runRules(args).hypotheses.find((h) => h.id === "DRIER_RESTRICTION")?.support.length);
+  assert.ok(!runRules({ ...args, fieldRules: { drierDropF: 5 } }).hypotheses.some((h) => h.id === "DRIER_RESTRICTION"));
+});
