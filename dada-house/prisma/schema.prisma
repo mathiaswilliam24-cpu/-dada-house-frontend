@@ -1899,11 +1899,14 @@ model HvacDiagnosticSession {
   completedAt    DateTime?
   updatedAt      DateTime  @updatedAt
 
-  appointment  Appointment?      @relation(fields: [appointmentId], references: [id], onDelete: SetNull)
-  equipmentRef Equipment?        @relation(fields: [equipmentId], references: [id], onDelete: SetNull)
+  appointment  Appointment?            @relation(fields: [appointmentId], references: [id], onDelete: SetNull)
+  equipmentRef Equipment?              @relation(fields: [equipmentId], references: [id], onDelete: SetNull)
   measurements HvacMeasurement[]
   safetyEvents HvacSafetyEvent[]
   scans        HvacScan[]
+  feedback     HvacTechnicianFeedback?
+  aiReviews    HvacAssistantReview[]
+  validation   HvacValidationCase?
 
   @@index([technicianId, status])
   @@index([appointmentId])
@@ -1992,4 +1995,86 @@ model HvacModelSpec {
   updatedAt      DateTime  @updatedAt
 
   @@index([manufacturer, status])
+}
+
+/// Technician feedback on a diagnostic (what the real cause was, whether the engine / AI helped).
+model HvacTechnicianFeedback {
+  id               String   @id @default(cuid())
+  sessionId        String   @unique
+  technicianId     String
+  technicianName   String?
+  engineTopCorrect String? // YES | NO | NOT_SURE
+  actualFaults     String[] // rule fault ids, OTHER, NO_FAULT
+  otherFault       String?
+  assistantHelpful String? // YES | NO | NOT_USED
+  comment          String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  session HvacDiagnosticSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@index([createdAt])
+}
+
+/// AI reasoning assistant output (layer C). Explanations only; the deterministic engine stays authoritative.
+model HvacAssistantReview {
+  id           String   @id @default(cuid())
+  sessionId    String
+  technicianId String
+  model        String
+  resultsAt    String? // computedAt of the analysis the AI explained
+  output       Json
+  removed      Json     @default("[]") // statements dropped by the guard (unsupported numbers / ids)
+  helpful      Boolean?
+  createdAt    DateTime @default(now())
+
+  session HvacDiagnosticSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@index([sessionId, createdAt])
+}
+
+/// Independently verified case used to measure and calibrate the diagnostic engine.
+model HvacValidationCase {
+  id              String    @id @default(cuid())
+  source          String // FIELD_SESSION | HISTORICAL
+  sessionId       String?   @unique
+  equipmentKey    String // groups repeat visits to the same unit (leakage control)
+  split           String // TRAIN | VALIDATION | TEST (hash of equipmentKey)
+  category        String?
+  refrigerant     String?
+  manufacturer    String?
+  inputs          Json // equipment, mode, complaint, circuits, measurements (canonical units), safety
+  groundTruth     String[]
+  evidence        String? // how the fault was verified (repair performed, test result, invoice…)
+  serviceTechId   String? // technician who did the service call (cannot verify the case)
+  status          String    @default("PENDING") // PENDING | VERIFIED | EXCLUDED
+  submittedById   String
+  submittedByName String?
+  verifiedById    String?
+  verifiedByName  String?
+  verifiedAt      DateTime?
+  excludedReason  String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  session HvacDiagnosticSession? @relation(fields: [sessionId], references: [id], onDelete: SetNull)
+
+  @@index([status, split])
+  @@index([equipmentKey])
+}
+
+/// Result of replaying all verified cases through the engine version in use.
+model HvacEvaluationRun {
+  id                String   @id @default(cuid())
+  engineVersion     String
+  rulesetVersion    String
+  ptDataVersion     String
+  fieldRulesVersion Int
+  caseCount         Int
+  result            Json
+  createdById       String
+  createdByName     String?
+  createdAt         DateTime @default(now())
+
+  @@index([createdAt])
 }

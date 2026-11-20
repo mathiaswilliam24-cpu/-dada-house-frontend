@@ -230,3 +230,85 @@ test("a stricter drier threshold changes the evidence", () => {
   assert.ok(runRules(args).hypotheses.find((h) => h.id === "DRIER_RESTRICTION")?.support.length);
   assert.ok(!runRules({ ...args, fieldRules: { drierDropF: 5 } }).hypotheses.some((h) => h.id === "DRIER_RESTRICTION"));
 });
+
+// ── Validation & calibration (priority 4) ──
+import { splitFor, evaluateCase, wilson, runEvaluation, calibrate, NO_FAULT, MIN_CALIBRATION_N, type EvalCase, type CaseInputs } from "../validation";
+const lowChargeInputs = base({ equipment: tgt }, { suction_psig: 100, high_psig: 300, suction_line_f: 55, liquid_line_f: 94, outdoor_ambient_f: 90, stabilized_min: 20, comp_running: "YES", ofm_running: "YES", supply_v: 240, return_db_f: 76, supply_db_f: 62, return_wb_f: 63 }) as unknown as CaseInputs;
+const mk = (id: string, inputs: CaseInputs, gt: string[], split: EvalCase["split"] = "TEST"): EvalCase => ({ id, split, category: "STRAIGHT_AC", refrigerant: "R-410A", manufacturer: "Acme", inputs, groundTruth: gt });
+
+test("split is deterministic per equipment and roughly 60/20/20", () => {
+  assert.equal(splitFor("eq:abc"), splitFor("EQ:ABC "));
+  const n = { TRAIN: 0, VALIDATION: 0, TEST: 0 };
+  for (let i = 0; i < 3000; i++) n[splitFor(`eq:${i}`)]++;
+  near(n.TRAIN / 3000, 0.6, 0.04); near(n.VALIDATION / 3000, 0.2, 0.04); near(n.TEST / 3000, 0.2, 0.04);
+});
+
+test("replay ignores technician decisions and scores top-1 / top-3", () => {
+  const o = evaluateCase(mk("a", lowChargeInputs, ["LOW_CHARGE"]));
+  assert.equal(o.abstained, false);
+  assert.equal(o.prediction, "LOW_CHARGE");
+  assert.ok(o.top1 && o.top3);
+  const wrong = evaluateCase(mk("b", lowChargeInputs, ["CAPACITOR"]));
+  assert.equal(wrong.top1, false);
+});
+
+test("engine abstains without measurements; verified 'no fault' is correct only when abstaining", () => {
+  const empty = base({ equipment: tgt }, {}) as unknown as CaseInputs;
+  const o = evaluateCase(mk("c", empty, [NO_FAULT]));
+  assert.equal(o.abstained, true);
+  assert.equal(o.top1, true);
+  assert.equal(evaluateCase(mk("d", lowChargeInputs, [NO_FAULT])).top1, false);
+});
+
+test("missed safety-critical fault is counted as a false negative", () => {
+  const o = evaluateCase(mk("e", lowChargeInputs, ["COMBUSTION_VENTING"]));
+  assert.deepEqual(o.safetyMissed, ["COMBUSTION_VENTING"]);
+});
+
+test("Wilson interval and the 95 % target are never declared on small samples", () => {
+  const w = wilson(95, 100);
+  near(w.low!, 0.888, 0.002); near(w.high!, 0.978, 0.002);
+  assert.equal(wilson(0, 0).rate, null);
+  const r = runEvaluation(Array.from({ length: 20 }, (_, i) => mk(`t${i}`, lowChargeInputs, ["LOW_CHARGE"])));
+  assert.equal(r.metrics.TEST.top1.rate, 1);
+  assert.equal(r.target.met, false); // 20/20 is not evidence of ≥95 %
+});
+
+test("calibration needs enough validation cases before a percentage is usable", () => {
+  const few = calibrate(Array.from({ length: MIN_CALIBRATION_N - 1 }, (_, i) => evaluateCase(mk(`v${i}`, lowChargeInputs, ["LOW_CHARGE"], "VALIDATION"))));
+  assert.ok(few.entries.every((e) => !e.calibrated));
+  const enough = calibrate(Array.from({ length: MIN_CALIBRATION_N }, (_, i) => evaluateCase(mk(`v${i}`, lowChargeInputs, i % 3 ? ["LOW_CHARGE"] : ["CAPACITOR"], "VALIDATION"))));
+  const e = enough.entries.find((x) => x.fault === "LOW_CHARGE")!;
+  assert.equal(e.calibrated, true);
+  assert.equal(e.hits, 20);
+});
+
+// ── AI assistant guard ──
+import { guardOutput, type AssistantContext } from "../assistant";
+const actx = {
+  equipment: { refrigerant: "R-410A" }, measurements: [{ key: "suction_psig", label: "Suction", circuit: 1, value: 100, text: null, unit: "psig" }],
+  calculated: [{ key: "superheat_f", label: "Superheat", circuit: 1, value: 22.37, formula: "", note: null }],
+  hypotheses: [{ id: "LOW_CHARGE", fault: "Low charge", status: "STRONGLY_SUSPECTED" }],
+  nextMeasurements: [{ key: "drier_in_f", label: "Drier inlet", reason: "" }], stillRequired: [],
+} as unknown as AssistantContext;
+
+test("assistant guard drops invented numbers, unknown ids, certainty and unconfirmed major repairs", () => {
+  const { output, removed } = guardOutput({
+    overview: "Suction is 100 psig on R-410A. Superheat is 22.4 °F, which is high. Saturation should be 52 °F.",
+    hypotheses: [
+      { id: "LOW_CHARGE", explanation: "High superheat fits a low charge. It is definitely a leak. Add refrigerant to bring it back.", contradictions: null },
+      { id: "MADE_UP", explanation: "Something else." },
+    ],
+    nextTest: { key: "compressor_megger", why: "Check 2 readings across the drier." },
+    cautions: ["Expect 95% chance of a leak."],
+  }, actx);
+  assert.equal(output.overview, "Suction is 100 psig on R-410A. Superheat is 22.4 °F, which is high.");
+  assert.equal(output.hypotheses.length, 1);
+  assert.equal(output.hypotheses[0].explanation, "High superheat fits a low charge.");
+  assert.equal(output.nextTest?.key, null);
+  assert.equal(output.cautions.length, 0);
+  assert.ok(removed.some((r) => r.reason.includes("52")));
+  assert.ok(removed.some((r) => r.reason.includes("certainty")));
+  assert.ok(removed.some((r) => r.reason.includes("major repair")));
+  assert.ok(removed.some((r) => r.text === "MADE_UP"));
+});

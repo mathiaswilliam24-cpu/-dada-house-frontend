@@ -12,7 +12,7 @@ import { refrigerantInfo, REFRIGERANT_KEYS } from "@/lib/hvac/refrigerants";
 import { toCanonical, fromCanonical, unitLabel, type TempUnit, type PressureUnit, type StaticUnit, type Kind } from "@/lib/hvac/units";
 import type { CalcValue } from "@/lib/hvac/engine";
 import type { AnalysisResult } from "@/lib/hvac/server";
-import type { Hypothesis } from "@/lib/hvac/rules";
+import { FAULT_CATALOG, type Hypothesis } from "@/lib/hvac/rules";
 import ScanPanel from "./scan-panel";
 
 type Prefs = { temp: TempUnit; pressure: PressureUnit; static: StaticUnit };
@@ -92,6 +92,12 @@ export default function DiagnosticWizard({ id }: { id: string }) {
   const [estPick, setEstPick] = useState<Record<string, number>>({});
   const [estimateId, setEstimateId] = useState<string | null>(null);
   const [estBusy, setEstBusy] = useState(false);
+  const [calibration, setCalibration] = useState<Record<string, { n: number; hits: number; rate: number; low: number; high: number }>>({});
+  const [ai, setAi] = useState<AiReview | null>(null);
+  const [aiBusy, setAiBusy] = useState(false);
+  const [aiErr, setAiErr] = useState("");
+  const [fb, setFb] = useState<Feedback | null>(null);
+  const [fbSaved, setFbSaved] = useState(false);
 
   useEffect(() => {
     try {
@@ -109,6 +115,8 @@ export default function DiagnosticWizard({ id }: { id: string }) {
     if (!r.ok) { setErr(d.error ?? "Could not load the diagnostic."); return; }
     setSession(d.session); setEquipmentList(d.equipment ?? []);
     setHistory(d.history ?? []); setModelSpec(d.modelSpec ?? null);
+    setCalibration(d.calibration ?? {}); setFb(d.feedback ?? null);
+    fetch(`/api/technician/hvac-diagnostic/${id}/assistant`, { cache: "no-store" }).then((x) => x.json()).then((x) => setAi(x.review ?? null)).catch(() => {});
     setStep(Math.min(12, Math.max(1, d.session.step ?? 1)));
   }, [id]);
   useEffect(() => { load(); }, [load]);
@@ -143,6 +151,7 @@ export default function DiagnosticWizard({ id }: { id: string }) {
     setSession(d.session);
     if ("history" in d) setHistory(d.history ?? []);
     if ("modelSpec" in d) setModelSpec(d.modelSpec ?? null);
+    if ("calibration" in d) setCalibration(d.calibration ?? {});
     return true;
   }, [id]);
 
@@ -292,6 +301,32 @@ export default function DiagnosticWizard({ id }: { id: string }) {
     </div>
   );
 
+  const aiOut = ai?.output ?? null;
+  const aiStale = !!(ai && results && ai.resultsAt && results.computedAt && ai.resultsAt !== results.computedAt);
+  const aiFor = (hid: string) => (aiStale ? null : aiOut?.hypotheses.find((x) => x.id === hid) ?? null);
+  const askAi = async () => {
+    setAiBusy(true); setAiErr("");
+    const r = await fetch(`/api/technician/hvac-diagnostic/${id}/assistant`, { method: "POST" });
+    const d = await r.json().catch(() => ({}));
+    setAiBusy(false);
+    if (!r.ok) { setAiErr(d.error ?? "The AI assistant could not answer."); return; }
+    setAi(d.review);
+  };
+  const rateAi = async (helpful: boolean) => {
+    if (!ai) return;
+    const r = await fetch(`/api/technician/hvac-diagnostic/${id}/assistant`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ reviewId: ai.id, helpful }) });
+    const d = await r.json().catch(() => ({}));
+    if (r.ok) setAi(d.review);
+  };
+  const saveFb = async (body: Partial<Feedback>) => {
+    setFb((f) => ({ ...(f ?? EMPTY_FB), ...body }));
+    setFbSaved(false);
+    const r = await fetch(`/api/technician/hvac-diagnostic/${id}/feedback`, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+    const d = await r.json().catch(() => ({}));
+    if (!r.ok) { setErr(d.error ?? "Feedback not saved"); return; }
+    setFb(d.feedback); setFbSaved(true);
+  };
+
   const HypCard = ({ h }: { h: Hypothesis }) => {
     const dec = session.decisions?.[h.id];
     const col = h.status === "CONFIRMED" ? "bg-emerald-600 text-white" : h.status === "STRONGLY_SUSPECTED" ? "bg-orange-500 text-white" : h.status === "RULED_OUT" ? "bg-gray-400 text-white" : c.chip;
@@ -301,6 +336,19 @@ export default function DiagnosticWizard({ id }: { id: string }) {
           <p className="font-black">{h.fault}</p>
           <span className={`shrink-0 text-[10px] font-bold px-2 py-1 rounded ${col}`}>{STATUS_TXT[h.status]}</span>
         </div>
+        {calibration[h.id] && h.status !== "CONFIRMED" && h.status !== "RULED_OUT" && (
+          <p className={`text-xs rounded-lg px-2 py-1.5 ${dark ? "bg-indigo-950 text-indigo-100" : "bg-indigo-50 text-indigo-900"}`}>
+            <b>Validated history:</b> with this status on this equipment type, the cause was verified in {calibration[h.id].hits} of {calibration[h.id].n} independently verified cases
+            ({Math.round(calibration[h.id].rate * 100)} %, 95 % range {Math.round(calibration[h.id].low * 100)}–{Math.round(calibration[h.id].high * 100)} %). Still run the confirmation test.
+          </p>
+        )}
+        {aiFor(h.id) && (
+          <div className={`text-sm rounded-lg px-2 py-1.5 ${dark ? "bg-violet-950 text-violet-100" : "bg-violet-50 text-violet-900"}`}>
+            <p className="text-[10px] font-bold uppercase">AI explanation</p>
+            <p>{aiFor(h.id)!.explanation}</p>
+            {aiFor(h.id)!.contradictions && <p className="text-xs mt-0.5 opacity-90">Contradictions: {aiFor(h.id)!.contradictions}</p>}
+          </div>
+        )}
         {h.support.length > 0 && <div className="text-sm"><p className="text-xs font-bold text-emerald-600">Supporting evidence</p>{h.support.map((x) => <p key={x}>✓ {x}</p>)}</div>}
         {h.contradict.length > 0 && <div className="text-sm"><p className="text-xs font-bold text-amber-600">Contradicting evidence</p>{h.contradict.map((x) => <p key={x}>✗ {x}</p>)}</div>}
         {h.missing.length > 0 && <div className="text-sm"><p className={`text-xs font-bold ${c.muted}`}>Missing evidence</p>{h.missing.map((x) => <p key={x} className={c.muted}>? {x}</p>)}</div>}
@@ -718,9 +766,43 @@ export default function DiagnosticWizard({ id }: { id: string }) {
       {curStep.n === 10 && results && (
         <div className="space-y-3">
           <p className={`text-sm rounded-xl border p-3 ${c.card}`}>{results.rules.summary}</p>
+          {results.rules.hypotheses.length > 0 && (
+            <div className={`rounded-xl border p-3 space-y-2 ${c.card}`}>
+              <div className="flex items-center justify-between gap-2">
+                <p className="font-bold text-sm">AI assistant</p>
+                <button disabled={aiBusy} onClick={askAi} className="px-3 py-1.5 rounded-lg bg-violet-600 text-white text-xs font-bold disabled:opacity-50">
+                  {aiBusy ? "Thinking…" : ai ? (aiStale ? "Explain again (data changed)" : "Explain again") : "Explain these results"}
+                </button>
+              </div>
+              <p className={`text-[11px] ${c.muted}`}>Explanations only. The engine's calculations, statuses and ranking are authoritative; the AI cannot add readings, specs or confidence numbers, and anything it writes that is not in your data is removed.</p>
+              {aiErr && <p className="text-sm text-red-500">{aiErr}</p>}
+              {aiOut && (
+                <div className={`space-y-1.5 text-sm ${aiStale ? "opacity-60" : ""}`}>
+                  {aiStale && <p className="text-xs font-bold text-amber-600">Measurements changed after this explanation — ask again.</p>}
+                  {aiOut.overview && <p>{aiOut.overview}</p>}
+                  {aiOut.nextTest && (aiOut.nextTest.key || aiOut.nextTest.why) && (
+                    <button onClick={() => { const f = aiOut.nextTest?.key ? visibleFieldsAll().find((x) => x.key === aiOut.nextTest!.key) : null; if (f) go(GROUP_STEP[f.group]); }}
+                      className={`w-full text-left rounded-lg px-2 py-1.5 ${c.chip}`}>
+                      <b>Next best check{aiOut.nextTest.label ? `: ${aiOut.nextTest.label}` : ""}</b>
+                      {aiOut.nextTest.why && <span className="block text-xs">{aiOut.nextTest.why}</span>}
+                    </button>
+                  )}
+                  {aiOut.missingInfo.length > 0 && <div><p className="text-xs font-bold">Still unknown</p>{aiOut.missingInfo.map((x) => <p key={x} className="text-xs">• {x}</p>)}</div>}
+                  {aiOut.rankingComment && <p className="text-xs"><b>On the ranking:</b> {aiOut.rankingComment}</p>}
+                  {aiOut.cautions.length > 0 && <div className="text-red-500">{aiOut.cautions.map((x) => <p key={x} className="text-xs">⚠ {x}</p>)}</div>}
+                  {ai!.removedCount > 0 && <p className={`text-[11px] ${c.muted}`}>{ai!.removedCount} statement(s) removed because they were not supported by your data.</p>}
+                  <div className="flex items-center gap-2 pt-1">
+                    <span className={`text-xs ${c.muted}`}>Was this useful?</span>
+                    <button onClick={() => rateAi(true)} className={`px-2 py-1 rounded text-xs font-bold ${ai!.helpful === true ? "bg-emerald-600 text-white" : c.chip}`}>Yes</button>
+                    <button onClick={() => rateAi(false)} className={`px-2 py-1 rounded text-xs font-bold ${ai!.helpful === false ? "bg-gray-500 text-white" : c.chip}`}>No</button>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
           {results.rules.hypotheses.length === 0 && <p className={`text-sm ${c.muted}`}>No hypothesis yet — record more measurements (see Analysis).</p>}
           {results.rules.hypotheses.map((h) => <HypCard key={h.id} h={h} />)}
-          <p className={`text-[11px] ${c.muted}`}>{results.rules.rulesetVersion}. Statuses come from the evidence, not from a percentage — no confidence score is shown until the engine is validated on verified field cases.</p>
+          <p className={`text-[11px] ${c.muted}`}>{results.rules.rulesetVersion}. Statuses come from the evidence. A percentage appears only where the current engine version has been measured on enough independently verified cases for this equipment type, fault and status.</p>
         </div>
       )}
 
@@ -822,6 +904,41 @@ export default function DiagnosticWizard({ id }: { id: string }) {
               </div>
             )}
           </div>
+          <div className={`rounded-xl border p-3 space-y-2 ${c.card}`}>
+            <p className="font-bold text-sm">Help improve the diagnostics</p>
+            <div>
+              <Label>Was the engine&apos;s top suggestion the real cause?</Label>
+              <div className="grid grid-cols-3 gap-1.5">
+                {([["YES", "Yes"], ["NO", "No"], ["NOT_SURE", "Not sure"]] as const).map(([k, l]) => (
+                  <button key={k} onClick={() => saveFb({ engineTopCorrect: k })} className={`py-2 rounded-lg text-sm font-bold ${fb?.engineTopCorrect === k ? c.active : c.chip}`}>{l}</button>
+                ))}
+              </div>
+            </div>
+            <div>
+              <Label>Actual cause(s) found</Label>
+              <div className="flex flex-wrap gap-1.5">
+                {[...FAULT_CATALOG.map((f) => [f.id, f.fault] as const), ["OTHER", "Other"] as const, ["NO_FAULT", "No fault found"] as const].map(([k, l]) => {
+                  const on = fb?.actualFaults?.includes(k);
+                  return <button key={k} onClick={() => saveFb({ actualFaults: on ? (fb?.actualFaults ?? []).filter((x) => x !== k) : [...(fb?.actualFaults ?? []), k] })}
+                    className={`px-2 py-1 rounded-lg text-xs font-semibold ${on ? c.active : c.chip}`}>{l}</button>;
+                })}
+              </div>
+              {fb?.actualFaults?.includes("OTHER") && (
+                <input defaultValue={fb?.otherFault ?? ""} onBlur={(e) => saveFb({ otherFault: e.target.value })} placeholder="Describe the actual cause" className={`${inputCls} mt-1.5 text-sm py-2`} />
+              )}
+            </div>
+            <div>
+              <Label>Did the AI assistant help?</Label>
+              <div className="grid grid-cols-3 gap-1.5">
+                {([["YES", "Yes"], ["NO", "No"], ["NOT_USED", "Not used"]] as const).map(([k, l]) => (
+                  <button key={k} onClick={() => saveFb({ assistantHelpful: k })} className={`py-2 rounded-lg text-sm font-bold ${fb?.assistantHelpful === k ? c.active : c.chip}`}>{l}</button>
+                ))}
+              </div>
+            </div>
+            <textarea defaultValue={fb?.comment ?? ""} onBlur={(e) => saveFb({ comment: e.target.value })} rows={2} placeholder="What did the engine miss or get wrong? (optional)" className={`${inputCls} text-sm`} />
+            {fbSaved && <p className="text-xs text-emerald-600 font-semibold">Feedback saved — thank you.</p>}
+            <p className={`text-[11px] ${c.muted}`}>Your feedback is reviewed by the office; verified cases are used to measure the engine. It never changes this report.</p>
+          </div>
           <p className={`text-[11px] ${c.muted}`}>The report separates technician-confirmed findings from automated hypotheses.</p>
         </div>
       )}
@@ -843,3 +960,17 @@ export default function DiagnosticWizard({ id }: { id: string }) {
 
 // All fields regardless of context (for unit lookups of stored values).
 function visibleFieldsAll() { return FIELDS; }
+
+type AiReview = {
+  id: string; createdAt: string; helpful: boolean | null; removedCount: number; resultsAt: string | null; model: string;
+  output: {
+    overview: string;
+    hypotheses: { id: string; explanation: string; contradictions: string | null }[];
+    missingInfo: string[];
+    nextTest: { key: string | null; label: string | null; why: string } | null;
+    rankingComment: string | null;
+    cautions: string[];
+  };
+};
+type Feedback = { engineTopCorrect: string | null; actualFaults: string[]; otherFault: string | null; assistantHelpful: string | null; comment: string | null };
+const EMPTY_FB: Feedback = { engineTopCorrect: null, actualFaults: [], otherFault: null, assistantHelpful: null, comment: null };

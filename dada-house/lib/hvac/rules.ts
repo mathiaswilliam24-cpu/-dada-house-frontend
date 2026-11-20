@@ -511,3 +511,7 @@ export function runRules(input: {
 
   return { rulesetVersion: RULESET_VERSION, hypotheses: hyps, nextMeasurements: next.slice(0, 8), summary };
 }
+
+/** Fault catalog of the rule set (for ground-truth labelling and evaluation). */
+export const FAULT_CATALOG = RULES.map((r) => ({ id: r.id, fault: r.fault, category: r.category, safetyCritical: !!r.safetyCritical }));
+export type FaultId = (typeof FAULT_CATALOG)[number]["id"];

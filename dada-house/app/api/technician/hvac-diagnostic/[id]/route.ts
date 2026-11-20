@@ -5,6 +5,7 @@ import { db } from "@/lib/db";
 import type { Prisma } from "@/lib/generated/prisma/client";
 import { loadSession, canAccess, analyze, saveEquipmentFromSession, EQUIPMENT_SPEC_SELECT, type AnalysisResult } from "@/lib/hvac/server";
 import { findModelSpec } from "@/lib/hvac/admin-data";
+import { calibrationFor } from "@/lib/hvac/calibration-server";
 import { COMPLAINTS, MODES, EQUIPMENT_CATEGORIES, FIELD_BY_KEY, SAFETY_CHECKS } from "@/lib/hvac/catalog";
 import { REFRIGERANT_KEYS } from "@/lib/hvac/refrigerants";
 import { CANONICAL_UNIT } from "@/lib/hvac/units";
@@ -31,13 +32,13 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
     ? await db.equipment.findMany({ where: { customerId }, orderBy: { updatedAt: "desc" }, select: EQUIPMENT_SPEC_SELECT })
     : [];
   const results = session.results ?? (await analyze(session));
-  return NextResponse.json({ session: { ...session, results }, equipment, ...(await extras(session)) });
+  return NextResponse.json({ session: { ...session, results }, equipment, ...(await extras(session, results as unknown as AnalysisResult)) });
 }
 
 /** Previous diagnostics on the same equipment + matching approved manufacturer data. */
-async function extras(session: { id: string; equipmentId: string | null; equipment: unknown }) {
-  const eq = (session.equipment ?? {}) as { manufacturer?: string | null; modelNumber?: string | null };
-  const [previous, spec] = await Promise.all([
+async function extras(session: { id: string; equipmentId: string | null; equipment: unknown }, results: AnalysisResult | null) {
+  const eq = (session.equipment ?? {}) as { manufacturer?: string | null; modelNumber?: string | null; category?: string | null };
+  const [previous, spec, calibration, feedback] = await Promise.all([
     session.equipmentId
       ? db.hvacDiagnosticSession.findMany({
           where: { equipmentId: session.equipmentId, id: { not: session.id } },
@@ -46,9 +47,12 @@ async function extras(session: { id: string; equipmentId: string | null; equipme
         })
       : [],
     findModelSpec(eq.manufacturer, eq.modelNumber),
+    calibrationFor(eq.category, results?.rules?.hypotheses ?? []),
+    db.hvacTechnicianFeedback.findUnique({ where: { sessionId: session.id } }),
   ]);
   const KEYS = ["superheat_f", "subcooling_f", "evap_sat_f", "cond_sat_bubble_f", "air_dt_f", "temp_rise_f", "comp_pct_rla", "voltage_imbalance_pct"];
   return {
+    calibration, feedback,
     history: previous.map((p) => {
       const r = p.results as unknown as AnalysisResult | null;
       return {
@@ -218,5 +222,5 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     });
     fresh = (await loadSession(id))!;
   }
-  return NextResponse.json({ session: { ...fresh, results }, ...(await extras(fresh)) });
+  return NextResponse.json({ session: { ...fresh, results }, ...(await extras(fresh, results as unknown as AnalysisResult)) });
 }

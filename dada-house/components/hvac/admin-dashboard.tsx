@@ -1,5 +1,6 @@
 "use client";
 import { useCallback, useEffect, useState } from "react";
+import ValidationTab from "./validation-tab";
 import { Gauge, Loader2, ShieldAlert, Download, FileText, CheckCircle2, XCircle } from "lucide-react";
 
 type Dash = {
@@ -24,7 +25,7 @@ const SPEC_KEYS: [string, string][] = [
 const date = (d: string) => new Date(d).toLocaleDateString("en-US", { timeZone: "America/New_York", month: "short", day: "numeric", year: "numeric" });
 
 export default function HvacAdminDashboard() {
-  const [tab, setTab] = useState<"overview" | "sessions" | "safety" | "rules" | "models">("overview");
+  const [tab, setTab] = useState<"overview" | "sessions" | "safety" | "rules" | "models" | "validation">("overview");
   const [days, setDays] = useState(90);
   const [d, setD] = useState<Dash | null>(null);
   const [err, setErr] = useState("");
@@ -52,7 +53,7 @@ export default function HvacAdminDashboard() {
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
           <h1 className="text-2xl font-black text-gray-900 flex items-center gap-2"><Gauge className="text-[#1B3FA8]" /> HVAC Diagnostics</h1>
-          <p className="text-sm text-gray-500 mt-1">Diagnostic sessions, safety audit, technician-confirmed faults, field rules and manufacturer data.</p>
+          <p className="text-sm text-gray-500 mt-1">Diagnostic sessions, safety audit, technician-confirmed faults, field rules, manufacturer data, validation and technician feedback.</p>
         </div>
         <div className="flex items-center gap-2 text-sm">
           <select value={days} onChange={(e) => setDays(Number(e.target.value))} className="border border-gray-200 rounded-lg px-2 py-2">
@@ -62,7 +63,7 @@ export default function HvacAdminDashboard() {
         </div>
       </div>
       <div className="flex gap-1 border-b border-gray-200">
-        {([["overview", "Overview"], ["sessions", "Sessions"], ["safety", "Safety audit"], ["rules", "Field rules"], ["models", "Manufacturer data"]] as const).map(([k, l]) => (
+        {([["overview", "Overview"], ["sessions", "Sessions"], ["safety", "Safety audit"], ["rules", "Field rules"], ["models", "Manufacturer data"], ["validation", "Validation & feedback"]] as const).map(([k, l]) => (
           <button key={k} onClick={() => setTab(k)} className={`px-4 py-2 text-sm font-semibold border-b-2 -mb-px ${tab === k ? "border-[#1B3FA8] text-[#1B3FA8]" : "border-transparent text-gray-500"}`}>{l}</button>
         ))}
       </div>
@@ -151,6 +152,7 @@ export default function HvacAdminDashboard() {
 
       {tab === "rules" && <RulesTab />}
       {tab === "models" && <ModelsTab />}
+      {tab === "validation" && <ValidationTab />}
     </div>
   );
 }
