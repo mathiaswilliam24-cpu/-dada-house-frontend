@@ -2,6 +2,7 @@ import { getOpenAI } from "@/lib/openai";
 import { FIELDS, FIELD_BY_KEY } from "./catalog";
 import { REFRIGERANT_KEYS } from "./refrigerants";
 import { toCanonical, type TempUnit, type PressureUnit, type StaticUnit } from "./units";
+import { INSTRUMENTS, stabilityTolerance, type InstrumentId } from "./instruments";
 
 /**
  * Reads nameplates, digital manifolds, thermometers and meters from photos / video frames.
@@ -42,6 +43,12 @@ export type Proposal = {
   read: string;                                   // verbatim text the AI read
   image: number; confidence: "high" | "medium" | "low";
   warning?: string;
+  frames?: number; range?: [number, number]; unstable?: boolean;  // same value read in several images / video frames
+};
+
+export type CrossCheck = {
+  refrigerantSetting: string | null;                 // refrigerant selected on the digital manifold
+  superheatF: number | null; subcoolingF: number | null; // values the manifold displays (°F differences), cross-check only
 };
 
 function normTemp(u: string): TempUnit | null { const x = u.toLowerCase().replace(/[°º\s]/g, ""); return x === "f" ? "F" : x === "c" ? "C" : null; }
@@ -57,16 +64,30 @@ function normStatic(u: string): StaticUnit | null { const x = u.toLowerCase().re
 
 const DEFAULT_PREFS = { temp: "F" as TempUnit, pressure: "psig" as PressureUnit, static: "inwc" as StaticUnit };
 
-export async function readImages(imageUrls: string[], context: { refrigerant?: string | null; circuits: number }) {
+export async function readImages(imageUrls: string[], context: {
+  refrigerant?: string | null; circuits: number;
+  instrument?: InstrumentId; targets?: string[]; circuit?: number | null;
+}) {
+  const instrument = context.instrument ?? "AUTO";
+  const ins = INSTRUMENTS[instrument];
+  const targets = (context.targets ?? []).filter((k) => FIELD_BY_KEY[k]);
   const system = `You transcribe HVAC data from photos for a licensed technician. Rules:
 - Report ONLY values that are clearly legible in the images. Never guess, infer, estimate or calculate. If a value is blurry or cut off, skip it.
 - Do NOT diagnose and do NOT give advice.
-- Ignore superheat/subcooling/target values computed by a digital manifold; report the raw pressures and temperatures instead. (Exception: a factory "target subcooling" printed on the equipment label.)
+- Ignore superheat/subcooling/target values computed by a digital manifold; report the raw pressures and temperatures as readings (copy the displayed superheat/subcooling into "crossCheck" only when asked). (Exception: a factory "target subcooling" printed on the equipment label.)
 - Digital manifold: low side / suction / "LOW" → suction_psig; high side / liquid / "HIGH" → high_psig; suction line clamp (SLT, "Suction temp") → suction_line_f; liquid line clamp (LLT) → liquid_line_f. Note the refrigerant shown on the manifold screen as equipment.refrigerant.
 - Report the unit exactly as displayed (°F, °C, psig, psia, kPa, bar, in. w.c., Pa, V, A, µF, Hz, µA, ppm, CFM, Ω, MΩ, min).
 - "read" = the exact characters you read for that value.
 Return JSON: {"readings":[{"target":"equipment"|"measurement","key":"...","value":number|null,"text":string|null,"unit":"...","read":"...","image":<0-based image index>,"circuit":1,"confidence":"high"|"medium"|"low"}],"notes":"short note about what the images show / what was unreadable"}`;
-  const keys = `Allowed equipment keys:\n${Object.entries(EQUIPMENT_TARGETS).map(([k, v]) => `- ${k}: ${v.label}`).join("\n")}\n\nAllowed measurement keys:\n${MEASUREMENT_TARGETS.map((f) => `- ${f.key}: ${f.label}${f.unit ? ` (${f.unit})` : ""}`).join("\n")}\n\nThe system has ${context.circuits} refrigeration circuit(s).${context.refrigerant ? ` Nameplate refrigerant already recorded: ${context.refrigerant}.` : ""}`;
+  const measurementList = targets.length ? MEASUREMENT_TARGETS.filter((f) => targets.includes(f.key)) : instrument === "NAMEPLATE" ? [] : MEASUREMENT_TARGETS;
+  const keys = [
+    `Instrument / subject (stated by the technician): ${ins.label}. ${ins.promptNote}`,
+    ins.equipment ? `Allowed equipment keys:\n${Object.entries(EQUIPMENT_TARGETS).map(([k, v]) => `- ${k}: ${v.label}`).join("\n")}` : "Do not report equipment keys.",
+    measurementList.length ? `Allowed measurement keys${targets.length ? " (the technician says the display shows exactly these)" : ""}:\n${measurementList.map((f) => `- ${f.key}: ${f.label}${f.unit ? ` (${f.unit})` : ""}`).join("\n")}` : "Do not report measurement keys.",
+    `The system has ${context.circuits} refrigeration circuit(s).${context.circuit ? ` These readings are for circuit ${context.circuit}.` : ""}${context.refrigerant ? ` Nameplate refrigerant already recorded: ${context.refrigerant}.` : ""}`,
+    instrument === "DIGITAL_MANIFOLD" ? 'Also return "crossCheck": {"refrigerantSetting": "refrigerant selected on the manifold or null", "superheat": {"value": number, "unit": "°F"|"°C"|"K"} or null, "subcooling": {...} or null} — copy what the screen shows; these are NOT measurements.' : "",
+    imageUrls.length > 1 ? "Several images may be frames of one video of the same display: report the reading from EACH image separately (with its image index) so stability can be checked." : "",
+  ].filter(Boolean).join("\n\n");
 
   const res = await getOpenAI().chat.completions.create({
     model: VISION_MODEL,
@@ -81,9 +102,63 @@ Return JSON: {"readings":[{"target":"equipment"|"measurement","key":"...","value
     ],
   });
   const raw = res.choices[0]?.message?.content ?? "{}";
-  let parsed: { readings?: unknown[]; notes?: string } = {};
+  let parsed: { readings?: unknown[]; notes?: string; crossCheck?: unknown } = {};
   try { parsed = JSON.parse(raw); } catch { /* handled below */ }
-  return { proposals: normalize(parsed.readings ?? [], context.circuits), notes: typeof parsed.notes === "string" ? parsed.notes.slice(0, 1000) : null, model: VISION_MODEL };
+  let proposals = normalize(parsed.readings ?? [], context.circuits);
+  // Keep only what this capture can contain; pin the circuit the technician chose.
+  proposals = proposals.filter((p) => (p.target === "equipment" ? !!ins.equipment : !targets.length || targets.includes(p.key)));
+  if (context.circuit) for (const p of proposals) if (p.target === "measurement" && FIELD_BY_KEY[p.key]?.perCircuit) p.circuit = Math.min(context.circuits, context.circuit);
+  if (instrument === "ANALOG_GAUGES") for (const p of proposals) if (p.confidence === "high") p.confidence = "medium";
+  return {
+    proposals: mergeFrames(proposals),
+    crossCheck: instrument === "DIGITAL_MANIFOLD" ? normalizeCrossCheck(parsed.crossCheck) : null,
+    notes: typeof parsed.notes === "string" ? parsed.notes.slice(0, 1000) : null, model: VISION_MODEL,
+  };
+}
+
+function diffToF(v: unknown, unit: unknown): number | null {
+  const n = typeof v === "number" ? v : typeof v === "string" && v.trim() !== "" ? Number(v) : NaN;
+  if (!Number.isFinite(n)) return null;
+  const u = String(unit ?? "").toLowerCase().replace(/[°\s]/g, "");
+  return u === "c" || u === "k" ? Math.round(n * 1.8 * 10) / 10 : n; // temperature DIFFERENCE: ×1.8, no offset
+}
+function normalizeCrossCheck(raw: unknown): CrossCheck | null {
+  if (!raw || typeof raw !== "object") return null;
+  const r = raw as Record<string, Record<string, unknown> | string | null>;
+  const ref = typeof r.refrigerantSetting === "string" ? r.refrigerantSetting.trim() : "";
+  const refKey = ref ? REFRIGERANT_KEYS.find((x) => x.replace("-", "").toLowerCase() === ref.replace(/[-\s]/g, "").toLowerCase()) ?? ref.slice(0, 20) : null;
+  const sh = r.superheat && typeof r.superheat === "object" ? diffToF(r.superheat.value, r.superheat.unit) : null;
+  const sc = r.subcooling && typeof r.subcooling === "object" ? diffToF(r.subcooling.value, r.subcooling.unit) : null;
+  if (!refKey && sh == null && sc == null) return null;
+  return { refrigerantSetting: refKey, superheatF: sh, subcoolingF: sc };
+}
+
+/** Same measurement read in several images (video frames): one proposal, latest value, stability flag. */
+export function mergeFrames(list: Proposal[]): Proposal[] {
+  const out: Proposal[] = [];
+  const groups = new Map<string, Proposal[]>();
+  for (const p of list) {
+    const k = `${p.target}|${p.key}|${p.circuit}`;
+    groups.set(k, [...(groups.get(k) ?? []), p]);
+  }
+  for (const g of groups.values()) {
+    if (g.length === 1) { out.push(g[0]); continue; }
+    const byImage = [...g].sort((a, b) => a.image - b.image);
+    const latest = byImage[byImage.length - 1];
+    const nums = byImage.map((p) => p.value).filter((v): v is number => v != null);
+    if (!nums.length) { out.push({ ...latest, frames: g.length }); continue; }
+    const min = Math.min(...nums), max = Math.max(...nums);
+    const f = FIELD_BY_KEY[latest.key];
+    const unstable = max - min > stabilityTolerance(f?.kind ?? "plain", latest.value ?? max);
+    out.push({
+      ...latest, frames: g.length, range: [min, max], unstable,
+      confidence: g.some((p) => p.confidence === "low") ? "low" : g.some((p) => p.confidence === "medium") ? "medium" : latest.confidence,
+      warning: unstable
+        ? `Changing across ${g.length} frames (${min}–${max}) — the system may not be stabilized; latest value proposed.${latest.warning ? ` ${latest.warning}` : ""}`
+        : latest.warning,
+    });
+  }
+  return out;
 }
 
 function normalize(readings: unknown[], circuits: number): Proposal[] {

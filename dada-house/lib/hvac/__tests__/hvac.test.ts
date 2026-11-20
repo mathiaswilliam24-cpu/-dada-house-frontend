@@ -312,3 +312,27 @@ test("assistant guard drops invented numbers, unknown ids, certainty and unconfi
   assert.ok(removed.some((r) => r.reason.includes("major repair")));
   assert.ok(removed.some((r) => r.text === "MADE_UP"));
 });
+
+// ── Photo instruments (priority 5) ──
+import { mergeFrames, type Proposal } from "../vision";
+import { targetKeys, instrumentFor } from "../instruments";
+const prop = (image: number, value: number, key = "suction_psig"): Proposal => ({ target: "measurement", key, label: key, circuit: 1, value, text: null, display: "", read: String(value), image, confidence: "high" });
+
+test("video frames: stable readings merge into the latest value", () => {
+  const [p] = mergeFrames([prop(0, 118), prop(1, 119), prop(2, 120)]);
+  assert.equal(p.value, 120); assert.equal(p.frames, 3); assert.equal(p.unstable, false); assert.equal(p.warning, undefined);
+});
+
+test("video frames: drifting readings are flagged as not stabilized", () => {
+  const [p] = mergeFrames([prop(0, 40, "suction_line_f"), prop(1, 44, "suction_line_f"), prop(2, 47, "suction_line_f")]);
+  assert.equal(p.unstable, true); assert.deepEqual(p.range, [40, 47]); assert.match(p.warning ?? "", /not be stabilized/);
+});
+
+test("instrument targeting: the technician's choice limits what the AI may report", () => {
+  assert.deepEqual(targetKeys("CLAMP_METER", ["comp_amps"]), ["comp_amps"]);
+  assert.deepEqual(targetKeys("CLAMP_METER", []), []);
+  assert.deepEqual(targetKeys("PSYCHROMETER", ["supply_db_f+supply_wb_f"]), ["supply_db_f", "supply_wb_f"]);
+  assert.ok(targetKeys("DIGITAL_MANIFOLD", null).includes("liquid_line_f"));
+  assert.deepEqual(instrumentFor("tesp_inwc"), { instrument: "MANOMETER", option: "tesp_inwc" });
+  assert.equal(instrumentFor("filter_condition"), null);
+});

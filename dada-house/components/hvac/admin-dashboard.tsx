@@ -8,6 +8,7 @@ type Dash = {
   kpis: { sessions: number; completed: number; drafts: number; safetyEvents: number; aiScans: number };
   agreement: { confirmedFindings: number; top1: number; top3: number; notSuggested: number; rejectedTopSuggestions: number; top1Pct: number | null; top3Pct: number | null; note: string };
   byCategory: { category: string; sessions: number; confirmed: number; top1: number; top3: number }[];
+  scanner: { instrument: string; scans: number; failed: number; discarded: number; proposed: number; accepted: number; unchanged: number; corrected: number; unchangedPct: number | null }[];
   faults: { fault: string; n: number }[];
   recurring: { equipment: string; faults: string[]; sessions: number }[];
   safety: { id: string; at: string; code: string; severity: string; message: string; sessionId: string; technician: string | null; customer: string | null; job: string | null; reportNumber: string | null }[];
@@ -77,6 +78,22 @@ export default function HvacAdminDashboard() {
               <div key={l} className="bg-white rounded-xl border border-gray-200 p-3"><p className="text-2xl font-black">{v}</p><p className="text-xs text-gray-500">{l}</p></div>
             ))}
           </div>
+          {d.scanner.length > 0 && (
+            <div className="bg-white rounded-xl border border-gray-200 overflow-x-auto">
+              <p className="px-4 pt-3 font-bold text-gray-900">Photo scan reliability</p>
+              <p className="px-4 pb-2 text-xs text-gray-500">Values read by the AI and accepted by technicians without correction. Corrections and rejected readings show which instruments need better photos or prompts.</p>
+              <table className="min-w-full text-sm">
+                <thead><tr className="text-xs text-gray-500"><th className="px-4 py-1.5 text-left">Instrument</th><th className="px-3 text-right">Scans</th><th className="px-3 text-right">Failed</th><th className="px-3 text-right">Discarded</th><th className="px-3 text-right">Values read</th><th className="px-3 text-right">Accepted</th><th className="px-3 text-right">Corrected</th><th className="px-4 text-right">Accepted unchanged</th></tr></thead>
+                <tbody>{d.scanner.map((x) => (
+                  <tr key={x.instrument} className="border-t border-gray-100">
+                    <td className="px-4 py-1.5">{x.instrument}</td><td className="px-3 text-right">{x.scans}</td><td className="px-3 text-right">{x.failed}</td><td className="px-3 text-right">{x.discarded}</td>
+                    <td className="px-3 text-right">{x.proposed}</td><td className="px-3 text-right">{x.accepted}</td><td className="px-3 text-right">{x.corrected}</td>
+                    <td className="px-4 text-right font-semibold">{x.unchangedPct == null ? "—" : `${x.unchangedPct} %`}</td>
+                  </tr>
+                ))}</tbody>
+              </table>
+            </div>
+          )}
           <div className="bg-white rounded-xl border border-gray-200 p-4">
             <p className="font-bold text-gray-900">Engine vs technician-confirmed faults</p>
             <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mt-3 text-sm">

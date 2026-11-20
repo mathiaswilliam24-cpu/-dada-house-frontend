@@ -13,10 +13,11 @@ import { toCanonical, fromCanonical, unitLabel, type TempUnit, type PressureUnit
 import type { CalcValue } from "@/lib/hvac/engine";
 import type { AnalysisResult } from "@/lib/hvac/server";
 import { FAULT_CATALOG, type Hypothesis } from "@/lib/hvac/rules";
-import ScanPanel from "./scan-panel";
+import ScanPanel, { type ScanPreset } from "./scan-panel";
+import { INSTRUMENTS, instrumentFor } from "@/lib/hvac/instruments";
 
 type Prefs = { temp: TempUnit; pressure: PressureUnit; static: StaticUnit };
-type Measurement = { circuit: number; key: string; value: number | null; text: string | null };
+type Measurement = { circuit: number; key: string; value: number | null; text: string | null; source?: string; imageUrl?: string | null; instrument?: string | null };
 type Equip = Record<string, unknown> & { specs?: Record<string, number | null> | null };
 type Session = {
   id: string; status: string; step: number; complaint: string | null; complaintOther: string | null; mode: string | null; stage: string | null;
@@ -85,6 +86,8 @@ export default function DiagnosticWizard({ id }: { id: string }) {
   const editing = useRef<string | null>(null);
   const [savedEquipment, setSavedEquipment] = useState(false);
   const [scanOpen, setScanOpen] = useState(false);
+  const [scanPreset, setScanPreset] = useState<ScanPreset | null>(null);
+  const openScan = (preset: ScanPreset | null) => { setScanPreset(preset); setScanOpen(true); };
   const [noteDraft, setNoteDraft] = useState<Record<string, string>>({});
   const [history, setHistory] = useState<HistoryRow[]>([]);
   const [modelSpec, setModelSpec] = useState<ModelSpec | null>(null);
@@ -234,12 +237,22 @@ export default function DiagnosticWizard({ id }: { id: string }) {
       <div key={k} className={`rounded-xl border p-3 ${c.card}`}>
         <div className="flex items-start justify-between gap-2">
           <Label req={req}>{f.label}</Label>
+          {!locked && instrumentFor(f.key) && (
+            <button onClick={() => { const t = instrumentFor(f.key)!; openScan({ instrument: t.instrument, option: t.option, circuit: circ }); }}
+              title={`Scan with ${INSTRUMENTS[instrumentFor(f.key)!.instrument].label}`} className={`shrink-0 ml-auto p-1 rounded ${c.chip}`}><ScanLine className="w-3.5 h-3.5" /></button>
+          )}
           {f.safety && (
             <span title={SAFETY_TAGS[f.safety].text} className={`shrink-0 text-[10px] font-bold px-1.5 py-0.5 rounded ${f.safety === "LIVE" ? "bg-red-100 text-red-700" : "bg-amber-100 text-amber-800"}`}>
               {SAFETY_TAGS[f.safety].label}
             </span>
           )}
         </div>
+        {(() => {
+          const m = session.measurements.find((x) => x.circuit === circ && x.key === f.key);
+          return m?.source === "AI_PHOTO" && m.imageUrl ? (
+            <a href={m.imageUrl} target="_blank" rel="noopener noreferrer" className="text-[11px] font-semibold text-orange-500 block mb-1">📷 Read from photo, verified — view photo</a>
+          ) : null;
+        })()}
         {f.input === "number" && (
           <div className="flex items-center gap-2">
             <input
@@ -394,7 +407,7 @@ export default function DiagnosticWizard({ id }: { id: string }) {
           <p className={`text-xs truncate ${c.muted}`}>{session.appointment ? `${session.appointment.address}, ${session.appointment.city}` : ""}</p>
         </div>
         {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className={`w-4 h-4 ${c.muted}`} />}
-        {!locked && <button onClick={() => setScanOpen(true)} className="px-2.5 py-2 rounded-lg bg-orange-500 text-white text-xs font-bold flex items-center gap-1" title="Scan nameplate / gauges with AI"><ScanLine className="w-4 h-4" /> Scan</button>}
+        {!locked && <button onClick={() => openScan(null)} className="px-2.5 py-2 rounded-lg bg-orange-500 text-white text-xs font-bold flex items-center gap-1" title="Scan nameplate / gauges with AI"><ScanLine className="w-4 h-4" /> Scan</button>}
         <button onClick={() => setDark((d) => !d)} className={`p-2 rounded-lg ${c.chip}`} title="Dark mode">{dark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}</button>
       </div>
 
@@ -672,6 +685,32 @@ export default function DiagnosticWizard({ id }: { id: string }) {
               })}
             </div>
           )}
+          {!locked && (() => {
+            const wanted = [...results.rules.nextMeasurements.map((n) => ({ key: n.key, circuit: 1 })), ...results.missing.map((m) => ({ key: m.key, circuit: m.circuit ?? 1 }))];
+            const shots = new Map<string, { instrument: keyof typeof INSTRUMENTS; option: string; circuit: number; labels: string[] }>();
+            for (const w of wanted) {
+              const t = instrumentFor(w.key);
+              if (!t) continue;
+              const id = `${t.instrument}|${t.option}|${w.circuit}`;
+              const e = shots.get(id) ?? { ...t, circuit: w.circuit, labels: [] };
+              const l = visibleFieldsAll().find((x) => x.key === w.key)?.label ?? w.key;
+              if (!e.labels.includes(l)) e.labels.push(l);
+              shots.set(id, e);
+            }
+            if (!shots.size) return null;
+            return (
+              <div className={`rounded-xl border p-3 ${c.card}`}>
+                <p className="font-bold text-sm mb-1.5 flex items-center gap-1.5"><ScanLine className="w-4 h-4 text-orange-500" /> Photos to take</p>
+                {[...shots.values()].slice(0, 8).map((x) => (
+                  <button key={`${x.instrument}${x.option}${x.circuit}`} onClick={() => openScan({ instrument: x.instrument, option: x.option, circuit: x.circuit })}
+                    className={`w-full text-left px-2 py-1.5 rounded-lg text-sm mb-1 ${c.chip}`}>
+                    <b>{INSTRUMENTS[x.instrument].label}</b>{circuits > 1 ? ` · circuit ${x.circuit}` : ""} <span className={`text-xs ${c.muted}`}>{x.labels.join(", ")}</span>
+                  </button>
+                ))}
+                <p className={`text-[11px] ${c.muted}`}>Tap to photograph the instrument; the AI reads it and you verify before it is saved. A short video of a manifold also checks that readings are stable.</p>
+              </div>
+            );
+          })()}
           {results.missing.length > 0 && (
             <div className={`rounded-xl border p-3 ${c.card}`}>
               <p className="font-bold text-sm mb-1.5">Still needed for a reliable analysis ({results.missing.length})</p>
@@ -758,7 +797,7 @@ export default function DiagnosticWizard({ id }: { id: string }) {
       )}
 
       {scanOpen && (
-        <ScanPanel sessionId={session.id} dark={dark} onClose={() => setScanOpen(false)}
+        <ScanPanel sessionId={session.id} dark={dark} circuits={circuits} preset={scanPreset} onClose={() => setScanOpen(false)}
           onApplied={(s) => { setSession(s as Session); setScanOpen(false); setStep(9); window.scrollTo({ top: 0 }); }} />
       )}
 

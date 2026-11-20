@@ -1930,6 +1930,10 @@ model HvacMeasurement {
   mode         String?
   source       String   @default("MANUAL") // MANUAL | AI_PHOTO (read from a photo/video by AI, then verified by the technician) | INSTRUMENT
   instrument   String?
+  scanId       String? // photo scan the value was read from (evidence)
+  imageUrl     String? // the photo / video frame it was read from
+  aiValue      Float? // what the AI read, before the technician's verification (scanner accuracy)
+  aiText       String?
   technicianId String
   measuredAt   DateTime @default(now())
   updatedAt    DateTime @updatedAt
@@ -1962,6 +1966,11 @@ model HvacScan {
   technicianId String
   imageUrls    Json // string[]
   kind         String   @default("PHOTO") // PHOTO | VIDEO_FRAMES
+  instrument   String? // DIGITAL_MANIFOLD | CLAMP_METER | … (lib/hvac/instruments.ts)
+  targets      Json? // keys the technician said the display shows
+  circuit      Int?
+  crossCheck   Json? // manifold refrigerant setting / displayed SH-SC + comparison with the engine
+  outcomes     Json? // per proposal: accepted, corrected (scanner accuracy)
   model        String?
   status       String   @default("PENDING") // PENDING | APPLIED | DISCARDED | FAILED
   proposals    Json? // [{ target, key, circuit, value, unit, text, read, confidence, image }]

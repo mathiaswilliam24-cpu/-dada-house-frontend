@@ -3,6 +3,7 @@ import { requireRole } from "@/lib/api-auth";
 import { db } from "@/lib/db";
 import { categoryInfo, COMPLAINTS } from "@/lib/hvac/catalog";
 import type { AnalysisResult } from "@/lib/hvac/server";
+import { INSTRUMENTS, type InstrumentId } from "@/lib/hvac/instruments";
 
 export const dynamic = "force-dynamic";
 
@@ -31,6 +32,23 @@ export async function GET(req: NextRequest) {
     where: { createdAt: { gte: since } }, orderBy: { createdAt: "desc" }, take: 100,
     include: { session: { select: { id: true, technicianName: true, reportNumber: true, appointment: { select: { name: true, appointmentNumber: true } } } } },
   });
+
+  // Photo-scan reliability: how often what the AI read was accepted unchanged by the technician.
+  const scans = await db.hvacScan.findMany({ where: { createdAt: { gte: since } }, select: { instrument: true, status: true, proposals: true, outcomes: true } });
+  const scanStats = new Map<string, { scans: number; failed: number; discarded: number; proposed: number; accepted: number; unchanged: number; corrected: number }>();
+  for (const sc of scans) {
+    const k = INSTRUMENTS[(sc.instrument as InstrumentId) ?? "AUTO"]?.label ?? "Auto-detect";
+    const e = scanStats.get(k) ?? { scans: 0, failed: 0, discarded: 0, proposed: 0, accepted: 0, unchanged: 0, corrected: 0 };
+    e.scans++;
+    if (sc.status === "FAILED") e.failed++;
+    if (sc.status === "DISCARDED") e.discarded++;
+    if (sc.status === "APPLIED") {
+      const outs = (Array.isArray(sc.outcomes) ? sc.outcomes : []) as { accepted?: boolean; corrected?: boolean }[];
+      e.proposed += outs.length;
+      for (const o of outs) if (o.accepted) { e.accepted++; if (o.corrected) e.corrected++; else e.unchanged++; }
+    }
+    scanStats.set(k, e);
+  }
 
   // Confirmed faults, recurring equipment, engine agreement
   const faultCount = new Map<string, number>();
@@ -79,6 +97,7 @@ export async function GET(req: NextRequest) {
       top3Pct: decided ? Math.round((top3 / decided) * 1000) / 10 : null,
       note: "Agreement between the engine's ranking (before the technician's decision) and technician-confirmed faults in the field. This is monitoring, not an independent validation — no accuracy claim should be made from it.",
     },
+    scanner: [...scanStats.entries()].map(([instrument, v]) => ({ instrument, ...v, unchangedPct: v.accepted ? Math.round((v.unchanged / v.accepted) * 1000) / 10 : null })).sort((a, b) => b.scans - a.scans),
     byCategory: [...byCategory.entries()].map(([k, v]) => ({ category: k, ...v })).sort((a, b) => b.sessions - a.sessions),
     faults: [...faultCount.entries()].map(([fault, n]) => ({ fault, n })).sort((a, b) => b.n - a.n),
     recurring: [...recurring.values()].filter((e) => e.faults.length >= 2).sort((a, b) => b.faults.length - a.faults.length).slice(0, 20),

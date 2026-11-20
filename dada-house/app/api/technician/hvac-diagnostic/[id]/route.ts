@@ -194,7 +194,13 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
       enteredValue: m.enteredValue ?? null, enteredUnit: m.enteredUnit ?? null,
       location: m.location ?? null, instrument: m.instrument ?? null,
       mode: (p.mode ?? session.mode) ?? null, technicianId: auth.id, measuredAt: new Date(),
+      // A hand-entered value replaces any photo evidence.
+      source: "MANUAL", scanId: null, imageUrl: null, aiValue: null, aiText: null,
     };
+    // Re-sending an unchanged value (e.g. on blur) must not erase photo provenance.
+    const prev = session.measurements.find((x) => x.circuit === circuit && x.key === m.key);
+    const sameValue = prev && (prev.value == null ? row.value == null : row.value != null && Math.abs(prev.value - row.value) < 0.01);
+    if (prev && sameValue && (prev.text ?? null) === row.text) continue;
     await db.hvacMeasurement.upsert({ where, create: { sessionId: id, circuit, key: m.key, ...row }, update: row });
   }
 
