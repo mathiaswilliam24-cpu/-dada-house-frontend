@@ -17,6 +17,7 @@ export type Specs = {
   tempRiseMin?: number | null;       // °F — furnace nameplate
   tempRiseMax?: number | null;
   maxTesp?: number | null;           // in. w.c. — rated external static
+  ratedCfm?: number | null;          // CFM required/rated by the manufacturer at this speed
   manifoldMin?: number | null;       // in. w.c.
   manifoldMax?: number | null;
   inletMin?: number | null;

@@ -2,7 +2,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import {
-  Loader2, ChevronLeft, ChevronRight, Moon, Sun, AlertTriangle, ShieldAlert, Info, CheckCircle2, Zap, Wind, Thermometer, Gauge, Flame, ClipboardList, Save,
+  Loader2, ChevronLeft, ChevronRight, Moon, Sun, AlertTriangle, ShieldAlert, Info, CheckCircle2, Zap, Wind, Thermometer, Gauge, Flame, ClipboardList, Save, ScanLine, FileText, Search, Wrench,
 } from "lucide-react";
 import {
   EQUIPMENT_CATEGORIES, METERING_DEVICES, COMPRESSOR_TYPES, HEATING_TYPES, COMPLAINTS, MODES, SAFETY_CHECKS, SAFETY_TAGS,
@@ -10,7 +10,10 @@ import {
 } from "@/lib/hvac/catalog";
 import { refrigerantInfo, REFRIGERANT_KEYS } from "@/lib/hvac/refrigerants";
 import { toCanonical, fromCanonical, unitLabel, type TempUnit, type PressureUnit, type StaticUnit, type Kind } from "@/lib/hvac/units";
-import type { EngineResult, CalcValue } from "@/lib/hvac/engine";
+import type { CalcValue } from "@/lib/hvac/engine";
+import type { AnalysisResult } from "@/lib/hvac/server";
+import type { Hypothesis } from "@/lib/hvac/rules";
+import ScanPanel from "./scan-panel";
 
 type Prefs = { temp: TempUnit; pressure: PressureUnit; static: StaticUnit };
 type Measurement = { circuit: number; key: string; value: number | null; text: string | null };
@@ -18,7 +21,10 @@ type Equip = Record<string, unknown> & { specs?: Record<string, number | null> |
 type Session = {
   id: string; status: string; step: number; complaint: string | null; complaintOther: string | null; mode: string | null; stage: string | null;
   circuits: number; equipment: Equip | null; equipmentId: string | null; safety: Record<string, boolean> | null; notes: string | null;
-  measurements: Measurement[]; results: EngineResult | null;
+  measurements: Measurement[]; results: AnalysisResult | null;
+  decisions: Record<string, { decision: string; note?: string | null }> | null;
+  findings: Record<string, string | boolean | null> | null;
+  reportNumber: string | null; reportToken: string | null;
   appointment: { id: string; appointmentNumber: string; name: string; address: string; city: string; service: string; description: string | null } | null;
 };
 type EquipmentRow = Record<string, unknown> & { id: string; type: string; makeModel: string | null; specsVerifiedAt: string | null };
@@ -32,7 +38,10 @@ const STEPS = [
   { n: 6, label: "Air", icon: Wind, group: "air" as Group },
   { n: 7, label: "Electrical", icon: Zap, group: "electrical" as Group },
   { n: 8, label: "System checks", icon: Flame, group: "system" as Group },
-  { n: 9, label: "Results", icon: CheckCircle2 },
+  { n: 9, label: "Analysis", icon: CheckCircle2 },
+  { n: 10, label: "Causes", icon: Search },
+  { n: 11, label: "Findings", icon: Wrench },
+  { n: 12, label: "Report", icon: FileText },
 ];
 const GROUP_STEP: Record<Group, number> = { refrigeration: 5, air: 6, electrical: 7, system: 8 };
 
@@ -43,6 +52,7 @@ const SPEC_FIELDS: { key: string; label: string; kind: Kind; unit?: string; hint
   { key: "tempRiseMin", label: "Temperature rise min (furnace nameplate)", kind: "tempDiff" },
   { key: "tempRiseMax", label: "Temperature rise max (furnace nameplate)", kind: "tempDiff" },
   { key: "maxTesp", label: "Rated max external static", kind: "static" },
+  { key: "ratedCfm", label: "Manufacturer airflow (blower table / required)", kind: "plain", unit: "CFM" },
   { key: "manifoldMin", label: "Manifold gas pressure min", kind: "plain", unit: "in. w.c." },
   { key: "manifoldMax", label: "Manifold gas pressure max", kind: "plain", unit: "in. w.c." },
   { key: "inletMin", label: "Inlet gas pressure min", kind: "plain", unit: "in. w.c." },
@@ -54,6 +64,8 @@ const NUM_EQ: { key: string; label: string; unit?: string }[] = [
   { key: "lra", label: "Compressor LRA", unit: "A" }, { key: "mca", label: "MCA", unit: "A" }, { key: "mocp", label: "MOCP", unit: "A" },
 ];
 
+const STATUS_TXT: Record<string, string> = { CONFIRMED: "Confirmed by technician", STRONGLY_SUSPECTED: "Strongly suspected", POSSIBLE: "Possible", INSUFFICIENT_DATA: "Insufficient data", RULED_OUT: "Ruled out" };
+const LEAVING: Record<string, string> = { OPERATING_NORMALLY: "Operating normally", OPERATING_TEMPORARILY: "Operating temporarily", NOT_OPERATIONAL: "Not operational", SHUT_DOWN_FOR_SAFETY: "Shut down for safety", DIAGNOSTIC_ONLY: "Diagnostic only" };
 const fmt = (n: number, d = 1) => (Math.round(n * 10 ** d) / 10 ** d).toString();
 
 export default function DiagnosticWizard({ id }: { id: string }) {
@@ -69,6 +81,8 @@ export default function DiagnosticWizard({ id }: { id: string }) {
   const [eqVals, setEqVals] = useState<Record<string, string>>({});
   const editing = useRef<string | null>(null);
   const [savedEquipment, setSavedEquipment] = useState(false);
+  const [scanOpen, setScanOpen] = useState(false);
+  const [noteDraft, setNoteDraft] = useState<Record<string, string>>({});
 
   useEffect(() => {
     try {
@@ -85,7 +99,7 @@ export default function DiagnosticWizard({ id }: { id: string }) {
     const d = await r.json().catch(() => ({}));
     if (!r.ok) { setErr(d.error ?? "Could not load the diagnostic."); return; }
     setSession(d.session); setEquipmentList(d.equipment ?? []);
-    setStep(Math.min(9, Math.max(1, d.session.step ?? 1)));
+    setStep(Math.min(12, Math.max(1, d.session.step ?? 1)));
   }, [id]);
   useEffect(() => { load(); }, [load]);
 
@@ -266,6 +280,45 @@ export default function DiagnosticWizard({ id }: { id: string }) {
     </div>
   );
 
+  const HypCard = ({ h }: { h: Hypothesis }) => {
+    const dec = session.decisions?.[h.id];
+    const col = h.status === "CONFIRMED" ? "bg-emerald-600 text-white" : h.status === "STRONGLY_SUSPECTED" ? "bg-orange-500 text-white" : h.status === "RULED_OUT" ? "bg-gray-400 text-white" : c.chip;
+    return (
+      <div className={`rounded-xl border p-3 space-y-1.5 ${c.card} ${h.safetyCritical ? "border-red-500" : ""}`}>
+        <div className="flex items-start justify-between gap-2">
+          <p className="font-black">{h.fault}</p>
+          <span className={`shrink-0 text-[10px] font-bold px-2 py-1 rounded ${col}`}>{STATUS_TXT[h.status]}</span>
+        </div>
+        {h.support.length > 0 && <div className="text-sm"><p className="text-xs font-bold text-emerald-600">Supporting evidence</p>{h.support.map((x) => <p key={x}>✓ {x}</p>)}</div>}
+        {h.contradict.length > 0 && <div className="text-sm"><p className="text-xs font-bold text-amber-600">Contradicting evidence</p>{h.contradict.map((x) => <p key={x}>✗ {x}</p>)}</div>}
+        {h.missing.length > 0 && <div className="text-sm"><p className={`text-xs font-bold ${c.muted}`}>Missing evidence</p>{h.missing.map((x) => <p key={x} className={c.muted}>? {x}</p>)}</div>}
+        <p className="text-sm"><b>Confirmation test:</b> {h.confirmationTest}</p>
+        {h.safety && <p className="text-sm text-red-500"><b>Safety:</b> {h.safety}</p>}
+        {h.fieldRules.length > 0 && <p className={`text-[11px] ${c.muted}`}>Field rule (company, not manufacturer): {h.fieldRules.join("; ")}</p>}
+        {h.status === "CONFIRMED" && (
+          <div className={`text-sm rounded-lg p-2 ${c.chip}`}>
+            {h.corrective.repair && <p>• Repair: {h.corrective.repair}</p>}
+            {h.corrective.clean && <p>• Clean: {h.corrective.clean}</p>}
+            {h.corrective.adjust && <p>• Adjust: {h.corrective.adjust}</p>}
+            {h.corrective.replace && <p>• Replace: {h.corrective.replace}</p>}
+            <p>• Verify afterwards: {h.corrective.verify}</p>
+          </div>
+        )}
+        {!locked && (
+          <>
+            <input value={noteDraft[h.id] ?? dec?.note ?? ""} onChange={(e) => setNoteDraft((d) => ({ ...d, [h.id]: e.target.value }))} placeholder="Note (what the confirmation test showed)" className={`${inputCls} text-sm py-2`} />
+            <div className="flex gap-1.5">
+              <button onClick={() => patch({ decisions: { [h.id]: dec?.decision === "CONFIRMED" ? null : { decision: "CONFIRMED", note: noteDraft[h.id] ?? dec?.note ?? null } } })}
+                className={`flex-1 py-2 rounded-lg text-sm font-bold ${dec?.decision === "CONFIRMED" ? "bg-emerald-600 text-white" : c.chip}`}>{dec?.decision === "CONFIRMED" ? "✓ Confirmed" : "Confirm"}</button>
+              <button onClick={() => patch({ decisions: { [h.id]: dec?.decision === "REJECTED" ? null : { decision: "REJECTED", note: noteDraft[h.id] ?? dec?.note ?? null } } })}
+                className={`flex-1 py-2 rounded-lg text-sm font-bold ${dec?.decision === "REJECTED" ? "bg-gray-500 text-white" : c.chip}`}>{dec?.decision === "REJECTED" ? "Ruled out" : "Rule out"}</button>
+            </div>
+          </>
+        )}
+      </div>
+    );
+  };
+
   const alerts = results?.alerts ?? [];
   const critical = alerts.filter((a) => a.severity === "CRITICAL");
   const curStep = steps.find((s) => s.n === step) ?? steps[0];
@@ -281,6 +334,7 @@ export default function DiagnosticWizard({ id }: { id: string }) {
           <p className={`text-xs truncate ${c.muted}`}>{session.appointment ? `${session.appointment.address}, ${session.appointment.city}` : ""}</p>
         </div>
         {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className={`w-4 h-4 ${c.muted}`} />}
+        {!locked && <button onClick={() => setScanOpen(true)} className="px-2.5 py-2 rounded-lg bg-orange-500 text-white text-xs font-bold flex items-center gap-1" title="Scan nameplate / gauges with AI"><ScanLine className="w-4 h-4" /> Scan</button>}
         <button onClick={() => setDark((d) => !d)} className={`p-2 rounded-lg ${c.chip}`} title="Dark mode">{dark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}</button>
       </div>
 
@@ -528,6 +582,28 @@ export default function DiagnosticWizard({ id }: { id: string }) {
             <p className={c.muted}>{results.engineVersion} · refrigerant data {results.ptDataVersion}</p>
           </div>
 
+          {results.rules && (
+            <div className={`rounded-xl border p-3 ${c.card}`}>
+              <p className="font-bold text-sm">{results.rules.summary}</p>
+              {results.rules.hypotheses.filter((h) => h.status !== "RULED_OUT").slice(0, 3).map((h) => (
+                <p key={h.id} className="text-sm mt-1">• {h.fault} — <span className="font-semibold">{STATUS_TXT[h.status]}</span></p>
+              ))}
+              {results.rules.hypotheses.length > 0 && <button onClick={() => go(10)} className="mt-2 text-sm font-bold text-orange-500">Review causes &amp; confirmation tests →</button>}
+            </div>
+          )}
+          {(results.rules?.nextMeasurements.length ?? 0) > 0 && (
+            <div className={`rounded-xl border p-3 ${c.card}`}>
+              <p className="font-bold text-sm mb-1.5">Next most useful measurements</p>
+              {results.rules.nextMeasurements.map((n) => {
+                const f = visibleFieldsAll().find((x) => x.key === n.key);
+                return (
+                  <button key={n.key} onClick={() => f && go(GROUP_STEP[f.group])} className={`w-full text-left px-2 py-1.5 rounded-lg text-sm mb-1 ${c.chip}`}>
+                    <b>{f?.label ?? n.key}</b> <span className={`text-xs ${c.muted}`}>{n.reason}</span>
+                  </button>
+                );
+              })}
+            </div>
+          )}
           {results.missing.length > 0 && (
             <div className={`rounded-xl border p-3 ${c.card}`}>
               <p className="font-bold text-sm mb-1.5">Still needed for a reliable analysis ({results.missing.length})</p>
@@ -578,13 +654,78 @@ export default function DiagnosticWizard({ id }: { id: string }) {
             <Label>Technician notes</Label>
             <textarea defaultValue={session.notes ?? ""} disabled={locked} onBlur={(e) => patch({ notes: e.target.value })} rows={3} className={inputCls} />
           </div>
-          <div className={`rounded-xl border p-3 text-xs ${c.card}`}>
-            <p className="font-bold">Coming next</p>
-            <p className={c.muted}>Ranked probable causes with supporting and contradicting evidence, confirmation tests, technician-confirmed findings and the PDF report.</p>
-          </div>
           {!locked && session.status !== "ANALYZED" && (
             <button onClick={() => patch({ status: "ANALYZED" })} className="w-full py-3 rounded-xl bg-[#1B3FA8] text-white font-bold">Save analysis</button>
           )}
+        </div>
+      )}
+
+      {scanOpen && (
+        <ScanPanel sessionId={session.id} dark={dark} onClose={() => setScanOpen(false)}
+          onApplied={(s) => { setSession(s as Session); setScanOpen(false); setStep(9); window.scrollTo({ top: 0 }); }} />
+      )}
+
+      {/* ── Step 10: probable causes ── */}
+      {curStep.n === 10 && results && (
+        <div className="space-y-3">
+          <p className={`text-sm rounded-xl border p-3 ${c.card}`}>{results.rules.summary}</p>
+          {results.rules.hypotheses.length === 0 && <p className={`text-sm ${c.muted}`}>No hypothesis yet — record more measurements (see Analysis).</p>}
+          {results.rules.hypotheses.map((h) => <HypCard key={h.id} h={h} />)}
+          <p className={`text-[11px] ${c.muted}`}>{results.rules.rulesetVersion}. Statuses come from the evidence, not from a percentage — no confidence score is shown until the engine is validated on verified field cases.</p>
+        </div>
+      )}
+
+      {/* ── Step 11: verified findings & repairs ── */}
+      {curStep.n === 11 && (
+        <div className="space-y-2.5">
+          {[["verifiedFindings", "Verified findings"], ["repairsPerformed", "Repairs performed"], ["partsUsed", "Parts used"], ["recommendations", "Recommendations to the customer"]].map(([k, l]) => (
+            <div key={k} className={`rounded-xl border p-3 ${c.card}`}>
+              <Label>{l}</Label>
+              <textarea defaultValue={(session.findings?.[k] as string) ?? ""} disabled={locked} rows={3} onBlur={(e) => patch({ findings: { [k]: e.target.value } })} className={inputCls} />
+            </div>
+          ))}
+          <div className={`rounded-xl border p-3 ${c.card}`}>
+            <Label req>System status when leaving</Label>
+            <div className="grid grid-cols-2 gap-1.5">
+              {Object.entries(LEAVING).map(([k, l]) => (
+                <button key={k} disabled={locked} onClick={() => patch({ findings: { statusOnLeaving: k } })}
+                  className={`py-2.5 px-2 rounded-lg text-sm font-bold ${session.findings?.statusOnLeaving === k ? (k === "SHUT_DOWN_FOR_SAFETY" ? "bg-red-600 text-white" : c.active) : c.chip}`}>{l}</button>
+              ))}
+            </div>
+          </div>
+          <div className={`rounded-xl border p-3 space-y-2 ${c.card}`}>
+            <Label>Customer acknowledgment</Label>
+            <input defaultValue={(session.findings?.customerName as string) ?? session.appointment?.name ?? ""} disabled={locked} onBlur={(e) => patch({ findings: { customerName: e.target.value } })} className={inputCls} placeholder="Customer name" />
+            <label className="flex items-center gap-2 text-sm">
+              <input type="checkbox" className="w-5 h-5" disabled={locked} checked={!!session.findings?.customerAcknowledged} onChange={(e) => patch({ findings: { customerAcknowledged: e.target.checked } })} />
+              The findings and recommendations were reviewed with the customer
+            </label>
+          </div>
+        </div>
+      )}
+
+      {/* ── Step 12: report ── */}
+      {curStep.n === 12 && (
+        <div className="space-y-3">
+          <div className={`rounded-xl border p-3 text-sm ${c.card}`}>
+            <p className="font-bold mb-1">{session.reportNumber ?? "Not completed yet"}</p>
+            <p className={c.muted}>Confirmed findings: {results?.rules.hypotheses.filter((h) => h.status === "CONFIRMED").map((h) => h.fault).join("; ") || "none"}</p>
+            <p className={c.muted}>Status when leaving: {session.findings?.statusOnLeaving ? LEAVING[session.findings.statusOnLeaving as string] : "— (set it in Findings)"}</p>
+          </div>
+          <a href={`/api/technician/hvac-diagnostic/${session.id}/report`} target="_blank" rel="noopener noreferrer" className={`flex items-center justify-center gap-2 py-3 rounded-xl font-bold ${c.chip}`}>
+            <FileText className="w-4 h-4" /> {locked ? "Open the PDF report" : "Preview the PDF (draft)"}
+          </a>
+          {!locked && (
+            <button onClick={async () => { if (await patch({ complete: true })) window.scrollTo({ top: 0 }); }} className="w-full py-3.5 rounded-xl bg-emerald-600 text-white font-black">
+              Complete &amp; lock the diagnostic
+            </button>
+          )}
+          {locked && session.reportToken && (
+            <button onClick={() => { navigator.clipboard?.writeText(`${window.location.origin}/api/hvac-reports/${session.reportToken}`); }} className={`w-full py-3 rounded-xl font-bold ${c.chip}`}>
+              Copy the customer report link
+            </button>
+          )}
+          <p className={`text-[11px] ${c.muted}`}>The report separates technician-confirmed findings from automated hypotheses. Repair estimate from the price book comes in the next phase.</p>
         </div>
       )}
 

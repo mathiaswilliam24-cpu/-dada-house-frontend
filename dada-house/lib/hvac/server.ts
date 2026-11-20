@@ -1,6 +1,9 @@
 import { db } from "@/lib/db";
 import type { Prisma } from "@/lib/generated/prisma/client";
 import { runEngine, type EquipmentSpec, type EngineResult } from "./engine";
+import { runRules, type RulesResult, type Decision } from "./rules";
+
+export type AnalysisResult = EngineResult & { rules: RulesResult };
 import { categoryInfo } from "./catalog";
 
 export const HVAC_ADMIN_ROLES = ["ADMIN", "SUPER_ADMIN"];
@@ -29,19 +32,19 @@ export function canAccess(s: { technicianId: string }, auth: { id: string; role:
 }
 
 /** Runs the deterministic engine on a stored session and persists results + safety events. */
-export async function analyze(session: LoadedSession): Promise<EngineResult> {
+export async function analyze(session: LoadedSession): Promise<AnalysisResult> {
   const measurements: Record<number, Record<string, { value: number | null; text: string | null }>> = {};
   for (const m of session.measurements) {
     (measurements[m.circuit] ??= {})[m.key] = { value: m.value, text: m.text };
   }
-  const result = runEngine({
-    equipment: (session.equipment ?? {}) as EquipmentSpec,
-    mode: session.mode, complaint: session.complaint, circuits: session.circuits,
-    measurements, safety: (session.safety ?? {}) as Record<string, boolean>,
-  });
+  const equipment = (session.equipment ?? {}) as EquipmentSpec;
+  const safety = (session.safety ?? {}) as Record<string, boolean>;
+  const engine = runEngine({ equipment, mode: session.mode, complaint: session.complaint, circuits: session.circuits, measurements, safety });
+  const rules = runRules({ engine, equipment, mode: session.mode, complaint: session.complaint, safety, measurements, decisions: (session.decisions ?? {}) as Record<string, Decision> });
+  const result: AnalysisResult = { ...engine, rules };
   await db.hvacDiagnosticSession.update({
     where: { id: session.id },
-    data: { results: result as unknown as Prisma.InputJsonValue, engineVersion: result.engineVersion, ptDataVersion: result.ptDataVersion },
+    data: { results: result as unknown as Prisma.InputJsonValue, engineVersion: engine.engineVersion, ptDataVersion: engine.ptDataVersion, rulesetVersion: rules.rulesetVersion },
   });
   // Audit trail of safety-critical findings (one row per code per session).
   const critical = result.alerts.filter((a) => a.severity === "CRITICAL");

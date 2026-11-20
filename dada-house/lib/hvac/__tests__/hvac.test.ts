@@ -154,3 +154,64 @@ test("unit off: standing saturation instead of superheat", () => {
   assert.ok(r.calculated.some((c) => c.key === "standing_sat_f"));
   assert.ok(!r.calculated.some((c) => c.key === "superheat_f"));
 });
+
+// ── Layer B: rule engine ──
+import { runRules } from "../rules";
+const rulesFor = (input: EngineInput, decisions = {}) => {
+  const engine = runEngine(input);
+  return runRules({ engine, equipment: input.equipment, mode: input.mode, complaint: input.complaint, safety: input.safety, measurements: input.measurements, decisions });
+};
+const tgt = { category: "STRAIGHT_AC", refrigerant: "R-410A", meteringDevice: "TXV", phase: 1, specs: { targetSubcooling: 10, targetSuperheat: 10, chargeTolerance: 3 } };
+
+test("low charge pattern: high SH + low SC → strongly suspected", () => {
+  const r = rulesFor(base({ equipment: tgt }, { suction_psig: 100, high_psig: 300, suction_line_f: 55, liquid_line_f: 94, outdoor_ambient_f: 90, stabilized_min: 20, comp_running: "YES", ofm_running: "YES", supply_v: 240, return_db_f: 76, supply_db_f: 62, return_wb_f: 63 }));
+  const h = r.hypotheses.find((x) => x.id === "LOW_CHARGE")!;
+  assert.equal(h.status, "STRONGLY_SUSPECTED");
+  assert.ok(!r.hypotheses.some((x) => x.id === "OVERCHARGE" && x.status === "STRONGLY_SUSPECTED"));
+});
+
+test("restriction pattern: high SH + high SC points to metering device, not charge", () => {
+  const r = rulesFor(base({ equipment: tgt }, { suction_psig: 100, high_psig: 340, suction_line_f: 55, liquid_line_f: 85 }));
+  assert.ok(r.hypotheses.some((x) => x.id === "METERING_RESTRICTION" && x.contradict.length === 0));
+  const low = r.hypotheses.find((x) => x.id === "LOW_CHARGE");
+  assert.ok(!low || low.contradict.length > 0);
+});
+
+test("no manufacturer target → no charge hypothesis is strongly suspected", () => {
+  const r = rulesFor(base({ equipment: { category: "STRAIGHT_AC", refrigerant: "R-410A", meteringDevice: "TXV" } }, { suction_psig: 100, high_psig: 300, suction_line_f: 55, liquid_line_f: 94 }));
+  assert.ok(!r.hypotheses.some((x) => ["LOW_CHARGE", "OVERCHARGE"].includes(x.id)));
+  assert.match(r.summary, /cannot yet|more evidence/);
+});
+
+test("airflow evidence and next measurements", () => {
+  const r = rulesFor(base({ equipment: tgt, complaint: "FREEZING" }, { suction_psig: 90, filter_condition: "DIRTY", evap_coil_ice: "HEAVY" }));
+  const h = r.hypotheses.find((x) => x.id === "LOW_INDOOR_AIRFLOW")!;
+  assert.ok(h.support.length >= 2);
+  assert.ok(r.nextMeasurements.some((n) => n.key === "tesp_inwc"));
+});
+
+test("technician decisions override status", () => {
+  const input = base({ equipment: tgt, complaint: "FREEZING" }, { filter_condition: "DIRTY" });
+  const r = rulesFor(input, { LOW_INDOOR_AIRFLOW: { decision: "CONFIRMED" } });
+  assert.equal(r.hypotheses[0].id, "LOW_INDOOR_AIRFLOW");
+  assert.equal(r.hypotheses[0].status, "CONFIRMED");
+  const r2 = rulesFor(input, { LOW_INDOOR_AIRFLOW: { decision: "REJECTED" } });
+  assert.equal(r2.hypotheses.find((x) => x.id === "LOW_INDOOR_AIRFLOW")!.status, "RULED_OUT");
+});
+
+test("safety-critical hypothesis ranks first", () => {
+  const r = rulesFor(base({ equipment: { category: "GAS_FURNACE_AC", refrigerant: "R-410A" }, mode: "HEATING_GAS", complaint: "FURNACE_NOT_HEATING", safety: { vent_problem: true } }, { inducer_ok: "NO", heat_call: "YES" }));
+  assert.equal(r.hypotheses[0].id, "COMBUSTION_VENTING");
+});
+
+test("contactor vs control signal", () => {
+  const r = rulesFor(base({ complaint: "COMPRESSOR_NOT_STARTING" }, { contactor_condition: "NOT_PULLING_IN", contactor_coil_v: 0, transformer_v: 25 }));
+  assert.ok(r.hypotheses.find((x) => x.id === "CONTROL_SIGNAL")!.support.length >= 1);
+  const c = r.hypotheses.find((x) => x.id === "CONTACTOR");
+  assert.ok(!c || c.contradict.length > 0);
+});
+
+test("inverter equipment: no fixed-speed charge rules", () => {
+  const r = rulesFor(base({ equipment: { ...tgt, category: "MINI_SPLIT", meteringDevice: "EEV" } }, { suction_psig: 100, high_psig: 300, suction_line_f: 55, liquid_line_f: 94 }));
+  assert.ok(!r.hypotheses.some((x) => ["LOW_CHARGE", "OVERCHARGE", "METERING_RESTRICTION", "COMPRESSOR_MECHANICAL"].includes(x.id)));
+});

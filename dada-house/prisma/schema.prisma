@@ -1889,6 +1889,11 @@ model HvacDiagnosticSession {
   results        Json?
   engineVersion  String?
   ptDataVersion  String?
+  rulesetVersion String?
+  decisions      Json      @default("{}") // technician confirm/reject per hypothesis id
+  findings       Json      @default("{}") // verified findings, repairs performed, status on leaving, customer acknowledgment
+  reportNumber   String?   @unique
+  reportToken    String?   @unique
   notes          String?
   startedAt      DateTime  @default(now())
   completedAt    DateTime?
@@ -1898,6 +1903,7 @@ model HvacDiagnosticSession {
   equipmentRef Equipment?        @relation(fields: [equipmentId], references: [id], onDelete: SetNull)
   measurements HvacMeasurement[]
   safetyEvents HvacSafetyEvent[]
+  scans        HvacScan[]
 
   @@index([technicianId, status])
   @@index([appointmentId])
@@ -1919,7 +1925,7 @@ model HvacMeasurement {
   enteredUnit  String?
   location     String?
   mode         String?
-  source       String   @default("MANUAL") // MANUAL | INSTRUMENT
+  source       String   @default("MANUAL") // MANUAL | AI_PHOTO (read from a photo/video by AI, then verified by the technician) | INSTRUMENT
   instrument   String?
   technicianId String
   measuredAt   DateTime @default(now())
@@ -1943,4 +1949,25 @@ model HvacSafetyEvent {
 
   @@unique([sessionId, code])
   @@index([severity, createdAt])
+}
+
+// Photos / video frames the technician uploads; AI vision proposes readings that the technician
+// must verify before they are saved as measurements (source AI_PHOTO).
+model HvacScan {
+  id           String   @id @default(cuid())
+  sessionId    String
+  technicianId String
+  imageUrls    Json // string[]
+  kind         String   @default("PHOTO") // PHOTO | VIDEO_FRAMES
+  model        String?
+  status       String   @default("PENDING") // PENDING | APPLIED | DISCARDED | FAILED
+  proposals    Json? // [{ target, key, circuit, value, unit, text, read, confidence, image }]
+  notes        String?
+  error        String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  session HvacDiagnosticSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@index([sessionId])
 }

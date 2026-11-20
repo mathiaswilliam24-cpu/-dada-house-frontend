@@ -7,6 +7,7 @@ import { loadSession, canAccess, analyze, saveEquipmentFromSession, EQUIPMENT_SP
 import { COMPLAINTS, MODES, EQUIPMENT_CATEGORIES, FIELD_BY_KEY, SAFETY_CHECKS } from "@/lib/hvac/catalog";
 import { REFRIGERANT_KEYS } from "@/lib/hvac/refrigerants";
 import { CANONICAL_UNIT } from "@/lib/hvac/units";
+import crypto from "crypto";
 
 export const dynamic = "force-dynamic";
 
@@ -35,7 +36,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
 const n = z.number().finite().nullable().optional();
 const s = (max = 200) => z.string().trim().max(max).nullable().optional();
 const specsSchema = z.object({
-  targetSuperheat: n, targetSubcooling: n, chargeTolerance: n, tempRiseMin: n, tempRiseMax: n, maxTesp: n,
+  targetSuperheat: n, targetSubcooling: n, chargeTolerance: n, tempRiseMin: n, tempRiseMax: n, maxTesp: n, ratedCfm: n,
   manifoldMin: n, manifoldMax: n, inletMin: n, inletMax: n,
 }).partial();
 const equipmentSchema = z.object({
@@ -72,6 +73,14 @@ const patchSchema = z.object({
     instrument: z.string().max(120).nullable().optional(),
   })).max(200).optional(),
   status: z.enum(["DRAFT", "ANALYZED"]).optional(),
+  /** technician decision per hypothesis id; null clears it */
+  decisions: z.record(z.string().max(60), z.object({ decision: z.enum(["CONFIRMED", "REJECTED"]), note: z.string().max(1000).nullable().optional() }).nullable()).optional(),
+  findings: z.object({
+    verifiedFindings: s(4000), repairsPerformed: s(4000), recommendations: s(4000), partsUsed: s(2000),
+    statusOnLeaving: z.enum(["OPERATING_NORMALLY", "OPERATING_TEMPORARILY", "NOT_OPERATIONAL", "SHUT_DOWN_FOR_SAFETY", "DIAGNOSTIC_ONLY"]).nullable().optional(),
+    customerName: s(120), customerAcknowledged: z.boolean().optional(),
+  }).partial().optional(),
+  complete: z.literal(true).optional(),
 });
 
 export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
@@ -119,6 +128,15 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     if (p.equipment.circuits && p.circuits === undefined) data.circuits = p.equipment.circuits;
   }
   if (!session.customerId && session.appointment?.customerId) data.customerId = session.appointment.customerId;
+  if (p.decisions) {
+    const cur = { ...((session.decisions ?? {}) as Record<string, unknown>) };
+    for (const [hid, d] of Object.entries(p.decisions)) {
+      if (d === null) delete cur[hid];
+      else cur[hid] = { ...d, at: new Date().toISOString(), by: auth.name ?? auth.id };
+    }
+    data.decisions = cur as Prisma.InputJsonValue;
+  }
+  if (p.findings) data.findings = { ...((session.findings ?? {}) as object), ...p.findings } as Prisma.InputJsonValue;
 
   await db.hvacDiagnosticSession.update({ where: { id }, data });
 
@@ -146,5 +164,23 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     fresh = (await loadSession(id))!;
   }
   const results = await analyze(fresh);
+
+  if (p.complete) {
+    const f = (fresh.findings ?? {}) as { statusOnLeaving?: string | null };
+    if (!f.statusOnLeaving) return NextResponse.json({ error: "Choose the system status when leaving before completing." }, { status: 400 });
+    if (results.alerts.some((a) => a.severity === "CRITICAL") && !["SHUT_DOWN_FOR_SAFETY", "NOT_OPERATIONAL", "DIAGNOSTIC_ONLY"].includes(f.statusOnLeaving)) {
+      return NextResponse.json({ error: "A critical safety condition is recorded: the system status must be 'Shut down for safety', 'Not operational' or 'Diagnostic only' — or clear the safety item if it was corrected and verified." }, { status: 400 });
+    }
+    const year = new Date().getFullYear();
+    await db.hvacDiagnosticSession.update({
+      where: { id },
+      data: {
+        status: "COMPLETED", completedAt: new Date(),
+        reportNumber: fresh.reportNumber ?? `HD-${year}-${id.slice(-6).toUpperCase()}`,
+        reportToken: fresh.reportToken ?? crypto.randomBytes(18).toString("base64url"),
+      },
+    });
+    fresh = (await loadSession(id))!;
+  }
   return NextResponse.json({ session: { ...fresh, results } });
 }

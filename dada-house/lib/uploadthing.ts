@@ -106,6 +106,17 @@ export const ourFileRouter = {
     .onUploadComplete(async ({ file }) => {
       return { url: file.ufsUrl ?? file.url, type: file.type };
     }),
+
+  // HVAC Diagnostic Pro — photos / video frames read by AI (technicians only).
+  hvacScan: f({ image: { maxFileSize: "8MB", maxFileCount: 8 } })
+    .middleware(async () => {
+      const session = await auth();
+      if (!session?.user || !["TECHNICIAN", "ADMIN", "SUPER_ADMIN"].includes(session.user.role as string)) throw new Error("Forbidden");
+      return { userId: session.user.id };
+    })
+    .onUploadComplete(async ({ file }) => {
+      return { url: file.ufsUrl ?? file.url };
+    }),
 } satisfies FileRouter;
 
 export type OurFileRouter = typeof ourFileRouter;
