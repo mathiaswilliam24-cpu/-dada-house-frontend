@@ -336,3 +336,11 @@ test("instrument targeting: the technician's choice limits what the AI may repor
   assert.deepEqual(instrumentFor("tesp_inwc"), { instrument: "MANOMETER", option: "tesp_inwc" });
   assert.equal(instrumentFor("filter_condition"), null);
 });
+
+test("assistant guard drops A2L precautions on a non-A2L refrigerant", () => {
+  const ctx = { ...actx, equipment: { refrigerant: "R-410A", refrigerantIsA2L: false } } as unknown as AssistantContext;
+  const { output } = guardOutput({ overview: "Low charge is suspected.", cautions: ["A2L refrigerants require A2L-rated tools.", "Wear safety glasses."] }, ctx);
+  assert.deepEqual(output.cautions, ["Wear safety glasses."]);
+  const a2l = { ...actx, equipment: { refrigerant: "R-454B", refrigerantIsA2L: true } } as unknown as AssistantContext;
+  assert.equal(guardOutput({ cautions: ["A2L refrigerants require A2L-rated tools."] }, a2l).output.cautions.length, 1);
+});

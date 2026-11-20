@@ -1,6 +1,7 @@
 import { getOpenAI } from "@/lib/openai";
 import { FIELD_BY_KEY, categoryInfo, COMPLAINTS, MODES } from "./catalog";
 import type { AnalysisResult } from "./server";
+import { isA2L } from "./refrigerants";
 
 /**
  * Layer C — AI reasoning assistant.
@@ -38,7 +39,9 @@ export function buildContext(c: Ctx) {
     equipment: {
       type: categoryInfo(c.equipment.category as string)?.label ?? null,
       manufacturer: c.equipment.manufacturer ?? null, model: c.equipment.modelNumber ?? null,
-      refrigerant: c.equipment.refrigerant ?? null, meteringDevice: c.equipment.meteringDevice ?? null,
+      refrigerant: c.equipment.refrigerant ?? null,
+      refrigerantIsA2L: typeof c.equipment.refrigerant === "string" ? isA2L(c.equipment.refrigerant) : null,
+      meteringDevice: c.equipment.meteringDevice ?? null,
       compressorType: c.equipment.compressorType ?? null, phase: c.equipment.phase ?? null,
       rla: c.equipment.rla ?? null, lra: c.equipment.lra ?? null,
       manufacturerTargets: c.equipment.specs ?? {},
@@ -71,6 +74,7 @@ Strict rules:
 - Do not change hypothesis statuses or ranking. If you think the evidence points elsewhere, say so in "rankingComment" and explain which measurement would settle it.
 - Never give a probability, percentage or confidence score, and never claim certainty. A cause is only confirmed by the technician's test.
 - Never recommend adding/recovering refrigerant or replacing a compressor or other major component unless that hypothesis is CONFIRMED.
+- Mention A2L (flammable refrigerant) precautions only when equipment.refrigerantIsA2L is true.
 - Never suggest bypassing a safety device, interlock or a manufacturer requirement. Repeat critical safety alerts first.
 - Manufacturer procedures: refer only to "manufacturerReference" if present; otherwise tell the technician to follow the manufacturer's installation/service instructions.
 - Plain, technician-friendly English. Short sentences.
@@ -99,6 +103,7 @@ export async function askAssistant(context: AssistantContext) {
 }
 
 // ── Guard ──
+const A2L_RE = /(^|[^A-Za-z0-9])A2L([^A-Za-z0-9]|$)/i;
 const NUM_RE = /-?\d+(?:[.,]\d+)?/g;
 const CERTAINTY_RE = /\b(certain(ly)?|definitely|guarantee[ds]?|without (a )?doubt|100\s?%|confidence (score|level) of|\d+\s?% (likely|chance|probab|confiden))/i;
 const MAJOR_REPAIR: { re: RegExp; needs: string[] }[] = [
@@ -140,6 +145,7 @@ export function guardOutput(raw: unknown, context: AssistantContext): { output: 
     for (const s of sentences(text.slice(0, 2000))) {
       const bad = (s.match(NUM_RE) ?? []).map((m) => Math.abs(Number(m.replace(",", ".")))).find((n) => !numberOk(n, allowed));
       if (bad != null) { removed.push({ where, text: s, reason: `number ${bad} is not in the recorded or calculated data` }); continue; }
+      if (A2L_RE.test(s) && context.equipment?.refrigerantIsA2L !== true) { removed.push({ where, text: s, reason: "A2L precaution does not apply to this refrigerant" }); continue; }
       if (CERTAINTY_RE.test(s)) { removed.push({ where, text: s, reason: "certainty or probability claim" }); continue; }
       const major = MAJOR_REPAIR.find((m) => m.re.test(s) && !m.needs.some((id) => confirmed.has(id)));
       if (major) { removed.push({ where, text: s, reason: "major repair advised without a technician-confirmed cause" }); continue; }
