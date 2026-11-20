@@ -1,11 +1,12 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Calendar, Briefcase, FileText, Users, Receipt, User } from "lucide-react";
+import { Calendar, Briefcase, FileText, Users, Receipt, User, Gauge } from "lucide-react";
 
 const NAV = [
   { href: "/technician", label: "Today", icon: Calendar, exact: true },
   { href: "/technician/jobs", label: "Jobs", icon: Briefcase, exact: false },
+  { href: "/technician/hvac-diagnostic", label: "HVAC Dx", icon: Gauge, exact: false },
   { href: "/technician/invoices", label: "Invoices", icon: Receipt, exact: false },
   { href: "/technician/clients", label: "Clients", icon: Users, exact: false },
   { href: "/technician/profile", label: "Profile", icon: User, exact: false },

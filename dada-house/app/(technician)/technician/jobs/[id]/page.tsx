@@ -5,8 +5,7 @@ import Link from "next/link";
 import {
   Phone, Navigation, MapPin, AlertTriangle, ChevronRight, ChevronDown,
   FileText, Camera, CheckSquare, Package, CreditCard, Shield, Timer,
-  StickyNote, MessageSquare, Star, Loader2, Send, Play, Pause, Hash, CalendarClock,
-} from "lucide-react";
+  StickyNote, MessageSquare, Star, Loader2, Send, Play, Pause, Hash, CalendarClock, Gauge } from "lucide-react";
 import { formatDate } from "@/lib/utils";
 import { CallButton, MessageButton } from "@/components/technician/call-sms-actions";
 
@@ -53,6 +52,7 @@ type EstimateSummary = { id: string; estimateNumber: string; total: number; stat
 
 const QUICK_ACTIONS = [
   { href: "diagnosis", label: "Diagnosis", icon: FileText, color: "bg-blue-50 text-blue-700 border-blue-200" },
+  { href: "hvac-diagnostic", label: "HVAC Diagnostic", icon: Gauge, color: "bg-slate-900 text-white border-slate-900" },
   { href: "photos", label: "Photos", icon: Camera, color: "bg-purple-50 text-purple-700 border-purple-200" },
   { href: "checklist", label: "Checklist", icon: CheckSquare, color: "bg-green-50 text-green-700 border-green-200" },
   { href: "parts", label: "Parts", icon: Package, color: "bg-orange-50 text-orange-700 border-orange-200" },

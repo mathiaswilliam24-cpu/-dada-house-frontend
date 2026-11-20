@@ -278,6 +278,7 @@ model Appointment {
   checklist         ServiceChecklist?
   timeLog           JobTimeLog?
   parts             JobPart[]
+  hvacDiagnostics   HvacDiagnosticSession[]
 
   @@index([scheduledStart])
   @@index([technicianId, scheduledStart])
@@ -1208,7 +1209,33 @@ model Equipment {
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
 
-  customer Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  // Nameplate / manufacturer specifications (verified by the technician) — HVAC Diagnostic Pro.
+  // Specs live here; field measurements live in HvacMeasurement.
+  category        String? // see lib/hvac/catalog.ts EQUIPMENT_CATEGORIES
+  manufacturer    String?
+  modelNumber     String?
+  indoorModel     String?
+  capacityTons    Float?
+  refrigerant     String? // key of lib/hvac/data/pt-tables.json
+  meteringDevice  String? // TXV | EEV | PISTON | CAP_TUBE | UNKNOWN
+  compressorType  String? // RECIP | SCROLL | ROTARY | INVERTER_SCROLL | INVERTER_ROTARY | SCREW | UNKNOWN
+  compressorCount Int?
+  circuits        Int?
+  stages          String? // SINGLE | TWO | VARIABLE
+  heatingType     String? // NONE | HEAT_PUMP | GAS | ELECTRIC | DUAL_FUEL | HYDRONIC
+  ratedVoltage    String? // e.g. "208/230"
+  phase           Int? // 1 | 3
+  minVoltage      Float?
+  maxVoltage      Float?
+  rla             Float?
+  lra             Float?
+  mca             Float?
+  mocp            Float?
+  specs           Json? // other manufacturer data: charging targets, temp-rise range, capacitor ratings…
+  specsVerifiedAt DateTime?
+
+  customer        Customer                @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  hvacDiagnostics HvacDiagnosticSession[]
 
   @@index([customerId])
 }
@@ -1836,4 +1863,84 @@ model StockMovement {
   @@index([itemId, createdAt])
   @@index([appointmentId])
   @@index([createdAt])
+}
+
+// ── HVAC Diagnostic Pro ───────────────────────────────────────────────────────
+// One diagnostic visit on one piece of equipment. Calculations come from lib/hvac/engine.ts
+// (deterministic, versioned); `results` is the last engine output, with the engine and
+// PT-data versions recorded for traceability.
+model HvacDiagnosticSession {
+  id             String    @id @default(cuid())
+  appointmentId  String?
+  customerId     String?
+  equipmentId    String?
+  technicianId   String
+  technicianName String?
+  status         String    @default("DRAFT") // DRAFT | ANALYZED | COMPLETED
+  step           Int       @default(1)
+  complaint      String?
+  complaintOther String?
+  mode           String? // COOLING | HEATING_HP | HEATING_GAS | HEATING_ELECTRIC | DEFROST | AUX_HEAT | FAN_ONLY | NOT_RUNNING
+  stage          String?
+  circuits       Int       @default(1)
+  equipment      Json      @default("{}") // verified spec snapshot used for this session's calculations
+  safety         Json      @default("{}") // preliminary safety checks
+  checks         Json      @default("{}") // system-specific observations
+  results        Json?
+  engineVersion  String?
+  ptDataVersion  String?
+  notes          String?
+  startedAt      DateTime  @default(now())
+  completedAt    DateTime?
+  updatedAt      DateTime  @updatedAt
+
+  appointment  Appointment?      @relation(fields: [appointmentId], references: [id], onDelete: SetNull)
+  equipmentRef Equipment?        @relation(fields: [equipmentId], references: [id], onDelete: SetNull)
+  measurements HvacMeasurement[]
+  safetyEvents HvacSafetyEvent[]
+
+  @@index([technicianId, status])
+  @@index([appointmentId])
+  @@index([equipmentId])
+  @@index([customerId])
+}
+
+// Every value keeps its canonical unit (°F, psig, V, A, µF, in. w.c., CFM…), what the technician
+// actually typed (enteredValue/enteredUnit), where/how it was measured and by whom.
+model HvacMeasurement {
+  id           String   @id @default(cuid())
+  sessionId    String
+  circuit      Int      @default(1)
+  key          String
+  value        Float?
+  text         String?
+  unit         String?
+  enteredValue Float?
+  enteredUnit  String?
+  location     String?
+  mode         String?
+  source       String   @default("MANUAL") // MANUAL | INSTRUMENT
+  instrument   String?
+  technicianId String
+  measuredAt   DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  session HvacDiagnosticSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@unique([sessionId, circuit, key])
+}
+
+model HvacSafetyEvent {
+  id           String   @id @default(cuid())
+  sessionId    String
+  code         String
+  severity     String // CRITICAL | WARNING
+  message      String
+  technicianId String?
+  createdAt    DateTime @default(now())
+
+  session HvacDiagnosticSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@unique([sessionId, code])
+  @@index([severity, createdAt])
 }

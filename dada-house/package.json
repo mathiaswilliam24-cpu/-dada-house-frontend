@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "prisma generate && next build",
     "start": "next start",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "test:hvac": "tsx --test lib/hvac/__tests__/hvac.test.ts"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.11.2",
