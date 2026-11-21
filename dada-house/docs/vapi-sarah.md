@@ -5,6 +5,15 @@ from the company's systems, books and manages appointments, sells the maintenanc
 transfers only for an emergency, when the caller asks for a person, or when she has no answer.
 Every conversation is reported to the admin by text.
 
+## 0. Phone setup — Sarah answers (844) 928-0875
+- In Vapi: **Phone Numbers → Import → Twilio**, number `+18449280875`, assistant = Sarah. (Vapi then points the
+  number's voice URL to Vapi; SMS stays on dada-house.com.)
+- Sarah's `transferCall` (→ dispatchers) must dial the **dispatch line `+18326264398`** — never the 844 (it
+  would loop back to Sarah). That line rings every available dispatcher for 32 s (cell + browser softphone),
+  then voicemail; the caller gets the missed-call text. In the transfer settings, keep the caller's number as
+  caller ID so dispatchers see who is calling.
+- Rollback: set the 844 voice URL back to `https://dada-house.com/api/twilio/voice/incoming` in Twilio.
+
 ## 1. Tools
 
 ### Existing tools (keep them — served by the voice-agent backend)
