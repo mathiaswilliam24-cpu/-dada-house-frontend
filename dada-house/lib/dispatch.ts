@@ -237,7 +237,8 @@ export async function scheduleJob(input: ScheduleInput) {
           eta: start,
         } : {}),
         // A newly assigned technician must accept again.
-        ...(input.technicianId && input.technicianId !== prevTech ? { techStatus: "ASSIGNED" as const } : {}),
+        // A job on hold (customer not home / needs reschedule) that gets a new time goes back to Assigned.
+        ...(input.technicianId && (input.technicianId !== prevTech || (job.techStatus === "NEED_RESCHEDULE" && input.start)) ? { techStatus: "ASSIGNED" as const } : {}),
         ...(!input.technicianId ? { techStatus: null } : {}),
       },
     });
