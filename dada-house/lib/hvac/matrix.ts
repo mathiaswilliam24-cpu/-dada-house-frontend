@@ -137,7 +137,7 @@ export function buildMatrix(i: Input): MatrixResult {
       }
       const info = PARAM_INFO[d.key];
       const interpretation = status === "LOW" ? info?.low ?? "" : status === "HIGH" ? info?.high ?? "" : status === "NORMAL" ? "Within the reference." : status === "MISSING" ? (info?.how ?? "Not measured yet.") : status === "INVALID" ? "Reading not usable." : "No verified reference for this unit — enter the manufacturer data to classify it.";
-      rows.push({ key: d.key, label: d.label, group: d.group, circuit, value: value != null ? r1(value) : null, unit: d.unit, expected, status, basis, interpretation });
+      rows.push({ key: d.key, label: d.label, group: d.group, circuit, value: value != null ? (d.unit === "in. w.c." ? Math.round(value * 100) / 100 : r1(value)) : null, unit: d.unit, expected, status, basis, interpretation });
     }
   }
 

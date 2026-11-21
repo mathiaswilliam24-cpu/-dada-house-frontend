@@ -291,7 +291,7 @@ const RULES: Rule[] = [
       }
       if (o.support.length && f.complaint === "POOR_HUMIDITY") o.support.push("Complaint: poor humidity control (high airflow reduces moisture removal)");
       const shr = f.calc("shr");
-      if (o.support.length && shr != null) o.support.push(`Measured sensible heat ratio ${r1(shr * 100) / 100} — compare with the manufacturer expanded data`);
+      if (o.support.length && shr != null) o.support.push(`Measured sensible heat ratio ${r1(shr)} % — compare with the manufacturer expanded data`);
       if (o.support.length && !f.txt("blower_setting")) o.missing.push("Blower speed tap / setting");
       return o;
     },

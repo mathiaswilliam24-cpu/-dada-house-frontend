@@ -90,7 +90,7 @@ export function runEngine(input: EngineInput): EngineResult {
     return num(x) ? x : null;
   };
   const t = (key: string, circuit = 1) => (input.measurements[circuit] ?? {})[key]?.text ?? null;
-  const add = (c: CalcValue) => calculated.push({ ...c, value: r1(c.value) });
+  const add = (c: CalcValue) => calculated.push({ ...c, value: c.kind === "static" ? Math.round(c.value * 100) / 100 : r1(c.value) });
   const cooling = input.mode === "COOLING";
   const running = input.mode !== "NOT_RUNNING" && input.mode !== "FAN_ONLY";
   const circuits = Math.max(1, Math.min(8, input.circuits || 1));
@@ -257,7 +257,7 @@ export function runEngine(input: EngineInput): EngineResult {
       add({ key: "sensible_btuh_corr", label: "Sensible capacity (density-corrected)", value: sensC, kind: "plain", unit: "BTU/h", formula: `60 × ${cfm} ÷ ${r1(R.v * 1000) / 1000} × (0.240 + 0.444 × W) × ${r1(returnDb - supplyDb)} °F` });
       if (totalC > 0) {
         add({ key: "latent_btuh", label: "Latent capacity", value: Math.max(0, totalC - sensC), kind: "plain", unit: "BTU/h", formula: "total − sensible (density-corrected)" });
-        add({ key: "shr", label: "Sensible heat ratio", value: Math.min(1, sensC / totalC), kind: "plain", unit: "", formula: "sensible ÷ total (density-corrected)", note: "Compare with the manufacturer's expanded performance data at the same conditions." });
+        add({ key: "shr", label: "Sensible heat ratio", value: Math.min(100, (sensC / totalC) * 100), kind: "plain", unit: "%", formula: "sensible ÷ total (density-corrected)", note: "Compare with the manufacturer's expanded performance data at the same conditions." });
       }
       const tons = eq.capacityTons;
       if (tons && totalC > 0) add({ key: "capacity_pct_nominal", label: "Measured capacity vs nominal", value: (totalC / (tons * 12000)) * 100, kind: "plain", unit: "%", formula: `${Math.round(totalC)} ÷ (${tons} tons × 12,000) × 100`, note: "Nominal tons are rated at AHRI conditions — compare with the manufacturer's expanded data at today's conditions before judging." });

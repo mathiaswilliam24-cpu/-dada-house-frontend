@@ -348,7 +348,6 @@ test("assistant guard drops A2L precautions on a non-A2L refrigerant", () => {
 // ── Phase 6: psychrometrics, diagnostic matrix, new fault scenarios ──
 import { pws, airState, pressureAtElevation } from "../psychro";
 import { buildMatrix } from "../matrix";
-import { DEFAULT_FIELD_RULES } from "../rules";
 
 // Reference values: ASHRAE Handbook—Fundamentals ch.1 tables (saturation pressure, standard atmosphere)
 // and the ASHRAE psychrometric chart state at the AHRI 80 °F DB / 67 °F WB rating point.
@@ -386,7 +385,7 @@ test("delta T, sensible (1.08) and total (4.5 × CFM × Δh) capacity", () => {
   near(v("sensible_btuh"), 1.08 * 1200 * 20, 1);
   const dh = v("delta_h_btulb");
   near(v("total_btuh"), 4.5 * 1200 * dh, 200); // dh is rounded to 0.1 in the output
-  assert.ok(v("shr") > 0 && v("shr") <= 1);
+  assert.ok(v("shr") > 0 && v("shr") <= 100);
 });
 test("supply moister than return in cooling is flagged", () => {
   const r = runEngine(base({}, { return_db_f: 78, return_wb_f: 60, supply_db_f: 58, supply_wb_f: 57.5 }));
