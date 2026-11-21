@@ -83,7 +83,7 @@ export async function builtInFacts() {
     email: "customerservice@dada-house.com",
     website: "dada-house.com",
     services: ["Air conditioning repair and installation", "Heating repair and installation", "Plumbing", "Water heater repair and replacement", "Remodeling (bathroom, kitchen, flooring, general renovation)", "Preventive HVAC maintenance and the annual maintenance plan", "Emergency service"],
-    serviceCall: "The service call (diagnostic visit) is $69. If the customer approves the work, the $69 is deducted from the total.",
+    serviceCall: "Service call (diagnostic visit) without the maintenance plan: $99 from 8 AM to 6 PM on weekdays; $139 after 6 PM, on weekends and on holidays. Maintenance plan members: $69 at any time, including after 6 PM, weekends and holidays. If the customer approves the work, the service call fee ($99, $139 or $69) is deducted from the total.",
     pricingPolicy: "Repair and installation prices are given by the technician after the diagnostic visit — never quote a repair price by phone.",
     schedulingHours: hours,
     arrivalWindows: `Appointments use ${cfg.arrivalWindowHours}-hour arrival windows; the technician arrives within the window. Maintenance tune-ups: 2-hour windows between 8 AM and 4 PM.`,
