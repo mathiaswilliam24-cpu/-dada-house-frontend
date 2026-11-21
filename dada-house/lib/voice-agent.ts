@@ -8,7 +8,9 @@ import { notifyStaff } from "@/lib/staff-push";
 /** Bearer DADA_HOUSE_API_KEY — returns a 401 response when the key is wrong. */
 export function voiceAuthError(req: NextRequest): NextResponse | null {
   const key = (req.headers.get("authorization") ?? "").replace(/^Bearer\s+/i, "");
-  if (!process.env.DADA_HOUSE_API_KEY || key !== process.env.DADA_HOUSE_API_KEY) {
+  // DADA_HOUSE_API_KEY (voice-agent backend) or VAPI_TOOLS_KEY (tools called directly by Vapi).
+  const allowed = [process.env.DADA_HOUSE_API_KEY, process.env.VAPI_TOOLS_KEY].filter((k): k is string => !!k && k.length >= 16);
+  if (!key || !allowed.includes(key)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
   return null;

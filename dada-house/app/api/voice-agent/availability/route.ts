@@ -13,10 +13,7 @@ export const dynamic = "force-dynamic";
  * `slotStart` when creating the appointment.
  */
 export async function GET(req: NextRequest) {
-  const apiKey = (req.headers.get("authorization") ?? "").replace(/^Bearer\s+/i, "");
-  if (!process.env.DADA_HOUSE_API_KEY || apiKey !== process.env.DADA_HOUSE_API_KEY) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
+  const denied = voiceAuthError(req); if (denied) return denied;
   const sp = new URL(req.url).searchParams;
   const rawType = (sp.get("jobType") ?? "").toUpperCase();
   const jobType: JobType = (JOB_TYPE_KEYS as string[]).includes(rawType) ? (rawType as JobType) : inferJobType(sp.get("service"));
