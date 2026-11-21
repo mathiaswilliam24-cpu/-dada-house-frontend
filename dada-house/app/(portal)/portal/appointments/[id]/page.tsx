@@ -4,6 +4,8 @@ import { redirect, notFound } from "next/navigation";
 import { formatDate, getStatusColor, getTechStatusColor } from "@/lib/utils";
 import { TECH_STATUS_LABEL } from "@/lib/tech-status";
 import Link from "next/link";
+import { CancelAppointmentButton } from "@/components/client/cancel-appointment-button";
+import { customerCanCancel } from "@/lib/appointment-cancel";
 import { buttonVariants } from "@/components/ui/button";
 import { Phone, MapPin, Calendar, Wrench, MessageSquare, CheckCircle2, Loader } from "lucide-react";
 import { Suspense } from "react";
@@ -126,6 +128,8 @@ export default async function AppointmentDetailPage({
           </div>
         </div>
       </div>
+
+      {appointment.userId === session.user.id && customerCanCancel(appointment) && <CancelAppointmentButton appointmentId={id} />}
 
       {/* Live tracking */}
       {isTracking && (

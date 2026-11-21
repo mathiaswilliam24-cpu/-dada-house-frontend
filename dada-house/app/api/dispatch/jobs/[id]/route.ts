@@ -171,7 +171,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
     if (before.status === "COMPLETED") return NextResponse.json({ error: "Completed jobs can't be canceled." }, { status: 400 });
     const job = await db.appointment.update({ where: { id }, data: { status: "CANCELLED", techStatus: before.technicianId ? "CANCELED" : null } });
     await logJobEvent({ appointmentId: id, type: "CANCELED", message: `Canceled: ${body.reason}`, fromValue: before.status, toValue: "CANCELLED", userId: auth.id, userName: auth.name ?? null });
-    after(() => notifyCanceled(id, prevTechIds, !!body.notifyCustomer, auth.id).catch(console.error));
+    after(() => notifyCanceled(id, prevTechIds, { by: "staff", userId: auth.id, reason: body.reason }).catch(console.error));
     return NextResponse.json({ job });
   }
 

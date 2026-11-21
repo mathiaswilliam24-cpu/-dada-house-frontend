@@ -1,6 +1,9 @@
 import { db } from "@/lib/db";
 import { sendSMS } from "@/lib/twilio";
-import { sendCustomerTemplate, customerLang, jobVars } from "@/lib/customer-notify";
+import { sendCustomerTemplate, customerLang, jobVars, getTemplateOverrides } from "@/lib/customer-notify";
+import { DEFAULT_BUSINESS_PHONE, type Lang } from "@/lib/notification-templates";
+import { sendTrackedEmail } from "@/lib/customer-email";
+import { notifyStaff } from "@/lib/staff-push";
 import { sendTechnicianAssignmentNotification } from "@/lib/appointment-notifications";
 import { ctParts, fmtTimeCT, logJobEvent } from "@/lib/dispatch";
 
@@ -54,12 +57,74 @@ export async function notifyAfterSchedule(opts: {
   }
 }
 
-export async function notifyCanceled(appointmentId: string, techIds: string[], notifyCustomer: boolean, userId: string) {
+const CANCEL_EMAIL: Record<Lang, { subject: (n: string) => string; hello: (n: string) => string; staff: (n: string) => string; customer: (n: string) => string; call: (p: string) => string }> = {
+  en: {
+    subject: (n) => `Your DADA HOUSE appointment #${n} has been canceled`,
+    hello: (n) => `Hi ${n},`,
+    staff: (n) => `Your appointment #${n} has been canceled.`,
+    customer: (n) => `Your appointment #${n} has been canceled as you requested.`,
+    call: (p) => `To reschedule or if you have any questions, call us at ${p}.`,
+  },
+  fr: {
+    subject: (n) => `Votre rendez-vous DADA HOUSE n°${n} a été annulé`,
+    hello: (n) => `Bonjour ${n},`,
+    staff: (n) => `Votre rendez-vous n°${n} a été annulé.`,
+    customer: (n) => `Votre rendez-vous n°${n} a bien été annulé à votre demande.`,
+    call: (p) => `Pour reprogrammer ou pour toute question, appelez-nous au ${p}.`,
+  },
+  es: {
+    subject: (n) => `Su cita de DADA HOUSE #${n} ha sido cancelada`,
+    hello: (n) => `Hola ${n},`,
+    staff: (n) => `Su cita #${n} ha sido cancelada.`,
+    customer: (n) => `Su cita #${n} fue cancelada según su solicitud.`,
+    call: (p) => `Para reprogramar o si tiene preguntas, llámenos al ${p}.`,
+  },
+};
+
+/**
+ * A job was canceled — by the customer (from their account) or by the office (dispatcher/admin).
+ * Every technician on the job gets a text; the customer gets a text and, when on file, an email;
+ * when the customer canceled, the office also gets a push notification. Each outcome is logged
+ * on the job's activity.
+ */
+export async function notifyCanceled(appointmentId: string, techIds: string[], opts: { by: "customer" | "staff"; userId?: string | null; reason?: string | null }) {
   const job = await db.appointment.findUnique({ where: { id: appointmentId } });
   if (!job) return;
-  for (const id of techIds) await techSms(id, `DADA HOUSE: Job #${job.appointmentNumber} (${job.name}, ${when(job.scheduledStart)}) was CANCELED.`);
-  if (notifyCustomer && job.phone) {
-    const lang = await customerLang({ customerId: job.customerId });
-    await sendCustomerTemplate({ key: "JOB_CANCELED", phone: job.phone, lang, vars: jobVars(job, lang), sentById: userId }).catch(console.error);
+  const results: string[] = [];
+  const who = opts.by === "customer" ? " by the customer" : "";
+
+  for (const id of [...new Set(techIds)]) {
+    await techSms(id, `DADA HOUSE: Job #${job.appointmentNumber} (${job.name}, ${when(job.scheduledStart)}) was CANCELED${who}. It has been removed from your schedule.`);
   }
+  if (techIds.length) results.push(`technician${techIds.length > 1 ? "s" : ""} texted`);
+
+  const lang = await customerLang({ customerId: job.customerId });
+  if (job.phone) {
+    try {
+      const sent = await sendCustomerTemplate({ key: opts.by === "customer" ? "JOB_CANCELED_BY_CUSTOMER" : "JOB_CANCELED", phone: job.phone, lang, vars: jobVars(job, lang), sentById: opts.userId ?? undefined });
+      results.push(sent ? `customer texted (${lang.toUpperCase()})` : "customer not texted (message turned off or opted out)");
+    } catch (e) { results.push(`customer text failed: ${e instanceof Error ? e.message : "error"}`); }
+  }
+  if (job.email) {
+    try {
+      const t = CANCEL_EMAIL[lang];
+      const o = await getTemplateOverrides();
+      const phone = o.phone || DEFAULT_BUSINESS_PHONE;
+      const first = job.name.trim().split(/\s+/)[0] || job.name;
+      const line = opts.by === "customer" ? t.customer(job.appointmentNumber) : t.staff(job.appointmentNumber);
+      const r = await sendTrackedEmail({
+        to: job.email, subject: t.subject(job.appointmentNumber), customerId: job.customerId, sentById: opts.userId ?? undefined,
+        html: `<div style="font-family:Arial,sans-serif;max-width:600px;margin:auto;color:#111"><h2 style="color:#1B3FA8">DADA HOUSE</h2><p>${esc(t.hello(first))}</p><p>${esc(line)}</p><p style="background:#FFF4E5;border-radius:8px;padding:12px">${esc(t.call(phone))}</p></div>`,
+        text: `${t.hello(first)}\n\n${line}\n\n${t.call(phone)}`,
+      });
+      results.push(r.error ? `customer email failed: ${r.error.message}` : "customer emailed");
+    } catch (e) { results.push(`customer email failed: ${e instanceof Error ? e.message : "error"}`); }
+  }
+
+  if (opts.by === "customer") {
+    await notifyStaff({ title: "Job canceled by customer", body: `#${job.appointmentNumber} ${job.name} — ${when(job.scheduledStart)}${opts.reason ? ` · ${opts.reason}` : ""}`, url: `/dispatcher/board?job=${job.id}`, tag: `cancel-${job.id}` }).catch(console.error);
+  }
+  await logJobEvent({ appointmentId: job.id, type: "NOTE", userId: opts.userId ?? null, message: `Cancellation notices: ${results.join(", ") || "nobody to notify (no technician, phone or email)"}` }).catch(console.error);
 }
+
+const esc = (s: string) => s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]!);

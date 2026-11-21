@@ -53,6 +53,16 @@ export const TEMPLATE_DEFS = {
       es: "DADA HOUSE: Su cita #{number} ha sido cancelada. Responda a este mensaje o llame al {phone} para reprogramarla.",
     },
   },
+  JOB_CANCELED_BY_CUSTOMER: {
+    label: "Cancellation confirmed (customer canceled)",
+    when: "The customer cancels the appointment from their account.",
+    vars: ["name", "number"],
+    text: {
+      en: "DADA HOUSE: Hi {name}, your appointment #{number} has been canceled as you requested. Need us later? Call {phone} or book again on our website.",
+      fr: "DADA HOUSE : Bonjour {name}, votre rendez-vous n°{number} a bien été annulé à votre demande. Besoin de nous plus tard ? Appelez le {phone} ou réservez sur notre site.",
+      es: "DADA HOUSE: Hola {name}, su cita #{number} fue cancelada según su solicitud. ¿Nos necesita más adelante? Llame al {phone} o reserve en nuestro sitio web.",
+    },
+  },
   TECH_EN_ROUTE: {
     label: "Technician on the way",
     when: "The technician taps “On the way” in the app.",

@@ -4,6 +4,8 @@ import { notFound, redirect } from "next/navigation";
 import { InvoiceDownload } from "@/components/client/invoice-download";
 import { PhotoGallery } from "@/components/client/photo-gallery";
 import Link from "next/link";
+import { CancelAppointmentButton } from "@/components/client/cancel-appointment-button";
+import { customerCanCancel } from "@/lib/appointment-cancel";
 import {
   ArrowLeft,
   Calendar,
@@ -145,6 +147,8 @@ export default async function AppointmentDetailPage({
       </div>
 
       <div className="space-y-4">
+
+        {appt.userId === session.user.id && customerCanCancel(appt) && <CancelAppointmentButton appointmentId={id} />}
 
         {/* Work summary (admin notes — visible when filled) */}
         {appt.notes && (

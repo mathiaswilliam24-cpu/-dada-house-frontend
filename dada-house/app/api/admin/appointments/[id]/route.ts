@@ -5,6 +5,8 @@ import { z } from "zod";
 import { resend, FROM_EMAIL } from "@/lib/resend";
 import { sendSMS } from "@/lib/twilio";
 import { statusUpdateHtml } from "@/lib/email-templates";
+import { notifyCanceled } from "@/lib/dispatch-notify";
+import { logJobEvent } from "@/lib/dispatch";
 
 const updateSchema = z.object({
   status: z
@@ -57,7 +59,7 @@ export async function PATCH(
     return NextResponse.json({ error: "Invalid data" }, { status: 400 });
   }
 
-  const existing = await db.appointment.findUnique({ where: { id } });
+  const existing = await db.appointment.findUnique({ where: { id }, include: { assignments: { select: { technicianId: true } } } });
   if (!existing) return NextResponse.json({ error: "Not found" }, { status: 404 });
 
   const d = parsed.data;
@@ -65,6 +67,7 @@ export async function PATCH(
     where: { id },
     data: {
       ...(d.status          && { status: d.status }),
+      ...(d.status === "CANCELLED" && existing.status !== "CANCELLED" && { techStatus: existing.technicianId ? "CANCELED" as const : null }),
       ...(d.notes           !== undefined && { notes: d.notes }),
       ...(d.photos          !== undefined && { photos: d.photos }),
       ...("technicianId" in d && { technicianId: d.technicianId }),
@@ -83,7 +86,11 @@ export async function PATCH(
     include: { invoice: true },
   });
 
-  if (parsed.data.status && parsed.data.status !== existing.status) {
+  if (d.status === "CANCELLED" && existing.status !== "CANCELLED") {
+    const techIds = [existing.technicianId, ...existing.assignments.map((a) => a.technicianId)].filter((x): x is string => !!x);
+    await logJobEvent({ appointmentId: id, type: "CANCELED", message: "Canceled by admin", fromValue: existing.status, toValue: "CANCELLED", userId: auth.id, userName: auth.name ?? null }).catch(console.error);
+    after(() => notifyCanceled(id, techIds, { by: "staff", userId: auth.id }).catch(console.error));
+  } else if (parsed.data.status && parsed.data.status !== existing.status) {
     after(async () => {
       await Promise.allSettled([
         resend.emails

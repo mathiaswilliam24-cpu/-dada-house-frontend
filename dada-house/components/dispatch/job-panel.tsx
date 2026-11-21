@@ -341,9 +341,9 @@ export default function JobPanel({ jobId, technicians, jobTypes, defaultDate, on
           {!closed && (
             <button
               onClick={() => {
-                const reason = prompt("Cancellation reason:");
+                const reason = prompt("Cancellation reason (the customer and the technician will be notified automatically):");
                 if (!reason || reason.trim().length < 2) return;
-                act("cancel", { reason: reason.trim(), notifyCustomer: confirm("Text the customer that the appointment is canceled?") });
+                act("cancel", { reason: reason.trim() });
               }}
               className="px-3 py-1.5 border border-red-200 text-red-600 rounded-lg text-xs font-bold"
             >
