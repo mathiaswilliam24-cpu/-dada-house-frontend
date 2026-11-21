@@ -78,7 +78,7 @@ export async function builtInFacts() {
     return `${DAY[d]}: ${h ? `${t12(h.start)} – ${t12(h.end)}` : "closed"}`;
   });
   return {
-    company: "DADA HOUSE — residential home services",
+    company: "DADA HOUSE — Commercial & Residential Services",
     phone: DEFAULT_BUSINESS_PHONE,
     email: "customerservice@dada-house.com",
     website: "dada-house.com",
