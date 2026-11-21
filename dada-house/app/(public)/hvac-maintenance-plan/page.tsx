@@ -15,7 +15,7 @@ export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "HVAC Maintenance Plan — DADA HOUSE | Texas & North Carolina",
   description:
-    "Protect your HVAC system year-round. Two tune-ups per year, priority scheduling, $69 service calls, and 10% off repairs. Starting at $169/year. Texas & North Carolina. Enroll online in minutes.",
+    "Protect your HVAC system year-round. Two tune-ups per year, priority scheduling, $69 service calls, and 10% off repairs. Starting at $199/year. Texas & North Carolina. Enroll online in minutes.",
   alternates: { canonical: "/hvac-maintenance-plan" },
 };
 
@@ -96,7 +96,7 @@ export default async function HvacMaintenancePlanPage() {
     orderBy: { sortOrder: "asc" },
   });
 
-  const baseAnnual  = activePlan?.annualPrice  ?? 169;
+  const baseAnnual  = activePlan?.annualPrice  ?? 199;
   const baseMonthly = activePlan?.monthlyPrice ?? 17;
   const addlAnnual  = Math.round(baseAnnual  * 0.8);
   const addlMonthly = +(baseMonthly * 0.8).toFixed(2);
@@ -261,7 +261,7 @@ export default async function HvacMaintenancePlanPage() {
               <div className="flex-1">
                 <p className="font-black text-lg mb-1">Landlord or Property Manager?</p>
                 <p className="text-slate-300 text-sm">
-                  One account · one billing · multiple addresses. Manage each property and schedule tune-ups separately from your dashboard. Each address billed at $169/yr independently.
+                  One account · one billing · multiple addresses. Manage each property and schedule tune-ups separately from your dashboard. Each address billed at $199/yr independently.
                 </p>
               </div>
               <Link href="/hvac-maintenance-plan/enroll"
@@ -343,7 +343,7 @@ export default async function HvacMaintenancePlanPage() {
             <Link href="/hvac-maintenance-plan/enroll"
               className={cn(buttonVariants({ size: "lg" }), "gap-2 font-bold text-base shadow-xl shadow-orange-900/40")}>
               <Calendar size={18} />
-              Enroll Now — $169/Year
+              Enroll Now — $199/Year
             </Link>
             <a href="tel:+18449280875"
               className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-bold text-white text-base"
@@ -361,7 +361,7 @@ export default async function HvacMaintenancePlanPage() {
         <Link href="/hvac-maintenance-plan/enroll"
           className="flex items-center justify-center gap-2 w-full py-4 bg-[#F7921A] hover:bg-[#e07f10] text-white font-black text-base rounded-2xl shadow-2xl shadow-orange-900/50 transition-colors">
           <Calendar size={18} />
-          Enroll Now — $169/Year
+          Enroll Now — $199/Year
         </Link>
       </div>
 

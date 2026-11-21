@@ -1,11 +1,11 @@
 // Server-side pricing engine — never trust browser-submitted prices
 // Pricing is PER PROPERTY: each address pays its own base + additional systems at same address.
 // Multi-address landlords pay the base for EACH property (not shared).
-// e.g. 3 properties × 1 system = 3 × $169 = $507/yr
+// e.g. 3 properties × 1 system = 3 × $199 = $597/yr
 
 export const PRICING = {
   annual: {
-    base: 169,          // first system at an address
+    base: 199,          // first system at an address
     additional: 159,    // each additional system at SAME address
   },
   monthly: {

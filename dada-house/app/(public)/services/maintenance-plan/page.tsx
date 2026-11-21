@@ -6,7 +6,7 @@ import { buttonVariants } from "@/components/ui/button";
 import CTASection from "@/components/home/cta-section";
 
 export const metadata: Metadata = {
-  title: "HVAC Maintenance Plan — $169/Year | DADA HOUSE",
+  title: "HVAC Maintenance Plan — $199/Year | DADA HOUSE",
   description:
     "DADA HOUSE HVAC Maintenance Plan: 2 professional tune-ups per year (spring AC + fall heating), $69 service call fee, priority scheduling, 10% off all repairs. Texas & North Carolina. Call (844) 928-0875.",
   alternates: { canonical: "/services/maintenance-plan" },
@@ -91,13 +91,13 @@ export default function MaintenancePlanPage() {
             Two complete HVAC tune-ups per year — spring AC and fall heating — to keep your system running efficiently and prevent costly breakdowns.
           </p>
           <div className="flex items-baseline justify-center gap-2 mb-8">
-            <span className="text-6xl font-black text-[#F7921A]">$169</span>
+            <span className="text-6xl font-black text-[#F7921A]">$199</span>
             <span className="text-2xl text-slate-400 font-semibold">/year</span>
           </div>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link href="/booking?service=HVAC+Maintenance+Plan" className={cn(buttonVariants({ size: "lg" }), "gap-2 font-bold text-base shadow-lg shadow-orange-900/30")}>
               <Calendar size={18} />
-              Subscribe Now — $169/Year
+              Subscribe Now — $199/Year
             </Link>
             <a href="tel:+18449280875"
               className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-bold text-white transition-colors"
@@ -208,7 +208,7 @@ export default function MaintenancePlanPage() {
           <div className="border-2 border-[#F7921A] rounded-3xl p-8 shadow-xl shadow-orange-900/10">
             <p className="text-[#F7921A] text-xs font-bold uppercase tracking-widest mb-2">Annual HVAC Plan</p>
             <div className="flex items-baseline justify-center gap-2 mb-4">
-              <span className="text-6xl font-black text-[#0A1628]">$169</span>
+              <span className="text-6xl font-black text-[#0A1628]">$199</span>
               <span className="text-xl text-slate-400">/year</span>
             </div>
             <ul className="space-y-2.5 mb-8 text-left max-w-xs mx-auto">
@@ -222,7 +222,7 @@ export default function MaintenancePlanPage() {
             <Link href="/booking?service=HVAC+Maintenance+Plan"
               className={cn(buttonVariants({ size: "lg" }), "w-full gap-2 font-bold text-base")}>
               <Calendar size={18} />
-              Subscribe Now — $169/Year
+              Subscribe Now — $199/Year
             </Link>
             <p className="text-slate-400 text-xs mt-4">No contract · Cancel anytime · Renews annually</p>
           </div>

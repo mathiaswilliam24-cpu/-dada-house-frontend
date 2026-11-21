@@ -98,8 +98,8 @@ export async function POST(req: NextRequest) {
     const { billingInterval, totalSystems, properties, hvacSystems, contact, schedules } = parsed.data;
 
     // ── Server-side price calculation (per-property model) ────────────────
-    // $169/property base + $159 per additional system at SAME address
-    // Multi-address: each property pays its own base (3 props × 1 sys = 3 × $169)
+    // $199/property base + $159 per additional system at SAME address
+    // Multi-address: each property pays its own base (3 props × 1 sys = 3 × $199)
     const isAnnual = billingInterval === "annual";
     const baseAmount = isAnnual ? calcAnnualTotal(properties) : calcMonthlyTotal(properties);
 
