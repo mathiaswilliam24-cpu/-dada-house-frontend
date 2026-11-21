@@ -14,7 +14,7 @@ export async function GET(req: NextRequest) {
 }
 
 const schema = z.discriminatedUnion("action", [
-  z.object({ action: z.literal("save"), id: z.string().optional(), question: z.string().trim().min(3).max(300), answer: z.string().trim().min(2).max(2000), keywords: z.array(z.string().max(40)).max(20).optional(), unansweredId: z.string().optional() }),
+  z.object({ action: z.literal("save"), id: z.string().optional(), question: z.string().trim().min(3).max(300), answer: z.string().trim().min(2).max(2000), keywords: z.array(z.string().max(60)).max(300).optional(), unansweredId: z.string().optional() }),
   z.object({ action: z.literal("delete"), id: z.string() }),
   z.object({ action: z.literal("dismiss"), unansweredId: z.string() }),
 ]);
