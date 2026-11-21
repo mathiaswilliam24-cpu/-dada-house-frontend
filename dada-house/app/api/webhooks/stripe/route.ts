@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { headers } from "next/headers";
 import Stripe from "stripe";
+import { alertOffice } from "@/lib/voice-agent";
+import { syncMaintenanceVisits } from "@/lib/maintenance-visits";
 import { getStripe } from "@/lib/stripe";
 import { db } from "@/lib/db";
 import { sendSMS } from "@/lib/twilio";
@@ -116,6 +118,8 @@ export async function POST(req: NextRequest) {
 
         const contract = await db.maintenanceContract.findUnique({ where: { id: contractId } });
         if (!contract) break;
+        // Stripe can deliver the same event more than once — activate and notify only once.
+        if (contract.status === "ACTIVE" && contract.stripeSubscriptionId === session.subscription) break;
 
         const now = new Date();
         const renewalDate = new Date(now);
@@ -143,6 +147,27 @@ export async function POST(req: NextRequest) {
           sendConfirmationEmail(updated),
           sendConfirmationSMS(updated),
         ]);
+
+        // This year's two covered visits (cooling + heating) exist right away.
+        await syncMaintenanceVisits().catch(console.error);
+        // Office: admin + dispatcher alert (no payment details beyond the verified amount).
+        const paidAmount = session.amount_total != null ? `$${(session.amount_total / 100).toFixed(2)}` : "see Stripe";
+        await alertOffice({
+          title: "NEW DADA HOUSE MAINTENANCE SUBSCRIPTION",
+          url: "/dispatcher/maintenance",
+          tag: `sub-${contractId}`,
+          text: [
+            `Customer: ${[updated.firstName, updated.lastName].filter(Boolean).join(" ") || "-"}`,
+            `Phone: ${updated.phone ?? "-"}`,
+            `Systems: ${updated.numberOfSystems}`,
+            `Plan: HVAC Maintenance Plan (${updated.billingInterval ?? ""})${updated.membershipNumber ? ` #${updated.membershipNumber}` : ""}`,
+            `Payment: CONFIRMED - ${paidAmount}`,
+            session.metadata?.promoCode ? `Promotion: ${session.metadata.promoCode}` : null,
+            session.metadata?.source === "voice_agent" ? "Source: AI receptionist (phone)" : "Source: website",
+            "Plan status: ACTIVE",
+            "Next action: review maintenance scheduling",
+          ].filter(Boolean).join("\n"),
+        }).catch(console.error);
 
         // Update Stripe customer metadata
         if (session.customer && typeof session.customer === "string") {

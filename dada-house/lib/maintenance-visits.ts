@@ -106,7 +106,8 @@ export async function syncMaintenanceVisits() {
 }
 
 /** Creates the maintenance job for a visit (Needs-scheduling queue on the board) and links it. */
-export async function createVisitJob(visitId: string, user: { id: string; name?: string | null }) {
+export type VisitSlot = { start: Date; end: Date; window: string; minutes: number };
+export async function createVisitJob(visitId: string, user: { id: string | null; name?: string | null }, opts: { slot?: VisitSlot; source?: string; notes?: string | null } = {}) {
   const cfg = await getDispatchConfig();
   const visit = await db.maintenanceVisit.findUniqueOrThrow({
     where: { id: visitId },
@@ -155,18 +156,23 @@ export async function createVisitJob(visitId: string, user: { id: string; name?:
           prop?.accessInstructions ? `Access: ${prop.accessInstructions}` : null,
           prop?.gateCode ? `Gate code: ${prop.gateCode}` : null,
           prop?.tenantName ? `Tenant: ${prop.tenantName}${prop.tenantPhone ? ` ${prop.tenantPhone}` : ""}` : null,
+          opts.notes ? `Customer notes: ${opts.notes}` : null,
         ].filter(Boolean).join("\n"),
         preferredDate: visit.windowStart > today ? visit.windowStart : today,
-        estimatedMinutes: (cfg.defaultMinutes.MAINTENANCE ?? 60) * systems,
+        estimatedMinutes: opts.slot?.minutes ?? (cfg.defaultMinutes.MAINTENANCE ?? 60) * systems,
+        ...(opts.slot ? {
+          preferredDate: opts.slot.start, preferredTime: `${opts.slot.window} (arrival window requested)`,
+          scheduledStart: opts.slot.start, scheduledEnd: opts.slot.end, arrivalWindow: opts.slot.window, eta: opts.slot.start,
+        } : {}),
         customerType: cust.customerType,
         customerId: cust.id,
-        source: "maintenance",
+        source: opts.source ?? "maintenance",
         leadSource: "Maintenance membership",
         createdById: user.id,
       },
     });
     await tx.maintenanceVisit.update({ where: { id: visit.id }, data: { appointmentId: job.id, status: "SCHEDULED" } });
-    await logJobEvent({ appointmentId: job.id, type: "CREATED", message: `Maintenance visit ${visit.visitNumber}/2 job created`, userId: user.id, userName: user.name ?? null }, tx);
+    await logJobEvent({ appointmentId: job.id, type: "CREATED", message: `Maintenance visit ${visit.visitNumber}/2 job created${opts.slot ? ` — requested ${ctParts(opts.slot.start).ymd}, ${opts.slot.window}; needs a technician (pending dispatch)` : ""}`, userId: user.id, userName: user.name ?? null }, tx);
     return job;
   });
 }

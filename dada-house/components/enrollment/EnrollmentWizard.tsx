@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useCallback } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useCallback, useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { CheckCircle, ArrowLeft, ArrowRight, Loader2 } from "lucide-react";
 import StepPlan from "./steps/StepPlan";
 import StepSystems from "./steps/StepSystems";
@@ -79,6 +79,8 @@ export interface EnrollmentState {
   hvacSystems: HvacSystemInput[];
   contact: ContactInput;
   schedules: ScheduleInput[];
+  promoCode?: string | null;
+  draftToken?: string | null;
 }
 
 const STEPS = [
@@ -138,6 +140,35 @@ export default function EnrollmentWizard() {
       schedules: [{ propertyId: p.id, preferredDate: "", preferredTime: "", notes: "", tenantAccess: false }],
     };
   });
+
+  // Registration started by phone: /hvac-maintenance-plan/enroll?d=<token> pre-fills the form.
+  const params = useSearchParams();
+  const draftToken = params.get("d");
+  const [draftNote, setDraftNote] = useState<string | null>(null);
+  useEffect(() => {
+    if (!draftToken) return;
+    fetch(`/api/enrollment/draft?token=${encodeURIComponent(draftToken)}`)
+      .then(async (r) => ({ ok: r.ok, d: await r.json() }))
+      .then(({ ok, d }) => {
+        if (!ok || !d.draft) { setDraftNote(d.error ?? "This link has expired. Please fill in the form."); return; }
+        const x = d.draft;
+        const p = { ...makeDefaultProperty(), address: x.address, apt: x.apt ?? "", city: x.city, state: x.state, zipCode: x.zipCode, systemCount: x.systems };
+        const systems = Array.from({ length: x.systems }, () => ({ ...makeDefaultSystem(p.id), unknownDetails: true }));
+        setState({
+          billingInterval: x.billing, totalSystems: x.systems, properties: [p], hvacSystems: systems,
+          contact: {
+            ...EMPTY_CONTACT, firstName: x.firstName, lastName: x.lastName, email: x.email, phone: x.phone,
+            billingAddress: x.billingAddress?.address ?? x.address, billingCity: x.billingAddress?.city ?? x.city,
+            billingState: x.billingAddress?.state || x.state, billingZip: x.billingAddress?.zip ?? x.zipCode,
+            preferredLanguage: x.language ?? "en",
+          },
+          schedules: [{ propertyId: p.id, preferredDate: "", preferredTime: "", notes: x.systemTypes ? `Systems: ${x.systemTypes}` : "", tenantAccess: false }],
+          promoCode: x.promoCode ?? null, draftToken,
+        });
+        setDraftNote(`We pre-filled your registration from your call with DADA HOUSE${x.promoCode ? ` (promo ${x.promoCode} will be applied at checkout)` : ""}. Please review every step, make any changes, accept the agreement and continue to secure payment.`);
+      })
+      .catch(() => setDraftNote("We could not load your pre-filled registration. Please fill in the form."));
+  }, [draftToken]);
 
   const update = useCallback((patch: Partial<EnrollmentState>) => {
     setState(prev => ({ ...prev, ...patch }));
@@ -220,6 +251,12 @@ export default function EnrollmentWizard() {
           <span className="text-slate-400 text-sm">HVAC Maintenance Plan Enrollment</span>
         </div>
       </div>
+
+      {draftNote && (
+        <div className="bg-amber-50 border-b border-amber-200 px-5 py-3">
+          <p className="max-w-4xl mx-auto text-sm text-amber-900">{draftNote}</p>
+        </div>
+      )}
 
       {/* Progress */}
       <div className="bg-white border-b border-slate-200 py-3 px-5">

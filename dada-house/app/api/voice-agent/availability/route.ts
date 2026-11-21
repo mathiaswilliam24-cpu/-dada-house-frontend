@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { inferJobType, JOB_TYPE_KEYS, type JobType } from "@/lib/dispatch";
 import { findOpenWindows } from "@/lib/dispatch-availability";
+import { maintenanceWindows } from "@/lib/voice-agent";
 
 export const dynamic = "force-dynamic";
 
@@ -23,7 +24,8 @@ export async function GET(req: NextRequest) {
   const days = Number(sp.get("days") ?? 3) || 3;
   const limit = Math.min(20, Number(sp.get("limit") ?? 6) || 6);
 
-  const r = await findOpenWindows({ jobType, fromYmd: date, days, limit });
+  // Maintenance tune-ups: only 2-hour windows between 8 AM and 4 PM.
+  const r = jobType === "MAINTENANCE" ? await maintenanceWindows({ fromYmd: date, days, limit }) : await findOpenWindows({ jobType, fromYmd: date, days, limit });
   return NextResponse.json({
     timezone: "America/New_York",
     jobType,

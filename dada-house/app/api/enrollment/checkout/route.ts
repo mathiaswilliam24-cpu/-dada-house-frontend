@@ -3,6 +3,7 @@ import { z } from "zod";
 import type Stripe from "stripe";
 import { db } from "@/lib/db";
 import { getStripe } from "@/lib/stripe";
+import { findPromotion } from "@/lib/promotions";
 import {
   calcAnnualTotal,
   calcMonthlyTotal,
@@ -80,6 +81,8 @@ const enrollmentSchema = z.object({
   hvacSystems: z.array(hvacSystemSchema).min(1),
   contact: contactSchema,
   schedules: z.array(scheduleSchema),
+  promoCode: z.string().trim().max(40).optional().nullable(),
+  draftToken: z.string().max(60).optional().nullable(),
 });
 
 // ── Handler ────────────────────────────────────────────────────────────────────
@@ -95,7 +98,9 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { billingInterval, totalSystems, properties, hvacSystems, contact, schedules } = parsed.data;
+    const { billingInterval, totalSystems, properties, hvacSystems, contact, schedules, promoCode, draftToken } = parsed.data;
+    // Promotion chosen on the phone: applied automatically if Stripe still says it is valid.
+    const promo = promoCode ? await findPromotion(promoCode).catch(() => null) : null;
 
     // ── Server-side price calculation (per-property model) ────────────────
     // $199/property base + $159 per additional system at SAME address
@@ -266,6 +271,8 @@ export async function POST(req: NextRequest) {
         totalSystems: String(totalSystems),
         billingInterval,
         customerId: customer.id,
+        ...(draftToken ? { source: "voice_agent", draftToken } : {}),
+        ...(promo ? { promoCode: promo.code } : {}),
       },
       subscription_data: {
         metadata: {
@@ -276,7 +283,7 @@ export async function POST(req: NextRequest) {
       },
       billing_address_collection: "required",
       phone_number_collection: { enabled: true },
-      allow_promotion_codes: true,
+      ...(promo ? { discounts: [{ promotion_code: promo.id }] } : { allow_promotion_codes: true }),
     });
 
     // ── Save checkout session ID on contract ──────────────────────────────
