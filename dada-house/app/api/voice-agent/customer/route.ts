@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { voiceAuthError, toolArgs, digits10, norm } from "@/lib/voice-agent";
+import { voiceAuthError, toolArgs, digits10, vapiTool } from "@/lib/voice-agent";
+import { verifyCaller } from "@/lib/voice-verify";
 import { syncMaintenanceVisits, visitState, SEASONS, COVERED_STATUSES, type Season } from "@/lib/maintenance-visits";
 
 export const dynamic = "force-dynamic";
@@ -13,60 +14,17 @@ export const dynamic = "force-dynamic";
  *   - calling from another number: the name AND the street address both match.
  * Otherwise the response only says what to ask for — no personal or plan data.
  */
-export async function POST(req: NextRequest) {
+export const POST = vapiTool(async (req: NextRequest) => {
   const denied = voiceAuthError(req); if (denied) return denied;
   const a = await toolArgs(req);
-  const callerPhone = digits10(String(a.callerPhone ?? a.phone ?? ""));
-  const name = norm(String(a.name ?? ""));
-  const address = norm(String(a.address ?? ""));
-  const zip = String(a.zip ?? "").replace(/\D/g, "").slice(0, 5);
-  if (!callerPhone && !name) return NextResponse.json({ error: "Give callerPhone and the customer's name." }, { status: 400 });
-
-  const nameParts = name.split(" ").filter((w) => w.length > 1);
-  const candidates = await db.customer.findMany({
-    where: {
-      OR: [
-        ...(callerPhone ? [{ phone: { contains: callerPhone } }] : []),
-        ...(nameParts.length ? [{ AND: nameParts.slice(-1).map((w) => ({ lastName: { contains: w, mode: "insensitive" as const } })) }] : []),
-      ],
-    },
-    take: 10,
-    select: { id: true, firstName: true, lastName: true, phone: true, email: true, address: true, city: true, zipCode: true, preferredLanguage: true },
-  });
-
-  const streetMatch = (addr: string | null | undefined) => {
-    if (!address || !addr) return false;
-    const want = address.split(" "), have = norm(addr);
-    const num = want.find((w) => /^\d+$/.test(w));
-    return !!num && have.startsWith(num) && want.filter((w) => !/^\d+$/.test(w) && w.length > 2).some((w) => have.includes(w));
-  };
-  const nameMatch = (c: { firstName: string | null; lastName: string | null }) => {
-    const full = norm(`${c.firstName ?? ""} ${c.lastName ?? ""}`);
-    return nameParts.length > 0 && nameParts.every((w) => full.includes(w));
-  };
-
-  const scored = await Promise.all(candidates.map(async (c) => {
-    const props = await db.contractProperty.findMany({ where: { contract: { customerId: c.id } }, select: { address: true, zipCode: true } }).catch(() => []);
-    const addrOk = streetMatch(c.address) || props.some((p) => streetMatch(p.address));
-    const zipOk = !zip || c.zipCode?.startsWith(zip) || props.some((p) => p.zipCode?.startsWith(zip));
-    const phoneOk = !!callerPhone && digits10(c.phone) === callerPhone;
-    const verified = (phoneOk && (nameMatch(c) || addrOk)) || (!phoneOk && nameMatch(c) && addrOk && zipOk);
-    return { c, verified, phoneOk };
-  }));
-
-  const v = scored.filter((s) => s.verified);
-  if (v.length !== 1) {
+  const v = await verifyCaller(a);
+  if (!v.customer) {
     return NextResponse.json({
-      found: candidates.length > 0, verified: false,
-      message: candidates.length === 0
-        ? "No customer record found. Treat the caller as a new customer (they can still join the maintenance plan)."
-        : v.length > 1
-          ? "Several records match. Ask for the full service address (street number and street) and the ZIP code, then call this tool again."
-          : "Could not verify the caller. Ask for the full name on the account and the service address (street number and street), then call this tool again. Do not share any account details before verification.",
+      found: v.found, verified: false,
+      message: v.found ? v.message : "No customer record found. Treat the caller as a new customer (they can still join the maintenance plan).",
     });
   }
-
-  const cust = v[0].c;
+  const cust = v.customer;
   await syncMaintenanceVisits().catch(console.error);
   const contracts = await db.maintenanceContract.findMany({
     where: { customerId: cust.id, status: { notIn: ["CANCELLED"] } },
@@ -128,4 +86,4 @@ export async function POST(req: NextRequest) {
       ? `Active maintenance member${memberships.some((m) => m.numberOfHomes > 1) ? " with several homes: each home has its own 2 visits. Ask which home(s) the caller wants to schedule (one, some or all) and book each home's visit separately — each can have its own date and window" : ""}. Only book visits with canBook=true; a visit that already has an appointment must not be booked again.`
       : memberships.length ? "The customer has a membership that is not active (see status). Explain it; offer to renew / complete payment." : "Verified customer without a maintenance plan — you may present the plan.",
   });
-}
+});

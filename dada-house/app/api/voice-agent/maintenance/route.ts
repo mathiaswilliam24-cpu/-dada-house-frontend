@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse, after } from "next/server";
 import { db } from "@/lib/db";
-import { voiceAuthError, toolArgs, checkMaintenanceSlot, alertOffice } from "@/lib/voice-agent";
+import { voiceAuthError, toolArgs, checkMaintenanceSlot, alertOffice, vapiTool } from "@/lib/voice-agent";
 import { createVisitJob, COVERED_STATUSES } from "@/lib/maintenance-visits";
 import { ctParts, logJobEvent } from "@/lib/dispatch";
 import { sendOutboundSms, DoNotContactError } from "@/lib/messaging";
@@ -62,7 +62,7 @@ async function bookVisit(visitId: string, customerId: string, slotStart: string,
  *    capacity immediately (provisional hold). The dispatcher assigns the technician and confirms.
  *  - Idempotent: a visit can only ever have one job.
  */
-export async function POST(req: NextRequest) {
+export const POST = vapiTool(async (req: NextRequest) => {
   const denied = voiceAuthError(req); if (denied) return denied;
   const a = await toolArgs(req);
   const action = String(a.action ?? "book");
@@ -134,5 +134,5 @@ export async function POST(req: NextRequest) {
   }
 
   return NextResponse.json({ error: "action must be book, reschedule or cancel" }, { status: 400 });
-}
+});
 

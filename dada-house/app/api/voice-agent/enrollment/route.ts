@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { db } from "@/lib/db";
-import { voiceAuthError, toolArgs, digits10, alertOffice } from "@/lib/voice-agent";
+import { voiceAuthError, toolArgs, digits10, alertOffice, vapiTool } from "@/lib/voice-agent";
 import { createDraft, DRAFT_DAYS } from "@/lib/enrollment-draft";
 import { calcPropertyAnnual, calcPropertyMonthly } from "@/lib/enrollment-pricing";
 import { findPromotion, applyPromo } from "@/lib/promotions";
@@ -44,7 +44,7 @@ const MSG = {
  * and reports exactly which deliveries succeeded. Activation happens only after Stripe confirms
  * payment. Idempotent per Vapi call.
  */
-export async function POST(req: NextRequest) {
+export const POST = vapiTool(async (req: NextRequest) => {
   const denied = voiceAuthError(req); if (denied) return denied;
   const parsed = schema.safeParse(await toolArgs(req));
   if (!parsed.success) return NextResponse.json({ ok: false, error: "missing_or_invalid", fields: parsed.error.issues.map((i) => i.path.join(".")), message: "Some information is missing or invalid — confirm these fields with the caller and try again." }, { status: 400 });
@@ -100,4 +100,4 @@ export async function POST(req: NextRequest) {
       ? `Secure link sent by ${[sms === "sent" ? "text" : null, email === "sent" ? "email" : null].filter(Boolean).join(" and ")}. Tell the caller the plan becomes active once payment is completed and confirmed.${d.promoCode && !promo ? " The promo code they gave is not valid — do not promise that discount." : ""}`
       : "The link could not be delivered by text or email. Do not say it was sent; confirm the phone/email or offer a callback.",
   });
-}
+});

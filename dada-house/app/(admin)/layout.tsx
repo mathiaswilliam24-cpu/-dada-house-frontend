@@ -101,6 +101,7 @@ const navGroups: NavGroup[] = [
       { href: "/admin/analytics", label: "Analytics", icon: BarChart3 },
       { href: "/admin/reports", label: "Reports", icon: TrendingUp },
       { href: "/admin/ai-conversations", label: "AI Assistant", icon: MessageCircle },
+      { href: "/admin/ai-receptionist", label: "AI Receptionist", icon: MessageCircle },
     ],
   },
   {

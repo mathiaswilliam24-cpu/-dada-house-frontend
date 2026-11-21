@@ -81,3 +81,17 @@ export async function checkMaintenanceSlot(slotStart: string, excludeAppointment
   const end = new Date(w.end);
   return { slot: { start, end: new Date(start.getTime() + day.durationMinutes * 60000), window: `${t(start)} - ${t(end)}`, minutes: day.durationMinutes, label: w.label }, alternatives: [] };
 }
+
+// ── Vapi "function" tools: request { message: { toolCallList: [{ id, function: { name, arguments } }] } }
+//    and expect { results: [{ toolCallId, result }] } with HTTP 200. API-request tools get plain JSON. ──
+type Handler = (req: NextRequest, ctx: { params: Promise<Record<string, string>> }) => Promise<Response>;
+export function vapiTool(handler: Handler): Handler {
+  return async (req, ctx) => {
+    const raw = (await req.clone().json().catch(() => null)) as { message?: { toolCallList?: { id?: string }[]; toolCalls?: { id?: string }[] } } | null;
+    const id = raw?.message?.toolCallList?.[0]?.id ?? raw?.message?.toolCalls?.[0]?.id;
+    const res = await handler(req, ctx);
+    if (!id) return res;
+    const data = await res.json().catch(() => ({ error: "No response" }));
+    return NextResponse.json({ results: [{ toolCallId: id, result: JSON.stringify(data) }] }, { status: 200 });
+  };
+}

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { voiceAuthError, toolArgs } from "@/lib/voice-agent";
+import { voiceAuthError, toolArgs, vapiTool } from "@/lib/voice-agent";
 import { PRICING, calcPropertyAnnual, calcPropertyMonthly } from "@/lib/enrollment-pricing";
 import { activePromotions, findPromotion, applyPromo } from "@/lib/promotions";
 
@@ -64,11 +64,11 @@ export async function GET(req: NextRequest) {
 }
 
 /** Same as GET, with the arguments in a JSON body (Vapi API-request / function tools). */
-export async function POST(req: NextRequest) {
+export const POST = vapiTool(async (req: NextRequest) => {
   const denied = voiceAuthError(req); if (denied) return denied;
   const a = await toolArgs(req);
   const u = new URL(req.url);
   for (const k of ["systems", "billing", "promoCode"]) if (a[k] != null && a[k] !== "") u.searchParams.set(k, String(a[k]));
   if (Array.isArray(a.systemsPerHome)) u.searchParams.set("systemsPerHome", (a.systemsPerHome as unknown[]).join(","));
   return GET(new NextRequest(u, { headers: req.headers }));
-}
+});
