@@ -1,4 +1,4 @@
-﻿import { db } from "@/lib/db";
+import { db } from "@/lib/db";
 import { sendSMS } from "@/lib/twilio";
 import { normalizePhone, findOrCreateCustomerByPhone } from "@/lib/customers";
 import { notifyStaff } from "@/lib/staff-push";
@@ -55,7 +55,7 @@ async function dispatchSms(
       body,
       status: "SENT",
       twilioSid: twilioMessage?.sid,
-      fromNumber: process.env.TWILIO_PHONE_NUMBER ?? "",
+      fromNumber: twilioMessage?.channel === "whatsapp" ? `WhatsApp ${process.env.WADADA_SENDER_PHONE ?? ""}`.trim() : process.env.TWILIO_PHONE_NUMBER ?? "",
       toNumber: phone,
       sentById: opts?.sentById,
       templateId: opts?.templateId,
