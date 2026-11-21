@@ -11,7 +11,7 @@ import type { Ctx } from "./catalog";
  * No confidence percentages: not calibrated yet (see Phase 4 validation).
  * Superheat/subcooling are only called high/low against the MANUFACTURER target ± tolerance.
  */
-export const RULESET_VERSION = "hvac-rules 1.0.0";
+export const RULESET_VERSION = "hvac-rules 1.1.0";
 
 /** Company field rules — not manufacturer data. Shown to the technician as such. Values can be changed by an
  *  administrator in Admin → HVAC Diagnostics (two-step: proposed, then approved), stored in Setting "hvac.fieldRules". */
@@ -145,6 +145,41 @@ const RULES: Rule[] = [
     confirmationTest: "Measure the liquid-line temperature immediately before and after the drier with the system stabilized; sweating or frost at the outlet also indicates restriction.",
     corrective: { replace: "Filter drier (recover, replace, evacuate, recharge per nameplate)", verify: "Drop across the new drier and superheat/subcooling against the manufacturer target." },
   },
+  {
+    id: "TXV_OVERFEED", fault: "TXV overfeeding (bulb / adjustment / valve)", category: "REFRIGERANT", followUps: ["txv_bulb_condition", "tesp_inwc", "airflow_cfm"],
+    applies: (f) => f.ctx.refrigeration && !f.ctx.inverter && f.cooling && (f.eq.meteringDevice === "TXV" || f.eq.meteringDevice === "EEV"),
+    key: ["suction_line_f", "liquid_line_f", "txv_bulb_condition"],
+    evaluate: (f) => {
+      const o: Out = { support: [], contradict: [], missing: [] };
+      if (f.sh === "LOW") o.support.push(`Low superheat on a ${f.eq.meteringDevice} system (${f.shNote})`);
+      if (f.sh === "LOW" && f.sc != null && f.sc !== "HIGH") o.support.push(`Subcooling not high (${f.scNote}) — not an overcharge pattern`);
+      const bulb = f.txt("txv_bulb_condition", f.circuit);
+      if (f.sh === "LOW" && (bulb === "LOOSE" || bulb === "UNINSULATED" || bulb === "WRONG_POSITION")) o.support.push(`TXV bulb: ${bulb === "LOOSE" ? "loose / poor contact" : bulb === "UNINSULATED" ? "not insulated" : "wrong position"}`);
+      if (bulb === "SECURE") o.contradict.push("TXV bulb secure and insulated");
+      if (f.sc === "HIGH") o.contradict.push(`Subcooling is high (${f.scNote}) — check overcharge first`);
+      if (f.alert("TESP_ABOVE_RATED")) o.contradict.push("Static pressure above the rating — low airflow can also lower superheat; correct airflow first");
+      if (f.sh == null) o.missing.push("Manufacturer superheat target and tolerance");
+      return o;
+    },
+    confirmationTest: "Check bulb mounting (clean contact at the manufacturer's clock position, insulated) and the equalizer, then observe the superheat response after correcting; follow the TXV manufacturer's procedure before any adjustment.",
+    corrective: { repair: "Re-mount and insulate the bulb", adjust: "Only if the manufacturer allows field adjustment", replace: "TXV if it keeps overfeeding with a correct bulb", verify: "Superheat within the manufacturer target after stabilization." },
+  },
+  {
+    id: "REFRIGERANT_MISID", fault: "Wrong refrigerant identified / mixed refrigerant / wrong gauge setting", category: "REFRIGERANT", followUps: ["outdoor_ambient_f", "return_db_f"],
+    applies: (f) => f.ctx.refrigeration,
+    evaluate: (f) => {
+      const o: Out = { support: [], contradict: [], missing: [] };
+      if (f.alert("COND_BELOW_AMBIENT")) o.support.push("Condensing temperature below outdoor ambient in cooling");
+      if (f.alert("EVAP_ABOVE_RETURN")) o.support.push("Evaporator saturation above return air in cooling");
+      if (f.alert("NEGATIVE_SUPERHEAT") && f.alert("NEGATIVE_SUBCOOLING")) o.support.push("Superheat AND subcooling both negative");
+      if (f.alert("SUCTION_OUT_OF_RANGE") || f.alert("HIGH_OUT_OF_RANGE")) o.support.push("Pressure outside the selected refrigerant's property range");
+      if (o.support.length) o.missing.push("Nameplate refrigerant re-checked and the manifold set to the same refrigerant");
+      return o;
+    },
+    confirmationTest: "Re-read the nameplate and service labels, confirm the manifold refrigerant setting and probe placement; if still inconsistent, test the refrigerant with an identifier before any service.",
+    safety: "Never mix refrigerants or top off with a different one. Recover contaminated refrigerant into a separate cylinder.",
+    corrective: { repair: "Correct the refrigerant selection / instrument setting", replace: "Contaminated charge: recover, evacuate and recharge with the nameplate refrigerant", verify: "Saturation temperatures consistent with the conditions." },
+  },
   // ── Airflow ──
   {
     id: "LOW_INDOOR_AIRFLOW", fault: "Insufficient indoor airflow", category: "AIRFLOW", followUps: ["tesp_inwc", "filter_condition", "evap_coil_condition", "blower_wheel_condition", "airflow_cfm"],
@@ -205,6 +240,117 @@ const RULES: Rule[] = [
     },
     confirmationTest: "Split the static reading (return vs supply side), inspect for crushed flex, closed dampers, undersized return.",
     corrective: { repair: "Correct the restriction / add return capacity", verify: "Total external static within the equipment rating." },
+  },
+  {
+    id: "DIRTY_FILTER", fault: "Dirty / restrictive air filter", category: "AIRFLOW", followUps: ["filter_condition", "filter_drop_inwc", "tesp_inwc"],
+    applies: (f) => f.mode !== "NOT_RUNNING",
+    key: ["filter_condition", "filter_drop_inwc"],
+    evaluate: (f) => {
+      const o: Out = { support: [], contradict: [], missing: [] };
+      const c = f.txt("filter_condition");
+      if (c === "DIRTY" || c === "RESTRICTED") o.support.push("Filter dirty / restricted on inspection");
+      if (c === "CLEAN") o.contradict.push("Filter is clean");
+      const d = f.num("filter_drop_inwc"), max = f.eq.specs?.filterMaxDrop;
+      if (d != null && max != null) (d > max ? o.support : o.contradict).push(`Filter drop ${d} in. w.c. vs ${max} in. w.c. maximum (filter / design data)`);
+      if (o.support.length && d == null) o.missing.push("Pressure drop across the filter");
+      if (f.alert("TESP_ABOVE_RATED") && (c === "DIRTY" || c === "RESTRICTED")) o.support.push("Total external static above the rating");
+      return o;
+    },
+    confirmationTest: "Measure static before and after the filter, compare with the filter manufacturer's maximum, then replace and re-measure TESP.",
+    corrective: { replace: "Filter (correct size and MERV for the system)", verify: "Filter drop and TESP within the reference; re-check superheat/subcooling after airflow is restored." },
+  },
+  {
+    id: "DIRTY_EVAP_COIL", fault: "Dirty / restricted evaporator coil", category: "AIRFLOW", followUps: ["evap_coil_condition", "coil_drop_inwc", "tesp_inwc"],
+    applies: (f) => f.ctx.refrigeration || f.mode === "COOLING",
+    key: ["evap_coil_condition", "coil_drop_inwc"],
+    evaluate: (f) => {
+      const o: Out = { support: [], contradict: [], missing: [] };
+      const c = f.txt("evap_coil_condition");
+      if (c === "DIRTY" || c === "RESTRICTED") o.support.push("Coil dirty / restricted on inspection");
+      if (c === "CLEAN") o.contradict.push("Coil is clean");
+      const d = f.num("coil_drop_inwc"), max = f.eq.specs?.coilMaxDrop;
+      if (d != null && max != null) (d > max ? o.support : o.contradict).push(`Coil drop ${d} in. w.c. vs ${max} in. w.c. (manufacturer, rated airflow)`);
+      if (o.support.length && (f.txt("evap_coil_ice") === "HEAVY" || f.txt("evap_coil_ice") === "LIGHT")) o.support.push("Ice on the indoor coil (also raises coil drop — thaw before measuring)");
+      if (o.support.length && d == null) o.missing.push("Pressure drop across the indoor coil");
+      return o;
+    },
+    confirmationTest: "Inspect the coil face (light through the fins) and measure the coil pressure drop with a dry, ice-free coil; compare with the manufacturer data.",
+    safety: "Lock out power before cleaning; use a manufacturer-approved coil cleaner.",
+    corrective: { clean: "Indoor coil, blower wheel and filter", verify: "Coil drop, TESP and airflow within reference; re-check refrigerant readings." },
+  },
+  {
+    id: "EXCESS_AIRFLOW", fault: "Indoor airflow above the manufacturer target", category: "AIRFLOW", followUps: ["airflow_cfm", "blower_setting", "return_wb_f"],
+    applies: (f) => f.cooling,
+    key: ["airflow_cfm"],
+    evaluate: (f) => {
+      const o: Out = { support: [], contradict: [], missing: [] };
+      const cfm = f.num("airflow_cfm"), rated = f.eq.specs?.ratedCfm, tol = f.eq.specs?.cfmTolerancePct;
+      if (cfm != null && rated != null && tol != null) {
+        if (cfm > rated * (1 + tol / 100)) o.support.push(`Measured ${cfm} CFM above ${rated} CFM +${tol} %`);
+        else o.contradict.push(`Measured ${cfm} CFM within / below the target`);
+      }
+      if (o.support.length && f.complaint === "POOR_HUMIDITY") o.support.push("Complaint: poor humidity control (high airflow reduces moisture removal)");
+      const shr = f.calc("shr");
+      if (o.support.length && shr != null) o.support.push(`Measured sensible heat ratio ${r1(shr * 100) / 100} — compare with the manufacturer expanded data`);
+      if (o.support.length && !f.txt("blower_setting")) o.missing.push("Blower speed tap / setting");
+      return o;
+    },
+    confirmationTest: "Verify the blower setting (tap, dip switches, ECM program) against the manufacturer table for this mode and the dehumidification setting.",
+    corrective: { adjust: "Blower speed to the manufacturer airflow for this mode", verify: "Airflow within target; supply-air dew point and humidity control." },
+  },
+  {
+    id: "BLOWER_SPEED", fault: "Incorrect blower speed setting", category: "AIRFLOW", followUps: ["blower_setting", "airflow_cfm", "tesp_inwc"],
+    applies: (f) => f.mode === "COOLING" || f.mode === "HEATING_GAS" || f.mode === "HEATING_HP",
+    key: ["airflow_cfm", "tesp_inwc", "blower_setting"],
+    evaluate: (f) => {
+      const o: Out = { support: [], contradict: [], missing: [] };
+      const cfm = f.num("airflow_cfm"), rated = f.eq.specs?.ratedCfm, tol = f.eq.specs?.cfmTolerancePct;
+      if (cfm == null || rated == null || tol == null) return o;
+      if (cfm >= rated * (1 - tol / 100) && cfm <= rated * (1 + tol / 100)) return o;
+      o.support.push(`Measured ${cfm} CFM outside ${rated} CFM ±${tol} %`);
+      const tesp = f.num("tesp_inwc"), max = f.eq.specs?.maxTesp;
+      if (tesp != null && max != null && tesp <= max) o.support.push(`Static pressure ${tesp} in. w.c. within the rated ${max} — the ducts are not the cause`);
+      if (tesp != null && max != null && tesp > max) o.contradict.push("Static pressure above the rating — restrictions explain the airflow first");
+      const filt = f.txt("filter_condition"), coil = f.txt("evap_coil_condition");
+      if (filt === "DIRTY" || filt === "RESTRICTED" || coil === "DIRTY" || coil === "RESTRICTED") o.contradict.push("Dirty filter or coil found");
+      if (f.txt("blower_setting")) o.support.push(`Current setting: ${f.txt("blower_setting")} — compare with the manufacturer blower table`);
+      return o;
+    },
+    confirmationTest: "Look up the manufacturer blower table / ECM settings for this model, mode and static pressure; change the setting and re-measure airflow.",
+    corrective: { adjust: "Blower tap / dip switches / ECM program to the manufacturer target", verify: "Airflow within target and refrigerant readings re-checked." },
+  },
+  {
+    id: "LOW_EVAP_LOAD", fault: "Low evaporator heat load", category: "AIRFLOW", followUps: ["return_wb_f", "return_db_f", "airflow_cfm"],
+    applies: (f) => f.ctx.refrigeration && !f.ctx.inverter && f.cooling,
+    key: ["return_wb_f"],
+    evaluate: (f) => {
+      const o: Out = { support: [], contradict: [], missing: [] };
+      const wb = f.num("return_wb_f") ?? f.calc("return_wb_calc_f"), min = f.eq.specs?.indoorWbMin;
+      if (wb != null && min != null && wb < min) o.support.push(`Indoor wet bulb ${r1(wb)} °F below the manufacturer chart minimum ${min} °F`);
+      if (o.support.length && f.sh === "LOW") o.support.push(`Low superheat (${f.shNote})`);
+      const evap = f.calc("evap_sat_f");
+      if (o.support.length && evap != null && evap < 32) o.support.push(`Evaporator saturation ${r1(evap)} °F below freezing`);
+      if (wb != null && min != null && wb >= min) o.contradict.push("Indoor wet bulb within the chart range");
+      return o;
+    },
+    confirmationTest: "Re-test when the space load is inside the chart range and confirm airflow is at the manufacturer target. Do not adjust charge outside the chart range.",
+    corrective: { adjust: "Re-test under conditions inside the manufacturer chart range", verify: "Superheat/subcooling against the target at valid conditions." },
+  },
+  {
+    id: "HIGH_LATENT_LOAD", fault: "High indoor load (above the chart range)", category: "AIRFLOW", followUps: ["return_wb_f", "return_rh_pct"],
+    applies: (f) => f.ctx.refrigeration && f.cooling,
+    key: ["return_wb_f"],
+    evaluate: (f) => {
+      const o: Out = { support: [], contradict: [], missing: [] };
+      const wb = f.num("return_wb_f") ?? f.calc("return_wb_calc_f"), max = f.eq.specs?.indoorWbMax;
+      if (wb != null && max != null && wb > max) o.support.push(`Indoor wet bulb ${r1(wb)} °F above the manufacturer chart maximum ${max} °F`);
+      if (o.support.length && f.sh === "HIGH" && f.eq.meteringDevice === "PISTON") o.support.push(`High superheat on a fixed orifice (${f.shNote}) — expected with a high load`);
+      if (o.support.length && (f.complaint === "POOR_HUMIDITY" || f.complaint === "RUNNING_CONTINUOUSLY")) o.support.push("Complaint matches (humidity / long run times)");
+      if (wb != null && max != null && wb <= max) o.contradict.push("Indoor wet bulb within the chart range");
+      return o;
+    },
+    confirmationTest: "Look for moisture sources (ventilation, duct leakage in humid spaces, recent pull-down), then re-test once the space is closer to design conditions.",
+    corrective: { repair: "Moisture sources / return-duct leakage", adjust: "Dehumidification blower setting if available", verify: "Re-test inside the chart range." },
   },
   // ── Electrical / components ──
   {

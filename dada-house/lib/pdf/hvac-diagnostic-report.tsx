@@ -3,6 +3,7 @@ import { db } from "@/lib/db";
 import { FIELD_BY_KEY, COMPLAINTS, MODES, categoryInfo, METERING_DEVICES, COMPRESSOR_TYPES } from "@/lib/hvac/catalog";
 import type { AnalysisResult } from "@/lib/hvac/server";
 import type { Hypothesis } from "@/lib/hvac/rules";
+import { SHSC_CELL } from "@/lib/hvac/matrix";
 
 const C = { blue: "#1B3FA8", gray: "#6b7280", line: "#e5e7eb", red: "#dc2626", amber: "#b45309", green: "#15803d" };
 const st = StyleSheet.create({
@@ -49,7 +50,7 @@ export async function renderHvacReportPdf(sessionId: string): Promise<Buffer | n
   });
   if (!s) return null;
   // Built-in PDF fonts lack some glyphs (− ✓): normalize them.
-  const r = (s.results ? JSON.parse(JSON.stringify(s.results).replace(/−/g, "-").replace(/✓ ?/g, "").replace(/✗ ?/g, "")) : null) as AnalysisResult | null;
+  const r = (s.results ? JSON.parse(JSON.stringify(s.results).replace(/−/g, "-").replace(/✓ ?/g, "").replace(/✗ ?/g, "").replace(/≤ ?/g, "max ").replace(/≥ ?/g, "min ")) : null) as AnalysisResult | null;
   const eq = (s.equipment ?? {}) as Record<string, unknown> & { specs?: Record<string, number | null> };
   const f = (s.findings ?? {}) as Findings;
   const hyps = r?.rules?.hypotheses ?? [];
@@ -178,6 +179,37 @@ export async function renderHvacReportPdf(sessionId: string): Promise<Buffer | n
             {r.charge.map((ch) => (
               <Text key={ch.circuit} style={{ marginTop: 3 }}>Charge check{circuits > 1 ? ` (circuit ${ch.circuit})` : ""}: {ch.reason}</Text>
             ))}
+          </>
+        )}
+
+        {r?.matrix && r.matrix.parameters.some((p) => p.value != null) && (
+          <>
+            <Text style={st.h}>Diagnostic matrix</Text>
+            <Text style={[st.small, { marginBottom: 3 }]}>LOW / NORMAL / HIGH only against the manufacturer data recorded for this unit or an approved company rule; "No reference" when no verified reference was available.</Text>
+            <View style={st.th}><Text style={{ width: "34%", paddingLeft: 4 }}>Parameter</Text><Text style={{ width: "16%" }}>Measured</Text><Text style={{ width: "22%" }}>Expected</Text><Text style={{ width: "13%" }}>Status</Text><Text style={{ width: "15%" }}>Basis</Text></View>
+            {r.matrix.parameters.filter((p) => p.value != null).map((p) => (
+              <View key={`${p.key}${p.circuit ?? ""}`} style={st.tr} wrap={false}>
+                <Text style={{ width: "34%", paddingLeft: 4 }}>{p.label}{p.circuit && circuits > 1 ? ` (C${p.circuit})` : ""}</Text>
+                <Text style={{ width: "16%" }}>{p.value} {p.unit}</Text>
+                <Text style={{ width: "22%", color: C.gray }}>{p.expected ?? "-"}</Text>
+                <Text style={{ width: "13%", fontWeight: 700, color: p.status === "HIGH" ? C.red : p.status === "LOW" ? "#0369a1" : p.status === "NORMAL" ? C.green : p.status === "INVALID" ? C.amber : C.gray }}>{p.status === "NO_REFERENCE" ? "No reference" : p.status}</Text>
+                <Text style={{ width: "15%", color: C.gray, fontSize: 6.5 }}>{p.basis ?? ""}</Text>
+              </View>
+            ))}
+            {r.matrix.shsc.map((x) => {
+              const cell = x.cell ? SHSC_CELL[x.cell] : null;
+              return (
+                <View key={x.circuit} style={[st.box, { marginTop: 5 }]} wrap={false}>
+                  <Text style={{ fontWeight: 700 }}>Superheat & subcooling matrix{circuits > 1 ? ` (circuit ${x.circuit})` : ""}: {cell ? `SH ${x.sh} + SC ${x.sc}` : "not classified"}</Text>
+                  {!cell && <Text style={st.small}>{x.reason}</Text>}
+                  {cell && <Text>Typical suction: {cell.suction}; high side: {cell.head}.</Text>}
+                  {cell && cell.likely.length > 0 && <Text>Likely fault categories: {cell.likely.map((l) => l.label).join("; ")}.</Text>}
+                  {cell && <Text>Confirmation tests: {cell.tests.join("; ")}.</Text>}
+                  <Text style={st.small}>General pattern for fixed-speed equipment, read against the manufacturer targets; never a diagnosis by itself.</Text>
+                </View>
+              );
+            })}
+            {r.matrix.correlations.map((x, i) => <Text key={i} style={{ marginTop: 2 }}>• {x}</Text>)}
           </>
         )}
 

@@ -60,6 +60,11 @@ export function buildContext(c: Ctx) {
     nextMeasurements: r.rules.nextMeasurements.map((n) => ({ key: n.key, label: FIELD_BY_KEY[n.key]?.label ?? n.key, reason: n.reason })),
     stillRequired: r.missing.map((m) => ({ key: m.key, label: m.label })),
     engineSummary: r.rules.summary,
+    diagnosticMatrix: r.matrix ? {
+      parameters: r.matrix.parameters.filter((p) => p.value != null).map((p) => ({ label: p.label, circuit: p.circuit ?? null, value: p.value, unit: p.unit, expected: p.expected, status: p.status, basis: p.basis })),
+      superheatSubcooling: r.matrix.shsc,
+      airflowCorrelation: r.matrix.correlations,
+    } : null,
     manufacturerReference: c.manufacturerReference,
     technicianNotes: c.technicianNotes,
   };

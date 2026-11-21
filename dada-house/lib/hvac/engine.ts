@@ -1,6 +1,7 @@
 import { FIELDS, FIELD_BY_KEY, SAFETY_CHECKS, buildCtx, isRequired, categoryInfo, type Ctx } from "./catalog";
 import { saturationF, refrigerantInfo, isA2L, PT_DATA_VERSION, OutOfRangeError, type RefrigerantInfo } from "./refrigerants";
 import { ATM_PSI, type Kind } from "./units";
+import { airState, pressureAtElevation, PSYCHRO_SOURCE, type AirState } from "./psychro";
 
 /**
  * HVAC Diagnostic Pro — Layer A (deterministic engine).
@@ -8,7 +9,7 @@ import { ATM_PSI, type Kind } from "./units";
  * the verified equipment specifications and the generated refrigerant tables. Nothing is estimated:
  * when data is missing the result says so.
  */
-export const ENGINE_VERSION = "hvac-engine 1.0.0";
+export const ENGINE_VERSION = "hvac-engine 1.1.0";
 
 export type Specs = {
   targetSuperheat?: number | null;   // °F — from the manufacturer charging chart at today's conditions
@@ -22,6 +23,19 @@ export type Specs = {
   manifoldMax?: number | null;
   inletMin?: number | null;
   inletMax?: number | null;
+  // Manufacturer charging chart / operating data at today's conditions (never generic values)
+  suctionTargetPsig?: number | null;   // expected suction pressure from the manufacturer chart
+  highTargetPsig?: number | null;      // expected liquid/high-side pressure from the manufacturer chart
+  pressureTolerancePsi?: number | null; // ± psi stated by the manufacturer chart
+  cfmTolerancePct?: number | null;     // ± % around ratedCfm
+  filterMaxDrop?: number | null;       // in. w.c. — filter manufacturer max / design drop
+  coilMaxDrop?: number | null;         // in. w.c. — coil manufacturer pressure drop at rated airflow (wet coil)
+  indoorWbMin?: number | null;         // °F — range covered by the charging chart / operating envelope
+  indoorWbMax?: number | null;
+  outdoorDbMin?: number | null;        // °F
+  outdoorDbMax?: number | null;
+  ofmFla?: number | null;              // A — outdoor fan motor FLA (nameplate)
+  blowerFla?: number | null;           // A — indoor blower motor FLA (nameplate)
 };
 
 export type EquipmentSpec = {
@@ -199,7 +213,55 @@ export function runEngine(input: EngineInput): EngineResult {
       if (dt < specs.tempRiseMin || dt > specs.tempRiseMax) alerts.push({ severity: "WARNING", code: "TEMP_RISE_OUT_OF_RANGE", message: `Temperature rise ${r1(dt)} °F is outside the nameplate range ${specs.tempRiseMin}–${specs.tempRiseMax} °F.`, action: "Check airflow and gas input (manifold pressure / clocking) per the manufacturer before changing anything." });
     }
     const cfm = v("airflow_cfm");
-    if (cfm != null && !heating) add({ key: "sensible_btuh", label: "Sensible capacity (measured airflow)", value: 1.08 * cfm * dt, kind: "plain", unit: "BTU/h", formula: `1.08 × ${cfm} CFM × ${r1(dt)} °F`, note: "Standard-air constant 1.08 (sea level); no altitude/density correction applied." });
+    if (cfm != null && !heating) add({ key: "sensible_btuh", label: "Sensible capacity (measured airflow)", value: 1.08 * cfm * dt, kind: "plain", unit: "BTU/h", formula: `1.08 × ${cfm} CFM × ${r1(dt)} °F`, note: "Standard-air constant 1.08 (0.075 lb/ft³); see the density-corrected value when psychrometric data is entered." });
+  }
+
+  // ── Psychrometrics (return / supply) ──
+  const elev = v("elevation_ft");
+  const pAtm = elev != null ? pressureAtElevation(elev) : ATM_PSI;
+  if (elev != null) add({ key: "barometric_psia", label: "Barometric pressure (standard atmosphere)", value: pAtm, kind: "plain", unit: "psia", formula: `14.696 × (1 − 6.8754e-6 × ${elev} ft)^5.2559 (ASHRAE)` });
+  const airs: Record<"return" | "supply", AirState | null> = { return: null, supply: null };
+  for (const side of ["return", "supply"] as const) {
+    const db = v(`${side}_db_f`); if (db == null) continue;
+    const wb = v(`${side}_wb_f`), rh = v(`${side}_rh_pct`);
+    if (wb == null && rh == null) continue;
+    const label = side === "return" ? "Return" : "Supply";
+    const res = airState({ db, wb, rh, p: pAtm });
+    if (res.error) { alerts.push({ severity: "WARNING", code: `PSYCHRO_${side.toUpperCase()}_${res.error.code}`, message: `${label} air: ${res.error.message}` }); continue; }
+    const st = res.state!; airs[side] = st;
+    const basis = res.from === "WB" ? `${db} °F DB / ${wb} °F WB` : `${db} °F DB / ${rh} % RH`;
+    const src = `${basis}, ${r1(pAtm * 100) / 100} psia — ${PSYCHRO_SOURCE}`;
+    if (res.from === "RH") add({ key: `${side}_wb_calc_f`, label: `${label} wet-bulb (calculated)`, value: st.wb, kind: "temp", unit: "°F", formula: src });
+    else add({ key: `${side}_rh_calc_pct`, label: `${label} relative humidity`, value: st.rh, kind: "plain", unit: "%", formula: src });
+    add({ key: `${side}_dp_f`, label: `${label} dew point`, value: st.dewPoint, kind: "temp", unit: "°F", formula: src });
+    add({ key: `${side}_w_gr`, label: `${label} humidity ratio`, value: st.grains, kind: "plain", unit: "gr/lb", formula: src });
+    add({ key: `${side}_h_btulb`, label: `${label} enthalpy`, value: st.h, kind: "plain", unit: "BTU/lb", formula: `0.240 × DB + W × (1061 + 0.444 × DB); ${src}` });
+    if (wb != null && rh != null) {
+      const diff = Math.abs(st.rh - rh);
+      if (diff > 5) alerts.push({ severity: "WARNING", code: `PSYCHRO_${side.toUpperCase()}_INCONSISTENT`, message: `${label} air: RH entered ${rh} % but the wet-bulb gives ${r1(st.rh)} % — the readings disagree by more than 5 points; check the instruments (wet wick, probe placement, sensor calibration).` });
+    }
+  }
+  if (airs.return && airs.supply && cooling) {
+    const R = airs.return, S = airs.supply;
+    if (S.w > R.w + 0.0003) alerts.push({ severity: "WARNING", code: "SUPPLY_MOISTER_THAN_RETURN", message: `Supply air holds more moisture (${r1(S.grains)} gr/lb) than return (${r1(R.grains)} gr/lb) in cooling — not possible across a cooling coil; check the wet-bulb/RH readings and probe locations.` });
+    const dh = R.h - S.h;
+    add({ key: "delta_h_btulb", label: "Enthalpy difference (return − supply)", value: dh, kind: "plain", unit: "BTU/lb", formula: `${r1(R.h * 100) / 100} − ${r1(S.h * 100) / 100} BTU/lb` });
+    const cfm = v("airflow_cfm");
+    if (cfm != null && returnDb != null && supplyDb != null) {
+      const total = 4.5 * cfm * dh;
+      add({ key: "total_btuh", label: "Total cooling capacity (measured airflow)", value: total, kind: "plain", unit: "BTU/h", formula: `4.5 × ${cfm} CFM × ${r1(dh * 100) / 100} BTU/lb`, note: "Standard-air constant 4.5 (= 60 × 0.075 lb/ft³)." });
+      const mass = (60 * cfm) / R.v; // lb dry air / h, airflow measured at return conditions
+      const totalC = mass * dh;
+      const sensC = mass * (0.24 + 0.444 * R.w) * (returnDb - supplyDb);
+      add({ key: "total_btuh_corr", label: "Total cooling capacity (density-corrected)", value: totalC, kind: "plain", unit: "BTU/h", formula: `60 × ${cfm} CFM ÷ ${r1(R.v * 1000) / 1000} ft³/lb × ${r1(dh * 100) / 100} BTU/lb`, note: "Air mass flow from the return-air specific volume at the site pressure; assumes the CFM was measured at return conditions." });
+      add({ key: "sensible_btuh_corr", label: "Sensible capacity (density-corrected)", value: sensC, kind: "plain", unit: "BTU/h", formula: `60 × ${cfm} ÷ ${r1(R.v * 1000) / 1000} × (0.240 + 0.444 × W) × ${r1(returnDb - supplyDb)} °F` });
+      if (totalC > 0) {
+        add({ key: "latent_btuh", label: "Latent capacity", value: Math.max(0, totalC - sensC), kind: "plain", unit: "BTU/h", formula: "total − sensible (density-corrected)" });
+        add({ key: "shr", label: "Sensible heat ratio", value: Math.min(1, sensC / totalC), kind: "plain", unit: "", formula: "sensible ÷ total (density-corrected)", note: "Compare with the manufacturer's expanded performance data at the same conditions." });
+      }
+      const tons = eq.capacityTons;
+      if (tons && totalC > 0) add({ key: "capacity_pct_nominal", label: "Measured capacity vs nominal", value: (totalC / (tons * 12000)) * 100, kind: "plain", unit: "%", formula: `${Math.round(totalC)} ÷ (${tons} tons × 12,000) × 100`, note: "Nominal tons are rated at AHRI conditions — compare with the manufacturer's expanded data at today's conditions before judging." });
+    }
   }
   const rs = v("return_static_inwc"), ss = v("supply_static_inwc"), tesp = v("tesp_inwc");
   if (rs != null && ss != null) add({ key: "tesp_calc_inwc", label: "Total external static (calculated)", value: Math.abs(rs) + ss, kind: "static", unit: "in. w.c.", formula: `|${rs}| + ${ss} in. w.c.` });

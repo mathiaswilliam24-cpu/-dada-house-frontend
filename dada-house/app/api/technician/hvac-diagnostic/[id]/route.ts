@@ -70,6 +70,7 @@ const s = (max = 200) => z.string().trim().max(max).nullable().optional();
 const specsSchema = z.object({
   targetSuperheat: n, targetSubcooling: n, chargeTolerance: n, tempRiseMin: n, tempRiseMax: n, maxTesp: n, ratedCfm: n,
   manifoldMin: n, manifoldMax: n, inletMin: n, inletMax: n,
+  suctionTargetPsig: n, highTargetPsig: n, pressureTolerancePsi: n, cfmTolerancePct: n, filterMaxDrop: n, coilMaxDrop: n, indoorWbMin: n, indoorWbMax: n, outdoorDbMin: n, outdoorDbMax: n, ofmFla: n, blowerFla: n,
 }).partial();
 const equipmentSchema = z.object({
   category: z.enum(Object.keys(EQUIPMENT_CATEGORIES) as [string, ...string[]]).nullable().optional(),

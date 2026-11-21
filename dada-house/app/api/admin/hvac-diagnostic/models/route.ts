@@ -19,6 +19,7 @@ const n = z.number().finite().nullable().optional();
 const specs = z.object({
   targetSubcooling: n, targetSuperheat: n, chargeTolerance: n, tempRiseMin: n, tempRiseMax: n, maxTesp: n, ratedCfm: n,
   manifoldMin: n, manifoldMax: n, inletMin: n, inletMax: n,
+  suctionTargetPsig: n, highTargetPsig: n, pressureTolerancePsi: n, cfmTolerancePct: n, filterMaxDrop: n, coilMaxDrop: n, indoorWbMin: n, indoorWbMax: n, outdoorDbMin: n, outdoorDbMax: n, ofmFla: n, blowerFla: n,
 }).partial();
 const schema = z.discriminatedUnion("action", [
   z.object({

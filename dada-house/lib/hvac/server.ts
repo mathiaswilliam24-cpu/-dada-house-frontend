@@ -1,11 +1,12 @@
 import { db } from "@/lib/db";
 import type { Prisma } from "@/lib/generated/prisma/client";
 import { runEngine, type EquipmentSpec, type EngineResult } from "./engine";
-import { runRules, type RulesResult, type Decision } from "./rules";
+import { runRules, resolveFieldRules, type RulesResult, type Decision } from "./rules";
+import { buildMatrix, type MatrixResult } from "./matrix";
 
 import { activeFieldRules } from "./admin-data";
 
-export type AnalysisResult = EngineResult & { rules: RulesResult; fieldRulesVersion: number };
+export type AnalysisResult = EngineResult & { rules: RulesResult; fieldRulesVersion: number; matrix?: MatrixResult };
 import { categoryInfo } from "./catalog";
 
 export const HVAC_ADMIN_ROLES = ["ADMIN", "SUPER_ADMIN"];
@@ -44,7 +45,8 @@ export async function analyze(session: LoadedSession): Promise<AnalysisResult> {
   const engine = runEngine({ equipment, mode: session.mode, complaint: session.complaint, circuits: session.circuits, measurements, safety });
   const fr = await activeFieldRules();
   const rules = runRules({ engine, equipment, mode: session.mode, complaint: session.complaint, safety, measurements, decisions: (session.decisions ?? {}) as Record<string, Decision>, fieldRules: fr.values });
-  const result: AnalysisResult = { ...engine, rules, fieldRulesVersion: fr.version };
+  const matrix = buildMatrix({ engine, equipment, mode: session.mode, circuits: session.circuits, measurements, fieldRules: resolveFieldRules(fr.values) });
+  const result: AnalysisResult = { ...engine, rules, fieldRulesVersion: fr.version, matrix };
   await db.hvacDiagnosticSession.update({
     where: { id: session.id },
     data: { results: result as unknown as Prisma.InputJsonValue, engineVersion: engine.engineVersion, ptDataVersion: engine.ptDataVersion, rulesetVersion: rules.rulesetVersion },

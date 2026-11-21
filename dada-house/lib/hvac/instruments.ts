@@ -63,9 +63,9 @@ export const INSTRUMENTS: Record<InstrumentId, Instrument> = {
     promptNote: "Single temperature reading for the requested key. Report the unit displayed (°F or °C).",
   },
   PSYCHROMETER: {
-    label: "Psychrometer (dry-bulb + wet-bulb)", hint: "Choose return or supply, then photograph the display showing DB and WB.", pick: "pair",
-    options: [opt(["return_db_f", "return_wb_f"], "Return air (DB + WB)"), opt(["supply_db_f", "supply_wb_f"], "Supply air (DB + WB)")],
-    promptNote: "Psychrometer. Dry-bulb (DB, T, temp) → the *_db_f key, wet-bulb (WB) → the *_wb_f key. Ignore dew point, enthalpy and RH unless no WB is shown (then report nothing for WB).",
+    label: "Psychrometer / hygrometer", hint: "Choose return or supply, then photograph the display showing DB with WB and/or RH.", pick: "pair",
+    options: [opt(["return_db_f", "return_wb_f", "return_rh_pct"], "Return air"), opt(["supply_db_f", "supply_wb_f", "supply_rh_pct"], "Supply air")],
+    promptNote: "Psychrometer / hygrometer. Dry-bulb (DB, T, temp) → the *_db_f key, wet-bulb (WB) → the *_wb_f key, relative humidity (RH, %) → the *_rh_pct key. Report only what the display shows; ignore dew point and enthalpy (they are calculated).",
   },
   MANOMETER: {
     label: "Manometer (static / gas pressure)", hint: "Choose what is measured, then photograph the display.", pick: "one",

@@ -331,7 +331,7 @@ test("video frames: drifting readings are flagged as not stabilized", () => {
 test("instrument targeting: the technician's choice limits what the AI may report", () => {
   assert.deepEqual(targetKeys("CLAMP_METER", ["comp_amps"]), ["comp_amps"]);
   assert.deepEqual(targetKeys("CLAMP_METER", []), []);
-  assert.deepEqual(targetKeys("PSYCHROMETER", ["supply_db_f+supply_wb_f"]), ["supply_db_f", "supply_wb_f"]);
+  assert.deepEqual(targetKeys("PSYCHROMETER", ["supply_db_f+supply_wb_f+supply_rh_pct"]), ["supply_db_f", "supply_wb_f", "supply_rh_pct"]);
   assert.ok(targetKeys("DIGITAL_MANIFOLD", null).includes("liquid_line_f"));
   assert.deepEqual(instrumentFor("tesp_inwc"), { instrument: "MANOMETER", option: "tesp_inwc" });
   assert.equal(instrumentFor("filter_condition"), null);
@@ -343,4 +343,120 @@ test("assistant guard drops A2L precautions on a non-A2L refrigerant", () => {
   assert.deepEqual(output.cautions, ["Wear safety glasses."]);
   const a2l = { ...actx, equipment: { refrigerant: "R-454B", refrigerantIsA2L: true } } as unknown as AssistantContext;
   assert.equal(guardOutput({ cautions: ["A2L refrigerants require A2L-rated tools."] }, a2l).output.cautions.length, 1);
+});
+
+// ── Phase 6: psychrometrics, diagnostic matrix, new fault scenarios ──
+import { pws, airState, pressureAtElevation } from "../psychro";
+import { buildMatrix } from "../matrix";
+import { DEFAULT_FIELD_RULES } from "../rules";
+
+// Reference values: ASHRAE Handbook—Fundamentals ch.1 tables (saturation pressure, standard atmosphere)
+// and the ASHRAE psychrometric chart state at the AHRI 80 °F DB / 67 °F WB rating point.
+test("saturation pressure of water matches the ASHRAE table", () => {
+  near(pws(32), 0.08865, 0.0001);
+  near(pws(70), 0.36334, 0.0005);
+  near(pws(100), 0.95052, 0.002);
+});
+test("standard atmosphere vs elevation", () => {
+  near(pressureAtElevation(0), 14.696, 0.001);
+  near(pressureAtElevation(5000), 12.231, 0.01);
+});
+test("80 °F DB / 67 °F WB at sea level", () => {
+  const s = airState({ db: 80, wb: 67, p: 14.696 }).state!;
+  near(s.rh, 51.1, 1);
+  near(s.dewPoint, 60.3, 0.5);
+  near(s.grains, 78, 1.5);
+  near(s.h, 31.5, 0.3);
+});
+test("DB + RH gives back the same wet bulb (round trip)", () => {
+  const a = airState({ db: 75, wb: 62, p: 14.696 }).state!;
+  const b = airState({ db: 75, rh: a.rh, p: 14.696 }).state!;
+  near(b.wb, 62, 0.05);
+});
+test("impossible psychrometric inputs are rejected", () => {
+  assert.equal(airState({ db: 70, wb: 72, p: 14.696 }).error?.code, "WB_ABOVE_DB");
+  assert.equal(airState({ db: 70, rh: 120, p: 14.696 }).error?.code, "RH_OUT_OF_RANGE");
+});
+
+const air = { return_db_f: 80, return_wb_f: 67, supply_db_f: 60, supply_wb_f: 57, airflow_cfm: 1200 };
+test("delta T, sensible (1.08) and total (4.5 × CFM × Δh) capacity", () => {
+  const r = runEngine(base({}, air));
+  const v = (k: string) => r.calculated.find((c) => c.key === k)!.value;
+  assert.equal(v("air_dt_f"), 20);
+  near(v("sensible_btuh"), 1.08 * 1200 * 20, 1);
+  const dh = v("delta_h_btulb");
+  near(v("total_btuh"), 4.5 * 1200 * dh, 200); // dh is rounded to 0.1 in the output
+  assert.ok(v("shr") > 0 && v("shr") <= 1);
+});
+test("supply moister than return in cooling is flagged", () => {
+  const r = runEngine(base({}, { return_db_f: 78, return_wb_f: 60, supply_db_f: 58, supply_wb_f: 57.5 }));
+  assert.ok(r.alerts.some((a) => a.code === "SUPPLY_MOISTER_THAN_RETURN"));
+});
+test("RH disagreeing with wet bulb is flagged", () => {
+  const r = runEngine(base({}, { return_db_f: 80, return_wb_f: 67, return_rh_pct: 70 }));
+  assert.ok(r.alerts.some((a) => a.code === "PSYCHRO_RETURN_INCONSISTENT"));
+});
+
+const matrixFor = (input: EngineInput) => buildMatrix({ engine: runEngine(input), equipment: input.equipment, mode: input.mode, circuits: input.circuits, measurements: input.measurements, fieldRules: DEFAULT_FIELD_RULES });
+const row = (m: ReturnType<typeof matrixFor>, k: string) => m.parameters.find((p) => p.key === k);
+const lowCharge = { suction_psig: 100, high_psig: 300, suction_line_f: 55, liquid_line_f: 94, outdoor_ambient_f: 90 };
+
+test("matrix: no manufacturer data → no LOW/NORMAL/HIGH (no universal ranges)", () => {
+  const m = matrixFor(base({ equipment: { category: "STRAIGHT_AC", refrigerant: "R-410A", meteringDevice: "TXV", phase: 1 } }, { ...lowCharge, tesp_inwc: 0.9 }));
+  for (const k of ["suction_psig", "high_psig", "superheat_f", "subcooling_f", "tesp_inwc"]) assert.equal(row(m, k)!.status, "NO_REFERENCE", k);
+  assert.equal(m.shsc[0].cell, null);
+});
+test("matrix: classified against manufacturer targets; SH/SC cell for undercharge", () => {
+  const m = matrixFor(base({ equipment: tgt }, lowCharge));
+  assert.equal(row(m, "superheat_f")!.status, "HIGH");
+  assert.equal(row(m, "subcooling_f")!.status, "LOW");
+  assert.equal(m.shsc[0].cell, "HIGH_LOW");
+});
+test("matrix: chart pressure targets and the chart's condition range", () => {
+  const eq = { ...tgt, specs: { ...tgt.specs, suctionTargetPsig: 125, highTargetPsig: 320, pressureTolerancePsi: 8, indoorWbMin: 57, indoorWbMax: 72 } };
+  const m = matrixFor(base({ equipment: eq }, { ...lowCharge, return_db_f: 76, return_wb_f: 63 }));
+  assert.equal(row(m, "suction_psig")!.status, "LOW");
+  assert.equal(row(m, "high_psig")!.status, "LOW");
+  const out = matrixFor(base({ equipment: eq }, { ...lowCharge, return_db_f: 76, return_wb_f: 52 }));
+  assert.equal(row(out, "suction_psig")!.status, "NO_REFERENCE");
+  assert.ok(out.correlations.some((c) => c.includes("outside the manufacturer charging chart")));
+});
+test("matrix: impossible reading is INVALID, not classified", () => {
+  const m = matrixFor(base({ equipment: tgt }, { return_db_f: 70, return_wb_f: 75 }));
+  assert.equal(row(m, "return_wb_f")!.status, "INVALID");
+});
+test("refrigeration + airflow correlation: high static → fix airflow before charge", () => {
+  const eq = { ...tgt, specs: { ...tgt.specs, maxTesp: 0.5 } };
+  const m = matrixFor(base({ equipment: eq }, { ...lowCharge, tesp_inwc: 0.95 }));
+  assert.equal(row(m, "tesp_inwc")!.status, "HIGH");
+  assert.ok(m.correlations[0].includes("correct the airflow first"));
+});
+test("matrix: inverter equipment gets no fixed-speed SH/SC cell", () => {
+  const m = matrixFor(base({ equipment: { ...tgt, category: "MINI_SPLIT", compressorType: "INVERTER_ROTARY" } }, lowCharge));
+  assert.ok(m.shsc.every((x) => x.cell == null));
+});
+
+test("TXV overfeeding: low SH, normal SC and a loose bulb", () => {
+  const r = rulesFor(base({ equipment: tgt }, { suction_psig: 135, high_psig: 330, suction_line_f: 50, liquid_line_f: 90, txv_bulb_condition: "LOOSE" }));
+  const h = r.hypotheses.find((x) => x.id === "TXV_OVERFEED")!;
+  assert.ok(h && h.support.length >= 3);
+  assert.notEqual(r.hypotheses.find((x) => x.id === "OVERCHARGE")?.status, "STRONGLY_SUSPECTED");
+});
+test("dirty filter needs inspection and/or a filter-drop reference", () => {
+  const eq = { ...tgt, specs: { ...tgt.specs, filterMaxDrop: 0.15 } };
+  const r = rulesFor(base({ equipment: eq }, { filter_condition: "DIRTY", filter_drop_inwc: 0.4 }));
+  assert.equal(r.hypotheses.find((x) => x.id === "DIRTY_FILTER")!.status, "STRONGLY_SUSPECTED");
+  const clean = rulesFor(base({ equipment: eq }, { filter_condition: "CLEAN", filter_drop_inwc: 0.08 }));
+  assert.ok(!clean.hypotheses.some((x) => x.id === "DIRTY_FILTER"));
+});
+test("blower speed: airflow off target with normal static and clean filter/coil", () => {
+  const eq = { ...tgt, specs: { ...tgt.specs, ratedCfm: 1200, cfmTolerancePct: 10, maxTesp: 0.5 } };
+  const r = rulesFor(base({ equipment: eq }, { airflow_cfm: 900, tesp_inwc: 0.4, filter_condition: "CLEAN", evap_coil_condition: "CLEAN", blower_setting: "LOW" }));
+  const h = r.hypotheses.find((x) => x.id === "BLOWER_SPEED")!;
+  assert.equal(h.contradict.length, 0);
+  assert.ok(h.support.length >= 2);
+});
+test("wrong refrigerant selection is raised as a hypothesis", () => {
+  const r = rulesFor(base({}, { suction_psig: 40, high_psig: 120, outdoor_ambient_f: 95, return_db_f: 75 }));
+  assert.ok(r.hypotheses.some((x) => x.id === "REFRIGERANT_MISID"));
 });

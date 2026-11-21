@@ -14,6 +14,7 @@ import type { CalcValue } from "@/lib/hvac/engine";
 import type { AnalysisResult } from "@/lib/hvac/server";
 import { FAULT_CATALOG, type Hypothesis } from "@/lib/hvac/rules";
 import ScanPanel, { type ScanPreset } from "./scan-panel";
+import MatrixPanel from "./matrix-panel";
 import { INSTRUMENTS, instrumentFor } from "@/lib/hvac/instruments";
 
 type Prefs = { temp: TempUnit; pressure: PressureUnit; static: StaticUnit };
@@ -61,6 +62,18 @@ const SPEC_FIELDS: { key: string; label: string; kind: Kind; unit?: string; hint
   { key: "manifoldMax", label: "Manifold gas pressure max", kind: "plain", unit: "in. w.c." },
   { key: "inletMin", label: "Inlet gas pressure min", kind: "plain", unit: "in. w.c." },
   { key: "inletMax", label: "Inlet gas pressure max", kind: "plain", unit: "in. w.c." },
+  { key: "suctionTargetPsig", label: "Chart suction pressure (today's conditions)", kind: "pressure", hint: "From the manufacturer charging chart at today's indoor WB / outdoor DB — never a generic value" },
+  { key: "highTargetPsig", label: "Chart liquid / high-side pressure (today's conditions)", kind: "pressure" },
+  { key: "pressureTolerancePsi", label: "Chart pressure tolerance ±", kind: "plain", unit: "psi" },
+  { key: "indoorWbMin", label: "Chart indoor wet-bulb min", kind: "temp", hint: "Range the charging chart covers — outside it the chart is not used" },
+  { key: "indoorWbMax", label: "Chart indoor wet-bulb max", kind: "temp" },
+  { key: "outdoorDbMin", label: "Chart outdoor temperature min", kind: "temp" },
+  { key: "outdoorDbMax", label: "Chart outdoor temperature max", kind: "temp" },
+  { key: "cfmTolerancePct", label: "Airflow tolerance ± (manufacturer)", kind: "plain", unit: "%" },
+  { key: "filterMaxDrop", label: "Filter max pressure drop (filter data)", kind: "static" },
+  { key: "coilMaxDrop", label: "Coil pressure drop at rated airflow", kind: "static" },
+  { key: "ofmFla", label: "Outdoor fan motor FLA", kind: "plain", unit: "A" },
+  { key: "blowerFla", label: "Blower motor FLA", kind: "plain", unit: "A" },
 ];
 const NUM_EQ: { key: string; label: string; unit?: string }[] = [
   { key: "capacityTons", label: "Nominal capacity", unit: "tons" }, { key: "minVoltage", label: "Min volts (nameplate)", unit: "V" },
@@ -774,6 +787,8 @@ export default function DiagnosticWizard({ id }: { id: string }) {
               </table>
             </div>
           )}
+
+          {results.matrix && <MatrixPanel matrix={results.matrix} circuits={circuits} theme={c} dark={dark} />}
 
           <div className={`rounded-xl border overflow-hidden ${c.card}`}>
             <p className="px-3 py-2 font-bold text-sm">Calculated values</p>

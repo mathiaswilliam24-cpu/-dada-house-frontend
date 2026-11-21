@@ -21,6 +21,7 @@ type Model = { id: string; manufacturer: string; modelPrefix: string; descriptio
 const SPEC_KEYS: [string, string][] = [
   ["targetSubcooling", "Target subcooling °F"], ["targetSuperheat", "Target superheat °F"], ["chargeTolerance", "Charge tolerance ±°F"],
   ["tempRiseMin", "Temp rise min °F"], ["tempRiseMax", "Temp rise max °F"], ["maxTesp", "Max ext. static in.wc"], ["ratedCfm", "Rated airflow CFM"],
+  ["suctionTargetPsig", "Chart suction psig"], ["highTargetPsig", "Chart high-side psig"], ["pressureTolerancePsi", "Chart pressure tol ±psi"], ["indoorWbMin", "Chart indoor WB min °F"], ["indoorWbMax", "Chart indoor WB max °F"], ["outdoorDbMin", "Chart outdoor min °F"], ["outdoorDbMax", "Chart outdoor max °F"], ["cfmTolerancePct", "Airflow tol ±%"], ["filterMaxDrop", "Filter max drop in.wc"], ["coilMaxDrop", "Coil drop in.wc"], ["ofmFla", "OFM FLA A"], ["blowerFla", "Blower FLA A"],
   ["manifoldMin", "Manifold min in.wc"], ["manifoldMax", "Manifold max in.wc"], ["inletMin", "Inlet min in.wc"], ["inletMax", "Inlet max in.wc"],
 ];
 const date = (d: string) => new Date(d).toLocaleDateString("en-US", { timeZone: "America/New_York", month: "short", day: "numeric", year: "numeric" });
