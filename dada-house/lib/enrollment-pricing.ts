@@ -9,7 +9,7 @@ export const PRICING = {
     additional: 159,    // each additional system at SAME address
   },
   monthly: {
-    base: 17,           // first system at an address (12-month commitment)
+    base: 19,           // first system at an address (12-month commitment)
     additional: 16.78,  // each additional system at same address
   },
 } as const;

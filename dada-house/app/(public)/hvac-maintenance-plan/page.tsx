@@ -97,7 +97,7 @@ export default async function HvacMaintenancePlanPage() {
   });
 
   const baseAnnual  = activePlan?.annualPrice  ?? 199;
-  const baseMonthly = activePlan?.monthlyPrice ?? 17;
+  const baseMonthly = activePlan?.monthlyPrice ?? 19;
   const addlAnnual  = Math.round(baseAnnual  * 0.8);
   const addlMonthly = +(baseMonthly * 0.8).toFixed(2);
 
