@@ -26,7 +26,8 @@ function whatsappConfigured() {
 export async function sendWhatsApp(to: string, body: string, mediaUrls?: string[]) {
   const digits = to.replace(/\D/g, "");
   const number = digits.length === 10 ? `+1${digits}` : `+${digits}`;
-  const text = mediaUrls?.length ? `${body}\n\n${mediaUrls.join("\n")}` : body;
+  const extra = (mediaUrls ?? []).filter((u) => !body.includes(u));
+  const text = extra.length ? `${body}\n\n${extra.join("\n")}` : body;
   const res = await fetch(`${process.env.WADADA_API_URL!.replace(/\/$/, "")}/api/send-message`, {
     method: "POST",
     headers: { Authorization: `Bearer ${process.env.WADADA_API_KEY}`, "Content-Type": "application/json" },

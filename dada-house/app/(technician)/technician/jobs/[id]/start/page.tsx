@@ -11,6 +11,7 @@ import { TECH_STATUS_LABEL, TECH_STATUS_COLOR } from "@/lib/tech-status";
 import ElapsedTimer from "@/components/technician/elapsed-timer";
 import { setActiveJobStatus } from "@/components/technician/location-tracker";
 import { CallButton, MessageButton } from "@/components/technician/call-sms-actions";
+import NoShowButton from "@/components/technician/no-show-button";
 
 type Job = {
   id: string; appointmentNumber: string; service: string;
@@ -168,7 +169,12 @@ export default function StartJobPage() {
           >
             I've Arrived
           </button>
+          <NoShowButton jobId={id} onDone={() => { setActiveJobStatus("NEED_RESCHEDULE"); load(); }} />
         </div>
+      )}
+
+      {status === "ARRIVED" && (
+        <NoShowButton jobId={id} onDone={() => { setActiveJobStatus("NEED_RESCHEDULE"); load(); }} />
       )}
 
       {WORKING_STATUSES.has(status ?? "") && (

@@ -8,6 +8,7 @@ import {
   StickyNote, MessageSquare, Star, Loader2, Send, Play, Pause, Hash, CalendarClock, Gauge } from "lucide-react";
 import { formatDate } from "@/lib/utils";
 import { CallButton, MessageButton } from "@/components/technician/call-sms-actions";
+import NoShowButton from "@/components/technician/no-show-button";
 
 const ALL_STATUSES = [
   "ASSIGNED", "ACCEPTED", "EN_ROUTE", "ARRIVED", "DIAGNOSING",
@@ -380,6 +381,11 @@ export default function TechJobDetailPage() {
             </button>
           ))}
         </div>
+        {!["COMPLETED", "CANCELED", "NEED_RESCHEDULE"].includes(job.techStatus ?? "") && (
+          <div className="mt-2">
+            <NoShowButton jobId={id} onDone={load} />
+          </div>
+        )}
         {job.techStatus && (
           <div className={`mt-3 text-xs px-3 py-1.5 rounded-lg text-center font-semibold ${STATUS_COLOR[job.techStatus]}`}>
             Current: {STATUS_LABEL[job.techStatus] ?? job.techStatus}

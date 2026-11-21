@@ -83,6 +83,16 @@ export const TEMPLATE_DEFS = {
       es: "DADA HOUSE: Hola {name}, su cita #{number} necesita reprogramarse. Nos comunicaremos con usted pronto para fijar un nuevo horario.",
     },
   },
+  NO_ONE_HOME: {
+    label: "Technician came, no one was home",
+    when: "The technician taps “No one on site” and sends photos as proof of the visit.",
+    vars: ["name", "number", "tech", "link"],
+    text: {
+      en: "DADA HOUSE: Hi {name}, {tech} came for your appointment #{number} but no one was there. Photos of the visit: {link}. Please call {phone} to reschedule.",
+      fr: "DADA HOUSE : Bonjour {name}, {tech} est passé pour votre rendez-vous n°{number} mais personne n'était présent. Photos du passage : {link}. Appelez le {phone} pour reprogrammer.",
+      es: "DADA HOUSE: Hola {name}, {tech} llegó para su cita #{number} pero no había nadie. Fotos de la visita: {link}. Llame al {phone} para reprogramar.",
+    },
+  },
   MAINTENANCE_DUE: {
     label: "Maintenance tune-up due",
     when: "Sent from Maintenance Visits to invite a member to book their included tune-up.",
