@@ -98,6 +98,10 @@ export async function sendOutboundSms(
 export async function sendMissedCallSms(fromNumber: string, customerId?: string | null) {
   const phone = normalizePhone(fromNumber);
   if (phone.replace(/\D/g, "").length < 10) return null; // anonymous / blocked caller ID
+  // Our own lines (a call transferred by the AI receptionist can show the business number as caller ID).
+  const last10 = (n: string) => n.replace(/\D/g, "").slice(-10);
+  const own = [process.env.TWILIO_PHONE_NUMBER, DEFAULT_BUSINESS_PHONE, process.env.DISPATCH_LINE_NUMBER || "+18326264398"].filter(Boolean).map((n) => last10(n!));
+  if (own.includes(last10(phone))) return null;
   const dnc = await db.doNotContact.findUnique({ where: { phoneNumber: phone } });
   if (dnc) return null;
   const sentRecently = await db.message.findFirst({
