@@ -38,6 +38,8 @@ export function CallButton({ jobId, className, children }: { jobId: string; clas
 
 /** Replaces plain `sms:` links — sends via the DADA HOUSE Twilio number (DNC-checked,
  *  thread-logged) instead of opening the technician's personal Messages app. */
+const QUICK = ["I’m on my way.", "I’m here, at your door.", "I’m running a few minutes late."];
+
 export function MessageButton({ jobId, className, children }: { jobId: string; className?: string; children: React.ReactNode }) {
   const [open, setOpen] = useState(false);
   const [text, setText] = useState("");
@@ -75,26 +77,33 @@ export function MessageButton({ jobId, className, children }: { jobId: string; c
         {children}
       </button>
       {open && (
-        <div className="mt-2 bg-white border border-gray-200 rounded-xl p-3 space-y-2 shadow-sm">
-          <textarea
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            rows={3}
-            placeholder="Type a message to the customer…"
-            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-[#1B3FA8]/20 focus:border-[#1B3FA8]"
-          />
-          {error && <p className="text-xs text-red-600">{error}</p>}
-          <div className="flex gap-2">
+        <div className="fixed inset-0 z-50 bg-black/50 flex items-end sm:items-center justify-center" onClick={() => !sending && setOpen(false)}>
+          <div className="bg-white w-full sm:max-w-md rounded-t-2xl sm:rounded-2xl p-4 space-y-3" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center justify-between">
+              <h2 className="text-lg font-bold text-gray-900">Message the customer</h2>
+              <button type="button" onClick={() => setOpen(false)} className="p-1 text-gray-500"><X className="w-6 h-6" /></button>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {QUICK.map((q) => (
+                <button key={q} type="button" onClick={() => setText(q)} className="px-3 py-2 bg-gray-100 text-gray-800 rounded-full text-sm font-medium">{q}</button>
+              ))}
+            </div>
+            <textarea
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+              rows={5}
+              autoFocus
+              placeholder="Type a message to the customer…"
+              className="w-full border border-gray-300 rounded-xl px-4 py-3 text-lg leading-relaxed text-gray-900 resize-none focus:outline-none focus:ring-2 focus:ring-[#1B3FA8]/20 focus:border-[#1B3FA8]"
+            />
+            {error && <p className="text-sm text-red-600">{error}</p>}
             <button
               type="button"
               onClick={send}
               disabled={sending || !text.trim()}
-              className="flex-1 flex items-center justify-center gap-1.5 py-2 bg-[#1B3FA8] text-white rounded-lg text-xs font-semibold disabled:opacity-50"
+              className="w-full flex items-center justify-center gap-2 py-4 bg-[#1B3FA8] text-white rounded-xl text-base font-bold disabled:opacity-50"
             >
-              {sending ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : sent ? "Sent!" : <><Send className="w-3.5 h-3.5" /> Send</>}
-            </button>
-            <button type="button" onClick={() => setOpen(false)} className="px-3 py-2 border border-gray-200 rounded-lg text-xs text-gray-500">
-              <X className="w-3.5 h-3.5" />
+              {sending ? <Loader2 className="w-5 h-5 animate-spin" /> : sent ? "Sent!" : <><Send className="w-5 h-5" /> Send</>}
             </button>
           </div>
         </div>
