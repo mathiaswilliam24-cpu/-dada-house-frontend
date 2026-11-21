@@ -10,11 +10,8 @@ const STOP_KEYWORDS = ["STOP", "STOPALL", "UNSUBSCRIBE", "CANCEL", "END", "QUIT"
 const START_KEYWORDS = ["START", "YES", "UNSTOP"];
 const HELP_KEYWORDS = ["HELP", "INFO"];
 
-const MISSED_CALL_MESSAGES: Record<"en" | "fr" | "es", (phone: string) => string> = {
-  en: (p) => `Hi, this is DADA HOUSE. Sorry we missed your call! Reply to this text to tell us about your service need or concern, and our team will get back to you. You can also call us back anytime at ${p}.`,
-  fr: (p) => `Bonjour, ici DADA HOUSE. Désolés d'avoir manqué votre appel ! Répondez à ce message pour nous décrire votre besoin de service ou votre préoccupation, et notre équipe vous recontactera. Vous pouvez aussi nous rappeler à tout moment au ${p}.`,
-  es: (p) => `Hola, le saluda DADA HOUSE. ¡Lamentamos no haber contestado su llamada! Responda a este mensaje para contarnos qué servicio necesita o cuál es su inquietud, y nuestro equipo le contactará. También puede llamarnos en cualquier momento al ${p}.`,
-};
+const missedCallMessage = (phone: string) =>
+  `Hi, this is DADA HOUSE. Sorry we missed your call! Reply to this text to tell us about your service need or concern, and our team will get back to you. You can also call us back anytime at ${phone}.`;
 
 const OPT_IN_CONFIRMATION_MESSAGE =
   "DADA HOUSE: You're now subscribed to appointment and service updates by text. Msg frequency varies. Msg & data rates may apply. Reply STOP to unsubscribe, HELP for help.";
@@ -104,13 +101,12 @@ export async function sendMissedCallSms(fromNumber: string, customerId?: string 
   const dnc = await db.doNotContact.findUnique({ where: { phoneNumber: phone } });
   if (dnc) return null;
   const sentRecently = await db.message.findFirst({
-    where: { direction: "OUTBOUND", OR: [{ body: { contains: "missed your call" } }, { body: { contains: "manqué votre appel" } }, { body: { contains: "no haber contestado" } }], createdAt: { gte: new Date(Date.now() - 30 * 60000) }, thread: { phoneNumber: phone } },
+    where: { direction: "OUTBOUND", body: { contains: "missed your call" }, createdAt: { gte: new Date(Date.now() - 30 * 60000) }, thread: { phoneNumber: phone } },
     select: { id: true },
   });
   if (sentRecently) return null;
-  const customer = customerId ? await db.customer.findUnique({ where: { id: customerId }, select: { preferredLanguage: true } }) : null;
-  const lang = customer?.preferredLanguage === "fr" || customer?.preferredLanguage === "es" ? customer.preferredLanguage : "en";
-  return sendOutboundSms(phone, MISSED_CALL_MESSAGES[lang](DEFAULT_BUSINESS_PHONE)).catch((err) => {
+  void customerId;
+  return sendOutboundSms(phone, missedCallMessage(DEFAULT_BUSINESS_PHONE)).catch((err) => {
     if (err instanceof DoNotContactError) return null;
     throw err;
   });
