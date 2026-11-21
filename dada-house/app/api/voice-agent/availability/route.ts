@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { inferJobType, JOB_TYPE_KEYS, type JobType } from "@/lib/dispatch";
 import { findOpenWindows } from "@/lib/dispatch-availability";
-import { maintenanceWindows } from "@/lib/voice-agent";
+import { maintenanceWindows, voiceAuthError, toolArgs, vapiTool } from "@/lib/voice-agent";
 
 export const dynamic = "force-dynamic";
 
@@ -36,3 +36,22 @@ export async function GET(req: NextRequest) {
       : "No open arrival windows in this range. Offer to have a dispatcher call back, or check later dates.",
   });
 }
+
+/**
+ * Same data as a Vapi function tool ("maintenance_availability" / "service_availability"):
+ * POST { jobType?, service?, date?, days?, limit? } — flat or Vapi tool-call format.
+ */
+export const POST = vapiTool(async (req: NextRequest) => {
+  const denied = voiceAuthError(req); if (denied) return denied;
+  const a = await toolArgs(req);
+  const rawType = String(a.jobType ?? "").toUpperCase();
+  const jobType: JobType = (JOB_TYPE_KEYS as string[]).includes(rawType) ? (rawType as JobType) : inferJobType(a.service ? String(a.service) : null);
+  const date = /^\d{4}-\d{2}-\d{2}$/.test(String(a.date ?? "")) ? String(a.date) : undefined;
+  const days = Math.min(14, Number(a.days ?? 3) || 3);
+  const limit = Math.min(20, Number(a.limit ?? 6) || 6);
+  const r = jobType === "MAINTENANCE" ? await maintenanceWindows({ fromYmd: date, days, limit }) : await findOpenWindows({ jobType, fromYmd: date, days, limit });
+  return NextResponse.json({
+    timezone: "America/New_York", jobType, durationMinutes: r.durationMinutes, slots: r.windows,
+    message: r.windows.length ? `Offer only these arrival windows: ${r.windows.map((w) => w.label).join("; ")}.` : "No open arrival windows in this range. Offer to have a dispatcher call back, or check later dates.",
+  });
+});
