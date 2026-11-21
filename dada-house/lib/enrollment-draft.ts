@@ -13,6 +13,8 @@ export type EnrollmentDraft = {
   firstName: string; lastName: string; phone: string; email: string;
   address: string; apt?: string; city: string; state: string; zipCode: string;
   systems: number; billing: "annual" | "monthly"; language: "en" | "fr" | "es";
+  /** Every covered address (first = the service address above). Each address is priced separately. */
+  homes?: { nickname?: string | null; address: string; apt?: string | null; city: string; state: string; zipCode: string; systems: number }[];
   promoCode?: string | null; systemTypes?: string | null;
   billingAddress?: { address: string; city: string; state: string; zip: string } | null;
   source: "voice_agent"; vapiCallId?: string | null; createdAt: string; expiresAt: string;

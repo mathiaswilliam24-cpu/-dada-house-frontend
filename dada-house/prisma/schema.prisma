@@ -1295,6 +1295,8 @@ model MaintenanceVisit {
   id            String    @id @default(cuid())
   contractId    String
   customerId    String
+  propertyId    String? // the home this visit is for (each covered address gets its own 2 visits)
+  propertyKey   String    @default("") // = propertyId, or "" for a contract without properties (unique key)
   periodStart   DateTime // start of the contract year this visit belongs to
   visitNumber   Int // 1 or 2
   season        String // SPRING_AC | FALL_HEATING
@@ -1308,9 +1310,10 @@ model MaintenanceVisit {
   updatedAt     DateTime  @updatedAt
 
   contract    MaintenanceContract @relation(fields: [contractId], references: [id], onDelete: Cascade)
+  property    ContractProperty?   @relation(fields: [propertyId], references: [id], onDelete: Cascade)
   appointment Appointment?        @relation(fields: [appointmentId], references: [id], onDelete: SetNull)
 
-  @@unique([contractId, periodStart, visitNumber])
+  @@unique([contractId, propertyKey, periodStart, visitNumber])
   @@index([status, windowEnd])
 }
 
@@ -1696,6 +1699,7 @@ model ContractProperty {
 
   contract MaintenanceContract  @relation(fields: [contractId], references: [id], onDelete: Cascade)
   systems  ContractHvacSystem[]
+  visits   MaintenanceVisit[]
 
   @@index([contractId])
 }

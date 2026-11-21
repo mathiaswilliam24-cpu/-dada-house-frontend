@@ -27,7 +27,12 @@ export async function GET(req: NextRequest) {
   const billing = sp.get("billing") === "monthly" ? "monthly" : "annual";
   const code = (sp.get("promoCode") ?? "").trim();
 
-  const annual = calcPropertyAnnual(systems), monthly = calcPropertyMonthly(systems);
+  // Several homes: systemsPerHome=2,1,1 (each address priced separately).
+  const perHome = (sp.get("systemsPerHome") ?? "").split(",").map((x) => Math.min(20, Math.max(1, Number(x) || 0))).filter((x) => x >= 1);
+  const homeList = perHome.length ? perHome : [systems];
+  const annual = homeList.reduce((t, n) => t + calcPropertyAnnual(n), 0);
+  const monthly = Math.round(homeList.reduce((t, n) => t + calcPropertyMonthly(n), 0) * 100) / 100;
+  const sysTotal = homeList.reduce((t, n) => t + n, 0);
   let promotions: Awaited<ReturnType<typeof activePromotions>> = [];
   let promoError: string | null = null;
   try { promotions = await activePromotions(); } catch (e) { promoError = "Promotions could not be checked right now — quote the standard price and do not promise a discount."; console.error(e); }
@@ -43,8 +48,8 @@ export async function GET(req: NextRequest) {
       note: "Per service address: each additional address starts again at the first-system price.",
     },
     quote: {
-      systems, billing, amount: base,
-      text: billing === "annual" ? `$${annual}/year for ${systems} system${systems > 1 ? "s" : ""} at one address` : `$${monthly.toFixed(2)}/month for ${systems} system${systems > 1 ? "s" : ""} at one address (12-month commitment)`,
+      systems: sysTotal, homes: homeList.length, systemsPerHome: homeList, billing, amount: base,
+      text: `${billing === "annual" ? `$${annual}/year` : `$${monthly.toFixed(2)}/month (12-month commitment)`} for ${sysTotal} system${sysTotal > 1 ? "s" : ""} at ${homeList.length > 1 ? `${homeList.length} addresses` : "one address"}`,
       promoCode: code || null,
       promoValid: code ? !!promo : null,
       firstPaymentAfterPromo: promo ? applyPromo(base, promo) : null,
@@ -64,5 +69,6 @@ export async function POST(req: NextRequest) {
   const a = await toolArgs(req);
   const u = new URL(req.url);
   for (const k of ["systems", "billing", "promoCode"]) if (a[k] != null && a[k] !== "") u.searchParams.set(k, String(a[k]));
+  if (Array.isArray(a.systemsPerHome)) u.searchParams.set("systemsPerHome", (a.systemsPerHome as unknown[]).join(","));
   return GET(new NextRequest(u, { headers: req.headers }));
 }

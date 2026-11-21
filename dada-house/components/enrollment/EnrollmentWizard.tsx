@@ -152,17 +152,20 @@ export default function EnrollmentWizard() {
       .then(({ ok, d }) => {
         if (!ok || !d.draft) { setDraftNote(d.error ?? "This link has expired. Please fill in the form."); return; }
         const x = d.draft;
-        const p = { ...makeDefaultProperty(), address: x.address, apt: x.apt ?? "", city: x.city, state: x.state, zipCode: x.zipCode, systemCount: x.systems };
-        const systems = Array.from({ length: x.systems }, () => ({ ...makeDefaultSystem(p.id), unknownDetails: true }));
+        const homes: { nickname?: string | null; address: string; apt?: string | null; city: string; state: string; zipCode: string; systems: number }[] =
+          x.homes?.length ? x.homes : [{ address: x.address, apt: x.apt, city: x.city, state: x.state, zipCode: x.zipCode, systems: x.systems }];
+        const props = homes.map((h) => ({ ...makeDefaultProperty(), nickname: h.nickname ?? "", address: h.address, apt: h.apt ?? "", city: h.city, state: h.state, zipCode: h.zipCode, systemCount: h.systems }));
+        const p = props[0];
+        const systems = props.flatMap((pp) => Array.from({ length: pp.systemCount }, () => ({ ...makeDefaultSystem(pp.id), unknownDetails: true })));
         setState({
-          billingInterval: x.billing, totalSystems: x.systems, properties: [p], hvacSystems: systems,
+          billingInterval: x.billing, totalSystems: props.reduce((n, pp) => n + pp.systemCount, 0), properties: props, hvacSystems: systems,
           contact: {
             ...EMPTY_CONTACT, firstName: x.firstName, lastName: x.lastName, email: x.email, phone: x.phone,
             billingAddress: x.billingAddress?.address ?? x.address, billingCity: x.billingAddress?.city ?? x.city,
             billingState: x.billingAddress?.state || x.state, billingZip: x.billingAddress?.zip ?? x.zipCode,
             preferredLanguage: x.language ?? "en",
           },
-          schedules: [{ propertyId: p.id, preferredDate: "", preferredTime: "", notes: x.systemTypes ? `Systems: ${x.systemTypes}` : "", tenantAccess: false }],
+          schedules: props.map((pp, i) => ({ propertyId: pp.id, preferredDate: "", preferredTime: "", notes: i === 0 && x.systemTypes ? `Systems: ${x.systemTypes}` : "", tenantAccess: false })),
           promoCode: x.promoCode ?? null, draftToken,
         });
         setDraftNote(`We pre-filled your registration from your call with DADA HOUSE${x.promoCode ? ` (promo ${x.promoCode} will be applied at checkout)` : ""}. Please review every step, make any changes, accept the agreement and continue to secure payment.`);

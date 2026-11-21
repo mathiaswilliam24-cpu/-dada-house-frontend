@@ -21,6 +21,11 @@ const schema = z.object({
   billingAddress: z.string().trim().max(150).optional().nullable(), billingCity: z.string().trim().max(80).optional().nullable(),
   billingState: z.string().trim().max(2).optional().nullable(), billingZip: z.string().trim().max(10).optional().nullable(),
   vapiCallId: z.string().max(100).optional().nullable(),
+  /** Several homes on one account: each { address, apt?, city, state, zipCode, systems, nickname? } */
+  homes: z.array(z.object({
+    nickname: z.string().trim().max(40).optional().nullable(), address: z.string().trim().min(3).max(150), apt: z.string().trim().max(30).optional().nullable(),
+    city: z.string().trim().min(1).max(80), state: z.string().trim().length(2), zipCode: z.string().trim().regex(/^\d{5}$/), systems: z.coerce.number().int().min(1).max(20),
+  })).max(20).optional().nullable(),
 });
 
 const MSG = {
@@ -51,13 +56,18 @@ export async function POST(req: NextRequest) {
   }
 
   const promo = d.promoCode ? await findPromotion(d.promoCode).catch(() => null) : null;
-  const amount = d.billing === "annual" ? calcPropertyAnnual(d.systems) : calcPropertyMonthly(d.systems);
-  const totalText = d.billing === "annual" ? `$${amount}/year, ${d.systems} system${d.systems > 1 ? "s" : ""}` : `$${amount.toFixed(2)}/month, ${d.systems} system${d.systems > 1 ? "s" : ""}`;
+  // One account, one or more homes — the first home is the service address given above.
+  const homes = d.homes?.length ? d.homes.map((h) => ({ ...h, state: h.state.toUpperCase() }))
+    : [{ nickname: null, address: d.address, apt: d.apt ?? null, city: d.city, state: d.state.toUpperCase(), zipCode: d.zipCode, systems: d.systems }];
+  const per = homes.map((h) => (d.billing === "annual" ? calcPropertyAnnual(h.systems) : calcPropertyMonthly(h.systems)));
+  const amount = Math.round(per.reduce((x, y) => x + y, 0) * 100) / 100;
+  const sysTotal = homes.reduce((x, h) => x + h.systems, 0);
+  const totalText = `${d.billing === "annual" ? `$${amount}/year` : `$${amount.toFixed(2)}/month`}, ${homes.length > 1 ? `${homes.length} homes, ` : ""}${sysTotal} system${sysTotal > 1 ? "s" : ""}`;
 
   const { token, reused } = await createDraft({
     firstName: d.firstName, lastName: d.lastName, phone: d.phone, email: d.email,
     address: d.address, apt: d.apt, city: d.city, state: d.state.toUpperCase(), zipCode: d.zipCode,
-    systems: d.systems, billing: d.billing, language: d.language,
+    systems: homes[0].systems, billing: d.billing, language: d.language, homes,
     promoCode: promo ? promo.code : null, systemTypes: d.systemTypes ?? null,
     billingAddress: d.billingAddress ? { address: d.billingAddress, city: d.billingCity ?? "", state: d.billingState ?? "", zip: d.billingZip ?? "" } : null,
     vapiCallId: d.vapiCallId ?? null,
@@ -79,12 +89,12 @@ export async function POST(req: NextRequest) {
   } catch (e) { console.error("enroll email", e); }
 
   await alertOffice({ title: "Maintenance plan registration (AI receptionist) — payment pending", url: "/admin/maintenance-plans", tag: `enroll-${token.slice(0, 8)}`,
-    text: `${d.firstName} ${d.lastName} — ${d.phone}\n${d.address}${d.apt ? ` ${d.apt}` : ""}, ${d.city} ${d.state} ${d.zipCode}\nSystems: ${d.systems} · ${totalText}${promo ? ` · promo ${promo.code}` : ""}\nLink sent: SMS ${sms}, email ${email}. Payment: PENDING.` }).catch(console.error);
+    text: `${d.firstName} ${d.lastName} — ${d.phone}\n${homes.map((h) => `${h.address}${h.apt ? ` ${h.apt}` : ""}, ${h.city} ${h.state} ${h.zipCode} (${h.systems} system${h.systems > 1 ? "s" : ""})`).join("\n")}\n${totalText}${promo ? ` · promo ${promo.code}` : ""}\nLink sent: SMS ${sms}, email ${email}. Payment: PENDING.` }).catch(console.error);
 
   const delivered = sms === "sent" || email === "sent";
   return NextResponse.json({
     ok: delivered, registration: "PENDING_PAYMENT", reusedForThisCall: reused,
-    quote: { amount, text: totalText, promoCode: promo?.code ?? null, promoApplied: !!promo, firstPaymentAfterPromo: promo ? applyPromo(amount, promo) : null, promoRequestedButInvalid: !!d.promoCode && !promo },
+    quote: { amount, text: totalText, perHome: homes.map((h, i) => ({ home: `${h.address}, ${h.city}`, systems: h.systems, amount: per[i] })), promoCode: promo?.code ?? null, promoApplied: !!promo, firstPaymentAfterPromo: promo ? applyPromo(amount, promo) : null, promoRequestedButInvalid: !!d.promoCode && !promo },
     delivery: { sms, email },
     message: delivered
       ? `Secure link sent by ${[sms === "sent" ? "text" : null, email === "sent" ? "email" : null].filter(Boolean).join(" and ")}. Tell the caller the plan becomes active once payment is completed and confirmed.${d.promoCode && !promo ? " The promo code they gave is not valid — do not promise that discount." : ""}`

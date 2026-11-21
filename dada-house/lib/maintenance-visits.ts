@@ -2,8 +2,9 @@ import { db } from "@/lib/db";
 import { ctParts, ctInstant, getDispatchConfig, logJobEvent, nextCallNumber } from "@/lib/dispatch";
 
 /**
- * Maintenance memberships include 2 tune-ups per contract year: spring (AC) and fall
- * (heating). This module turns each covered contract into concrete visit records with a
+ * Maintenance memberships include 2 tune-ups per contract year FOR EACH COVERED ADDRESS:
+ * spring (AC) and fall (heating). A customer or company with several homes on one account gets
+ * two visits per home, scheduled independently. This module turns each covered contract into concrete visit records with a
  * window and due date, and keeps them in sync with the jobs created for them.
  * All dates are North Carolina (America/New_York) time.
  */
@@ -74,15 +75,16 @@ export async function syncMaintenanceVisits() {
   const now = new Date();
   const contracts = await db.maintenanceContract.findMany({
     where: { status: { in: [...COVERED_STATUSES] } },
-    select: { id: true, customerId: true, membershipStartDate: true, agreementStartDate: true, paidAt: true, createdAt: true },
+    select: { id: true, customerId: true, membershipStartDate: true, agreementStartDate: true, paidAt: true, createdAt: true, properties: { select: { id: true } } },
   });
 
   const rows = contracts.flatMap((c) => {
     const ps = currentPeriodStart(contractStart(c), now);
-    return visitWindows(ps).map((w, i) => ({
-      contractId: c.id, customerId: c.customerId, periodStart: ps, visitNumber: i + 1,
+    const homes: (string | null)[] = c.properties.length ? c.properties.map((p) => p.id) : [null];
+    return homes.flatMap((propertyId) => visitWindows(ps).map((w, i) => ({
+      contractId: c.id, customerId: c.customerId, propertyId, propertyKey: propertyId ?? "", periodStart: ps, visitNumber: i + 1,
       season: w.season, windowStart: w.start, windowEnd: w.end,
-    }));
+    })));
   });
   if (rows.length) await db.maintenanceVisit.createMany({ data: rows, skipDuplicates: true });
 
@@ -117,9 +119,10 @@ export async function createVisitJob(visitId: string, user: { id: string | null;
           customer: true,
           planType: { select: { name: true } },
           properties: { take: 1, orderBy: { createdAt: "asc" } },
-          hvacSystems: { select: { id: true } },
+          hvacSystems: { select: { id: true, propertyId: true } },
         },
       },
+      property: true,
     },
   });
   if (visit.appointmentId) throw new Error("This visit already has a job.");
@@ -127,10 +130,12 @@ export async function createVisitJob(visitId: string, user: { id: string | null;
 
   const c = visit.contract;
   const cust = c.customer;
-  const prop = c.properties[0];
+  const prop = visit.property ?? c.properties[0];
   const address = prop?.address ?? cust.address ?? "";
   if (!address) throw new Error("No service address on this membership or customer. Add an address first.");
-  const systems = Math.max(1, c.hvacSystems.length || c.numberOfSystems || 1);
+  const systems = visit.property
+    ? Math.max(1, visit.property.systemCount || c.hvacSystems.filter((h) => h.propertyId === visit.property!.id).length || 1)
+    : Math.max(1, c.hvacSystems.length || c.numberOfSystems || 1);
   const name = [cust.firstName, cust.lastName].filter(Boolean).join(" ") || [c.firstName, c.lastName].filter(Boolean).join(" ") || "Member";
   const season = SEASONS[visit.season as Season];
   const today = ctInstant(ctParts(new Date()).ymd, 12 * 60);

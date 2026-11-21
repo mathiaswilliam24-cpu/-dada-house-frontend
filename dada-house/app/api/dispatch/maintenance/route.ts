@@ -26,13 +26,14 @@ export async function GET(req: NextRequest) {
         },
       },
       appointment: { select: { id: true, appointmentNumber: true, scheduledStart: true, technician: { select: { name: true } }, status: true } },
+      property: { select: { address: true, apt: true, city: true, zipCode: true, nickname: true, systemCount: true } },
     },
     take: 1000,
   });
 
   const rows = visits.map((v) => {
     const c = v.contract;
-    const prop = c.properties[0];
+    const prop = v.property ?? c.properties[0];
     return {
       id: v.id,
       state: visitState(v, now),
@@ -46,12 +47,12 @@ export async function GET(req: NextRequest) {
       contractStatus: c.status,
       membershipNumber: c.membershipNumber,
       plan: c.planType.name,
-      systems: Math.max(1, c._count.hvacSystems || c.numberOfSystems || 1),
+      systems: v.property ? Math.max(1, v.property.systemCount) : Math.max(1, c._count.hvacSystems || c.numberOfSystems || 1),
       customer: {
         id: c.customer.id,
         name: [c.customer.firstName, c.customer.lastName].filter(Boolean).join(" "),
         phone: c.customer.phone,
-        address: [prop?.address ?? c.customer.address, prop?.city ?? c.customer.city, prop?.zipCode ?? c.customer.zipCode].filter(Boolean).join(", "),
+        address: (v.property?.nickname ? `${v.property.nickname} — ` : "") + [prop?.address ?? c.customer.address, prop?.city ?? c.customer.city, prop?.zipCode ?? c.customer.zipCode].filter(Boolean).join(", "),
       },
       job: v.appointment ? {
         id: v.appointment.id, number: v.appointment.appointmentNumber, status: v.appointment.status,
