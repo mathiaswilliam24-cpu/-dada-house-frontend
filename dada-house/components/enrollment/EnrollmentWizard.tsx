@@ -10,6 +10,7 @@ import StepHvacDetails from "./steps/StepHvacDetails";
 import StepContact from "./steps/StepContact";
 import StepSchedule from "./steps/StepSchedule";
 import StepReview from "./steps/StepReview";
+import PlanSummary from "./PlanSummary";
 
 export type BillingInterval = "annual" | "monthly";
 
@@ -341,6 +342,8 @@ export default function EnrollmentWizard() {
             state={state}
           />
         )}
+
+        {step >= 1 && step <= 5 && <PlanSummary state={state} step={step} />}
 
         {error && (
           <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm">

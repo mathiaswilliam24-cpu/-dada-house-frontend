@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { CheckCircle, Calendar, Shield, Phone, ArrowRight } from "lucide-react";
+import { CheckCircle, Calendar, Shield, Phone, ArrowRight, PenLine, FileText } from "lucide-react";
 import { db } from "@/lib/db";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -70,6 +70,28 @@ export default async function ConfirmationPage({
       </div>
 
       <div className="max-w-3xl mx-auto px-5 md:px-10 py-10 space-y-6">
+        {/* Last step: sign the agreement (payment is done) */}
+        {!contract.customerSignatureUrl ? (
+          <div className="bg-[#F7921A]/10 border-2 border-[#F7921A] rounded-2xl p-5 md:p-6 text-center">
+            <p className="text-[#0A1628] font-black text-xl mb-1">Last step: sign your contract</p>
+            <p className="text-slate-600 text-sm mb-4">
+              Your contract is ready with your information and today&apos;s payment. Open it, review it and sign — you&apos;ll receive a signed copy and your payment receipt by email.
+            </p>
+            <Link href={`/contract/${contract.token}`}
+              className="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-8 py-4 bg-[#F7921A] hover:bg-[#e07f10] text-white font-black text-base rounded-xl shadow-lg transition-colors">
+              <PenLine size={18} />
+              Open &amp; sign my contract
+            </Link>
+          </div>
+        ) : (
+          <div className="bg-green-50 border border-green-200 rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <p className="text-green-800 text-sm font-semibold">✓ Contract signed — a copy and your receipt were emailed to you.</p>
+            <Link href={`/print/contract/${contract.token}`} className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-green-300 rounded-lg text-sm font-bold text-green-800">
+              <FileText size={15} /> View my contract
+            </Link>
+          </div>
+        )}
+
         {/* Membership card */}
         <div className="bg-[#0A1628] rounded-2xl p-6 text-white">
           <div className="flex items-start justify-between mb-4">

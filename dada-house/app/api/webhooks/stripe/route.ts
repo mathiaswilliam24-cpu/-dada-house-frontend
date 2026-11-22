@@ -8,11 +8,15 @@ import { db } from "@/lib/db";
 import { sendSMS } from "@/lib/twilio";
 import { resend, FROM_EMAIL } from "@/lib/resend";
 import { normalizePhone } from "@/lib/customers";
+import { createShortLink } from "@/lib/short-links";
+
+const signUrl = (token: string) => `${(process.env.NEXT_PUBLIC_APP_URL || "https://dada-house.com").replace(/\/$/, "")}/contract/${token}`;
 
 export const runtime = "nodejs";
 
 async function sendConfirmationEmail(contract: {
   id: string;
+  token: string;
   membershipNumber: string | null;
   email: string | null;
   firstName: string | null;
@@ -51,6 +55,12 @@ async function sendConfirmationEmail(contract: {
             </table>
           </div>
 
+          <div style="background:#FFF7ED;border:2px solid #F7921A;border-radius:12px;padding:18px;margin-bottom:24px;text-align:center">
+            <p style="margin:0 0 6px;font-weight:bold;color:#0A1628;font-size:16px">Last step: sign your contract</p>
+            <p style="margin:0 0 14px;color:#64748b;font-size:13px">Your contract is ready with your information and your payment. You'll receive the signed copy and your receipt by email.</p>
+            <a href="${signUrl(contract.token)}" style="background:#F7921A;color:#fff;padding:12px 26px;border-radius:8px;text-decoration:none;font-weight:bold;font-size:14px">Open &amp; sign my contract</a>
+          </div>
+
           <p style="color:#334155;font-size:14px"><strong>What's next?</strong></p>
           <ul style="color:#64748b;font-size:14px;line-height:1.8">
             <li>Our scheduling team will contact you within 24 hours to confirm your first tune-up appointment.</li>
@@ -72,6 +82,7 @@ async function sendConfirmationEmail(contract: {
 }
 
 async function sendConfirmationSMS(contract: {
+  token: string;
   phone: string | null;
   membershipNumber: string | null;
   firstName: string | null;
@@ -79,7 +90,8 @@ async function sendConfirmationSMS(contract: {
 }) {
   if (!contract.phone) return;
   const phone = normalizePhone(contract.phone);
-  const msg = `Hi ${contract.firstName}! 🏠 Your DADA HOUSE HVAC Maintenance Plan is active (Membership #${contract.membershipNumber}). ${contract.numberOfSystems} system${contract.numberOfSystems !== 1 ? "s" : ""} covered. We'll schedule your first tune-up soon. Call (844) 928-0875 for priority service. Reply STOP to opt out.`;
+  const link = await createShortLink(signUrl(contract.token)).catch(() => signUrl(contract.token));
+  const msg = `Hi ${contract.firstName}! 🏠 Your DADA HOUSE HVAC Maintenance Plan is active (Membership #${contract.membershipNumber}). ${contract.numberOfSystems} system${contract.numberOfSystems !== 1 ? "s" : ""} covered. Last step - sign your contract: ${link} . Call (844) 928-0875 for priority service. Reply STOP to opt out.`;
   await sendSMS(phone, msg).catch(err => console.error("Confirmation SMS error:", err));
 }
 

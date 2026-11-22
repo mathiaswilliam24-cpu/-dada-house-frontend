@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Image from "next/image";
-import { Loader2, CheckCircle2 } from "lucide-react";
+import { Loader2, CheckCircle2, PenLine, ArrowDown, FileText } from "lucide-react";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements, CardNumberElement, CardExpiryElement, CardCvcElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { formatCurrency } from "@/lib/utils";
@@ -10,9 +10,25 @@ import SignaturePad from "@/components/portal/signature-pad";
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY ?? "pk_test_placeholder");
 
+type Property = { id: string; nickname: string | null; address: string; apt: string | null; city: string; state: string; zipCode: string; systemCount: number };
+
 type Contract = {
   id: string;
   status: string;
+  autoRenew: boolean;
+  membershipNumber: string | null;
+  paidAt: string | null;
+  membershipStartDate: string | null;
+  renewalDate: string | null;
+  annualTotal: number | null;
+  monthlyTotal: number | null;
+  firstName: string | null;
+  lastName: string | null;
+  email: string | null;
+  phone: string | null;
+  customerSigned: boolean;
+  signedAt: string | null;
+  properties: Property[];
   systemMakeModel: string | null;
   systemAge: string | null;
   numberOfSystems: number;
@@ -186,6 +202,12 @@ export default function ContractPage() {
     );
   }
 
+  const paidStatus = contract.status === "ACTIVE" || contract.status === "PAID" || contract.status === "PAST_DUE";
+  // Paid online or by phone, not signed yet: the customer signs the agreement now.
+  if (paidStatus && !contract.customerSigned && !paidJustNow) {
+    return <SignPaidContract token={token} contract={contract} />;
+  }
+
   const isPaid = contract.status === "ACTIVE" || contract.status === "PAID" || paidJustNow;
   const isSigned = contract.status === "SIGNED" || isPaid;
   const { customer, planType } = contract;
@@ -198,6 +220,9 @@ export default function ContractPage() {
           <h1 className="text-2xl font-black text-gray-900 mb-2">You're All Set!</h1>
           <p className="text-gray-500 mb-1">{planType.name} Maintenance Plan</p>
           <p className="text-sm text-gray-400 mt-4">A confirmation and your signed copy have been sent to your phone and email.</p>
+          <a href={`/print/contract/${token}`} className="inline-flex items-center gap-2 mt-5 px-5 py-2.5 rounded-xl bg-[#1B3FA8] text-white text-sm font-bold">
+            <FileText className="w-4 h-4" /> View my signed contract
+          </a>
           <p className="text-xs text-gray-400 mt-4">DADA HOUSE · (844) 928-0875</p>
         </div>
       </div>
@@ -257,6 +282,110 @@ export default function ContractPage() {
             </Elements>
           </div>
         )}
+      </div>
+    </div>
+  );
+}
+
+const fmtDay = (d: string | null) => d ? new Date(d).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "America/New_York" }) : "—";
+const usd = (n: number) => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(n);
+
+/** Paid plan, agreement not signed yet: the filled contract + a very visible "Sign here". */
+function SignPaidContract({ token, contract }: { token: string; contract: Contract }) {
+  const [done, setDone] = useState<{ email: string | null } | null>(null);
+  const name = [contract.firstName ?? contract.customer.firstName, contract.lastName ?? contract.customer.lastName].filter(Boolean).join(" ");
+  const email = contract.email ?? contract.customer.email;
+  const phone = contract.phone ?? contract.customer.phone;
+  const monthly = contract.billingInterval === "monthly";
+  const systems = contract.numberOfSystems || 1;
+  const price = monthly ? (contract.monthlyTotal ?? contract.planType.monthlyPrice * systems) : (contract.annualTotal ?? contract.planType.annualPrice * systems);
+
+  async function sign(signatureUrl: string) {
+    const res = await fetch(`/api/contracts/${token}/sign`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ signatureUrl }) });
+    const d = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(d.error ?? "Failed to save signature");
+    setDone({ email: d.emailedTo ?? email ?? null });
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  if (done) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+        <div className="bg-white rounded-2xl shadow-xl p-8 max-w-sm w-full text-center">
+          <CheckCircle2 className="w-16 h-16 text-green-500 mx-auto mb-4" />
+          <h1 className="text-2xl font-black text-gray-900 mb-2">Contract signed — thank you!</h1>
+          <p className="text-gray-500 text-sm">
+            {done.email ? <>Your signed contract and your payment receipt are on their way to <strong>{done.email}</strong>.</> : "Your signed contract is saved."}
+          </p>
+          <a href={`/print/contract/${token}`} className="inline-flex items-center gap-2 mt-6 px-5 py-2.5 rounded-xl bg-[#1B3FA8] text-white text-sm font-bold">
+            <FileText className="w-4 h-4" /> View / download my contract
+          </a>
+          <p className="text-xs text-gray-400 mt-6">DADA HOUSE · (844) 928-0875</p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-gray-50 pb-10">
+      <div style={{ backgroundColor: "#1B3FA8" }} className="px-4 py-6 text-white text-center">
+        <div className="inline-block bg-white rounded-xl px-4 py-2 mb-2">
+          <Image src="/logo dada house.png" alt="DADA HOUSE" width={120} height={56} className="object-contain" />
+        </div>
+        <p className="text-sm opacity-80">{contract.planType.name} HVAC Maintenance Plan Agreement</p>
+      </div>
+
+      <div className="max-w-2xl mx-auto px-4 py-6 space-y-4">
+        <a href="#sign-here" className="flex items-center justify-between gap-3 bg-[#F7921A] text-white rounded-2xl px-5 py-4 shadow-lg">
+          <span>
+            <span className="block font-black text-lg leading-tight">Payment received ✓ — last step: sign your contract</span>
+            <span className="block text-sm opacity-90">Review it below, then sign at the bottom.</span>
+          </span>
+          <ArrowDown className="w-6 h-6 shrink-0 animate-bounce" />
+        </a>
+
+        <div className="bg-white rounded-2xl border border-gray-200 p-5 text-sm">
+          <p className="font-bold text-gray-900 mb-3">Your plan</p>
+          <dl className="grid grid-cols-[120px_1fr] gap-y-1.5">
+            <dt className="text-gray-500">Customer</dt><dd className="font-semibold">{name}</dd>
+            {phone && <><dt className="text-gray-500">Phone</dt><dd>{phone}</dd></>}
+            {email && <><dt className="text-gray-500">Email</dt><dd className="break-all">{email}</dd></>}
+            {contract.membershipNumber && <><dt className="text-gray-500">Membership</dt><dd className="font-semibold text-[#F7921A]">#{contract.membershipNumber}</dd></>}
+            <dt className="text-gray-500">Systems covered</dt><dd>{systems}</dd>
+            <dt className="text-gray-500">Billing</dt><dd>{monthly ? "Monthly" : "Annual"} — {usd(price)}{monthly ? "/month" : "/year"}{contract.autoRenew ? " (auto-renews)" : ""}</dd>
+            <dt className="text-gray-500">Payment date</dt><dd>{fmtDay(contract.paidAt)}</dd>
+            <dt className="text-gray-500">Start date</dt><dd>{fmtDay(contract.membershipStartDate ?? contract.paidAt)}</dd>
+            {contract.renewalDate && <><dt className="text-gray-500">Next renewal</dt><dd>{fmtDay(contract.renewalDate)}</dd></>}
+          </dl>
+          {contract.properties.length > 0 && (
+            <div className="mt-4 pt-3 border-t border-gray-100">
+              <p className="font-semibold text-gray-900 mb-1">Covered properties</p>
+              {contract.properties.map((p) => (
+                <p key={p.id} className="text-gray-600">
+                  • {p.nickname ? `${p.nickname}: ` : ""}{p.address}{p.apt ? `, ${p.apt}` : ""}, {p.city}, {p.state} {p.zipCode} — {p.systemCount} system{p.systemCount === 1 ? "" : "s"}
+                </p>
+              ))}
+            </div>
+          )}
+        </div>
+
+        <div
+          className="bg-white rounded-2xl border border-gray-200 p-5 text-sm leading-relaxed [&_h2]:text-[#1B3FA8] [&_h2]:font-bold [&_h2]:text-base [&_h2]:mt-4 [&_h2]:mb-2 [&_ul]:list-disc [&_ul]:pl-5 [&_li]:mb-1.5 [&_table]:w-full [&_table]:text-xs [&_th]:text-left [&_th]:pb-1 [&_td]:py-0.5 [&_p]:mb-2"
+          dangerouslySetInnerHTML={{ __html: contract.planType.contractHtml }}
+        />
+
+        <div id="sign-here" className="scroll-mt-4 bg-white rounded-2xl border-4 border-[#F7921A] p-5 shadow-xl">
+          <div className="flex items-center gap-2 mb-1">
+            <PenLine className="w-6 h-6 text-[#F7921A]" />
+            <p className="font-black text-xl text-gray-900">Sign here</p>
+          </div>
+          <p className="text-xs text-gray-500 mb-3">
+            I, <strong>{name}</strong>, have read and agree to this DADA HOUSE HVAC Maintenance Plan agreement, including the automatic renewal and the
+            recurring credit card payment authorization. Use your finger or mouse in the box below.
+          </p>
+          <SignaturePad onSubmit={sign} />
+          <p className="text-[11px] text-gray-400 mt-3">After you sign, a copy of your signed contract and your payment receipt is emailed to you automatically.</p>
+        </div>
       </div>
     </div>
   );

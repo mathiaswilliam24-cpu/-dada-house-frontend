@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { db } from "@/lib/db";
 import { formatCurrency } from "@/lib/utils";
 import { PrintToolbar } from "@/components/print/print-toolbar";
+import { fillContractHtml, propertyLine } from "@/lib/maintenance-contract";
 
 export const dynamic = "force-dynamic";
 
@@ -10,11 +11,15 @@ export default async function PrintContractPage({ params }: { params: Promise<{ 
 
   const contract = await db.maintenanceContract.findUnique({
     where: { token },
-    include: { customer: true, planType: true },
+    include: { customer: true, planType: true, properties: { orderBy: { createdAt: "asc" } }, hvacSystems: true },
   });
   if (!contract) notFound();
 
   const { customer, planType } = contract;
+  const name = [contract.firstName ?? customer.firstName, contract.lastName ?? customer.lastName].filter(Boolean).join(" ");
+  const email = contract.email ?? customer.email;
+  const phone = contract.phone ?? customer.phone;
+  const filledHtml = fillContractHtml(planType.contractHtml, contract);
   const contractNum = `MC${contract.id.slice(-6).toUpperCase()}`;
   const fmtDate = (d: Date | null) => d ? new Date(d).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "—";
 
@@ -64,20 +69,26 @@ export default async function PrintContractPage({ params }: { params: Promise<{ 
 
           <div className="dh-doc-section" style={{ padding: "18px 40px", borderBottom: "1px solid #e5e7eb", fontSize: "13px" }}>
             <div style={{ fontWeight: "700", fontSize: "14px", marginBottom: "6px" }}>{planType.name} Maintenance Plan</div>
-            <div style={{ color: "#374151" }}>{customer.firstName} {customer.lastName ?? ""} · {customer.phone}{customer.email ? ` · ${customer.email}` : ""}</div>
-            {customer.address && <div style={{ color: "#374151" }}>{customer.address}, {customer.city}, {customer.state} {customer.zipCode}</div>}
+            <div style={{ color: "#374151" }}>{name} · {phone}{email ? ` · ${email}` : ""}</div>
+            {contract.membershipNumber && <div style={{ color: "#374151" }}>Membership #{contract.membershipNumber}</div>}
+            {contract.properties.length > 0
+              ? contract.properties.map((p) => <div key={p.id} style={{ color: "#374151" }}>• {p.nickname ? `${p.nickname}: ` : ""}{propertyLine(p)} — {p.systemCount} system{p.systemCount === 1 ? "" : "s"}</div>)
+              : customer.address && <div style={{ color: "#374151" }}>{customer.address}, {customer.city}, {customer.state} {customer.zipCode}</div>}
             {contract.systemMakeModel && <div style={{ color: "#374151", marginTop: "6px" }}>System: {contract.systemMakeModel} {contract.systemAge ? `(Age: ${contract.systemAge})` : ""}</div>}
             {contract.systemTypes.length > 0 && (
               <div style={{ color: "#374151", marginTop: "6px" }}>{contract.numberOfSystems} system{contract.numberOfSystems === 1 ? "" : "s"} · {contract.systemTypes.join(" + ")}</div>
             )}
             <div style={{ marginTop: "10px", display: "flex", gap: "24px", flexWrap: "wrap" }}>
-              <div><span style={{ color: "#6b7280" }}>Monthly:</span> <strong>{formatCurrency(planType.monthlyPrice * (contract.numberOfSystems || 1))}</strong></div>
-              <div><span style={{ color: "#6b7280" }}>Annual:</span> <strong>{formatCurrency(planType.annualPrice * (contract.numberOfSystems || 1))}</strong></div>
+              {contract.billingInterval === "monthly" || !contract.billingInterval
+                ? <div><span style={{ color: "#6b7280" }}>Monthly:</span> <strong>{formatCurrency(contract.monthlyTotal ?? planType.monthlyPrice * (contract.numberOfSystems || 1))}</strong></div> : null}
+              {contract.billingInterval === "annual" || !contract.billingInterval
+                ? <div><span style={{ color: "#6b7280" }}>Annual:</span> <strong>{formatCurrency(contract.annualTotal ?? planType.annualPrice * (contract.numberOfSystems || 1))}</strong></div> : null}
               {contract.billingInterval && <div><span style={{ color: "#6b7280" }}>Billing:</span> <strong>{contract.billingInterval} {contract.autoRenew ? "(auto-renews)" : "(one-time)"}</strong></div>}
+              {contract.paidAt && <div><span style={{ color: "#6b7280" }}>Payment date:</span> <strong>{fmtDate(contract.paidAt)}</strong></div>}
             </div>
           </div>
 
-          <div className="dh-doc-section" style={{ padding: "0 40px" }} dangerouslySetInnerHTML={{ __html: planType.contractHtml }} />
+          <div className="dh-doc-section" style={{ padding: "0 40px" }} dangerouslySetInnerHTML={{ __html: filledHtml }} />
 
           <div className="dh-doc-section" style={{ padding: "20px 40px", borderTop: "1px solid #e5e7eb", display: "flex", gap: "40px", flexWrap: "wrap" }}>
             <div style={{ flex: 1, minWidth: "220px" }}>
@@ -86,7 +97,7 @@ export default async function PrintContractPage({ params }: { params: Promise<{ 
                 // eslint-disable-next-line @next/next/no-img-element
                 <img src={contract.customerSignatureUrl} alt="Customer signature" style={{ height: "60px" }} />
               ) : <div style={{ color: "#9ca3af", fontSize: "13px" }}>Not yet signed</div>}
-              <div style={{ fontSize: "12px", color: "#374151", marginTop: "4px" }}>{customer.firstName} {customer.lastName ?? ""} · {fmtDate(contract.signedAt)}</div>
+              <div style={{ fontSize: "12px", color: "#374151", marginTop: "4px" }}>{name} · {contract.customerSignatureUrl ? fmtDate(contract.signedAt) : "—"}</div>
             </div>
             <div style={{ flex: 1, minWidth: "220px" }}>
               <div style={{ fontSize: "11px", color: "#6b7280", marginBottom: "6px" }}>DADA HOUSE REPRESENTATIVE</div>

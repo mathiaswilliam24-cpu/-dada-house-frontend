@@ -1,7 +1,6 @@
 "use client";
 
 import { Minus, Plus } from "lucide-react";
-import { calcPropertyAnnual, calcPropertyMonthly } from "@/lib/enrollment-pricing";
 
 interface Props {
   value: number;
@@ -11,10 +10,6 @@ interface Props {
 const QUICK_OPTIONS = [1, 2, 3, 4, 5];
 
 export default function StepSystems({ value, onChange }: Props) {
-  // Preview assumes all systems at one property (cheapest estimate)
-  const annual = calcPropertyAnnual(value);
-  const monthly = calcPropertyMonthly(value);
-
   return (
     <div className="max-w-2xl mx-auto">
       <div className="text-center mb-10">
@@ -69,26 +64,6 @@ export default function StepSystems({ value, onChange }: Props) {
         >
           <Plus size={18} />
         </button>
-      </div>
-
-      {/* Price breakdown */}
-      <div className="bg-white border border-slate-200 rounded-2xl p-5 max-w-sm mx-auto">
-        <p className="text-slate-500 text-sm mb-3 text-center">Price Preview — 1 property</p>
-        <div className="space-y-2">
-          <div className="flex justify-between text-sm">
-            <span className="text-slate-600">Annual plan</span>
-            <span className="font-black text-[#F7921A]">${annual.toFixed(0)}/year</span>
-          </div>
-          <div className="flex justify-between text-sm">
-            <span className="text-slate-600">Monthly plan</span>
-            <span className="font-semibold text-slate-700">${monthly.toFixed(2)}/month</span>
-          </div>
-          {value > 1 && (
-            <div className="pt-2 border-t border-slate-100 text-xs text-slate-400">
-              $199 base + {value - 1} extra system{value > 2 ? "s" : ""} × $159/yr at same address
-            </div>
-          )}
-        </div>
       </div>
 
       <p className="text-center text-xs text-slate-400 mt-5">
