@@ -5,7 +5,8 @@ import { InvoiceDownload } from "@/components/client/invoice-download";
 import { PhotoGallery } from "@/components/client/photo-gallery";
 import Link from "next/link";
 import { CancelAppointmentButton } from "@/components/client/cancel-appointment-button";
-import { customerCanCancel } from "@/lib/appointment-cancel";
+import { RescheduleAppointmentButton } from "@/components/client/reschedule-appointment-button";
+import { customerCanCancel, customerChangesLocked } from "@/lib/appointment-cancel";
 import {
   ArrowLeft,
   Calendar,
@@ -148,7 +149,15 @@ export default async function AppointmentDetailPage({
 
       <div className="space-y-4">
 
+        {appt.userId === session.user.id && customerCanCancel(appt) && <RescheduleAppointmentButton appointmentId={id} />}
         {appt.userId === session.user.id && customerCanCancel(appt) && <CancelAppointmentButton appointmentId={id} />}
+        {appt.userId === session.user.id && customerChangesLocked(appt) && (
+          <div className="space-y-2">
+            <button disabled className="w-full py-3 border border-gray-200 text-gray-400 bg-gray-50 rounded-xl text-sm font-semibold cursor-not-allowed">Reschedule this appointment</button>
+            <button disabled className="w-full py-3 border border-gray-200 text-gray-400 bg-gray-50 rounded-xl text-sm font-semibold cursor-not-allowed">Cancel this appointment</button>
+            <p className="text-xs text-gray-500 text-center">Your technician is already on the way, so this visit can no longer be changed online. Need help? Call <a href="tel:+18449280875" className="text-[#1B3FA8] font-semibold">(844) 928-0875</a>.</p>
+          </div>
+        )}
 
         {/* Work summary (admin notes — visible when filled) */}
         {appt.notes && (

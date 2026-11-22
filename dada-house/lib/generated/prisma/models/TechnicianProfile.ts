@@ -20,8 +20,24 @@ export type TechnicianProfileModel = runtime.Types.Result.DefaultSelection<Prism
 
 export type AggregateTechnicianProfile = {
   _count: TechnicianProfileCountAggregateOutputType | null
+  _avg: TechnicianProfileAvgAggregateOutputType | null
+  _sum: TechnicianProfileSumAggregateOutputType | null
   _min: TechnicianProfileMinAggregateOutputType | null
   _max: TechnicianProfileMaxAggregateOutputType | null
+}
+
+export type TechnicianProfileAvgAggregateOutputType = {
+  hourlyRate: number | null
+  commissionRate: number | null
+  homeLat: number | null
+  homeLng: number | null
+}
+
+export type TechnicianProfileSumAggregateOutputType = {
+  hourlyRate: number | null
+  commissionRate: number | null
+  homeLat: number | null
+  homeLng: number | null
 }
 
 export type TechnicianProfileMinAggregateOutputType = {
@@ -34,6 +50,16 @@ export type TechnicianProfileMinAggregateOutputType = {
   updatedAt: Date | null
   photo: string | null
   bio: string | null
+  employeeId: string | null
+  employmentType: string | null
+  techRole: string | null
+  emergencyAvailable: boolean | null
+  hourlyRate: number | null
+  commissionRate: number | null
+  boardColor: string | null
+  homeLat: number | null
+  homeLng: number | null
+  homeAddress: string | null
 }
 
 export type TechnicianProfileMaxAggregateOutputType = {
@@ -46,6 +72,16 @@ export type TechnicianProfileMaxAggregateOutputType = {
   updatedAt: Date | null
   photo: string | null
   bio: string | null
+  employeeId: string | null
+  employmentType: string | null
+  techRole: string | null
+  emergencyAvailable: boolean | null
+  hourlyRate: number | null
+  commissionRate: number | null
+  boardColor: string | null
+  homeLat: number | null
+  homeLng: number | null
+  homeAddress: string | null
 }
 
 export type TechnicianProfileCountAggregateOutputType = {
@@ -64,9 +100,34 @@ export type TechnicianProfileCountAggregateOutputType = {
   certifications: number
   photo: number
   bio: number
+  employeeId: number
+  employmentType: number
+  techRole: number
+  workingHours: number
+  emergencyAvailable: number
+  hourlyRate: number
+  commissionRate: number
+  boardColor: number
+  homeLat: number
+  homeLng: number
+  homeAddress: number
   _all: number
 }
 
+
+export type TechnicianProfileAvgAggregateInputType = {
+  hourlyRate?: true
+  commissionRate?: true
+  homeLat?: true
+  homeLng?: true
+}
+
+export type TechnicianProfileSumAggregateInputType = {
+  hourlyRate?: true
+  commissionRate?: true
+  homeLat?: true
+  homeLng?: true
+}
 
 export type TechnicianProfileMinAggregateInputType = {
   id?: true
@@ -78,6 +139,16 @@ export type TechnicianProfileMinAggregateInputType = {
   updatedAt?: true
   photo?: true
   bio?: true
+  employeeId?: true
+  employmentType?: true
+  techRole?: true
+  emergencyAvailable?: true
+  hourlyRate?: true
+  commissionRate?: true
+  boardColor?: true
+  homeLat?: true
+  homeLng?: true
+  homeAddress?: true
 }
 
 export type TechnicianProfileMaxAggregateInputType = {
@@ -90,6 +161,16 @@ export type TechnicianProfileMaxAggregateInputType = {
   updatedAt?: true
   photo?: true
   bio?: true
+  employeeId?: true
+  employmentType?: true
+  techRole?: true
+  emergencyAvailable?: true
+  hourlyRate?: true
+  commissionRate?: true
+  boardColor?: true
+  homeLat?: true
+  homeLng?: true
+  homeAddress?: true
 }
 
 export type TechnicianProfileCountAggregateInputType = {
@@ -108,6 +189,17 @@ export type TechnicianProfileCountAggregateInputType = {
   certifications?: true
   photo?: true
   bio?: true
+  employeeId?: true
+  employmentType?: true
+  techRole?: true
+  workingHours?: true
+  emergencyAvailable?: true
+  hourlyRate?: true
+  commissionRate?: true
+  boardColor?: true
+  homeLat?: true
+  homeLng?: true
+  homeAddress?: true
   _all?: true
 }
 
@@ -149,6 +241,18 @@ export type TechnicianProfileAggregateArgs<ExtArgs extends runtime.Types.Extensi
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: TechnicianProfileAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: TechnicianProfileSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: TechnicianProfileMinAggregateInputType
@@ -179,6 +283,8 @@ export type TechnicianProfileGroupByArgs<ExtArgs extends runtime.Types.Extension
   take?: number
   skip?: number
   _count?: TechnicianProfileCountAggregateInputType | true
+  _avg?: TechnicianProfileAvgAggregateInputType
+  _sum?: TechnicianProfileSumAggregateInputType
   _min?: TechnicianProfileMinAggregateInputType
   _max?: TechnicianProfileMaxAggregateInputType
 }
@@ -199,7 +305,20 @@ export type TechnicianProfileGroupByOutputType = {
   certifications: runtime.JsonValue | null
   photo: string | null
   bio: string | null
+  employeeId: string | null
+  employmentType: string | null
+  techRole: string | null
+  workingHours: runtime.JsonValue | null
+  emergencyAvailable: boolean
+  hourlyRate: number | null
+  commissionRate: number | null
+  boardColor: string | null
+  homeLat: number | null
+  homeLng: number | null
+  homeAddress: string | null
   _count: TechnicianProfileCountAggregateOutputType | null
+  _avg: TechnicianProfileAvgAggregateOutputType | null
+  _sum: TechnicianProfileSumAggregateOutputType | null
   _min: TechnicianProfileMinAggregateOutputType | null
   _max: TechnicianProfileMaxAggregateOutputType | null
 }
@@ -238,6 +357,17 @@ export type TechnicianProfileWhereInput = {
   certifications?: Prisma.JsonNullableFilter<"TechnicianProfile">
   photo?: Prisma.StringNullableFilter<"TechnicianProfile"> | string | null
   bio?: Prisma.StringNullableFilter<"TechnicianProfile"> | string | null
+  employeeId?: Prisma.StringNullableFilter<"TechnicianProfile"> | string | null
+  employmentType?: Prisma.StringNullableFilter<"TechnicianProfile"> | string | null
+  techRole?: Prisma.StringNullableFilter<"TechnicianProfile"> | string | null
+  workingHours?: Prisma.JsonNullableFilter<"TechnicianProfile">
+  emergencyAvailable?: Prisma.BoolFilter<"TechnicianProfile"> | boolean
+  hourlyRate?: Prisma.FloatNullableFilter<"TechnicianProfile"> | number | null
+  commissionRate?: Prisma.FloatNullableFilter<"TechnicianProfile"> | number | null
+  boardColor?: Prisma.StringNullableFilter<"TechnicianProfile"> | string | null
+  homeLat?: Prisma.FloatNullableFilter<"TechnicianProfile"> | number | null
+  homeLng?: Prisma.FloatNullableFilter<"TechnicianProfile"> | number | null
+  homeAddress?: Prisma.StringNullableFilter<"TechnicianProfile"> | string | null
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
 
@@ -257,6 +387,17 @@ export type TechnicianProfileOrderByWithRelationInput = {
   certifications?: Prisma.SortOrderInput | Prisma.SortOrder
   photo?: Prisma.SortOrderInput | Prisma.SortOrder
   bio?: Prisma.SortOrderInput | Prisma.SortOrder
+  employeeId?: Prisma.SortOrderInput | Prisma.SortOrder
+  employmentType?: Prisma.SortOrderInput | Prisma.SortOrder
+  techRole?: Prisma.SortOrderInput | Prisma.SortOrder
+  workingHours?: Prisma.SortOrderInput | Prisma.SortOrder
+  emergencyAvailable?: Prisma.SortOrder
+  hourlyRate?: Prisma.SortOrderInput | Prisma.SortOrder
+  commissionRate?: Prisma.SortOrderInput | Prisma.SortOrder
+  boardColor?: Prisma.SortOrderInput | Prisma.SortOrder
+  homeLat?: Prisma.SortOrderInput | Prisma.SortOrder
+  homeLng?: Prisma.SortOrderInput | Prisma.SortOrder
+  homeAddress?: Prisma.SortOrderInput | Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
 }
 
@@ -279,6 +420,17 @@ export type TechnicianProfileWhereUniqueInput = Prisma.AtLeast<{
   certifications?: Prisma.JsonNullableFilter<"TechnicianProfile">
   photo?: Prisma.StringNullableFilter<"TechnicianProfile"> | string | null
   bio?: Prisma.StringNullableFilter<"TechnicianProfile"> | string | null
+  employeeId?: Prisma.StringNullableFilter<"TechnicianProfile"> | string | null
+  employmentType?: Prisma.StringNullableFilter<"TechnicianProfile"> | string | null
+  techRole?: Prisma.StringNullableFilter<"TechnicianProfile"> | string | null
+  workingHours?: Prisma.JsonNullableFilter<"TechnicianProfile">
+  emergencyAvailable?: Prisma.BoolFilter<"TechnicianProfile"> | boolean
+  hourlyRate?: Prisma.FloatNullableFilter<"TechnicianProfile"> | number | null
+  commissionRate?: Prisma.FloatNullableFilter<"TechnicianProfile"> | number | null
+  boardColor?: Prisma.StringNullableFilter<"TechnicianProfile"> | string | null
+  homeLat?: Prisma.FloatNullableFilter<"TechnicianProfile"> | number | null
+  homeLng?: Prisma.FloatNullableFilter<"TechnicianProfile"> | number | null
+  homeAddress?: Prisma.StringNullableFilter<"TechnicianProfile"> | string | null
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }, "id" | "userId">
 
@@ -298,9 +450,22 @@ export type TechnicianProfileOrderByWithAggregationInput = {
   certifications?: Prisma.SortOrderInput | Prisma.SortOrder
   photo?: Prisma.SortOrderInput | Prisma.SortOrder
   bio?: Prisma.SortOrderInput | Prisma.SortOrder
+  employeeId?: Prisma.SortOrderInput | Prisma.SortOrder
+  employmentType?: Prisma.SortOrderInput | Prisma.SortOrder
+  techRole?: Prisma.SortOrderInput | Prisma.SortOrder
+  workingHours?: Prisma.SortOrderInput | Prisma.SortOrder
+  emergencyAvailable?: Prisma.SortOrder
+  hourlyRate?: Prisma.SortOrderInput | Prisma.SortOrder
+  commissionRate?: Prisma.SortOrderInput | Prisma.SortOrder
+  boardColor?: Prisma.SortOrderInput | Prisma.SortOrder
+  homeLat?: Prisma.SortOrderInput | Prisma.SortOrder
+  homeLng?: Prisma.SortOrderInput | Prisma.SortOrder
+  homeAddress?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.TechnicianProfileCountOrderByAggregateInput
+  _avg?: Prisma.TechnicianProfileAvgOrderByAggregateInput
   _max?: Prisma.TechnicianProfileMaxOrderByAggregateInput
   _min?: Prisma.TechnicianProfileMinOrderByAggregateInput
+  _sum?: Prisma.TechnicianProfileSumOrderByAggregateInput
 }
 
 export type TechnicianProfileScalarWhereWithAggregatesInput = {
@@ -322,6 +487,17 @@ export type TechnicianProfileScalarWhereWithAggregatesInput = {
   certifications?: Prisma.JsonNullableWithAggregatesFilter<"TechnicianProfile">
   photo?: Prisma.StringNullableWithAggregatesFilter<"TechnicianProfile"> | string | null
   bio?: Prisma.StringNullableWithAggregatesFilter<"TechnicianProfile"> | string | null
+  employeeId?: Prisma.StringNullableWithAggregatesFilter<"TechnicianProfile"> | string | null
+  employmentType?: Prisma.StringNullableWithAggregatesFilter<"TechnicianProfile"> | string | null
+  techRole?: Prisma.StringNullableWithAggregatesFilter<"TechnicianProfile"> | string | null
+  workingHours?: Prisma.JsonNullableWithAggregatesFilter<"TechnicianProfile">
+  emergencyAvailable?: Prisma.BoolWithAggregatesFilter<"TechnicianProfile"> | boolean
+  hourlyRate?: Prisma.FloatNullableWithAggregatesFilter<"TechnicianProfile"> | number | null
+  commissionRate?: Prisma.FloatNullableWithAggregatesFilter<"TechnicianProfile"> | number | null
+  boardColor?: Prisma.StringNullableWithAggregatesFilter<"TechnicianProfile"> | string | null
+  homeLat?: Prisma.FloatNullableWithAggregatesFilter<"TechnicianProfile"> | number | null
+  homeLng?: Prisma.FloatNullableWithAggregatesFilter<"TechnicianProfile"> | number | null
+  homeAddress?: Prisma.StringNullableWithAggregatesFilter<"TechnicianProfile"> | string | null
 }
 
 export type TechnicianProfileCreateInput = {
@@ -339,6 +515,17 @@ export type TechnicianProfileCreateInput = {
   certifications?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   photo?: string | null
   bio?: string | null
+  employeeId?: string | null
+  employmentType?: string | null
+  techRole?: string | null
+  workingHours?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  emergencyAvailable?: boolean
+  hourlyRate?: number | null
+  commissionRate?: number | null
+  boardColor?: string | null
+  homeLat?: number | null
+  homeLng?: number | null
+  homeAddress?: string | null
   user: Prisma.UserCreateNestedOneWithoutTechnicianProfileInput
 }
 
@@ -358,6 +545,17 @@ export type TechnicianProfileUncheckedCreateInput = {
   certifications?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   photo?: string | null
   bio?: string | null
+  employeeId?: string | null
+  employmentType?: string | null
+  techRole?: string | null
+  workingHours?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  emergencyAvailable?: boolean
+  hourlyRate?: number | null
+  commissionRate?: number | null
+  boardColor?: string | null
+  homeLat?: number | null
+  homeLng?: number | null
+  homeAddress?: string | null
 }
 
 export type TechnicianProfileUpdateInput = {
@@ -375,6 +573,17 @@ export type TechnicianProfileUpdateInput = {
   certifications?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  employeeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  employmentType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  techRole?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  workingHours?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  emergencyAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hourlyRate?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  commissionRate?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  boardColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  homeLat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  homeLng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  homeAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   user?: Prisma.UserUpdateOneRequiredWithoutTechnicianProfileNestedInput
 }
 
@@ -394,6 +603,17 @@ export type TechnicianProfileUncheckedUpdateInput = {
   certifications?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  employeeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  employmentType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  techRole?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  workingHours?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  emergencyAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hourlyRate?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  commissionRate?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  boardColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  homeLat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  homeLng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  homeAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type TechnicianProfileCreateManyInput = {
@@ -412,6 +632,17 @@ export type TechnicianProfileCreateManyInput = {
   certifications?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   photo?: string | null
   bio?: string | null
+  employeeId?: string | null
+  employmentType?: string | null
+  techRole?: string | null
+  workingHours?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  emergencyAvailable?: boolean
+  hourlyRate?: number | null
+  commissionRate?: number | null
+  boardColor?: string | null
+  homeLat?: number | null
+  homeLng?: number | null
+  homeAddress?: string | null
 }
 
 export type TechnicianProfileUpdateManyMutationInput = {
@@ -429,6 +660,17 @@ export type TechnicianProfileUpdateManyMutationInput = {
   certifications?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  employeeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  employmentType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  techRole?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  workingHours?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  emergencyAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hourlyRate?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  commissionRate?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  boardColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  homeLat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  homeLng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  homeAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type TechnicianProfileUncheckedUpdateManyInput = {
@@ -447,6 +689,17 @@ export type TechnicianProfileUncheckedUpdateManyInput = {
   certifications?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  employeeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  employmentType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  techRole?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  workingHours?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  emergencyAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hourlyRate?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  commissionRate?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  boardColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  homeLat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  homeLng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  homeAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type TechnicianProfileNullableScalarRelationFilter = {
@@ -470,6 +723,24 @@ export type TechnicianProfileCountOrderByAggregateInput = {
   certifications?: Prisma.SortOrder
   photo?: Prisma.SortOrder
   bio?: Prisma.SortOrder
+  employeeId?: Prisma.SortOrder
+  employmentType?: Prisma.SortOrder
+  techRole?: Prisma.SortOrder
+  workingHours?: Prisma.SortOrder
+  emergencyAvailable?: Prisma.SortOrder
+  hourlyRate?: Prisma.SortOrder
+  commissionRate?: Prisma.SortOrder
+  boardColor?: Prisma.SortOrder
+  homeLat?: Prisma.SortOrder
+  homeLng?: Prisma.SortOrder
+  homeAddress?: Prisma.SortOrder
+}
+
+export type TechnicianProfileAvgOrderByAggregateInput = {
+  hourlyRate?: Prisma.SortOrder
+  commissionRate?: Prisma.SortOrder
+  homeLat?: Prisma.SortOrder
+  homeLng?: Prisma.SortOrder
 }
 
 export type TechnicianProfileMaxOrderByAggregateInput = {
@@ -482,6 +753,16 @@ export type TechnicianProfileMaxOrderByAggregateInput = {
   updatedAt?: Prisma.SortOrder
   photo?: Prisma.SortOrder
   bio?: Prisma.SortOrder
+  employeeId?: Prisma.SortOrder
+  employmentType?: Prisma.SortOrder
+  techRole?: Prisma.SortOrder
+  emergencyAvailable?: Prisma.SortOrder
+  hourlyRate?: Prisma.SortOrder
+  commissionRate?: Prisma.SortOrder
+  boardColor?: Prisma.SortOrder
+  homeLat?: Prisma.SortOrder
+  homeLng?: Prisma.SortOrder
+  homeAddress?: Prisma.SortOrder
 }
 
 export type TechnicianProfileMinOrderByAggregateInput = {
@@ -494,6 +775,23 @@ export type TechnicianProfileMinOrderByAggregateInput = {
   updatedAt?: Prisma.SortOrder
   photo?: Prisma.SortOrder
   bio?: Prisma.SortOrder
+  employeeId?: Prisma.SortOrder
+  employmentType?: Prisma.SortOrder
+  techRole?: Prisma.SortOrder
+  emergencyAvailable?: Prisma.SortOrder
+  hourlyRate?: Prisma.SortOrder
+  commissionRate?: Prisma.SortOrder
+  boardColor?: Prisma.SortOrder
+  homeLat?: Prisma.SortOrder
+  homeLng?: Prisma.SortOrder
+  homeAddress?: Prisma.SortOrder
+}
+
+export type TechnicianProfileSumOrderByAggregateInput = {
+  hourlyRate?: Prisma.SortOrder
+  commissionRate?: Prisma.SortOrder
+  homeLat?: Prisma.SortOrder
+  homeLng?: Prisma.SortOrder
 }
 
 export type TechnicianProfileCreateNestedOneWithoutUserInput = {
@@ -570,6 +868,17 @@ export type TechnicianProfileCreateWithoutUserInput = {
   certifications?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   photo?: string | null
   bio?: string | null
+  employeeId?: string | null
+  employmentType?: string | null
+  techRole?: string | null
+  workingHours?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  emergencyAvailable?: boolean
+  hourlyRate?: number | null
+  commissionRate?: number | null
+  boardColor?: string | null
+  homeLat?: number | null
+  homeLng?: number | null
+  homeAddress?: string | null
 }
 
 export type TechnicianProfileUncheckedCreateWithoutUserInput = {
@@ -587,6 +896,17 @@ export type TechnicianProfileUncheckedCreateWithoutUserInput = {
   certifications?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   photo?: string | null
   bio?: string | null
+  employeeId?: string | null
+  employmentType?: string | null
+  techRole?: string | null
+  workingHours?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  emergencyAvailable?: boolean
+  hourlyRate?: number | null
+  commissionRate?: number | null
+  boardColor?: string | null
+  homeLat?: number | null
+  homeLng?: number | null
+  homeAddress?: string | null
 }
 
 export type TechnicianProfileCreateOrConnectWithoutUserInput = {
@@ -620,6 +940,17 @@ export type TechnicianProfileUpdateWithoutUserInput = {
   certifications?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  employeeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  employmentType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  techRole?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  workingHours?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  emergencyAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hourlyRate?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  commissionRate?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  boardColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  homeLat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  homeLng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  homeAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type TechnicianProfileUncheckedUpdateWithoutUserInput = {
@@ -637,6 +968,17 @@ export type TechnicianProfileUncheckedUpdateWithoutUserInput = {
   certifications?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  employeeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  employmentType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  techRole?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  workingHours?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  emergencyAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hourlyRate?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  commissionRate?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  boardColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  homeLat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  homeLng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  homeAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -657,6 +999,17 @@ export type TechnicianProfileSelect<ExtArgs extends runtime.Types.Extensions.Int
   certifications?: boolean
   photo?: boolean
   bio?: boolean
+  employeeId?: boolean
+  employmentType?: boolean
+  techRole?: boolean
+  workingHours?: boolean
+  emergencyAvailable?: boolean
+  hourlyRate?: boolean
+  commissionRate?: boolean
+  boardColor?: boolean
+  homeLat?: boolean
+  homeLng?: boolean
+  homeAddress?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["technicianProfile"]>
 
@@ -676,6 +1029,17 @@ export type TechnicianProfileSelectCreateManyAndReturn<ExtArgs extends runtime.T
   certifications?: boolean
   photo?: boolean
   bio?: boolean
+  employeeId?: boolean
+  employmentType?: boolean
+  techRole?: boolean
+  workingHours?: boolean
+  emergencyAvailable?: boolean
+  hourlyRate?: boolean
+  commissionRate?: boolean
+  boardColor?: boolean
+  homeLat?: boolean
+  homeLng?: boolean
+  homeAddress?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["technicianProfile"]>
 
@@ -695,6 +1059,17 @@ export type TechnicianProfileSelectUpdateManyAndReturn<ExtArgs extends runtime.T
   certifications?: boolean
   photo?: boolean
   bio?: boolean
+  employeeId?: boolean
+  employmentType?: boolean
+  techRole?: boolean
+  workingHours?: boolean
+  emergencyAvailable?: boolean
+  hourlyRate?: boolean
+  commissionRate?: boolean
+  boardColor?: boolean
+  homeLat?: boolean
+  homeLng?: boolean
+  homeAddress?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["technicianProfile"]>
 
@@ -714,9 +1089,20 @@ export type TechnicianProfileSelectScalar = {
   certifications?: boolean
   photo?: boolean
   bio?: boolean
+  employeeId?: boolean
+  employmentType?: boolean
+  techRole?: boolean
+  workingHours?: boolean
+  emergencyAvailable?: boolean
+  hourlyRate?: boolean
+  commissionRate?: boolean
+  boardColor?: boolean
+  homeLat?: boolean
+  homeLng?: boolean
+  homeAddress?: boolean
 }
 
-export type TechnicianProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "vehicle" | "licenseNumber" | "specialties" | "availability" | "isActive" | "createdAt" | "updatedAt" | "skills" | "serviceAreas" | "vehicleInfo" | "certifications" | "photo" | "bio", ExtArgs["result"]["technicianProfile"]>
+export type TechnicianProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "vehicle" | "licenseNumber" | "specialties" | "availability" | "isActive" | "createdAt" | "updatedAt" | "skills" | "serviceAreas" | "vehicleInfo" | "certifications" | "photo" | "bio" | "employeeId" | "employmentType" | "techRole" | "workingHours" | "emergencyAvailable" | "hourlyRate" | "commissionRate" | "boardColor" | "homeLat" | "homeLng" | "homeAddress", ExtArgs["result"]["technicianProfile"]>
 export type TechnicianProfileInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -748,6 +1134,17 @@ export type $TechnicianProfilePayload<ExtArgs extends runtime.Types.Extensions.I
     certifications: runtime.JsonValue | null
     photo: string | null
     bio: string | null
+    employeeId: string | null
+    employmentType: string | null
+    techRole: string | null
+    workingHours: runtime.JsonValue | null
+    emergencyAvailable: boolean
+    hourlyRate: number | null
+    commissionRate: number | null
+    boardColor: string | null
+    homeLat: number | null
+    homeLng: number | null
+    homeAddress: string | null
   }, ExtArgs["result"]["technicianProfile"]>
   composites: {}
 }
@@ -1187,6 +1584,17 @@ export interface TechnicianProfileFieldRefs {
   readonly certifications: Prisma.FieldRef<"TechnicianProfile", 'Json'>
   readonly photo: Prisma.FieldRef<"TechnicianProfile", 'String'>
   readonly bio: Prisma.FieldRef<"TechnicianProfile", 'String'>
+  readonly employeeId: Prisma.FieldRef<"TechnicianProfile", 'String'>
+  readonly employmentType: Prisma.FieldRef<"TechnicianProfile", 'String'>
+  readonly techRole: Prisma.FieldRef<"TechnicianProfile", 'String'>
+  readonly workingHours: Prisma.FieldRef<"TechnicianProfile", 'Json'>
+  readonly emergencyAvailable: Prisma.FieldRef<"TechnicianProfile", 'Boolean'>
+  readonly hourlyRate: Prisma.FieldRef<"TechnicianProfile", 'Float'>
+  readonly commissionRate: Prisma.FieldRef<"TechnicianProfile", 'Float'>
+  readonly boardColor: Prisma.FieldRef<"TechnicianProfile", 'String'>
+  readonly homeLat: Prisma.FieldRef<"TechnicianProfile", 'Float'>
+  readonly homeLng: Prisma.FieldRef<"TechnicianProfile", 'Float'>
+  readonly homeAddress: Prisma.FieldRef<"TechnicianProfile", 'String'>
 }
     
 

@@ -14,8 +14,9 @@ import type * as Prisma from "../internal/prismaNamespace"
 
 /**
  * Model ShortLink
- * * Short redirect links for SMS — keeps texted invoice/estimate links from
- *  *  looking like a wall of text (raw URLs with a security token are long).
+ * *
+ *  * Short redirect links for SMS — keeps texted invoice/estimate links from
+ *  * looking like a wall of text (raw URLs with a security token are long).
  */
 export type ShortLinkModel = runtime.Types.Result.DefaultSelection<Prisma.$ShortLinkPayload>
 

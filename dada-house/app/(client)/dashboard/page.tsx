@@ -1,4 +1,5 @@
 import { auth } from "@/auth";
+import { linkCustomerToUser, syncCustomerAppointments, verifyPortalInvite, myEstimateInvoicesWhere } from "@/lib/portal-access";
 import { db } from "@/lib/db";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -14,9 +15,20 @@ function statusLabel(s: string) {
   return s.replace("_", " ");
 }
 
-export default async function DashboardPage() {
+export default async function DashboardPage({ searchParams }: { searchParams: Promise<{ invite?: string }> }) {
   const session = await auth();
   if (session?.user?.mustChangePassword) redirect("/auth/change-password");
+
+  // Arrived from the personal invite link while signing in with an existing account / Google: link the records.
+  const { invite } = await searchParams;
+  if (invite && session?.user?.id) {
+    const customerId = verifyPortalInvite(invite);
+    if (customerId && (await linkCustomerToUser(customerId, session.user.id))) await syncCustomerAppointments(session.user.id);
+    redirect("/dashboard");
+  }
+
+  const linkedCustomer = await db.customer.findFirst({ where: { userId: session!.user.id }, select: { loyaltyAccount: { select: { balance: true } } } });
+  const points = linkedCustomer?.loyaltyAccount?.balance ?? 0;
 
   const [appointments, techInvoices] = await Promise.all([
     db.appointment.findMany({
@@ -25,13 +37,12 @@ export default async function DashboardPage() {
       orderBy: { createdAt: "desc" },
       take: 50,
     }),
-    session!.user.email
-      ? db.estimate.findMany({
-          where: { isInvoice: true, clientEmail: session!.user.email, paidAt: null, sentAt: { not: null } },
-          select: { id: true, estimateNumber: true, total: true, paymentToken: true },
+    myEstimateInvoicesWhere(session!.user.id, session!.user.email).then((mine) =>
+      db.estimate.findMany({
+          where: { AND: [mine, { paidAt: null, sentAt: { not: null } }] },
+          select: { id: true, estimateNumber: true, total: true, paymentToken: true, loyaltyDiscount: true },
           orderBy: { createdAt: "desc" },
-        })
-      : Promise.resolve([]),
+        })),
   ]);
 
   const active    = appointments.filter(a => a.status !== "COMPLETED" && a.status !== "CANCELLED");
@@ -41,7 +52,7 @@ export default async function DashboardPage() {
 
   const pending   = active.filter(a => a.status === "PENDING").length;
   const inFlight  = active.filter(a => a.status === "CONFIRMED" || a.status === "IN_PROGRESS").length;
-  const unpaidTotal = techInvoices.reduce((s, i) => s + i.total, 0);
+  const unpaidTotal = techInvoices.reduce((s, i) => s + i.total - i.loyaltyDiscount, 0);
 
   return (
     <div>
@@ -87,6 +98,17 @@ export default async function DashboardPage() {
             <Receipt className="w-3.5 h-3.5" /> Pay Now
           </Link>
         </div>
+      )}
+
+      {/* Reward points */}
+      {linkedCustomer && (
+        <Link href="/dashboard/rewards" className="flex items-center justify-between gap-3 rounded-xl p-4 mb-4 bg-gradient-to-r from-[#1B3FA8] to-[#0A1628] text-white">
+          <div>
+            <p className="text-xs text-white/60 uppercase tracking-wide">Reward points</p>
+            <p className="font-black text-xl">{points.toLocaleString()} pts <span className="text-[#F7921A] text-sm font-bold">= {new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(points / 100)}</span></p>
+          </div>
+          <span className="text-xs font-bold bg-[#F7921A] rounded-lg px-3 py-2">Use my points →</span>
+        </Link>
       )}
 
       {/* Stats */}

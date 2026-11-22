@@ -14,8 +14,9 @@ import type * as Prisma from "../internal/prismaNamespace"
 
 /**
  * Model SystemType
- * * HVAC system type options for the Performance Plan Contract flow (Heat Pump,
- *  *  Straight Cool, Package Unit, ...) — admin-managed so the list can grow.
+ * *
+ *  * HVAC system type options for the Performance Plan Contract flow (Heat Pump,
+ *  * Straight Cool, Package Unit, ...) — admin-managed so the list can grow.
  */
 export type SystemTypeModel = runtime.Types.Result.DefaultSelection<Prisma.$SystemTypePayload>
 

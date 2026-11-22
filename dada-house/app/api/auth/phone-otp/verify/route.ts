@@ -2,6 +2,7 @@
 import { getTwilioClient } from "@/lib/twilio";
 import { db } from "@/lib/db";
 import { verifyOtpSchema } from "@/lib/validations";
+import { linkCustomerByVerifiedPhone } from "@/lib/portal-access";
 
 export async function POST(req: NextRequest) {
   try {
@@ -37,6 +38,9 @@ export async function POST(req: NextRequest) {
         },
       });
     }
+
+    // The phone was just verified by SMS code: link the customer record with this number to the account.
+    if (user.role === "CLIENT") await linkCustomerByVerifiedPhone(user.id, phone);
 
     return NextResponse.json({ success: true, userId: user.id, email: user.email });
   } catch (error) {

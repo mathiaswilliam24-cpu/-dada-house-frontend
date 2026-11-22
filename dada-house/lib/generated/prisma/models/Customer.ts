@@ -39,6 +39,7 @@ export type CustomerMinAggregateOutputType = {
   preferredLanguage: string | null
   notes: string | null
   userId: string | null
+  stripeCustomerId: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -58,6 +59,7 @@ export type CustomerMaxAggregateOutputType = {
   preferredLanguage: string | null
   notes: string | null
   userId: string | null
+  stripeCustomerId: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -78,6 +80,7 @@ export type CustomerCountAggregateOutputType = {
   tags: number
   notes: number
   userId: number
+  stripeCustomerId: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -99,6 +102,7 @@ export type CustomerMinAggregateInputType = {
   preferredLanguage?: true
   notes?: true
   userId?: true
+  stripeCustomerId?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -118,6 +122,7 @@ export type CustomerMaxAggregateInputType = {
   preferredLanguage?: true
   notes?: true
   userId?: true
+  stripeCustomerId?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -138,6 +143,7 @@ export type CustomerCountAggregateInputType = {
   tags?: true
   notes?: true
   userId?: true
+  stripeCustomerId?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -231,6 +237,7 @@ export type CustomerGroupByOutputType = {
   tags: string[]
   notes: string | null
   userId: string | null
+  stripeCustomerId: string | null
   createdAt: Date
   updatedAt: Date
   _count: CustomerCountAggregateOutputType | null
@@ -272,6 +279,7 @@ export type CustomerWhereInput = {
   tags?: Prisma.StringNullableListFilter<"Customer">
   notes?: Prisma.StringNullableFilter<"Customer"> | string | null
   userId?: Prisma.StringNullableFilter<"Customer"> | string | null
+  stripeCustomerId?: Prisma.StringNullableFilter<"Customer"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Customer"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Customer"> | Date | string
   user?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
@@ -284,6 +292,7 @@ export type CustomerWhereInput = {
   maintenanceContracts?: Prisma.MaintenanceContractListRelationFilter
   equipment?: Prisma.EquipmentListRelationFilter
   projects?: Prisma.ProjectListRelationFilter
+  loyaltyAccount?: Prisma.XOR<Prisma.LoyaltyAccountNullableScalarRelationFilter, Prisma.LoyaltyAccountWhereInput> | null
 }
 
 export type CustomerOrderByWithRelationInput = {
@@ -302,6 +311,7 @@ export type CustomerOrderByWithRelationInput = {
   tags?: Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
   userId?: Prisma.SortOrderInput | Prisma.SortOrder
+  stripeCustomerId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
@@ -314,12 +324,14 @@ export type CustomerOrderByWithRelationInput = {
   maintenanceContracts?: Prisma.MaintenanceContractOrderByRelationAggregateInput
   equipment?: Prisma.EquipmentOrderByRelationAggregateInput
   projects?: Prisma.ProjectOrderByRelationAggregateInput
+  loyaltyAccount?: Prisma.LoyaltyAccountOrderByWithRelationInput
 }
 
 export type CustomerWhereUniqueInput = Prisma.AtLeast<{
   id?: string
   phone?: string
   userId?: string
+  stripeCustomerId?: string
   AND?: Prisma.CustomerWhereInput | Prisma.CustomerWhereInput[]
   OR?: Prisma.CustomerWhereInput[]
   NOT?: Prisma.CustomerWhereInput | Prisma.CustomerWhereInput[]
@@ -347,7 +359,8 @@ export type CustomerWhereUniqueInput = Prisma.AtLeast<{
   maintenanceContracts?: Prisma.MaintenanceContractListRelationFilter
   equipment?: Prisma.EquipmentListRelationFilter
   projects?: Prisma.ProjectListRelationFilter
-}, "id" | "phone" | "userId">
+  loyaltyAccount?: Prisma.XOR<Prisma.LoyaltyAccountNullableScalarRelationFilter, Prisma.LoyaltyAccountWhereInput> | null
+}, "id" | "phone" | "userId" | "stripeCustomerId">
 
 export type CustomerOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -365,6 +378,7 @@ export type CustomerOrderByWithAggregationInput = {
   tags?: Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
   userId?: Prisma.SortOrderInput | Prisma.SortOrder
+  stripeCustomerId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.CustomerCountOrderByAggregateInput
@@ -391,6 +405,7 @@ export type CustomerScalarWhereWithAggregatesInput = {
   tags?: Prisma.StringNullableListFilter<"Customer">
   notes?: Prisma.StringNullableWithAggregatesFilter<"Customer"> | string | null
   userId?: Prisma.StringNullableWithAggregatesFilter<"Customer"> | string | null
+  stripeCustomerId?: Prisma.StringNullableWithAggregatesFilter<"Customer"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Customer"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Customer"> | Date | string
 }
@@ -410,6 +425,7 @@ export type CustomerCreateInput = {
   preferredLanguage?: string | null
   tags?: Prisma.CustomerCreatetagsInput | string[]
   notes?: string | null
+  stripeCustomerId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   user?: Prisma.UserCreateNestedOneWithoutCustomerRecordInput
@@ -422,6 +438,7 @@ export type CustomerCreateInput = {
   maintenanceContracts?: Prisma.MaintenanceContractCreateNestedManyWithoutCustomerInput
   equipment?: Prisma.EquipmentCreateNestedManyWithoutCustomerInput
   projects?: Prisma.ProjectCreateNestedManyWithoutCustomerInput
+  loyaltyAccount?: Prisma.LoyaltyAccountCreateNestedOneWithoutCustomerInput
 }
 
 export type CustomerUncheckedCreateInput = {
@@ -440,6 +457,7 @@ export type CustomerUncheckedCreateInput = {
   tags?: Prisma.CustomerCreatetagsInput | string[]
   notes?: string | null
   userId?: string | null
+  stripeCustomerId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutCustomerInput
@@ -451,6 +469,7 @@ export type CustomerUncheckedCreateInput = {
   maintenanceContracts?: Prisma.MaintenanceContractUncheckedCreateNestedManyWithoutCustomerInput
   equipment?: Prisma.EquipmentUncheckedCreateNestedManyWithoutCustomerInput
   projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutCustomerInput
+  loyaltyAccount?: Prisma.LoyaltyAccountUncheckedCreateNestedOneWithoutCustomerInput
 }
 
 export type CustomerUpdateInput = {
@@ -468,6 +487,7 @@ export type CustomerUpdateInput = {
   preferredLanguage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tags?: Prisma.CustomerUpdatetagsInput | string[]
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneWithoutCustomerRecordNestedInput
@@ -480,6 +500,7 @@ export type CustomerUpdateInput = {
   maintenanceContracts?: Prisma.MaintenanceContractUpdateManyWithoutCustomerNestedInput
   equipment?: Prisma.EquipmentUpdateManyWithoutCustomerNestedInput
   projects?: Prisma.ProjectUpdateManyWithoutCustomerNestedInput
+  loyaltyAccount?: Prisma.LoyaltyAccountUpdateOneWithoutCustomerNestedInput
 }
 
 export type CustomerUncheckedUpdateInput = {
@@ -498,6 +519,7 @@ export type CustomerUncheckedUpdateInput = {
   tags?: Prisma.CustomerUpdatetagsInput | string[]
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutCustomerNestedInput
@@ -509,6 +531,7 @@ export type CustomerUncheckedUpdateInput = {
   maintenanceContracts?: Prisma.MaintenanceContractUncheckedUpdateManyWithoutCustomerNestedInput
   equipment?: Prisma.EquipmentUncheckedUpdateManyWithoutCustomerNestedInput
   projects?: Prisma.ProjectUncheckedUpdateManyWithoutCustomerNestedInput
+  loyaltyAccount?: Prisma.LoyaltyAccountUncheckedUpdateOneWithoutCustomerNestedInput
 }
 
 export type CustomerCreateManyInput = {
@@ -527,6 +550,7 @@ export type CustomerCreateManyInput = {
   tags?: Prisma.CustomerCreatetagsInput | string[]
   notes?: string | null
   userId?: string | null
+  stripeCustomerId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -546,6 +570,7 @@ export type CustomerUpdateManyMutationInput = {
   preferredLanguage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tags?: Prisma.CustomerUpdatetagsInput | string[]
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -566,6 +591,7 @@ export type CustomerUncheckedUpdateManyInput = {
   tags?: Prisma.CustomerUpdatetagsInput | string[]
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -591,6 +617,7 @@ export type CustomerCountOrderByAggregateInput = {
   tags?: Prisma.SortOrder
   notes?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  stripeCustomerId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -610,6 +637,7 @@ export type CustomerMaxOrderByAggregateInput = {
   preferredLanguage?: Prisma.SortOrder
   notes?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  stripeCustomerId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -629,6 +657,7 @@ export type CustomerMinOrderByAggregateInput = {
   preferredLanguage?: Prisma.SortOrder
   notes?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  stripeCustomerId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -821,6 +850,20 @@ export type CustomerUpdateOneRequiredWithoutMaintenanceContractsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.CustomerUpdateToOneWithWhereWithoutMaintenanceContractsInput, Prisma.CustomerUpdateWithoutMaintenanceContractsInput>, Prisma.CustomerUncheckedUpdateWithoutMaintenanceContractsInput>
 }
 
+export type CustomerCreateNestedOneWithoutLoyaltyAccountInput = {
+  create?: Prisma.XOR<Prisma.CustomerCreateWithoutLoyaltyAccountInput, Prisma.CustomerUncheckedCreateWithoutLoyaltyAccountInput>
+  connectOrCreate?: Prisma.CustomerCreateOrConnectWithoutLoyaltyAccountInput
+  connect?: Prisma.CustomerWhereUniqueInput
+}
+
+export type CustomerUpdateOneRequiredWithoutLoyaltyAccountNestedInput = {
+  create?: Prisma.XOR<Prisma.CustomerCreateWithoutLoyaltyAccountInput, Prisma.CustomerUncheckedCreateWithoutLoyaltyAccountInput>
+  connectOrCreate?: Prisma.CustomerCreateOrConnectWithoutLoyaltyAccountInput
+  upsert?: Prisma.CustomerUpsertWithoutLoyaltyAccountInput
+  connect?: Prisma.CustomerWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CustomerUpdateToOneWithWhereWithoutLoyaltyAccountInput, Prisma.CustomerUpdateWithoutLoyaltyAccountInput>, Prisma.CustomerUncheckedUpdateWithoutLoyaltyAccountInput>
+}
+
 export type CustomerCreateWithoutUserInput = {
   id?: string
   firstName: string
@@ -836,6 +879,7 @@ export type CustomerCreateWithoutUserInput = {
   preferredLanguage?: string | null
   tags?: Prisma.CustomerCreatetagsInput | string[]
   notes?: string | null
+  stripeCustomerId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   appointments?: Prisma.AppointmentCreateNestedManyWithoutCustomerInput
@@ -847,6 +891,7 @@ export type CustomerCreateWithoutUserInput = {
   maintenanceContracts?: Prisma.MaintenanceContractCreateNestedManyWithoutCustomerInput
   equipment?: Prisma.EquipmentCreateNestedManyWithoutCustomerInput
   projects?: Prisma.ProjectCreateNestedManyWithoutCustomerInput
+  loyaltyAccount?: Prisma.LoyaltyAccountCreateNestedOneWithoutCustomerInput
 }
 
 export type CustomerUncheckedCreateWithoutUserInput = {
@@ -864,6 +909,7 @@ export type CustomerUncheckedCreateWithoutUserInput = {
   preferredLanguage?: string | null
   tags?: Prisma.CustomerCreatetagsInput | string[]
   notes?: string | null
+  stripeCustomerId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutCustomerInput
@@ -875,6 +921,7 @@ export type CustomerUncheckedCreateWithoutUserInput = {
   maintenanceContracts?: Prisma.MaintenanceContractUncheckedCreateNestedManyWithoutCustomerInput
   equipment?: Prisma.EquipmentUncheckedCreateNestedManyWithoutCustomerInput
   projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutCustomerInput
+  loyaltyAccount?: Prisma.LoyaltyAccountUncheckedCreateNestedOneWithoutCustomerInput
 }
 
 export type CustomerCreateOrConnectWithoutUserInput = {
@@ -908,6 +955,7 @@ export type CustomerUpdateWithoutUserInput = {
   preferredLanguage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tags?: Prisma.CustomerUpdatetagsInput | string[]
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   appointments?: Prisma.AppointmentUpdateManyWithoutCustomerNestedInput
@@ -919,6 +967,7 @@ export type CustomerUpdateWithoutUserInput = {
   maintenanceContracts?: Prisma.MaintenanceContractUpdateManyWithoutCustomerNestedInput
   equipment?: Prisma.EquipmentUpdateManyWithoutCustomerNestedInput
   projects?: Prisma.ProjectUpdateManyWithoutCustomerNestedInput
+  loyaltyAccount?: Prisma.LoyaltyAccountUpdateOneWithoutCustomerNestedInput
 }
 
 export type CustomerUncheckedUpdateWithoutUserInput = {
@@ -936,6 +985,7 @@ export type CustomerUncheckedUpdateWithoutUserInput = {
   preferredLanguage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tags?: Prisma.CustomerUpdatetagsInput | string[]
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutCustomerNestedInput
@@ -947,6 +997,7 @@ export type CustomerUncheckedUpdateWithoutUserInput = {
   maintenanceContracts?: Prisma.MaintenanceContractUncheckedUpdateManyWithoutCustomerNestedInput
   equipment?: Prisma.EquipmentUncheckedUpdateManyWithoutCustomerNestedInput
   projects?: Prisma.ProjectUncheckedUpdateManyWithoutCustomerNestedInput
+  loyaltyAccount?: Prisma.LoyaltyAccountUncheckedUpdateOneWithoutCustomerNestedInput
 }
 
 export type CustomerCreateWithoutAppointmentsInput = {
@@ -964,6 +1015,7 @@ export type CustomerCreateWithoutAppointmentsInput = {
   preferredLanguage?: string | null
   tags?: Prisma.CustomerCreatetagsInput | string[]
   notes?: string | null
+  stripeCustomerId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   user?: Prisma.UserCreateNestedOneWithoutCustomerRecordInput
@@ -975,6 +1027,7 @@ export type CustomerCreateWithoutAppointmentsInput = {
   maintenanceContracts?: Prisma.MaintenanceContractCreateNestedManyWithoutCustomerInput
   equipment?: Prisma.EquipmentCreateNestedManyWithoutCustomerInput
   projects?: Prisma.ProjectCreateNestedManyWithoutCustomerInput
+  loyaltyAccount?: Prisma.LoyaltyAccountCreateNestedOneWithoutCustomerInput
 }
 
 export type CustomerUncheckedCreateWithoutAppointmentsInput = {
@@ -993,6 +1046,7 @@ export type CustomerUncheckedCreateWithoutAppointmentsInput = {
   tags?: Prisma.CustomerCreatetagsInput | string[]
   notes?: string | null
   userId?: string | null
+  stripeCustomerId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   calls?: Prisma.CallUncheckedCreateNestedManyWithoutCustomerInput
@@ -1003,6 +1057,7 @@ export type CustomerUncheckedCreateWithoutAppointmentsInput = {
   maintenanceContracts?: Prisma.MaintenanceContractUncheckedCreateNestedManyWithoutCustomerInput
   equipment?: Prisma.EquipmentUncheckedCreateNestedManyWithoutCustomerInput
   projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutCustomerInput
+  loyaltyAccount?: Prisma.LoyaltyAccountUncheckedCreateNestedOneWithoutCustomerInput
 }
 
 export type CustomerCreateOrConnectWithoutAppointmentsInput = {
@@ -1036,6 +1091,7 @@ export type CustomerUpdateWithoutAppointmentsInput = {
   preferredLanguage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tags?: Prisma.CustomerUpdatetagsInput | string[]
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneWithoutCustomerRecordNestedInput
@@ -1047,6 +1103,7 @@ export type CustomerUpdateWithoutAppointmentsInput = {
   maintenanceContracts?: Prisma.MaintenanceContractUpdateManyWithoutCustomerNestedInput
   equipment?: Prisma.EquipmentUpdateManyWithoutCustomerNestedInput
   projects?: Prisma.ProjectUpdateManyWithoutCustomerNestedInput
+  loyaltyAccount?: Prisma.LoyaltyAccountUpdateOneWithoutCustomerNestedInput
 }
 
 export type CustomerUncheckedUpdateWithoutAppointmentsInput = {
@@ -1065,6 +1122,7 @@ export type CustomerUncheckedUpdateWithoutAppointmentsInput = {
   tags?: Prisma.CustomerUpdatetagsInput | string[]
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   calls?: Prisma.CallUncheckedUpdateManyWithoutCustomerNestedInput
@@ -1075,6 +1133,7 @@ export type CustomerUncheckedUpdateWithoutAppointmentsInput = {
   maintenanceContracts?: Prisma.MaintenanceContractUncheckedUpdateManyWithoutCustomerNestedInput
   equipment?: Prisma.EquipmentUncheckedUpdateManyWithoutCustomerNestedInput
   projects?: Prisma.ProjectUncheckedUpdateManyWithoutCustomerNestedInput
+  loyaltyAccount?: Prisma.LoyaltyAccountUncheckedUpdateOneWithoutCustomerNestedInput
 }
 
 export type CustomerCreateWithoutEquipmentInput = {
@@ -1092,6 +1151,7 @@ export type CustomerCreateWithoutEquipmentInput = {
   preferredLanguage?: string | null
   tags?: Prisma.CustomerCreatetagsInput | string[]
   notes?: string | null
+  stripeCustomerId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   user?: Prisma.UserCreateNestedOneWithoutCustomerRecordInput
@@ -1103,6 +1163,7 @@ export type CustomerCreateWithoutEquipmentInput = {
   doNotContact?: Prisma.DoNotContactCreateNestedOneWithoutCustomerInput
   maintenanceContracts?: Prisma.MaintenanceContractCreateNestedManyWithoutCustomerInput
   projects?: Prisma.ProjectCreateNestedManyWithoutCustomerInput
+  loyaltyAccount?: Prisma.LoyaltyAccountCreateNestedOneWithoutCustomerInput
 }
 
 export type CustomerUncheckedCreateWithoutEquipmentInput = {
@@ -1121,6 +1182,7 @@ export type CustomerUncheckedCreateWithoutEquipmentInput = {
   tags?: Prisma.CustomerCreatetagsInput | string[]
   notes?: string | null
   userId?: string | null
+  stripeCustomerId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutCustomerInput
@@ -1131,6 +1193,7 @@ export type CustomerUncheckedCreateWithoutEquipmentInput = {
   doNotContact?: Prisma.DoNotContactUncheckedCreateNestedOneWithoutCustomerInput
   maintenanceContracts?: Prisma.MaintenanceContractUncheckedCreateNestedManyWithoutCustomerInput
   projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutCustomerInput
+  loyaltyAccount?: Prisma.LoyaltyAccountUncheckedCreateNestedOneWithoutCustomerInput
 }
 
 export type CustomerCreateOrConnectWithoutEquipmentInput = {
@@ -1164,6 +1227,7 @@ export type CustomerUpdateWithoutEquipmentInput = {
   preferredLanguage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tags?: Prisma.CustomerUpdatetagsInput | string[]
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneWithoutCustomerRecordNestedInput
@@ -1175,6 +1239,7 @@ export type CustomerUpdateWithoutEquipmentInput = {
   doNotContact?: Prisma.DoNotContactUpdateOneWithoutCustomerNestedInput
   maintenanceContracts?: Prisma.MaintenanceContractUpdateManyWithoutCustomerNestedInput
   projects?: Prisma.ProjectUpdateManyWithoutCustomerNestedInput
+  loyaltyAccount?: Prisma.LoyaltyAccountUpdateOneWithoutCustomerNestedInput
 }
 
 export type CustomerUncheckedUpdateWithoutEquipmentInput = {
@@ -1193,6 +1258,7 @@ export type CustomerUncheckedUpdateWithoutEquipmentInput = {
   tags?: Prisma.CustomerUpdatetagsInput | string[]
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutCustomerNestedInput
@@ -1203,6 +1269,7 @@ export type CustomerUncheckedUpdateWithoutEquipmentInput = {
   doNotContact?: Prisma.DoNotContactUncheckedUpdateOneWithoutCustomerNestedInput
   maintenanceContracts?: Prisma.MaintenanceContractUncheckedUpdateManyWithoutCustomerNestedInput
   projects?: Prisma.ProjectUncheckedUpdateManyWithoutCustomerNestedInput
+  loyaltyAccount?: Prisma.LoyaltyAccountUncheckedUpdateOneWithoutCustomerNestedInput
 }
 
 export type CustomerCreateWithoutProjectsInput = {
@@ -1220,6 +1287,7 @@ export type CustomerCreateWithoutProjectsInput = {
   preferredLanguage?: string | null
   tags?: Prisma.CustomerCreatetagsInput | string[]
   notes?: string | null
+  stripeCustomerId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   user?: Prisma.UserCreateNestedOneWithoutCustomerRecordInput
@@ -1231,6 +1299,7 @@ export type CustomerCreateWithoutProjectsInput = {
   doNotContact?: Prisma.DoNotContactCreateNestedOneWithoutCustomerInput
   maintenanceContracts?: Prisma.MaintenanceContractCreateNestedManyWithoutCustomerInput
   equipment?: Prisma.EquipmentCreateNestedManyWithoutCustomerInput
+  loyaltyAccount?: Prisma.LoyaltyAccountCreateNestedOneWithoutCustomerInput
 }
 
 export type CustomerUncheckedCreateWithoutProjectsInput = {
@@ -1249,6 +1318,7 @@ export type CustomerUncheckedCreateWithoutProjectsInput = {
   tags?: Prisma.CustomerCreatetagsInput | string[]
   notes?: string | null
   userId?: string | null
+  stripeCustomerId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutCustomerInput
@@ -1259,6 +1329,7 @@ export type CustomerUncheckedCreateWithoutProjectsInput = {
   doNotContact?: Prisma.DoNotContactUncheckedCreateNestedOneWithoutCustomerInput
   maintenanceContracts?: Prisma.MaintenanceContractUncheckedCreateNestedManyWithoutCustomerInput
   equipment?: Prisma.EquipmentUncheckedCreateNestedManyWithoutCustomerInput
+  loyaltyAccount?: Prisma.LoyaltyAccountUncheckedCreateNestedOneWithoutCustomerInput
 }
 
 export type CustomerCreateOrConnectWithoutProjectsInput = {
@@ -1292,6 +1363,7 @@ export type CustomerUpdateWithoutProjectsInput = {
   preferredLanguage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tags?: Prisma.CustomerUpdatetagsInput | string[]
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneWithoutCustomerRecordNestedInput
@@ -1303,6 +1375,7 @@ export type CustomerUpdateWithoutProjectsInput = {
   doNotContact?: Prisma.DoNotContactUpdateOneWithoutCustomerNestedInput
   maintenanceContracts?: Prisma.MaintenanceContractUpdateManyWithoutCustomerNestedInput
   equipment?: Prisma.EquipmentUpdateManyWithoutCustomerNestedInput
+  loyaltyAccount?: Prisma.LoyaltyAccountUpdateOneWithoutCustomerNestedInput
 }
 
 export type CustomerUncheckedUpdateWithoutProjectsInput = {
@@ -1321,6 +1394,7 @@ export type CustomerUncheckedUpdateWithoutProjectsInput = {
   tags?: Prisma.CustomerUpdatetagsInput | string[]
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutCustomerNestedInput
@@ -1331,6 +1405,7 @@ export type CustomerUncheckedUpdateWithoutProjectsInput = {
   doNotContact?: Prisma.DoNotContactUncheckedUpdateOneWithoutCustomerNestedInput
   maintenanceContracts?: Prisma.MaintenanceContractUncheckedUpdateManyWithoutCustomerNestedInput
   equipment?: Prisma.EquipmentUncheckedUpdateManyWithoutCustomerNestedInput
+  loyaltyAccount?: Prisma.LoyaltyAccountUncheckedUpdateOneWithoutCustomerNestedInput
 }
 
 export type CustomerCreateWithoutCallsInput = {
@@ -1348,6 +1423,7 @@ export type CustomerCreateWithoutCallsInput = {
   preferredLanguage?: string | null
   tags?: Prisma.CustomerCreatetagsInput | string[]
   notes?: string | null
+  stripeCustomerId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   user?: Prisma.UserCreateNestedOneWithoutCustomerRecordInput
@@ -1359,6 +1435,7 @@ export type CustomerCreateWithoutCallsInput = {
   maintenanceContracts?: Prisma.MaintenanceContractCreateNestedManyWithoutCustomerInput
   equipment?: Prisma.EquipmentCreateNestedManyWithoutCustomerInput
   projects?: Prisma.ProjectCreateNestedManyWithoutCustomerInput
+  loyaltyAccount?: Prisma.LoyaltyAccountCreateNestedOneWithoutCustomerInput
 }
 
 export type CustomerUncheckedCreateWithoutCallsInput = {
@@ -1377,6 +1454,7 @@ export type CustomerUncheckedCreateWithoutCallsInput = {
   tags?: Prisma.CustomerCreatetagsInput | string[]
   notes?: string | null
   userId?: string | null
+  stripeCustomerId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutCustomerInput
@@ -1387,6 +1465,7 @@ export type CustomerUncheckedCreateWithoutCallsInput = {
   maintenanceContracts?: Prisma.MaintenanceContractUncheckedCreateNestedManyWithoutCustomerInput
   equipment?: Prisma.EquipmentUncheckedCreateNestedManyWithoutCustomerInput
   projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutCustomerInput
+  loyaltyAccount?: Prisma.LoyaltyAccountUncheckedCreateNestedOneWithoutCustomerInput
 }
 
 export type CustomerCreateOrConnectWithoutCallsInput = {
@@ -1420,6 +1499,7 @@ export type CustomerUpdateWithoutCallsInput = {
   preferredLanguage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tags?: Prisma.CustomerUpdatetagsInput | string[]
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneWithoutCustomerRecordNestedInput
@@ -1431,6 +1511,7 @@ export type CustomerUpdateWithoutCallsInput = {
   maintenanceContracts?: Prisma.MaintenanceContractUpdateManyWithoutCustomerNestedInput
   equipment?: Prisma.EquipmentUpdateManyWithoutCustomerNestedInput
   projects?: Prisma.ProjectUpdateManyWithoutCustomerNestedInput
+  loyaltyAccount?: Prisma.LoyaltyAccountUpdateOneWithoutCustomerNestedInput
 }
 
 export type CustomerUncheckedUpdateWithoutCallsInput = {
@@ -1449,6 +1530,7 @@ export type CustomerUncheckedUpdateWithoutCallsInput = {
   tags?: Prisma.CustomerUpdatetagsInput | string[]
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutCustomerNestedInput
@@ -1459,6 +1541,7 @@ export type CustomerUncheckedUpdateWithoutCallsInput = {
   maintenanceContracts?: Prisma.MaintenanceContractUncheckedUpdateManyWithoutCustomerNestedInput
   equipment?: Prisma.EquipmentUncheckedUpdateManyWithoutCustomerNestedInput
   projects?: Prisma.ProjectUncheckedUpdateManyWithoutCustomerNestedInput
+  loyaltyAccount?: Prisma.LoyaltyAccountUncheckedUpdateOneWithoutCustomerNestedInput
 }
 
 export type CustomerCreateWithoutVoicemailsInput = {
@@ -1476,6 +1559,7 @@ export type CustomerCreateWithoutVoicemailsInput = {
   preferredLanguage?: string | null
   tags?: Prisma.CustomerCreatetagsInput | string[]
   notes?: string | null
+  stripeCustomerId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   user?: Prisma.UserCreateNestedOneWithoutCustomerRecordInput
@@ -1487,6 +1571,7 @@ export type CustomerCreateWithoutVoicemailsInput = {
   maintenanceContracts?: Prisma.MaintenanceContractCreateNestedManyWithoutCustomerInput
   equipment?: Prisma.EquipmentCreateNestedManyWithoutCustomerInput
   projects?: Prisma.ProjectCreateNestedManyWithoutCustomerInput
+  loyaltyAccount?: Prisma.LoyaltyAccountCreateNestedOneWithoutCustomerInput
 }
 
 export type CustomerUncheckedCreateWithoutVoicemailsInput = {
@@ -1505,6 +1590,7 @@ export type CustomerUncheckedCreateWithoutVoicemailsInput = {
   tags?: Prisma.CustomerCreatetagsInput | string[]
   notes?: string | null
   userId?: string | null
+  stripeCustomerId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutCustomerInput
@@ -1515,6 +1601,7 @@ export type CustomerUncheckedCreateWithoutVoicemailsInput = {
   maintenanceContracts?: Prisma.MaintenanceContractUncheckedCreateNestedManyWithoutCustomerInput
   equipment?: Prisma.EquipmentUncheckedCreateNestedManyWithoutCustomerInput
   projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutCustomerInput
+  loyaltyAccount?: Prisma.LoyaltyAccountUncheckedCreateNestedOneWithoutCustomerInput
 }
 
 export type CustomerCreateOrConnectWithoutVoicemailsInput = {
@@ -1548,6 +1635,7 @@ export type CustomerUpdateWithoutVoicemailsInput = {
   preferredLanguage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tags?: Prisma.CustomerUpdatetagsInput | string[]
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneWithoutCustomerRecordNestedInput
@@ -1559,6 +1647,7 @@ export type CustomerUpdateWithoutVoicemailsInput = {
   maintenanceContracts?: Prisma.MaintenanceContractUpdateManyWithoutCustomerNestedInput
   equipment?: Prisma.EquipmentUpdateManyWithoutCustomerNestedInput
   projects?: Prisma.ProjectUpdateManyWithoutCustomerNestedInput
+  loyaltyAccount?: Prisma.LoyaltyAccountUpdateOneWithoutCustomerNestedInput
 }
 
 export type CustomerUncheckedUpdateWithoutVoicemailsInput = {
@@ -1577,6 +1666,7 @@ export type CustomerUncheckedUpdateWithoutVoicemailsInput = {
   tags?: Prisma.CustomerUpdatetagsInput | string[]
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutCustomerNestedInput
@@ -1587,6 +1677,7 @@ export type CustomerUncheckedUpdateWithoutVoicemailsInput = {
   maintenanceContracts?: Prisma.MaintenanceContractUncheckedUpdateManyWithoutCustomerNestedInput
   equipment?: Prisma.EquipmentUncheckedUpdateManyWithoutCustomerNestedInput
   projects?: Prisma.ProjectUncheckedUpdateManyWithoutCustomerNestedInput
+  loyaltyAccount?: Prisma.LoyaltyAccountUncheckedUpdateOneWithoutCustomerNestedInput
 }
 
 export type CustomerCreateWithoutMessageThreadsInput = {
@@ -1604,6 +1695,7 @@ export type CustomerCreateWithoutMessageThreadsInput = {
   preferredLanguage?: string | null
   tags?: Prisma.CustomerCreatetagsInput | string[]
   notes?: string | null
+  stripeCustomerId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   user?: Prisma.UserCreateNestedOneWithoutCustomerRecordInput
@@ -1615,6 +1707,7 @@ export type CustomerCreateWithoutMessageThreadsInput = {
   maintenanceContracts?: Prisma.MaintenanceContractCreateNestedManyWithoutCustomerInput
   equipment?: Prisma.EquipmentCreateNestedManyWithoutCustomerInput
   projects?: Prisma.ProjectCreateNestedManyWithoutCustomerInput
+  loyaltyAccount?: Prisma.LoyaltyAccountCreateNestedOneWithoutCustomerInput
 }
 
 export type CustomerUncheckedCreateWithoutMessageThreadsInput = {
@@ -1633,6 +1726,7 @@ export type CustomerUncheckedCreateWithoutMessageThreadsInput = {
   tags?: Prisma.CustomerCreatetagsInput | string[]
   notes?: string | null
   userId?: string | null
+  stripeCustomerId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutCustomerInput
@@ -1643,6 +1737,7 @@ export type CustomerUncheckedCreateWithoutMessageThreadsInput = {
   maintenanceContracts?: Prisma.MaintenanceContractUncheckedCreateNestedManyWithoutCustomerInput
   equipment?: Prisma.EquipmentUncheckedCreateNestedManyWithoutCustomerInput
   projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutCustomerInput
+  loyaltyAccount?: Prisma.LoyaltyAccountUncheckedCreateNestedOneWithoutCustomerInput
 }
 
 export type CustomerCreateOrConnectWithoutMessageThreadsInput = {
@@ -1676,6 +1771,7 @@ export type CustomerUpdateWithoutMessageThreadsInput = {
   preferredLanguage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tags?: Prisma.CustomerUpdatetagsInput | string[]
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneWithoutCustomerRecordNestedInput
@@ -1687,6 +1783,7 @@ export type CustomerUpdateWithoutMessageThreadsInput = {
   maintenanceContracts?: Prisma.MaintenanceContractUpdateManyWithoutCustomerNestedInput
   equipment?: Prisma.EquipmentUpdateManyWithoutCustomerNestedInput
   projects?: Prisma.ProjectUpdateManyWithoutCustomerNestedInput
+  loyaltyAccount?: Prisma.LoyaltyAccountUpdateOneWithoutCustomerNestedInput
 }
 
 export type CustomerUncheckedUpdateWithoutMessageThreadsInput = {
@@ -1705,6 +1802,7 @@ export type CustomerUncheckedUpdateWithoutMessageThreadsInput = {
   tags?: Prisma.CustomerUpdatetagsInput | string[]
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutCustomerNestedInput
@@ -1715,6 +1813,7 @@ export type CustomerUncheckedUpdateWithoutMessageThreadsInput = {
   maintenanceContracts?: Prisma.MaintenanceContractUncheckedUpdateManyWithoutCustomerNestedInput
   equipment?: Prisma.EquipmentUncheckedUpdateManyWithoutCustomerNestedInput
   projects?: Prisma.ProjectUncheckedUpdateManyWithoutCustomerNestedInput
+  loyaltyAccount?: Prisma.LoyaltyAccountUncheckedUpdateOneWithoutCustomerNestedInput
 }
 
 export type CustomerCreateWithoutDoNotContactInput = {
@@ -1732,6 +1831,7 @@ export type CustomerCreateWithoutDoNotContactInput = {
   preferredLanguage?: string | null
   tags?: Prisma.CustomerCreatetagsInput | string[]
   notes?: string | null
+  stripeCustomerId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   user?: Prisma.UserCreateNestedOneWithoutCustomerRecordInput
@@ -1743,6 +1843,7 @@ export type CustomerCreateWithoutDoNotContactInput = {
   maintenanceContracts?: Prisma.MaintenanceContractCreateNestedManyWithoutCustomerInput
   equipment?: Prisma.EquipmentCreateNestedManyWithoutCustomerInput
   projects?: Prisma.ProjectCreateNestedManyWithoutCustomerInput
+  loyaltyAccount?: Prisma.LoyaltyAccountCreateNestedOneWithoutCustomerInput
 }
 
 export type CustomerUncheckedCreateWithoutDoNotContactInput = {
@@ -1761,6 +1862,7 @@ export type CustomerUncheckedCreateWithoutDoNotContactInput = {
   tags?: Prisma.CustomerCreatetagsInput | string[]
   notes?: string | null
   userId?: string | null
+  stripeCustomerId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutCustomerInput
@@ -1771,6 +1873,7 @@ export type CustomerUncheckedCreateWithoutDoNotContactInput = {
   maintenanceContracts?: Prisma.MaintenanceContractUncheckedCreateNestedManyWithoutCustomerInput
   equipment?: Prisma.EquipmentUncheckedCreateNestedManyWithoutCustomerInput
   projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutCustomerInput
+  loyaltyAccount?: Prisma.LoyaltyAccountUncheckedCreateNestedOneWithoutCustomerInput
 }
 
 export type CustomerCreateOrConnectWithoutDoNotContactInput = {
@@ -1804,6 +1907,7 @@ export type CustomerUpdateWithoutDoNotContactInput = {
   preferredLanguage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tags?: Prisma.CustomerUpdatetagsInput | string[]
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneWithoutCustomerRecordNestedInput
@@ -1815,6 +1919,7 @@ export type CustomerUpdateWithoutDoNotContactInput = {
   maintenanceContracts?: Prisma.MaintenanceContractUpdateManyWithoutCustomerNestedInput
   equipment?: Prisma.EquipmentUpdateManyWithoutCustomerNestedInput
   projects?: Prisma.ProjectUpdateManyWithoutCustomerNestedInput
+  loyaltyAccount?: Prisma.LoyaltyAccountUpdateOneWithoutCustomerNestedInput
 }
 
 export type CustomerUncheckedUpdateWithoutDoNotContactInput = {
@@ -1833,6 +1938,7 @@ export type CustomerUncheckedUpdateWithoutDoNotContactInput = {
   tags?: Prisma.CustomerUpdatetagsInput | string[]
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutCustomerNestedInput
@@ -1843,6 +1949,7 @@ export type CustomerUncheckedUpdateWithoutDoNotContactInput = {
   maintenanceContracts?: Prisma.MaintenanceContractUncheckedUpdateManyWithoutCustomerNestedInput
   equipment?: Prisma.EquipmentUncheckedUpdateManyWithoutCustomerNestedInput
   projects?: Prisma.ProjectUncheckedUpdateManyWithoutCustomerNestedInput
+  loyaltyAccount?: Prisma.LoyaltyAccountUncheckedUpdateOneWithoutCustomerNestedInput
 }
 
 export type CustomerCreateWithoutEmailThreadsInput = {
@@ -1860,6 +1967,7 @@ export type CustomerCreateWithoutEmailThreadsInput = {
   preferredLanguage?: string | null
   tags?: Prisma.CustomerCreatetagsInput | string[]
   notes?: string | null
+  stripeCustomerId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   user?: Prisma.UserCreateNestedOneWithoutCustomerRecordInput
@@ -1871,6 +1979,7 @@ export type CustomerCreateWithoutEmailThreadsInput = {
   maintenanceContracts?: Prisma.MaintenanceContractCreateNestedManyWithoutCustomerInput
   equipment?: Prisma.EquipmentCreateNestedManyWithoutCustomerInput
   projects?: Prisma.ProjectCreateNestedManyWithoutCustomerInput
+  loyaltyAccount?: Prisma.LoyaltyAccountCreateNestedOneWithoutCustomerInput
 }
 
 export type CustomerUncheckedCreateWithoutEmailThreadsInput = {
@@ -1889,6 +1998,7 @@ export type CustomerUncheckedCreateWithoutEmailThreadsInput = {
   tags?: Prisma.CustomerCreatetagsInput | string[]
   notes?: string | null
   userId?: string | null
+  stripeCustomerId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutCustomerInput
@@ -1899,6 +2009,7 @@ export type CustomerUncheckedCreateWithoutEmailThreadsInput = {
   maintenanceContracts?: Prisma.MaintenanceContractUncheckedCreateNestedManyWithoutCustomerInput
   equipment?: Prisma.EquipmentUncheckedCreateNestedManyWithoutCustomerInput
   projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutCustomerInput
+  loyaltyAccount?: Prisma.LoyaltyAccountUncheckedCreateNestedOneWithoutCustomerInput
 }
 
 export type CustomerCreateOrConnectWithoutEmailThreadsInput = {
@@ -1932,6 +2043,7 @@ export type CustomerUpdateWithoutEmailThreadsInput = {
   preferredLanguage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tags?: Prisma.CustomerUpdatetagsInput | string[]
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneWithoutCustomerRecordNestedInput
@@ -1943,6 +2055,7 @@ export type CustomerUpdateWithoutEmailThreadsInput = {
   maintenanceContracts?: Prisma.MaintenanceContractUpdateManyWithoutCustomerNestedInput
   equipment?: Prisma.EquipmentUpdateManyWithoutCustomerNestedInput
   projects?: Prisma.ProjectUpdateManyWithoutCustomerNestedInput
+  loyaltyAccount?: Prisma.LoyaltyAccountUpdateOneWithoutCustomerNestedInput
 }
 
 export type CustomerUncheckedUpdateWithoutEmailThreadsInput = {
@@ -1961,6 +2074,7 @@ export type CustomerUncheckedUpdateWithoutEmailThreadsInput = {
   tags?: Prisma.CustomerUpdatetagsInput | string[]
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutCustomerNestedInput
@@ -1971,6 +2085,7 @@ export type CustomerUncheckedUpdateWithoutEmailThreadsInput = {
   maintenanceContracts?: Prisma.MaintenanceContractUncheckedUpdateManyWithoutCustomerNestedInput
   equipment?: Prisma.EquipmentUncheckedUpdateManyWithoutCustomerNestedInput
   projects?: Prisma.ProjectUncheckedUpdateManyWithoutCustomerNestedInput
+  loyaltyAccount?: Prisma.LoyaltyAccountUncheckedUpdateOneWithoutCustomerNestedInput
 }
 
 export type CustomerCreateWithoutMaintenanceContractsInput = {
@@ -1988,6 +2103,7 @@ export type CustomerCreateWithoutMaintenanceContractsInput = {
   preferredLanguage?: string | null
   tags?: Prisma.CustomerCreatetagsInput | string[]
   notes?: string | null
+  stripeCustomerId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   user?: Prisma.UserCreateNestedOneWithoutCustomerRecordInput
@@ -1999,6 +2115,7 @@ export type CustomerCreateWithoutMaintenanceContractsInput = {
   doNotContact?: Prisma.DoNotContactCreateNestedOneWithoutCustomerInput
   equipment?: Prisma.EquipmentCreateNestedManyWithoutCustomerInput
   projects?: Prisma.ProjectCreateNestedManyWithoutCustomerInput
+  loyaltyAccount?: Prisma.LoyaltyAccountCreateNestedOneWithoutCustomerInput
 }
 
 export type CustomerUncheckedCreateWithoutMaintenanceContractsInput = {
@@ -2017,6 +2134,7 @@ export type CustomerUncheckedCreateWithoutMaintenanceContractsInput = {
   tags?: Prisma.CustomerCreatetagsInput | string[]
   notes?: string | null
   userId?: string | null
+  stripeCustomerId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutCustomerInput
@@ -2027,6 +2145,7 @@ export type CustomerUncheckedCreateWithoutMaintenanceContractsInput = {
   doNotContact?: Prisma.DoNotContactUncheckedCreateNestedOneWithoutCustomerInput
   equipment?: Prisma.EquipmentUncheckedCreateNestedManyWithoutCustomerInput
   projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutCustomerInput
+  loyaltyAccount?: Prisma.LoyaltyAccountUncheckedCreateNestedOneWithoutCustomerInput
 }
 
 export type CustomerCreateOrConnectWithoutMaintenanceContractsInput = {
@@ -2060,6 +2179,7 @@ export type CustomerUpdateWithoutMaintenanceContractsInput = {
   preferredLanguage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tags?: Prisma.CustomerUpdatetagsInput | string[]
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneWithoutCustomerRecordNestedInput
@@ -2071,6 +2191,7 @@ export type CustomerUpdateWithoutMaintenanceContractsInput = {
   doNotContact?: Prisma.DoNotContactUpdateOneWithoutCustomerNestedInput
   equipment?: Prisma.EquipmentUpdateManyWithoutCustomerNestedInput
   projects?: Prisma.ProjectUpdateManyWithoutCustomerNestedInput
+  loyaltyAccount?: Prisma.LoyaltyAccountUpdateOneWithoutCustomerNestedInput
 }
 
 export type CustomerUncheckedUpdateWithoutMaintenanceContractsInput = {
@@ -2089,6 +2210,7 @@ export type CustomerUncheckedUpdateWithoutMaintenanceContractsInput = {
   tags?: Prisma.CustomerUpdatetagsInput | string[]
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutCustomerNestedInput
@@ -2097,6 +2219,143 @@ export type CustomerUncheckedUpdateWithoutMaintenanceContractsInput = {
   messageThreads?: Prisma.MessageThreadUncheckedUpdateManyWithoutCustomerNestedInput
   emailThreads?: Prisma.EmailThreadUncheckedUpdateManyWithoutCustomerNestedInput
   doNotContact?: Prisma.DoNotContactUncheckedUpdateOneWithoutCustomerNestedInput
+  equipment?: Prisma.EquipmentUncheckedUpdateManyWithoutCustomerNestedInput
+  projects?: Prisma.ProjectUncheckedUpdateManyWithoutCustomerNestedInput
+  loyaltyAccount?: Prisma.LoyaltyAccountUncheckedUpdateOneWithoutCustomerNestedInput
+}
+
+export type CustomerCreateWithoutLoyaltyAccountInput = {
+  id?: string
+  firstName: string
+  lastName?: string | null
+  phone: string
+  secondaryPhone?: string | null
+  email?: string | null
+  address?: string | null
+  city?: string | null
+  state?: string | null
+  zipCode?: string | null
+  customerType?: $Enums.CustomerType
+  preferredLanguage?: string | null
+  tags?: Prisma.CustomerCreatetagsInput | string[]
+  notes?: string | null
+  stripeCustomerId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user?: Prisma.UserCreateNestedOneWithoutCustomerRecordInput
+  appointments?: Prisma.AppointmentCreateNestedManyWithoutCustomerInput
+  calls?: Prisma.CallCreateNestedManyWithoutCustomerInput
+  voicemails?: Prisma.VoicemailCreateNestedManyWithoutCustomerInput
+  messageThreads?: Prisma.MessageThreadCreateNestedManyWithoutCustomerInput
+  emailThreads?: Prisma.EmailThreadCreateNestedManyWithoutCustomerInput
+  doNotContact?: Prisma.DoNotContactCreateNestedOneWithoutCustomerInput
+  maintenanceContracts?: Prisma.MaintenanceContractCreateNestedManyWithoutCustomerInput
+  equipment?: Prisma.EquipmentCreateNestedManyWithoutCustomerInput
+  projects?: Prisma.ProjectCreateNestedManyWithoutCustomerInput
+}
+
+export type CustomerUncheckedCreateWithoutLoyaltyAccountInput = {
+  id?: string
+  firstName: string
+  lastName?: string | null
+  phone: string
+  secondaryPhone?: string | null
+  email?: string | null
+  address?: string | null
+  city?: string | null
+  state?: string | null
+  zipCode?: string | null
+  customerType?: $Enums.CustomerType
+  preferredLanguage?: string | null
+  tags?: Prisma.CustomerCreatetagsInput | string[]
+  notes?: string | null
+  userId?: string | null
+  stripeCustomerId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutCustomerInput
+  calls?: Prisma.CallUncheckedCreateNestedManyWithoutCustomerInput
+  voicemails?: Prisma.VoicemailUncheckedCreateNestedManyWithoutCustomerInput
+  messageThreads?: Prisma.MessageThreadUncheckedCreateNestedManyWithoutCustomerInput
+  emailThreads?: Prisma.EmailThreadUncheckedCreateNestedManyWithoutCustomerInput
+  doNotContact?: Prisma.DoNotContactUncheckedCreateNestedOneWithoutCustomerInput
+  maintenanceContracts?: Prisma.MaintenanceContractUncheckedCreateNestedManyWithoutCustomerInput
+  equipment?: Prisma.EquipmentUncheckedCreateNestedManyWithoutCustomerInput
+  projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutCustomerInput
+}
+
+export type CustomerCreateOrConnectWithoutLoyaltyAccountInput = {
+  where: Prisma.CustomerWhereUniqueInput
+  create: Prisma.XOR<Prisma.CustomerCreateWithoutLoyaltyAccountInput, Prisma.CustomerUncheckedCreateWithoutLoyaltyAccountInput>
+}
+
+export type CustomerUpsertWithoutLoyaltyAccountInput = {
+  update: Prisma.XOR<Prisma.CustomerUpdateWithoutLoyaltyAccountInput, Prisma.CustomerUncheckedUpdateWithoutLoyaltyAccountInput>
+  create: Prisma.XOR<Prisma.CustomerCreateWithoutLoyaltyAccountInput, Prisma.CustomerUncheckedCreateWithoutLoyaltyAccountInput>
+  where?: Prisma.CustomerWhereInput
+}
+
+export type CustomerUpdateToOneWithWhereWithoutLoyaltyAccountInput = {
+  where?: Prisma.CustomerWhereInput
+  data: Prisma.XOR<Prisma.CustomerUpdateWithoutLoyaltyAccountInput, Prisma.CustomerUncheckedUpdateWithoutLoyaltyAccountInput>
+}
+
+export type CustomerUpdateWithoutLoyaltyAccountInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.StringFieldUpdateOperationsInput | string
+  secondaryPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerType?: Prisma.EnumCustomerTypeFieldUpdateOperationsInput | $Enums.CustomerType
+  preferredLanguage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tags?: Prisma.CustomerUpdatetagsInput | string[]
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneWithoutCustomerRecordNestedInput
+  appointments?: Prisma.AppointmentUpdateManyWithoutCustomerNestedInput
+  calls?: Prisma.CallUpdateManyWithoutCustomerNestedInput
+  voicemails?: Prisma.VoicemailUpdateManyWithoutCustomerNestedInput
+  messageThreads?: Prisma.MessageThreadUpdateManyWithoutCustomerNestedInput
+  emailThreads?: Prisma.EmailThreadUpdateManyWithoutCustomerNestedInput
+  doNotContact?: Prisma.DoNotContactUpdateOneWithoutCustomerNestedInput
+  maintenanceContracts?: Prisma.MaintenanceContractUpdateManyWithoutCustomerNestedInput
+  equipment?: Prisma.EquipmentUpdateManyWithoutCustomerNestedInput
+  projects?: Prisma.ProjectUpdateManyWithoutCustomerNestedInput
+}
+
+export type CustomerUncheckedUpdateWithoutLoyaltyAccountInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.StringFieldUpdateOperationsInput | string
+  secondaryPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerType?: Prisma.EnumCustomerTypeFieldUpdateOperationsInput | $Enums.CustomerType
+  preferredLanguage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tags?: Prisma.CustomerUpdatetagsInput | string[]
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutCustomerNestedInput
+  calls?: Prisma.CallUncheckedUpdateManyWithoutCustomerNestedInput
+  voicemails?: Prisma.VoicemailUncheckedUpdateManyWithoutCustomerNestedInput
+  messageThreads?: Prisma.MessageThreadUncheckedUpdateManyWithoutCustomerNestedInput
+  emailThreads?: Prisma.EmailThreadUncheckedUpdateManyWithoutCustomerNestedInput
+  doNotContact?: Prisma.DoNotContactUncheckedUpdateOneWithoutCustomerNestedInput
+  maintenanceContracts?: Prisma.MaintenanceContractUncheckedUpdateManyWithoutCustomerNestedInput
   equipment?: Prisma.EquipmentUncheckedUpdateManyWithoutCustomerNestedInput
   projects?: Prisma.ProjectUncheckedUpdateManyWithoutCustomerNestedInput
 }
@@ -2211,6 +2470,7 @@ export type CustomerSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   tags?: boolean
   notes?: boolean
   userId?: boolean
+  stripeCustomerId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.Customer$userArgs<ExtArgs>
@@ -2223,6 +2483,7 @@ export type CustomerSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   maintenanceContracts?: boolean | Prisma.Customer$maintenanceContractsArgs<ExtArgs>
   equipment?: boolean | Prisma.Customer$equipmentArgs<ExtArgs>
   projects?: boolean | Prisma.Customer$projectsArgs<ExtArgs>
+  loyaltyAccount?: boolean | Prisma.Customer$loyaltyAccountArgs<ExtArgs>
   _count?: boolean | Prisma.CustomerCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["customer"]>
 
@@ -2242,6 +2503,7 @@ export type CustomerSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   tags?: boolean
   notes?: boolean
   userId?: boolean
+  stripeCustomerId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.Customer$userArgs<ExtArgs>
@@ -2263,6 +2525,7 @@ export type CustomerSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   tags?: boolean
   notes?: boolean
   userId?: boolean
+  stripeCustomerId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.Customer$userArgs<ExtArgs>
@@ -2284,11 +2547,12 @@ export type CustomerSelectScalar = {
   tags?: boolean
   notes?: boolean
   userId?: boolean
+  stripeCustomerId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type CustomerOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "firstName" | "lastName" | "phone" | "secondaryPhone" | "email" | "address" | "city" | "state" | "zipCode" | "customerType" | "preferredLanguage" | "tags" | "notes" | "userId" | "createdAt" | "updatedAt", ExtArgs["result"]["customer"]>
+export type CustomerOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "firstName" | "lastName" | "phone" | "secondaryPhone" | "email" | "address" | "city" | "state" | "zipCode" | "customerType" | "preferredLanguage" | "tags" | "notes" | "userId" | "stripeCustomerId" | "createdAt" | "updatedAt", ExtArgs["result"]["customer"]>
 export type CustomerInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.Customer$userArgs<ExtArgs>
   appointments?: boolean | Prisma.Customer$appointmentsArgs<ExtArgs>
@@ -2300,6 +2564,7 @@ export type CustomerInclude<ExtArgs extends runtime.Types.Extensions.InternalArg
   maintenanceContracts?: boolean | Prisma.Customer$maintenanceContractsArgs<ExtArgs>
   equipment?: boolean | Prisma.Customer$equipmentArgs<ExtArgs>
   projects?: boolean | Prisma.Customer$projectsArgs<ExtArgs>
+  loyaltyAccount?: boolean | Prisma.Customer$loyaltyAccountArgs<ExtArgs>
   _count?: boolean | Prisma.CustomerCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type CustomerIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2322,6 +2587,7 @@ export type $CustomerPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     maintenanceContracts: Prisma.$MaintenanceContractPayload<ExtArgs>[]
     equipment: Prisma.$EquipmentPayload<ExtArgs>[]
     projects: Prisma.$ProjectPayload<ExtArgs>[]
+    loyaltyAccount: Prisma.$LoyaltyAccountPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2339,6 +2605,7 @@ export type $CustomerPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     tags: string[]
     notes: string | null
     userId: string | null
+    stripeCustomerId: string | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["customer"]>
@@ -2745,6 +3012,7 @@ export interface Prisma__CustomerClient<T, Null = never, ExtArgs extends runtime
   maintenanceContracts<T extends Prisma.Customer$maintenanceContractsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Customer$maintenanceContractsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MaintenanceContractPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   equipment<T extends Prisma.Customer$equipmentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Customer$equipmentArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EquipmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   projects<T extends Prisma.Customer$projectsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Customer$projectsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  loyaltyAccount<T extends Prisma.Customer$loyaltyAccountArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Customer$loyaltyAccountArgs<ExtArgs>>): Prisma.Prisma__LoyaltyAccountClient<runtime.Types.Result.GetResult<Prisma.$LoyaltyAccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2789,6 +3057,7 @@ export interface CustomerFieldRefs {
   readonly tags: Prisma.FieldRef<"Customer", 'String[]'>
   readonly notes: Prisma.FieldRef<"Customer", 'String'>
   readonly userId: Prisma.FieldRef<"Customer", 'String'>
+  readonly stripeCustomerId: Prisma.FieldRef<"Customer", 'String'>
   readonly createdAt: Prisma.FieldRef<"Customer", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Customer", 'DateTime'>
 }
@@ -3419,6 +3688,25 @@ export type Customer$projectsArgs<ExtArgs extends runtime.Types.Extensions.Inter
   take?: number
   skip?: number
   distinct?: Prisma.ProjectScalarFieldEnum | Prisma.ProjectScalarFieldEnum[]
+}
+
+/**
+ * Customer.loyaltyAccount
+ */
+export type Customer$loyaltyAccountArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the LoyaltyAccount
+   */
+  select?: Prisma.LoyaltyAccountSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the LoyaltyAccount
+   */
+  omit?: Prisma.LoyaltyAccountOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.LoyaltyAccountInclude<ExtArgs> | null
+  where?: Prisma.LoyaltyAccountWhereInput
 }
 
 /**

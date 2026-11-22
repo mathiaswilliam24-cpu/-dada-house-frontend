@@ -1,14 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { registerSchema, type RegisterInput } from "@/lib/validations";
 import { Button } from "@/components/ui/button";
-import { Home, Mail, Lock, User, Phone, AlertCircle, Eye, EyeOff } from "lucide-react";
+import { Home, Mail, Lock, User, Phone, AlertCircle, Eye, EyeOff, Gift } from "lucide-react";
 
 function GoogleIcon() {
   return (
@@ -22,7 +22,19 @@ function GoogleIcon() {
 }
 
 export default function RegisterPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-[#1B3FA8]" />}>
+      <RegisterForm />
+    </Suspense>
+  );
+}
+
+type Invite = { firstName: string | null; name: string; email: string; phoneLast4: string; hasAccount: boolean };
+
+function RegisterForm() {
   const router = useRouter();
+  const invite = useSearchParams().get("invite");
+  const [inviteInfo, setInviteInfo] = useState<Invite | null>(null);
   const [authError, setAuthError] = useState("");
   const [showPw, setShowPw] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
@@ -30,10 +42,26 @@ export default function RegisterPage() {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm<RegisterInput>({
     resolver: zodResolver(registerSchema),
   });
+
+  // Personal link from DADA HOUSE (after a payment): pre-fill and link the account to the customer's records.
+  useEffect(() => {
+    if (!invite) return;
+    fetch(`/api/auth/invite?token=${encodeURIComponent(invite)}`)
+      .then(async (r) => (r.ok ? ((await r.json()) as Invite) : null))
+      .then((d) => {
+        if (!d) return;
+        setInviteInfo(d);
+        if (d.name) setValue("name", d.name);
+        if (d.email) setValue("email", d.email);
+      })
+      .catch(() => {});
+  }, [invite, setValue]);
+  const dashboardAfterLogin = `/auth/login?callbackUrl=${encodeURIComponent(invite ? `/dashboard?invite=${invite}` : "/dashboard")}`;
 
   const onSubmit = async (data: RegisterInput) => {
     setAuthError("");
@@ -46,14 +74,16 @@ export default function RegisterPage() {
           email: data.email,
           phone: data.phone,
           password: data.password,
+          ...(invite ? { invite } : {}),
         }),
       });
       const body = await res.json();
       if (!res.ok) {
+        if (body.signIn) { router.push(dashboardAfterLogin); return; }
         setAuthError(body.error || "Registration failed");
         return;
       }
-      router.push("/auth/login?registered=1");
+      router.push(invite ? `/auth/login?registered=1&callbackUrl=${encodeURIComponent("/dashboard")}` : "/auth/login?registered=1");
     } catch {
       setAuthError("Something went wrong. Please try again.");
     }
@@ -73,15 +103,28 @@ export default function RegisterPage() {
           </div>
         </div>
 
-        <h1 className="text-3xl font-black text-white mb-2">Create Account</h1>
-        <p className="text-slate-400 mb-8">
-          Join DADA HOUSE to track your appointments and manage your home services.
+        <h1 className="text-3xl font-black text-white mb-2">{inviteInfo?.firstName ? `Welcome, ${inviteInfo.firstName}!` : "Create Account"}</h1>
+        <p className="text-slate-400 mb-6">
+          {inviteInfo
+            ? "Create your password to open your DADA HOUSE account — your plan, appointments, receipts and reward points are waiting for you."
+            : "Join DADA HOUSE to track your appointments and manage your home services."}
         </p>
+        {inviteInfo?.hasAccount && (
+          <div className="mb-6 p-4 rounded-xl bg-white/10 text-white text-sm">
+            You already have an account. <Link href={dashboardAfterLogin} className="text-[#F7921A] font-bold underline">Sign in here</Link>.
+          </div>
+        )}
+        {inviteInfo && !inviteInfo.hasAccount && (
+          <div className="mb-6 p-4 rounded-xl bg-[#F7921A]/15 border border-[#F7921A]/40 text-white text-sm flex gap-3">
+            <Gift size={18} className="text-[#F7921A] shrink-0 mt-0.5" />
+            <span>Your account will be linked to your DADA HOUSE records{inviteInfo.phoneLast4 ? ` (phone ending in ${inviteInfo.phoneLast4})` : ""}.</span>
+          </div>
+        )}
 
         {/* Google button */}
         <button
           type="button"
-          onClick={() => signIn("google", { callbackUrl: "/portal" })}
+          onClick={() => signIn("google", { callbackUrl: invite ? `/dashboard?invite=${invite}` : "/portal" })}
           className="w-full flex items-center justify-center gap-3 px-4 py-3 bg-white text-gray-800 font-semibold rounded-xl hover:bg-gray-100 transition-colors shadow-sm mb-5"
         >
           <GoogleIcon />
@@ -160,7 +203,7 @@ export default function RegisterPage() {
 
           <p className="text-center text-slate-400 text-sm">
             Already have an account?{" "}
-            <Link href="/auth/login" className="text-[#F7921A] font-semibold hover:text-orange-400 transition-colors">
+            <Link href={invite ? dashboardAfterLogin : "/auth/login"} className="text-[#F7921A] font-semibold hover:text-orange-400 transition-colors">
               Sign In
             </Link>
           </p>

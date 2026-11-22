@@ -15,7 +15,10 @@ import {
   User,
   LogOut,
   ReceiptText,
+  Thermometer,
+  Gift,
 } from "lucide-react";
+import { syncCustomerAppointments } from "@/lib/portal-access";
 import { signOut } from "@/auth";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { PageTransition } from "@/components/layout/page-transition";
@@ -24,6 +27,8 @@ const navItems = [
   { href: "/portal", label: "Dashboard", icon: LayoutDashboard },
   { href: "/portal/appointments", label: "Appointments", icon: Calendar },
   { href: "/portal/invoices", label: "Invoices", icon: FileText },
+  { href: "/dashboard/maintenance-plan", label: "Maintenance Plan", icon: Thermometer },
+  { href: "/dashboard/rewards", label: "Rewards Points", icon: Gift },
   { href: "/portal/expenses", label: "Expenses", icon: ReceiptText },
   { href: "/portal/history", label: "Service History", icon: History },
   { href: "/portal/properties", label: "My Properties", icon: Home },
@@ -41,6 +46,7 @@ export default async function PortalLayout({ children }: { children: React.React
   if (session.user.role === "DISPATCHER") redirect("/dispatcher");
   if (session.user.role === "ADMIN" || session.user.role === "SUPER_ADMIN") redirect("/admin");
   if (session.user.role === "MANAGER" || session.user.role === "CUSTOMER_SERVICE_REP") redirect("/call-center");
+  await syncCustomerAppointments(session.user.id);
 
   return (
     <div className="min-h-screen bg-gray-50 flex">

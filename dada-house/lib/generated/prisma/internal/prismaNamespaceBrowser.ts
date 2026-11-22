@@ -99,6 +99,8 @@ export const ModelName = {
   Customer: 'Customer',
   Equipment: 'Equipment',
   Project: 'Project',
+  ProjectEvent: 'ProjectEvent',
+  MaintenanceVisit: 'MaintenanceVisit',
   Call: 'Call',
   CallRecording: 'CallRecording',
   Voicemail: 'Voicemail',
@@ -115,7 +117,25 @@ export const ModelName = {
   MaintenancePlanType: 'MaintenancePlanType',
   MaintenanceContract: 'MaintenanceContract',
   ContractProperty: 'ContractProperty',
-  ContractHvacSystem: 'ContractHvacSystem'
+  ContractHvacSystem: 'ContractHvacSystem',
+  LoyaltyAccount: 'LoyaltyAccount',
+  LoyaltyTransaction: 'LoyaltyTransaction',
+  CustomerSignature: 'CustomerSignature',
+  JobAssignment: 'JobAssignment',
+  JobEvent: 'JobEvent',
+  Counter: 'Counter',
+  StockLocation: 'StockLocation',
+  StockLevel: 'StockLevel',
+  StockMovement: 'StockMovement',
+  HvacDiagnosticSession: 'HvacDiagnosticSession',
+  HvacMeasurement: 'HvacMeasurement',
+  HvacSafetyEvent: 'HvacSafetyEvent',
+  HvacScan: 'HvacScan',
+  HvacModelSpec: 'HvacModelSpec',
+  HvacTechnicianFeedback: 'HvacTechnicianFeedback',
+  HvacAssistantReview: 'HvacAssistantReview',
+  HvacValidationCase: 'HvacValidationCase',
+  HvacEvaluationRun: 'HvacEvaluationRun'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -248,7 +268,20 @@ export const AppointmentScalarFieldEnum = {
   confirmationToken: 'confirmationToken',
   confirmedAt: 'confirmedAt',
   customerId: 'customerId',
-  projectId: 'projectId'
+  projectId: 'projectId',
+  jobType: 'jobType',
+  jobCategory: 'jobCategory',
+  customerType: 'customerType',
+  scheduledStart: 'scheduledStart',
+  scheduledEnd: 'scheduledEnd',
+  estimatedMinutes: 'estimatedMinutes',
+  arrivalWindow: 'arrivalWindow',
+  billingAddress: 'billingAddress',
+  equipmentId: 'equipmentId',
+  createdById: 'createdById',
+  leadSource: 'leadSource',
+  lat: 'lat',
+  lng: 'lng'
 } as const
 
 export type AppointmentScalarFieldEnum = (typeof AppointmentScalarFieldEnum)[keyof typeof AppointmentScalarFieldEnum]
@@ -284,6 +317,8 @@ export const InvoiceScalarFieldEnum = {
   dueDate: 'dueDate',
   lineItems: 'lineItems',
   paidAt: 'paidAt',
+  loyaltyDiscount: 'loyaltyDiscount',
+  loyaltyPointsUsed: 'loyaltyPointsUsed',
   paymentToken: 'paymentToken',
   paymentMethod: 'paymentMethod',
   technicianId: 'technicianId',
@@ -369,7 +404,18 @@ export const TechnicianProfileScalarFieldEnum = {
   vehicleInfo: 'vehicleInfo',
   certifications: 'certifications',
   photo: 'photo',
-  bio: 'bio'
+  bio: 'bio',
+  employeeId: 'employeeId',
+  employmentType: 'employmentType',
+  techRole: 'techRole',
+  workingHours: 'workingHours',
+  emergencyAvailable: 'emergencyAvailable',
+  hourlyRate: 'hourlyRate',
+  commissionRate: 'commissionRate',
+  boardColor: 'boardColor',
+  homeLat: 'homeLat',
+  homeLng: 'homeLng',
+  homeAddress: 'homeAddress'
 } as const
 
 export type TechnicianProfileScalarFieldEnum = (typeof TechnicianProfileScalarFieldEnum)[keyof typeof TechnicianProfileScalarFieldEnum]
@@ -649,6 +695,8 @@ export const EstimateScalarFieldEnum = {
   paymentMethod: 'paymentMethod',
   paidAt: 'paidAt',
   sentByName: 'sentByName',
+  loyaltyDiscount: 'loyaltyDiscount',
+  loyaltyPointsUsed: 'loyaltyPointsUsed',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -670,6 +718,7 @@ export const PriceBookItemScalarFieldEnum = {
   unit: 'unit',
   taskCode: 'taskCode',
   onlineBooking: 'onlineBooking',
+  imageUrl: 'imageUrl',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -931,7 +980,9 @@ export const JobPartScalarFieldEnum = {
   warrantyPeriod: 'warrantyPeriod',
   supplier: 'supplier',
   notes: 'notes',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  inventoryItemId: 'inventoryItemId',
+  locationId: 'locationId'
 } as const
 
 export type JobPartScalarFieldEnum = (typeof JobPartScalarFieldEnum)[keyof typeof JobPartScalarFieldEnum]
@@ -949,7 +1000,9 @@ export const InventoryItemScalarFieldEnum = {
   location: 'location',
   isActive: 'isActive',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  sellPrice: 'sellPrice',
+  unit: 'unit'
 } as const
 
 export type InventoryItemScalarFieldEnum = (typeof InventoryItemScalarFieldEnum)[keyof typeof InventoryItemScalarFieldEnum]
@@ -1049,6 +1102,7 @@ export const CustomerScalarFieldEnum = {
   tags: 'tags',
   notes: 'notes',
   userId: 'userId',
+  stripeCustomerId: 'stripeCustomerId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -1068,7 +1122,29 @@ export const EquipmentScalarFieldEnum = {
   location: 'location',
   notes: 'notes',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  category: 'category',
+  manufacturer: 'manufacturer',
+  modelNumber: 'modelNumber',
+  indoorModel: 'indoorModel',
+  capacityTons: 'capacityTons',
+  refrigerant: 'refrigerant',
+  meteringDevice: 'meteringDevice',
+  compressorType: 'compressorType',
+  compressorCount: 'compressorCount',
+  circuits: 'circuits',
+  stages: 'stages',
+  heatingType: 'heatingType',
+  ratedVoltage: 'ratedVoltage',
+  phase: 'phase',
+  minVoltage: 'minVoltage',
+  maxVoltage: 'maxVoltage',
+  rla: 'rla',
+  lra: 'lra',
+  mca: 'mca',
+  mocp: 'mocp',
+  specs: 'specs',
+  specsVerifiedAt: 'specsVerifiedAt'
 } as const
 
 export type EquipmentScalarFieldEnum = (typeof EquipmentScalarFieldEnum)[keyof typeof EquipmentScalarFieldEnum]
@@ -1081,10 +1157,62 @@ export const ProjectScalarFieldEnum = {
   description: 'description',
   status: 'status',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  projectNumber: 'projectNumber',
+  kind: 'kind',
+  stage: 'stage',
+  stageUpdatedAt: 'stageUpdatedAt',
+  address: 'address',
+  city: 'city',
+  zipCode: 'zipCode',
+  equipmentSummary: 'equipmentSummary',
+  contractAmount: 'contractAmount',
+  depositAmount: 'depositAmount',
+  permitNumber: 'permitNumber',
+  targetDate: 'targetDate',
+  salesRepId: 'salesRepId',
+  leadInstallerId: 'leadInstallerId',
+  createdById: 'createdById'
 } as const
 
 export type ProjectScalarFieldEnum = (typeof ProjectScalarFieldEnum)[keyof typeof ProjectScalarFieldEnum]
+
+
+export const ProjectEventScalarFieldEnum = {
+  id: 'id',
+  projectId: 'projectId',
+  type: 'type',
+  message: 'message',
+  fromStage: 'fromStage',
+  toStage: 'toStage',
+  userId: 'userId',
+  userName: 'userName',
+  createdAt: 'createdAt'
+} as const
+
+export type ProjectEventScalarFieldEnum = (typeof ProjectEventScalarFieldEnum)[keyof typeof ProjectEventScalarFieldEnum]
+
+
+export const MaintenanceVisitScalarFieldEnum = {
+  id: 'id',
+  contractId: 'contractId',
+  customerId: 'customerId',
+  propertyId: 'propertyId',
+  propertyKey: 'propertyKey',
+  periodStart: 'periodStart',
+  visitNumber: 'visitNumber',
+  season: 'season',
+  windowStart: 'windowStart',
+  windowEnd: 'windowEnd',
+  status: 'status',
+  appointmentId: 'appointmentId',
+  completedAt: 'completedAt',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type MaintenanceVisitScalarFieldEnum = (typeof MaintenanceVisitScalarFieldEnum)[keyof typeof MaintenanceVisitScalarFieldEnum]
 
 
 export const CallScalarFieldEnum = {
@@ -1109,7 +1237,8 @@ export const CallScalarFieldEnum = {
   aiSummary: 'aiSummary',
   aiTranscript: 'aiTranscript',
   aiRecordingUrl: 'aiRecordingUrl',
-  aiEndedReason: 'aiEndedReason'
+  aiEndedReason: 'aiEndedReason',
+  ringLegSids: 'ringLegSids'
 } as const
 
 export type CallScalarFieldEnum = (typeof CallScalarFieldEnum)[keyof typeof CallScalarFieldEnum]
@@ -1390,6 +1519,325 @@ export const ContractHvacSystemScalarFieldEnum = {
 } as const
 
 export type ContractHvacSystemScalarFieldEnum = (typeof ContractHvacSystemScalarFieldEnum)[keyof typeof ContractHvacSystemScalarFieldEnum]
+
+
+export const LoyaltyAccountScalarFieldEnum = {
+  id: 'id',
+  customerId: 'customerId',
+  balance: 'balance',
+  totalEarned: 'totalEarned',
+  totalSpent: 'totalSpent',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type LoyaltyAccountScalarFieldEnum = (typeof LoyaltyAccountScalarFieldEnum)[keyof typeof LoyaltyAccountScalarFieldEnum]
+
+
+export const LoyaltyTransactionScalarFieldEnum = {
+  id: 'id',
+  accountId: 'accountId',
+  type: 'type',
+  points: 'points',
+  description: 'description',
+  invoiceId: 'invoiceId',
+  reference: 'reference',
+  createdAt: 'createdAt'
+} as const
+
+export type LoyaltyTransactionScalarFieldEnum = (typeof LoyaltyTransactionScalarFieldEnum)[keyof typeof LoyaltyTransactionScalarFieldEnum]
+
+
+export const CustomerSignatureScalarFieldEnum = {
+  id: 'id',
+  kind: 'kind',
+  estimateId: 'estimateId',
+  appointmentId: 'appointmentId',
+  customerId: 'customerId',
+  signerName: 'signerName',
+  signatureUrl: 'signatureUrl',
+  statement: 'statement',
+  amount: 'amount',
+  cardBrand: 'cardBrand',
+  cardLast4: 'cardLast4',
+  stripePaymentIntentId: 'stripePaymentIntentId',
+  collectedById: 'collectedById',
+  ipAddress: 'ipAddress',
+  userAgent: 'userAgent',
+  createdAt: 'createdAt'
+} as const
+
+export type CustomerSignatureScalarFieldEnum = (typeof CustomerSignatureScalarFieldEnum)[keyof typeof CustomerSignatureScalarFieldEnum]
+
+
+export const JobAssignmentScalarFieldEnum = {
+  id: 'id',
+  appointmentId: 'appointmentId',
+  technicianId: 'technicianId',
+  role: 'role',
+  createdById: 'createdById',
+  createdAt: 'createdAt'
+} as const
+
+export type JobAssignmentScalarFieldEnum = (typeof JobAssignmentScalarFieldEnum)[keyof typeof JobAssignmentScalarFieldEnum]
+
+
+export const JobEventScalarFieldEnum = {
+  id: 'id',
+  appointmentId: 'appointmentId',
+  type: 'type',
+  message: 'message',
+  fromValue: 'fromValue',
+  toValue: 'toValue',
+  userId: 'userId',
+  userName: 'userName',
+  metadata: 'metadata',
+  createdAt: 'createdAt'
+} as const
+
+export type JobEventScalarFieldEnum = (typeof JobEventScalarFieldEnum)[keyof typeof JobEventScalarFieldEnum]
+
+
+export const CounterScalarFieldEnum = {
+  key: 'key',
+  value: 'value'
+} as const
+
+export type CounterScalarFieldEnum = (typeof CounterScalarFieldEnum)[keyof typeof CounterScalarFieldEnum]
+
+
+export const StockLocationScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  kind: 'kind',
+  technicianId: 'technicianId',
+  isActive: 'isActive',
+  createdAt: 'createdAt'
+} as const
+
+export type StockLocationScalarFieldEnum = (typeof StockLocationScalarFieldEnum)[keyof typeof StockLocationScalarFieldEnum]
+
+
+export const StockLevelScalarFieldEnum = {
+  id: 'id',
+  itemId: 'itemId',
+  locationId: 'locationId',
+  quantity: 'quantity',
+  minQuantity: 'minQuantity',
+  updatedAt: 'updatedAt'
+} as const
+
+export type StockLevelScalarFieldEnum = (typeof StockLevelScalarFieldEnum)[keyof typeof StockLevelScalarFieldEnum]
+
+
+export const StockMovementScalarFieldEnum = {
+  id: 'id',
+  itemId: 'itemId',
+  type: 'type',
+  quantity: 'quantity',
+  fromLocationId: 'fromLocationId',
+  toLocationId: 'toLocationId',
+  appointmentId: 'appointmentId',
+  unitCost: 'unitCost',
+  userId: 'userId',
+  userName: 'userName',
+  note: 'note',
+  createdAt: 'createdAt'
+} as const
+
+export type StockMovementScalarFieldEnum = (typeof StockMovementScalarFieldEnum)[keyof typeof StockMovementScalarFieldEnum]
+
+
+export const HvacDiagnosticSessionScalarFieldEnum = {
+  id: 'id',
+  appointmentId: 'appointmentId',
+  customerId: 'customerId',
+  equipmentId: 'equipmentId',
+  technicianId: 'technicianId',
+  technicianName: 'technicianName',
+  status: 'status',
+  step: 'step',
+  complaint: 'complaint',
+  complaintOther: 'complaintOther',
+  mode: 'mode',
+  stage: 'stage',
+  circuits: 'circuits',
+  equipment: 'equipment',
+  safety: 'safety',
+  checks: 'checks',
+  results: 'results',
+  engineVersion: 'engineVersion',
+  ptDataVersion: 'ptDataVersion',
+  rulesetVersion: 'rulesetVersion',
+  decisions: 'decisions',
+  findings: 'findings',
+  reportNumber: 'reportNumber',
+  reportToken: 'reportToken',
+  notes: 'notes',
+  startedAt: 'startedAt',
+  completedAt: 'completedAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type HvacDiagnosticSessionScalarFieldEnum = (typeof HvacDiagnosticSessionScalarFieldEnum)[keyof typeof HvacDiagnosticSessionScalarFieldEnum]
+
+
+export const HvacMeasurementScalarFieldEnum = {
+  id: 'id',
+  sessionId: 'sessionId',
+  circuit: 'circuit',
+  key: 'key',
+  value: 'value',
+  text: 'text',
+  unit: 'unit',
+  enteredValue: 'enteredValue',
+  enteredUnit: 'enteredUnit',
+  location: 'location',
+  mode: 'mode',
+  source: 'source',
+  instrument: 'instrument',
+  scanId: 'scanId',
+  imageUrl: 'imageUrl',
+  aiValue: 'aiValue',
+  aiText: 'aiText',
+  technicianId: 'technicianId',
+  measuredAt: 'measuredAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type HvacMeasurementScalarFieldEnum = (typeof HvacMeasurementScalarFieldEnum)[keyof typeof HvacMeasurementScalarFieldEnum]
+
+
+export const HvacSafetyEventScalarFieldEnum = {
+  id: 'id',
+  sessionId: 'sessionId',
+  code: 'code',
+  severity: 'severity',
+  message: 'message',
+  technicianId: 'technicianId',
+  createdAt: 'createdAt'
+} as const
+
+export type HvacSafetyEventScalarFieldEnum = (typeof HvacSafetyEventScalarFieldEnum)[keyof typeof HvacSafetyEventScalarFieldEnum]
+
+
+export const HvacScanScalarFieldEnum = {
+  id: 'id',
+  sessionId: 'sessionId',
+  technicianId: 'technicianId',
+  imageUrls: 'imageUrls',
+  kind: 'kind',
+  instrument: 'instrument',
+  targets: 'targets',
+  circuit: 'circuit',
+  crossCheck: 'crossCheck',
+  outcomes: 'outcomes',
+  model: 'model',
+  status: 'status',
+  proposals: 'proposals',
+  notes: 'notes',
+  error: 'error',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type HvacScanScalarFieldEnum = (typeof HvacScanScalarFieldEnum)[keyof typeof HvacScanScalarFieldEnum]
+
+
+export const HvacModelSpecScalarFieldEnum = {
+  id: 'id',
+  manufacturer: 'manufacturer',
+  modelPrefix: 'modelPrefix',
+  description: 'description',
+  specs: 'specs',
+  sourceDocument: 'sourceDocument',
+  notes: 'notes',
+  status: 'status',
+  createdById: 'createdById',
+  createdByName: 'createdByName',
+  approvedById: 'approvedById',
+  approvedByName: 'approvedByName',
+  approvedAt: 'approvedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type HvacModelSpecScalarFieldEnum = (typeof HvacModelSpecScalarFieldEnum)[keyof typeof HvacModelSpecScalarFieldEnum]
+
+
+export const HvacTechnicianFeedbackScalarFieldEnum = {
+  id: 'id',
+  sessionId: 'sessionId',
+  technicianId: 'technicianId',
+  technicianName: 'technicianName',
+  engineTopCorrect: 'engineTopCorrect',
+  actualFaults: 'actualFaults',
+  otherFault: 'otherFault',
+  assistantHelpful: 'assistantHelpful',
+  comment: 'comment',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type HvacTechnicianFeedbackScalarFieldEnum = (typeof HvacTechnicianFeedbackScalarFieldEnum)[keyof typeof HvacTechnicianFeedbackScalarFieldEnum]
+
+
+export const HvacAssistantReviewScalarFieldEnum = {
+  id: 'id',
+  sessionId: 'sessionId',
+  technicianId: 'technicianId',
+  model: 'model',
+  resultsAt: 'resultsAt',
+  output: 'output',
+  removed: 'removed',
+  helpful: 'helpful',
+  createdAt: 'createdAt'
+} as const
+
+export type HvacAssistantReviewScalarFieldEnum = (typeof HvacAssistantReviewScalarFieldEnum)[keyof typeof HvacAssistantReviewScalarFieldEnum]
+
+
+export const HvacValidationCaseScalarFieldEnum = {
+  id: 'id',
+  source: 'source',
+  sessionId: 'sessionId',
+  equipmentKey: 'equipmentKey',
+  split: 'split',
+  category: 'category',
+  refrigerant: 'refrigerant',
+  manufacturer: 'manufacturer',
+  inputs: 'inputs',
+  groundTruth: 'groundTruth',
+  evidence: 'evidence',
+  serviceTechId: 'serviceTechId',
+  status: 'status',
+  submittedById: 'submittedById',
+  submittedByName: 'submittedByName',
+  verifiedById: 'verifiedById',
+  verifiedByName: 'verifiedByName',
+  verifiedAt: 'verifiedAt',
+  excludedReason: 'excludedReason',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type HvacValidationCaseScalarFieldEnum = (typeof HvacValidationCaseScalarFieldEnum)[keyof typeof HvacValidationCaseScalarFieldEnum]
+
+
+export const HvacEvaluationRunScalarFieldEnum = {
+  id: 'id',
+  engineVersion: 'engineVersion',
+  rulesetVersion: 'rulesetVersion',
+  ptDataVersion: 'ptDataVersion',
+  fieldRulesVersion: 'fieldRulesVersion',
+  caseCount: 'caseCount',
+  result: 'result',
+  createdById: 'createdById',
+  createdByName: 'createdByName',
+  createdAt: 'createdAt'
+} as const
+
+export type HvacEvaluationRunScalarFieldEnum = (typeof HvacEvaluationRunScalarFieldEnum)[keyof typeof HvacEvaluationRunScalarFieldEnum]
 
 
 export const SortOrder = {

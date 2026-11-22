@@ -28,10 +28,14 @@ export type AggregateInvoice = {
 
 export type InvoiceAvgAggregateOutputType = {
   amount: number | null
+  loyaltyDiscount: number | null
+  loyaltyPointsUsed: number | null
 }
 
 export type InvoiceSumAggregateOutputType = {
   amount: number | null
+  loyaltyDiscount: number | null
+  loyaltyPointsUsed: number | null
 }
 
 export type InvoiceMinAggregateOutputType = {
@@ -47,6 +51,8 @@ export type InvoiceMinAggregateOutputType = {
   stripePaymentIntentId: string | null
   dueDate: Date | null
   paidAt: Date | null
+  loyaltyDiscount: number | null
+  loyaltyPointsUsed: number | null
   paymentToken: string | null
   paymentMethod: string | null
   technicianId: string | null
@@ -66,6 +72,8 @@ export type InvoiceMaxAggregateOutputType = {
   stripePaymentIntentId: string | null
   dueDate: Date | null
   paidAt: Date | null
+  loyaltyDiscount: number | null
+  loyaltyPointsUsed: number | null
   paymentToken: string | null
   paymentMethod: string | null
   technicianId: string | null
@@ -86,6 +94,8 @@ export type InvoiceCountAggregateOutputType = {
   dueDate: number
   lineItems: number
   paidAt: number
+  loyaltyDiscount: number
+  loyaltyPointsUsed: number
   paymentToken: number
   paymentMethod: number
   technicianId: number
@@ -96,10 +106,14 @@ export type InvoiceCountAggregateOutputType = {
 
 export type InvoiceAvgAggregateInputType = {
   amount?: true
+  loyaltyDiscount?: true
+  loyaltyPointsUsed?: true
 }
 
 export type InvoiceSumAggregateInputType = {
   amount?: true
+  loyaltyDiscount?: true
+  loyaltyPointsUsed?: true
 }
 
 export type InvoiceMinAggregateInputType = {
@@ -115,6 +129,8 @@ export type InvoiceMinAggregateInputType = {
   stripePaymentIntentId?: true
   dueDate?: true
   paidAt?: true
+  loyaltyDiscount?: true
+  loyaltyPointsUsed?: true
   paymentToken?: true
   paymentMethod?: true
   technicianId?: true
@@ -134,6 +150,8 @@ export type InvoiceMaxAggregateInputType = {
   stripePaymentIntentId?: true
   dueDate?: true
   paidAt?: true
+  loyaltyDiscount?: true
+  loyaltyPointsUsed?: true
   paymentToken?: true
   paymentMethod?: true
   technicianId?: true
@@ -154,6 +172,8 @@ export type InvoiceCountAggregateInputType = {
   dueDate?: true
   lineItems?: true
   paidAt?: true
+  loyaltyDiscount?: true
+  loyaltyPointsUsed?: true
   paymentToken?: true
   paymentMethod?: true
   technicianId?: true
@@ -261,6 +281,8 @@ export type InvoiceGroupByOutputType = {
   dueDate: Date | null
   lineItems: runtime.JsonValue | null
   paidAt: Date | null
+  loyaltyDiscount: number
+  loyaltyPointsUsed: number
   paymentToken: string | null
   paymentMethod: string | null
   technicianId: string | null
@@ -304,6 +326,8 @@ export type InvoiceWhereInput = {
   dueDate?: Prisma.DateTimeNullableFilter<"Invoice"> | Date | string | null
   lineItems?: Prisma.JsonNullableFilter<"Invoice">
   paidAt?: Prisma.DateTimeNullableFilter<"Invoice"> | Date | string | null
+  loyaltyDiscount?: Prisma.FloatFilter<"Invoice"> | number
+  loyaltyPointsUsed?: Prisma.IntFilter<"Invoice"> | number
   paymentToken?: Prisma.StringNullableFilter<"Invoice"> | string | null
   paymentMethod?: Prisma.StringNullableFilter<"Invoice"> | string | null
   technicianId?: Prisma.StringNullableFilter<"Invoice"> | string | null
@@ -325,6 +349,8 @@ export type InvoiceOrderByWithRelationInput = {
   dueDate?: Prisma.SortOrderInput | Prisma.SortOrder
   lineItems?: Prisma.SortOrderInput | Prisma.SortOrder
   paidAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  loyaltyDiscount?: Prisma.SortOrder
+  loyaltyPointsUsed?: Prisma.SortOrder
   paymentToken?: Prisma.SortOrderInput | Prisma.SortOrder
   paymentMethod?: Prisma.SortOrderInput | Prisma.SortOrder
   technicianId?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -350,6 +376,8 @@ export type InvoiceWhereUniqueInput = Prisma.AtLeast<{
   dueDate?: Prisma.DateTimeNullableFilter<"Invoice"> | Date | string | null
   lineItems?: Prisma.JsonNullableFilter<"Invoice">
   paidAt?: Prisma.DateTimeNullableFilter<"Invoice"> | Date | string | null
+  loyaltyDiscount?: Prisma.FloatFilter<"Invoice"> | number
+  loyaltyPointsUsed?: Prisma.IntFilter<"Invoice"> | number
   paymentMethod?: Prisma.StringNullableFilter<"Invoice"> | string | null
   technicianId?: Prisma.StringNullableFilter<"Invoice"> | string | null
   sentByName?: Prisma.StringNullableFilter<"Invoice"> | string | null
@@ -370,6 +398,8 @@ export type InvoiceOrderByWithAggregationInput = {
   dueDate?: Prisma.SortOrderInput | Prisma.SortOrder
   lineItems?: Prisma.SortOrderInput | Prisma.SortOrder
   paidAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  loyaltyDiscount?: Prisma.SortOrder
+  loyaltyPointsUsed?: Prisma.SortOrder
   paymentToken?: Prisma.SortOrderInput | Prisma.SortOrder
   paymentMethod?: Prisma.SortOrderInput | Prisma.SortOrder
   technicianId?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -398,6 +428,8 @@ export type InvoiceScalarWhereWithAggregatesInput = {
   dueDate?: Prisma.DateTimeNullableWithAggregatesFilter<"Invoice"> | Date | string | null
   lineItems?: Prisma.JsonNullableWithAggregatesFilter<"Invoice">
   paidAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Invoice"> | Date | string | null
+  loyaltyDiscount?: Prisma.FloatWithAggregatesFilter<"Invoice"> | number
+  loyaltyPointsUsed?: Prisma.IntWithAggregatesFilter<"Invoice"> | number
   paymentToken?: Prisma.StringNullableWithAggregatesFilter<"Invoice"> | string | null
   paymentMethod?: Prisma.StringNullableWithAggregatesFilter<"Invoice"> | string | null
   technicianId?: Prisma.StringNullableWithAggregatesFilter<"Invoice"> | string | null
@@ -417,6 +449,8 @@ export type InvoiceCreateInput = {
   dueDate?: Date | string | null
   lineItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   paidAt?: Date | string | null
+  loyaltyDiscount?: number
+  loyaltyPointsUsed?: number
   paymentToken?: string | null
   paymentMethod?: string | null
   technicianId?: string | null
@@ -438,6 +472,8 @@ export type InvoiceUncheckedCreateInput = {
   dueDate?: Date | string | null
   lineItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   paidAt?: Date | string | null
+  loyaltyDiscount?: number
+  loyaltyPointsUsed?: number
   paymentToken?: string | null
   paymentMethod?: string | null
   technicianId?: string | null
@@ -457,6 +493,8 @@ export type InvoiceUpdateInput = {
   dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lineItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  loyaltyDiscount?: Prisma.FloatFieldUpdateOperationsInput | number
+  loyaltyPointsUsed?: Prisma.IntFieldUpdateOperationsInput | number
   paymentToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paymentMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   technicianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -478,6 +516,8 @@ export type InvoiceUncheckedUpdateInput = {
   dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lineItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  loyaltyDiscount?: Prisma.FloatFieldUpdateOperationsInput | number
+  loyaltyPointsUsed?: Prisma.IntFieldUpdateOperationsInput | number
   paymentToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paymentMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   technicianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -498,6 +538,8 @@ export type InvoiceCreateManyInput = {
   dueDate?: Date | string | null
   lineItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   paidAt?: Date | string | null
+  loyaltyDiscount?: number
+  loyaltyPointsUsed?: number
   paymentToken?: string | null
   paymentMethod?: string | null
   technicianId?: string | null
@@ -517,6 +559,8 @@ export type InvoiceUpdateManyMutationInput = {
   dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lineItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  loyaltyDiscount?: Prisma.FloatFieldUpdateOperationsInput | number
+  loyaltyPointsUsed?: Prisma.IntFieldUpdateOperationsInput | number
   paymentToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paymentMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   technicianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -537,6 +581,8 @@ export type InvoiceUncheckedUpdateManyInput = {
   dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lineItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  loyaltyDiscount?: Prisma.FloatFieldUpdateOperationsInput | number
+  loyaltyPointsUsed?: Prisma.IntFieldUpdateOperationsInput | number
   paymentToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paymentMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   technicianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -562,6 +608,8 @@ export type InvoiceCountOrderByAggregateInput = {
   dueDate?: Prisma.SortOrder
   lineItems?: Prisma.SortOrder
   paidAt?: Prisma.SortOrder
+  loyaltyDiscount?: Prisma.SortOrder
+  loyaltyPointsUsed?: Prisma.SortOrder
   paymentToken?: Prisma.SortOrder
   paymentMethod?: Prisma.SortOrder
   technicianId?: Prisma.SortOrder
@@ -570,6 +618,8 @@ export type InvoiceCountOrderByAggregateInput = {
 
 export type InvoiceAvgOrderByAggregateInput = {
   amount?: Prisma.SortOrder
+  loyaltyDiscount?: Prisma.SortOrder
+  loyaltyPointsUsed?: Prisma.SortOrder
 }
 
 export type InvoiceMaxOrderByAggregateInput = {
@@ -585,6 +635,8 @@ export type InvoiceMaxOrderByAggregateInput = {
   stripePaymentIntentId?: Prisma.SortOrder
   dueDate?: Prisma.SortOrder
   paidAt?: Prisma.SortOrder
+  loyaltyDiscount?: Prisma.SortOrder
+  loyaltyPointsUsed?: Prisma.SortOrder
   paymentToken?: Prisma.SortOrder
   paymentMethod?: Prisma.SortOrder
   technicianId?: Prisma.SortOrder
@@ -604,6 +656,8 @@ export type InvoiceMinOrderByAggregateInput = {
   stripePaymentIntentId?: Prisma.SortOrder
   dueDate?: Prisma.SortOrder
   paidAt?: Prisma.SortOrder
+  loyaltyDiscount?: Prisma.SortOrder
+  loyaltyPointsUsed?: Prisma.SortOrder
   paymentToken?: Prisma.SortOrder
   paymentMethod?: Prisma.SortOrder
   technicianId?: Prisma.SortOrder
@@ -612,6 +666,8 @@ export type InvoiceMinOrderByAggregateInput = {
 
 export type InvoiceSumOrderByAggregateInput = {
   amount?: Prisma.SortOrder
+  loyaltyDiscount?: Prisma.SortOrder
+  loyaltyPointsUsed?: Prisma.SortOrder
 }
 
 export type InvoiceCreateNestedOneWithoutAppointmentInput = {
@@ -671,6 +727,8 @@ export type InvoiceCreateWithoutAppointmentInput = {
   dueDate?: Date | string | null
   lineItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   paidAt?: Date | string | null
+  loyaltyDiscount?: number
+  loyaltyPointsUsed?: number
   paymentToken?: string | null
   paymentMethod?: string | null
   technicianId?: string | null
@@ -690,6 +748,8 @@ export type InvoiceUncheckedCreateWithoutAppointmentInput = {
   dueDate?: Date | string | null
   lineItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   paidAt?: Date | string | null
+  loyaltyDiscount?: number
+  loyaltyPointsUsed?: number
   paymentToken?: string | null
   paymentMethod?: string | null
   technicianId?: string | null
@@ -725,6 +785,8 @@ export type InvoiceUpdateWithoutAppointmentInput = {
   dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lineItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  loyaltyDiscount?: Prisma.FloatFieldUpdateOperationsInput | number
+  loyaltyPointsUsed?: Prisma.IntFieldUpdateOperationsInput | number
   paymentToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paymentMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   technicianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -744,6 +806,8 @@ export type InvoiceUncheckedUpdateWithoutAppointmentInput = {
   dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lineItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  loyaltyDiscount?: Prisma.FloatFieldUpdateOperationsInput | number
+  loyaltyPointsUsed?: Prisma.IntFieldUpdateOperationsInput | number
   paymentToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paymentMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   technicianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -766,6 +830,8 @@ export type InvoiceSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   dueDate?: boolean
   lineItems?: boolean
   paidAt?: boolean
+  loyaltyDiscount?: boolean
+  loyaltyPointsUsed?: boolean
   paymentToken?: boolean
   paymentMethod?: boolean
   technicianId?: boolean
@@ -787,6 +853,8 @@ export type InvoiceSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   dueDate?: boolean
   lineItems?: boolean
   paidAt?: boolean
+  loyaltyDiscount?: boolean
+  loyaltyPointsUsed?: boolean
   paymentToken?: boolean
   paymentMethod?: boolean
   technicianId?: boolean
@@ -808,6 +876,8 @@ export type InvoiceSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   dueDate?: boolean
   lineItems?: boolean
   paidAt?: boolean
+  loyaltyDiscount?: boolean
+  loyaltyPointsUsed?: boolean
   paymentToken?: boolean
   paymentMethod?: boolean
   technicianId?: boolean
@@ -829,13 +899,15 @@ export type InvoiceSelectScalar = {
   dueDate?: boolean
   lineItems?: boolean
   paidAt?: boolean
+  loyaltyDiscount?: boolean
+  loyaltyPointsUsed?: boolean
   paymentToken?: boolean
   paymentMethod?: boolean
   technicianId?: boolean
   sentByName?: boolean
 }
 
-export type InvoiceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "appointmentId" | "amount" | "status" | "pdfUrl" | "notes" | "createdAt" | "updatedAt" | "signatureUrl" | "stripePaymentIntentId" | "dueDate" | "lineItems" | "paidAt" | "paymentToken" | "paymentMethod" | "technicianId" | "sentByName", ExtArgs["result"]["invoice"]>
+export type InvoiceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "appointmentId" | "amount" | "status" | "pdfUrl" | "notes" | "createdAt" | "updatedAt" | "signatureUrl" | "stripePaymentIntentId" | "dueDate" | "lineItems" | "paidAt" | "loyaltyDiscount" | "loyaltyPointsUsed" | "paymentToken" | "paymentMethod" | "technicianId" | "sentByName", ExtArgs["result"]["invoice"]>
 export type InvoiceInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   appointment?: boolean | Prisma.AppointmentDefaultArgs<ExtArgs>
 }
@@ -865,6 +937,8 @@ export type $InvoicePayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     dueDate: Date | null
     lineItems: runtime.JsonValue | null
     paidAt: Date | null
+    loyaltyDiscount: number
+    loyaltyPointsUsed: number
     paymentToken: string | null
     paymentMethod: string | null
     technicianId: string | null
@@ -1306,6 +1380,8 @@ export interface InvoiceFieldRefs {
   readonly dueDate: Prisma.FieldRef<"Invoice", 'DateTime'>
   readonly lineItems: Prisma.FieldRef<"Invoice", 'Json'>
   readonly paidAt: Prisma.FieldRef<"Invoice", 'DateTime'>
+  readonly loyaltyDiscount: Prisma.FieldRef<"Invoice", 'Float'>
+  readonly loyaltyPointsUsed: Prisma.FieldRef<"Invoice", 'Int'>
   readonly paymentToken: Prisma.FieldRef<"Invoice", 'String'>
   readonly paymentMethod: Prisma.FieldRef<"Invoice", 'String'>
   readonly technicianId: Prisma.FieldRef<"Invoice", 'String'>

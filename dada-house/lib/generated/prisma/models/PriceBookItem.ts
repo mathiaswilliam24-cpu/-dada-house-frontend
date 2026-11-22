@@ -50,6 +50,7 @@ export type PriceBookItemMinAggregateOutputType = {
   unit: string | null
   taskCode: string | null
   onlineBooking: boolean | null
+  imageUrl: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -68,6 +69,7 @@ export type PriceBookItemMaxAggregateOutputType = {
   unit: string | null
   taskCode: string | null
   onlineBooking: boolean | null
+  imageUrl: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -86,6 +88,7 @@ export type PriceBookItemCountAggregateOutputType = {
   unit: number
   taskCode: number
   onlineBooking: number
+  imageUrl: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -116,6 +119,7 @@ export type PriceBookItemMinAggregateInputType = {
   unit?: true
   taskCode?: true
   onlineBooking?: true
+  imageUrl?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -134,6 +138,7 @@ export type PriceBookItemMaxAggregateInputType = {
   unit?: true
   taskCode?: true
   onlineBooking?: true
+  imageUrl?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -152,6 +157,7 @@ export type PriceBookItemCountAggregateInputType = {
   unit?: true
   taskCode?: true
   onlineBooking?: true
+  imageUrl?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -257,6 +263,7 @@ export type PriceBookItemGroupByOutputType = {
   unit: string | null
   taskCode: string | null
   onlineBooking: boolean
+  imageUrl: string | null
   createdAt: Date
   updatedAt: Date
   _count: PriceBookItemCountAggregateOutputType | null
@@ -298,6 +305,7 @@ export type PriceBookItemWhereInput = {
   unit?: Prisma.StringNullableFilter<"PriceBookItem"> | string | null
   taskCode?: Prisma.StringNullableFilter<"PriceBookItem"> | string | null
   onlineBooking?: Prisma.BoolFilter<"PriceBookItem"> | boolean
+  imageUrl?: Prisma.StringNullableFilter<"PriceBookItem"> | string | null
   createdAt?: Prisma.DateTimeFilter<"PriceBookItem"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"PriceBookItem"> | Date | string
 }
@@ -316,6 +324,7 @@ export type PriceBookItemOrderByWithRelationInput = {
   unit?: Prisma.SortOrderInput | Prisma.SortOrder
   taskCode?: Prisma.SortOrderInput | Prisma.SortOrder
   onlineBooking?: Prisma.SortOrder
+  imageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -337,6 +346,7 @@ export type PriceBookItemWhereUniqueInput = Prisma.AtLeast<{
   unit?: Prisma.StringNullableFilter<"PriceBookItem"> | string | null
   taskCode?: Prisma.StringNullableFilter<"PriceBookItem"> | string | null
   onlineBooking?: Prisma.BoolFilter<"PriceBookItem"> | boolean
+  imageUrl?: Prisma.StringNullableFilter<"PriceBookItem"> | string | null
   createdAt?: Prisma.DateTimeFilter<"PriceBookItem"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"PriceBookItem"> | Date | string
 }, "id">
@@ -355,6 +365,7 @@ export type PriceBookItemOrderByWithAggregationInput = {
   unit?: Prisma.SortOrderInput | Prisma.SortOrder
   taskCode?: Prisma.SortOrderInput | Prisma.SortOrder
   onlineBooking?: Prisma.SortOrder
+  imageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.PriceBookItemCountOrderByAggregateInput
@@ -381,6 +392,7 @@ export type PriceBookItemScalarWhereWithAggregatesInput = {
   unit?: Prisma.StringNullableWithAggregatesFilter<"PriceBookItem"> | string | null
   taskCode?: Prisma.StringNullableWithAggregatesFilter<"PriceBookItem"> | string | null
   onlineBooking?: Prisma.BoolWithAggregatesFilter<"PriceBookItem"> | boolean
+  imageUrl?: Prisma.StringNullableWithAggregatesFilter<"PriceBookItem"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"PriceBookItem"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"PriceBookItem"> | Date | string
 }
@@ -399,6 +411,7 @@ export type PriceBookItemCreateInput = {
   unit?: string | null
   taskCode?: string | null
   onlineBooking?: boolean
+  imageUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -417,6 +430,7 @@ export type PriceBookItemUncheckedCreateInput = {
   unit?: string | null
   taskCode?: string | null
   onlineBooking?: boolean
+  imageUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -435,6 +449,7 @@ export type PriceBookItemUpdateInput = {
   unit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taskCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onlineBooking?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -453,6 +468,7 @@ export type PriceBookItemUncheckedUpdateInput = {
   unit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taskCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onlineBooking?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -471,6 +487,7 @@ export type PriceBookItemCreateManyInput = {
   unit?: string | null
   taskCode?: string | null
   onlineBooking?: boolean
+  imageUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -489,6 +506,7 @@ export type PriceBookItemUpdateManyMutationInput = {
   unit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taskCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onlineBooking?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -507,6 +525,7 @@ export type PriceBookItemUncheckedUpdateManyInput = {
   unit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taskCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   onlineBooking?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -525,6 +544,7 @@ export type PriceBookItemCountOrderByAggregateInput = {
   unit?: Prisma.SortOrder
   taskCode?: Prisma.SortOrder
   onlineBooking?: Prisma.SortOrder
+  imageUrl?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -548,6 +568,7 @@ export type PriceBookItemMaxOrderByAggregateInput = {
   unit?: Prisma.SortOrder
   taskCode?: Prisma.SortOrder
   onlineBooking?: Prisma.SortOrder
+  imageUrl?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -566,6 +587,7 @@ export type PriceBookItemMinOrderByAggregateInput = {
   unit?: Prisma.SortOrder
   taskCode?: Prisma.SortOrder
   onlineBooking?: Prisma.SortOrder
+  imageUrl?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -591,6 +613,7 @@ export type PriceBookItemSelect<ExtArgs extends runtime.Types.Extensions.Interna
   unit?: boolean
   taskCode?: boolean
   onlineBooking?: boolean
+  imageUrl?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["priceBookItem"]>
@@ -609,6 +632,7 @@ export type PriceBookItemSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   unit?: boolean
   taskCode?: boolean
   onlineBooking?: boolean
+  imageUrl?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["priceBookItem"]>
@@ -627,6 +651,7 @@ export type PriceBookItemSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   unit?: boolean
   taskCode?: boolean
   onlineBooking?: boolean
+  imageUrl?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["priceBookItem"]>
@@ -645,11 +670,12 @@ export type PriceBookItemSelectScalar = {
   unit?: boolean
   taskCode?: boolean
   onlineBooking?: boolean
+  imageUrl?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type PriceBookItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "industry" | "category" | "subcategory1" | "subcategory2" | "name" | "description" | "price" | "cost" | "taxable" | "unit" | "taskCode" | "onlineBooking" | "createdAt" | "updatedAt", ExtArgs["result"]["priceBookItem"]>
+export type PriceBookItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "industry" | "category" | "subcategory1" | "subcategory2" | "name" | "description" | "price" | "cost" | "taxable" | "unit" | "taskCode" | "onlineBooking" | "imageUrl" | "createdAt" | "updatedAt", ExtArgs["result"]["priceBookItem"]>
 
 export type $PriceBookItemPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "PriceBookItem"
@@ -668,6 +694,7 @@ export type $PriceBookItemPayload<ExtArgs extends runtime.Types.Extensions.Inter
     unit: string | null
     taskCode: string | null
     onlineBooking: boolean
+    imageUrl: string | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["priceBookItem"]>
@@ -1106,6 +1133,7 @@ export interface PriceBookItemFieldRefs {
   readonly unit: Prisma.FieldRef<"PriceBookItem", 'String'>
   readonly taskCode: Prisma.FieldRef<"PriceBookItem", 'String'>
   readonly onlineBooking: Prisma.FieldRef<"PriceBookItem", 'Boolean'>
+  readonly imageUrl: Prisma.FieldRef<"PriceBookItem", 'String'>
   readonly createdAt: Prisma.FieldRef<"PriceBookItem", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"PriceBookItem", 'DateTime'>
 }

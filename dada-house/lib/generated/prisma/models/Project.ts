@@ -20,8 +20,20 @@ export type ProjectModel = runtime.Types.Result.DefaultSelection<Prisma.$Project
 
 export type AggregateProject = {
   _count: ProjectCountAggregateOutputType | null
+  _avg: ProjectAvgAggregateOutputType | null
+  _sum: ProjectSumAggregateOutputType | null
   _min: ProjectMinAggregateOutputType | null
   _max: ProjectMaxAggregateOutputType | null
+}
+
+export type ProjectAvgAggregateOutputType = {
+  contractAmount: number | null
+  depositAmount: number | null
+}
+
+export type ProjectSumAggregateOutputType = {
+  contractAmount: number | null
+  depositAmount: number | null
 }
 
 export type ProjectMinAggregateOutputType = {
@@ -32,6 +44,21 @@ export type ProjectMinAggregateOutputType = {
   status: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  projectNumber: string | null
+  kind: string | null
+  stage: string | null
+  stageUpdatedAt: Date | null
+  address: string | null
+  city: string | null
+  zipCode: string | null
+  equipmentSummary: string | null
+  contractAmount: number | null
+  depositAmount: number | null
+  permitNumber: string | null
+  targetDate: Date | null
+  salesRepId: string | null
+  leadInstallerId: string | null
+  createdById: string | null
 }
 
 export type ProjectMaxAggregateOutputType = {
@@ -42,6 +69,21 @@ export type ProjectMaxAggregateOutputType = {
   status: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  projectNumber: string | null
+  kind: string | null
+  stage: string | null
+  stageUpdatedAt: Date | null
+  address: string | null
+  city: string | null
+  zipCode: string | null
+  equipmentSummary: string | null
+  contractAmount: number | null
+  depositAmount: number | null
+  permitNumber: string | null
+  targetDate: Date | null
+  salesRepId: string | null
+  leadInstallerId: string | null
+  createdById: string | null
 }
 
 export type ProjectCountAggregateOutputType = {
@@ -52,9 +94,34 @@ export type ProjectCountAggregateOutputType = {
   status: number
   createdAt: number
   updatedAt: number
+  projectNumber: number
+  kind: number
+  stage: number
+  stageUpdatedAt: number
+  address: number
+  city: number
+  zipCode: number
+  equipmentSummary: number
+  contractAmount: number
+  depositAmount: number
+  permitNumber: number
+  targetDate: number
+  salesRepId: number
+  leadInstallerId: number
+  createdById: number
   _all: number
 }
 
+
+export type ProjectAvgAggregateInputType = {
+  contractAmount?: true
+  depositAmount?: true
+}
+
+export type ProjectSumAggregateInputType = {
+  contractAmount?: true
+  depositAmount?: true
+}
 
 export type ProjectMinAggregateInputType = {
   id?: true
@@ -64,6 +131,21 @@ export type ProjectMinAggregateInputType = {
   status?: true
   createdAt?: true
   updatedAt?: true
+  projectNumber?: true
+  kind?: true
+  stage?: true
+  stageUpdatedAt?: true
+  address?: true
+  city?: true
+  zipCode?: true
+  equipmentSummary?: true
+  contractAmount?: true
+  depositAmount?: true
+  permitNumber?: true
+  targetDate?: true
+  salesRepId?: true
+  leadInstallerId?: true
+  createdById?: true
 }
 
 export type ProjectMaxAggregateInputType = {
@@ -74,6 +156,21 @@ export type ProjectMaxAggregateInputType = {
   status?: true
   createdAt?: true
   updatedAt?: true
+  projectNumber?: true
+  kind?: true
+  stage?: true
+  stageUpdatedAt?: true
+  address?: true
+  city?: true
+  zipCode?: true
+  equipmentSummary?: true
+  contractAmount?: true
+  depositAmount?: true
+  permitNumber?: true
+  targetDate?: true
+  salesRepId?: true
+  leadInstallerId?: true
+  createdById?: true
 }
 
 export type ProjectCountAggregateInputType = {
@@ -84,6 +181,21 @@ export type ProjectCountAggregateInputType = {
   status?: true
   createdAt?: true
   updatedAt?: true
+  projectNumber?: true
+  kind?: true
+  stage?: true
+  stageUpdatedAt?: true
+  address?: true
+  city?: true
+  zipCode?: true
+  equipmentSummary?: true
+  contractAmount?: true
+  depositAmount?: true
+  permitNumber?: true
+  targetDate?: true
+  salesRepId?: true
+  leadInstallerId?: true
+  createdById?: true
   _all?: true
 }
 
@@ -125,6 +237,18 @@ export type ProjectAggregateArgs<ExtArgs extends runtime.Types.Extensions.Intern
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: ProjectAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: ProjectSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: ProjectMinAggregateInputType
@@ -155,6 +279,8 @@ export type ProjectGroupByArgs<ExtArgs extends runtime.Types.Extensions.Internal
   take?: number
   skip?: number
   _count?: ProjectCountAggregateInputType | true
+  _avg?: ProjectAvgAggregateInputType
+  _sum?: ProjectSumAggregateInputType
   _min?: ProjectMinAggregateInputType
   _max?: ProjectMaxAggregateInputType
 }
@@ -167,7 +293,24 @@ export type ProjectGroupByOutputType = {
   status: string
   createdAt: Date
   updatedAt: Date
+  projectNumber: string | null
+  kind: string
+  stage: string
+  stageUpdatedAt: Date | null
+  address: string | null
+  city: string | null
+  zipCode: string | null
+  equipmentSummary: string | null
+  contractAmount: number | null
+  depositAmount: number | null
+  permitNumber: string | null
+  targetDate: Date | null
+  salesRepId: string | null
+  leadInstallerId: string | null
+  createdById: string | null
   _count: ProjectCountAggregateOutputType | null
+  _avg: ProjectAvgAggregateOutputType | null
+  _sum: ProjectSumAggregateOutputType | null
   _min: ProjectMinAggregateOutputType | null
   _max: ProjectMaxAggregateOutputType | null
 }
@@ -198,8 +341,24 @@ export type ProjectWhereInput = {
   status?: Prisma.StringFilter<"Project"> | string
   createdAt?: Prisma.DateTimeFilter<"Project"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Project"> | Date | string
+  projectNumber?: Prisma.StringNullableFilter<"Project"> | string | null
+  kind?: Prisma.StringFilter<"Project"> | string
+  stage?: Prisma.StringFilter<"Project"> | string
+  stageUpdatedAt?: Prisma.DateTimeNullableFilter<"Project"> | Date | string | null
+  address?: Prisma.StringNullableFilter<"Project"> | string | null
+  city?: Prisma.StringNullableFilter<"Project"> | string | null
+  zipCode?: Prisma.StringNullableFilter<"Project"> | string | null
+  equipmentSummary?: Prisma.StringNullableFilter<"Project"> | string | null
+  contractAmount?: Prisma.FloatNullableFilter<"Project"> | number | null
+  depositAmount?: Prisma.FloatNullableFilter<"Project"> | number | null
+  permitNumber?: Prisma.StringNullableFilter<"Project"> | string | null
+  targetDate?: Prisma.DateTimeNullableFilter<"Project"> | Date | string | null
+  salesRepId?: Prisma.StringNullableFilter<"Project"> | string | null
+  leadInstallerId?: Prisma.StringNullableFilter<"Project"> | string | null
+  createdById?: Prisma.StringNullableFilter<"Project"> | string | null
   customer?: Prisma.XOR<Prisma.CustomerScalarRelationFilter, Prisma.CustomerWhereInput>
   appointments?: Prisma.AppointmentListRelationFilter
+  events?: Prisma.ProjectEventListRelationFilter
 }
 
 export type ProjectOrderByWithRelationInput = {
@@ -210,12 +369,29 @@ export type ProjectOrderByWithRelationInput = {
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  projectNumber?: Prisma.SortOrderInput | Prisma.SortOrder
+  kind?: Prisma.SortOrder
+  stage?: Prisma.SortOrder
+  stageUpdatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  address?: Prisma.SortOrderInput | Prisma.SortOrder
+  city?: Prisma.SortOrderInput | Prisma.SortOrder
+  zipCode?: Prisma.SortOrderInput | Prisma.SortOrder
+  equipmentSummary?: Prisma.SortOrderInput | Prisma.SortOrder
+  contractAmount?: Prisma.SortOrderInput | Prisma.SortOrder
+  depositAmount?: Prisma.SortOrderInput | Prisma.SortOrder
+  permitNumber?: Prisma.SortOrderInput | Prisma.SortOrder
+  targetDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  salesRepId?: Prisma.SortOrderInput | Prisma.SortOrder
+  leadInstallerId?: Prisma.SortOrderInput | Prisma.SortOrder
+  createdById?: Prisma.SortOrderInput | Prisma.SortOrder
   customer?: Prisma.CustomerOrderByWithRelationInput
   appointments?: Prisma.AppointmentOrderByRelationAggregateInput
+  events?: Prisma.ProjectEventOrderByRelationAggregateInput
 }
 
 export type ProjectWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  projectNumber?: string
   AND?: Prisma.ProjectWhereInput | Prisma.ProjectWhereInput[]
   OR?: Prisma.ProjectWhereInput[]
   NOT?: Prisma.ProjectWhereInput | Prisma.ProjectWhereInput[]
@@ -225,9 +401,24 @@ export type ProjectWhereUniqueInput = Prisma.AtLeast<{
   status?: Prisma.StringFilter<"Project"> | string
   createdAt?: Prisma.DateTimeFilter<"Project"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Project"> | Date | string
+  kind?: Prisma.StringFilter<"Project"> | string
+  stage?: Prisma.StringFilter<"Project"> | string
+  stageUpdatedAt?: Prisma.DateTimeNullableFilter<"Project"> | Date | string | null
+  address?: Prisma.StringNullableFilter<"Project"> | string | null
+  city?: Prisma.StringNullableFilter<"Project"> | string | null
+  zipCode?: Prisma.StringNullableFilter<"Project"> | string | null
+  equipmentSummary?: Prisma.StringNullableFilter<"Project"> | string | null
+  contractAmount?: Prisma.FloatNullableFilter<"Project"> | number | null
+  depositAmount?: Prisma.FloatNullableFilter<"Project"> | number | null
+  permitNumber?: Prisma.StringNullableFilter<"Project"> | string | null
+  targetDate?: Prisma.DateTimeNullableFilter<"Project"> | Date | string | null
+  salesRepId?: Prisma.StringNullableFilter<"Project"> | string | null
+  leadInstallerId?: Prisma.StringNullableFilter<"Project"> | string | null
+  createdById?: Prisma.StringNullableFilter<"Project"> | string | null
   customer?: Prisma.XOR<Prisma.CustomerScalarRelationFilter, Prisma.CustomerWhereInput>
   appointments?: Prisma.AppointmentListRelationFilter
-}, "id">
+  events?: Prisma.ProjectEventListRelationFilter
+}, "id" | "projectNumber">
 
 export type ProjectOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -237,9 +428,26 @@ export type ProjectOrderByWithAggregationInput = {
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  projectNumber?: Prisma.SortOrderInput | Prisma.SortOrder
+  kind?: Prisma.SortOrder
+  stage?: Prisma.SortOrder
+  stageUpdatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  address?: Prisma.SortOrderInput | Prisma.SortOrder
+  city?: Prisma.SortOrderInput | Prisma.SortOrder
+  zipCode?: Prisma.SortOrderInput | Prisma.SortOrder
+  equipmentSummary?: Prisma.SortOrderInput | Prisma.SortOrder
+  contractAmount?: Prisma.SortOrderInput | Prisma.SortOrder
+  depositAmount?: Prisma.SortOrderInput | Prisma.SortOrder
+  permitNumber?: Prisma.SortOrderInput | Prisma.SortOrder
+  targetDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  salesRepId?: Prisma.SortOrderInput | Prisma.SortOrder
+  leadInstallerId?: Prisma.SortOrderInput | Prisma.SortOrder
+  createdById?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.ProjectCountOrderByAggregateInput
+  _avg?: Prisma.ProjectAvgOrderByAggregateInput
   _max?: Prisma.ProjectMaxOrderByAggregateInput
   _min?: Prisma.ProjectMinOrderByAggregateInput
+  _sum?: Prisma.ProjectSumOrderByAggregateInput
 }
 
 export type ProjectScalarWhereWithAggregatesInput = {
@@ -253,6 +461,21 @@ export type ProjectScalarWhereWithAggregatesInput = {
   status?: Prisma.StringWithAggregatesFilter<"Project"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Project"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Project"> | Date | string
+  projectNumber?: Prisma.StringNullableWithAggregatesFilter<"Project"> | string | null
+  kind?: Prisma.StringWithAggregatesFilter<"Project"> | string
+  stage?: Prisma.StringWithAggregatesFilter<"Project"> | string
+  stageUpdatedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Project"> | Date | string | null
+  address?: Prisma.StringNullableWithAggregatesFilter<"Project"> | string | null
+  city?: Prisma.StringNullableWithAggregatesFilter<"Project"> | string | null
+  zipCode?: Prisma.StringNullableWithAggregatesFilter<"Project"> | string | null
+  equipmentSummary?: Prisma.StringNullableWithAggregatesFilter<"Project"> | string | null
+  contractAmount?: Prisma.FloatNullableWithAggregatesFilter<"Project"> | number | null
+  depositAmount?: Prisma.FloatNullableWithAggregatesFilter<"Project"> | number | null
+  permitNumber?: Prisma.StringNullableWithAggregatesFilter<"Project"> | string | null
+  targetDate?: Prisma.DateTimeNullableWithAggregatesFilter<"Project"> | Date | string | null
+  salesRepId?: Prisma.StringNullableWithAggregatesFilter<"Project"> | string | null
+  leadInstallerId?: Prisma.StringNullableWithAggregatesFilter<"Project"> | string | null
+  createdById?: Prisma.StringNullableWithAggregatesFilter<"Project"> | string | null
 }
 
 export type ProjectCreateInput = {
@@ -262,8 +485,24 @@ export type ProjectCreateInput = {
   status?: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  projectNumber?: string | null
+  kind?: string
+  stage?: string
+  stageUpdatedAt?: Date | string | null
+  address?: string | null
+  city?: string | null
+  zipCode?: string | null
+  equipmentSummary?: string | null
+  contractAmount?: number | null
+  depositAmount?: number | null
+  permitNumber?: string | null
+  targetDate?: Date | string | null
+  salesRepId?: string | null
+  leadInstallerId?: string | null
+  createdById?: string | null
   customer: Prisma.CustomerCreateNestedOneWithoutProjectsInput
   appointments?: Prisma.AppointmentCreateNestedManyWithoutProjectInput
+  events?: Prisma.ProjectEventCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUncheckedCreateInput = {
@@ -274,7 +513,23 @@ export type ProjectUncheckedCreateInput = {
   status?: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  projectNumber?: string | null
+  kind?: string
+  stage?: string
+  stageUpdatedAt?: Date | string | null
+  address?: string | null
+  city?: string | null
+  zipCode?: string | null
+  equipmentSummary?: string | null
+  contractAmount?: number | null
+  depositAmount?: number | null
+  permitNumber?: string | null
+  targetDate?: Date | string | null
+  salesRepId?: string | null
+  leadInstallerId?: string | null
+  createdById?: string | null
   appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutProjectInput
+  events?: Prisma.ProjectEventUncheckedCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUpdateInput = {
@@ -284,8 +539,24 @@ export type ProjectUpdateInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  projectNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kind?: Prisma.StringFieldUpdateOperationsInput | string
+  stage?: Prisma.StringFieldUpdateOperationsInput | string
+  stageUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  equipmentSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contractAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  depositAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  permitNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  targetDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  salesRepId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leadInstallerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer?: Prisma.CustomerUpdateOneRequiredWithoutProjectsNestedInput
   appointments?: Prisma.AppointmentUpdateManyWithoutProjectNestedInput
+  events?: Prisma.ProjectEventUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateInput = {
@@ -296,7 +567,23 @@ export type ProjectUncheckedUpdateInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  projectNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kind?: Prisma.StringFieldUpdateOperationsInput | string
+  stage?: Prisma.StringFieldUpdateOperationsInput | string
+  stageUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  equipmentSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contractAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  depositAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  permitNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  targetDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  salesRepId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leadInstallerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutProjectNestedInput
+  events?: Prisma.ProjectEventUncheckedUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectCreateManyInput = {
@@ -307,6 +594,21 @@ export type ProjectCreateManyInput = {
   status?: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  projectNumber?: string | null
+  kind?: string
+  stage?: string
+  stageUpdatedAt?: Date | string | null
+  address?: string | null
+  city?: string | null
+  zipCode?: string | null
+  equipmentSummary?: string | null
+  contractAmount?: number | null
+  depositAmount?: number | null
+  permitNumber?: string | null
+  targetDate?: Date | string | null
+  salesRepId?: string | null
+  leadInstallerId?: string | null
+  createdById?: string | null
 }
 
 export type ProjectUpdateManyMutationInput = {
@@ -316,6 +618,21 @@ export type ProjectUpdateManyMutationInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  projectNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kind?: Prisma.StringFieldUpdateOperationsInput | string
+  stage?: Prisma.StringFieldUpdateOperationsInput | string
+  stageUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  equipmentSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contractAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  depositAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  permitNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  targetDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  salesRepId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leadInstallerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type ProjectUncheckedUpdateManyInput = {
@@ -326,6 +643,21 @@ export type ProjectUncheckedUpdateManyInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  projectNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kind?: Prisma.StringFieldUpdateOperationsInput | string
+  stage?: Prisma.StringFieldUpdateOperationsInput | string
+  stageUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  equipmentSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contractAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  depositAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  permitNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  targetDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  salesRepId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leadInstallerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type ProjectNullableScalarRelationFilter = {
@@ -351,6 +683,26 @@ export type ProjectCountOrderByAggregateInput = {
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  projectNumber?: Prisma.SortOrder
+  kind?: Prisma.SortOrder
+  stage?: Prisma.SortOrder
+  stageUpdatedAt?: Prisma.SortOrder
+  address?: Prisma.SortOrder
+  city?: Prisma.SortOrder
+  zipCode?: Prisma.SortOrder
+  equipmentSummary?: Prisma.SortOrder
+  contractAmount?: Prisma.SortOrder
+  depositAmount?: Prisma.SortOrder
+  permitNumber?: Prisma.SortOrder
+  targetDate?: Prisma.SortOrder
+  salesRepId?: Prisma.SortOrder
+  leadInstallerId?: Prisma.SortOrder
+  createdById?: Prisma.SortOrder
+}
+
+export type ProjectAvgOrderByAggregateInput = {
+  contractAmount?: Prisma.SortOrder
+  depositAmount?: Prisma.SortOrder
 }
 
 export type ProjectMaxOrderByAggregateInput = {
@@ -361,6 +713,21 @@ export type ProjectMaxOrderByAggregateInput = {
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  projectNumber?: Prisma.SortOrder
+  kind?: Prisma.SortOrder
+  stage?: Prisma.SortOrder
+  stageUpdatedAt?: Prisma.SortOrder
+  address?: Prisma.SortOrder
+  city?: Prisma.SortOrder
+  zipCode?: Prisma.SortOrder
+  equipmentSummary?: Prisma.SortOrder
+  contractAmount?: Prisma.SortOrder
+  depositAmount?: Prisma.SortOrder
+  permitNumber?: Prisma.SortOrder
+  targetDate?: Prisma.SortOrder
+  salesRepId?: Prisma.SortOrder
+  leadInstallerId?: Prisma.SortOrder
+  createdById?: Prisma.SortOrder
 }
 
 export type ProjectMinOrderByAggregateInput = {
@@ -371,6 +738,31 @@ export type ProjectMinOrderByAggregateInput = {
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  projectNumber?: Prisma.SortOrder
+  kind?: Prisma.SortOrder
+  stage?: Prisma.SortOrder
+  stageUpdatedAt?: Prisma.SortOrder
+  address?: Prisma.SortOrder
+  city?: Prisma.SortOrder
+  zipCode?: Prisma.SortOrder
+  equipmentSummary?: Prisma.SortOrder
+  contractAmount?: Prisma.SortOrder
+  depositAmount?: Prisma.SortOrder
+  permitNumber?: Prisma.SortOrder
+  targetDate?: Prisma.SortOrder
+  salesRepId?: Prisma.SortOrder
+  leadInstallerId?: Prisma.SortOrder
+  createdById?: Prisma.SortOrder
+}
+
+export type ProjectSumOrderByAggregateInput = {
+  contractAmount?: Prisma.SortOrder
+  depositAmount?: Prisma.SortOrder
+}
+
+export type ProjectScalarRelationFilter = {
+  is?: Prisma.ProjectWhereInput
+  isNot?: Prisma.ProjectWhereInput
 }
 
 export type ProjectCreateNestedOneWithoutAppointmentsInput = {
@@ -431,6 +823,20 @@ export type ProjectUncheckedUpdateManyWithoutCustomerNestedInput = {
   deleteMany?: Prisma.ProjectScalarWhereInput | Prisma.ProjectScalarWhereInput[]
 }
 
+export type ProjectCreateNestedOneWithoutEventsInput = {
+  create?: Prisma.XOR<Prisma.ProjectCreateWithoutEventsInput, Prisma.ProjectUncheckedCreateWithoutEventsInput>
+  connectOrCreate?: Prisma.ProjectCreateOrConnectWithoutEventsInput
+  connect?: Prisma.ProjectWhereUniqueInput
+}
+
+export type ProjectUpdateOneRequiredWithoutEventsNestedInput = {
+  create?: Prisma.XOR<Prisma.ProjectCreateWithoutEventsInput, Prisma.ProjectUncheckedCreateWithoutEventsInput>
+  connectOrCreate?: Prisma.ProjectCreateOrConnectWithoutEventsInput
+  upsert?: Prisma.ProjectUpsertWithoutEventsInput
+  connect?: Prisma.ProjectWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ProjectUpdateToOneWithWhereWithoutEventsInput, Prisma.ProjectUpdateWithoutEventsInput>, Prisma.ProjectUncheckedUpdateWithoutEventsInput>
+}
+
 export type ProjectCreateWithoutAppointmentsInput = {
   id?: string
   name: string
@@ -438,7 +844,23 @@ export type ProjectCreateWithoutAppointmentsInput = {
   status?: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  projectNumber?: string | null
+  kind?: string
+  stage?: string
+  stageUpdatedAt?: Date | string | null
+  address?: string | null
+  city?: string | null
+  zipCode?: string | null
+  equipmentSummary?: string | null
+  contractAmount?: number | null
+  depositAmount?: number | null
+  permitNumber?: string | null
+  targetDate?: Date | string | null
+  salesRepId?: string | null
+  leadInstallerId?: string | null
+  createdById?: string | null
   customer: Prisma.CustomerCreateNestedOneWithoutProjectsInput
+  events?: Prisma.ProjectEventCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUncheckedCreateWithoutAppointmentsInput = {
@@ -449,6 +871,22 @@ export type ProjectUncheckedCreateWithoutAppointmentsInput = {
   status?: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  projectNumber?: string | null
+  kind?: string
+  stage?: string
+  stageUpdatedAt?: Date | string | null
+  address?: string | null
+  city?: string | null
+  zipCode?: string | null
+  equipmentSummary?: string | null
+  contractAmount?: number | null
+  depositAmount?: number | null
+  permitNumber?: string | null
+  targetDate?: Date | string | null
+  salesRepId?: string | null
+  leadInstallerId?: string | null
+  createdById?: string | null
+  events?: Prisma.ProjectEventUncheckedCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectCreateOrConnectWithoutAppointmentsInput = {
@@ -474,7 +912,23 @@ export type ProjectUpdateWithoutAppointmentsInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  projectNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kind?: Prisma.StringFieldUpdateOperationsInput | string
+  stage?: Prisma.StringFieldUpdateOperationsInput | string
+  stageUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  equipmentSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contractAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  depositAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  permitNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  targetDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  salesRepId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leadInstallerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer?: Prisma.CustomerUpdateOneRequiredWithoutProjectsNestedInput
+  events?: Prisma.ProjectEventUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateWithoutAppointmentsInput = {
@@ -485,6 +939,22 @@ export type ProjectUncheckedUpdateWithoutAppointmentsInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  projectNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kind?: Prisma.StringFieldUpdateOperationsInput | string
+  stage?: Prisma.StringFieldUpdateOperationsInput | string
+  stageUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  equipmentSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contractAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  depositAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  permitNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  targetDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  salesRepId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leadInstallerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  events?: Prisma.ProjectEventUncheckedUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectCreateWithoutCustomerInput = {
@@ -494,7 +964,23 @@ export type ProjectCreateWithoutCustomerInput = {
   status?: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  projectNumber?: string | null
+  kind?: string
+  stage?: string
+  stageUpdatedAt?: Date | string | null
+  address?: string | null
+  city?: string | null
+  zipCode?: string | null
+  equipmentSummary?: string | null
+  contractAmount?: number | null
+  depositAmount?: number | null
+  permitNumber?: string | null
+  targetDate?: Date | string | null
+  salesRepId?: string | null
+  leadInstallerId?: string | null
+  createdById?: string | null
   appointments?: Prisma.AppointmentCreateNestedManyWithoutProjectInput
+  events?: Prisma.ProjectEventCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUncheckedCreateWithoutCustomerInput = {
@@ -504,7 +990,23 @@ export type ProjectUncheckedCreateWithoutCustomerInput = {
   status?: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  projectNumber?: string | null
+  kind?: string
+  stage?: string
+  stageUpdatedAt?: Date | string | null
+  address?: string | null
+  city?: string | null
+  zipCode?: string | null
+  equipmentSummary?: string | null
+  contractAmount?: number | null
+  depositAmount?: number | null
+  permitNumber?: string | null
+  targetDate?: Date | string | null
+  salesRepId?: string | null
+  leadInstallerId?: string | null
+  createdById?: string | null
   appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutProjectInput
+  events?: Prisma.ProjectEventUncheckedCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectCreateOrConnectWithoutCustomerInput = {
@@ -544,6 +1046,141 @@ export type ProjectScalarWhereInput = {
   status?: Prisma.StringFilter<"Project"> | string
   createdAt?: Prisma.DateTimeFilter<"Project"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Project"> | Date | string
+  projectNumber?: Prisma.StringNullableFilter<"Project"> | string | null
+  kind?: Prisma.StringFilter<"Project"> | string
+  stage?: Prisma.StringFilter<"Project"> | string
+  stageUpdatedAt?: Prisma.DateTimeNullableFilter<"Project"> | Date | string | null
+  address?: Prisma.StringNullableFilter<"Project"> | string | null
+  city?: Prisma.StringNullableFilter<"Project"> | string | null
+  zipCode?: Prisma.StringNullableFilter<"Project"> | string | null
+  equipmentSummary?: Prisma.StringNullableFilter<"Project"> | string | null
+  contractAmount?: Prisma.FloatNullableFilter<"Project"> | number | null
+  depositAmount?: Prisma.FloatNullableFilter<"Project"> | number | null
+  permitNumber?: Prisma.StringNullableFilter<"Project"> | string | null
+  targetDate?: Prisma.DateTimeNullableFilter<"Project"> | Date | string | null
+  salesRepId?: Prisma.StringNullableFilter<"Project"> | string | null
+  leadInstallerId?: Prisma.StringNullableFilter<"Project"> | string | null
+  createdById?: Prisma.StringNullableFilter<"Project"> | string | null
+}
+
+export type ProjectCreateWithoutEventsInput = {
+  id?: string
+  name: string
+  description?: string | null
+  status?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  projectNumber?: string | null
+  kind?: string
+  stage?: string
+  stageUpdatedAt?: Date | string | null
+  address?: string | null
+  city?: string | null
+  zipCode?: string | null
+  equipmentSummary?: string | null
+  contractAmount?: number | null
+  depositAmount?: number | null
+  permitNumber?: string | null
+  targetDate?: Date | string | null
+  salesRepId?: string | null
+  leadInstallerId?: string | null
+  createdById?: string | null
+  customer: Prisma.CustomerCreateNestedOneWithoutProjectsInput
+  appointments?: Prisma.AppointmentCreateNestedManyWithoutProjectInput
+}
+
+export type ProjectUncheckedCreateWithoutEventsInput = {
+  id?: string
+  customerId: string
+  name: string
+  description?: string | null
+  status?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  projectNumber?: string | null
+  kind?: string
+  stage?: string
+  stageUpdatedAt?: Date | string | null
+  address?: string | null
+  city?: string | null
+  zipCode?: string | null
+  equipmentSummary?: string | null
+  contractAmount?: number | null
+  depositAmount?: number | null
+  permitNumber?: string | null
+  targetDate?: Date | string | null
+  salesRepId?: string | null
+  leadInstallerId?: string | null
+  createdById?: string | null
+  appointments?: Prisma.AppointmentUncheckedCreateNestedManyWithoutProjectInput
+}
+
+export type ProjectCreateOrConnectWithoutEventsInput = {
+  where: Prisma.ProjectWhereUniqueInput
+  create: Prisma.XOR<Prisma.ProjectCreateWithoutEventsInput, Prisma.ProjectUncheckedCreateWithoutEventsInput>
+}
+
+export type ProjectUpsertWithoutEventsInput = {
+  update: Prisma.XOR<Prisma.ProjectUpdateWithoutEventsInput, Prisma.ProjectUncheckedUpdateWithoutEventsInput>
+  create: Prisma.XOR<Prisma.ProjectCreateWithoutEventsInput, Prisma.ProjectUncheckedCreateWithoutEventsInput>
+  where?: Prisma.ProjectWhereInput
+}
+
+export type ProjectUpdateToOneWithWhereWithoutEventsInput = {
+  where?: Prisma.ProjectWhereInput
+  data: Prisma.XOR<Prisma.ProjectUpdateWithoutEventsInput, Prisma.ProjectUncheckedUpdateWithoutEventsInput>
+}
+
+export type ProjectUpdateWithoutEventsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  projectNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kind?: Prisma.StringFieldUpdateOperationsInput | string
+  stage?: Prisma.StringFieldUpdateOperationsInput | string
+  stageUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  equipmentSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contractAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  depositAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  permitNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  targetDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  salesRepId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leadInstallerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customer?: Prisma.CustomerUpdateOneRequiredWithoutProjectsNestedInput
+  appointments?: Prisma.AppointmentUpdateManyWithoutProjectNestedInput
+}
+
+export type ProjectUncheckedUpdateWithoutEventsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  customerId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  projectNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kind?: Prisma.StringFieldUpdateOperationsInput | string
+  stage?: Prisma.StringFieldUpdateOperationsInput | string
+  stageUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  equipmentSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contractAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  depositAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  permitNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  targetDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  salesRepId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leadInstallerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectCreateManyCustomerInput = {
@@ -553,6 +1190,21 @@ export type ProjectCreateManyCustomerInput = {
   status?: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  projectNumber?: string | null
+  kind?: string
+  stage?: string
+  stageUpdatedAt?: Date | string | null
+  address?: string | null
+  city?: string | null
+  zipCode?: string | null
+  equipmentSummary?: string | null
+  contractAmount?: number | null
+  depositAmount?: number | null
+  permitNumber?: string | null
+  targetDate?: Date | string | null
+  salesRepId?: string | null
+  leadInstallerId?: string | null
+  createdById?: string | null
 }
 
 export type ProjectUpdateWithoutCustomerInput = {
@@ -562,7 +1214,23 @@ export type ProjectUpdateWithoutCustomerInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  projectNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kind?: Prisma.StringFieldUpdateOperationsInput | string
+  stage?: Prisma.StringFieldUpdateOperationsInput | string
+  stageUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  equipmentSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contractAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  depositAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  permitNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  targetDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  salesRepId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leadInstallerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   appointments?: Prisma.AppointmentUpdateManyWithoutProjectNestedInput
+  events?: Prisma.ProjectEventUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateWithoutCustomerInput = {
@@ -572,7 +1240,23 @@ export type ProjectUncheckedUpdateWithoutCustomerInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  projectNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kind?: Prisma.StringFieldUpdateOperationsInput | string
+  stage?: Prisma.StringFieldUpdateOperationsInput | string
+  stageUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  equipmentSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contractAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  depositAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  permitNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  targetDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  salesRepId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leadInstallerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   appointments?: Prisma.AppointmentUncheckedUpdateManyWithoutProjectNestedInput
+  events?: Prisma.ProjectEventUncheckedUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateManyWithoutCustomerInput = {
@@ -582,6 +1266,21 @@ export type ProjectUncheckedUpdateManyWithoutCustomerInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  projectNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kind?: Prisma.StringFieldUpdateOperationsInput | string
+  stage?: Prisma.StringFieldUpdateOperationsInput | string
+  stageUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  equipmentSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contractAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  depositAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  permitNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  targetDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  salesRepId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leadInstallerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -591,10 +1290,12 @@ export type ProjectUncheckedUpdateManyWithoutCustomerInput = {
 
 export type ProjectCountOutputType = {
   appointments: number
+  events: number
 }
 
 export type ProjectCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   appointments?: boolean | ProjectCountOutputTypeCountAppointmentsArgs
+  events?: boolean | ProjectCountOutputTypeCountEventsArgs
 }
 
 /**
@@ -614,6 +1315,13 @@ export type ProjectCountOutputTypeCountAppointmentsArgs<ExtArgs extends runtime.
   where?: Prisma.AppointmentWhereInput
 }
 
+/**
+ * ProjectCountOutputType without action
+ */
+export type ProjectCountOutputTypeCountEventsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ProjectEventWhereInput
+}
+
 
 export type ProjectSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -623,8 +1331,24 @@ export type ProjectSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  projectNumber?: boolean
+  kind?: boolean
+  stage?: boolean
+  stageUpdatedAt?: boolean
+  address?: boolean
+  city?: boolean
+  zipCode?: boolean
+  equipmentSummary?: boolean
+  contractAmount?: boolean
+  depositAmount?: boolean
+  permitNumber?: boolean
+  targetDate?: boolean
+  salesRepId?: boolean
+  leadInstallerId?: boolean
+  createdById?: boolean
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
   appointments?: boolean | Prisma.Project$appointmentsArgs<ExtArgs>
+  events?: boolean | Prisma.Project$eventsArgs<ExtArgs>
   _count?: boolean | Prisma.ProjectCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["project"]>
 
@@ -636,6 +1360,21 @@ export type ProjectSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  projectNumber?: boolean
+  kind?: boolean
+  stage?: boolean
+  stageUpdatedAt?: boolean
+  address?: boolean
+  city?: boolean
+  zipCode?: boolean
+  equipmentSummary?: boolean
+  contractAmount?: boolean
+  depositAmount?: boolean
+  permitNumber?: boolean
+  targetDate?: boolean
+  salesRepId?: boolean
+  leadInstallerId?: boolean
+  createdById?: boolean
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["project"]>
 
@@ -647,6 +1386,21 @@ export type ProjectSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  projectNumber?: boolean
+  kind?: boolean
+  stage?: boolean
+  stageUpdatedAt?: boolean
+  address?: boolean
+  city?: boolean
+  zipCode?: boolean
+  equipmentSummary?: boolean
+  contractAmount?: boolean
+  depositAmount?: boolean
+  permitNumber?: boolean
+  targetDate?: boolean
+  salesRepId?: boolean
+  leadInstallerId?: boolean
+  createdById?: boolean
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["project"]>
 
@@ -658,12 +1412,28 @@ export type ProjectSelectScalar = {
   status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  projectNumber?: boolean
+  kind?: boolean
+  stage?: boolean
+  stageUpdatedAt?: boolean
+  address?: boolean
+  city?: boolean
+  zipCode?: boolean
+  equipmentSummary?: boolean
+  contractAmount?: boolean
+  depositAmount?: boolean
+  permitNumber?: boolean
+  targetDate?: boolean
+  salesRepId?: boolean
+  leadInstallerId?: boolean
+  createdById?: boolean
 }
 
-export type ProjectOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "customerId" | "name" | "description" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["project"]>
+export type ProjectOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "customerId" | "name" | "description" | "status" | "createdAt" | "updatedAt" | "projectNumber" | "kind" | "stage" | "stageUpdatedAt" | "address" | "city" | "zipCode" | "equipmentSummary" | "contractAmount" | "depositAmount" | "permitNumber" | "targetDate" | "salesRepId" | "leadInstallerId" | "createdById", ExtArgs["result"]["project"]>
 export type ProjectInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
   appointments?: boolean | Prisma.Project$appointmentsArgs<ExtArgs>
+  events?: boolean | Prisma.Project$eventsArgs<ExtArgs>
   _count?: boolean | Prisma.ProjectCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ProjectIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -678,6 +1448,7 @@ export type $ProjectPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
   objects: {
     customer: Prisma.$CustomerPayload<ExtArgs>
     appointments: Prisma.$AppointmentPayload<ExtArgs>[]
+    events: Prisma.$ProjectEventPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -687,6 +1458,21 @@ export type $ProjectPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     status: string
     createdAt: Date
     updatedAt: Date
+    projectNumber: string | null
+    kind: string
+    stage: string
+    stageUpdatedAt: Date | null
+    address: string | null
+    city: string | null
+    zipCode: string | null
+    equipmentSummary: string | null
+    contractAmount: number | null
+    depositAmount: number | null
+    permitNumber: string | null
+    targetDate: Date | null
+    salesRepId: string | null
+    leadInstallerId: string | null
+    createdById: string | null
   }, ExtArgs["result"]["project"]>
   composites: {}
 }
@@ -1083,6 +1869,7 @@ export interface Prisma__ProjectClient<T, Null = never, ExtArgs extends runtime.
   readonly [Symbol.toStringTag]: "PrismaPromise"
   customer<T extends Prisma.CustomerDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CustomerDefaultArgs<ExtArgs>>): Prisma.Prisma__CustomerClient<runtime.Types.Result.GetResult<Prisma.$CustomerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   appointments<T extends Prisma.Project$appointmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Project$appointmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AppointmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  events<T extends Prisma.Project$eventsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Project$eventsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProjectEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1119,6 +1906,21 @@ export interface ProjectFieldRefs {
   readonly status: Prisma.FieldRef<"Project", 'String'>
   readonly createdAt: Prisma.FieldRef<"Project", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Project", 'DateTime'>
+  readonly projectNumber: Prisma.FieldRef<"Project", 'String'>
+  readonly kind: Prisma.FieldRef<"Project", 'String'>
+  readonly stage: Prisma.FieldRef<"Project", 'String'>
+  readonly stageUpdatedAt: Prisma.FieldRef<"Project", 'DateTime'>
+  readonly address: Prisma.FieldRef<"Project", 'String'>
+  readonly city: Prisma.FieldRef<"Project", 'String'>
+  readonly zipCode: Prisma.FieldRef<"Project", 'String'>
+  readonly equipmentSummary: Prisma.FieldRef<"Project", 'String'>
+  readonly contractAmount: Prisma.FieldRef<"Project", 'Float'>
+  readonly depositAmount: Prisma.FieldRef<"Project", 'Float'>
+  readonly permitNumber: Prisma.FieldRef<"Project", 'String'>
+  readonly targetDate: Prisma.FieldRef<"Project", 'DateTime'>
+  readonly salesRepId: Prisma.FieldRef<"Project", 'String'>
+  readonly leadInstallerId: Prisma.FieldRef<"Project", 'String'>
+  readonly createdById: Prisma.FieldRef<"Project", 'String'>
 }
     
 
@@ -1541,6 +2343,30 @@ export type Project$appointmentsArgs<ExtArgs extends runtime.Types.Extensions.In
   take?: number
   skip?: number
   distinct?: Prisma.AppointmentScalarFieldEnum | Prisma.AppointmentScalarFieldEnum[]
+}
+
+/**
+ * Project.events
+ */
+export type Project$eventsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ProjectEvent
+   */
+  select?: Prisma.ProjectEventSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ProjectEvent
+   */
+  omit?: Prisma.ProjectEventOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProjectEventInclude<ExtArgs> | null
+  where?: Prisma.ProjectEventWhereInput
+  orderBy?: Prisma.ProjectEventOrderByWithRelationInput | Prisma.ProjectEventOrderByWithRelationInput[]
+  cursor?: Prisma.ProjectEventWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ProjectEventScalarFieldEnum | Prisma.ProjectEventScalarFieldEnum[]
 }
 
 /**

@@ -306,6 +306,7 @@ export type ContractPropertyWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"ContractProperty"> | Date | string
   contract?: Prisma.XOR<Prisma.MaintenanceContractScalarRelationFilter, Prisma.MaintenanceContractWhereInput>
   systems?: Prisma.ContractHvacSystemListRelationFilter
+  visits?: Prisma.MaintenanceVisitListRelationFilter
 }
 
 export type ContractPropertyOrderByWithRelationInput = {
@@ -327,6 +328,7 @@ export type ContractPropertyOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   contract?: Prisma.MaintenanceContractOrderByWithRelationInput
   systems?: Prisma.ContractHvacSystemOrderByRelationAggregateInput
+  visits?: Prisma.MaintenanceVisitOrderByRelationAggregateInput
 }
 
 export type ContractPropertyWhereUniqueInput = Prisma.AtLeast<{
@@ -351,6 +353,7 @@ export type ContractPropertyWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"ContractProperty"> | Date | string
   contract?: Prisma.XOR<Prisma.MaintenanceContractScalarRelationFilter, Prisma.MaintenanceContractWhereInput>
   systems?: Prisma.ContractHvacSystemListRelationFilter
+  visits?: Prisma.MaintenanceVisitListRelationFilter
 }, "id">
 
 export type ContractPropertyOrderByWithAggregationInput = {
@@ -417,6 +420,7 @@ export type ContractPropertyCreateInput = {
   createdAt?: Date | string
   contract: Prisma.MaintenanceContractCreateNestedOneWithoutPropertiesInput
   systems?: Prisma.ContractHvacSystemCreateNestedManyWithoutPropertyInput
+  visits?: Prisma.MaintenanceVisitCreateNestedManyWithoutPropertyInput
 }
 
 export type ContractPropertyUncheckedCreateInput = {
@@ -437,6 +441,7 @@ export type ContractPropertyUncheckedCreateInput = {
   tenantEmail?: string | null
   createdAt?: Date | string
   systems?: Prisma.ContractHvacSystemUncheckedCreateNestedManyWithoutPropertyInput
+  visits?: Prisma.MaintenanceVisitUncheckedCreateNestedManyWithoutPropertyInput
 }
 
 export type ContractPropertyUpdateInput = {
@@ -457,6 +462,7 @@ export type ContractPropertyUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   contract?: Prisma.MaintenanceContractUpdateOneRequiredWithoutPropertiesNestedInput
   systems?: Prisma.ContractHvacSystemUpdateManyWithoutPropertyNestedInput
+  visits?: Prisma.MaintenanceVisitUpdateManyWithoutPropertyNestedInput
 }
 
 export type ContractPropertyUncheckedUpdateInput = {
@@ -477,6 +483,7 @@ export type ContractPropertyUncheckedUpdateInput = {
   tenantEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   systems?: Prisma.ContractHvacSystemUncheckedUpdateManyWithoutPropertyNestedInput
+  visits?: Prisma.MaintenanceVisitUncheckedUpdateManyWithoutPropertyNestedInput
 }
 
 export type ContractPropertyCreateManyInput = {
@@ -533,6 +540,11 @@ export type ContractPropertyUncheckedUpdateManyInput = {
   tenantPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenantEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type ContractPropertyNullableScalarRelationFilter = {
+  is?: Prisma.ContractPropertyWhereInput | null
+  isNot?: Prisma.ContractPropertyWhereInput | null
 }
 
 export type ContractPropertyListRelationFilter = {
@@ -610,9 +622,20 @@ export type ContractPropertySumOrderByAggregateInput = {
   systemCount?: Prisma.SortOrder
 }
 
-export type ContractPropertyNullableScalarRelationFilter = {
-  is?: Prisma.ContractPropertyWhereInput | null
-  isNot?: Prisma.ContractPropertyWhereInput | null
+export type ContractPropertyCreateNestedOneWithoutVisitsInput = {
+  create?: Prisma.XOR<Prisma.ContractPropertyCreateWithoutVisitsInput, Prisma.ContractPropertyUncheckedCreateWithoutVisitsInput>
+  connectOrCreate?: Prisma.ContractPropertyCreateOrConnectWithoutVisitsInput
+  connect?: Prisma.ContractPropertyWhereUniqueInput
+}
+
+export type ContractPropertyUpdateOneWithoutVisitsNestedInput = {
+  create?: Prisma.XOR<Prisma.ContractPropertyCreateWithoutVisitsInput, Prisma.ContractPropertyUncheckedCreateWithoutVisitsInput>
+  connectOrCreate?: Prisma.ContractPropertyCreateOrConnectWithoutVisitsInput
+  upsert?: Prisma.ContractPropertyUpsertWithoutVisitsInput
+  disconnect?: Prisma.ContractPropertyWhereInput | boolean
+  delete?: Prisma.ContractPropertyWhereInput | boolean
+  connect?: Prisma.ContractPropertyWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ContractPropertyUpdateToOneWithWhereWithoutVisitsInput, Prisma.ContractPropertyUpdateWithoutVisitsInput>, Prisma.ContractPropertyUncheckedUpdateWithoutVisitsInput>
 }
 
 export type ContractPropertyCreateNestedManyWithoutContractInput = {
@@ -673,6 +696,102 @@ export type ContractPropertyUpdateOneWithoutSystemsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ContractPropertyUpdateToOneWithWhereWithoutSystemsInput, Prisma.ContractPropertyUpdateWithoutSystemsInput>, Prisma.ContractPropertyUncheckedUpdateWithoutSystemsInput>
 }
 
+export type ContractPropertyCreateWithoutVisitsInput = {
+  id?: string
+  nickname?: string | null
+  address: string
+  apt?: string | null
+  city: string
+  state: string
+  zipCode: string
+  propertyType?: string
+  systemCount?: number
+  accessInstructions?: string | null
+  gateCode?: string | null
+  tenantName?: string | null
+  tenantPhone?: string | null
+  tenantEmail?: string | null
+  createdAt?: Date | string
+  contract: Prisma.MaintenanceContractCreateNestedOneWithoutPropertiesInput
+  systems?: Prisma.ContractHvacSystemCreateNestedManyWithoutPropertyInput
+}
+
+export type ContractPropertyUncheckedCreateWithoutVisitsInput = {
+  id?: string
+  contractId: string
+  nickname?: string | null
+  address: string
+  apt?: string | null
+  city: string
+  state: string
+  zipCode: string
+  propertyType?: string
+  systemCount?: number
+  accessInstructions?: string | null
+  gateCode?: string | null
+  tenantName?: string | null
+  tenantPhone?: string | null
+  tenantEmail?: string | null
+  createdAt?: Date | string
+  systems?: Prisma.ContractHvacSystemUncheckedCreateNestedManyWithoutPropertyInput
+}
+
+export type ContractPropertyCreateOrConnectWithoutVisitsInput = {
+  where: Prisma.ContractPropertyWhereUniqueInput
+  create: Prisma.XOR<Prisma.ContractPropertyCreateWithoutVisitsInput, Prisma.ContractPropertyUncheckedCreateWithoutVisitsInput>
+}
+
+export type ContractPropertyUpsertWithoutVisitsInput = {
+  update: Prisma.XOR<Prisma.ContractPropertyUpdateWithoutVisitsInput, Prisma.ContractPropertyUncheckedUpdateWithoutVisitsInput>
+  create: Prisma.XOR<Prisma.ContractPropertyCreateWithoutVisitsInput, Prisma.ContractPropertyUncheckedCreateWithoutVisitsInput>
+  where?: Prisma.ContractPropertyWhereInput
+}
+
+export type ContractPropertyUpdateToOneWithWhereWithoutVisitsInput = {
+  where?: Prisma.ContractPropertyWhereInput
+  data: Prisma.XOR<Prisma.ContractPropertyUpdateWithoutVisitsInput, Prisma.ContractPropertyUncheckedUpdateWithoutVisitsInput>
+}
+
+export type ContractPropertyUpdateWithoutVisitsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nickname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  apt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.StringFieldUpdateOperationsInput | string
+  state?: Prisma.StringFieldUpdateOperationsInput | string
+  zipCode?: Prisma.StringFieldUpdateOperationsInput | string
+  propertyType?: Prisma.StringFieldUpdateOperationsInput | string
+  systemCount?: Prisma.IntFieldUpdateOperationsInput | number
+  accessInstructions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gateCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenantName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenantPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenantEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  contract?: Prisma.MaintenanceContractUpdateOneRequiredWithoutPropertiesNestedInput
+  systems?: Prisma.ContractHvacSystemUpdateManyWithoutPropertyNestedInput
+}
+
+export type ContractPropertyUncheckedUpdateWithoutVisitsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  contractId?: Prisma.StringFieldUpdateOperationsInput | string
+  nickname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  apt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.StringFieldUpdateOperationsInput | string
+  state?: Prisma.StringFieldUpdateOperationsInput | string
+  zipCode?: Prisma.StringFieldUpdateOperationsInput | string
+  propertyType?: Prisma.StringFieldUpdateOperationsInput | string
+  systemCount?: Prisma.IntFieldUpdateOperationsInput | number
+  accessInstructions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gateCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenantName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenantPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenantEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  systems?: Prisma.ContractHvacSystemUncheckedUpdateManyWithoutPropertyNestedInput
+}
+
 export type ContractPropertyCreateWithoutContractInput = {
   id?: string
   nickname?: string | null
@@ -690,6 +809,7 @@ export type ContractPropertyCreateWithoutContractInput = {
   tenantEmail?: string | null
   createdAt?: Date | string
   systems?: Prisma.ContractHvacSystemCreateNestedManyWithoutPropertyInput
+  visits?: Prisma.MaintenanceVisitCreateNestedManyWithoutPropertyInput
 }
 
 export type ContractPropertyUncheckedCreateWithoutContractInput = {
@@ -709,6 +829,7 @@ export type ContractPropertyUncheckedCreateWithoutContractInput = {
   tenantEmail?: string | null
   createdAt?: Date | string
   systems?: Prisma.ContractHvacSystemUncheckedCreateNestedManyWithoutPropertyInput
+  visits?: Prisma.MaintenanceVisitUncheckedCreateNestedManyWithoutPropertyInput
 }
 
 export type ContractPropertyCreateOrConnectWithoutContractInput = {
@@ -776,6 +897,7 @@ export type ContractPropertyCreateWithoutSystemsInput = {
   tenantEmail?: string | null
   createdAt?: Date | string
   contract: Prisma.MaintenanceContractCreateNestedOneWithoutPropertiesInput
+  visits?: Prisma.MaintenanceVisitCreateNestedManyWithoutPropertyInput
 }
 
 export type ContractPropertyUncheckedCreateWithoutSystemsInput = {
@@ -795,6 +917,7 @@ export type ContractPropertyUncheckedCreateWithoutSystemsInput = {
   tenantPhone?: string | null
   tenantEmail?: string | null
   createdAt?: Date | string
+  visits?: Prisma.MaintenanceVisitUncheckedCreateNestedManyWithoutPropertyInput
 }
 
 export type ContractPropertyCreateOrConnectWithoutSystemsInput = {
@@ -830,6 +953,7 @@ export type ContractPropertyUpdateWithoutSystemsInput = {
   tenantEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   contract?: Prisma.MaintenanceContractUpdateOneRequiredWithoutPropertiesNestedInput
+  visits?: Prisma.MaintenanceVisitUpdateManyWithoutPropertyNestedInput
 }
 
 export type ContractPropertyUncheckedUpdateWithoutSystemsInput = {
@@ -849,6 +973,7 @@ export type ContractPropertyUncheckedUpdateWithoutSystemsInput = {
   tenantPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenantEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  visits?: Prisma.MaintenanceVisitUncheckedUpdateManyWithoutPropertyNestedInput
 }
 
 export type ContractPropertyCreateManyContractInput = {
@@ -886,6 +1011,7 @@ export type ContractPropertyUpdateWithoutContractInput = {
   tenantEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   systems?: Prisma.ContractHvacSystemUpdateManyWithoutPropertyNestedInput
+  visits?: Prisma.MaintenanceVisitUpdateManyWithoutPropertyNestedInput
 }
 
 export type ContractPropertyUncheckedUpdateWithoutContractInput = {
@@ -905,6 +1031,7 @@ export type ContractPropertyUncheckedUpdateWithoutContractInput = {
   tenantEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   systems?: Prisma.ContractHvacSystemUncheckedUpdateManyWithoutPropertyNestedInput
+  visits?: Prisma.MaintenanceVisitUncheckedUpdateManyWithoutPropertyNestedInput
 }
 
 export type ContractPropertyUncheckedUpdateManyWithoutContractInput = {
@@ -932,10 +1059,12 @@ export type ContractPropertyUncheckedUpdateManyWithoutContractInput = {
 
 export type ContractPropertyCountOutputType = {
   systems: number
+  visits: number
 }
 
 export type ContractPropertyCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   systems?: boolean | ContractPropertyCountOutputTypeCountSystemsArgs
+  visits?: boolean | ContractPropertyCountOutputTypeCountVisitsArgs
 }
 
 /**
@@ -953,6 +1082,13 @@ export type ContractPropertyCountOutputTypeDefaultArgs<ExtArgs extends runtime.T
  */
 export type ContractPropertyCountOutputTypeCountSystemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.ContractHvacSystemWhereInput
+}
+
+/**
+ * ContractPropertyCountOutputType without action
+ */
+export type ContractPropertyCountOutputTypeCountVisitsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.MaintenanceVisitWhereInput
 }
 
 
@@ -975,6 +1111,7 @@ export type ContractPropertySelect<ExtArgs extends runtime.Types.Extensions.Inte
   createdAt?: boolean
   contract?: boolean | Prisma.MaintenanceContractDefaultArgs<ExtArgs>
   systems?: boolean | Prisma.ContractProperty$systemsArgs<ExtArgs>
+  visits?: boolean | Prisma.ContractProperty$visitsArgs<ExtArgs>
   _count?: boolean | Prisma.ContractPropertyCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["contractProperty"]>
 
@@ -1041,6 +1178,7 @@ export type ContractPropertyOmit<ExtArgs extends runtime.Types.Extensions.Intern
 export type ContractPropertyInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   contract?: boolean | Prisma.MaintenanceContractDefaultArgs<ExtArgs>
   systems?: boolean | Prisma.ContractProperty$systemsArgs<ExtArgs>
+  visits?: boolean | Prisma.ContractProperty$visitsArgs<ExtArgs>
   _count?: boolean | Prisma.ContractPropertyCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ContractPropertyIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1055,6 +1193,7 @@ export type $ContractPropertyPayload<ExtArgs extends runtime.Types.Extensions.In
   objects: {
     contract: Prisma.$MaintenanceContractPayload<ExtArgs>
     systems: Prisma.$ContractHvacSystemPayload<ExtArgs>[]
+    visits: Prisma.$MaintenanceVisitPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1469,6 +1608,7 @@ export interface Prisma__ContractPropertyClient<T, Null = never, ExtArgs extends
   readonly [Symbol.toStringTag]: "PrismaPromise"
   contract<T extends Prisma.MaintenanceContractDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MaintenanceContractDefaultArgs<ExtArgs>>): Prisma.Prisma__MaintenanceContractClient<runtime.Types.Result.GetResult<Prisma.$MaintenanceContractPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   systems<T extends Prisma.ContractProperty$systemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ContractProperty$systemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ContractHvacSystemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  visits<T extends Prisma.ContractProperty$visitsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ContractProperty$visitsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MaintenanceVisitPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1936,6 +2076,30 @@ export type ContractProperty$systemsArgs<ExtArgs extends runtime.Types.Extension
   take?: number
   skip?: number
   distinct?: Prisma.ContractHvacSystemScalarFieldEnum | Prisma.ContractHvacSystemScalarFieldEnum[]
+}
+
+/**
+ * ContractProperty.visits
+ */
+export type ContractProperty$visitsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the MaintenanceVisit
+   */
+  select?: Prisma.MaintenanceVisitSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the MaintenanceVisit
+   */
+  omit?: Prisma.MaintenanceVisitOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MaintenanceVisitInclude<ExtArgs> | null
+  where?: Prisma.MaintenanceVisitWhereInput
+  orderBy?: Prisma.MaintenanceVisitOrderByWithRelationInput | Prisma.MaintenanceVisitOrderByWithRelationInput[]
+  cursor?: Prisma.MaintenanceVisitWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.MaintenanceVisitScalarFieldEnum | Prisma.MaintenanceVisitScalarFieldEnum[]
 }
 
 /**

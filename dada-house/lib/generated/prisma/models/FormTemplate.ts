@@ -14,8 +14,9 @@ import type * as Prisma from "../internal/prismaNamespace"
 
 /**
  * Model FormTemplate
- * * A form the super admin configures (fields defined as JSON) — e.g. "Clean and
- *  *  Check Forms → First Visit". Technicians fill it out per job.
+ * *
+ *  * A form the super admin configures (fields defined as JSON) — e.g. "Clean and
+ *  * Check Forms → First Visit". Technicians fill it out per job.
  */
 export type FormTemplateModel = runtime.Types.Result.DefaultSelection<Prisma.$FormTemplatePayload>
 

@@ -5,7 +5,8 @@ import { formatDate, getStatusColor, getTechStatusColor } from "@/lib/utils";
 import { TECH_STATUS_LABEL } from "@/lib/tech-status";
 import Link from "next/link";
 import { CancelAppointmentButton } from "@/components/client/cancel-appointment-button";
-import { customerCanCancel } from "@/lib/appointment-cancel";
+import { customerCanCancel, customerChangesLocked } from "@/lib/appointment-cancel";
+import { RescheduleAppointmentButton } from "@/components/client/reschedule-appointment-button";
 import { buttonVariants } from "@/components/ui/button";
 import { Phone, MapPin, Calendar, Wrench, MessageSquare, CheckCircle2, Loader } from "lucide-react";
 import { Suspense } from "react";
@@ -129,7 +130,15 @@ export default async function AppointmentDetailPage({
         </div>
       </div>
 
+      {appointment.userId === session.user.id && customerCanCancel(appointment) && <RescheduleAppointmentButton appointmentId={appointment.id} />}
       {appointment.userId === session.user.id && customerCanCancel(appointment) && <CancelAppointmentButton appointmentId={id} />}
+      {appointment.userId === session.user.id && customerChangesLocked(appointment) && (
+        <div className="space-y-2">
+          <button disabled className="w-full py-3 border border-gray-200 text-gray-400 bg-gray-50 rounded-xl text-sm font-semibold cursor-not-allowed">Reschedule this appointment</button>
+          <button disabled className="w-full py-3 border border-gray-200 text-gray-400 bg-gray-50 rounded-xl text-sm font-semibold cursor-not-allowed">Cancel this appointment</button>
+          <p className="text-xs text-gray-500 text-center">Your technician is already on the way, so this visit can no longer be changed online. Need help? Call <a href="tel:+18449280875" className="text-[#1B3FA8] font-semibold">(844) 928-0875</a>.</p>
+        </div>
+      )}
 
       {/* Live tracking */}
       {isTracking && (

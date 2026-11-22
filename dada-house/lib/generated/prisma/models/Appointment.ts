@@ -29,11 +29,17 @@ export type AggregateAppointment = {
 export type AppointmentAvgAggregateOutputType = {
   totalAmount: number | null
   diagnosticFee: number | null
+  estimatedMinutes: number | null
+  lat: number | null
+  lng: number | null
 }
 
 export type AppointmentSumAggregateOutputType = {
   totalAmount: number | null
   diagnosticFee: number | null
+  estimatedMinutes: number | null
+  lat: number | null
+  lng: number | null
 }
 
 export type AppointmentMinAggregateOutputType = {
@@ -75,6 +81,19 @@ export type AppointmentMinAggregateOutputType = {
   confirmedAt: Date | null
   customerId: string | null
   projectId: string | null
+  jobType: string | null
+  jobCategory: string | null
+  customerType: string | null
+  scheduledStart: Date | null
+  scheduledEnd: Date | null
+  estimatedMinutes: number | null
+  arrivalWindow: string | null
+  billingAddress: string | null
+  equipmentId: string | null
+  createdById: string | null
+  leadSource: string | null
+  lat: number | null
+  lng: number | null
 }
 
 export type AppointmentMaxAggregateOutputType = {
@@ -116,6 +135,19 @@ export type AppointmentMaxAggregateOutputType = {
   confirmedAt: Date | null
   customerId: string | null
   projectId: string | null
+  jobType: string | null
+  jobCategory: string | null
+  customerType: string | null
+  scheduledStart: Date | null
+  scheduledEnd: Date | null
+  estimatedMinutes: number | null
+  arrivalWindow: string | null
+  billingAddress: string | null
+  equipmentId: string | null
+  createdById: string | null
+  leadSource: string | null
+  lat: number | null
+  lng: number | null
 }
 
 export type AppointmentCountAggregateOutputType = {
@@ -158,6 +190,19 @@ export type AppointmentCountAggregateOutputType = {
   confirmedAt: number
   customerId: number
   projectId: number
+  jobType: number
+  jobCategory: number
+  customerType: number
+  scheduledStart: number
+  scheduledEnd: number
+  estimatedMinutes: number
+  arrivalWindow: number
+  billingAddress: number
+  equipmentId: number
+  createdById: number
+  leadSource: number
+  lat: number
+  lng: number
   _all: number
 }
 
@@ -165,11 +210,17 @@ export type AppointmentCountAggregateOutputType = {
 export type AppointmentAvgAggregateInputType = {
   totalAmount?: true
   diagnosticFee?: true
+  estimatedMinutes?: true
+  lat?: true
+  lng?: true
 }
 
 export type AppointmentSumAggregateInputType = {
   totalAmount?: true
   diagnosticFee?: true
+  estimatedMinutes?: true
+  lat?: true
+  lng?: true
 }
 
 export type AppointmentMinAggregateInputType = {
@@ -211,6 +262,19 @@ export type AppointmentMinAggregateInputType = {
   confirmedAt?: true
   customerId?: true
   projectId?: true
+  jobType?: true
+  jobCategory?: true
+  customerType?: true
+  scheduledStart?: true
+  scheduledEnd?: true
+  estimatedMinutes?: true
+  arrivalWindow?: true
+  billingAddress?: true
+  equipmentId?: true
+  createdById?: true
+  leadSource?: true
+  lat?: true
+  lng?: true
 }
 
 export type AppointmentMaxAggregateInputType = {
@@ -252,6 +316,19 @@ export type AppointmentMaxAggregateInputType = {
   confirmedAt?: true
   customerId?: true
   projectId?: true
+  jobType?: true
+  jobCategory?: true
+  customerType?: true
+  scheduledStart?: true
+  scheduledEnd?: true
+  estimatedMinutes?: true
+  arrivalWindow?: true
+  billingAddress?: true
+  equipmentId?: true
+  createdById?: true
+  leadSource?: true
+  lat?: true
+  lng?: true
 }
 
 export type AppointmentCountAggregateInputType = {
@@ -294,6 +371,19 @@ export type AppointmentCountAggregateInputType = {
   confirmedAt?: true
   customerId?: true
   projectId?: true
+  jobType?: true
+  jobCategory?: true
+  customerType?: true
+  scheduledStart?: true
+  scheduledEnd?: true
+  estimatedMinutes?: true
+  arrivalWindow?: true
+  billingAddress?: true
+  equipmentId?: true
+  createdById?: true
+  leadSource?: true
+  lat?: true
+  lng?: true
   _all?: true
 }
 
@@ -423,6 +513,19 @@ export type AppointmentGroupByOutputType = {
   confirmedAt: Date | null
   customerId: string | null
   projectId: string | null
+  jobType: string | null
+  jobCategory: string | null
+  customerType: string | null
+  scheduledStart: Date | null
+  scheduledEnd: Date | null
+  estimatedMinutes: number | null
+  arrivalWindow: string | null
+  billingAddress: string | null
+  equipmentId: string | null
+  createdById: string | null
+  leadSource: string | null
+  lat: number | null
+  lng: number | null
   _count: AppointmentCountAggregateOutputType | null
   _avg: AppointmentAvgAggregateOutputType | null
   _sum: AppointmentSumAggregateOutputType | null
@@ -488,11 +591,27 @@ export type AppointmentWhereInput = {
   confirmedAt?: Prisma.DateTimeNullableFilter<"Appointment"> | Date | string | null
   customerId?: Prisma.StringNullableFilter<"Appointment"> | string | null
   projectId?: Prisma.StringNullableFilter<"Appointment"> | string | null
+  jobType?: Prisma.StringNullableFilter<"Appointment"> | string | null
+  jobCategory?: Prisma.StringNullableFilter<"Appointment"> | string | null
+  customerType?: Prisma.StringNullableFilter<"Appointment"> | string | null
+  scheduledStart?: Prisma.DateTimeNullableFilter<"Appointment"> | Date | string | null
+  scheduledEnd?: Prisma.DateTimeNullableFilter<"Appointment"> | Date | string | null
+  estimatedMinutes?: Prisma.IntNullableFilter<"Appointment"> | number | null
+  arrivalWindow?: Prisma.StringNullableFilter<"Appointment"> | string | null
+  billingAddress?: Prisma.StringNullableFilter<"Appointment"> | string | null
+  equipmentId?: Prisma.StringNullableFilter<"Appointment"> | string | null
+  createdById?: Prisma.StringNullableFilter<"Appointment"> | string | null
+  leadSource?: Prisma.StringNullableFilter<"Appointment"> | string | null
+  lat?: Prisma.FloatNullableFilter<"Appointment"> | number | null
+  lng?: Prisma.FloatNullableFilter<"Appointment"> | number | null
+  assignments?: Prisma.JobAssignmentListRelationFilter
+  events?: Prisma.JobEventListRelationFilter
   user?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   technician?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   dispatcher?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   customer?: Prisma.XOR<Prisma.CustomerNullableScalarRelationFilter, Prisma.CustomerWhereInput> | null
   project?: Prisma.XOR<Prisma.ProjectNullableScalarRelationFilter, Prisma.ProjectWhereInput> | null
+  maintenanceVisit?: Prisma.XOR<Prisma.MaintenanceVisitNullableScalarRelationFilter, Prisma.MaintenanceVisitWhereInput> | null
   invoice?: Prisma.XOR<Prisma.InvoiceNullableScalarRelationFilter, Prisma.InvoiceWhereInput> | null
   notifications?: Prisma.NotificationLogListRelationFilter
   maintenanceLogs?: Prisma.MaintenanceLogListRelationFilter
@@ -508,6 +627,7 @@ export type AppointmentWhereInput = {
   checklist?: Prisma.XOR<Prisma.ServiceChecklistNullableScalarRelationFilter, Prisma.ServiceChecklistWhereInput> | null
   timeLog?: Prisma.XOR<Prisma.JobTimeLogNullableScalarRelationFilter, Prisma.JobTimeLogWhereInput> | null
   parts?: Prisma.JobPartListRelationFilter
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionListRelationFilter
 }
 
 export type AppointmentOrderByWithRelationInput = {
@@ -550,11 +670,27 @@ export type AppointmentOrderByWithRelationInput = {
   confirmedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   customerId?: Prisma.SortOrderInput | Prisma.SortOrder
   projectId?: Prisma.SortOrderInput | Prisma.SortOrder
+  jobType?: Prisma.SortOrderInput | Prisma.SortOrder
+  jobCategory?: Prisma.SortOrderInput | Prisma.SortOrder
+  customerType?: Prisma.SortOrderInput | Prisma.SortOrder
+  scheduledStart?: Prisma.SortOrderInput | Prisma.SortOrder
+  scheduledEnd?: Prisma.SortOrderInput | Prisma.SortOrder
+  estimatedMinutes?: Prisma.SortOrderInput | Prisma.SortOrder
+  arrivalWindow?: Prisma.SortOrderInput | Prisma.SortOrder
+  billingAddress?: Prisma.SortOrderInput | Prisma.SortOrder
+  equipmentId?: Prisma.SortOrderInput | Prisma.SortOrder
+  createdById?: Prisma.SortOrderInput | Prisma.SortOrder
+  leadSource?: Prisma.SortOrderInput | Prisma.SortOrder
+  lat?: Prisma.SortOrderInput | Prisma.SortOrder
+  lng?: Prisma.SortOrderInput | Prisma.SortOrder
+  assignments?: Prisma.JobAssignmentOrderByRelationAggregateInput
+  events?: Prisma.JobEventOrderByRelationAggregateInput
   user?: Prisma.UserOrderByWithRelationInput
   technician?: Prisma.UserOrderByWithRelationInput
   dispatcher?: Prisma.UserOrderByWithRelationInput
   customer?: Prisma.CustomerOrderByWithRelationInput
   project?: Prisma.ProjectOrderByWithRelationInput
+  maintenanceVisit?: Prisma.MaintenanceVisitOrderByWithRelationInput
   invoice?: Prisma.InvoiceOrderByWithRelationInput
   notifications?: Prisma.NotificationLogOrderByRelationAggregateInput
   maintenanceLogs?: Prisma.MaintenanceLogOrderByRelationAggregateInput
@@ -570,6 +706,7 @@ export type AppointmentOrderByWithRelationInput = {
   checklist?: Prisma.ServiceChecklistOrderByWithRelationInput
   timeLog?: Prisma.JobTimeLogOrderByWithRelationInput
   parts?: Prisma.JobPartOrderByRelationAggregateInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionOrderByRelationAggregateInput
 }
 
 export type AppointmentWhereUniqueInput = Prisma.AtLeast<{
@@ -615,11 +752,27 @@ export type AppointmentWhereUniqueInput = Prisma.AtLeast<{
   confirmedAt?: Prisma.DateTimeNullableFilter<"Appointment"> | Date | string | null
   customerId?: Prisma.StringNullableFilter<"Appointment"> | string | null
   projectId?: Prisma.StringNullableFilter<"Appointment"> | string | null
+  jobType?: Prisma.StringNullableFilter<"Appointment"> | string | null
+  jobCategory?: Prisma.StringNullableFilter<"Appointment"> | string | null
+  customerType?: Prisma.StringNullableFilter<"Appointment"> | string | null
+  scheduledStart?: Prisma.DateTimeNullableFilter<"Appointment"> | Date | string | null
+  scheduledEnd?: Prisma.DateTimeNullableFilter<"Appointment"> | Date | string | null
+  estimatedMinutes?: Prisma.IntNullableFilter<"Appointment"> | number | null
+  arrivalWindow?: Prisma.StringNullableFilter<"Appointment"> | string | null
+  billingAddress?: Prisma.StringNullableFilter<"Appointment"> | string | null
+  equipmentId?: Prisma.StringNullableFilter<"Appointment"> | string | null
+  createdById?: Prisma.StringNullableFilter<"Appointment"> | string | null
+  leadSource?: Prisma.StringNullableFilter<"Appointment"> | string | null
+  lat?: Prisma.FloatNullableFilter<"Appointment"> | number | null
+  lng?: Prisma.FloatNullableFilter<"Appointment"> | number | null
+  assignments?: Prisma.JobAssignmentListRelationFilter
+  events?: Prisma.JobEventListRelationFilter
   user?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   technician?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   dispatcher?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   customer?: Prisma.XOR<Prisma.CustomerNullableScalarRelationFilter, Prisma.CustomerWhereInput> | null
   project?: Prisma.XOR<Prisma.ProjectNullableScalarRelationFilter, Prisma.ProjectWhereInput> | null
+  maintenanceVisit?: Prisma.XOR<Prisma.MaintenanceVisitNullableScalarRelationFilter, Prisma.MaintenanceVisitWhereInput> | null
   invoice?: Prisma.XOR<Prisma.InvoiceNullableScalarRelationFilter, Prisma.InvoiceWhereInput> | null
   notifications?: Prisma.NotificationLogListRelationFilter
   maintenanceLogs?: Prisma.MaintenanceLogListRelationFilter
@@ -635,6 +788,7 @@ export type AppointmentWhereUniqueInput = Prisma.AtLeast<{
   checklist?: Prisma.XOR<Prisma.ServiceChecklistNullableScalarRelationFilter, Prisma.ServiceChecklistWhereInput> | null
   timeLog?: Prisma.XOR<Prisma.JobTimeLogNullableScalarRelationFilter, Prisma.JobTimeLogWhereInput> | null
   parts?: Prisma.JobPartListRelationFilter
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionListRelationFilter
 }, "id" | "appointmentNumber" | "confirmationToken">
 
 export type AppointmentOrderByWithAggregationInput = {
@@ -677,6 +831,19 @@ export type AppointmentOrderByWithAggregationInput = {
   confirmedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   customerId?: Prisma.SortOrderInput | Prisma.SortOrder
   projectId?: Prisma.SortOrderInput | Prisma.SortOrder
+  jobType?: Prisma.SortOrderInput | Prisma.SortOrder
+  jobCategory?: Prisma.SortOrderInput | Prisma.SortOrder
+  customerType?: Prisma.SortOrderInput | Prisma.SortOrder
+  scheduledStart?: Prisma.SortOrderInput | Prisma.SortOrder
+  scheduledEnd?: Prisma.SortOrderInput | Prisma.SortOrder
+  estimatedMinutes?: Prisma.SortOrderInput | Prisma.SortOrder
+  arrivalWindow?: Prisma.SortOrderInput | Prisma.SortOrder
+  billingAddress?: Prisma.SortOrderInput | Prisma.SortOrder
+  equipmentId?: Prisma.SortOrderInput | Prisma.SortOrder
+  createdById?: Prisma.SortOrderInput | Prisma.SortOrder
+  leadSource?: Prisma.SortOrderInput | Prisma.SortOrder
+  lat?: Prisma.SortOrderInput | Prisma.SortOrder
+  lng?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.AppointmentCountOrderByAggregateInput
   _avg?: Prisma.AppointmentAvgOrderByAggregateInput
   _max?: Prisma.AppointmentMaxOrderByAggregateInput
@@ -727,6 +894,19 @@ export type AppointmentScalarWhereWithAggregatesInput = {
   confirmedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Appointment"> | Date | string | null
   customerId?: Prisma.StringNullableWithAggregatesFilter<"Appointment"> | string | null
   projectId?: Prisma.StringNullableWithAggregatesFilter<"Appointment"> | string | null
+  jobType?: Prisma.StringNullableWithAggregatesFilter<"Appointment"> | string | null
+  jobCategory?: Prisma.StringNullableWithAggregatesFilter<"Appointment"> | string | null
+  customerType?: Prisma.StringNullableWithAggregatesFilter<"Appointment"> | string | null
+  scheduledStart?: Prisma.DateTimeNullableWithAggregatesFilter<"Appointment"> | Date | string | null
+  scheduledEnd?: Prisma.DateTimeNullableWithAggregatesFilter<"Appointment"> | Date | string | null
+  estimatedMinutes?: Prisma.IntNullableWithAggregatesFilter<"Appointment"> | number | null
+  arrivalWindow?: Prisma.StringNullableWithAggregatesFilter<"Appointment"> | string | null
+  billingAddress?: Prisma.StringNullableWithAggregatesFilter<"Appointment"> | string | null
+  equipmentId?: Prisma.StringNullableWithAggregatesFilter<"Appointment"> | string | null
+  createdById?: Prisma.StringNullableWithAggregatesFilter<"Appointment"> | string | null
+  leadSource?: Prisma.StringNullableWithAggregatesFilter<"Appointment"> | string | null
+  lat?: Prisma.FloatNullableWithAggregatesFilter<"Appointment"> | number | null
+  lng?: Prisma.FloatNullableWithAggregatesFilter<"Appointment"> | number | null
 }
 
 export type AppointmentCreateInput = {
@@ -764,11 +944,27 @@ export type AppointmentCreateInput = {
   source?: string
   confirmationToken?: string | null
   confirmedAt?: Date | string | null
+  jobType?: string | null
+  jobCategory?: string | null
+  customerType?: string | null
+  scheduledStart?: Date | string | null
+  scheduledEnd?: Date | string | null
+  estimatedMinutes?: number | null
+  arrivalWindow?: string | null
+  billingAddress?: string | null
+  equipmentId?: string | null
+  createdById?: string | null
+  leadSource?: string | null
+  lat?: number | null
+  lng?: number | null
+  assignments?: Prisma.JobAssignmentCreateNestedManyWithoutAppointmentInput
+  events?: Prisma.JobEventCreateNestedManyWithoutAppointmentInput
   user?: Prisma.UserCreateNestedOneWithoutAppointmentsInput
   technician?: Prisma.UserCreateNestedOneWithoutTechnicianAppointmentsInput
   dispatcher?: Prisma.UserCreateNestedOneWithoutDispatchedAppointmentsInput
   customer?: Prisma.CustomerCreateNestedOneWithoutAppointmentsInput
   project?: Prisma.ProjectCreateNestedOneWithoutAppointmentsInput
+  maintenanceVisit?: Prisma.MaintenanceVisitCreateNestedOneWithoutAppointmentInput
   invoice?: Prisma.InvoiceCreateNestedOneWithoutAppointmentInput
   notifications?: Prisma.NotificationLogCreateNestedManyWithoutAppointmentInput
   maintenanceLogs?: Prisma.MaintenanceLogCreateNestedManyWithoutAppointmentInput
@@ -784,6 +980,7 @@ export type AppointmentCreateInput = {
   checklist?: Prisma.ServiceChecklistCreateNestedOneWithoutAppointmentInput
   timeLog?: Prisma.JobTimeLogCreateNestedOneWithoutAppointmentInput
   parts?: Prisma.JobPartCreateNestedManyWithoutAppointmentInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionCreateNestedManyWithoutAppointmentInput
 }
 
 export type AppointmentUncheckedCreateInput = {
@@ -826,6 +1023,22 @@ export type AppointmentUncheckedCreateInput = {
   confirmedAt?: Date | string | null
   customerId?: string | null
   projectId?: string | null
+  jobType?: string | null
+  jobCategory?: string | null
+  customerType?: string | null
+  scheduledStart?: Date | string | null
+  scheduledEnd?: Date | string | null
+  estimatedMinutes?: number | null
+  arrivalWindow?: string | null
+  billingAddress?: string | null
+  equipmentId?: string | null
+  createdById?: string | null
+  leadSource?: string | null
+  lat?: number | null
+  lng?: number | null
+  assignments?: Prisma.JobAssignmentUncheckedCreateNestedManyWithoutAppointmentInput
+  events?: Prisma.JobEventUncheckedCreateNestedManyWithoutAppointmentInput
+  maintenanceVisit?: Prisma.MaintenanceVisitUncheckedCreateNestedOneWithoutAppointmentInput
   invoice?: Prisma.InvoiceUncheckedCreateNestedOneWithoutAppointmentInput
   notifications?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutAppointmentInput
   maintenanceLogs?: Prisma.MaintenanceLogUncheckedCreateNestedManyWithoutAppointmentInput
@@ -841,6 +1054,7 @@ export type AppointmentUncheckedCreateInput = {
   checklist?: Prisma.ServiceChecklistUncheckedCreateNestedOneWithoutAppointmentInput
   timeLog?: Prisma.JobTimeLogUncheckedCreateNestedOneWithoutAppointmentInput
   parts?: Prisma.JobPartUncheckedCreateNestedManyWithoutAppointmentInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUncheckedCreateNestedManyWithoutAppointmentInput
 }
 
 export type AppointmentUpdateInput = {
@@ -878,11 +1092,27 @@ export type AppointmentUpdateInput = {
   source?: Prisma.StringFieldUpdateOperationsInput | string
   confirmationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  jobType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobCategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  estimatedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  arrivalWindow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  equipmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leadSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  assignments?: Prisma.JobAssignmentUpdateManyWithoutAppointmentNestedInput
+  events?: Prisma.JobEventUpdateManyWithoutAppointmentNestedInput
   user?: Prisma.UserUpdateOneWithoutAppointmentsNestedInput
   technician?: Prisma.UserUpdateOneWithoutTechnicianAppointmentsNestedInput
   dispatcher?: Prisma.UserUpdateOneWithoutDispatchedAppointmentsNestedInput
   customer?: Prisma.CustomerUpdateOneWithoutAppointmentsNestedInput
   project?: Prisma.ProjectUpdateOneWithoutAppointmentsNestedInput
+  maintenanceVisit?: Prisma.MaintenanceVisitUpdateOneWithoutAppointmentNestedInput
   invoice?: Prisma.InvoiceUpdateOneWithoutAppointmentNestedInput
   notifications?: Prisma.NotificationLogUpdateManyWithoutAppointmentNestedInput
   maintenanceLogs?: Prisma.MaintenanceLogUpdateManyWithoutAppointmentNestedInput
@@ -898,6 +1128,7 @@ export type AppointmentUpdateInput = {
   checklist?: Prisma.ServiceChecklistUpdateOneWithoutAppointmentNestedInput
   timeLog?: Prisma.JobTimeLogUpdateOneWithoutAppointmentNestedInput
   parts?: Prisma.JobPartUpdateManyWithoutAppointmentNestedInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUpdateManyWithoutAppointmentNestedInput
 }
 
 export type AppointmentUncheckedUpdateInput = {
@@ -940,6 +1171,22 @@ export type AppointmentUncheckedUpdateInput = {
   confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   projectId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobCategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  estimatedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  arrivalWindow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  equipmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leadSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  assignments?: Prisma.JobAssignmentUncheckedUpdateManyWithoutAppointmentNestedInput
+  events?: Prisma.JobEventUncheckedUpdateManyWithoutAppointmentNestedInput
+  maintenanceVisit?: Prisma.MaintenanceVisitUncheckedUpdateOneWithoutAppointmentNestedInput
   invoice?: Prisma.InvoiceUncheckedUpdateOneWithoutAppointmentNestedInput
   notifications?: Prisma.NotificationLogUncheckedUpdateManyWithoutAppointmentNestedInput
   maintenanceLogs?: Prisma.MaintenanceLogUncheckedUpdateManyWithoutAppointmentNestedInput
@@ -955,6 +1202,7 @@ export type AppointmentUncheckedUpdateInput = {
   checklist?: Prisma.ServiceChecklistUncheckedUpdateOneWithoutAppointmentNestedInput
   timeLog?: Prisma.JobTimeLogUncheckedUpdateOneWithoutAppointmentNestedInput
   parts?: Prisma.JobPartUncheckedUpdateManyWithoutAppointmentNestedInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUncheckedUpdateManyWithoutAppointmentNestedInput
 }
 
 export type AppointmentCreateManyInput = {
@@ -997,6 +1245,19 @@ export type AppointmentCreateManyInput = {
   confirmedAt?: Date | string | null
   customerId?: string | null
   projectId?: string | null
+  jobType?: string | null
+  jobCategory?: string | null
+  customerType?: string | null
+  scheduledStart?: Date | string | null
+  scheduledEnd?: Date | string | null
+  estimatedMinutes?: number | null
+  arrivalWindow?: string | null
+  billingAddress?: string | null
+  equipmentId?: string | null
+  createdById?: string | null
+  leadSource?: string | null
+  lat?: number | null
+  lng?: number | null
 }
 
 export type AppointmentUpdateManyMutationInput = {
@@ -1034,6 +1295,19 @@ export type AppointmentUpdateManyMutationInput = {
   source?: Prisma.StringFieldUpdateOperationsInput | string
   confirmationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  jobType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobCategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  estimatedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  arrivalWindow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  equipmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leadSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
 }
 
 export type AppointmentUncheckedUpdateManyInput = {
@@ -1076,6 +1350,19 @@ export type AppointmentUncheckedUpdateManyInput = {
   confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   projectId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobCategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  estimatedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  arrivalWindow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  equipmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leadSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
 }
 
 export type AppointmentListRelationFilter = {
@@ -1136,11 +1423,27 @@ export type AppointmentCountOrderByAggregateInput = {
   confirmedAt?: Prisma.SortOrder
   customerId?: Prisma.SortOrder
   projectId?: Prisma.SortOrder
+  jobType?: Prisma.SortOrder
+  jobCategory?: Prisma.SortOrder
+  customerType?: Prisma.SortOrder
+  scheduledStart?: Prisma.SortOrder
+  scheduledEnd?: Prisma.SortOrder
+  estimatedMinutes?: Prisma.SortOrder
+  arrivalWindow?: Prisma.SortOrder
+  billingAddress?: Prisma.SortOrder
+  equipmentId?: Prisma.SortOrder
+  createdById?: Prisma.SortOrder
+  leadSource?: Prisma.SortOrder
+  lat?: Prisma.SortOrder
+  lng?: Prisma.SortOrder
 }
 
 export type AppointmentAvgOrderByAggregateInput = {
   totalAmount?: Prisma.SortOrder
   diagnosticFee?: Prisma.SortOrder
+  estimatedMinutes?: Prisma.SortOrder
+  lat?: Prisma.SortOrder
+  lng?: Prisma.SortOrder
 }
 
 export type AppointmentMaxOrderByAggregateInput = {
@@ -1182,6 +1485,19 @@ export type AppointmentMaxOrderByAggregateInput = {
   confirmedAt?: Prisma.SortOrder
   customerId?: Prisma.SortOrder
   projectId?: Prisma.SortOrder
+  jobType?: Prisma.SortOrder
+  jobCategory?: Prisma.SortOrder
+  customerType?: Prisma.SortOrder
+  scheduledStart?: Prisma.SortOrder
+  scheduledEnd?: Prisma.SortOrder
+  estimatedMinutes?: Prisma.SortOrder
+  arrivalWindow?: Prisma.SortOrder
+  billingAddress?: Prisma.SortOrder
+  equipmentId?: Prisma.SortOrder
+  createdById?: Prisma.SortOrder
+  leadSource?: Prisma.SortOrder
+  lat?: Prisma.SortOrder
+  lng?: Prisma.SortOrder
 }
 
 export type AppointmentMinOrderByAggregateInput = {
@@ -1223,11 +1539,27 @@ export type AppointmentMinOrderByAggregateInput = {
   confirmedAt?: Prisma.SortOrder
   customerId?: Prisma.SortOrder
   projectId?: Prisma.SortOrder
+  jobType?: Prisma.SortOrder
+  jobCategory?: Prisma.SortOrder
+  customerType?: Prisma.SortOrder
+  scheduledStart?: Prisma.SortOrder
+  scheduledEnd?: Prisma.SortOrder
+  estimatedMinutes?: Prisma.SortOrder
+  arrivalWindow?: Prisma.SortOrder
+  billingAddress?: Prisma.SortOrder
+  equipmentId?: Prisma.SortOrder
+  createdById?: Prisma.SortOrder
+  leadSource?: Prisma.SortOrder
+  lat?: Prisma.SortOrder
+  lng?: Prisma.SortOrder
 }
 
 export type AppointmentSumOrderByAggregateInput = {
   totalAmount?: Prisma.SortOrder
   diagnosticFee?: Prisma.SortOrder
+  estimatedMinutes?: Prisma.SortOrder
+  lat?: Prisma.SortOrder
+  lng?: Prisma.SortOrder
 }
 
 export type AppointmentScalarRelationFilter = {
@@ -1663,6 +1995,22 @@ export type AppointmentUncheckedUpdateManyWithoutProjectNestedInput = {
   deleteMany?: Prisma.AppointmentScalarWhereInput | Prisma.AppointmentScalarWhereInput[]
 }
 
+export type AppointmentCreateNestedOneWithoutMaintenanceVisitInput = {
+  create?: Prisma.XOR<Prisma.AppointmentCreateWithoutMaintenanceVisitInput, Prisma.AppointmentUncheckedCreateWithoutMaintenanceVisitInput>
+  connectOrCreate?: Prisma.AppointmentCreateOrConnectWithoutMaintenanceVisitInput
+  connect?: Prisma.AppointmentWhereUniqueInput
+}
+
+export type AppointmentUpdateOneWithoutMaintenanceVisitNestedInput = {
+  create?: Prisma.XOR<Prisma.AppointmentCreateWithoutMaintenanceVisitInput, Prisma.AppointmentUncheckedCreateWithoutMaintenanceVisitInput>
+  connectOrCreate?: Prisma.AppointmentCreateOrConnectWithoutMaintenanceVisitInput
+  upsert?: Prisma.AppointmentUpsertWithoutMaintenanceVisitInput
+  disconnect?: Prisma.AppointmentWhereInput | boolean
+  delete?: Prisma.AppointmentWhereInput | boolean
+  connect?: Prisma.AppointmentWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.AppointmentUpdateToOneWithWhereWithoutMaintenanceVisitInput, Prisma.AppointmentUpdateWithoutMaintenanceVisitInput>, Prisma.AppointmentUncheckedUpdateWithoutMaintenanceVisitInput>
+}
+
 export type AppointmentCreateNestedOneWithoutCallsInput = {
   create?: Prisma.XOR<Prisma.AppointmentCreateWithoutCallsInput, Prisma.AppointmentUncheckedCreateWithoutCallsInput>
   connectOrCreate?: Prisma.AppointmentCreateOrConnectWithoutCallsInput
@@ -1691,6 +2039,50 @@ export type AppointmentUpdateOneRequiredWithoutFormSubmissionsNestedInput = {
   upsert?: Prisma.AppointmentUpsertWithoutFormSubmissionsInput
   connect?: Prisma.AppointmentWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.AppointmentUpdateToOneWithWhereWithoutFormSubmissionsInput, Prisma.AppointmentUpdateWithoutFormSubmissionsInput>, Prisma.AppointmentUncheckedUpdateWithoutFormSubmissionsInput>
+}
+
+export type AppointmentCreateNestedOneWithoutAssignmentsInput = {
+  create?: Prisma.XOR<Prisma.AppointmentCreateWithoutAssignmentsInput, Prisma.AppointmentUncheckedCreateWithoutAssignmentsInput>
+  connectOrCreate?: Prisma.AppointmentCreateOrConnectWithoutAssignmentsInput
+  connect?: Prisma.AppointmentWhereUniqueInput
+}
+
+export type AppointmentUpdateOneRequiredWithoutAssignmentsNestedInput = {
+  create?: Prisma.XOR<Prisma.AppointmentCreateWithoutAssignmentsInput, Prisma.AppointmentUncheckedCreateWithoutAssignmentsInput>
+  connectOrCreate?: Prisma.AppointmentCreateOrConnectWithoutAssignmentsInput
+  upsert?: Prisma.AppointmentUpsertWithoutAssignmentsInput
+  connect?: Prisma.AppointmentWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.AppointmentUpdateToOneWithWhereWithoutAssignmentsInput, Prisma.AppointmentUpdateWithoutAssignmentsInput>, Prisma.AppointmentUncheckedUpdateWithoutAssignmentsInput>
+}
+
+export type AppointmentCreateNestedOneWithoutEventsInput = {
+  create?: Prisma.XOR<Prisma.AppointmentCreateWithoutEventsInput, Prisma.AppointmentUncheckedCreateWithoutEventsInput>
+  connectOrCreate?: Prisma.AppointmentCreateOrConnectWithoutEventsInput
+  connect?: Prisma.AppointmentWhereUniqueInput
+}
+
+export type AppointmentUpdateOneRequiredWithoutEventsNestedInput = {
+  create?: Prisma.XOR<Prisma.AppointmentCreateWithoutEventsInput, Prisma.AppointmentUncheckedCreateWithoutEventsInput>
+  connectOrCreate?: Prisma.AppointmentCreateOrConnectWithoutEventsInput
+  upsert?: Prisma.AppointmentUpsertWithoutEventsInput
+  connect?: Prisma.AppointmentWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.AppointmentUpdateToOneWithWhereWithoutEventsInput, Prisma.AppointmentUpdateWithoutEventsInput>, Prisma.AppointmentUncheckedUpdateWithoutEventsInput>
+}
+
+export type AppointmentCreateNestedOneWithoutHvacDiagnosticsInput = {
+  create?: Prisma.XOR<Prisma.AppointmentCreateWithoutHvacDiagnosticsInput, Prisma.AppointmentUncheckedCreateWithoutHvacDiagnosticsInput>
+  connectOrCreate?: Prisma.AppointmentCreateOrConnectWithoutHvacDiagnosticsInput
+  connect?: Prisma.AppointmentWhereUniqueInput
+}
+
+export type AppointmentUpdateOneWithoutHvacDiagnosticsNestedInput = {
+  create?: Prisma.XOR<Prisma.AppointmentCreateWithoutHvacDiagnosticsInput, Prisma.AppointmentUncheckedCreateWithoutHvacDiagnosticsInput>
+  connectOrCreate?: Prisma.AppointmentCreateOrConnectWithoutHvacDiagnosticsInput
+  upsert?: Prisma.AppointmentUpsertWithoutHvacDiagnosticsInput
+  disconnect?: Prisma.AppointmentWhereInput | boolean
+  delete?: Prisma.AppointmentWhereInput | boolean
+  connect?: Prisma.AppointmentWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.AppointmentUpdateToOneWithWhereWithoutHvacDiagnosticsInput, Prisma.AppointmentUpdateWithoutHvacDiagnosticsInput>, Prisma.AppointmentUncheckedUpdateWithoutHvacDiagnosticsInput>
 }
 
 export type AppointmentCreateWithoutUserInput = {
@@ -1728,10 +2120,26 @@ export type AppointmentCreateWithoutUserInput = {
   source?: string
   confirmationToken?: string | null
   confirmedAt?: Date | string | null
+  jobType?: string | null
+  jobCategory?: string | null
+  customerType?: string | null
+  scheduledStart?: Date | string | null
+  scheduledEnd?: Date | string | null
+  estimatedMinutes?: number | null
+  arrivalWindow?: string | null
+  billingAddress?: string | null
+  equipmentId?: string | null
+  createdById?: string | null
+  leadSource?: string | null
+  lat?: number | null
+  lng?: number | null
+  assignments?: Prisma.JobAssignmentCreateNestedManyWithoutAppointmentInput
+  events?: Prisma.JobEventCreateNestedManyWithoutAppointmentInput
   technician?: Prisma.UserCreateNestedOneWithoutTechnicianAppointmentsInput
   dispatcher?: Prisma.UserCreateNestedOneWithoutDispatchedAppointmentsInput
   customer?: Prisma.CustomerCreateNestedOneWithoutAppointmentsInput
   project?: Prisma.ProjectCreateNestedOneWithoutAppointmentsInput
+  maintenanceVisit?: Prisma.MaintenanceVisitCreateNestedOneWithoutAppointmentInput
   invoice?: Prisma.InvoiceCreateNestedOneWithoutAppointmentInput
   notifications?: Prisma.NotificationLogCreateNestedManyWithoutAppointmentInput
   maintenanceLogs?: Prisma.MaintenanceLogCreateNestedManyWithoutAppointmentInput
@@ -1747,6 +2155,7 @@ export type AppointmentCreateWithoutUserInput = {
   checklist?: Prisma.ServiceChecklistCreateNestedOneWithoutAppointmentInput
   timeLog?: Prisma.JobTimeLogCreateNestedOneWithoutAppointmentInput
   parts?: Prisma.JobPartCreateNestedManyWithoutAppointmentInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionCreateNestedManyWithoutAppointmentInput
 }
 
 export type AppointmentUncheckedCreateWithoutUserInput = {
@@ -1788,6 +2197,22 @@ export type AppointmentUncheckedCreateWithoutUserInput = {
   confirmedAt?: Date | string | null
   customerId?: string | null
   projectId?: string | null
+  jobType?: string | null
+  jobCategory?: string | null
+  customerType?: string | null
+  scheduledStart?: Date | string | null
+  scheduledEnd?: Date | string | null
+  estimatedMinutes?: number | null
+  arrivalWindow?: string | null
+  billingAddress?: string | null
+  equipmentId?: string | null
+  createdById?: string | null
+  leadSource?: string | null
+  lat?: number | null
+  lng?: number | null
+  assignments?: Prisma.JobAssignmentUncheckedCreateNestedManyWithoutAppointmentInput
+  events?: Prisma.JobEventUncheckedCreateNestedManyWithoutAppointmentInput
+  maintenanceVisit?: Prisma.MaintenanceVisitUncheckedCreateNestedOneWithoutAppointmentInput
   invoice?: Prisma.InvoiceUncheckedCreateNestedOneWithoutAppointmentInput
   notifications?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutAppointmentInput
   maintenanceLogs?: Prisma.MaintenanceLogUncheckedCreateNestedManyWithoutAppointmentInput
@@ -1803,6 +2228,7 @@ export type AppointmentUncheckedCreateWithoutUserInput = {
   checklist?: Prisma.ServiceChecklistUncheckedCreateNestedOneWithoutAppointmentInput
   timeLog?: Prisma.JobTimeLogUncheckedCreateNestedOneWithoutAppointmentInput
   parts?: Prisma.JobPartUncheckedCreateNestedManyWithoutAppointmentInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUncheckedCreateNestedManyWithoutAppointmentInput
 }
 
 export type AppointmentCreateOrConnectWithoutUserInput = {
@@ -1850,10 +2276,26 @@ export type AppointmentCreateWithoutDispatcherInput = {
   source?: string
   confirmationToken?: string | null
   confirmedAt?: Date | string | null
+  jobType?: string | null
+  jobCategory?: string | null
+  customerType?: string | null
+  scheduledStart?: Date | string | null
+  scheduledEnd?: Date | string | null
+  estimatedMinutes?: number | null
+  arrivalWindow?: string | null
+  billingAddress?: string | null
+  equipmentId?: string | null
+  createdById?: string | null
+  leadSource?: string | null
+  lat?: number | null
+  lng?: number | null
+  assignments?: Prisma.JobAssignmentCreateNestedManyWithoutAppointmentInput
+  events?: Prisma.JobEventCreateNestedManyWithoutAppointmentInput
   user?: Prisma.UserCreateNestedOneWithoutAppointmentsInput
   technician?: Prisma.UserCreateNestedOneWithoutTechnicianAppointmentsInput
   customer?: Prisma.CustomerCreateNestedOneWithoutAppointmentsInput
   project?: Prisma.ProjectCreateNestedOneWithoutAppointmentsInput
+  maintenanceVisit?: Prisma.MaintenanceVisitCreateNestedOneWithoutAppointmentInput
   invoice?: Prisma.InvoiceCreateNestedOneWithoutAppointmentInput
   notifications?: Prisma.NotificationLogCreateNestedManyWithoutAppointmentInput
   maintenanceLogs?: Prisma.MaintenanceLogCreateNestedManyWithoutAppointmentInput
@@ -1869,6 +2311,7 @@ export type AppointmentCreateWithoutDispatcherInput = {
   checklist?: Prisma.ServiceChecklistCreateNestedOneWithoutAppointmentInput
   timeLog?: Prisma.JobTimeLogCreateNestedOneWithoutAppointmentInput
   parts?: Prisma.JobPartCreateNestedManyWithoutAppointmentInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionCreateNestedManyWithoutAppointmentInput
 }
 
 export type AppointmentUncheckedCreateWithoutDispatcherInput = {
@@ -1910,6 +2353,22 @@ export type AppointmentUncheckedCreateWithoutDispatcherInput = {
   confirmedAt?: Date | string | null
   customerId?: string | null
   projectId?: string | null
+  jobType?: string | null
+  jobCategory?: string | null
+  customerType?: string | null
+  scheduledStart?: Date | string | null
+  scheduledEnd?: Date | string | null
+  estimatedMinutes?: number | null
+  arrivalWindow?: string | null
+  billingAddress?: string | null
+  equipmentId?: string | null
+  createdById?: string | null
+  leadSource?: string | null
+  lat?: number | null
+  lng?: number | null
+  assignments?: Prisma.JobAssignmentUncheckedCreateNestedManyWithoutAppointmentInput
+  events?: Prisma.JobEventUncheckedCreateNestedManyWithoutAppointmentInput
+  maintenanceVisit?: Prisma.MaintenanceVisitUncheckedCreateNestedOneWithoutAppointmentInput
   invoice?: Prisma.InvoiceUncheckedCreateNestedOneWithoutAppointmentInput
   notifications?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutAppointmentInput
   maintenanceLogs?: Prisma.MaintenanceLogUncheckedCreateNestedManyWithoutAppointmentInput
@@ -1925,6 +2384,7 @@ export type AppointmentUncheckedCreateWithoutDispatcherInput = {
   checklist?: Prisma.ServiceChecklistUncheckedCreateNestedOneWithoutAppointmentInput
   timeLog?: Prisma.JobTimeLogUncheckedCreateNestedOneWithoutAppointmentInput
   parts?: Prisma.JobPartUncheckedCreateNestedManyWithoutAppointmentInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUncheckedCreateNestedManyWithoutAppointmentInput
 }
 
 export type AppointmentCreateOrConnectWithoutDispatcherInput = {
@@ -1972,10 +2432,26 @@ export type AppointmentCreateWithoutTechnicianInput = {
   source?: string
   confirmationToken?: string | null
   confirmedAt?: Date | string | null
+  jobType?: string | null
+  jobCategory?: string | null
+  customerType?: string | null
+  scheduledStart?: Date | string | null
+  scheduledEnd?: Date | string | null
+  estimatedMinutes?: number | null
+  arrivalWindow?: string | null
+  billingAddress?: string | null
+  equipmentId?: string | null
+  createdById?: string | null
+  leadSource?: string | null
+  lat?: number | null
+  lng?: number | null
+  assignments?: Prisma.JobAssignmentCreateNestedManyWithoutAppointmentInput
+  events?: Prisma.JobEventCreateNestedManyWithoutAppointmentInput
   user?: Prisma.UserCreateNestedOneWithoutAppointmentsInput
   dispatcher?: Prisma.UserCreateNestedOneWithoutDispatchedAppointmentsInput
   customer?: Prisma.CustomerCreateNestedOneWithoutAppointmentsInput
   project?: Prisma.ProjectCreateNestedOneWithoutAppointmentsInput
+  maintenanceVisit?: Prisma.MaintenanceVisitCreateNestedOneWithoutAppointmentInput
   invoice?: Prisma.InvoiceCreateNestedOneWithoutAppointmentInput
   notifications?: Prisma.NotificationLogCreateNestedManyWithoutAppointmentInput
   maintenanceLogs?: Prisma.MaintenanceLogCreateNestedManyWithoutAppointmentInput
@@ -1991,6 +2467,7 @@ export type AppointmentCreateWithoutTechnicianInput = {
   checklist?: Prisma.ServiceChecklistCreateNestedOneWithoutAppointmentInput
   timeLog?: Prisma.JobTimeLogCreateNestedOneWithoutAppointmentInput
   parts?: Prisma.JobPartCreateNestedManyWithoutAppointmentInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionCreateNestedManyWithoutAppointmentInput
 }
 
 export type AppointmentUncheckedCreateWithoutTechnicianInput = {
@@ -2032,6 +2509,22 @@ export type AppointmentUncheckedCreateWithoutTechnicianInput = {
   confirmedAt?: Date | string | null
   customerId?: string | null
   projectId?: string | null
+  jobType?: string | null
+  jobCategory?: string | null
+  customerType?: string | null
+  scheduledStart?: Date | string | null
+  scheduledEnd?: Date | string | null
+  estimatedMinutes?: number | null
+  arrivalWindow?: string | null
+  billingAddress?: string | null
+  equipmentId?: string | null
+  createdById?: string | null
+  leadSource?: string | null
+  lat?: number | null
+  lng?: number | null
+  assignments?: Prisma.JobAssignmentUncheckedCreateNestedManyWithoutAppointmentInput
+  events?: Prisma.JobEventUncheckedCreateNestedManyWithoutAppointmentInput
+  maintenanceVisit?: Prisma.MaintenanceVisitUncheckedCreateNestedOneWithoutAppointmentInput
   invoice?: Prisma.InvoiceUncheckedCreateNestedOneWithoutAppointmentInput
   notifications?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutAppointmentInput
   maintenanceLogs?: Prisma.MaintenanceLogUncheckedCreateNestedManyWithoutAppointmentInput
@@ -2047,6 +2540,7 @@ export type AppointmentUncheckedCreateWithoutTechnicianInput = {
   checklist?: Prisma.ServiceChecklistUncheckedCreateNestedOneWithoutAppointmentInput
   timeLog?: Prisma.JobTimeLogUncheckedCreateNestedOneWithoutAppointmentInput
   parts?: Prisma.JobPartUncheckedCreateNestedManyWithoutAppointmentInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUncheckedCreateNestedManyWithoutAppointmentInput
 }
 
 export type AppointmentCreateOrConnectWithoutTechnicianInput = {
@@ -2118,6 +2612,19 @@ export type AppointmentScalarWhereInput = {
   confirmedAt?: Prisma.DateTimeNullableFilter<"Appointment"> | Date | string | null
   customerId?: Prisma.StringNullableFilter<"Appointment"> | string | null
   projectId?: Prisma.StringNullableFilter<"Appointment"> | string | null
+  jobType?: Prisma.StringNullableFilter<"Appointment"> | string | null
+  jobCategory?: Prisma.StringNullableFilter<"Appointment"> | string | null
+  customerType?: Prisma.StringNullableFilter<"Appointment"> | string | null
+  scheduledStart?: Prisma.DateTimeNullableFilter<"Appointment"> | Date | string | null
+  scheduledEnd?: Prisma.DateTimeNullableFilter<"Appointment"> | Date | string | null
+  estimatedMinutes?: Prisma.IntNullableFilter<"Appointment"> | number | null
+  arrivalWindow?: Prisma.StringNullableFilter<"Appointment"> | string | null
+  billingAddress?: Prisma.StringNullableFilter<"Appointment"> | string | null
+  equipmentId?: Prisma.StringNullableFilter<"Appointment"> | string | null
+  createdById?: Prisma.StringNullableFilter<"Appointment"> | string | null
+  leadSource?: Prisma.StringNullableFilter<"Appointment"> | string | null
+  lat?: Prisma.FloatNullableFilter<"Appointment"> | number | null
+  lng?: Prisma.FloatNullableFilter<"Appointment"> | number | null
 }
 
 export type AppointmentUpsertWithWhereUniqueWithoutDispatcherInput = {
@@ -2187,11 +2694,27 @@ export type AppointmentCreateWithoutInvoiceInput = {
   source?: string
   confirmationToken?: string | null
   confirmedAt?: Date | string | null
+  jobType?: string | null
+  jobCategory?: string | null
+  customerType?: string | null
+  scheduledStart?: Date | string | null
+  scheduledEnd?: Date | string | null
+  estimatedMinutes?: number | null
+  arrivalWindow?: string | null
+  billingAddress?: string | null
+  equipmentId?: string | null
+  createdById?: string | null
+  leadSource?: string | null
+  lat?: number | null
+  lng?: number | null
+  assignments?: Prisma.JobAssignmentCreateNestedManyWithoutAppointmentInput
+  events?: Prisma.JobEventCreateNestedManyWithoutAppointmentInput
   user?: Prisma.UserCreateNestedOneWithoutAppointmentsInput
   technician?: Prisma.UserCreateNestedOneWithoutTechnicianAppointmentsInput
   dispatcher?: Prisma.UserCreateNestedOneWithoutDispatchedAppointmentsInput
   customer?: Prisma.CustomerCreateNestedOneWithoutAppointmentsInput
   project?: Prisma.ProjectCreateNestedOneWithoutAppointmentsInput
+  maintenanceVisit?: Prisma.MaintenanceVisitCreateNestedOneWithoutAppointmentInput
   notifications?: Prisma.NotificationLogCreateNestedManyWithoutAppointmentInput
   maintenanceLogs?: Prisma.MaintenanceLogCreateNestedManyWithoutAppointmentInput
   formSubmissions?: Prisma.FormSubmissionCreateNestedManyWithoutAppointmentInput
@@ -2206,6 +2729,7 @@ export type AppointmentCreateWithoutInvoiceInput = {
   checklist?: Prisma.ServiceChecklistCreateNestedOneWithoutAppointmentInput
   timeLog?: Prisma.JobTimeLogCreateNestedOneWithoutAppointmentInput
   parts?: Prisma.JobPartCreateNestedManyWithoutAppointmentInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionCreateNestedManyWithoutAppointmentInput
 }
 
 export type AppointmentUncheckedCreateWithoutInvoiceInput = {
@@ -2248,6 +2772,22 @@ export type AppointmentUncheckedCreateWithoutInvoiceInput = {
   confirmedAt?: Date | string | null
   customerId?: string | null
   projectId?: string | null
+  jobType?: string | null
+  jobCategory?: string | null
+  customerType?: string | null
+  scheduledStart?: Date | string | null
+  scheduledEnd?: Date | string | null
+  estimatedMinutes?: number | null
+  arrivalWindow?: string | null
+  billingAddress?: string | null
+  equipmentId?: string | null
+  createdById?: string | null
+  leadSource?: string | null
+  lat?: number | null
+  lng?: number | null
+  assignments?: Prisma.JobAssignmentUncheckedCreateNestedManyWithoutAppointmentInput
+  events?: Prisma.JobEventUncheckedCreateNestedManyWithoutAppointmentInput
+  maintenanceVisit?: Prisma.MaintenanceVisitUncheckedCreateNestedOneWithoutAppointmentInput
   notifications?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutAppointmentInput
   maintenanceLogs?: Prisma.MaintenanceLogUncheckedCreateNestedManyWithoutAppointmentInput
   formSubmissions?: Prisma.FormSubmissionUncheckedCreateNestedManyWithoutAppointmentInput
@@ -2262,6 +2802,7 @@ export type AppointmentUncheckedCreateWithoutInvoiceInput = {
   checklist?: Prisma.ServiceChecklistUncheckedCreateNestedOneWithoutAppointmentInput
   timeLog?: Prisma.JobTimeLogUncheckedCreateNestedOneWithoutAppointmentInput
   parts?: Prisma.JobPartUncheckedCreateNestedManyWithoutAppointmentInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUncheckedCreateNestedManyWithoutAppointmentInput
 }
 
 export type AppointmentCreateOrConnectWithoutInvoiceInput = {
@@ -2315,11 +2856,27 @@ export type AppointmentUpdateWithoutInvoiceInput = {
   source?: Prisma.StringFieldUpdateOperationsInput | string
   confirmationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  jobType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobCategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  estimatedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  arrivalWindow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  equipmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leadSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  assignments?: Prisma.JobAssignmentUpdateManyWithoutAppointmentNestedInput
+  events?: Prisma.JobEventUpdateManyWithoutAppointmentNestedInput
   user?: Prisma.UserUpdateOneWithoutAppointmentsNestedInput
   technician?: Prisma.UserUpdateOneWithoutTechnicianAppointmentsNestedInput
   dispatcher?: Prisma.UserUpdateOneWithoutDispatchedAppointmentsNestedInput
   customer?: Prisma.CustomerUpdateOneWithoutAppointmentsNestedInput
   project?: Prisma.ProjectUpdateOneWithoutAppointmentsNestedInput
+  maintenanceVisit?: Prisma.MaintenanceVisitUpdateOneWithoutAppointmentNestedInput
   notifications?: Prisma.NotificationLogUpdateManyWithoutAppointmentNestedInput
   maintenanceLogs?: Prisma.MaintenanceLogUpdateManyWithoutAppointmentNestedInput
   formSubmissions?: Prisma.FormSubmissionUpdateManyWithoutAppointmentNestedInput
@@ -2334,6 +2891,7 @@ export type AppointmentUpdateWithoutInvoiceInput = {
   checklist?: Prisma.ServiceChecklistUpdateOneWithoutAppointmentNestedInput
   timeLog?: Prisma.JobTimeLogUpdateOneWithoutAppointmentNestedInput
   parts?: Prisma.JobPartUpdateManyWithoutAppointmentNestedInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUpdateManyWithoutAppointmentNestedInput
 }
 
 export type AppointmentUncheckedUpdateWithoutInvoiceInput = {
@@ -2376,6 +2934,22 @@ export type AppointmentUncheckedUpdateWithoutInvoiceInput = {
   confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   projectId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobCategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  estimatedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  arrivalWindow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  equipmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leadSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  assignments?: Prisma.JobAssignmentUncheckedUpdateManyWithoutAppointmentNestedInput
+  events?: Prisma.JobEventUncheckedUpdateManyWithoutAppointmentNestedInput
+  maintenanceVisit?: Prisma.MaintenanceVisitUncheckedUpdateOneWithoutAppointmentNestedInput
   notifications?: Prisma.NotificationLogUncheckedUpdateManyWithoutAppointmentNestedInput
   maintenanceLogs?: Prisma.MaintenanceLogUncheckedUpdateManyWithoutAppointmentNestedInput
   formSubmissions?: Prisma.FormSubmissionUncheckedUpdateManyWithoutAppointmentNestedInput
@@ -2390,6 +2964,7 @@ export type AppointmentUncheckedUpdateWithoutInvoiceInput = {
   checklist?: Prisma.ServiceChecklistUncheckedUpdateOneWithoutAppointmentNestedInput
   timeLog?: Prisma.JobTimeLogUncheckedUpdateOneWithoutAppointmentNestedInput
   parts?: Prisma.JobPartUncheckedUpdateManyWithoutAppointmentNestedInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUncheckedUpdateManyWithoutAppointmentNestedInput
 }
 
 export type AppointmentCreateWithoutNotificationsInput = {
@@ -2427,11 +3002,27 @@ export type AppointmentCreateWithoutNotificationsInput = {
   source?: string
   confirmationToken?: string | null
   confirmedAt?: Date | string | null
+  jobType?: string | null
+  jobCategory?: string | null
+  customerType?: string | null
+  scheduledStart?: Date | string | null
+  scheduledEnd?: Date | string | null
+  estimatedMinutes?: number | null
+  arrivalWindow?: string | null
+  billingAddress?: string | null
+  equipmentId?: string | null
+  createdById?: string | null
+  leadSource?: string | null
+  lat?: number | null
+  lng?: number | null
+  assignments?: Prisma.JobAssignmentCreateNestedManyWithoutAppointmentInput
+  events?: Prisma.JobEventCreateNestedManyWithoutAppointmentInput
   user?: Prisma.UserCreateNestedOneWithoutAppointmentsInput
   technician?: Prisma.UserCreateNestedOneWithoutTechnicianAppointmentsInput
   dispatcher?: Prisma.UserCreateNestedOneWithoutDispatchedAppointmentsInput
   customer?: Prisma.CustomerCreateNestedOneWithoutAppointmentsInput
   project?: Prisma.ProjectCreateNestedOneWithoutAppointmentsInput
+  maintenanceVisit?: Prisma.MaintenanceVisitCreateNestedOneWithoutAppointmentInput
   invoice?: Prisma.InvoiceCreateNestedOneWithoutAppointmentInput
   maintenanceLogs?: Prisma.MaintenanceLogCreateNestedManyWithoutAppointmentInput
   formSubmissions?: Prisma.FormSubmissionCreateNestedManyWithoutAppointmentInput
@@ -2446,6 +3037,7 @@ export type AppointmentCreateWithoutNotificationsInput = {
   checklist?: Prisma.ServiceChecklistCreateNestedOneWithoutAppointmentInput
   timeLog?: Prisma.JobTimeLogCreateNestedOneWithoutAppointmentInput
   parts?: Prisma.JobPartCreateNestedManyWithoutAppointmentInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionCreateNestedManyWithoutAppointmentInput
 }
 
 export type AppointmentUncheckedCreateWithoutNotificationsInput = {
@@ -2488,6 +3080,22 @@ export type AppointmentUncheckedCreateWithoutNotificationsInput = {
   confirmedAt?: Date | string | null
   customerId?: string | null
   projectId?: string | null
+  jobType?: string | null
+  jobCategory?: string | null
+  customerType?: string | null
+  scheduledStart?: Date | string | null
+  scheduledEnd?: Date | string | null
+  estimatedMinutes?: number | null
+  arrivalWindow?: string | null
+  billingAddress?: string | null
+  equipmentId?: string | null
+  createdById?: string | null
+  leadSource?: string | null
+  lat?: number | null
+  lng?: number | null
+  assignments?: Prisma.JobAssignmentUncheckedCreateNestedManyWithoutAppointmentInput
+  events?: Prisma.JobEventUncheckedCreateNestedManyWithoutAppointmentInput
+  maintenanceVisit?: Prisma.MaintenanceVisitUncheckedCreateNestedOneWithoutAppointmentInput
   invoice?: Prisma.InvoiceUncheckedCreateNestedOneWithoutAppointmentInput
   maintenanceLogs?: Prisma.MaintenanceLogUncheckedCreateNestedManyWithoutAppointmentInput
   formSubmissions?: Prisma.FormSubmissionUncheckedCreateNestedManyWithoutAppointmentInput
@@ -2502,6 +3110,7 @@ export type AppointmentUncheckedCreateWithoutNotificationsInput = {
   checklist?: Prisma.ServiceChecklistUncheckedCreateNestedOneWithoutAppointmentInput
   timeLog?: Prisma.JobTimeLogUncheckedCreateNestedOneWithoutAppointmentInput
   parts?: Prisma.JobPartUncheckedCreateNestedManyWithoutAppointmentInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUncheckedCreateNestedManyWithoutAppointmentInput
 }
 
 export type AppointmentCreateOrConnectWithoutNotificationsInput = {
@@ -2555,11 +3164,27 @@ export type AppointmentUpdateWithoutNotificationsInput = {
   source?: Prisma.StringFieldUpdateOperationsInput | string
   confirmationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  jobType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobCategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  estimatedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  arrivalWindow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  equipmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leadSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  assignments?: Prisma.JobAssignmentUpdateManyWithoutAppointmentNestedInput
+  events?: Prisma.JobEventUpdateManyWithoutAppointmentNestedInput
   user?: Prisma.UserUpdateOneWithoutAppointmentsNestedInput
   technician?: Prisma.UserUpdateOneWithoutTechnicianAppointmentsNestedInput
   dispatcher?: Prisma.UserUpdateOneWithoutDispatchedAppointmentsNestedInput
   customer?: Prisma.CustomerUpdateOneWithoutAppointmentsNestedInput
   project?: Prisma.ProjectUpdateOneWithoutAppointmentsNestedInput
+  maintenanceVisit?: Prisma.MaintenanceVisitUpdateOneWithoutAppointmentNestedInput
   invoice?: Prisma.InvoiceUpdateOneWithoutAppointmentNestedInput
   maintenanceLogs?: Prisma.MaintenanceLogUpdateManyWithoutAppointmentNestedInput
   formSubmissions?: Prisma.FormSubmissionUpdateManyWithoutAppointmentNestedInput
@@ -2574,6 +3199,7 @@ export type AppointmentUpdateWithoutNotificationsInput = {
   checklist?: Prisma.ServiceChecklistUpdateOneWithoutAppointmentNestedInput
   timeLog?: Prisma.JobTimeLogUpdateOneWithoutAppointmentNestedInput
   parts?: Prisma.JobPartUpdateManyWithoutAppointmentNestedInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUpdateManyWithoutAppointmentNestedInput
 }
 
 export type AppointmentUncheckedUpdateWithoutNotificationsInput = {
@@ -2616,6 +3242,22 @@ export type AppointmentUncheckedUpdateWithoutNotificationsInput = {
   confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   projectId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobCategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  estimatedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  arrivalWindow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  equipmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leadSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  assignments?: Prisma.JobAssignmentUncheckedUpdateManyWithoutAppointmentNestedInput
+  events?: Prisma.JobEventUncheckedUpdateManyWithoutAppointmentNestedInput
+  maintenanceVisit?: Prisma.MaintenanceVisitUncheckedUpdateOneWithoutAppointmentNestedInput
   invoice?: Prisma.InvoiceUncheckedUpdateOneWithoutAppointmentNestedInput
   maintenanceLogs?: Prisma.MaintenanceLogUncheckedUpdateManyWithoutAppointmentNestedInput
   formSubmissions?: Prisma.FormSubmissionUncheckedUpdateManyWithoutAppointmentNestedInput
@@ -2630,6 +3272,7 @@ export type AppointmentUncheckedUpdateWithoutNotificationsInput = {
   checklist?: Prisma.ServiceChecklistUncheckedUpdateOneWithoutAppointmentNestedInput
   timeLog?: Prisma.JobTimeLogUncheckedUpdateOneWithoutAppointmentNestedInput
   parts?: Prisma.JobPartUncheckedUpdateManyWithoutAppointmentNestedInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUncheckedUpdateManyWithoutAppointmentNestedInput
 }
 
 export type AppointmentCreateWithoutMaintenanceLogsInput = {
@@ -2667,11 +3310,27 @@ export type AppointmentCreateWithoutMaintenanceLogsInput = {
   source?: string
   confirmationToken?: string | null
   confirmedAt?: Date | string | null
+  jobType?: string | null
+  jobCategory?: string | null
+  customerType?: string | null
+  scheduledStart?: Date | string | null
+  scheduledEnd?: Date | string | null
+  estimatedMinutes?: number | null
+  arrivalWindow?: string | null
+  billingAddress?: string | null
+  equipmentId?: string | null
+  createdById?: string | null
+  leadSource?: string | null
+  lat?: number | null
+  lng?: number | null
+  assignments?: Prisma.JobAssignmentCreateNestedManyWithoutAppointmentInput
+  events?: Prisma.JobEventCreateNestedManyWithoutAppointmentInput
   user?: Prisma.UserCreateNestedOneWithoutAppointmentsInput
   technician?: Prisma.UserCreateNestedOneWithoutTechnicianAppointmentsInput
   dispatcher?: Prisma.UserCreateNestedOneWithoutDispatchedAppointmentsInput
   customer?: Prisma.CustomerCreateNestedOneWithoutAppointmentsInput
   project?: Prisma.ProjectCreateNestedOneWithoutAppointmentsInput
+  maintenanceVisit?: Prisma.MaintenanceVisitCreateNestedOneWithoutAppointmentInput
   invoice?: Prisma.InvoiceCreateNestedOneWithoutAppointmentInput
   notifications?: Prisma.NotificationLogCreateNestedManyWithoutAppointmentInput
   formSubmissions?: Prisma.FormSubmissionCreateNestedManyWithoutAppointmentInput
@@ -2686,6 +3345,7 @@ export type AppointmentCreateWithoutMaintenanceLogsInput = {
   checklist?: Prisma.ServiceChecklistCreateNestedOneWithoutAppointmentInput
   timeLog?: Prisma.JobTimeLogCreateNestedOneWithoutAppointmentInput
   parts?: Prisma.JobPartCreateNestedManyWithoutAppointmentInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionCreateNestedManyWithoutAppointmentInput
 }
 
 export type AppointmentUncheckedCreateWithoutMaintenanceLogsInput = {
@@ -2728,6 +3388,22 @@ export type AppointmentUncheckedCreateWithoutMaintenanceLogsInput = {
   confirmedAt?: Date | string | null
   customerId?: string | null
   projectId?: string | null
+  jobType?: string | null
+  jobCategory?: string | null
+  customerType?: string | null
+  scheduledStart?: Date | string | null
+  scheduledEnd?: Date | string | null
+  estimatedMinutes?: number | null
+  arrivalWindow?: string | null
+  billingAddress?: string | null
+  equipmentId?: string | null
+  createdById?: string | null
+  leadSource?: string | null
+  lat?: number | null
+  lng?: number | null
+  assignments?: Prisma.JobAssignmentUncheckedCreateNestedManyWithoutAppointmentInput
+  events?: Prisma.JobEventUncheckedCreateNestedManyWithoutAppointmentInput
+  maintenanceVisit?: Prisma.MaintenanceVisitUncheckedCreateNestedOneWithoutAppointmentInput
   invoice?: Prisma.InvoiceUncheckedCreateNestedOneWithoutAppointmentInput
   notifications?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutAppointmentInput
   formSubmissions?: Prisma.FormSubmissionUncheckedCreateNestedManyWithoutAppointmentInput
@@ -2742,6 +3418,7 @@ export type AppointmentUncheckedCreateWithoutMaintenanceLogsInput = {
   checklist?: Prisma.ServiceChecklistUncheckedCreateNestedOneWithoutAppointmentInput
   timeLog?: Prisma.JobTimeLogUncheckedCreateNestedOneWithoutAppointmentInput
   parts?: Prisma.JobPartUncheckedCreateNestedManyWithoutAppointmentInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUncheckedCreateNestedManyWithoutAppointmentInput
 }
 
 export type AppointmentCreateOrConnectWithoutMaintenanceLogsInput = {
@@ -2795,11 +3472,27 @@ export type AppointmentUpdateWithoutMaintenanceLogsInput = {
   source?: Prisma.StringFieldUpdateOperationsInput | string
   confirmationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  jobType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobCategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  estimatedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  arrivalWindow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  equipmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leadSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  assignments?: Prisma.JobAssignmentUpdateManyWithoutAppointmentNestedInput
+  events?: Prisma.JobEventUpdateManyWithoutAppointmentNestedInput
   user?: Prisma.UserUpdateOneWithoutAppointmentsNestedInput
   technician?: Prisma.UserUpdateOneWithoutTechnicianAppointmentsNestedInput
   dispatcher?: Prisma.UserUpdateOneWithoutDispatchedAppointmentsNestedInput
   customer?: Prisma.CustomerUpdateOneWithoutAppointmentsNestedInput
   project?: Prisma.ProjectUpdateOneWithoutAppointmentsNestedInput
+  maintenanceVisit?: Prisma.MaintenanceVisitUpdateOneWithoutAppointmentNestedInput
   invoice?: Prisma.InvoiceUpdateOneWithoutAppointmentNestedInput
   notifications?: Prisma.NotificationLogUpdateManyWithoutAppointmentNestedInput
   formSubmissions?: Prisma.FormSubmissionUpdateManyWithoutAppointmentNestedInput
@@ -2814,6 +3507,7 @@ export type AppointmentUpdateWithoutMaintenanceLogsInput = {
   checklist?: Prisma.ServiceChecklistUpdateOneWithoutAppointmentNestedInput
   timeLog?: Prisma.JobTimeLogUpdateOneWithoutAppointmentNestedInput
   parts?: Prisma.JobPartUpdateManyWithoutAppointmentNestedInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUpdateManyWithoutAppointmentNestedInput
 }
 
 export type AppointmentUncheckedUpdateWithoutMaintenanceLogsInput = {
@@ -2856,6 +3550,22 @@ export type AppointmentUncheckedUpdateWithoutMaintenanceLogsInput = {
   confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   projectId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobCategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  estimatedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  arrivalWindow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  equipmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leadSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  assignments?: Prisma.JobAssignmentUncheckedUpdateManyWithoutAppointmentNestedInput
+  events?: Prisma.JobEventUncheckedUpdateManyWithoutAppointmentNestedInput
+  maintenanceVisit?: Prisma.MaintenanceVisitUncheckedUpdateOneWithoutAppointmentNestedInput
   invoice?: Prisma.InvoiceUncheckedUpdateOneWithoutAppointmentNestedInput
   notifications?: Prisma.NotificationLogUncheckedUpdateManyWithoutAppointmentNestedInput
   formSubmissions?: Prisma.FormSubmissionUncheckedUpdateManyWithoutAppointmentNestedInput
@@ -2870,6 +3580,7 @@ export type AppointmentUncheckedUpdateWithoutMaintenanceLogsInput = {
   checklist?: Prisma.ServiceChecklistUncheckedUpdateOneWithoutAppointmentNestedInput
   timeLog?: Prisma.JobTimeLogUncheckedUpdateOneWithoutAppointmentNestedInput
   parts?: Prisma.JobPartUncheckedUpdateManyWithoutAppointmentNestedInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUncheckedUpdateManyWithoutAppointmentNestedInput
 }
 
 export type AppointmentCreateWithoutDiagnosisFormInput = {
@@ -2907,11 +3618,27 @@ export type AppointmentCreateWithoutDiagnosisFormInput = {
   source?: string
   confirmationToken?: string | null
   confirmedAt?: Date | string | null
+  jobType?: string | null
+  jobCategory?: string | null
+  customerType?: string | null
+  scheduledStart?: Date | string | null
+  scheduledEnd?: Date | string | null
+  estimatedMinutes?: number | null
+  arrivalWindow?: string | null
+  billingAddress?: string | null
+  equipmentId?: string | null
+  createdById?: string | null
+  leadSource?: string | null
+  lat?: number | null
+  lng?: number | null
+  assignments?: Prisma.JobAssignmentCreateNestedManyWithoutAppointmentInput
+  events?: Prisma.JobEventCreateNestedManyWithoutAppointmentInput
   user?: Prisma.UserCreateNestedOneWithoutAppointmentsInput
   technician?: Prisma.UserCreateNestedOneWithoutTechnicianAppointmentsInput
   dispatcher?: Prisma.UserCreateNestedOneWithoutDispatchedAppointmentsInput
   customer?: Prisma.CustomerCreateNestedOneWithoutAppointmentsInput
   project?: Prisma.ProjectCreateNestedOneWithoutAppointmentsInput
+  maintenanceVisit?: Prisma.MaintenanceVisitCreateNestedOneWithoutAppointmentInput
   invoice?: Prisma.InvoiceCreateNestedOneWithoutAppointmentInput
   notifications?: Prisma.NotificationLogCreateNestedManyWithoutAppointmentInput
   maintenanceLogs?: Prisma.MaintenanceLogCreateNestedManyWithoutAppointmentInput
@@ -2926,6 +3653,7 @@ export type AppointmentCreateWithoutDiagnosisFormInput = {
   checklist?: Prisma.ServiceChecklistCreateNestedOneWithoutAppointmentInput
   timeLog?: Prisma.JobTimeLogCreateNestedOneWithoutAppointmentInput
   parts?: Prisma.JobPartCreateNestedManyWithoutAppointmentInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionCreateNestedManyWithoutAppointmentInput
 }
 
 export type AppointmentUncheckedCreateWithoutDiagnosisFormInput = {
@@ -2968,6 +3696,22 @@ export type AppointmentUncheckedCreateWithoutDiagnosisFormInput = {
   confirmedAt?: Date | string | null
   customerId?: string | null
   projectId?: string | null
+  jobType?: string | null
+  jobCategory?: string | null
+  customerType?: string | null
+  scheduledStart?: Date | string | null
+  scheduledEnd?: Date | string | null
+  estimatedMinutes?: number | null
+  arrivalWindow?: string | null
+  billingAddress?: string | null
+  equipmentId?: string | null
+  createdById?: string | null
+  leadSource?: string | null
+  lat?: number | null
+  lng?: number | null
+  assignments?: Prisma.JobAssignmentUncheckedCreateNestedManyWithoutAppointmentInput
+  events?: Prisma.JobEventUncheckedCreateNestedManyWithoutAppointmentInput
+  maintenanceVisit?: Prisma.MaintenanceVisitUncheckedCreateNestedOneWithoutAppointmentInput
   invoice?: Prisma.InvoiceUncheckedCreateNestedOneWithoutAppointmentInput
   notifications?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutAppointmentInput
   maintenanceLogs?: Prisma.MaintenanceLogUncheckedCreateNestedManyWithoutAppointmentInput
@@ -2982,6 +3726,7 @@ export type AppointmentUncheckedCreateWithoutDiagnosisFormInput = {
   checklist?: Prisma.ServiceChecklistUncheckedCreateNestedOneWithoutAppointmentInput
   timeLog?: Prisma.JobTimeLogUncheckedCreateNestedOneWithoutAppointmentInput
   parts?: Prisma.JobPartUncheckedCreateNestedManyWithoutAppointmentInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUncheckedCreateNestedManyWithoutAppointmentInput
 }
 
 export type AppointmentCreateOrConnectWithoutDiagnosisFormInput = {
@@ -3035,11 +3780,27 @@ export type AppointmentUpdateWithoutDiagnosisFormInput = {
   source?: Prisma.StringFieldUpdateOperationsInput | string
   confirmationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  jobType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobCategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  estimatedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  arrivalWindow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  equipmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leadSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  assignments?: Prisma.JobAssignmentUpdateManyWithoutAppointmentNestedInput
+  events?: Prisma.JobEventUpdateManyWithoutAppointmentNestedInput
   user?: Prisma.UserUpdateOneWithoutAppointmentsNestedInput
   technician?: Prisma.UserUpdateOneWithoutTechnicianAppointmentsNestedInput
   dispatcher?: Prisma.UserUpdateOneWithoutDispatchedAppointmentsNestedInput
   customer?: Prisma.CustomerUpdateOneWithoutAppointmentsNestedInput
   project?: Prisma.ProjectUpdateOneWithoutAppointmentsNestedInput
+  maintenanceVisit?: Prisma.MaintenanceVisitUpdateOneWithoutAppointmentNestedInput
   invoice?: Prisma.InvoiceUpdateOneWithoutAppointmentNestedInput
   notifications?: Prisma.NotificationLogUpdateManyWithoutAppointmentNestedInput
   maintenanceLogs?: Prisma.MaintenanceLogUpdateManyWithoutAppointmentNestedInput
@@ -3054,6 +3815,7 @@ export type AppointmentUpdateWithoutDiagnosisFormInput = {
   checklist?: Prisma.ServiceChecklistUpdateOneWithoutAppointmentNestedInput
   timeLog?: Prisma.JobTimeLogUpdateOneWithoutAppointmentNestedInput
   parts?: Prisma.JobPartUpdateManyWithoutAppointmentNestedInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUpdateManyWithoutAppointmentNestedInput
 }
 
 export type AppointmentUncheckedUpdateWithoutDiagnosisFormInput = {
@@ -3096,6 +3858,22 @@ export type AppointmentUncheckedUpdateWithoutDiagnosisFormInput = {
   confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   projectId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobCategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  estimatedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  arrivalWindow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  equipmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leadSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  assignments?: Prisma.JobAssignmentUncheckedUpdateManyWithoutAppointmentNestedInput
+  events?: Prisma.JobEventUncheckedUpdateManyWithoutAppointmentNestedInput
+  maintenanceVisit?: Prisma.MaintenanceVisitUncheckedUpdateOneWithoutAppointmentNestedInput
   invoice?: Prisma.InvoiceUncheckedUpdateOneWithoutAppointmentNestedInput
   notifications?: Prisma.NotificationLogUncheckedUpdateManyWithoutAppointmentNestedInput
   maintenanceLogs?: Prisma.MaintenanceLogUncheckedUpdateManyWithoutAppointmentNestedInput
@@ -3110,6 +3888,7 @@ export type AppointmentUncheckedUpdateWithoutDiagnosisFormInput = {
   checklist?: Prisma.ServiceChecklistUncheckedUpdateOneWithoutAppointmentNestedInput
   timeLog?: Prisma.JobTimeLogUncheckedUpdateOneWithoutAppointmentNestedInput
   parts?: Prisma.JobPartUncheckedUpdateManyWithoutAppointmentNestedInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUncheckedUpdateManyWithoutAppointmentNestedInput
 }
 
 export type AppointmentCreateWithoutServiceDiagnosticInput = {
@@ -3147,11 +3926,27 @@ export type AppointmentCreateWithoutServiceDiagnosticInput = {
   source?: string
   confirmationToken?: string | null
   confirmedAt?: Date | string | null
+  jobType?: string | null
+  jobCategory?: string | null
+  customerType?: string | null
+  scheduledStart?: Date | string | null
+  scheduledEnd?: Date | string | null
+  estimatedMinutes?: number | null
+  arrivalWindow?: string | null
+  billingAddress?: string | null
+  equipmentId?: string | null
+  createdById?: string | null
+  leadSource?: string | null
+  lat?: number | null
+  lng?: number | null
+  assignments?: Prisma.JobAssignmentCreateNestedManyWithoutAppointmentInput
+  events?: Prisma.JobEventCreateNestedManyWithoutAppointmentInput
   user?: Prisma.UserCreateNestedOneWithoutAppointmentsInput
   technician?: Prisma.UserCreateNestedOneWithoutTechnicianAppointmentsInput
   dispatcher?: Prisma.UserCreateNestedOneWithoutDispatchedAppointmentsInput
   customer?: Prisma.CustomerCreateNestedOneWithoutAppointmentsInput
   project?: Prisma.ProjectCreateNestedOneWithoutAppointmentsInput
+  maintenanceVisit?: Prisma.MaintenanceVisitCreateNestedOneWithoutAppointmentInput
   invoice?: Prisma.InvoiceCreateNestedOneWithoutAppointmentInput
   notifications?: Prisma.NotificationLogCreateNestedManyWithoutAppointmentInput
   maintenanceLogs?: Prisma.MaintenanceLogCreateNestedManyWithoutAppointmentInput
@@ -3166,6 +3961,7 @@ export type AppointmentCreateWithoutServiceDiagnosticInput = {
   checklist?: Prisma.ServiceChecklistCreateNestedOneWithoutAppointmentInput
   timeLog?: Prisma.JobTimeLogCreateNestedOneWithoutAppointmentInput
   parts?: Prisma.JobPartCreateNestedManyWithoutAppointmentInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionCreateNestedManyWithoutAppointmentInput
 }
 
 export type AppointmentUncheckedCreateWithoutServiceDiagnosticInput = {
@@ -3208,6 +4004,22 @@ export type AppointmentUncheckedCreateWithoutServiceDiagnosticInput = {
   confirmedAt?: Date | string | null
   customerId?: string | null
   projectId?: string | null
+  jobType?: string | null
+  jobCategory?: string | null
+  customerType?: string | null
+  scheduledStart?: Date | string | null
+  scheduledEnd?: Date | string | null
+  estimatedMinutes?: number | null
+  arrivalWindow?: string | null
+  billingAddress?: string | null
+  equipmentId?: string | null
+  createdById?: string | null
+  leadSource?: string | null
+  lat?: number | null
+  lng?: number | null
+  assignments?: Prisma.JobAssignmentUncheckedCreateNestedManyWithoutAppointmentInput
+  events?: Prisma.JobEventUncheckedCreateNestedManyWithoutAppointmentInput
+  maintenanceVisit?: Prisma.MaintenanceVisitUncheckedCreateNestedOneWithoutAppointmentInput
   invoice?: Prisma.InvoiceUncheckedCreateNestedOneWithoutAppointmentInput
   notifications?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutAppointmentInput
   maintenanceLogs?: Prisma.MaintenanceLogUncheckedCreateNestedManyWithoutAppointmentInput
@@ -3222,6 +4034,7 @@ export type AppointmentUncheckedCreateWithoutServiceDiagnosticInput = {
   checklist?: Prisma.ServiceChecklistUncheckedCreateNestedOneWithoutAppointmentInput
   timeLog?: Prisma.JobTimeLogUncheckedCreateNestedOneWithoutAppointmentInput
   parts?: Prisma.JobPartUncheckedCreateNestedManyWithoutAppointmentInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUncheckedCreateNestedManyWithoutAppointmentInput
 }
 
 export type AppointmentCreateOrConnectWithoutServiceDiagnosticInput = {
@@ -3275,11 +4088,27 @@ export type AppointmentUpdateWithoutServiceDiagnosticInput = {
   source?: Prisma.StringFieldUpdateOperationsInput | string
   confirmationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  jobType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobCategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  estimatedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  arrivalWindow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  equipmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leadSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  assignments?: Prisma.JobAssignmentUpdateManyWithoutAppointmentNestedInput
+  events?: Prisma.JobEventUpdateManyWithoutAppointmentNestedInput
   user?: Prisma.UserUpdateOneWithoutAppointmentsNestedInput
   technician?: Prisma.UserUpdateOneWithoutTechnicianAppointmentsNestedInput
   dispatcher?: Prisma.UserUpdateOneWithoutDispatchedAppointmentsNestedInput
   customer?: Prisma.CustomerUpdateOneWithoutAppointmentsNestedInput
   project?: Prisma.ProjectUpdateOneWithoutAppointmentsNestedInput
+  maintenanceVisit?: Prisma.MaintenanceVisitUpdateOneWithoutAppointmentNestedInput
   invoice?: Prisma.InvoiceUpdateOneWithoutAppointmentNestedInput
   notifications?: Prisma.NotificationLogUpdateManyWithoutAppointmentNestedInput
   maintenanceLogs?: Prisma.MaintenanceLogUpdateManyWithoutAppointmentNestedInput
@@ -3294,6 +4123,7 @@ export type AppointmentUpdateWithoutServiceDiagnosticInput = {
   checklist?: Prisma.ServiceChecklistUpdateOneWithoutAppointmentNestedInput
   timeLog?: Prisma.JobTimeLogUpdateOneWithoutAppointmentNestedInput
   parts?: Prisma.JobPartUpdateManyWithoutAppointmentNestedInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUpdateManyWithoutAppointmentNestedInput
 }
 
 export type AppointmentUncheckedUpdateWithoutServiceDiagnosticInput = {
@@ -3336,6 +4166,22 @@ export type AppointmentUncheckedUpdateWithoutServiceDiagnosticInput = {
   confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   projectId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobCategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  estimatedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  arrivalWindow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  equipmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leadSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  assignments?: Prisma.JobAssignmentUncheckedUpdateManyWithoutAppointmentNestedInput
+  events?: Prisma.JobEventUncheckedUpdateManyWithoutAppointmentNestedInput
+  maintenanceVisit?: Prisma.MaintenanceVisitUncheckedUpdateOneWithoutAppointmentNestedInput
   invoice?: Prisma.InvoiceUncheckedUpdateOneWithoutAppointmentNestedInput
   notifications?: Prisma.NotificationLogUncheckedUpdateManyWithoutAppointmentNestedInput
   maintenanceLogs?: Prisma.MaintenanceLogUncheckedUpdateManyWithoutAppointmentNestedInput
@@ -3350,6 +4196,7 @@ export type AppointmentUncheckedUpdateWithoutServiceDiagnosticInput = {
   checklist?: Prisma.ServiceChecklistUncheckedUpdateOneWithoutAppointmentNestedInput
   timeLog?: Prisma.JobTimeLogUncheckedUpdateOneWithoutAppointmentNestedInput
   parts?: Prisma.JobPartUncheckedUpdateManyWithoutAppointmentNestedInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUncheckedUpdateManyWithoutAppointmentNestedInput
 }
 
 export type AppointmentCreateWithoutSystemStartupInput = {
@@ -3387,11 +4234,27 @@ export type AppointmentCreateWithoutSystemStartupInput = {
   source?: string
   confirmationToken?: string | null
   confirmedAt?: Date | string | null
+  jobType?: string | null
+  jobCategory?: string | null
+  customerType?: string | null
+  scheduledStart?: Date | string | null
+  scheduledEnd?: Date | string | null
+  estimatedMinutes?: number | null
+  arrivalWindow?: string | null
+  billingAddress?: string | null
+  equipmentId?: string | null
+  createdById?: string | null
+  leadSource?: string | null
+  lat?: number | null
+  lng?: number | null
+  assignments?: Prisma.JobAssignmentCreateNestedManyWithoutAppointmentInput
+  events?: Prisma.JobEventCreateNestedManyWithoutAppointmentInput
   user?: Prisma.UserCreateNestedOneWithoutAppointmentsInput
   technician?: Prisma.UserCreateNestedOneWithoutTechnicianAppointmentsInput
   dispatcher?: Prisma.UserCreateNestedOneWithoutDispatchedAppointmentsInput
   customer?: Prisma.CustomerCreateNestedOneWithoutAppointmentsInput
   project?: Prisma.ProjectCreateNestedOneWithoutAppointmentsInput
+  maintenanceVisit?: Prisma.MaintenanceVisitCreateNestedOneWithoutAppointmentInput
   invoice?: Prisma.InvoiceCreateNestedOneWithoutAppointmentInput
   notifications?: Prisma.NotificationLogCreateNestedManyWithoutAppointmentInput
   maintenanceLogs?: Prisma.MaintenanceLogCreateNestedManyWithoutAppointmentInput
@@ -3406,6 +4269,7 @@ export type AppointmentCreateWithoutSystemStartupInput = {
   checklist?: Prisma.ServiceChecklistCreateNestedOneWithoutAppointmentInput
   timeLog?: Prisma.JobTimeLogCreateNestedOneWithoutAppointmentInput
   parts?: Prisma.JobPartCreateNestedManyWithoutAppointmentInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionCreateNestedManyWithoutAppointmentInput
 }
 
 export type AppointmentUncheckedCreateWithoutSystemStartupInput = {
@@ -3448,6 +4312,22 @@ export type AppointmentUncheckedCreateWithoutSystemStartupInput = {
   confirmedAt?: Date | string | null
   customerId?: string | null
   projectId?: string | null
+  jobType?: string | null
+  jobCategory?: string | null
+  customerType?: string | null
+  scheduledStart?: Date | string | null
+  scheduledEnd?: Date | string | null
+  estimatedMinutes?: number | null
+  arrivalWindow?: string | null
+  billingAddress?: string | null
+  equipmentId?: string | null
+  createdById?: string | null
+  leadSource?: string | null
+  lat?: number | null
+  lng?: number | null
+  assignments?: Prisma.JobAssignmentUncheckedCreateNestedManyWithoutAppointmentInput
+  events?: Prisma.JobEventUncheckedCreateNestedManyWithoutAppointmentInput
+  maintenanceVisit?: Prisma.MaintenanceVisitUncheckedCreateNestedOneWithoutAppointmentInput
   invoice?: Prisma.InvoiceUncheckedCreateNestedOneWithoutAppointmentInput
   notifications?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutAppointmentInput
   maintenanceLogs?: Prisma.MaintenanceLogUncheckedCreateNestedManyWithoutAppointmentInput
@@ -3462,6 +4342,7 @@ export type AppointmentUncheckedCreateWithoutSystemStartupInput = {
   checklist?: Prisma.ServiceChecklistUncheckedCreateNestedOneWithoutAppointmentInput
   timeLog?: Prisma.JobTimeLogUncheckedCreateNestedOneWithoutAppointmentInput
   parts?: Prisma.JobPartUncheckedCreateNestedManyWithoutAppointmentInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUncheckedCreateNestedManyWithoutAppointmentInput
 }
 
 export type AppointmentCreateOrConnectWithoutSystemStartupInput = {
@@ -3515,11 +4396,27 @@ export type AppointmentUpdateWithoutSystemStartupInput = {
   source?: Prisma.StringFieldUpdateOperationsInput | string
   confirmationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  jobType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobCategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  estimatedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  arrivalWindow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  equipmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leadSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  assignments?: Prisma.JobAssignmentUpdateManyWithoutAppointmentNestedInput
+  events?: Prisma.JobEventUpdateManyWithoutAppointmentNestedInput
   user?: Prisma.UserUpdateOneWithoutAppointmentsNestedInput
   technician?: Prisma.UserUpdateOneWithoutTechnicianAppointmentsNestedInput
   dispatcher?: Prisma.UserUpdateOneWithoutDispatchedAppointmentsNestedInput
   customer?: Prisma.CustomerUpdateOneWithoutAppointmentsNestedInput
   project?: Prisma.ProjectUpdateOneWithoutAppointmentsNestedInput
+  maintenanceVisit?: Prisma.MaintenanceVisitUpdateOneWithoutAppointmentNestedInput
   invoice?: Prisma.InvoiceUpdateOneWithoutAppointmentNestedInput
   notifications?: Prisma.NotificationLogUpdateManyWithoutAppointmentNestedInput
   maintenanceLogs?: Prisma.MaintenanceLogUpdateManyWithoutAppointmentNestedInput
@@ -3534,6 +4431,7 @@ export type AppointmentUpdateWithoutSystemStartupInput = {
   checklist?: Prisma.ServiceChecklistUpdateOneWithoutAppointmentNestedInput
   timeLog?: Prisma.JobTimeLogUpdateOneWithoutAppointmentNestedInput
   parts?: Prisma.JobPartUpdateManyWithoutAppointmentNestedInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUpdateManyWithoutAppointmentNestedInput
 }
 
 export type AppointmentUncheckedUpdateWithoutSystemStartupInput = {
@@ -3576,6 +4474,22 @@ export type AppointmentUncheckedUpdateWithoutSystemStartupInput = {
   confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   projectId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobCategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  estimatedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  arrivalWindow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  equipmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leadSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  assignments?: Prisma.JobAssignmentUncheckedUpdateManyWithoutAppointmentNestedInput
+  events?: Prisma.JobEventUncheckedUpdateManyWithoutAppointmentNestedInput
+  maintenanceVisit?: Prisma.MaintenanceVisitUncheckedUpdateOneWithoutAppointmentNestedInput
   invoice?: Prisma.InvoiceUncheckedUpdateOneWithoutAppointmentNestedInput
   notifications?: Prisma.NotificationLogUncheckedUpdateManyWithoutAppointmentNestedInput
   maintenanceLogs?: Prisma.MaintenanceLogUncheckedUpdateManyWithoutAppointmentNestedInput
@@ -3590,6 +4504,7 @@ export type AppointmentUncheckedUpdateWithoutSystemStartupInput = {
   checklist?: Prisma.ServiceChecklistUncheckedUpdateOneWithoutAppointmentNestedInput
   timeLog?: Prisma.JobTimeLogUncheckedUpdateOneWithoutAppointmentNestedInput
   parts?: Prisma.JobPartUncheckedUpdateManyWithoutAppointmentNestedInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUncheckedUpdateManyWithoutAppointmentNestedInput
 }
 
 export type AppointmentCreateWithoutVentCleaningInput = {
@@ -3627,11 +4542,27 @@ export type AppointmentCreateWithoutVentCleaningInput = {
   source?: string
   confirmationToken?: string | null
   confirmedAt?: Date | string | null
+  jobType?: string | null
+  jobCategory?: string | null
+  customerType?: string | null
+  scheduledStart?: Date | string | null
+  scheduledEnd?: Date | string | null
+  estimatedMinutes?: number | null
+  arrivalWindow?: string | null
+  billingAddress?: string | null
+  equipmentId?: string | null
+  createdById?: string | null
+  leadSource?: string | null
+  lat?: number | null
+  lng?: number | null
+  assignments?: Prisma.JobAssignmentCreateNestedManyWithoutAppointmentInput
+  events?: Prisma.JobEventCreateNestedManyWithoutAppointmentInput
   user?: Prisma.UserCreateNestedOneWithoutAppointmentsInput
   technician?: Prisma.UserCreateNestedOneWithoutTechnicianAppointmentsInput
   dispatcher?: Prisma.UserCreateNestedOneWithoutDispatchedAppointmentsInput
   customer?: Prisma.CustomerCreateNestedOneWithoutAppointmentsInput
   project?: Prisma.ProjectCreateNestedOneWithoutAppointmentsInput
+  maintenanceVisit?: Prisma.MaintenanceVisitCreateNestedOneWithoutAppointmentInput
   invoice?: Prisma.InvoiceCreateNestedOneWithoutAppointmentInput
   notifications?: Prisma.NotificationLogCreateNestedManyWithoutAppointmentInput
   maintenanceLogs?: Prisma.MaintenanceLogCreateNestedManyWithoutAppointmentInput
@@ -3646,6 +4577,7 @@ export type AppointmentCreateWithoutVentCleaningInput = {
   checklist?: Prisma.ServiceChecklistCreateNestedOneWithoutAppointmentInput
   timeLog?: Prisma.JobTimeLogCreateNestedOneWithoutAppointmentInput
   parts?: Prisma.JobPartCreateNestedManyWithoutAppointmentInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionCreateNestedManyWithoutAppointmentInput
 }
 
 export type AppointmentUncheckedCreateWithoutVentCleaningInput = {
@@ -3688,6 +4620,22 @@ export type AppointmentUncheckedCreateWithoutVentCleaningInput = {
   confirmedAt?: Date | string | null
   customerId?: string | null
   projectId?: string | null
+  jobType?: string | null
+  jobCategory?: string | null
+  customerType?: string | null
+  scheduledStart?: Date | string | null
+  scheduledEnd?: Date | string | null
+  estimatedMinutes?: number | null
+  arrivalWindow?: string | null
+  billingAddress?: string | null
+  equipmentId?: string | null
+  createdById?: string | null
+  leadSource?: string | null
+  lat?: number | null
+  lng?: number | null
+  assignments?: Prisma.JobAssignmentUncheckedCreateNestedManyWithoutAppointmentInput
+  events?: Prisma.JobEventUncheckedCreateNestedManyWithoutAppointmentInput
+  maintenanceVisit?: Prisma.MaintenanceVisitUncheckedCreateNestedOneWithoutAppointmentInput
   invoice?: Prisma.InvoiceUncheckedCreateNestedOneWithoutAppointmentInput
   notifications?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutAppointmentInput
   maintenanceLogs?: Prisma.MaintenanceLogUncheckedCreateNestedManyWithoutAppointmentInput
@@ -3702,6 +4650,7 @@ export type AppointmentUncheckedCreateWithoutVentCleaningInput = {
   checklist?: Prisma.ServiceChecklistUncheckedCreateNestedOneWithoutAppointmentInput
   timeLog?: Prisma.JobTimeLogUncheckedCreateNestedOneWithoutAppointmentInput
   parts?: Prisma.JobPartUncheckedCreateNestedManyWithoutAppointmentInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUncheckedCreateNestedManyWithoutAppointmentInput
 }
 
 export type AppointmentCreateOrConnectWithoutVentCleaningInput = {
@@ -3755,11 +4704,27 @@ export type AppointmentUpdateWithoutVentCleaningInput = {
   source?: Prisma.StringFieldUpdateOperationsInput | string
   confirmationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  jobType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobCategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  estimatedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  arrivalWindow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  equipmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leadSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  assignments?: Prisma.JobAssignmentUpdateManyWithoutAppointmentNestedInput
+  events?: Prisma.JobEventUpdateManyWithoutAppointmentNestedInput
   user?: Prisma.UserUpdateOneWithoutAppointmentsNestedInput
   technician?: Prisma.UserUpdateOneWithoutTechnicianAppointmentsNestedInput
   dispatcher?: Prisma.UserUpdateOneWithoutDispatchedAppointmentsNestedInput
   customer?: Prisma.CustomerUpdateOneWithoutAppointmentsNestedInput
   project?: Prisma.ProjectUpdateOneWithoutAppointmentsNestedInput
+  maintenanceVisit?: Prisma.MaintenanceVisitUpdateOneWithoutAppointmentNestedInput
   invoice?: Prisma.InvoiceUpdateOneWithoutAppointmentNestedInput
   notifications?: Prisma.NotificationLogUpdateManyWithoutAppointmentNestedInput
   maintenanceLogs?: Prisma.MaintenanceLogUpdateManyWithoutAppointmentNestedInput
@@ -3774,6 +4739,7 @@ export type AppointmentUpdateWithoutVentCleaningInput = {
   checklist?: Prisma.ServiceChecklistUpdateOneWithoutAppointmentNestedInput
   timeLog?: Prisma.JobTimeLogUpdateOneWithoutAppointmentNestedInput
   parts?: Prisma.JobPartUpdateManyWithoutAppointmentNestedInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUpdateManyWithoutAppointmentNestedInput
 }
 
 export type AppointmentUncheckedUpdateWithoutVentCleaningInput = {
@@ -3816,6 +4782,22 @@ export type AppointmentUncheckedUpdateWithoutVentCleaningInput = {
   confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   projectId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobCategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  estimatedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  arrivalWindow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  equipmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leadSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  assignments?: Prisma.JobAssignmentUncheckedUpdateManyWithoutAppointmentNestedInput
+  events?: Prisma.JobEventUncheckedUpdateManyWithoutAppointmentNestedInput
+  maintenanceVisit?: Prisma.MaintenanceVisitUncheckedUpdateOneWithoutAppointmentNestedInput
   invoice?: Prisma.InvoiceUncheckedUpdateOneWithoutAppointmentNestedInput
   notifications?: Prisma.NotificationLogUncheckedUpdateManyWithoutAppointmentNestedInput
   maintenanceLogs?: Prisma.MaintenanceLogUncheckedUpdateManyWithoutAppointmentNestedInput
@@ -3830,6 +4812,7 @@ export type AppointmentUncheckedUpdateWithoutVentCleaningInput = {
   checklist?: Prisma.ServiceChecklistUncheckedUpdateOneWithoutAppointmentNestedInput
   timeLog?: Prisma.JobTimeLogUncheckedUpdateOneWithoutAppointmentNestedInput
   parts?: Prisma.JobPartUncheckedUpdateManyWithoutAppointmentNestedInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUncheckedUpdateManyWithoutAppointmentNestedInput
 }
 
 export type AppointmentCreateWithoutDuctCleaningInput = {
@@ -3867,11 +4850,27 @@ export type AppointmentCreateWithoutDuctCleaningInput = {
   source?: string
   confirmationToken?: string | null
   confirmedAt?: Date | string | null
+  jobType?: string | null
+  jobCategory?: string | null
+  customerType?: string | null
+  scheduledStart?: Date | string | null
+  scheduledEnd?: Date | string | null
+  estimatedMinutes?: number | null
+  arrivalWindow?: string | null
+  billingAddress?: string | null
+  equipmentId?: string | null
+  createdById?: string | null
+  leadSource?: string | null
+  lat?: number | null
+  lng?: number | null
+  assignments?: Prisma.JobAssignmentCreateNestedManyWithoutAppointmentInput
+  events?: Prisma.JobEventCreateNestedManyWithoutAppointmentInput
   user?: Prisma.UserCreateNestedOneWithoutAppointmentsInput
   technician?: Prisma.UserCreateNestedOneWithoutTechnicianAppointmentsInput
   dispatcher?: Prisma.UserCreateNestedOneWithoutDispatchedAppointmentsInput
   customer?: Prisma.CustomerCreateNestedOneWithoutAppointmentsInput
   project?: Prisma.ProjectCreateNestedOneWithoutAppointmentsInput
+  maintenanceVisit?: Prisma.MaintenanceVisitCreateNestedOneWithoutAppointmentInput
   invoice?: Prisma.InvoiceCreateNestedOneWithoutAppointmentInput
   notifications?: Prisma.NotificationLogCreateNestedManyWithoutAppointmentInput
   maintenanceLogs?: Prisma.MaintenanceLogCreateNestedManyWithoutAppointmentInput
@@ -3886,6 +4885,7 @@ export type AppointmentCreateWithoutDuctCleaningInput = {
   checklist?: Prisma.ServiceChecklistCreateNestedOneWithoutAppointmentInput
   timeLog?: Prisma.JobTimeLogCreateNestedOneWithoutAppointmentInput
   parts?: Prisma.JobPartCreateNestedManyWithoutAppointmentInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionCreateNestedManyWithoutAppointmentInput
 }
 
 export type AppointmentUncheckedCreateWithoutDuctCleaningInput = {
@@ -3928,6 +4928,22 @@ export type AppointmentUncheckedCreateWithoutDuctCleaningInput = {
   confirmedAt?: Date | string | null
   customerId?: string | null
   projectId?: string | null
+  jobType?: string | null
+  jobCategory?: string | null
+  customerType?: string | null
+  scheduledStart?: Date | string | null
+  scheduledEnd?: Date | string | null
+  estimatedMinutes?: number | null
+  arrivalWindow?: string | null
+  billingAddress?: string | null
+  equipmentId?: string | null
+  createdById?: string | null
+  leadSource?: string | null
+  lat?: number | null
+  lng?: number | null
+  assignments?: Prisma.JobAssignmentUncheckedCreateNestedManyWithoutAppointmentInput
+  events?: Prisma.JobEventUncheckedCreateNestedManyWithoutAppointmentInput
+  maintenanceVisit?: Prisma.MaintenanceVisitUncheckedCreateNestedOneWithoutAppointmentInput
   invoice?: Prisma.InvoiceUncheckedCreateNestedOneWithoutAppointmentInput
   notifications?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutAppointmentInput
   maintenanceLogs?: Prisma.MaintenanceLogUncheckedCreateNestedManyWithoutAppointmentInput
@@ -3942,6 +4958,7 @@ export type AppointmentUncheckedCreateWithoutDuctCleaningInput = {
   checklist?: Prisma.ServiceChecklistUncheckedCreateNestedOneWithoutAppointmentInput
   timeLog?: Prisma.JobTimeLogUncheckedCreateNestedOneWithoutAppointmentInput
   parts?: Prisma.JobPartUncheckedCreateNestedManyWithoutAppointmentInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUncheckedCreateNestedManyWithoutAppointmentInput
 }
 
 export type AppointmentCreateOrConnectWithoutDuctCleaningInput = {
@@ -3995,11 +5012,27 @@ export type AppointmentUpdateWithoutDuctCleaningInput = {
   source?: Prisma.StringFieldUpdateOperationsInput | string
   confirmationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  jobType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobCategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  estimatedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  arrivalWindow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  equipmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leadSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  assignments?: Prisma.JobAssignmentUpdateManyWithoutAppointmentNestedInput
+  events?: Prisma.JobEventUpdateManyWithoutAppointmentNestedInput
   user?: Prisma.UserUpdateOneWithoutAppointmentsNestedInput
   technician?: Prisma.UserUpdateOneWithoutTechnicianAppointmentsNestedInput
   dispatcher?: Prisma.UserUpdateOneWithoutDispatchedAppointmentsNestedInput
   customer?: Prisma.CustomerUpdateOneWithoutAppointmentsNestedInput
   project?: Prisma.ProjectUpdateOneWithoutAppointmentsNestedInput
+  maintenanceVisit?: Prisma.MaintenanceVisitUpdateOneWithoutAppointmentNestedInput
   invoice?: Prisma.InvoiceUpdateOneWithoutAppointmentNestedInput
   notifications?: Prisma.NotificationLogUpdateManyWithoutAppointmentNestedInput
   maintenanceLogs?: Prisma.MaintenanceLogUpdateManyWithoutAppointmentNestedInput
@@ -4014,6 +5047,7 @@ export type AppointmentUpdateWithoutDuctCleaningInput = {
   checklist?: Prisma.ServiceChecklistUpdateOneWithoutAppointmentNestedInput
   timeLog?: Prisma.JobTimeLogUpdateOneWithoutAppointmentNestedInput
   parts?: Prisma.JobPartUpdateManyWithoutAppointmentNestedInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUpdateManyWithoutAppointmentNestedInput
 }
 
 export type AppointmentUncheckedUpdateWithoutDuctCleaningInput = {
@@ -4056,6 +5090,22 @@ export type AppointmentUncheckedUpdateWithoutDuctCleaningInput = {
   confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   projectId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobCategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  estimatedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  arrivalWindow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  equipmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leadSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  assignments?: Prisma.JobAssignmentUncheckedUpdateManyWithoutAppointmentNestedInput
+  events?: Prisma.JobEventUncheckedUpdateManyWithoutAppointmentNestedInput
+  maintenanceVisit?: Prisma.MaintenanceVisitUncheckedUpdateOneWithoutAppointmentNestedInput
   invoice?: Prisma.InvoiceUncheckedUpdateOneWithoutAppointmentNestedInput
   notifications?: Prisma.NotificationLogUncheckedUpdateManyWithoutAppointmentNestedInput
   maintenanceLogs?: Prisma.MaintenanceLogUncheckedUpdateManyWithoutAppointmentNestedInput
@@ -4070,6 +5120,7 @@ export type AppointmentUncheckedUpdateWithoutDuctCleaningInput = {
   checklist?: Prisma.ServiceChecklistUncheckedUpdateOneWithoutAppointmentNestedInput
   timeLog?: Prisma.JobTimeLogUncheckedUpdateOneWithoutAppointmentNestedInput
   parts?: Prisma.JobPartUncheckedUpdateManyWithoutAppointmentNestedInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUncheckedUpdateManyWithoutAppointmentNestedInput
 }
 
 export type AppointmentCreateWithoutJobPhotosInput = {
@@ -4107,11 +5158,27 @@ export type AppointmentCreateWithoutJobPhotosInput = {
   source?: string
   confirmationToken?: string | null
   confirmedAt?: Date | string | null
+  jobType?: string | null
+  jobCategory?: string | null
+  customerType?: string | null
+  scheduledStart?: Date | string | null
+  scheduledEnd?: Date | string | null
+  estimatedMinutes?: number | null
+  arrivalWindow?: string | null
+  billingAddress?: string | null
+  equipmentId?: string | null
+  createdById?: string | null
+  leadSource?: string | null
+  lat?: number | null
+  lng?: number | null
+  assignments?: Prisma.JobAssignmentCreateNestedManyWithoutAppointmentInput
+  events?: Prisma.JobEventCreateNestedManyWithoutAppointmentInput
   user?: Prisma.UserCreateNestedOneWithoutAppointmentsInput
   technician?: Prisma.UserCreateNestedOneWithoutTechnicianAppointmentsInput
   dispatcher?: Prisma.UserCreateNestedOneWithoutDispatchedAppointmentsInput
   customer?: Prisma.CustomerCreateNestedOneWithoutAppointmentsInput
   project?: Prisma.ProjectCreateNestedOneWithoutAppointmentsInput
+  maintenanceVisit?: Prisma.MaintenanceVisitCreateNestedOneWithoutAppointmentInput
   invoice?: Prisma.InvoiceCreateNestedOneWithoutAppointmentInput
   notifications?: Prisma.NotificationLogCreateNestedManyWithoutAppointmentInput
   maintenanceLogs?: Prisma.MaintenanceLogCreateNestedManyWithoutAppointmentInput
@@ -4126,6 +5193,7 @@ export type AppointmentCreateWithoutJobPhotosInput = {
   checklist?: Prisma.ServiceChecklistCreateNestedOneWithoutAppointmentInput
   timeLog?: Prisma.JobTimeLogCreateNestedOneWithoutAppointmentInput
   parts?: Prisma.JobPartCreateNestedManyWithoutAppointmentInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionCreateNestedManyWithoutAppointmentInput
 }
 
 export type AppointmentUncheckedCreateWithoutJobPhotosInput = {
@@ -4168,6 +5236,22 @@ export type AppointmentUncheckedCreateWithoutJobPhotosInput = {
   confirmedAt?: Date | string | null
   customerId?: string | null
   projectId?: string | null
+  jobType?: string | null
+  jobCategory?: string | null
+  customerType?: string | null
+  scheduledStart?: Date | string | null
+  scheduledEnd?: Date | string | null
+  estimatedMinutes?: number | null
+  arrivalWindow?: string | null
+  billingAddress?: string | null
+  equipmentId?: string | null
+  createdById?: string | null
+  leadSource?: string | null
+  lat?: number | null
+  lng?: number | null
+  assignments?: Prisma.JobAssignmentUncheckedCreateNestedManyWithoutAppointmentInput
+  events?: Prisma.JobEventUncheckedCreateNestedManyWithoutAppointmentInput
+  maintenanceVisit?: Prisma.MaintenanceVisitUncheckedCreateNestedOneWithoutAppointmentInput
   invoice?: Prisma.InvoiceUncheckedCreateNestedOneWithoutAppointmentInput
   notifications?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutAppointmentInput
   maintenanceLogs?: Prisma.MaintenanceLogUncheckedCreateNestedManyWithoutAppointmentInput
@@ -4182,6 +5266,7 @@ export type AppointmentUncheckedCreateWithoutJobPhotosInput = {
   checklist?: Prisma.ServiceChecklistUncheckedCreateNestedOneWithoutAppointmentInput
   timeLog?: Prisma.JobTimeLogUncheckedCreateNestedOneWithoutAppointmentInput
   parts?: Prisma.JobPartUncheckedCreateNestedManyWithoutAppointmentInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUncheckedCreateNestedManyWithoutAppointmentInput
 }
 
 export type AppointmentCreateOrConnectWithoutJobPhotosInput = {
@@ -4235,11 +5320,27 @@ export type AppointmentUpdateWithoutJobPhotosInput = {
   source?: Prisma.StringFieldUpdateOperationsInput | string
   confirmationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  jobType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobCategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  estimatedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  arrivalWindow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  equipmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leadSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  assignments?: Prisma.JobAssignmentUpdateManyWithoutAppointmentNestedInput
+  events?: Prisma.JobEventUpdateManyWithoutAppointmentNestedInput
   user?: Prisma.UserUpdateOneWithoutAppointmentsNestedInput
   technician?: Prisma.UserUpdateOneWithoutTechnicianAppointmentsNestedInput
   dispatcher?: Prisma.UserUpdateOneWithoutDispatchedAppointmentsNestedInput
   customer?: Prisma.CustomerUpdateOneWithoutAppointmentsNestedInput
   project?: Prisma.ProjectUpdateOneWithoutAppointmentsNestedInput
+  maintenanceVisit?: Prisma.MaintenanceVisitUpdateOneWithoutAppointmentNestedInput
   invoice?: Prisma.InvoiceUpdateOneWithoutAppointmentNestedInput
   notifications?: Prisma.NotificationLogUpdateManyWithoutAppointmentNestedInput
   maintenanceLogs?: Prisma.MaintenanceLogUpdateManyWithoutAppointmentNestedInput
@@ -4254,6 +5355,7 @@ export type AppointmentUpdateWithoutJobPhotosInput = {
   checklist?: Prisma.ServiceChecklistUpdateOneWithoutAppointmentNestedInput
   timeLog?: Prisma.JobTimeLogUpdateOneWithoutAppointmentNestedInput
   parts?: Prisma.JobPartUpdateManyWithoutAppointmentNestedInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUpdateManyWithoutAppointmentNestedInput
 }
 
 export type AppointmentUncheckedUpdateWithoutJobPhotosInput = {
@@ -4296,6 +5398,22 @@ export type AppointmentUncheckedUpdateWithoutJobPhotosInput = {
   confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   projectId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobCategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  estimatedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  arrivalWindow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  equipmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leadSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  assignments?: Prisma.JobAssignmentUncheckedUpdateManyWithoutAppointmentNestedInput
+  events?: Prisma.JobEventUncheckedUpdateManyWithoutAppointmentNestedInput
+  maintenanceVisit?: Prisma.MaintenanceVisitUncheckedUpdateOneWithoutAppointmentNestedInput
   invoice?: Prisma.InvoiceUncheckedUpdateOneWithoutAppointmentNestedInput
   notifications?: Prisma.NotificationLogUncheckedUpdateManyWithoutAppointmentNestedInput
   maintenanceLogs?: Prisma.MaintenanceLogUncheckedUpdateManyWithoutAppointmentNestedInput
@@ -4310,6 +5428,7 @@ export type AppointmentUncheckedUpdateWithoutJobPhotosInput = {
   checklist?: Prisma.ServiceChecklistUncheckedUpdateOneWithoutAppointmentNestedInput
   timeLog?: Prisma.JobTimeLogUncheckedUpdateOneWithoutAppointmentNestedInput
   parts?: Prisma.JobPartUncheckedUpdateManyWithoutAppointmentNestedInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUncheckedUpdateManyWithoutAppointmentNestedInput
 }
 
 export type AppointmentCreateWithoutPaymentsInput = {
@@ -4347,11 +5466,27 @@ export type AppointmentCreateWithoutPaymentsInput = {
   source?: string
   confirmationToken?: string | null
   confirmedAt?: Date | string | null
+  jobType?: string | null
+  jobCategory?: string | null
+  customerType?: string | null
+  scheduledStart?: Date | string | null
+  scheduledEnd?: Date | string | null
+  estimatedMinutes?: number | null
+  arrivalWindow?: string | null
+  billingAddress?: string | null
+  equipmentId?: string | null
+  createdById?: string | null
+  leadSource?: string | null
+  lat?: number | null
+  lng?: number | null
+  assignments?: Prisma.JobAssignmentCreateNestedManyWithoutAppointmentInput
+  events?: Prisma.JobEventCreateNestedManyWithoutAppointmentInput
   user?: Prisma.UserCreateNestedOneWithoutAppointmentsInput
   technician?: Prisma.UserCreateNestedOneWithoutTechnicianAppointmentsInput
   dispatcher?: Prisma.UserCreateNestedOneWithoutDispatchedAppointmentsInput
   customer?: Prisma.CustomerCreateNestedOneWithoutAppointmentsInput
   project?: Prisma.ProjectCreateNestedOneWithoutAppointmentsInput
+  maintenanceVisit?: Prisma.MaintenanceVisitCreateNestedOneWithoutAppointmentInput
   invoice?: Prisma.InvoiceCreateNestedOneWithoutAppointmentInput
   notifications?: Prisma.NotificationLogCreateNestedManyWithoutAppointmentInput
   maintenanceLogs?: Prisma.MaintenanceLogCreateNestedManyWithoutAppointmentInput
@@ -4366,6 +5501,7 @@ export type AppointmentCreateWithoutPaymentsInput = {
   checklist?: Prisma.ServiceChecklistCreateNestedOneWithoutAppointmentInput
   timeLog?: Prisma.JobTimeLogCreateNestedOneWithoutAppointmentInput
   parts?: Prisma.JobPartCreateNestedManyWithoutAppointmentInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionCreateNestedManyWithoutAppointmentInput
 }
 
 export type AppointmentUncheckedCreateWithoutPaymentsInput = {
@@ -4408,6 +5544,22 @@ export type AppointmentUncheckedCreateWithoutPaymentsInput = {
   confirmedAt?: Date | string | null
   customerId?: string | null
   projectId?: string | null
+  jobType?: string | null
+  jobCategory?: string | null
+  customerType?: string | null
+  scheduledStart?: Date | string | null
+  scheduledEnd?: Date | string | null
+  estimatedMinutes?: number | null
+  arrivalWindow?: string | null
+  billingAddress?: string | null
+  equipmentId?: string | null
+  createdById?: string | null
+  leadSource?: string | null
+  lat?: number | null
+  lng?: number | null
+  assignments?: Prisma.JobAssignmentUncheckedCreateNestedManyWithoutAppointmentInput
+  events?: Prisma.JobEventUncheckedCreateNestedManyWithoutAppointmentInput
+  maintenanceVisit?: Prisma.MaintenanceVisitUncheckedCreateNestedOneWithoutAppointmentInput
   invoice?: Prisma.InvoiceUncheckedCreateNestedOneWithoutAppointmentInput
   notifications?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutAppointmentInput
   maintenanceLogs?: Prisma.MaintenanceLogUncheckedCreateNestedManyWithoutAppointmentInput
@@ -4422,6 +5574,7 @@ export type AppointmentUncheckedCreateWithoutPaymentsInput = {
   checklist?: Prisma.ServiceChecklistUncheckedCreateNestedOneWithoutAppointmentInput
   timeLog?: Prisma.JobTimeLogUncheckedCreateNestedOneWithoutAppointmentInput
   parts?: Prisma.JobPartUncheckedCreateNestedManyWithoutAppointmentInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUncheckedCreateNestedManyWithoutAppointmentInput
 }
 
 export type AppointmentCreateOrConnectWithoutPaymentsInput = {
@@ -4475,11 +5628,27 @@ export type AppointmentUpdateWithoutPaymentsInput = {
   source?: Prisma.StringFieldUpdateOperationsInput | string
   confirmationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  jobType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobCategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  estimatedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  arrivalWindow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  equipmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leadSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  assignments?: Prisma.JobAssignmentUpdateManyWithoutAppointmentNestedInput
+  events?: Prisma.JobEventUpdateManyWithoutAppointmentNestedInput
   user?: Prisma.UserUpdateOneWithoutAppointmentsNestedInput
   technician?: Prisma.UserUpdateOneWithoutTechnicianAppointmentsNestedInput
   dispatcher?: Prisma.UserUpdateOneWithoutDispatchedAppointmentsNestedInput
   customer?: Prisma.CustomerUpdateOneWithoutAppointmentsNestedInput
   project?: Prisma.ProjectUpdateOneWithoutAppointmentsNestedInput
+  maintenanceVisit?: Prisma.MaintenanceVisitUpdateOneWithoutAppointmentNestedInput
   invoice?: Prisma.InvoiceUpdateOneWithoutAppointmentNestedInput
   notifications?: Prisma.NotificationLogUpdateManyWithoutAppointmentNestedInput
   maintenanceLogs?: Prisma.MaintenanceLogUpdateManyWithoutAppointmentNestedInput
@@ -4494,6 +5663,7 @@ export type AppointmentUpdateWithoutPaymentsInput = {
   checklist?: Prisma.ServiceChecklistUpdateOneWithoutAppointmentNestedInput
   timeLog?: Prisma.JobTimeLogUpdateOneWithoutAppointmentNestedInput
   parts?: Prisma.JobPartUpdateManyWithoutAppointmentNestedInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUpdateManyWithoutAppointmentNestedInput
 }
 
 export type AppointmentUncheckedUpdateWithoutPaymentsInput = {
@@ -4536,6 +5706,22 @@ export type AppointmentUncheckedUpdateWithoutPaymentsInput = {
   confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   projectId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobCategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  estimatedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  arrivalWindow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  equipmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leadSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  assignments?: Prisma.JobAssignmentUncheckedUpdateManyWithoutAppointmentNestedInput
+  events?: Prisma.JobEventUncheckedUpdateManyWithoutAppointmentNestedInput
+  maintenanceVisit?: Prisma.MaintenanceVisitUncheckedUpdateOneWithoutAppointmentNestedInput
   invoice?: Prisma.InvoiceUncheckedUpdateOneWithoutAppointmentNestedInput
   notifications?: Prisma.NotificationLogUncheckedUpdateManyWithoutAppointmentNestedInput
   maintenanceLogs?: Prisma.MaintenanceLogUncheckedUpdateManyWithoutAppointmentNestedInput
@@ -4550,6 +5736,7 @@ export type AppointmentUncheckedUpdateWithoutPaymentsInput = {
   checklist?: Prisma.ServiceChecklistUncheckedUpdateOneWithoutAppointmentNestedInput
   timeLog?: Prisma.JobTimeLogUncheckedUpdateOneWithoutAppointmentNestedInput
   parts?: Prisma.JobPartUncheckedUpdateManyWithoutAppointmentNestedInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUncheckedUpdateManyWithoutAppointmentNestedInput
 }
 
 export type AppointmentCreateWithoutChecklistInput = {
@@ -4587,11 +5774,27 @@ export type AppointmentCreateWithoutChecklistInput = {
   source?: string
   confirmationToken?: string | null
   confirmedAt?: Date | string | null
+  jobType?: string | null
+  jobCategory?: string | null
+  customerType?: string | null
+  scheduledStart?: Date | string | null
+  scheduledEnd?: Date | string | null
+  estimatedMinutes?: number | null
+  arrivalWindow?: string | null
+  billingAddress?: string | null
+  equipmentId?: string | null
+  createdById?: string | null
+  leadSource?: string | null
+  lat?: number | null
+  lng?: number | null
+  assignments?: Prisma.JobAssignmentCreateNestedManyWithoutAppointmentInput
+  events?: Prisma.JobEventCreateNestedManyWithoutAppointmentInput
   user?: Prisma.UserCreateNestedOneWithoutAppointmentsInput
   technician?: Prisma.UserCreateNestedOneWithoutTechnicianAppointmentsInput
   dispatcher?: Prisma.UserCreateNestedOneWithoutDispatchedAppointmentsInput
   customer?: Prisma.CustomerCreateNestedOneWithoutAppointmentsInput
   project?: Prisma.ProjectCreateNestedOneWithoutAppointmentsInput
+  maintenanceVisit?: Prisma.MaintenanceVisitCreateNestedOneWithoutAppointmentInput
   invoice?: Prisma.InvoiceCreateNestedOneWithoutAppointmentInput
   notifications?: Prisma.NotificationLogCreateNestedManyWithoutAppointmentInput
   maintenanceLogs?: Prisma.MaintenanceLogCreateNestedManyWithoutAppointmentInput
@@ -4606,6 +5809,7 @@ export type AppointmentCreateWithoutChecklistInput = {
   payments?: Prisma.JobPaymentCreateNestedManyWithoutAppointmentInput
   timeLog?: Prisma.JobTimeLogCreateNestedOneWithoutAppointmentInput
   parts?: Prisma.JobPartCreateNestedManyWithoutAppointmentInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionCreateNestedManyWithoutAppointmentInput
 }
 
 export type AppointmentUncheckedCreateWithoutChecklistInput = {
@@ -4648,6 +5852,22 @@ export type AppointmentUncheckedCreateWithoutChecklistInput = {
   confirmedAt?: Date | string | null
   customerId?: string | null
   projectId?: string | null
+  jobType?: string | null
+  jobCategory?: string | null
+  customerType?: string | null
+  scheduledStart?: Date | string | null
+  scheduledEnd?: Date | string | null
+  estimatedMinutes?: number | null
+  arrivalWindow?: string | null
+  billingAddress?: string | null
+  equipmentId?: string | null
+  createdById?: string | null
+  leadSource?: string | null
+  lat?: number | null
+  lng?: number | null
+  assignments?: Prisma.JobAssignmentUncheckedCreateNestedManyWithoutAppointmentInput
+  events?: Prisma.JobEventUncheckedCreateNestedManyWithoutAppointmentInput
+  maintenanceVisit?: Prisma.MaintenanceVisitUncheckedCreateNestedOneWithoutAppointmentInput
   invoice?: Prisma.InvoiceUncheckedCreateNestedOneWithoutAppointmentInput
   notifications?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutAppointmentInput
   maintenanceLogs?: Prisma.MaintenanceLogUncheckedCreateNestedManyWithoutAppointmentInput
@@ -4662,6 +5882,7 @@ export type AppointmentUncheckedCreateWithoutChecklistInput = {
   payments?: Prisma.JobPaymentUncheckedCreateNestedManyWithoutAppointmentInput
   timeLog?: Prisma.JobTimeLogUncheckedCreateNestedOneWithoutAppointmentInput
   parts?: Prisma.JobPartUncheckedCreateNestedManyWithoutAppointmentInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUncheckedCreateNestedManyWithoutAppointmentInput
 }
 
 export type AppointmentCreateOrConnectWithoutChecklistInput = {
@@ -4715,11 +5936,27 @@ export type AppointmentUpdateWithoutChecklistInput = {
   source?: Prisma.StringFieldUpdateOperationsInput | string
   confirmationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  jobType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobCategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  estimatedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  arrivalWindow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  equipmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leadSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  assignments?: Prisma.JobAssignmentUpdateManyWithoutAppointmentNestedInput
+  events?: Prisma.JobEventUpdateManyWithoutAppointmentNestedInput
   user?: Prisma.UserUpdateOneWithoutAppointmentsNestedInput
   technician?: Prisma.UserUpdateOneWithoutTechnicianAppointmentsNestedInput
   dispatcher?: Prisma.UserUpdateOneWithoutDispatchedAppointmentsNestedInput
   customer?: Prisma.CustomerUpdateOneWithoutAppointmentsNestedInput
   project?: Prisma.ProjectUpdateOneWithoutAppointmentsNestedInput
+  maintenanceVisit?: Prisma.MaintenanceVisitUpdateOneWithoutAppointmentNestedInput
   invoice?: Prisma.InvoiceUpdateOneWithoutAppointmentNestedInput
   notifications?: Prisma.NotificationLogUpdateManyWithoutAppointmentNestedInput
   maintenanceLogs?: Prisma.MaintenanceLogUpdateManyWithoutAppointmentNestedInput
@@ -4734,6 +5971,7 @@ export type AppointmentUpdateWithoutChecklistInput = {
   payments?: Prisma.JobPaymentUpdateManyWithoutAppointmentNestedInput
   timeLog?: Prisma.JobTimeLogUpdateOneWithoutAppointmentNestedInput
   parts?: Prisma.JobPartUpdateManyWithoutAppointmentNestedInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUpdateManyWithoutAppointmentNestedInput
 }
 
 export type AppointmentUncheckedUpdateWithoutChecklistInput = {
@@ -4776,6 +6014,22 @@ export type AppointmentUncheckedUpdateWithoutChecklistInput = {
   confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   projectId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobCategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  estimatedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  arrivalWindow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  equipmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leadSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  assignments?: Prisma.JobAssignmentUncheckedUpdateManyWithoutAppointmentNestedInput
+  events?: Prisma.JobEventUncheckedUpdateManyWithoutAppointmentNestedInput
+  maintenanceVisit?: Prisma.MaintenanceVisitUncheckedUpdateOneWithoutAppointmentNestedInput
   invoice?: Prisma.InvoiceUncheckedUpdateOneWithoutAppointmentNestedInput
   notifications?: Prisma.NotificationLogUncheckedUpdateManyWithoutAppointmentNestedInput
   maintenanceLogs?: Prisma.MaintenanceLogUncheckedUpdateManyWithoutAppointmentNestedInput
@@ -4790,6 +6044,7 @@ export type AppointmentUncheckedUpdateWithoutChecklistInput = {
   payments?: Prisma.JobPaymentUncheckedUpdateManyWithoutAppointmentNestedInput
   timeLog?: Prisma.JobTimeLogUncheckedUpdateOneWithoutAppointmentNestedInput
   parts?: Prisma.JobPartUncheckedUpdateManyWithoutAppointmentNestedInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUncheckedUpdateManyWithoutAppointmentNestedInput
 }
 
 export type AppointmentCreateWithoutTimeLogInput = {
@@ -4827,11 +6082,27 @@ export type AppointmentCreateWithoutTimeLogInput = {
   source?: string
   confirmationToken?: string | null
   confirmedAt?: Date | string | null
+  jobType?: string | null
+  jobCategory?: string | null
+  customerType?: string | null
+  scheduledStart?: Date | string | null
+  scheduledEnd?: Date | string | null
+  estimatedMinutes?: number | null
+  arrivalWindow?: string | null
+  billingAddress?: string | null
+  equipmentId?: string | null
+  createdById?: string | null
+  leadSource?: string | null
+  lat?: number | null
+  lng?: number | null
+  assignments?: Prisma.JobAssignmentCreateNestedManyWithoutAppointmentInput
+  events?: Prisma.JobEventCreateNestedManyWithoutAppointmentInput
   user?: Prisma.UserCreateNestedOneWithoutAppointmentsInput
   technician?: Prisma.UserCreateNestedOneWithoutTechnicianAppointmentsInput
   dispatcher?: Prisma.UserCreateNestedOneWithoutDispatchedAppointmentsInput
   customer?: Prisma.CustomerCreateNestedOneWithoutAppointmentsInput
   project?: Prisma.ProjectCreateNestedOneWithoutAppointmentsInput
+  maintenanceVisit?: Prisma.MaintenanceVisitCreateNestedOneWithoutAppointmentInput
   invoice?: Prisma.InvoiceCreateNestedOneWithoutAppointmentInput
   notifications?: Prisma.NotificationLogCreateNestedManyWithoutAppointmentInput
   maintenanceLogs?: Prisma.MaintenanceLogCreateNestedManyWithoutAppointmentInput
@@ -4846,6 +6117,7 @@ export type AppointmentCreateWithoutTimeLogInput = {
   payments?: Prisma.JobPaymentCreateNestedManyWithoutAppointmentInput
   checklist?: Prisma.ServiceChecklistCreateNestedOneWithoutAppointmentInput
   parts?: Prisma.JobPartCreateNestedManyWithoutAppointmentInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionCreateNestedManyWithoutAppointmentInput
 }
 
 export type AppointmentUncheckedCreateWithoutTimeLogInput = {
@@ -4888,6 +6160,22 @@ export type AppointmentUncheckedCreateWithoutTimeLogInput = {
   confirmedAt?: Date | string | null
   customerId?: string | null
   projectId?: string | null
+  jobType?: string | null
+  jobCategory?: string | null
+  customerType?: string | null
+  scheduledStart?: Date | string | null
+  scheduledEnd?: Date | string | null
+  estimatedMinutes?: number | null
+  arrivalWindow?: string | null
+  billingAddress?: string | null
+  equipmentId?: string | null
+  createdById?: string | null
+  leadSource?: string | null
+  lat?: number | null
+  lng?: number | null
+  assignments?: Prisma.JobAssignmentUncheckedCreateNestedManyWithoutAppointmentInput
+  events?: Prisma.JobEventUncheckedCreateNestedManyWithoutAppointmentInput
+  maintenanceVisit?: Prisma.MaintenanceVisitUncheckedCreateNestedOneWithoutAppointmentInput
   invoice?: Prisma.InvoiceUncheckedCreateNestedOneWithoutAppointmentInput
   notifications?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutAppointmentInput
   maintenanceLogs?: Prisma.MaintenanceLogUncheckedCreateNestedManyWithoutAppointmentInput
@@ -4902,6 +6190,7 @@ export type AppointmentUncheckedCreateWithoutTimeLogInput = {
   payments?: Prisma.JobPaymentUncheckedCreateNestedManyWithoutAppointmentInput
   checklist?: Prisma.ServiceChecklistUncheckedCreateNestedOneWithoutAppointmentInput
   parts?: Prisma.JobPartUncheckedCreateNestedManyWithoutAppointmentInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUncheckedCreateNestedManyWithoutAppointmentInput
 }
 
 export type AppointmentCreateOrConnectWithoutTimeLogInput = {
@@ -4955,11 +6244,27 @@ export type AppointmentUpdateWithoutTimeLogInput = {
   source?: Prisma.StringFieldUpdateOperationsInput | string
   confirmationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  jobType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobCategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  estimatedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  arrivalWindow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  equipmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leadSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  assignments?: Prisma.JobAssignmentUpdateManyWithoutAppointmentNestedInput
+  events?: Prisma.JobEventUpdateManyWithoutAppointmentNestedInput
   user?: Prisma.UserUpdateOneWithoutAppointmentsNestedInput
   technician?: Prisma.UserUpdateOneWithoutTechnicianAppointmentsNestedInput
   dispatcher?: Prisma.UserUpdateOneWithoutDispatchedAppointmentsNestedInput
   customer?: Prisma.CustomerUpdateOneWithoutAppointmentsNestedInput
   project?: Prisma.ProjectUpdateOneWithoutAppointmentsNestedInput
+  maintenanceVisit?: Prisma.MaintenanceVisitUpdateOneWithoutAppointmentNestedInput
   invoice?: Prisma.InvoiceUpdateOneWithoutAppointmentNestedInput
   notifications?: Prisma.NotificationLogUpdateManyWithoutAppointmentNestedInput
   maintenanceLogs?: Prisma.MaintenanceLogUpdateManyWithoutAppointmentNestedInput
@@ -4974,6 +6279,7 @@ export type AppointmentUpdateWithoutTimeLogInput = {
   payments?: Prisma.JobPaymentUpdateManyWithoutAppointmentNestedInput
   checklist?: Prisma.ServiceChecklistUpdateOneWithoutAppointmentNestedInput
   parts?: Prisma.JobPartUpdateManyWithoutAppointmentNestedInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUpdateManyWithoutAppointmentNestedInput
 }
 
 export type AppointmentUncheckedUpdateWithoutTimeLogInput = {
@@ -5016,6 +6322,22 @@ export type AppointmentUncheckedUpdateWithoutTimeLogInput = {
   confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   projectId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobCategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  estimatedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  arrivalWindow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  equipmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leadSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  assignments?: Prisma.JobAssignmentUncheckedUpdateManyWithoutAppointmentNestedInput
+  events?: Prisma.JobEventUncheckedUpdateManyWithoutAppointmentNestedInput
+  maintenanceVisit?: Prisma.MaintenanceVisitUncheckedUpdateOneWithoutAppointmentNestedInput
   invoice?: Prisma.InvoiceUncheckedUpdateOneWithoutAppointmentNestedInput
   notifications?: Prisma.NotificationLogUncheckedUpdateManyWithoutAppointmentNestedInput
   maintenanceLogs?: Prisma.MaintenanceLogUncheckedUpdateManyWithoutAppointmentNestedInput
@@ -5030,6 +6352,7 @@ export type AppointmentUncheckedUpdateWithoutTimeLogInput = {
   payments?: Prisma.JobPaymentUncheckedUpdateManyWithoutAppointmentNestedInput
   checklist?: Prisma.ServiceChecklistUncheckedUpdateOneWithoutAppointmentNestedInput
   parts?: Prisma.JobPartUncheckedUpdateManyWithoutAppointmentNestedInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUncheckedUpdateManyWithoutAppointmentNestedInput
 }
 
 export type AppointmentCreateWithoutPartsInput = {
@@ -5067,11 +6390,27 @@ export type AppointmentCreateWithoutPartsInput = {
   source?: string
   confirmationToken?: string | null
   confirmedAt?: Date | string | null
+  jobType?: string | null
+  jobCategory?: string | null
+  customerType?: string | null
+  scheduledStart?: Date | string | null
+  scheduledEnd?: Date | string | null
+  estimatedMinutes?: number | null
+  arrivalWindow?: string | null
+  billingAddress?: string | null
+  equipmentId?: string | null
+  createdById?: string | null
+  leadSource?: string | null
+  lat?: number | null
+  lng?: number | null
+  assignments?: Prisma.JobAssignmentCreateNestedManyWithoutAppointmentInput
+  events?: Prisma.JobEventCreateNestedManyWithoutAppointmentInput
   user?: Prisma.UserCreateNestedOneWithoutAppointmentsInput
   technician?: Prisma.UserCreateNestedOneWithoutTechnicianAppointmentsInput
   dispatcher?: Prisma.UserCreateNestedOneWithoutDispatchedAppointmentsInput
   customer?: Prisma.CustomerCreateNestedOneWithoutAppointmentsInput
   project?: Prisma.ProjectCreateNestedOneWithoutAppointmentsInput
+  maintenanceVisit?: Prisma.MaintenanceVisitCreateNestedOneWithoutAppointmentInput
   invoice?: Prisma.InvoiceCreateNestedOneWithoutAppointmentInput
   notifications?: Prisma.NotificationLogCreateNestedManyWithoutAppointmentInput
   maintenanceLogs?: Prisma.MaintenanceLogCreateNestedManyWithoutAppointmentInput
@@ -5086,6 +6425,7 @@ export type AppointmentCreateWithoutPartsInput = {
   payments?: Prisma.JobPaymentCreateNestedManyWithoutAppointmentInput
   checklist?: Prisma.ServiceChecklistCreateNestedOneWithoutAppointmentInput
   timeLog?: Prisma.JobTimeLogCreateNestedOneWithoutAppointmentInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionCreateNestedManyWithoutAppointmentInput
 }
 
 export type AppointmentUncheckedCreateWithoutPartsInput = {
@@ -5128,6 +6468,22 @@ export type AppointmentUncheckedCreateWithoutPartsInput = {
   confirmedAt?: Date | string | null
   customerId?: string | null
   projectId?: string | null
+  jobType?: string | null
+  jobCategory?: string | null
+  customerType?: string | null
+  scheduledStart?: Date | string | null
+  scheduledEnd?: Date | string | null
+  estimatedMinutes?: number | null
+  arrivalWindow?: string | null
+  billingAddress?: string | null
+  equipmentId?: string | null
+  createdById?: string | null
+  leadSource?: string | null
+  lat?: number | null
+  lng?: number | null
+  assignments?: Prisma.JobAssignmentUncheckedCreateNestedManyWithoutAppointmentInput
+  events?: Prisma.JobEventUncheckedCreateNestedManyWithoutAppointmentInput
+  maintenanceVisit?: Prisma.MaintenanceVisitUncheckedCreateNestedOneWithoutAppointmentInput
   invoice?: Prisma.InvoiceUncheckedCreateNestedOneWithoutAppointmentInput
   notifications?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutAppointmentInput
   maintenanceLogs?: Prisma.MaintenanceLogUncheckedCreateNestedManyWithoutAppointmentInput
@@ -5142,6 +6498,7 @@ export type AppointmentUncheckedCreateWithoutPartsInput = {
   payments?: Prisma.JobPaymentUncheckedCreateNestedManyWithoutAppointmentInput
   checklist?: Prisma.ServiceChecklistUncheckedCreateNestedOneWithoutAppointmentInput
   timeLog?: Prisma.JobTimeLogUncheckedCreateNestedOneWithoutAppointmentInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUncheckedCreateNestedManyWithoutAppointmentInput
 }
 
 export type AppointmentCreateOrConnectWithoutPartsInput = {
@@ -5195,11 +6552,27 @@ export type AppointmentUpdateWithoutPartsInput = {
   source?: Prisma.StringFieldUpdateOperationsInput | string
   confirmationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  jobType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobCategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  estimatedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  arrivalWindow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  equipmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leadSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  assignments?: Prisma.JobAssignmentUpdateManyWithoutAppointmentNestedInput
+  events?: Prisma.JobEventUpdateManyWithoutAppointmentNestedInput
   user?: Prisma.UserUpdateOneWithoutAppointmentsNestedInput
   technician?: Prisma.UserUpdateOneWithoutTechnicianAppointmentsNestedInput
   dispatcher?: Prisma.UserUpdateOneWithoutDispatchedAppointmentsNestedInput
   customer?: Prisma.CustomerUpdateOneWithoutAppointmentsNestedInput
   project?: Prisma.ProjectUpdateOneWithoutAppointmentsNestedInput
+  maintenanceVisit?: Prisma.MaintenanceVisitUpdateOneWithoutAppointmentNestedInput
   invoice?: Prisma.InvoiceUpdateOneWithoutAppointmentNestedInput
   notifications?: Prisma.NotificationLogUpdateManyWithoutAppointmentNestedInput
   maintenanceLogs?: Prisma.MaintenanceLogUpdateManyWithoutAppointmentNestedInput
@@ -5214,6 +6587,7 @@ export type AppointmentUpdateWithoutPartsInput = {
   payments?: Prisma.JobPaymentUpdateManyWithoutAppointmentNestedInput
   checklist?: Prisma.ServiceChecklistUpdateOneWithoutAppointmentNestedInput
   timeLog?: Prisma.JobTimeLogUpdateOneWithoutAppointmentNestedInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUpdateManyWithoutAppointmentNestedInput
 }
 
 export type AppointmentUncheckedUpdateWithoutPartsInput = {
@@ -5256,6 +6630,22 @@ export type AppointmentUncheckedUpdateWithoutPartsInput = {
   confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   projectId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobCategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  estimatedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  arrivalWindow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  equipmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leadSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  assignments?: Prisma.JobAssignmentUncheckedUpdateManyWithoutAppointmentNestedInput
+  events?: Prisma.JobEventUncheckedUpdateManyWithoutAppointmentNestedInput
+  maintenanceVisit?: Prisma.MaintenanceVisitUncheckedUpdateOneWithoutAppointmentNestedInput
   invoice?: Prisma.InvoiceUncheckedUpdateOneWithoutAppointmentNestedInput
   notifications?: Prisma.NotificationLogUncheckedUpdateManyWithoutAppointmentNestedInput
   maintenanceLogs?: Prisma.MaintenanceLogUncheckedUpdateManyWithoutAppointmentNestedInput
@@ -5270,6 +6660,7 @@ export type AppointmentUncheckedUpdateWithoutPartsInput = {
   payments?: Prisma.JobPaymentUncheckedUpdateManyWithoutAppointmentNestedInput
   checklist?: Prisma.ServiceChecklistUncheckedUpdateOneWithoutAppointmentNestedInput
   timeLog?: Prisma.JobTimeLogUncheckedUpdateOneWithoutAppointmentNestedInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUncheckedUpdateManyWithoutAppointmentNestedInput
 }
 
 export type AppointmentCreateWithoutCustomerInput = {
@@ -5307,10 +6698,26 @@ export type AppointmentCreateWithoutCustomerInput = {
   source?: string
   confirmationToken?: string | null
   confirmedAt?: Date | string | null
+  jobType?: string | null
+  jobCategory?: string | null
+  customerType?: string | null
+  scheduledStart?: Date | string | null
+  scheduledEnd?: Date | string | null
+  estimatedMinutes?: number | null
+  arrivalWindow?: string | null
+  billingAddress?: string | null
+  equipmentId?: string | null
+  createdById?: string | null
+  leadSource?: string | null
+  lat?: number | null
+  lng?: number | null
+  assignments?: Prisma.JobAssignmentCreateNestedManyWithoutAppointmentInput
+  events?: Prisma.JobEventCreateNestedManyWithoutAppointmentInput
   user?: Prisma.UserCreateNestedOneWithoutAppointmentsInput
   technician?: Prisma.UserCreateNestedOneWithoutTechnicianAppointmentsInput
   dispatcher?: Prisma.UserCreateNestedOneWithoutDispatchedAppointmentsInput
   project?: Prisma.ProjectCreateNestedOneWithoutAppointmentsInput
+  maintenanceVisit?: Prisma.MaintenanceVisitCreateNestedOneWithoutAppointmentInput
   invoice?: Prisma.InvoiceCreateNestedOneWithoutAppointmentInput
   notifications?: Prisma.NotificationLogCreateNestedManyWithoutAppointmentInput
   maintenanceLogs?: Prisma.MaintenanceLogCreateNestedManyWithoutAppointmentInput
@@ -5326,6 +6733,7 @@ export type AppointmentCreateWithoutCustomerInput = {
   checklist?: Prisma.ServiceChecklistCreateNestedOneWithoutAppointmentInput
   timeLog?: Prisma.JobTimeLogCreateNestedOneWithoutAppointmentInput
   parts?: Prisma.JobPartCreateNestedManyWithoutAppointmentInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionCreateNestedManyWithoutAppointmentInput
 }
 
 export type AppointmentUncheckedCreateWithoutCustomerInput = {
@@ -5367,6 +6775,22 @@ export type AppointmentUncheckedCreateWithoutCustomerInput = {
   confirmationToken?: string | null
   confirmedAt?: Date | string | null
   projectId?: string | null
+  jobType?: string | null
+  jobCategory?: string | null
+  customerType?: string | null
+  scheduledStart?: Date | string | null
+  scheduledEnd?: Date | string | null
+  estimatedMinutes?: number | null
+  arrivalWindow?: string | null
+  billingAddress?: string | null
+  equipmentId?: string | null
+  createdById?: string | null
+  leadSource?: string | null
+  lat?: number | null
+  lng?: number | null
+  assignments?: Prisma.JobAssignmentUncheckedCreateNestedManyWithoutAppointmentInput
+  events?: Prisma.JobEventUncheckedCreateNestedManyWithoutAppointmentInput
+  maintenanceVisit?: Prisma.MaintenanceVisitUncheckedCreateNestedOneWithoutAppointmentInput
   invoice?: Prisma.InvoiceUncheckedCreateNestedOneWithoutAppointmentInput
   notifications?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutAppointmentInput
   maintenanceLogs?: Prisma.MaintenanceLogUncheckedCreateNestedManyWithoutAppointmentInput
@@ -5382,6 +6806,7 @@ export type AppointmentUncheckedCreateWithoutCustomerInput = {
   checklist?: Prisma.ServiceChecklistUncheckedCreateNestedOneWithoutAppointmentInput
   timeLog?: Prisma.JobTimeLogUncheckedCreateNestedOneWithoutAppointmentInput
   parts?: Prisma.JobPartUncheckedCreateNestedManyWithoutAppointmentInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUncheckedCreateNestedManyWithoutAppointmentInput
 }
 
 export type AppointmentCreateOrConnectWithoutCustomerInput = {
@@ -5445,10 +6870,26 @@ export type AppointmentCreateWithoutProjectInput = {
   source?: string
   confirmationToken?: string | null
   confirmedAt?: Date | string | null
+  jobType?: string | null
+  jobCategory?: string | null
+  customerType?: string | null
+  scheduledStart?: Date | string | null
+  scheduledEnd?: Date | string | null
+  estimatedMinutes?: number | null
+  arrivalWindow?: string | null
+  billingAddress?: string | null
+  equipmentId?: string | null
+  createdById?: string | null
+  leadSource?: string | null
+  lat?: number | null
+  lng?: number | null
+  assignments?: Prisma.JobAssignmentCreateNestedManyWithoutAppointmentInput
+  events?: Prisma.JobEventCreateNestedManyWithoutAppointmentInput
   user?: Prisma.UserCreateNestedOneWithoutAppointmentsInput
   technician?: Prisma.UserCreateNestedOneWithoutTechnicianAppointmentsInput
   dispatcher?: Prisma.UserCreateNestedOneWithoutDispatchedAppointmentsInput
   customer?: Prisma.CustomerCreateNestedOneWithoutAppointmentsInput
+  maintenanceVisit?: Prisma.MaintenanceVisitCreateNestedOneWithoutAppointmentInput
   invoice?: Prisma.InvoiceCreateNestedOneWithoutAppointmentInput
   notifications?: Prisma.NotificationLogCreateNestedManyWithoutAppointmentInput
   maintenanceLogs?: Prisma.MaintenanceLogCreateNestedManyWithoutAppointmentInput
@@ -5464,6 +6905,7 @@ export type AppointmentCreateWithoutProjectInput = {
   checklist?: Prisma.ServiceChecklistCreateNestedOneWithoutAppointmentInput
   timeLog?: Prisma.JobTimeLogCreateNestedOneWithoutAppointmentInput
   parts?: Prisma.JobPartCreateNestedManyWithoutAppointmentInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionCreateNestedManyWithoutAppointmentInput
 }
 
 export type AppointmentUncheckedCreateWithoutProjectInput = {
@@ -5505,6 +6947,22 @@ export type AppointmentUncheckedCreateWithoutProjectInput = {
   confirmationToken?: string | null
   confirmedAt?: Date | string | null
   customerId?: string | null
+  jobType?: string | null
+  jobCategory?: string | null
+  customerType?: string | null
+  scheduledStart?: Date | string | null
+  scheduledEnd?: Date | string | null
+  estimatedMinutes?: number | null
+  arrivalWindow?: string | null
+  billingAddress?: string | null
+  equipmentId?: string | null
+  createdById?: string | null
+  leadSource?: string | null
+  lat?: number | null
+  lng?: number | null
+  assignments?: Prisma.JobAssignmentUncheckedCreateNestedManyWithoutAppointmentInput
+  events?: Prisma.JobEventUncheckedCreateNestedManyWithoutAppointmentInput
+  maintenanceVisit?: Prisma.MaintenanceVisitUncheckedCreateNestedOneWithoutAppointmentInput
   invoice?: Prisma.InvoiceUncheckedCreateNestedOneWithoutAppointmentInput
   notifications?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutAppointmentInput
   maintenanceLogs?: Prisma.MaintenanceLogUncheckedCreateNestedManyWithoutAppointmentInput
@@ -5520,6 +6978,7 @@ export type AppointmentUncheckedCreateWithoutProjectInput = {
   checklist?: Prisma.ServiceChecklistUncheckedCreateNestedOneWithoutAppointmentInput
   timeLog?: Prisma.JobTimeLogUncheckedCreateNestedOneWithoutAppointmentInput
   parts?: Prisma.JobPartUncheckedCreateNestedManyWithoutAppointmentInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUncheckedCreateNestedManyWithoutAppointmentInput
 }
 
 export type AppointmentCreateOrConnectWithoutProjectInput = {
@@ -5546,6 +7005,314 @@ export type AppointmentUpdateWithWhereUniqueWithoutProjectInput = {
 export type AppointmentUpdateManyWithWhereWithoutProjectInput = {
   where: Prisma.AppointmentScalarWhereInput
   data: Prisma.XOR<Prisma.AppointmentUpdateManyMutationInput, Prisma.AppointmentUncheckedUpdateManyWithoutProjectInput>
+}
+
+export type AppointmentCreateWithoutMaintenanceVisitInput = {
+  id?: string
+  appointmentNumber: string
+  service: string
+  subservice?: string | null
+  name: string
+  phone: string
+  email: string
+  address: string
+  city?: string
+  zipCode?: string
+  taxCounty?: string | null
+  description?: string | null
+  preferredDate?: Date | string | null
+  preferredTime?: string | null
+  status?: $Enums.AppointmentStatus
+  notes?: string | null
+  photos?: Prisma.AppointmentCreatephotosInput | string[]
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  eta?: Date | string | null
+  techStatus?: $Enums.TechStatus | null
+  propertyId?: string | null
+  stripePaymentIntentId?: string | null
+  signatureUrl?: string | null
+  totalAmount?: number | null
+  approvedAt?: Date | string | null
+  priority?: $Enums.JobPriority
+  isEmergency?: boolean
+  diagnosticFee?: number | null
+  diagnosticFeeStatus?: string | null
+  adminNotes?: string | null
+  source?: string
+  confirmationToken?: string | null
+  confirmedAt?: Date | string | null
+  jobType?: string | null
+  jobCategory?: string | null
+  customerType?: string | null
+  scheduledStart?: Date | string | null
+  scheduledEnd?: Date | string | null
+  estimatedMinutes?: number | null
+  arrivalWindow?: string | null
+  billingAddress?: string | null
+  equipmentId?: string | null
+  createdById?: string | null
+  leadSource?: string | null
+  lat?: number | null
+  lng?: number | null
+  assignments?: Prisma.JobAssignmentCreateNestedManyWithoutAppointmentInput
+  events?: Prisma.JobEventCreateNestedManyWithoutAppointmentInput
+  user?: Prisma.UserCreateNestedOneWithoutAppointmentsInput
+  technician?: Prisma.UserCreateNestedOneWithoutTechnicianAppointmentsInput
+  dispatcher?: Prisma.UserCreateNestedOneWithoutDispatchedAppointmentsInput
+  customer?: Prisma.CustomerCreateNestedOneWithoutAppointmentsInput
+  project?: Prisma.ProjectCreateNestedOneWithoutAppointmentsInput
+  invoice?: Prisma.InvoiceCreateNestedOneWithoutAppointmentInput
+  notifications?: Prisma.NotificationLogCreateNestedManyWithoutAppointmentInput
+  maintenanceLogs?: Prisma.MaintenanceLogCreateNestedManyWithoutAppointmentInput
+  formSubmissions?: Prisma.FormSubmissionCreateNestedManyWithoutAppointmentInput
+  calls?: Prisma.CallCreateNestedManyWithoutAppointmentInput
+  diagnosisForm?: Prisma.DiagnosisFormCreateNestedOneWithoutAppointmentInput
+  serviceDiagnostic?: Prisma.ServiceDiagnosticCreateNestedOneWithoutAppointmentInput
+  systemStartup?: Prisma.SystemStartupCreateNestedOneWithoutAppointmentInput
+  ventCleaning?: Prisma.VentCleaningCreateNestedOneWithoutAppointmentInput
+  ductCleaning?: Prisma.DuctCleaningCreateNestedOneWithoutAppointmentInput
+  jobPhotos?: Prisma.JobPhotoCreateNestedManyWithoutAppointmentInput
+  payments?: Prisma.JobPaymentCreateNestedManyWithoutAppointmentInput
+  checklist?: Prisma.ServiceChecklistCreateNestedOneWithoutAppointmentInput
+  timeLog?: Prisma.JobTimeLogCreateNestedOneWithoutAppointmentInput
+  parts?: Prisma.JobPartCreateNestedManyWithoutAppointmentInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionCreateNestedManyWithoutAppointmentInput
+}
+
+export type AppointmentUncheckedCreateWithoutMaintenanceVisitInput = {
+  id?: string
+  appointmentNumber: string
+  userId?: string | null
+  service: string
+  subservice?: string | null
+  name: string
+  phone: string
+  email: string
+  address: string
+  city?: string
+  zipCode?: string
+  taxCounty?: string | null
+  description?: string | null
+  preferredDate?: Date | string | null
+  preferredTime?: string | null
+  status?: $Enums.AppointmentStatus
+  notes?: string | null
+  photos?: Prisma.AppointmentCreatephotosInput | string[]
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  technicianId?: string | null
+  dispatcherId?: string | null
+  eta?: Date | string | null
+  techStatus?: $Enums.TechStatus | null
+  propertyId?: string | null
+  stripePaymentIntentId?: string | null
+  signatureUrl?: string | null
+  totalAmount?: number | null
+  approvedAt?: Date | string | null
+  priority?: $Enums.JobPriority
+  isEmergency?: boolean
+  diagnosticFee?: number | null
+  diagnosticFeeStatus?: string | null
+  adminNotes?: string | null
+  source?: string
+  confirmationToken?: string | null
+  confirmedAt?: Date | string | null
+  customerId?: string | null
+  projectId?: string | null
+  jobType?: string | null
+  jobCategory?: string | null
+  customerType?: string | null
+  scheduledStart?: Date | string | null
+  scheduledEnd?: Date | string | null
+  estimatedMinutes?: number | null
+  arrivalWindow?: string | null
+  billingAddress?: string | null
+  equipmentId?: string | null
+  createdById?: string | null
+  leadSource?: string | null
+  lat?: number | null
+  lng?: number | null
+  assignments?: Prisma.JobAssignmentUncheckedCreateNestedManyWithoutAppointmentInput
+  events?: Prisma.JobEventUncheckedCreateNestedManyWithoutAppointmentInput
+  invoice?: Prisma.InvoiceUncheckedCreateNestedOneWithoutAppointmentInput
+  notifications?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutAppointmentInput
+  maintenanceLogs?: Prisma.MaintenanceLogUncheckedCreateNestedManyWithoutAppointmentInput
+  formSubmissions?: Prisma.FormSubmissionUncheckedCreateNestedManyWithoutAppointmentInput
+  calls?: Prisma.CallUncheckedCreateNestedManyWithoutAppointmentInput
+  diagnosisForm?: Prisma.DiagnosisFormUncheckedCreateNestedOneWithoutAppointmentInput
+  serviceDiagnostic?: Prisma.ServiceDiagnosticUncheckedCreateNestedOneWithoutAppointmentInput
+  systemStartup?: Prisma.SystemStartupUncheckedCreateNestedOneWithoutAppointmentInput
+  ventCleaning?: Prisma.VentCleaningUncheckedCreateNestedOneWithoutAppointmentInput
+  ductCleaning?: Prisma.DuctCleaningUncheckedCreateNestedOneWithoutAppointmentInput
+  jobPhotos?: Prisma.JobPhotoUncheckedCreateNestedManyWithoutAppointmentInput
+  payments?: Prisma.JobPaymentUncheckedCreateNestedManyWithoutAppointmentInput
+  checklist?: Prisma.ServiceChecklistUncheckedCreateNestedOneWithoutAppointmentInput
+  timeLog?: Prisma.JobTimeLogUncheckedCreateNestedOneWithoutAppointmentInput
+  parts?: Prisma.JobPartUncheckedCreateNestedManyWithoutAppointmentInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUncheckedCreateNestedManyWithoutAppointmentInput
+}
+
+export type AppointmentCreateOrConnectWithoutMaintenanceVisitInput = {
+  where: Prisma.AppointmentWhereUniqueInput
+  create: Prisma.XOR<Prisma.AppointmentCreateWithoutMaintenanceVisitInput, Prisma.AppointmentUncheckedCreateWithoutMaintenanceVisitInput>
+}
+
+export type AppointmentUpsertWithoutMaintenanceVisitInput = {
+  update: Prisma.XOR<Prisma.AppointmentUpdateWithoutMaintenanceVisitInput, Prisma.AppointmentUncheckedUpdateWithoutMaintenanceVisitInput>
+  create: Prisma.XOR<Prisma.AppointmentCreateWithoutMaintenanceVisitInput, Prisma.AppointmentUncheckedCreateWithoutMaintenanceVisitInput>
+  where?: Prisma.AppointmentWhereInput
+}
+
+export type AppointmentUpdateToOneWithWhereWithoutMaintenanceVisitInput = {
+  where?: Prisma.AppointmentWhereInput
+  data: Prisma.XOR<Prisma.AppointmentUpdateWithoutMaintenanceVisitInput, Prisma.AppointmentUncheckedUpdateWithoutMaintenanceVisitInput>
+}
+
+export type AppointmentUpdateWithoutMaintenanceVisitInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  appointmentNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  service?: Prisma.StringFieldUpdateOperationsInput | string
+  subservice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.StringFieldUpdateOperationsInput | string
+  zipCode?: Prisma.StringFieldUpdateOperationsInput | string
+  taxCounty?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preferredDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  preferredTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumAppointmentStatusFieldUpdateOperationsInput | $Enums.AppointmentStatus
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photos?: Prisma.AppointmentUpdatephotosInput | string[]
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  eta?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  techStatus?: Prisma.NullableEnumTechStatusFieldUpdateOperationsInput | $Enums.TechStatus | null
+  propertyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripePaymentIntentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  signatureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  priority?: Prisma.EnumJobPriorityFieldUpdateOperationsInput | $Enums.JobPriority
+  isEmergency?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  diagnosticFee?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  diagnosticFeeStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  source?: Prisma.StringFieldUpdateOperationsInput | string
+  confirmationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  jobType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobCategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  estimatedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  arrivalWindow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  equipmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leadSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  assignments?: Prisma.JobAssignmentUpdateManyWithoutAppointmentNestedInput
+  events?: Prisma.JobEventUpdateManyWithoutAppointmentNestedInput
+  user?: Prisma.UserUpdateOneWithoutAppointmentsNestedInput
+  technician?: Prisma.UserUpdateOneWithoutTechnicianAppointmentsNestedInput
+  dispatcher?: Prisma.UserUpdateOneWithoutDispatchedAppointmentsNestedInput
+  customer?: Prisma.CustomerUpdateOneWithoutAppointmentsNestedInput
+  project?: Prisma.ProjectUpdateOneWithoutAppointmentsNestedInput
+  invoice?: Prisma.InvoiceUpdateOneWithoutAppointmentNestedInput
+  notifications?: Prisma.NotificationLogUpdateManyWithoutAppointmentNestedInput
+  maintenanceLogs?: Prisma.MaintenanceLogUpdateManyWithoutAppointmentNestedInput
+  formSubmissions?: Prisma.FormSubmissionUpdateManyWithoutAppointmentNestedInput
+  calls?: Prisma.CallUpdateManyWithoutAppointmentNestedInput
+  diagnosisForm?: Prisma.DiagnosisFormUpdateOneWithoutAppointmentNestedInput
+  serviceDiagnostic?: Prisma.ServiceDiagnosticUpdateOneWithoutAppointmentNestedInput
+  systemStartup?: Prisma.SystemStartupUpdateOneWithoutAppointmentNestedInput
+  ventCleaning?: Prisma.VentCleaningUpdateOneWithoutAppointmentNestedInput
+  ductCleaning?: Prisma.DuctCleaningUpdateOneWithoutAppointmentNestedInput
+  jobPhotos?: Prisma.JobPhotoUpdateManyWithoutAppointmentNestedInput
+  payments?: Prisma.JobPaymentUpdateManyWithoutAppointmentNestedInput
+  checklist?: Prisma.ServiceChecklistUpdateOneWithoutAppointmentNestedInput
+  timeLog?: Prisma.JobTimeLogUpdateOneWithoutAppointmentNestedInput
+  parts?: Prisma.JobPartUpdateManyWithoutAppointmentNestedInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUpdateManyWithoutAppointmentNestedInput
+}
+
+export type AppointmentUncheckedUpdateWithoutMaintenanceVisitInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  appointmentNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  service?: Prisma.StringFieldUpdateOperationsInput | string
+  subservice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.StringFieldUpdateOperationsInput | string
+  zipCode?: Prisma.StringFieldUpdateOperationsInput | string
+  taxCounty?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preferredDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  preferredTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumAppointmentStatusFieldUpdateOperationsInput | $Enums.AppointmentStatus
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photos?: Prisma.AppointmentUpdatephotosInput | string[]
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  technicianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dispatcherId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eta?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  techStatus?: Prisma.NullableEnumTechStatusFieldUpdateOperationsInput | $Enums.TechStatus | null
+  propertyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripePaymentIntentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  signatureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  priority?: Prisma.EnumJobPriorityFieldUpdateOperationsInput | $Enums.JobPriority
+  isEmergency?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  diagnosticFee?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  diagnosticFeeStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  source?: Prisma.StringFieldUpdateOperationsInput | string
+  confirmationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  projectId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobCategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  estimatedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  arrivalWindow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  equipmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leadSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  assignments?: Prisma.JobAssignmentUncheckedUpdateManyWithoutAppointmentNestedInput
+  events?: Prisma.JobEventUncheckedUpdateManyWithoutAppointmentNestedInput
+  invoice?: Prisma.InvoiceUncheckedUpdateOneWithoutAppointmentNestedInput
+  notifications?: Prisma.NotificationLogUncheckedUpdateManyWithoutAppointmentNestedInput
+  maintenanceLogs?: Prisma.MaintenanceLogUncheckedUpdateManyWithoutAppointmentNestedInput
+  formSubmissions?: Prisma.FormSubmissionUncheckedUpdateManyWithoutAppointmentNestedInput
+  calls?: Prisma.CallUncheckedUpdateManyWithoutAppointmentNestedInput
+  diagnosisForm?: Prisma.DiagnosisFormUncheckedUpdateOneWithoutAppointmentNestedInput
+  serviceDiagnostic?: Prisma.ServiceDiagnosticUncheckedUpdateOneWithoutAppointmentNestedInput
+  systemStartup?: Prisma.SystemStartupUncheckedUpdateOneWithoutAppointmentNestedInput
+  ventCleaning?: Prisma.VentCleaningUncheckedUpdateOneWithoutAppointmentNestedInput
+  ductCleaning?: Prisma.DuctCleaningUncheckedUpdateOneWithoutAppointmentNestedInput
+  jobPhotos?: Prisma.JobPhotoUncheckedUpdateManyWithoutAppointmentNestedInput
+  payments?: Prisma.JobPaymentUncheckedUpdateManyWithoutAppointmentNestedInput
+  checklist?: Prisma.ServiceChecklistUncheckedUpdateOneWithoutAppointmentNestedInput
+  timeLog?: Prisma.JobTimeLogUncheckedUpdateOneWithoutAppointmentNestedInput
+  parts?: Prisma.JobPartUncheckedUpdateManyWithoutAppointmentNestedInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUncheckedUpdateManyWithoutAppointmentNestedInput
 }
 
 export type AppointmentCreateWithoutCallsInput = {
@@ -5583,11 +7350,27 @@ export type AppointmentCreateWithoutCallsInput = {
   source?: string
   confirmationToken?: string | null
   confirmedAt?: Date | string | null
+  jobType?: string | null
+  jobCategory?: string | null
+  customerType?: string | null
+  scheduledStart?: Date | string | null
+  scheduledEnd?: Date | string | null
+  estimatedMinutes?: number | null
+  arrivalWindow?: string | null
+  billingAddress?: string | null
+  equipmentId?: string | null
+  createdById?: string | null
+  leadSource?: string | null
+  lat?: number | null
+  lng?: number | null
+  assignments?: Prisma.JobAssignmentCreateNestedManyWithoutAppointmentInput
+  events?: Prisma.JobEventCreateNestedManyWithoutAppointmentInput
   user?: Prisma.UserCreateNestedOneWithoutAppointmentsInput
   technician?: Prisma.UserCreateNestedOneWithoutTechnicianAppointmentsInput
   dispatcher?: Prisma.UserCreateNestedOneWithoutDispatchedAppointmentsInput
   customer?: Prisma.CustomerCreateNestedOneWithoutAppointmentsInput
   project?: Prisma.ProjectCreateNestedOneWithoutAppointmentsInput
+  maintenanceVisit?: Prisma.MaintenanceVisitCreateNestedOneWithoutAppointmentInput
   invoice?: Prisma.InvoiceCreateNestedOneWithoutAppointmentInput
   notifications?: Prisma.NotificationLogCreateNestedManyWithoutAppointmentInput
   maintenanceLogs?: Prisma.MaintenanceLogCreateNestedManyWithoutAppointmentInput
@@ -5602,6 +7385,7 @@ export type AppointmentCreateWithoutCallsInput = {
   checklist?: Prisma.ServiceChecklistCreateNestedOneWithoutAppointmentInput
   timeLog?: Prisma.JobTimeLogCreateNestedOneWithoutAppointmentInput
   parts?: Prisma.JobPartCreateNestedManyWithoutAppointmentInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionCreateNestedManyWithoutAppointmentInput
 }
 
 export type AppointmentUncheckedCreateWithoutCallsInput = {
@@ -5644,6 +7428,22 @@ export type AppointmentUncheckedCreateWithoutCallsInput = {
   confirmedAt?: Date | string | null
   customerId?: string | null
   projectId?: string | null
+  jobType?: string | null
+  jobCategory?: string | null
+  customerType?: string | null
+  scheduledStart?: Date | string | null
+  scheduledEnd?: Date | string | null
+  estimatedMinutes?: number | null
+  arrivalWindow?: string | null
+  billingAddress?: string | null
+  equipmentId?: string | null
+  createdById?: string | null
+  leadSource?: string | null
+  lat?: number | null
+  lng?: number | null
+  assignments?: Prisma.JobAssignmentUncheckedCreateNestedManyWithoutAppointmentInput
+  events?: Prisma.JobEventUncheckedCreateNestedManyWithoutAppointmentInput
+  maintenanceVisit?: Prisma.MaintenanceVisitUncheckedCreateNestedOneWithoutAppointmentInput
   invoice?: Prisma.InvoiceUncheckedCreateNestedOneWithoutAppointmentInput
   notifications?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutAppointmentInput
   maintenanceLogs?: Prisma.MaintenanceLogUncheckedCreateNestedManyWithoutAppointmentInput
@@ -5658,6 +7458,7 @@ export type AppointmentUncheckedCreateWithoutCallsInput = {
   checklist?: Prisma.ServiceChecklistUncheckedCreateNestedOneWithoutAppointmentInput
   timeLog?: Prisma.JobTimeLogUncheckedCreateNestedOneWithoutAppointmentInput
   parts?: Prisma.JobPartUncheckedCreateNestedManyWithoutAppointmentInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUncheckedCreateNestedManyWithoutAppointmentInput
 }
 
 export type AppointmentCreateOrConnectWithoutCallsInput = {
@@ -5711,11 +7512,27 @@ export type AppointmentUpdateWithoutCallsInput = {
   source?: Prisma.StringFieldUpdateOperationsInput | string
   confirmationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  jobType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobCategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  estimatedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  arrivalWindow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  equipmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leadSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  assignments?: Prisma.JobAssignmentUpdateManyWithoutAppointmentNestedInput
+  events?: Prisma.JobEventUpdateManyWithoutAppointmentNestedInput
   user?: Prisma.UserUpdateOneWithoutAppointmentsNestedInput
   technician?: Prisma.UserUpdateOneWithoutTechnicianAppointmentsNestedInput
   dispatcher?: Prisma.UserUpdateOneWithoutDispatchedAppointmentsNestedInput
   customer?: Prisma.CustomerUpdateOneWithoutAppointmentsNestedInput
   project?: Prisma.ProjectUpdateOneWithoutAppointmentsNestedInput
+  maintenanceVisit?: Prisma.MaintenanceVisitUpdateOneWithoutAppointmentNestedInput
   invoice?: Prisma.InvoiceUpdateOneWithoutAppointmentNestedInput
   notifications?: Prisma.NotificationLogUpdateManyWithoutAppointmentNestedInput
   maintenanceLogs?: Prisma.MaintenanceLogUpdateManyWithoutAppointmentNestedInput
@@ -5730,6 +7547,7 @@ export type AppointmentUpdateWithoutCallsInput = {
   checklist?: Prisma.ServiceChecklistUpdateOneWithoutAppointmentNestedInput
   timeLog?: Prisma.JobTimeLogUpdateOneWithoutAppointmentNestedInput
   parts?: Prisma.JobPartUpdateManyWithoutAppointmentNestedInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUpdateManyWithoutAppointmentNestedInput
 }
 
 export type AppointmentUncheckedUpdateWithoutCallsInput = {
@@ -5772,6 +7590,22 @@ export type AppointmentUncheckedUpdateWithoutCallsInput = {
   confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   projectId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobCategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  estimatedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  arrivalWindow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  equipmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leadSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  assignments?: Prisma.JobAssignmentUncheckedUpdateManyWithoutAppointmentNestedInput
+  events?: Prisma.JobEventUncheckedUpdateManyWithoutAppointmentNestedInput
+  maintenanceVisit?: Prisma.MaintenanceVisitUncheckedUpdateOneWithoutAppointmentNestedInput
   invoice?: Prisma.InvoiceUncheckedUpdateOneWithoutAppointmentNestedInput
   notifications?: Prisma.NotificationLogUncheckedUpdateManyWithoutAppointmentNestedInput
   maintenanceLogs?: Prisma.MaintenanceLogUncheckedUpdateManyWithoutAppointmentNestedInput
@@ -5786,6 +7620,7 @@ export type AppointmentUncheckedUpdateWithoutCallsInput = {
   checklist?: Prisma.ServiceChecklistUncheckedUpdateOneWithoutAppointmentNestedInput
   timeLog?: Prisma.JobTimeLogUncheckedUpdateOneWithoutAppointmentNestedInput
   parts?: Prisma.JobPartUncheckedUpdateManyWithoutAppointmentNestedInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUncheckedUpdateManyWithoutAppointmentNestedInput
 }
 
 export type AppointmentCreateWithoutFormSubmissionsInput = {
@@ -5823,11 +7658,27 @@ export type AppointmentCreateWithoutFormSubmissionsInput = {
   source?: string
   confirmationToken?: string | null
   confirmedAt?: Date | string | null
+  jobType?: string | null
+  jobCategory?: string | null
+  customerType?: string | null
+  scheduledStart?: Date | string | null
+  scheduledEnd?: Date | string | null
+  estimatedMinutes?: number | null
+  arrivalWindow?: string | null
+  billingAddress?: string | null
+  equipmentId?: string | null
+  createdById?: string | null
+  leadSource?: string | null
+  lat?: number | null
+  lng?: number | null
+  assignments?: Prisma.JobAssignmentCreateNestedManyWithoutAppointmentInput
+  events?: Prisma.JobEventCreateNestedManyWithoutAppointmentInput
   user?: Prisma.UserCreateNestedOneWithoutAppointmentsInput
   technician?: Prisma.UserCreateNestedOneWithoutTechnicianAppointmentsInput
   dispatcher?: Prisma.UserCreateNestedOneWithoutDispatchedAppointmentsInput
   customer?: Prisma.CustomerCreateNestedOneWithoutAppointmentsInput
   project?: Prisma.ProjectCreateNestedOneWithoutAppointmentsInput
+  maintenanceVisit?: Prisma.MaintenanceVisitCreateNestedOneWithoutAppointmentInput
   invoice?: Prisma.InvoiceCreateNestedOneWithoutAppointmentInput
   notifications?: Prisma.NotificationLogCreateNestedManyWithoutAppointmentInput
   maintenanceLogs?: Prisma.MaintenanceLogCreateNestedManyWithoutAppointmentInput
@@ -5842,6 +7693,7 @@ export type AppointmentCreateWithoutFormSubmissionsInput = {
   checklist?: Prisma.ServiceChecklistCreateNestedOneWithoutAppointmentInput
   timeLog?: Prisma.JobTimeLogCreateNestedOneWithoutAppointmentInput
   parts?: Prisma.JobPartCreateNestedManyWithoutAppointmentInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionCreateNestedManyWithoutAppointmentInput
 }
 
 export type AppointmentUncheckedCreateWithoutFormSubmissionsInput = {
@@ -5884,6 +7736,22 @@ export type AppointmentUncheckedCreateWithoutFormSubmissionsInput = {
   confirmedAt?: Date | string | null
   customerId?: string | null
   projectId?: string | null
+  jobType?: string | null
+  jobCategory?: string | null
+  customerType?: string | null
+  scheduledStart?: Date | string | null
+  scheduledEnd?: Date | string | null
+  estimatedMinutes?: number | null
+  arrivalWindow?: string | null
+  billingAddress?: string | null
+  equipmentId?: string | null
+  createdById?: string | null
+  leadSource?: string | null
+  lat?: number | null
+  lng?: number | null
+  assignments?: Prisma.JobAssignmentUncheckedCreateNestedManyWithoutAppointmentInput
+  events?: Prisma.JobEventUncheckedCreateNestedManyWithoutAppointmentInput
+  maintenanceVisit?: Prisma.MaintenanceVisitUncheckedCreateNestedOneWithoutAppointmentInput
   invoice?: Prisma.InvoiceUncheckedCreateNestedOneWithoutAppointmentInput
   notifications?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutAppointmentInput
   maintenanceLogs?: Prisma.MaintenanceLogUncheckedCreateNestedManyWithoutAppointmentInput
@@ -5898,6 +7766,7 @@ export type AppointmentUncheckedCreateWithoutFormSubmissionsInput = {
   checklist?: Prisma.ServiceChecklistUncheckedCreateNestedOneWithoutAppointmentInput
   timeLog?: Prisma.JobTimeLogUncheckedCreateNestedOneWithoutAppointmentInput
   parts?: Prisma.JobPartUncheckedCreateNestedManyWithoutAppointmentInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUncheckedCreateNestedManyWithoutAppointmentInput
 }
 
 export type AppointmentCreateOrConnectWithoutFormSubmissionsInput = {
@@ -5951,11 +7820,27 @@ export type AppointmentUpdateWithoutFormSubmissionsInput = {
   source?: Prisma.StringFieldUpdateOperationsInput | string
   confirmationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  jobType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobCategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  estimatedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  arrivalWindow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  equipmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leadSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  assignments?: Prisma.JobAssignmentUpdateManyWithoutAppointmentNestedInput
+  events?: Prisma.JobEventUpdateManyWithoutAppointmentNestedInput
   user?: Prisma.UserUpdateOneWithoutAppointmentsNestedInput
   technician?: Prisma.UserUpdateOneWithoutTechnicianAppointmentsNestedInput
   dispatcher?: Prisma.UserUpdateOneWithoutDispatchedAppointmentsNestedInput
   customer?: Prisma.CustomerUpdateOneWithoutAppointmentsNestedInput
   project?: Prisma.ProjectUpdateOneWithoutAppointmentsNestedInput
+  maintenanceVisit?: Prisma.MaintenanceVisitUpdateOneWithoutAppointmentNestedInput
   invoice?: Prisma.InvoiceUpdateOneWithoutAppointmentNestedInput
   notifications?: Prisma.NotificationLogUpdateManyWithoutAppointmentNestedInput
   maintenanceLogs?: Prisma.MaintenanceLogUpdateManyWithoutAppointmentNestedInput
@@ -5970,6 +7855,7 @@ export type AppointmentUpdateWithoutFormSubmissionsInput = {
   checklist?: Prisma.ServiceChecklistUpdateOneWithoutAppointmentNestedInput
   timeLog?: Prisma.JobTimeLogUpdateOneWithoutAppointmentNestedInput
   parts?: Prisma.JobPartUpdateManyWithoutAppointmentNestedInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUpdateManyWithoutAppointmentNestedInput
 }
 
 export type AppointmentUncheckedUpdateWithoutFormSubmissionsInput = {
@@ -6012,9 +7898,950 @@ export type AppointmentUncheckedUpdateWithoutFormSubmissionsInput = {
   confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   projectId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobCategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  estimatedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  arrivalWindow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  equipmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leadSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  assignments?: Prisma.JobAssignmentUncheckedUpdateManyWithoutAppointmentNestedInput
+  events?: Prisma.JobEventUncheckedUpdateManyWithoutAppointmentNestedInput
+  maintenanceVisit?: Prisma.MaintenanceVisitUncheckedUpdateOneWithoutAppointmentNestedInput
   invoice?: Prisma.InvoiceUncheckedUpdateOneWithoutAppointmentNestedInput
   notifications?: Prisma.NotificationLogUncheckedUpdateManyWithoutAppointmentNestedInput
   maintenanceLogs?: Prisma.MaintenanceLogUncheckedUpdateManyWithoutAppointmentNestedInput
+  calls?: Prisma.CallUncheckedUpdateManyWithoutAppointmentNestedInput
+  diagnosisForm?: Prisma.DiagnosisFormUncheckedUpdateOneWithoutAppointmentNestedInput
+  serviceDiagnostic?: Prisma.ServiceDiagnosticUncheckedUpdateOneWithoutAppointmentNestedInput
+  systemStartup?: Prisma.SystemStartupUncheckedUpdateOneWithoutAppointmentNestedInput
+  ventCleaning?: Prisma.VentCleaningUncheckedUpdateOneWithoutAppointmentNestedInput
+  ductCleaning?: Prisma.DuctCleaningUncheckedUpdateOneWithoutAppointmentNestedInput
+  jobPhotos?: Prisma.JobPhotoUncheckedUpdateManyWithoutAppointmentNestedInput
+  payments?: Prisma.JobPaymentUncheckedUpdateManyWithoutAppointmentNestedInput
+  checklist?: Prisma.ServiceChecklistUncheckedUpdateOneWithoutAppointmentNestedInput
+  timeLog?: Prisma.JobTimeLogUncheckedUpdateOneWithoutAppointmentNestedInput
+  parts?: Prisma.JobPartUncheckedUpdateManyWithoutAppointmentNestedInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUncheckedUpdateManyWithoutAppointmentNestedInput
+}
+
+export type AppointmentCreateWithoutAssignmentsInput = {
+  id?: string
+  appointmentNumber: string
+  service: string
+  subservice?: string | null
+  name: string
+  phone: string
+  email: string
+  address: string
+  city?: string
+  zipCode?: string
+  taxCounty?: string | null
+  description?: string | null
+  preferredDate?: Date | string | null
+  preferredTime?: string | null
+  status?: $Enums.AppointmentStatus
+  notes?: string | null
+  photos?: Prisma.AppointmentCreatephotosInput | string[]
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  eta?: Date | string | null
+  techStatus?: $Enums.TechStatus | null
+  propertyId?: string | null
+  stripePaymentIntentId?: string | null
+  signatureUrl?: string | null
+  totalAmount?: number | null
+  approvedAt?: Date | string | null
+  priority?: $Enums.JobPriority
+  isEmergency?: boolean
+  diagnosticFee?: number | null
+  diagnosticFeeStatus?: string | null
+  adminNotes?: string | null
+  source?: string
+  confirmationToken?: string | null
+  confirmedAt?: Date | string | null
+  jobType?: string | null
+  jobCategory?: string | null
+  customerType?: string | null
+  scheduledStart?: Date | string | null
+  scheduledEnd?: Date | string | null
+  estimatedMinutes?: number | null
+  arrivalWindow?: string | null
+  billingAddress?: string | null
+  equipmentId?: string | null
+  createdById?: string | null
+  leadSource?: string | null
+  lat?: number | null
+  lng?: number | null
+  events?: Prisma.JobEventCreateNestedManyWithoutAppointmentInput
+  user?: Prisma.UserCreateNestedOneWithoutAppointmentsInput
+  technician?: Prisma.UserCreateNestedOneWithoutTechnicianAppointmentsInput
+  dispatcher?: Prisma.UserCreateNestedOneWithoutDispatchedAppointmentsInput
+  customer?: Prisma.CustomerCreateNestedOneWithoutAppointmentsInput
+  project?: Prisma.ProjectCreateNestedOneWithoutAppointmentsInput
+  maintenanceVisit?: Prisma.MaintenanceVisitCreateNestedOneWithoutAppointmentInput
+  invoice?: Prisma.InvoiceCreateNestedOneWithoutAppointmentInput
+  notifications?: Prisma.NotificationLogCreateNestedManyWithoutAppointmentInput
+  maintenanceLogs?: Prisma.MaintenanceLogCreateNestedManyWithoutAppointmentInput
+  formSubmissions?: Prisma.FormSubmissionCreateNestedManyWithoutAppointmentInput
+  calls?: Prisma.CallCreateNestedManyWithoutAppointmentInput
+  diagnosisForm?: Prisma.DiagnosisFormCreateNestedOneWithoutAppointmentInput
+  serviceDiagnostic?: Prisma.ServiceDiagnosticCreateNestedOneWithoutAppointmentInput
+  systemStartup?: Prisma.SystemStartupCreateNestedOneWithoutAppointmentInput
+  ventCleaning?: Prisma.VentCleaningCreateNestedOneWithoutAppointmentInput
+  ductCleaning?: Prisma.DuctCleaningCreateNestedOneWithoutAppointmentInput
+  jobPhotos?: Prisma.JobPhotoCreateNestedManyWithoutAppointmentInput
+  payments?: Prisma.JobPaymentCreateNestedManyWithoutAppointmentInput
+  checklist?: Prisma.ServiceChecklistCreateNestedOneWithoutAppointmentInput
+  timeLog?: Prisma.JobTimeLogCreateNestedOneWithoutAppointmentInput
+  parts?: Prisma.JobPartCreateNestedManyWithoutAppointmentInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionCreateNestedManyWithoutAppointmentInput
+}
+
+export type AppointmentUncheckedCreateWithoutAssignmentsInput = {
+  id?: string
+  appointmentNumber: string
+  userId?: string | null
+  service: string
+  subservice?: string | null
+  name: string
+  phone: string
+  email: string
+  address: string
+  city?: string
+  zipCode?: string
+  taxCounty?: string | null
+  description?: string | null
+  preferredDate?: Date | string | null
+  preferredTime?: string | null
+  status?: $Enums.AppointmentStatus
+  notes?: string | null
+  photos?: Prisma.AppointmentCreatephotosInput | string[]
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  technicianId?: string | null
+  dispatcherId?: string | null
+  eta?: Date | string | null
+  techStatus?: $Enums.TechStatus | null
+  propertyId?: string | null
+  stripePaymentIntentId?: string | null
+  signatureUrl?: string | null
+  totalAmount?: number | null
+  approvedAt?: Date | string | null
+  priority?: $Enums.JobPriority
+  isEmergency?: boolean
+  diagnosticFee?: number | null
+  diagnosticFeeStatus?: string | null
+  adminNotes?: string | null
+  source?: string
+  confirmationToken?: string | null
+  confirmedAt?: Date | string | null
+  customerId?: string | null
+  projectId?: string | null
+  jobType?: string | null
+  jobCategory?: string | null
+  customerType?: string | null
+  scheduledStart?: Date | string | null
+  scheduledEnd?: Date | string | null
+  estimatedMinutes?: number | null
+  arrivalWindow?: string | null
+  billingAddress?: string | null
+  equipmentId?: string | null
+  createdById?: string | null
+  leadSource?: string | null
+  lat?: number | null
+  lng?: number | null
+  events?: Prisma.JobEventUncheckedCreateNestedManyWithoutAppointmentInput
+  maintenanceVisit?: Prisma.MaintenanceVisitUncheckedCreateNestedOneWithoutAppointmentInput
+  invoice?: Prisma.InvoiceUncheckedCreateNestedOneWithoutAppointmentInput
+  notifications?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutAppointmentInput
+  maintenanceLogs?: Prisma.MaintenanceLogUncheckedCreateNestedManyWithoutAppointmentInput
+  formSubmissions?: Prisma.FormSubmissionUncheckedCreateNestedManyWithoutAppointmentInput
+  calls?: Prisma.CallUncheckedCreateNestedManyWithoutAppointmentInput
+  diagnosisForm?: Prisma.DiagnosisFormUncheckedCreateNestedOneWithoutAppointmentInput
+  serviceDiagnostic?: Prisma.ServiceDiagnosticUncheckedCreateNestedOneWithoutAppointmentInput
+  systemStartup?: Prisma.SystemStartupUncheckedCreateNestedOneWithoutAppointmentInput
+  ventCleaning?: Prisma.VentCleaningUncheckedCreateNestedOneWithoutAppointmentInput
+  ductCleaning?: Prisma.DuctCleaningUncheckedCreateNestedOneWithoutAppointmentInput
+  jobPhotos?: Prisma.JobPhotoUncheckedCreateNestedManyWithoutAppointmentInput
+  payments?: Prisma.JobPaymentUncheckedCreateNestedManyWithoutAppointmentInput
+  checklist?: Prisma.ServiceChecklistUncheckedCreateNestedOneWithoutAppointmentInput
+  timeLog?: Prisma.JobTimeLogUncheckedCreateNestedOneWithoutAppointmentInput
+  parts?: Prisma.JobPartUncheckedCreateNestedManyWithoutAppointmentInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUncheckedCreateNestedManyWithoutAppointmentInput
+}
+
+export type AppointmentCreateOrConnectWithoutAssignmentsInput = {
+  where: Prisma.AppointmentWhereUniqueInput
+  create: Prisma.XOR<Prisma.AppointmentCreateWithoutAssignmentsInput, Prisma.AppointmentUncheckedCreateWithoutAssignmentsInput>
+}
+
+export type AppointmentUpsertWithoutAssignmentsInput = {
+  update: Prisma.XOR<Prisma.AppointmentUpdateWithoutAssignmentsInput, Prisma.AppointmentUncheckedUpdateWithoutAssignmentsInput>
+  create: Prisma.XOR<Prisma.AppointmentCreateWithoutAssignmentsInput, Prisma.AppointmentUncheckedCreateWithoutAssignmentsInput>
+  where?: Prisma.AppointmentWhereInput
+}
+
+export type AppointmentUpdateToOneWithWhereWithoutAssignmentsInput = {
+  where?: Prisma.AppointmentWhereInput
+  data: Prisma.XOR<Prisma.AppointmentUpdateWithoutAssignmentsInput, Prisma.AppointmentUncheckedUpdateWithoutAssignmentsInput>
+}
+
+export type AppointmentUpdateWithoutAssignmentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  appointmentNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  service?: Prisma.StringFieldUpdateOperationsInput | string
+  subservice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.StringFieldUpdateOperationsInput | string
+  zipCode?: Prisma.StringFieldUpdateOperationsInput | string
+  taxCounty?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preferredDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  preferredTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumAppointmentStatusFieldUpdateOperationsInput | $Enums.AppointmentStatus
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photos?: Prisma.AppointmentUpdatephotosInput | string[]
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  eta?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  techStatus?: Prisma.NullableEnumTechStatusFieldUpdateOperationsInput | $Enums.TechStatus | null
+  propertyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripePaymentIntentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  signatureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  priority?: Prisma.EnumJobPriorityFieldUpdateOperationsInput | $Enums.JobPriority
+  isEmergency?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  diagnosticFee?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  diagnosticFeeStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  source?: Prisma.StringFieldUpdateOperationsInput | string
+  confirmationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  jobType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobCategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  estimatedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  arrivalWindow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  equipmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leadSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  events?: Prisma.JobEventUpdateManyWithoutAppointmentNestedInput
+  user?: Prisma.UserUpdateOneWithoutAppointmentsNestedInput
+  technician?: Prisma.UserUpdateOneWithoutTechnicianAppointmentsNestedInput
+  dispatcher?: Prisma.UserUpdateOneWithoutDispatchedAppointmentsNestedInput
+  customer?: Prisma.CustomerUpdateOneWithoutAppointmentsNestedInput
+  project?: Prisma.ProjectUpdateOneWithoutAppointmentsNestedInput
+  maintenanceVisit?: Prisma.MaintenanceVisitUpdateOneWithoutAppointmentNestedInput
+  invoice?: Prisma.InvoiceUpdateOneWithoutAppointmentNestedInput
+  notifications?: Prisma.NotificationLogUpdateManyWithoutAppointmentNestedInput
+  maintenanceLogs?: Prisma.MaintenanceLogUpdateManyWithoutAppointmentNestedInput
+  formSubmissions?: Prisma.FormSubmissionUpdateManyWithoutAppointmentNestedInput
+  calls?: Prisma.CallUpdateManyWithoutAppointmentNestedInput
+  diagnosisForm?: Prisma.DiagnosisFormUpdateOneWithoutAppointmentNestedInput
+  serviceDiagnostic?: Prisma.ServiceDiagnosticUpdateOneWithoutAppointmentNestedInput
+  systemStartup?: Prisma.SystemStartupUpdateOneWithoutAppointmentNestedInput
+  ventCleaning?: Prisma.VentCleaningUpdateOneWithoutAppointmentNestedInput
+  ductCleaning?: Prisma.DuctCleaningUpdateOneWithoutAppointmentNestedInput
+  jobPhotos?: Prisma.JobPhotoUpdateManyWithoutAppointmentNestedInput
+  payments?: Prisma.JobPaymentUpdateManyWithoutAppointmentNestedInput
+  checklist?: Prisma.ServiceChecklistUpdateOneWithoutAppointmentNestedInput
+  timeLog?: Prisma.JobTimeLogUpdateOneWithoutAppointmentNestedInput
+  parts?: Prisma.JobPartUpdateManyWithoutAppointmentNestedInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUpdateManyWithoutAppointmentNestedInput
+}
+
+export type AppointmentUncheckedUpdateWithoutAssignmentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  appointmentNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  service?: Prisma.StringFieldUpdateOperationsInput | string
+  subservice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.StringFieldUpdateOperationsInput | string
+  zipCode?: Prisma.StringFieldUpdateOperationsInput | string
+  taxCounty?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preferredDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  preferredTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumAppointmentStatusFieldUpdateOperationsInput | $Enums.AppointmentStatus
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photos?: Prisma.AppointmentUpdatephotosInput | string[]
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  technicianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dispatcherId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eta?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  techStatus?: Prisma.NullableEnumTechStatusFieldUpdateOperationsInput | $Enums.TechStatus | null
+  propertyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripePaymentIntentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  signatureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  priority?: Prisma.EnumJobPriorityFieldUpdateOperationsInput | $Enums.JobPriority
+  isEmergency?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  diagnosticFee?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  diagnosticFeeStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  source?: Prisma.StringFieldUpdateOperationsInput | string
+  confirmationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  projectId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobCategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  estimatedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  arrivalWindow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  equipmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leadSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  events?: Prisma.JobEventUncheckedUpdateManyWithoutAppointmentNestedInput
+  maintenanceVisit?: Prisma.MaintenanceVisitUncheckedUpdateOneWithoutAppointmentNestedInput
+  invoice?: Prisma.InvoiceUncheckedUpdateOneWithoutAppointmentNestedInput
+  notifications?: Prisma.NotificationLogUncheckedUpdateManyWithoutAppointmentNestedInput
+  maintenanceLogs?: Prisma.MaintenanceLogUncheckedUpdateManyWithoutAppointmentNestedInput
+  formSubmissions?: Prisma.FormSubmissionUncheckedUpdateManyWithoutAppointmentNestedInput
+  calls?: Prisma.CallUncheckedUpdateManyWithoutAppointmentNestedInput
+  diagnosisForm?: Prisma.DiagnosisFormUncheckedUpdateOneWithoutAppointmentNestedInput
+  serviceDiagnostic?: Prisma.ServiceDiagnosticUncheckedUpdateOneWithoutAppointmentNestedInput
+  systemStartup?: Prisma.SystemStartupUncheckedUpdateOneWithoutAppointmentNestedInput
+  ventCleaning?: Prisma.VentCleaningUncheckedUpdateOneWithoutAppointmentNestedInput
+  ductCleaning?: Prisma.DuctCleaningUncheckedUpdateOneWithoutAppointmentNestedInput
+  jobPhotos?: Prisma.JobPhotoUncheckedUpdateManyWithoutAppointmentNestedInput
+  payments?: Prisma.JobPaymentUncheckedUpdateManyWithoutAppointmentNestedInput
+  checklist?: Prisma.ServiceChecklistUncheckedUpdateOneWithoutAppointmentNestedInput
+  timeLog?: Prisma.JobTimeLogUncheckedUpdateOneWithoutAppointmentNestedInput
+  parts?: Prisma.JobPartUncheckedUpdateManyWithoutAppointmentNestedInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUncheckedUpdateManyWithoutAppointmentNestedInput
+}
+
+export type AppointmentCreateWithoutEventsInput = {
+  id?: string
+  appointmentNumber: string
+  service: string
+  subservice?: string | null
+  name: string
+  phone: string
+  email: string
+  address: string
+  city?: string
+  zipCode?: string
+  taxCounty?: string | null
+  description?: string | null
+  preferredDate?: Date | string | null
+  preferredTime?: string | null
+  status?: $Enums.AppointmentStatus
+  notes?: string | null
+  photos?: Prisma.AppointmentCreatephotosInput | string[]
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  eta?: Date | string | null
+  techStatus?: $Enums.TechStatus | null
+  propertyId?: string | null
+  stripePaymentIntentId?: string | null
+  signatureUrl?: string | null
+  totalAmount?: number | null
+  approvedAt?: Date | string | null
+  priority?: $Enums.JobPriority
+  isEmergency?: boolean
+  diagnosticFee?: number | null
+  diagnosticFeeStatus?: string | null
+  adminNotes?: string | null
+  source?: string
+  confirmationToken?: string | null
+  confirmedAt?: Date | string | null
+  jobType?: string | null
+  jobCategory?: string | null
+  customerType?: string | null
+  scheduledStart?: Date | string | null
+  scheduledEnd?: Date | string | null
+  estimatedMinutes?: number | null
+  arrivalWindow?: string | null
+  billingAddress?: string | null
+  equipmentId?: string | null
+  createdById?: string | null
+  leadSource?: string | null
+  lat?: number | null
+  lng?: number | null
+  assignments?: Prisma.JobAssignmentCreateNestedManyWithoutAppointmentInput
+  user?: Prisma.UserCreateNestedOneWithoutAppointmentsInput
+  technician?: Prisma.UserCreateNestedOneWithoutTechnicianAppointmentsInput
+  dispatcher?: Prisma.UserCreateNestedOneWithoutDispatchedAppointmentsInput
+  customer?: Prisma.CustomerCreateNestedOneWithoutAppointmentsInput
+  project?: Prisma.ProjectCreateNestedOneWithoutAppointmentsInput
+  maintenanceVisit?: Prisma.MaintenanceVisitCreateNestedOneWithoutAppointmentInput
+  invoice?: Prisma.InvoiceCreateNestedOneWithoutAppointmentInput
+  notifications?: Prisma.NotificationLogCreateNestedManyWithoutAppointmentInput
+  maintenanceLogs?: Prisma.MaintenanceLogCreateNestedManyWithoutAppointmentInput
+  formSubmissions?: Prisma.FormSubmissionCreateNestedManyWithoutAppointmentInput
+  calls?: Prisma.CallCreateNestedManyWithoutAppointmentInput
+  diagnosisForm?: Prisma.DiagnosisFormCreateNestedOneWithoutAppointmentInput
+  serviceDiagnostic?: Prisma.ServiceDiagnosticCreateNestedOneWithoutAppointmentInput
+  systemStartup?: Prisma.SystemStartupCreateNestedOneWithoutAppointmentInput
+  ventCleaning?: Prisma.VentCleaningCreateNestedOneWithoutAppointmentInput
+  ductCleaning?: Prisma.DuctCleaningCreateNestedOneWithoutAppointmentInput
+  jobPhotos?: Prisma.JobPhotoCreateNestedManyWithoutAppointmentInput
+  payments?: Prisma.JobPaymentCreateNestedManyWithoutAppointmentInput
+  checklist?: Prisma.ServiceChecklistCreateNestedOneWithoutAppointmentInput
+  timeLog?: Prisma.JobTimeLogCreateNestedOneWithoutAppointmentInput
+  parts?: Prisma.JobPartCreateNestedManyWithoutAppointmentInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionCreateNestedManyWithoutAppointmentInput
+}
+
+export type AppointmentUncheckedCreateWithoutEventsInput = {
+  id?: string
+  appointmentNumber: string
+  userId?: string | null
+  service: string
+  subservice?: string | null
+  name: string
+  phone: string
+  email: string
+  address: string
+  city?: string
+  zipCode?: string
+  taxCounty?: string | null
+  description?: string | null
+  preferredDate?: Date | string | null
+  preferredTime?: string | null
+  status?: $Enums.AppointmentStatus
+  notes?: string | null
+  photos?: Prisma.AppointmentCreatephotosInput | string[]
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  technicianId?: string | null
+  dispatcherId?: string | null
+  eta?: Date | string | null
+  techStatus?: $Enums.TechStatus | null
+  propertyId?: string | null
+  stripePaymentIntentId?: string | null
+  signatureUrl?: string | null
+  totalAmount?: number | null
+  approvedAt?: Date | string | null
+  priority?: $Enums.JobPriority
+  isEmergency?: boolean
+  diagnosticFee?: number | null
+  diagnosticFeeStatus?: string | null
+  adminNotes?: string | null
+  source?: string
+  confirmationToken?: string | null
+  confirmedAt?: Date | string | null
+  customerId?: string | null
+  projectId?: string | null
+  jobType?: string | null
+  jobCategory?: string | null
+  customerType?: string | null
+  scheduledStart?: Date | string | null
+  scheduledEnd?: Date | string | null
+  estimatedMinutes?: number | null
+  arrivalWindow?: string | null
+  billingAddress?: string | null
+  equipmentId?: string | null
+  createdById?: string | null
+  leadSource?: string | null
+  lat?: number | null
+  lng?: number | null
+  assignments?: Prisma.JobAssignmentUncheckedCreateNestedManyWithoutAppointmentInput
+  maintenanceVisit?: Prisma.MaintenanceVisitUncheckedCreateNestedOneWithoutAppointmentInput
+  invoice?: Prisma.InvoiceUncheckedCreateNestedOneWithoutAppointmentInput
+  notifications?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutAppointmentInput
+  maintenanceLogs?: Prisma.MaintenanceLogUncheckedCreateNestedManyWithoutAppointmentInput
+  formSubmissions?: Prisma.FormSubmissionUncheckedCreateNestedManyWithoutAppointmentInput
+  calls?: Prisma.CallUncheckedCreateNestedManyWithoutAppointmentInput
+  diagnosisForm?: Prisma.DiagnosisFormUncheckedCreateNestedOneWithoutAppointmentInput
+  serviceDiagnostic?: Prisma.ServiceDiagnosticUncheckedCreateNestedOneWithoutAppointmentInput
+  systemStartup?: Prisma.SystemStartupUncheckedCreateNestedOneWithoutAppointmentInput
+  ventCleaning?: Prisma.VentCleaningUncheckedCreateNestedOneWithoutAppointmentInput
+  ductCleaning?: Prisma.DuctCleaningUncheckedCreateNestedOneWithoutAppointmentInput
+  jobPhotos?: Prisma.JobPhotoUncheckedCreateNestedManyWithoutAppointmentInput
+  payments?: Prisma.JobPaymentUncheckedCreateNestedManyWithoutAppointmentInput
+  checklist?: Prisma.ServiceChecklistUncheckedCreateNestedOneWithoutAppointmentInput
+  timeLog?: Prisma.JobTimeLogUncheckedCreateNestedOneWithoutAppointmentInput
+  parts?: Prisma.JobPartUncheckedCreateNestedManyWithoutAppointmentInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUncheckedCreateNestedManyWithoutAppointmentInput
+}
+
+export type AppointmentCreateOrConnectWithoutEventsInput = {
+  where: Prisma.AppointmentWhereUniqueInput
+  create: Prisma.XOR<Prisma.AppointmentCreateWithoutEventsInput, Prisma.AppointmentUncheckedCreateWithoutEventsInput>
+}
+
+export type AppointmentUpsertWithoutEventsInput = {
+  update: Prisma.XOR<Prisma.AppointmentUpdateWithoutEventsInput, Prisma.AppointmentUncheckedUpdateWithoutEventsInput>
+  create: Prisma.XOR<Prisma.AppointmentCreateWithoutEventsInput, Prisma.AppointmentUncheckedCreateWithoutEventsInput>
+  where?: Prisma.AppointmentWhereInput
+}
+
+export type AppointmentUpdateToOneWithWhereWithoutEventsInput = {
+  where?: Prisma.AppointmentWhereInput
+  data: Prisma.XOR<Prisma.AppointmentUpdateWithoutEventsInput, Prisma.AppointmentUncheckedUpdateWithoutEventsInput>
+}
+
+export type AppointmentUpdateWithoutEventsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  appointmentNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  service?: Prisma.StringFieldUpdateOperationsInput | string
+  subservice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.StringFieldUpdateOperationsInput | string
+  zipCode?: Prisma.StringFieldUpdateOperationsInput | string
+  taxCounty?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preferredDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  preferredTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumAppointmentStatusFieldUpdateOperationsInput | $Enums.AppointmentStatus
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photos?: Prisma.AppointmentUpdatephotosInput | string[]
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  eta?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  techStatus?: Prisma.NullableEnumTechStatusFieldUpdateOperationsInput | $Enums.TechStatus | null
+  propertyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripePaymentIntentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  signatureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  priority?: Prisma.EnumJobPriorityFieldUpdateOperationsInput | $Enums.JobPriority
+  isEmergency?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  diagnosticFee?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  diagnosticFeeStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  source?: Prisma.StringFieldUpdateOperationsInput | string
+  confirmationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  jobType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobCategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  estimatedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  arrivalWindow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  equipmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leadSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  assignments?: Prisma.JobAssignmentUpdateManyWithoutAppointmentNestedInput
+  user?: Prisma.UserUpdateOneWithoutAppointmentsNestedInput
+  technician?: Prisma.UserUpdateOneWithoutTechnicianAppointmentsNestedInput
+  dispatcher?: Prisma.UserUpdateOneWithoutDispatchedAppointmentsNestedInput
+  customer?: Prisma.CustomerUpdateOneWithoutAppointmentsNestedInput
+  project?: Prisma.ProjectUpdateOneWithoutAppointmentsNestedInput
+  maintenanceVisit?: Prisma.MaintenanceVisitUpdateOneWithoutAppointmentNestedInput
+  invoice?: Prisma.InvoiceUpdateOneWithoutAppointmentNestedInput
+  notifications?: Prisma.NotificationLogUpdateManyWithoutAppointmentNestedInput
+  maintenanceLogs?: Prisma.MaintenanceLogUpdateManyWithoutAppointmentNestedInput
+  formSubmissions?: Prisma.FormSubmissionUpdateManyWithoutAppointmentNestedInput
+  calls?: Prisma.CallUpdateManyWithoutAppointmentNestedInput
+  diagnosisForm?: Prisma.DiagnosisFormUpdateOneWithoutAppointmentNestedInput
+  serviceDiagnostic?: Prisma.ServiceDiagnosticUpdateOneWithoutAppointmentNestedInput
+  systemStartup?: Prisma.SystemStartupUpdateOneWithoutAppointmentNestedInput
+  ventCleaning?: Prisma.VentCleaningUpdateOneWithoutAppointmentNestedInput
+  ductCleaning?: Prisma.DuctCleaningUpdateOneWithoutAppointmentNestedInput
+  jobPhotos?: Prisma.JobPhotoUpdateManyWithoutAppointmentNestedInput
+  payments?: Prisma.JobPaymentUpdateManyWithoutAppointmentNestedInput
+  checklist?: Prisma.ServiceChecklistUpdateOneWithoutAppointmentNestedInput
+  timeLog?: Prisma.JobTimeLogUpdateOneWithoutAppointmentNestedInput
+  parts?: Prisma.JobPartUpdateManyWithoutAppointmentNestedInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUpdateManyWithoutAppointmentNestedInput
+}
+
+export type AppointmentUncheckedUpdateWithoutEventsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  appointmentNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  service?: Prisma.StringFieldUpdateOperationsInput | string
+  subservice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.StringFieldUpdateOperationsInput | string
+  zipCode?: Prisma.StringFieldUpdateOperationsInput | string
+  taxCounty?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preferredDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  preferredTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumAppointmentStatusFieldUpdateOperationsInput | $Enums.AppointmentStatus
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photos?: Prisma.AppointmentUpdatephotosInput | string[]
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  technicianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dispatcherId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eta?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  techStatus?: Prisma.NullableEnumTechStatusFieldUpdateOperationsInput | $Enums.TechStatus | null
+  propertyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripePaymentIntentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  signatureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  priority?: Prisma.EnumJobPriorityFieldUpdateOperationsInput | $Enums.JobPriority
+  isEmergency?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  diagnosticFee?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  diagnosticFeeStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  source?: Prisma.StringFieldUpdateOperationsInput | string
+  confirmationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  projectId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobCategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  estimatedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  arrivalWindow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  equipmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leadSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  assignments?: Prisma.JobAssignmentUncheckedUpdateManyWithoutAppointmentNestedInput
+  maintenanceVisit?: Prisma.MaintenanceVisitUncheckedUpdateOneWithoutAppointmentNestedInput
+  invoice?: Prisma.InvoiceUncheckedUpdateOneWithoutAppointmentNestedInput
+  notifications?: Prisma.NotificationLogUncheckedUpdateManyWithoutAppointmentNestedInput
+  maintenanceLogs?: Prisma.MaintenanceLogUncheckedUpdateManyWithoutAppointmentNestedInput
+  formSubmissions?: Prisma.FormSubmissionUncheckedUpdateManyWithoutAppointmentNestedInput
+  calls?: Prisma.CallUncheckedUpdateManyWithoutAppointmentNestedInput
+  diagnosisForm?: Prisma.DiagnosisFormUncheckedUpdateOneWithoutAppointmentNestedInput
+  serviceDiagnostic?: Prisma.ServiceDiagnosticUncheckedUpdateOneWithoutAppointmentNestedInput
+  systemStartup?: Prisma.SystemStartupUncheckedUpdateOneWithoutAppointmentNestedInput
+  ventCleaning?: Prisma.VentCleaningUncheckedUpdateOneWithoutAppointmentNestedInput
+  ductCleaning?: Prisma.DuctCleaningUncheckedUpdateOneWithoutAppointmentNestedInput
+  jobPhotos?: Prisma.JobPhotoUncheckedUpdateManyWithoutAppointmentNestedInput
+  payments?: Prisma.JobPaymentUncheckedUpdateManyWithoutAppointmentNestedInput
+  checklist?: Prisma.ServiceChecklistUncheckedUpdateOneWithoutAppointmentNestedInput
+  timeLog?: Prisma.JobTimeLogUncheckedUpdateOneWithoutAppointmentNestedInput
+  parts?: Prisma.JobPartUncheckedUpdateManyWithoutAppointmentNestedInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUncheckedUpdateManyWithoutAppointmentNestedInput
+}
+
+export type AppointmentCreateWithoutHvacDiagnosticsInput = {
+  id?: string
+  appointmentNumber: string
+  service: string
+  subservice?: string | null
+  name: string
+  phone: string
+  email: string
+  address: string
+  city?: string
+  zipCode?: string
+  taxCounty?: string | null
+  description?: string | null
+  preferredDate?: Date | string | null
+  preferredTime?: string | null
+  status?: $Enums.AppointmentStatus
+  notes?: string | null
+  photos?: Prisma.AppointmentCreatephotosInput | string[]
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  eta?: Date | string | null
+  techStatus?: $Enums.TechStatus | null
+  propertyId?: string | null
+  stripePaymentIntentId?: string | null
+  signatureUrl?: string | null
+  totalAmount?: number | null
+  approvedAt?: Date | string | null
+  priority?: $Enums.JobPriority
+  isEmergency?: boolean
+  diagnosticFee?: number | null
+  diagnosticFeeStatus?: string | null
+  adminNotes?: string | null
+  source?: string
+  confirmationToken?: string | null
+  confirmedAt?: Date | string | null
+  jobType?: string | null
+  jobCategory?: string | null
+  customerType?: string | null
+  scheduledStart?: Date | string | null
+  scheduledEnd?: Date | string | null
+  estimatedMinutes?: number | null
+  arrivalWindow?: string | null
+  billingAddress?: string | null
+  equipmentId?: string | null
+  createdById?: string | null
+  leadSource?: string | null
+  lat?: number | null
+  lng?: number | null
+  assignments?: Prisma.JobAssignmentCreateNestedManyWithoutAppointmentInput
+  events?: Prisma.JobEventCreateNestedManyWithoutAppointmentInput
+  user?: Prisma.UserCreateNestedOneWithoutAppointmentsInput
+  technician?: Prisma.UserCreateNestedOneWithoutTechnicianAppointmentsInput
+  dispatcher?: Prisma.UserCreateNestedOneWithoutDispatchedAppointmentsInput
+  customer?: Prisma.CustomerCreateNestedOneWithoutAppointmentsInput
+  project?: Prisma.ProjectCreateNestedOneWithoutAppointmentsInput
+  maintenanceVisit?: Prisma.MaintenanceVisitCreateNestedOneWithoutAppointmentInput
+  invoice?: Prisma.InvoiceCreateNestedOneWithoutAppointmentInput
+  notifications?: Prisma.NotificationLogCreateNestedManyWithoutAppointmentInput
+  maintenanceLogs?: Prisma.MaintenanceLogCreateNestedManyWithoutAppointmentInput
+  formSubmissions?: Prisma.FormSubmissionCreateNestedManyWithoutAppointmentInput
+  calls?: Prisma.CallCreateNestedManyWithoutAppointmentInput
+  diagnosisForm?: Prisma.DiagnosisFormCreateNestedOneWithoutAppointmentInput
+  serviceDiagnostic?: Prisma.ServiceDiagnosticCreateNestedOneWithoutAppointmentInput
+  systemStartup?: Prisma.SystemStartupCreateNestedOneWithoutAppointmentInput
+  ventCleaning?: Prisma.VentCleaningCreateNestedOneWithoutAppointmentInput
+  ductCleaning?: Prisma.DuctCleaningCreateNestedOneWithoutAppointmentInput
+  jobPhotos?: Prisma.JobPhotoCreateNestedManyWithoutAppointmentInput
+  payments?: Prisma.JobPaymentCreateNestedManyWithoutAppointmentInput
+  checklist?: Prisma.ServiceChecklistCreateNestedOneWithoutAppointmentInput
+  timeLog?: Prisma.JobTimeLogCreateNestedOneWithoutAppointmentInput
+  parts?: Prisma.JobPartCreateNestedManyWithoutAppointmentInput
+}
+
+export type AppointmentUncheckedCreateWithoutHvacDiagnosticsInput = {
+  id?: string
+  appointmentNumber: string
+  userId?: string | null
+  service: string
+  subservice?: string | null
+  name: string
+  phone: string
+  email: string
+  address: string
+  city?: string
+  zipCode?: string
+  taxCounty?: string | null
+  description?: string | null
+  preferredDate?: Date | string | null
+  preferredTime?: string | null
+  status?: $Enums.AppointmentStatus
+  notes?: string | null
+  photos?: Prisma.AppointmentCreatephotosInput | string[]
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  technicianId?: string | null
+  dispatcherId?: string | null
+  eta?: Date | string | null
+  techStatus?: $Enums.TechStatus | null
+  propertyId?: string | null
+  stripePaymentIntentId?: string | null
+  signatureUrl?: string | null
+  totalAmount?: number | null
+  approvedAt?: Date | string | null
+  priority?: $Enums.JobPriority
+  isEmergency?: boolean
+  diagnosticFee?: number | null
+  diagnosticFeeStatus?: string | null
+  adminNotes?: string | null
+  source?: string
+  confirmationToken?: string | null
+  confirmedAt?: Date | string | null
+  customerId?: string | null
+  projectId?: string | null
+  jobType?: string | null
+  jobCategory?: string | null
+  customerType?: string | null
+  scheduledStart?: Date | string | null
+  scheduledEnd?: Date | string | null
+  estimatedMinutes?: number | null
+  arrivalWindow?: string | null
+  billingAddress?: string | null
+  equipmentId?: string | null
+  createdById?: string | null
+  leadSource?: string | null
+  lat?: number | null
+  lng?: number | null
+  assignments?: Prisma.JobAssignmentUncheckedCreateNestedManyWithoutAppointmentInput
+  events?: Prisma.JobEventUncheckedCreateNestedManyWithoutAppointmentInput
+  maintenanceVisit?: Prisma.MaintenanceVisitUncheckedCreateNestedOneWithoutAppointmentInput
+  invoice?: Prisma.InvoiceUncheckedCreateNestedOneWithoutAppointmentInput
+  notifications?: Prisma.NotificationLogUncheckedCreateNestedManyWithoutAppointmentInput
+  maintenanceLogs?: Prisma.MaintenanceLogUncheckedCreateNestedManyWithoutAppointmentInput
+  formSubmissions?: Prisma.FormSubmissionUncheckedCreateNestedManyWithoutAppointmentInput
+  calls?: Prisma.CallUncheckedCreateNestedManyWithoutAppointmentInput
+  diagnosisForm?: Prisma.DiagnosisFormUncheckedCreateNestedOneWithoutAppointmentInput
+  serviceDiagnostic?: Prisma.ServiceDiagnosticUncheckedCreateNestedOneWithoutAppointmentInput
+  systemStartup?: Prisma.SystemStartupUncheckedCreateNestedOneWithoutAppointmentInput
+  ventCleaning?: Prisma.VentCleaningUncheckedCreateNestedOneWithoutAppointmentInput
+  ductCleaning?: Prisma.DuctCleaningUncheckedCreateNestedOneWithoutAppointmentInput
+  jobPhotos?: Prisma.JobPhotoUncheckedCreateNestedManyWithoutAppointmentInput
+  payments?: Prisma.JobPaymentUncheckedCreateNestedManyWithoutAppointmentInput
+  checklist?: Prisma.ServiceChecklistUncheckedCreateNestedOneWithoutAppointmentInput
+  timeLog?: Prisma.JobTimeLogUncheckedCreateNestedOneWithoutAppointmentInput
+  parts?: Prisma.JobPartUncheckedCreateNestedManyWithoutAppointmentInput
+}
+
+export type AppointmentCreateOrConnectWithoutHvacDiagnosticsInput = {
+  where: Prisma.AppointmentWhereUniqueInput
+  create: Prisma.XOR<Prisma.AppointmentCreateWithoutHvacDiagnosticsInput, Prisma.AppointmentUncheckedCreateWithoutHvacDiagnosticsInput>
+}
+
+export type AppointmentUpsertWithoutHvacDiagnosticsInput = {
+  update: Prisma.XOR<Prisma.AppointmentUpdateWithoutHvacDiagnosticsInput, Prisma.AppointmentUncheckedUpdateWithoutHvacDiagnosticsInput>
+  create: Prisma.XOR<Prisma.AppointmentCreateWithoutHvacDiagnosticsInput, Prisma.AppointmentUncheckedCreateWithoutHvacDiagnosticsInput>
+  where?: Prisma.AppointmentWhereInput
+}
+
+export type AppointmentUpdateToOneWithWhereWithoutHvacDiagnosticsInput = {
+  where?: Prisma.AppointmentWhereInput
+  data: Prisma.XOR<Prisma.AppointmentUpdateWithoutHvacDiagnosticsInput, Prisma.AppointmentUncheckedUpdateWithoutHvacDiagnosticsInput>
+}
+
+export type AppointmentUpdateWithoutHvacDiagnosticsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  appointmentNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  service?: Prisma.StringFieldUpdateOperationsInput | string
+  subservice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.StringFieldUpdateOperationsInput | string
+  zipCode?: Prisma.StringFieldUpdateOperationsInput | string
+  taxCounty?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preferredDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  preferredTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumAppointmentStatusFieldUpdateOperationsInput | $Enums.AppointmentStatus
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photos?: Prisma.AppointmentUpdatephotosInput | string[]
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  eta?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  techStatus?: Prisma.NullableEnumTechStatusFieldUpdateOperationsInput | $Enums.TechStatus | null
+  propertyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripePaymentIntentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  signatureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  priority?: Prisma.EnumJobPriorityFieldUpdateOperationsInput | $Enums.JobPriority
+  isEmergency?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  diagnosticFee?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  diagnosticFeeStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  source?: Prisma.StringFieldUpdateOperationsInput | string
+  confirmationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  jobType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobCategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  estimatedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  arrivalWindow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  equipmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leadSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  assignments?: Prisma.JobAssignmentUpdateManyWithoutAppointmentNestedInput
+  events?: Prisma.JobEventUpdateManyWithoutAppointmentNestedInput
+  user?: Prisma.UserUpdateOneWithoutAppointmentsNestedInput
+  technician?: Prisma.UserUpdateOneWithoutTechnicianAppointmentsNestedInput
+  dispatcher?: Prisma.UserUpdateOneWithoutDispatchedAppointmentsNestedInput
+  customer?: Prisma.CustomerUpdateOneWithoutAppointmentsNestedInput
+  project?: Prisma.ProjectUpdateOneWithoutAppointmentsNestedInput
+  maintenanceVisit?: Prisma.MaintenanceVisitUpdateOneWithoutAppointmentNestedInput
+  invoice?: Prisma.InvoiceUpdateOneWithoutAppointmentNestedInput
+  notifications?: Prisma.NotificationLogUpdateManyWithoutAppointmentNestedInput
+  maintenanceLogs?: Prisma.MaintenanceLogUpdateManyWithoutAppointmentNestedInput
+  formSubmissions?: Prisma.FormSubmissionUpdateManyWithoutAppointmentNestedInput
+  calls?: Prisma.CallUpdateManyWithoutAppointmentNestedInput
+  diagnosisForm?: Prisma.DiagnosisFormUpdateOneWithoutAppointmentNestedInput
+  serviceDiagnostic?: Prisma.ServiceDiagnosticUpdateOneWithoutAppointmentNestedInput
+  systemStartup?: Prisma.SystemStartupUpdateOneWithoutAppointmentNestedInput
+  ventCleaning?: Prisma.VentCleaningUpdateOneWithoutAppointmentNestedInput
+  ductCleaning?: Prisma.DuctCleaningUpdateOneWithoutAppointmentNestedInput
+  jobPhotos?: Prisma.JobPhotoUpdateManyWithoutAppointmentNestedInput
+  payments?: Prisma.JobPaymentUpdateManyWithoutAppointmentNestedInput
+  checklist?: Prisma.ServiceChecklistUpdateOneWithoutAppointmentNestedInput
+  timeLog?: Prisma.JobTimeLogUpdateOneWithoutAppointmentNestedInput
+  parts?: Prisma.JobPartUpdateManyWithoutAppointmentNestedInput
+}
+
+export type AppointmentUncheckedUpdateWithoutHvacDiagnosticsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  appointmentNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  service?: Prisma.StringFieldUpdateOperationsInput | string
+  subservice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.StringFieldUpdateOperationsInput | string
+  zipCode?: Prisma.StringFieldUpdateOperationsInput | string
+  taxCounty?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preferredDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  preferredTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumAppointmentStatusFieldUpdateOperationsInput | $Enums.AppointmentStatus
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photos?: Prisma.AppointmentUpdatephotosInput | string[]
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  technicianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dispatcherId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eta?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  techStatus?: Prisma.NullableEnumTechStatusFieldUpdateOperationsInput | $Enums.TechStatus | null
+  propertyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripePaymentIntentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  signatureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  priority?: Prisma.EnumJobPriorityFieldUpdateOperationsInput | $Enums.JobPriority
+  isEmergency?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  diagnosticFee?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  diagnosticFeeStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  source?: Prisma.StringFieldUpdateOperationsInput | string
+  confirmationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  projectId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobCategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  estimatedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  arrivalWindow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  equipmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leadSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  assignments?: Prisma.JobAssignmentUncheckedUpdateManyWithoutAppointmentNestedInput
+  events?: Prisma.JobEventUncheckedUpdateManyWithoutAppointmentNestedInput
+  maintenanceVisit?: Prisma.MaintenanceVisitUncheckedUpdateOneWithoutAppointmentNestedInput
+  invoice?: Prisma.InvoiceUncheckedUpdateOneWithoutAppointmentNestedInput
+  notifications?: Prisma.NotificationLogUncheckedUpdateManyWithoutAppointmentNestedInput
+  maintenanceLogs?: Prisma.MaintenanceLogUncheckedUpdateManyWithoutAppointmentNestedInput
+  formSubmissions?: Prisma.FormSubmissionUncheckedUpdateManyWithoutAppointmentNestedInput
   calls?: Prisma.CallUncheckedUpdateManyWithoutAppointmentNestedInput
   diagnosisForm?: Prisma.DiagnosisFormUncheckedUpdateOneWithoutAppointmentNestedInput
   serviceDiagnostic?: Prisma.ServiceDiagnosticUncheckedUpdateOneWithoutAppointmentNestedInput
@@ -6067,6 +8894,19 @@ export type AppointmentCreateManyUserInput = {
   confirmedAt?: Date | string | null
   customerId?: string | null
   projectId?: string | null
+  jobType?: string | null
+  jobCategory?: string | null
+  customerType?: string | null
+  scheduledStart?: Date | string | null
+  scheduledEnd?: Date | string | null
+  estimatedMinutes?: number | null
+  arrivalWindow?: string | null
+  billingAddress?: string | null
+  equipmentId?: string | null
+  createdById?: string | null
+  leadSource?: string | null
+  lat?: number | null
+  lng?: number | null
 }
 
 export type AppointmentCreateManyDispatcherInput = {
@@ -6108,6 +8948,19 @@ export type AppointmentCreateManyDispatcherInput = {
   confirmedAt?: Date | string | null
   customerId?: string | null
   projectId?: string | null
+  jobType?: string | null
+  jobCategory?: string | null
+  customerType?: string | null
+  scheduledStart?: Date | string | null
+  scheduledEnd?: Date | string | null
+  estimatedMinutes?: number | null
+  arrivalWindow?: string | null
+  billingAddress?: string | null
+  equipmentId?: string | null
+  createdById?: string | null
+  leadSource?: string | null
+  lat?: number | null
+  lng?: number | null
 }
 
 export type AppointmentCreateManyTechnicianInput = {
@@ -6149,6 +9002,19 @@ export type AppointmentCreateManyTechnicianInput = {
   confirmedAt?: Date | string | null
   customerId?: string | null
   projectId?: string | null
+  jobType?: string | null
+  jobCategory?: string | null
+  customerType?: string | null
+  scheduledStart?: Date | string | null
+  scheduledEnd?: Date | string | null
+  estimatedMinutes?: number | null
+  arrivalWindow?: string | null
+  billingAddress?: string | null
+  equipmentId?: string | null
+  createdById?: string | null
+  leadSource?: string | null
+  lat?: number | null
+  lng?: number | null
 }
 
 export type AppointmentUpdateWithoutUserInput = {
@@ -6186,10 +9052,26 @@ export type AppointmentUpdateWithoutUserInput = {
   source?: Prisma.StringFieldUpdateOperationsInput | string
   confirmationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  jobType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobCategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  estimatedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  arrivalWindow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  equipmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leadSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  assignments?: Prisma.JobAssignmentUpdateManyWithoutAppointmentNestedInput
+  events?: Prisma.JobEventUpdateManyWithoutAppointmentNestedInput
   technician?: Prisma.UserUpdateOneWithoutTechnicianAppointmentsNestedInput
   dispatcher?: Prisma.UserUpdateOneWithoutDispatchedAppointmentsNestedInput
   customer?: Prisma.CustomerUpdateOneWithoutAppointmentsNestedInput
   project?: Prisma.ProjectUpdateOneWithoutAppointmentsNestedInput
+  maintenanceVisit?: Prisma.MaintenanceVisitUpdateOneWithoutAppointmentNestedInput
   invoice?: Prisma.InvoiceUpdateOneWithoutAppointmentNestedInput
   notifications?: Prisma.NotificationLogUpdateManyWithoutAppointmentNestedInput
   maintenanceLogs?: Prisma.MaintenanceLogUpdateManyWithoutAppointmentNestedInput
@@ -6205,6 +9087,7 @@ export type AppointmentUpdateWithoutUserInput = {
   checklist?: Prisma.ServiceChecklistUpdateOneWithoutAppointmentNestedInput
   timeLog?: Prisma.JobTimeLogUpdateOneWithoutAppointmentNestedInput
   parts?: Prisma.JobPartUpdateManyWithoutAppointmentNestedInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUpdateManyWithoutAppointmentNestedInput
 }
 
 export type AppointmentUncheckedUpdateWithoutUserInput = {
@@ -6246,6 +9129,22 @@ export type AppointmentUncheckedUpdateWithoutUserInput = {
   confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   projectId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobCategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  estimatedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  arrivalWindow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  equipmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leadSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  assignments?: Prisma.JobAssignmentUncheckedUpdateManyWithoutAppointmentNestedInput
+  events?: Prisma.JobEventUncheckedUpdateManyWithoutAppointmentNestedInput
+  maintenanceVisit?: Prisma.MaintenanceVisitUncheckedUpdateOneWithoutAppointmentNestedInput
   invoice?: Prisma.InvoiceUncheckedUpdateOneWithoutAppointmentNestedInput
   notifications?: Prisma.NotificationLogUncheckedUpdateManyWithoutAppointmentNestedInput
   maintenanceLogs?: Prisma.MaintenanceLogUncheckedUpdateManyWithoutAppointmentNestedInput
@@ -6261,6 +9160,7 @@ export type AppointmentUncheckedUpdateWithoutUserInput = {
   checklist?: Prisma.ServiceChecklistUncheckedUpdateOneWithoutAppointmentNestedInput
   timeLog?: Prisma.JobTimeLogUncheckedUpdateOneWithoutAppointmentNestedInput
   parts?: Prisma.JobPartUncheckedUpdateManyWithoutAppointmentNestedInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUncheckedUpdateManyWithoutAppointmentNestedInput
 }
 
 export type AppointmentUncheckedUpdateManyWithoutUserInput = {
@@ -6302,6 +9202,19 @@ export type AppointmentUncheckedUpdateManyWithoutUserInput = {
   confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   projectId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobCategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  estimatedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  arrivalWindow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  equipmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leadSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
 }
 
 export type AppointmentUpdateWithoutDispatcherInput = {
@@ -6339,10 +9252,26 @@ export type AppointmentUpdateWithoutDispatcherInput = {
   source?: Prisma.StringFieldUpdateOperationsInput | string
   confirmationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  jobType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobCategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  estimatedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  arrivalWindow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  equipmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leadSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  assignments?: Prisma.JobAssignmentUpdateManyWithoutAppointmentNestedInput
+  events?: Prisma.JobEventUpdateManyWithoutAppointmentNestedInput
   user?: Prisma.UserUpdateOneWithoutAppointmentsNestedInput
   technician?: Prisma.UserUpdateOneWithoutTechnicianAppointmentsNestedInput
   customer?: Prisma.CustomerUpdateOneWithoutAppointmentsNestedInput
   project?: Prisma.ProjectUpdateOneWithoutAppointmentsNestedInput
+  maintenanceVisit?: Prisma.MaintenanceVisitUpdateOneWithoutAppointmentNestedInput
   invoice?: Prisma.InvoiceUpdateOneWithoutAppointmentNestedInput
   notifications?: Prisma.NotificationLogUpdateManyWithoutAppointmentNestedInput
   maintenanceLogs?: Prisma.MaintenanceLogUpdateManyWithoutAppointmentNestedInput
@@ -6358,6 +9287,7 @@ export type AppointmentUpdateWithoutDispatcherInput = {
   checklist?: Prisma.ServiceChecklistUpdateOneWithoutAppointmentNestedInput
   timeLog?: Prisma.JobTimeLogUpdateOneWithoutAppointmentNestedInput
   parts?: Prisma.JobPartUpdateManyWithoutAppointmentNestedInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUpdateManyWithoutAppointmentNestedInput
 }
 
 export type AppointmentUncheckedUpdateWithoutDispatcherInput = {
@@ -6399,6 +9329,22 @@ export type AppointmentUncheckedUpdateWithoutDispatcherInput = {
   confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   projectId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobCategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  estimatedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  arrivalWindow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  equipmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leadSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  assignments?: Prisma.JobAssignmentUncheckedUpdateManyWithoutAppointmentNestedInput
+  events?: Prisma.JobEventUncheckedUpdateManyWithoutAppointmentNestedInput
+  maintenanceVisit?: Prisma.MaintenanceVisitUncheckedUpdateOneWithoutAppointmentNestedInput
   invoice?: Prisma.InvoiceUncheckedUpdateOneWithoutAppointmentNestedInput
   notifications?: Prisma.NotificationLogUncheckedUpdateManyWithoutAppointmentNestedInput
   maintenanceLogs?: Prisma.MaintenanceLogUncheckedUpdateManyWithoutAppointmentNestedInput
@@ -6414,6 +9360,7 @@ export type AppointmentUncheckedUpdateWithoutDispatcherInput = {
   checklist?: Prisma.ServiceChecklistUncheckedUpdateOneWithoutAppointmentNestedInput
   timeLog?: Prisma.JobTimeLogUncheckedUpdateOneWithoutAppointmentNestedInput
   parts?: Prisma.JobPartUncheckedUpdateManyWithoutAppointmentNestedInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUncheckedUpdateManyWithoutAppointmentNestedInput
 }
 
 export type AppointmentUncheckedUpdateManyWithoutDispatcherInput = {
@@ -6455,6 +9402,19 @@ export type AppointmentUncheckedUpdateManyWithoutDispatcherInput = {
   confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   projectId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobCategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  estimatedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  arrivalWindow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  equipmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leadSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
 }
 
 export type AppointmentUpdateWithoutTechnicianInput = {
@@ -6492,10 +9452,26 @@ export type AppointmentUpdateWithoutTechnicianInput = {
   source?: Prisma.StringFieldUpdateOperationsInput | string
   confirmationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  jobType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobCategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  estimatedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  arrivalWindow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  equipmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leadSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  assignments?: Prisma.JobAssignmentUpdateManyWithoutAppointmentNestedInput
+  events?: Prisma.JobEventUpdateManyWithoutAppointmentNestedInput
   user?: Prisma.UserUpdateOneWithoutAppointmentsNestedInput
   dispatcher?: Prisma.UserUpdateOneWithoutDispatchedAppointmentsNestedInput
   customer?: Prisma.CustomerUpdateOneWithoutAppointmentsNestedInput
   project?: Prisma.ProjectUpdateOneWithoutAppointmentsNestedInput
+  maintenanceVisit?: Prisma.MaintenanceVisitUpdateOneWithoutAppointmentNestedInput
   invoice?: Prisma.InvoiceUpdateOneWithoutAppointmentNestedInput
   notifications?: Prisma.NotificationLogUpdateManyWithoutAppointmentNestedInput
   maintenanceLogs?: Prisma.MaintenanceLogUpdateManyWithoutAppointmentNestedInput
@@ -6511,6 +9487,7 @@ export type AppointmentUpdateWithoutTechnicianInput = {
   checklist?: Prisma.ServiceChecklistUpdateOneWithoutAppointmentNestedInput
   timeLog?: Prisma.JobTimeLogUpdateOneWithoutAppointmentNestedInput
   parts?: Prisma.JobPartUpdateManyWithoutAppointmentNestedInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUpdateManyWithoutAppointmentNestedInput
 }
 
 export type AppointmentUncheckedUpdateWithoutTechnicianInput = {
@@ -6552,6 +9529,22 @@ export type AppointmentUncheckedUpdateWithoutTechnicianInput = {
   confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   projectId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobCategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  estimatedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  arrivalWindow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  equipmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leadSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  assignments?: Prisma.JobAssignmentUncheckedUpdateManyWithoutAppointmentNestedInput
+  events?: Prisma.JobEventUncheckedUpdateManyWithoutAppointmentNestedInput
+  maintenanceVisit?: Prisma.MaintenanceVisitUncheckedUpdateOneWithoutAppointmentNestedInput
   invoice?: Prisma.InvoiceUncheckedUpdateOneWithoutAppointmentNestedInput
   notifications?: Prisma.NotificationLogUncheckedUpdateManyWithoutAppointmentNestedInput
   maintenanceLogs?: Prisma.MaintenanceLogUncheckedUpdateManyWithoutAppointmentNestedInput
@@ -6567,6 +9560,7 @@ export type AppointmentUncheckedUpdateWithoutTechnicianInput = {
   checklist?: Prisma.ServiceChecklistUncheckedUpdateOneWithoutAppointmentNestedInput
   timeLog?: Prisma.JobTimeLogUncheckedUpdateOneWithoutAppointmentNestedInput
   parts?: Prisma.JobPartUncheckedUpdateManyWithoutAppointmentNestedInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUncheckedUpdateManyWithoutAppointmentNestedInput
 }
 
 export type AppointmentUncheckedUpdateManyWithoutTechnicianInput = {
@@ -6608,6 +9602,19 @@ export type AppointmentUncheckedUpdateManyWithoutTechnicianInput = {
   confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   projectId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobCategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  estimatedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  arrivalWindow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  equipmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leadSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
 }
 
 export type AppointmentCreateManyCustomerInput = {
@@ -6649,6 +9656,19 @@ export type AppointmentCreateManyCustomerInput = {
   confirmationToken?: string | null
   confirmedAt?: Date | string | null
   projectId?: string | null
+  jobType?: string | null
+  jobCategory?: string | null
+  customerType?: string | null
+  scheduledStart?: Date | string | null
+  scheduledEnd?: Date | string | null
+  estimatedMinutes?: number | null
+  arrivalWindow?: string | null
+  billingAddress?: string | null
+  equipmentId?: string | null
+  createdById?: string | null
+  leadSource?: string | null
+  lat?: number | null
+  lng?: number | null
 }
 
 export type AppointmentUpdateWithoutCustomerInput = {
@@ -6686,10 +9706,26 @@ export type AppointmentUpdateWithoutCustomerInput = {
   source?: Prisma.StringFieldUpdateOperationsInput | string
   confirmationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  jobType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobCategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  estimatedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  arrivalWindow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  equipmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leadSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  assignments?: Prisma.JobAssignmentUpdateManyWithoutAppointmentNestedInput
+  events?: Prisma.JobEventUpdateManyWithoutAppointmentNestedInput
   user?: Prisma.UserUpdateOneWithoutAppointmentsNestedInput
   technician?: Prisma.UserUpdateOneWithoutTechnicianAppointmentsNestedInput
   dispatcher?: Prisma.UserUpdateOneWithoutDispatchedAppointmentsNestedInput
   project?: Prisma.ProjectUpdateOneWithoutAppointmentsNestedInput
+  maintenanceVisit?: Prisma.MaintenanceVisitUpdateOneWithoutAppointmentNestedInput
   invoice?: Prisma.InvoiceUpdateOneWithoutAppointmentNestedInput
   notifications?: Prisma.NotificationLogUpdateManyWithoutAppointmentNestedInput
   maintenanceLogs?: Prisma.MaintenanceLogUpdateManyWithoutAppointmentNestedInput
@@ -6705,6 +9741,7 @@ export type AppointmentUpdateWithoutCustomerInput = {
   checklist?: Prisma.ServiceChecklistUpdateOneWithoutAppointmentNestedInput
   timeLog?: Prisma.JobTimeLogUpdateOneWithoutAppointmentNestedInput
   parts?: Prisma.JobPartUpdateManyWithoutAppointmentNestedInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUpdateManyWithoutAppointmentNestedInput
 }
 
 export type AppointmentUncheckedUpdateWithoutCustomerInput = {
@@ -6746,6 +9783,22 @@ export type AppointmentUncheckedUpdateWithoutCustomerInput = {
   confirmationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   projectId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobCategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  estimatedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  arrivalWindow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  equipmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leadSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  assignments?: Prisma.JobAssignmentUncheckedUpdateManyWithoutAppointmentNestedInput
+  events?: Prisma.JobEventUncheckedUpdateManyWithoutAppointmentNestedInput
+  maintenanceVisit?: Prisma.MaintenanceVisitUncheckedUpdateOneWithoutAppointmentNestedInput
   invoice?: Prisma.InvoiceUncheckedUpdateOneWithoutAppointmentNestedInput
   notifications?: Prisma.NotificationLogUncheckedUpdateManyWithoutAppointmentNestedInput
   maintenanceLogs?: Prisma.MaintenanceLogUncheckedUpdateManyWithoutAppointmentNestedInput
@@ -6761,6 +9814,7 @@ export type AppointmentUncheckedUpdateWithoutCustomerInput = {
   checklist?: Prisma.ServiceChecklistUncheckedUpdateOneWithoutAppointmentNestedInput
   timeLog?: Prisma.JobTimeLogUncheckedUpdateOneWithoutAppointmentNestedInput
   parts?: Prisma.JobPartUncheckedUpdateManyWithoutAppointmentNestedInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUncheckedUpdateManyWithoutAppointmentNestedInput
 }
 
 export type AppointmentUncheckedUpdateManyWithoutCustomerInput = {
@@ -6802,6 +9856,19 @@ export type AppointmentUncheckedUpdateManyWithoutCustomerInput = {
   confirmationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   projectId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobCategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  estimatedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  arrivalWindow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  equipmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leadSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
 }
 
 export type AppointmentCreateManyProjectInput = {
@@ -6843,6 +9910,19 @@ export type AppointmentCreateManyProjectInput = {
   confirmationToken?: string | null
   confirmedAt?: Date | string | null
   customerId?: string | null
+  jobType?: string | null
+  jobCategory?: string | null
+  customerType?: string | null
+  scheduledStart?: Date | string | null
+  scheduledEnd?: Date | string | null
+  estimatedMinutes?: number | null
+  arrivalWindow?: string | null
+  billingAddress?: string | null
+  equipmentId?: string | null
+  createdById?: string | null
+  leadSource?: string | null
+  lat?: number | null
+  lng?: number | null
 }
 
 export type AppointmentUpdateWithoutProjectInput = {
@@ -6880,10 +9960,26 @@ export type AppointmentUpdateWithoutProjectInput = {
   source?: Prisma.StringFieldUpdateOperationsInput | string
   confirmationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  jobType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobCategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  estimatedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  arrivalWindow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  equipmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leadSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  assignments?: Prisma.JobAssignmentUpdateManyWithoutAppointmentNestedInput
+  events?: Prisma.JobEventUpdateManyWithoutAppointmentNestedInput
   user?: Prisma.UserUpdateOneWithoutAppointmentsNestedInput
   technician?: Prisma.UserUpdateOneWithoutTechnicianAppointmentsNestedInput
   dispatcher?: Prisma.UserUpdateOneWithoutDispatchedAppointmentsNestedInput
   customer?: Prisma.CustomerUpdateOneWithoutAppointmentsNestedInput
+  maintenanceVisit?: Prisma.MaintenanceVisitUpdateOneWithoutAppointmentNestedInput
   invoice?: Prisma.InvoiceUpdateOneWithoutAppointmentNestedInput
   notifications?: Prisma.NotificationLogUpdateManyWithoutAppointmentNestedInput
   maintenanceLogs?: Prisma.MaintenanceLogUpdateManyWithoutAppointmentNestedInput
@@ -6899,6 +9995,7 @@ export type AppointmentUpdateWithoutProjectInput = {
   checklist?: Prisma.ServiceChecklistUpdateOneWithoutAppointmentNestedInput
   timeLog?: Prisma.JobTimeLogUpdateOneWithoutAppointmentNestedInput
   parts?: Prisma.JobPartUpdateManyWithoutAppointmentNestedInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUpdateManyWithoutAppointmentNestedInput
 }
 
 export type AppointmentUncheckedUpdateWithoutProjectInput = {
@@ -6940,6 +10037,22 @@ export type AppointmentUncheckedUpdateWithoutProjectInput = {
   confirmationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobCategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  estimatedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  arrivalWindow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  equipmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leadSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  assignments?: Prisma.JobAssignmentUncheckedUpdateManyWithoutAppointmentNestedInput
+  events?: Prisma.JobEventUncheckedUpdateManyWithoutAppointmentNestedInput
+  maintenanceVisit?: Prisma.MaintenanceVisitUncheckedUpdateOneWithoutAppointmentNestedInput
   invoice?: Prisma.InvoiceUncheckedUpdateOneWithoutAppointmentNestedInput
   notifications?: Prisma.NotificationLogUncheckedUpdateManyWithoutAppointmentNestedInput
   maintenanceLogs?: Prisma.MaintenanceLogUncheckedUpdateManyWithoutAppointmentNestedInput
@@ -6955,6 +10068,7 @@ export type AppointmentUncheckedUpdateWithoutProjectInput = {
   checklist?: Prisma.ServiceChecklistUncheckedUpdateOneWithoutAppointmentNestedInput
   timeLog?: Prisma.JobTimeLogUncheckedUpdateOneWithoutAppointmentNestedInput
   parts?: Prisma.JobPartUncheckedUpdateManyWithoutAppointmentNestedInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUncheckedUpdateManyWithoutAppointmentNestedInput
 }
 
 export type AppointmentUncheckedUpdateManyWithoutProjectInput = {
@@ -6996,6 +10110,19 @@ export type AppointmentUncheckedUpdateManyWithoutProjectInput = {
   confirmationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobCategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  estimatedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  arrivalWindow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  equipmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leadSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
 }
 
 
@@ -7004,6 +10131,8 @@ export type AppointmentUncheckedUpdateManyWithoutProjectInput = {
  */
 
 export type AppointmentCountOutputType = {
+  assignments: number
+  events: number
   notifications: number
   maintenanceLogs: number
   formSubmissions: number
@@ -7011,9 +10140,12 @@ export type AppointmentCountOutputType = {
   jobPhotos: number
   payments: number
   parts: number
+  hvacDiagnostics: number
 }
 
 export type AppointmentCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  assignments?: boolean | AppointmentCountOutputTypeCountAssignmentsArgs
+  events?: boolean | AppointmentCountOutputTypeCountEventsArgs
   notifications?: boolean | AppointmentCountOutputTypeCountNotificationsArgs
   maintenanceLogs?: boolean | AppointmentCountOutputTypeCountMaintenanceLogsArgs
   formSubmissions?: boolean | AppointmentCountOutputTypeCountFormSubmissionsArgs
@@ -7021,6 +10153,7 @@ export type AppointmentCountOutputTypeSelect<ExtArgs extends runtime.Types.Exten
   jobPhotos?: boolean | AppointmentCountOutputTypeCountJobPhotosArgs
   payments?: boolean | AppointmentCountOutputTypeCountPaymentsArgs
   parts?: boolean | AppointmentCountOutputTypeCountPartsArgs
+  hvacDiagnostics?: boolean | AppointmentCountOutputTypeCountHvacDiagnosticsArgs
 }
 
 /**
@@ -7031,6 +10164,20 @@ export type AppointmentCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.
    * Select specific fields to fetch from the AppointmentCountOutputType
    */
   select?: Prisma.AppointmentCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * AppointmentCountOutputType without action
+ */
+export type AppointmentCountOutputTypeCountAssignmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.JobAssignmentWhereInput
+}
+
+/**
+ * AppointmentCountOutputType without action
+ */
+export type AppointmentCountOutputTypeCountEventsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.JobEventWhereInput
 }
 
 /**
@@ -7082,6 +10229,13 @@ export type AppointmentCountOutputTypeCountPartsArgs<ExtArgs extends runtime.Typ
   where?: Prisma.JobPartWhereInput
 }
 
+/**
+ * AppointmentCountOutputType without action
+ */
+export type AppointmentCountOutputTypeCountHvacDiagnosticsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.HvacDiagnosticSessionWhereInput
+}
+
 
 export type AppointmentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -7123,11 +10277,27 @@ export type AppointmentSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   confirmedAt?: boolean
   customerId?: boolean
   projectId?: boolean
+  jobType?: boolean
+  jobCategory?: boolean
+  customerType?: boolean
+  scheduledStart?: boolean
+  scheduledEnd?: boolean
+  estimatedMinutes?: boolean
+  arrivalWindow?: boolean
+  billingAddress?: boolean
+  equipmentId?: boolean
+  createdById?: boolean
+  leadSource?: boolean
+  lat?: boolean
+  lng?: boolean
+  assignments?: boolean | Prisma.Appointment$assignmentsArgs<ExtArgs>
+  events?: boolean | Prisma.Appointment$eventsArgs<ExtArgs>
   user?: boolean | Prisma.Appointment$userArgs<ExtArgs>
   technician?: boolean | Prisma.Appointment$technicianArgs<ExtArgs>
   dispatcher?: boolean | Prisma.Appointment$dispatcherArgs<ExtArgs>
   customer?: boolean | Prisma.Appointment$customerArgs<ExtArgs>
   project?: boolean | Prisma.Appointment$projectArgs<ExtArgs>
+  maintenanceVisit?: boolean | Prisma.Appointment$maintenanceVisitArgs<ExtArgs>
   invoice?: boolean | Prisma.Appointment$invoiceArgs<ExtArgs>
   notifications?: boolean | Prisma.Appointment$notificationsArgs<ExtArgs>
   maintenanceLogs?: boolean | Prisma.Appointment$maintenanceLogsArgs<ExtArgs>
@@ -7143,6 +10313,7 @@ export type AppointmentSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   checklist?: boolean | Prisma.Appointment$checklistArgs<ExtArgs>
   timeLog?: boolean | Prisma.Appointment$timeLogArgs<ExtArgs>
   parts?: boolean | Prisma.Appointment$partsArgs<ExtArgs>
+  hvacDiagnostics?: boolean | Prisma.Appointment$hvacDiagnosticsArgs<ExtArgs>
   _count?: boolean | Prisma.AppointmentCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["appointment"]>
 
@@ -7186,6 +10357,19 @@ export type AppointmentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   confirmedAt?: boolean
   customerId?: boolean
   projectId?: boolean
+  jobType?: boolean
+  jobCategory?: boolean
+  customerType?: boolean
+  scheduledStart?: boolean
+  scheduledEnd?: boolean
+  estimatedMinutes?: boolean
+  arrivalWindow?: boolean
+  billingAddress?: boolean
+  equipmentId?: boolean
+  createdById?: boolean
+  leadSource?: boolean
+  lat?: boolean
+  lng?: boolean
   user?: boolean | Prisma.Appointment$userArgs<ExtArgs>
   technician?: boolean | Prisma.Appointment$technicianArgs<ExtArgs>
   dispatcher?: boolean | Prisma.Appointment$dispatcherArgs<ExtArgs>
@@ -7233,6 +10417,19 @@ export type AppointmentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   confirmedAt?: boolean
   customerId?: boolean
   projectId?: boolean
+  jobType?: boolean
+  jobCategory?: boolean
+  customerType?: boolean
+  scheduledStart?: boolean
+  scheduledEnd?: boolean
+  estimatedMinutes?: boolean
+  arrivalWindow?: boolean
+  billingAddress?: boolean
+  equipmentId?: boolean
+  createdById?: boolean
+  leadSource?: boolean
+  lat?: boolean
+  lng?: boolean
   user?: boolean | Prisma.Appointment$userArgs<ExtArgs>
   technician?: boolean | Prisma.Appointment$technicianArgs<ExtArgs>
   dispatcher?: boolean | Prisma.Appointment$dispatcherArgs<ExtArgs>
@@ -7280,15 +10477,31 @@ export type AppointmentSelectScalar = {
   confirmedAt?: boolean
   customerId?: boolean
   projectId?: boolean
+  jobType?: boolean
+  jobCategory?: boolean
+  customerType?: boolean
+  scheduledStart?: boolean
+  scheduledEnd?: boolean
+  estimatedMinutes?: boolean
+  arrivalWindow?: boolean
+  billingAddress?: boolean
+  equipmentId?: boolean
+  createdById?: boolean
+  leadSource?: boolean
+  lat?: boolean
+  lng?: boolean
 }
 
-export type AppointmentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "appointmentNumber" | "userId" | "service" | "subservice" | "name" | "phone" | "email" | "address" | "city" | "zipCode" | "taxCounty" | "description" | "preferredDate" | "preferredTime" | "status" | "notes" | "photos" | "createdAt" | "updatedAt" | "technicianId" | "dispatcherId" | "eta" | "techStatus" | "propertyId" | "stripePaymentIntentId" | "signatureUrl" | "totalAmount" | "approvedAt" | "priority" | "isEmergency" | "diagnosticFee" | "diagnosticFeeStatus" | "adminNotes" | "source" | "confirmationToken" | "confirmedAt" | "customerId" | "projectId", ExtArgs["result"]["appointment"]>
+export type AppointmentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "appointmentNumber" | "userId" | "service" | "subservice" | "name" | "phone" | "email" | "address" | "city" | "zipCode" | "taxCounty" | "description" | "preferredDate" | "preferredTime" | "status" | "notes" | "photos" | "createdAt" | "updatedAt" | "technicianId" | "dispatcherId" | "eta" | "techStatus" | "propertyId" | "stripePaymentIntentId" | "signatureUrl" | "totalAmount" | "approvedAt" | "priority" | "isEmergency" | "diagnosticFee" | "diagnosticFeeStatus" | "adminNotes" | "source" | "confirmationToken" | "confirmedAt" | "customerId" | "projectId" | "jobType" | "jobCategory" | "customerType" | "scheduledStart" | "scheduledEnd" | "estimatedMinutes" | "arrivalWindow" | "billingAddress" | "equipmentId" | "createdById" | "leadSource" | "lat" | "lng", ExtArgs["result"]["appointment"]>
 export type AppointmentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  assignments?: boolean | Prisma.Appointment$assignmentsArgs<ExtArgs>
+  events?: boolean | Prisma.Appointment$eventsArgs<ExtArgs>
   user?: boolean | Prisma.Appointment$userArgs<ExtArgs>
   technician?: boolean | Prisma.Appointment$technicianArgs<ExtArgs>
   dispatcher?: boolean | Prisma.Appointment$dispatcherArgs<ExtArgs>
   customer?: boolean | Prisma.Appointment$customerArgs<ExtArgs>
   project?: boolean | Prisma.Appointment$projectArgs<ExtArgs>
+  maintenanceVisit?: boolean | Prisma.Appointment$maintenanceVisitArgs<ExtArgs>
   invoice?: boolean | Prisma.Appointment$invoiceArgs<ExtArgs>
   notifications?: boolean | Prisma.Appointment$notificationsArgs<ExtArgs>
   maintenanceLogs?: boolean | Prisma.Appointment$maintenanceLogsArgs<ExtArgs>
@@ -7304,6 +10517,7 @@ export type AppointmentInclude<ExtArgs extends runtime.Types.Extensions.Internal
   checklist?: boolean | Prisma.Appointment$checklistArgs<ExtArgs>
   timeLog?: boolean | Prisma.Appointment$timeLogArgs<ExtArgs>
   parts?: boolean | Prisma.Appointment$partsArgs<ExtArgs>
+  hvacDiagnostics?: boolean | Prisma.Appointment$hvacDiagnosticsArgs<ExtArgs>
   _count?: boolean | Prisma.AppointmentCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type AppointmentIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -7324,11 +10538,14 @@ export type AppointmentIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.
 export type $AppointmentPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Appointment"
   objects: {
+    assignments: Prisma.$JobAssignmentPayload<ExtArgs>[]
+    events: Prisma.$JobEventPayload<ExtArgs>[]
     user: Prisma.$UserPayload<ExtArgs> | null
     technician: Prisma.$UserPayload<ExtArgs> | null
     dispatcher: Prisma.$UserPayload<ExtArgs> | null
     customer: Prisma.$CustomerPayload<ExtArgs> | null
     project: Prisma.$ProjectPayload<ExtArgs> | null
+    maintenanceVisit: Prisma.$MaintenanceVisitPayload<ExtArgs> | null
     invoice: Prisma.$InvoicePayload<ExtArgs> | null
     notifications: Prisma.$NotificationLogPayload<ExtArgs>[]
     maintenanceLogs: Prisma.$MaintenanceLogPayload<ExtArgs>[]
@@ -7344,6 +10561,7 @@ export type $AppointmentPayload<ExtArgs extends runtime.Types.Extensions.Interna
     checklist: Prisma.$ServiceChecklistPayload<ExtArgs> | null
     timeLog: Prisma.$JobTimeLogPayload<ExtArgs> | null
     parts: Prisma.$JobPartPayload<ExtArgs>[]
+    hvacDiagnostics: Prisma.$HvacDiagnosticSessionPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -7385,6 +10603,19 @@ export type $AppointmentPayload<ExtArgs extends runtime.Types.Extensions.Interna
     confirmedAt: Date | null
     customerId: string | null
     projectId: string | null
+    jobType: string | null
+    jobCategory: string | null
+    customerType: string | null
+    scheduledStart: Date | null
+    scheduledEnd: Date | null
+    estimatedMinutes: number | null
+    arrivalWindow: string | null
+    billingAddress: string | null
+    equipmentId: string | null
+    createdById: string | null
+    leadSource: string | null
+    lat: number | null
+    lng: number | null
   }, ExtArgs["result"]["appointment"]>
   composites: {}
 }
@@ -7779,11 +11010,14 @@ readonly fields: AppointmentFieldRefs;
  */
 export interface Prisma__AppointmentClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  assignments<T extends Prisma.Appointment$assignmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Appointment$assignmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$JobAssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  events<T extends Prisma.Appointment$eventsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Appointment$eventsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$JobEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   user<T extends Prisma.Appointment$userArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Appointment$userArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   technician<T extends Prisma.Appointment$technicianArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Appointment$technicianArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   dispatcher<T extends Prisma.Appointment$dispatcherArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Appointment$dispatcherArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   customer<T extends Prisma.Appointment$customerArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Appointment$customerArgs<ExtArgs>>): Prisma.Prisma__CustomerClient<runtime.Types.Result.GetResult<Prisma.$CustomerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   project<T extends Prisma.Appointment$projectArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Appointment$projectArgs<ExtArgs>>): Prisma.Prisma__ProjectClient<runtime.Types.Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  maintenanceVisit<T extends Prisma.Appointment$maintenanceVisitArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Appointment$maintenanceVisitArgs<ExtArgs>>): Prisma.Prisma__MaintenanceVisitClient<runtime.Types.Result.GetResult<Prisma.$MaintenanceVisitPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   invoice<T extends Prisma.Appointment$invoiceArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Appointment$invoiceArgs<ExtArgs>>): Prisma.Prisma__InvoiceClient<runtime.Types.Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   notifications<T extends Prisma.Appointment$notificationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Appointment$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificationLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   maintenanceLogs<T extends Prisma.Appointment$maintenanceLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Appointment$maintenanceLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MaintenanceLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -7799,6 +11033,7 @@ export interface Prisma__AppointmentClient<T, Null = never, ExtArgs extends runt
   checklist<T extends Prisma.Appointment$checklistArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Appointment$checklistArgs<ExtArgs>>): Prisma.Prisma__ServiceChecklistClient<runtime.Types.Result.GetResult<Prisma.$ServiceChecklistPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   timeLog<T extends Prisma.Appointment$timeLogArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Appointment$timeLogArgs<ExtArgs>>): Prisma.Prisma__JobTimeLogClient<runtime.Types.Result.GetResult<Prisma.$JobTimeLogPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   parts<T extends Prisma.Appointment$partsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Appointment$partsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$JobPartPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  hvacDiagnostics<T extends Prisma.Appointment$hvacDiagnosticsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Appointment$hvacDiagnosticsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$HvacDiagnosticSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7867,6 +11102,19 @@ export interface AppointmentFieldRefs {
   readonly confirmedAt: Prisma.FieldRef<"Appointment", 'DateTime'>
   readonly customerId: Prisma.FieldRef<"Appointment", 'String'>
   readonly projectId: Prisma.FieldRef<"Appointment", 'String'>
+  readonly jobType: Prisma.FieldRef<"Appointment", 'String'>
+  readonly jobCategory: Prisma.FieldRef<"Appointment", 'String'>
+  readonly customerType: Prisma.FieldRef<"Appointment", 'String'>
+  readonly scheduledStart: Prisma.FieldRef<"Appointment", 'DateTime'>
+  readonly scheduledEnd: Prisma.FieldRef<"Appointment", 'DateTime'>
+  readonly estimatedMinutes: Prisma.FieldRef<"Appointment", 'Int'>
+  readonly arrivalWindow: Prisma.FieldRef<"Appointment", 'String'>
+  readonly billingAddress: Prisma.FieldRef<"Appointment", 'String'>
+  readonly equipmentId: Prisma.FieldRef<"Appointment", 'String'>
+  readonly createdById: Prisma.FieldRef<"Appointment", 'String'>
+  readonly leadSource: Prisma.FieldRef<"Appointment", 'String'>
+  readonly lat: Prisma.FieldRef<"Appointment", 'Float'>
+  readonly lng: Prisma.FieldRef<"Appointment", 'Float'>
 }
     
 
@@ -8268,6 +11516,54 @@ export type AppointmentDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.I
 }
 
 /**
+ * Appointment.assignments
+ */
+export type Appointment$assignmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the JobAssignment
+   */
+  select?: Prisma.JobAssignmentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the JobAssignment
+   */
+  omit?: Prisma.JobAssignmentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.JobAssignmentInclude<ExtArgs> | null
+  where?: Prisma.JobAssignmentWhereInput
+  orderBy?: Prisma.JobAssignmentOrderByWithRelationInput | Prisma.JobAssignmentOrderByWithRelationInput[]
+  cursor?: Prisma.JobAssignmentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.JobAssignmentScalarFieldEnum | Prisma.JobAssignmentScalarFieldEnum[]
+}
+
+/**
+ * Appointment.events
+ */
+export type Appointment$eventsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the JobEvent
+   */
+  select?: Prisma.JobEventSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the JobEvent
+   */
+  omit?: Prisma.JobEventOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.JobEventInclude<ExtArgs> | null
+  where?: Prisma.JobEventWhereInput
+  orderBy?: Prisma.JobEventOrderByWithRelationInput | Prisma.JobEventOrderByWithRelationInput[]
+  cursor?: Prisma.JobEventWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.JobEventScalarFieldEnum | Prisma.JobEventScalarFieldEnum[]
+}
+
+/**
  * Appointment.user
  */
 export type Appointment$userArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -8360,6 +11656,25 @@ export type Appointment$projectArgs<ExtArgs extends runtime.Types.Extensions.Int
    */
   include?: Prisma.ProjectInclude<ExtArgs> | null
   where?: Prisma.ProjectWhereInput
+}
+
+/**
+ * Appointment.maintenanceVisit
+ */
+export type Appointment$maintenanceVisitArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the MaintenanceVisit
+   */
+  select?: Prisma.MaintenanceVisitSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the MaintenanceVisit
+   */
+  omit?: Prisma.MaintenanceVisitOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MaintenanceVisitInclude<ExtArgs> | null
+  where?: Prisma.MaintenanceVisitWhereInput
 }
 
 /**
@@ -8680,6 +11995,30 @@ export type Appointment$partsArgs<ExtArgs extends runtime.Types.Extensions.Inter
   take?: number
   skip?: number
   distinct?: Prisma.JobPartScalarFieldEnum | Prisma.JobPartScalarFieldEnum[]
+}
+
+/**
+ * Appointment.hvacDiagnostics
+ */
+export type Appointment$hvacDiagnosticsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the HvacDiagnosticSession
+   */
+  select?: Prisma.HvacDiagnosticSessionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the HvacDiagnosticSession
+   */
+  omit?: Prisma.HvacDiagnosticSessionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.HvacDiagnosticSessionInclude<ExtArgs> | null
+  where?: Prisma.HvacDiagnosticSessionWhereInput
+  orderBy?: Prisma.HvacDiagnosticSessionOrderByWithRelationInput | Prisma.HvacDiagnosticSessionOrderByWithRelationInput[]
+  cursor?: Prisma.HvacDiagnosticSessionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.HvacDiagnosticSessionScalarFieldEnum | Prisma.HvacDiagnosticSessionScalarFieldEnum[]
 }
 
 /**

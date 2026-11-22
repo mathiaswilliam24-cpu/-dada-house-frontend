@@ -51,6 +51,8 @@ export type JobPartMinAggregateOutputType = {
   supplier: string | null
   notes: string | null
   createdAt: Date | null
+  inventoryItemId: string | null
+  locationId: string | null
 }
 
 export type JobPartMaxAggregateOutputType = {
@@ -66,6 +68,8 @@ export type JobPartMaxAggregateOutputType = {
   supplier: string | null
   notes: string | null
   createdAt: Date | null
+  inventoryItemId: string | null
+  locationId: string | null
 }
 
 export type JobPartCountAggregateOutputType = {
@@ -81,6 +85,8 @@ export type JobPartCountAggregateOutputType = {
   supplier: number
   notes: number
   createdAt: number
+  inventoryItemId: number
+  locationId: number
   _all: number
 }
 
@@ -110,6 +116,8 @@ export type JobPartMinAggregateInputType = {
   supplier?: true
   notes?: true
   createdAt?: true
+  inventoryItemId?: true
+  locationId?: true
 }
 
 export type JobPartMaxAggregateInputType = {
@@ -125,6 +133,8 @@ export type JobPartMaxAggregateInputType = {
   supplier?: true
   notes?: true
   createdAt?: true
+  inventoryItemId?: true
+  locationId?: true
 }
 
 export type JobPartCountAggregateInputType = {
@@ -140,6 +150,8 @@ export type JobPartCountAggregateInputType = {
   supplier?: true
   notes?: true
   createdAt?: true
+  inventoryItemId?: true
+  locationId?: true
   _all?: true
 }
 
@@ -242,6 +254,8 @@ export type JobPartGroupByOutputType = {
   supplier: string | null
   notes: string | null
   createdAt: Date
+  inventoryItemId: string | null
+  locationId: string | null
   _count: JobPartCountAggregateOutputType | null
   _avg: JobPartAvgAggregateOutputType | null
   _sum: JobPartSumAggregateOutputType | null
@@ -280,6 +294,8 @@ export type JobPartWhereInput = {
   supplier?: Prisma.StringNullableFilter<"JobPart"> | string | null
   notes?: Prisma.StringNullableFilter<"JobPart"> | string | null
   createdAt?: Prisma.DateTimeFilter<"JobPart"> | Date | string
+  inventoryItemId?: Prisma.StringNullableFilter<"JobPart"> | string | null
+  locationId?: Prisma.StringNullableFilter<"JobPart"> | string | null
   appointment?: Prisma.XOR<Prisma.AppointmentScalarRelationFilter, Prisma.AppointmentWhereInput>
   technician?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
 }
@@ -297,6 +313,8 @@ export type JobPartOrderByWithRelationInput = {
   supplier?: Prisma.SortOrderInput | Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  inventoryItemId?: Prisma.SortOrderInput | Prisma.SortOrder
+  locationId?: Prisma.SortOrderInput | Prisma.SortOrder
   appointment?: Prisma.AppointmentOrderByWithRelationInput
   technician?: Prisma.UserOrderByWithRelationInput
 }
@@ -317,6 +335,8 @@ export type JobPartWhereUniqueInput = Prisma.AtLeast<{
   supplier?: Prisma.StringNullableFilter<"JobPart"> | string | null
   notes?: Prisma.StringNullableFilter<"JobPart"> | string | null
   createdAt?: Prisma.DateTimeFilter<"JobPart"> | Date | string
+  inventoryItemId?: Prisma.StringNullableFilter<"JobPart"> | string | null
+  locationId?: Prisma.StringNullableFilter<"JobPart"> | string | null
   appointment?: Prisma.XOR<Prisma.AppointmentScalarRelationFilter, Prisma.AppointmentWhereInput>
   technician?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
 }, "id">
@@ -334,6 +354,8 @@ export type JobPartOrderByWithAggregationInput = {
   supplier?: Prisma.SortOrderInput | Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  inventoryItemId?: Prisma.SortOrderInput | Prisma.SortOrder
+  locationId?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.JobPartCountOrderByAggregateInput
   _avg?: Prisma.JobPartAvgOrderByAggregateInput
   _max?: Prisma.JobPartMaxOrderByAggregateInput
@@ -357,6 +379,8 @@ export type JobPartScalarWhereWithAggregatesInput = {
   supplier?: Prisma.StringNullableWithAggregatesFilter<"JobPart"> | string | null
   notes?: Prisma.StringNullableWithAggregatesFilter<"JobPart"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"JobPart"> | Date | string
+  inventoryItemId?: Prisma.StringNullableWithAggregatesFilter<"JobPart"> | string | null
+  locationId?: Prisma.StringNullableWithAggregatesFilter<"JobPart"> | string | null
 }
 
 export type JobPartCreateInput = {
@@ -370,6 +394,8 @@ export type JobPartCreateInput = {
   supplier?: string | null
   notes?: string | null
   createdAt?: Date | string
+  inventoryItemId?: string | null
+  locationId?: string | null
   appointment: Prisma.AppointmentCreateNestedOneWithoutPartsInput
   technician?: Prisma.UserCreateNestedOneWithoutJobPartsInput
 }
@@ -387,6 +413,8 @@ export type JobPartUncheckedCreateInput = {
   supplier?: string | null
   notes?: string | null
   createdAt?: Date | string
+  inventoryItemId?: string | null
+  locationId?: string | null
 }
 
 export type JobPartUpdateInput = {
@@ -400,6 +428,8 @@ export type JobPartUpdateInput = {
   supplier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  inventoryItemId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   appointment?: Prisma.AppointmentUpdateOneRequiredWithoutPartsNestedInput
   technician?: Prisma.UserUpdateOneWithoutJobPartsNestedInput
 }
@@ -417,6 +447,8 @@ export type JobPartUncheckedUpdateInput = {
   supplier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  inventoryItemId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type JobPartCreateManyInput = {
@@ -432,6 +464,8 @@ export type JobPartCreateManyInput = {
   supplier?: string | null
   notes?: string | null
   createdAt?: Date | string
+  inventoryItemId?: string | null
+  locationId?: string | null
 }
 
 export type JobPartUpdateManyMutationInput = {
@@ -445,6 +479,8 @@ export type JobPartUpdateManyMutationInput = {
   supplier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  inventoryItemId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type JobPartUncheckedUpdateManyInput = {
@@ -460,6 +496,8 @@ export type JobPartUncheckedUpdateManyInput = {
   supplier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  inventoryItemId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type JobPartListRelationFilter = {
@@ -485,6 +523,8 @@ export type JobPartCountOrderByAggregateInput = {
   supplier?: Prisma.SortOrder
   notes?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  inventoryItemId?: Prisma.SortOrder
+  locationId?: Prisma.SortOrder
 }
 
 export type JobPartAvgOrderByAggregateInput = {
@@ -506,6 +546,8 @@ export type JobPartMaxOrderByAggregateInput = {
   supplier?: Prisma.SortOrder
   notes?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  inventoryItemId?: Prisma.SortOrder
+  locationId?: Prisma.SortOrder
 }
 
 export type JobPartMinOrderByAggregateInput = {
@@ -521,6 +563,8 @@ export type JobPartMinOrderByAggregateInput = {
   supplier?: Prisma.SortOrder
   notes?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  inventoryItemId?: Prisma.SortOrder
+  locationId?: Prisma.SortOrder
 }
 
 export type JobPartSumOrderByAggregateInput = {
@@ -624,6 +668,8 @@ export type JobPartCreateWithoutTechnicianInput = {
   supplier?: string | null
   notes?: string | null
   createdAt?: Date | string
+  inventoryItemId?: string | null
+  locationId?: string | null
   appointment: Prisma.AppointmentCreateNestedOneWithoutPartsInput
 }
 
@@ -639,6 +685,8 @@ export type JobPartUncheckedCreateWithoutTechnicianInput = {
   supplier?: string | null
   notes?: string | null
   createdAt?: Date | string
+  inventoryItemId?: string | null
+  locationId?: string | null
 }
 
 export type JobPartCreateOrConnectWithoutTechnicianInput = {
@@ -683,6 +731,8 @@ export type JobPartScalarWhereInput = {
   supplier?: Prisma.StringNullableFilter<"JobPart"> | string | null
   notes?: Prisma.StringNullableFilter<"JobPart"> | string | null
   createdAt?: Prisma.DateTimeFilter<"JobPart"> | Date | string
+  inventoryItemId?: Prisma.StringNullableFilter<"JobPart"> | string | null
+  locationId?: Prisma.StringNullableFilter<"JobPart"> | string | null
 }
 
 export type JobPartCreateWithoutAppointmentInput = {
@@ -696,6 +746,8 @@ export type JobPartCreateWithoutAppointmentInput = {
   supplier?: string | null
   notes?: string | null
   createdAt?: Date | string
+  inventoryItemId?: string | null
+  locationId?: string | null
   technician?: Prisma.UserCreateNestedOneWithoutJobPartsInput
 }
 
@@ -711,6 +763,8 @@ export type JobPartUncheckedCreateWithoutAppointmentInput = {
   supplier?: string | null
   notes?: string | null
   createdAt?: Date | string
+  inventoryItemId?: string | null
+  locationId?: string | null
 }
 
 export type JobPartCreateOrConnectWithoutAppointmentInput = {
@@ -751,6 +805,8 @@ export type JobPartCreateManyTechnicianInput = {
   supplier?: string | null
   notes?: string | null
   createdAt?: Date | string
+  inventoryItemId?: string | null
+  locationId?: string | null
 }
 
 export type JobPartUpdateWithoutTechnicianInput = {
@@ -764,6 +820,8 @@ export type JobPartUpdateWithoutTechnicianInput = {
   supplier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  inventoryItemId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   appointment?: Prisma.AppointmentUpdateOneRequiredWithoutPartsNestedInput
 }
 
@@ -779,6 +837,8 @@ export type JobPartUncheckedUpdateWithoutTechnicianInput = {
   supplier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  inventoryItemId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type JobPartUncheckedUpdateManyWithoutTechnicianInput = {
@@ -793,6 +853,8 @@ export type JobPartUncheckedUpdateManyWithoutTechnicianInput = {
   supplier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  inventoryItemId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type JobPartCreateManyAppointmentInput = {
@@ -807,6 +869,8 @@ export type JobPartCreateManyAppointmentInput = {
   supplier?: string | null
   notes?: string | null
   createdAt?: Date | string
+  inventoryItemId?: string | null
+  locationId?: string | null
 }
 
 export type JobPartUpdateWithoutAppointmentInput = {
@@ -820,6 +884,8 @@ export type JobPartUpdateWithoutAppointmentInput = {
   supplier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  inventoryItemId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   technician?: Prisma.UserUpdateOneWithoutJobPartsNestedInput
 }
 
@@ -835,6 +901,8 @@ export type JobPartUncheckedUpdateWithoutAppointmentInput = {
   supplier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  inventoryItemId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type JobPartUncheckedUpdateManyWithoutAppointmentInput = {
@@ -849,6 +917,8 @@ export type JobPartUncheckedUpdateManyWithoutAppointmentInput = {
   supplier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  inventoryItemId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -866,6 +936,8 @@ export type JobPartSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   supplier?: boolean
   notes?: boolean
   createdAt?: boolean
+  inventoryItemId?: boolean
+  locationId?: boolean
   appointment?: boolean | Prisma.AppointmentDefaultArgs<ExtArgs>
   technician?: boolean | Prisma.JobPart$technicianArgs<ExtArgs>
 }, ExtArgs["result"]["jobPart"]>
@@ -883,6 +955,8 @@ export type JobPartSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   supplier?: boolean
   notes?: boolean
   createdAt?: boolean
+  inventoryItemId?: boolean
+  locationId?: boolean
   appointment?: boolean | Prisma.AppointmentDefaultArgs<ExtArgs>
   technician?: boolean | Prisma.JobPart$technicianArgs<ExtArgs>
 }, ExtArgs["result"]["jobPart"]>
@@ -900,6 +974,8 @@ export type JobPartSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   supplier?: boolean
   notes?: boolean
   createdAt?: boolean
+  inventoryItemId?: boolean
+  locationId?: boolean
   appointment?: boolean | Prisma.AppointmentDefaultArgs<ExtArgs>
   technician?: boolean | Prisma.JobPart$technicianArgs<ExtArgs>
 }, ExtArgs["result"]["jobPart"]>
@@ -917,9 +993,11 @@ export type JobPartSelectScalar = {
   supplier?: boolean
   notes?: boolean
   createdAt?: boolean
+  inventoryItemId?: boolean
+  locationId?: boolean
 }
 
-export type JobPartOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "appointmentId" | "technicianId" | "partName" | "partNumber" | "quantity" | "unitCost" | "totalCost" | "warrantyPeriod" | "supplier" | "notes" | "createdAt", ExtArgs["result"]["jobPart"]>
+export type JobPartOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "appointmentId" | "technicianId" | "partName" | "partNumber" | "quantity" | "unitCost" | "totalCost" | "warrantyPeriod" | "supplier" | "notes" | "createdAt" | "inventoryItemId" | "locationId", ExtArgs["result"]["jobPart"]>
 export type JobPartInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   appointment?: boolean | Prisma.AppointmentDefaultArgs<ExtArgs>
   technician?: boolean | Prisma.JobPart$technicianArgs<ExtArgs>
@@ -952,6 +1030,8 @@ export type $JobPartPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     supplier: string | null
     notes: string | null
     createdAt: Date
+    inventoryItemId: string | null
+    locationId: string | null
   }, ExtArgs["result"]["jobPart"]>
   composites: {}
 }
@@ -1389,6 +1469,8 @@ export interface JobPartFieldRefs {
   readonly supplier: Prisma.FieldRef<"JobPart", 'String'>
   readonly notes: Prisma.FieldRef<"JobPart", 'String'>
   readonly createdAt: Prisma.FieldRef<"JobPart", 'DateTime'>
+  readonly inventoryItemId: Prisma.FieldRef<"JobPart", 'String'>
+  readonly locationId: Prisma.FieldRef<"JobPart", 'String'>
 }
     
 

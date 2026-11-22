@@ -15,6 +15,7 @@ type Invoice = {
   estimateNumber: string;
   clientName: string;
   total: number;
+  loyaltyDiscount?: number;
   lineItems: Array<{ desc: string; rate: number; qty: number; amount: number }>;
   additionalDetails: string | null;
   templateColor: string;
@@ -107,6 +108,9 @@ function PayPage() {
         <p className="text-sm opacity-70">Invoice #{invoice.estimateNumber}</p>
         <p className="text-4xl font-black mt-3">{formatCurrency(invoice.total)}</p>
         <p className="text-sm opacity-80 mt-1">Due from {invoice.clientName}</p>
+        {!!invoice.loyaltyDiscount && invoice.loyaltyDiscount > 0 && (
+          <p className="inline-block mt-2 text-xs font-semibold bg-white/15 rounded-full px-3 py-1">Reward points applied: −{formatCurrency(invoice.loyaltyDiscount)}</p>
+        )}
       </div>
 
       <div className="max-w-md mx-auto px-4 py-6 space-y-4">

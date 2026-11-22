@@ -9,6 +9,35 @@ import { sendSMS } from "@/lib/twilio";
 import { resend, FROM_EMAIL } from "@/lib/resend";
 import { normalizePhone } from "@/lib/customers";
 import { createShortLink } from "@/lib/short-links";
+import { pointsForPaymentIntent, pointsForSubscriptionInvoice } from "@/lib/payment-points";
+import { portalInviteUrl } from "@/lib/portal-access";
+import { sendOutboundSms } from "@/lib/messaging";
+import { dollarToPoints } from "@/lib/loyalty";
+
+/**
+ * After a plan payment: a warm text inviting the customer to create his account (personal link that links
+ * it to his records). Only features that exist in the customer account are mentioned. Sent once, and only
+ * when the customer has no account yet.
+ */
+async function sendAccountInviteSMS(contract: { customerId: string; phone: string | null; firstName: string | null; preferredLanguage: string | null }, amountPaid: number | null) {
+  const customer = await db.customer.findUnique({ where: { id: contract.customerId }, select: { userId: true, phone: true } });
+  if (!customer || customer.userId) return;
+  const to = contract.phone ?? customer.phone;
+  if (!to) return;
+  const link = await createShortLink(portalInviteUrl(contract.customerId)).catch(() => portalInviteUrl(contract.customerId));
+  const pts = amountPaid ? dollarToPoints(amountPaid) : 0;
+  const name = contract.firstName ? ` ${contract.firstName}` : "";
+  const lang = (contract.preferredLanguage ?? "en").slice(0, 2);
+  const msg = lang === "fr"
+    ? `Bienvenue dans la famille DADA HOUSE${name} ! 💙 Créez votre compte gratuit en 1 minute : ${link}
+Vous pourrez y suivre chaque intervention et votre technicien, retrouver tous vos reçus et factures, programmer, déplacer ou annuler vos visites, et utiliser vos points fidélité : chaque $1 payé = 1 point, et 100 points = $1 de réduction sur un prochain service.${pts ? ` Votre paiement d'aujourd'hui vous rapporte ${pts} points !` : ""}`
+    : lang === "es"
+      ? `¡Bienvenido a la familia DADA HOUSE${name}! 💙 Cree su cuenta gratis en 1 minuto: ${link}
+Allí podrá seguir cada trabajo y a su técnico, ver todos sus recibos y facturas, programar, cambiar o cancelar sus visitas y usar sus puntos de recompensa: cada $1 pagado = 1 punto, y 100 puntos = $1 de descuento en su próximo servicio.${pts ? ` ¡Su pago de hoy le da ${pts} puntos!` : ""}`
+      : `Welcome to the DADA HOUSE family${name}! 💙 Create your free account in 1 minute: ${link}
+In it you can follow every job and your technician, see all your receipts and invoices, schedule, move or cancel your visits, and use your Reward Points: every $1 you pay = 1 point, and 100 points = $1 off a future service.${pts ? ` Today's payment earns you ${pts} points!` : ""}`;
+  await sendOutboundSms(to, msg).catch((err) => console.error("Account invite SMS error:", err));
+}
 
 const signUrl = (token: string) => `${(process.env.NEXT_PUBLIC_APP_URL || "https://dada-house.com").replace(/\/$/, "")}/contract/${token}`;
 
@@ -159,6 +188,8 @@ export async function POST(req: NextRequest) {
           sendConfirmationEmail(updated),
           sendConfirmationSMS(updated),
         ]);
+        // Then the invitation to create the customer account (links it to these records).
+        await sendAccountInviteSMS(updated, session.amount_total != null ? session.amount_total / 100 : null);
 
         // This year's two covered visits (cooling + heating) exist right away.
         await syncMaintenanceVisits().catch(console.error);
@@ -187,6 +218,36 @@ export async function POST(req: NextRequest) {
             metadata: { contractId, membershipNumber: updated.membershipNumber ?? "" },
           }).catch(() => {});
         }
+        break;
+      }
+
+      case "payment_intent.succeeded": {
+        // (Same bookkeeping as /api/payments/webhook, so one Stripe endpoint covers every payment.)
+        const intent = event.data.object as Stripe.PaymentIntent;
+        await db.payment.updateMany({ where: { stripePaymentIntentId: intent.id }, data: { status: "succeeded" } });
+        if (intent.metadata?.appointmentId) {
+          await db.invoice.updateMany({
+            where: { appointmentId: intent.metadata.appointmentId, paidAt: null },
+            data: { status: "PAID", paidAt: new Date(), stripePaymentIntentId: intent.id },
+          });
+        }
+        if (intent.metadata?.orderId) {
+          await db.order.updateMany({ where: { id: intent.metadata.orderId }, data: { status: "PROCESSING", paidAt: new Date(), stripePaymentIntentId: intent.id } });
+        }
+        if (intent.metadata?.maintenanceContractId) {
+          await db.maintenanceContract.updateMany({
+            where: { id: intent.metadata.maintenanceContractId },
+            data: { status: "PAID", paidAt: new Date(), stripePaymentIntentId: intent.id },
+          });
+        }
+        // Reward points: 1 per $1 paid (card fee excluded), once per payment.
+        await pointsForPaymentIntent(intent).catch((e) => console.error("points (payment intent)", e));
+        break;
+      }
+
+      case "invoice.paid": {
+        // Maintenance plan payments: first payment, every monthly payment and yearly renewals earn points.
+        await pointsForSubscriptionInvoice(event.data.object as Stripe.Invoice).catch((e) => console.error("points (plan invoice)", e));
         break;
       }
 

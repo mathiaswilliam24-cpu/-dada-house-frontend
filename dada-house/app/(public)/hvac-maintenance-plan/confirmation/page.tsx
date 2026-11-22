@@ -3,6 +3,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { CheckCircle, Calendar, Shield, Phone, ArrowRight, PenLine, FileText } from "lucide-react";
 import { db } from "@/lib/db";
+import { portalInviteUrl } from "@/lib/portal-access";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -51,6 +52,8 @@ export default async function ConfirmationPage({
     );
   }
 
+  const hasAccount = !!(await db.customer.findUnique({ where: { id: contract.customerId }, select: { userId: true } }))?.userId;
+  const accountHref = hasAccount ? "/dashboard" : portalInviteUrl(contract.customerId);
   const isAnnual = contract.billingInterval === "annual";
   const amount = isAnnual ? contract.annualTotal : contract.monthlyTotal;
 
@@ -197,9 +200,9 @@ export default async function ConfirmationPage({
 
         {/* Actions */}
         <div className="flex flex-col sm:flex-row gap-3">
-          <Link href="/dashboard"
+          <Link href={accountHref}
             className={cn(buttonVariants({ size: "lg" }), "flex-1 gap-2 font-bold")}>
-            Go to My Dashboard
+            {hasAccount ? "Go to My Account" : "Create My Account"}
             <ArrowRight size={16} />
           </Link>
           <a href="tel:+18449280875"

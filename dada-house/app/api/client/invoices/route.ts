@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireAuth } from "@/lib/api-auth";
 import { db } from "@/lib/db";
+import { myEstimateInvoicesWhere } from "@/lib/portal-access";
+import { invoiceGrossTotal } from "@/lib/bill-amounts";
 
 export const dynamic = "force-dynamic";
 
@@ -8,14 +10,9 @@ export async function GET(req: NextRequest) {
   const auth = await requireAuth(req);
   if (auth instanceof NextResponse) return auth;
 
-  if (!auth.email) return NextResponse.json({ invoices: [] });
-
-  // Technician invoices sent to this client's email
+  // Technician/office invoices of this client (by email, or by his linked customer record's phone/jobs)
   const techInvoices = await db.estimate.findMany({
-    where: {
-      isInvoice: true,
-      clientEmail: auth.email,
-    },
+    where: await myEstimateInvoicesWhere(auth.id, auth.email),
     orderBy: { createdAt: "desc" },
     select: {
       id: true,
@@ -30,6 +27,7 @@ export async function GET(req: NextRequest) {
       templateColor: true,
       createdAt: true,
       sentByName: true,
+      loyaltyDiscount: true,
       technician: { select: { name: true } },
     },
   });
@@ -49,7 +47,8 @@ export async function GET(req: NextRequest) {
     id: inv.id,
     type: "tech" as const,
     number: inv.estimateNumber,
-    amount: inv.total,
+    amount: Math.round((inv.total - (inv.paidAt ? 0 : inv.loyaltyDiscount)) * 100) / 100,
+    loyaltyDiscount: inv.loyaltyDiscount,
     status: inv.paidAt ? "PAID" : inv.sentAt ? "SENT" : "DRAFT",
     paidAt: inv.paidAt?.toISOString() ?? null,
     paymentToken: inv.paymentToken,
@@ -65,10 +64,11 @@ export async function GET(req: NextRequest) {
     id: inv.id,
     type: "appointment" as const,
     number: inv.appointment.appointmentNumber,
-    amount: inv.amount,
+    amount: Math.round((invoiceGrossTotal(inv.lineItems, inv.appointment.service, inv.amount) - (inv.paidAt ? 0 : inv.loyaltyDiscount)) * 100) / 100,
+    loyaltyDiscount: inv.loyaltyDiscount,
     status: inv.status,
     paidAt: inv.paidAt?.toISOString() ?? null,
-    paymentToken: null,
+    paymentToken: inv.status === "PAID" ? null : inv.paymentToken,
     paymentMethod: null,
     templateColor: "#1B3FA8",
     createdAt: inv.createdAt.toISOString(),

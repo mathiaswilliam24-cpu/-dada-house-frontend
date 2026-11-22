@@ -544,6 +544,7 @@ export type MaintenanceContractWhereInput = {
   planType?: Prisma.XOR<Prisma.MaintenancePlanTypeScalarRelationFilter, Prisma.MaintenancePlanTypeWhereInput>
   properties?: Prisma.ContractPropertyListRelationFilter
   hvacSystems?: Prisma.ContractHvacSystemListRelationFilter
+  visits?: Prisma.MaintenanceVisitListRelationFilter
 }
 
 export type MaintenanceContractOrderByWithRelationInput = {
@@ -596,6 +597,7 @@ export type MaintenanceContractOrderByWithRelationInput = {
   planType?: Prisma.MaintenancePlanTypeOrderByWithRelationInput
   properties?: Prisma.ContractPropertyOrderByRelationAggregateInput
   hvacSystems?: Prisma.ContractHvacSystemOrderByRelationAggregateInput
+  visits?: Prisma.MaintenanceVisitOrderByRelationAggregateInput
 }
 
 export type MaintenanceContractWhereUniqueInput = Prisma.AtLeast<{
@@ -651,6 +653,7 @@ export type MaintenanceContractWhereUniqueInput = Prisma.AtLeast<{
   planType?: Prisma.XOR<Prisma.MaintenancePlanTypeScalarRelationFilter, Prisma.MaintenancePlanTypeWhereInput>
   properties?: Prisma.ContractPropertyListRelationFilter
   hvacSystems?: Prisma.ContractHvacSystemListRelationFilter
+  visits?: Prisma.MaintenanceVisitListRelationFilter
 }, "id" | "token" | "membershipNumber" | "stripeCheckoutSessionId">
 
 export type MaintenanceContractOrderByWithAggregationInput = {
@@ -805,6 +808,7 @@ export type MaintenanceContractCreateInput = {
   planType: Prisma.MaintenancePlanTypeCreateNestedOneWithoutContractsInput
   properties?: Prisma.ContractPropertyCreateNestedManyWithoutContractInput
   hvacSystems?: Prisma.ContractHvacSystemCreateNestedManyWithoutContractInput
+  visits?: Prisma.MaintenanceVisitCreateNestedManyWithoutContractInput
 }
 
 export type MaintenanceContractUncheckedCreateInput = {
@@ -855,6 +859,7 @@ export type MaintenanceContractUncheckedCreateInput = {
   renewalDate?: Date | string | null
   properties?: Prisma.ContractPropertyUncheckedCreateNestedManyWithoutContractInput
   hvacSystems?: Prisma.ContractHvacSystemUncheckedCreateNestedManyWithoutContractInput
+  visits?: Prisma.MaintenanceVisitUncheckedCreateNestedManyWithoutContractInput
 }
 
 export type MaintenanceContractUpdateInput = {
@@ -905,6 +910,7 @@ export type MaintenanceContractUpdateInput = {
   planType?: Prisma.MaintenancePlanTypeUpdateOneRequiredWithoutContractsNestedInput
   properties?: Prisma.ContractPropertyUpdateManyWithoutContractNestedInput
   hvacSystems?: Prisma.ContractHvacSystemUpdateManyWithoutContractNestedInput
+  visits?: Prisma.MaintenanceVisitUpdateManyWithoutContractNestedInput
 }
 
 export type MaintenanceContractUncheckedUpdateInput = {
@@ -955,6 +961,7 @@ export type MaintenanceContractUncheckedUpdateInput = {
   renewalDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   properties?: Prisma.ContractPropertyUncheckedUpdateManyWithoutContractNestedInput
   hvacSystems?: Prisma.ContractHvacSystemUncheckedUpdateManyWithoutContractNestedInput
+  visits?: Prisma.MaintenanceVisitUncheckedUpdateManyWithoutContractNestedInput
 }
 
 export type MaintenanceContractCreateManyInput = {
@@ -1107,6 +1114,11 @@ export type MaintenanceContractListRelationFilter = {
 
 export type MaintenanceContractOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
+}
+
+export type MaintenanceContractScalarRelationFilter = {
+  is?: Prisma.MaintenanceContractWhereInput
+  isNot?: Prisma.MaintenanceContractWhereInput
 }
 
 export type MaintenanceContractCountOrderByAggregateInput = {
@@ -1263,11 +1275,6 @@ export type MaintenanceContractSumOrderByAggregateInput = {
   taxAmount?: Prisma.SortOrder
 }
 
-export type MaintenanceContractScalarRelationFilter = {
-  is?: Prisma.MaintenanceContractWhereInput
-  isNot?: Prisma.MaintenanceContractWhereInput
-}
-
 export type MaintenanceContractCreateNestedManyWithoutCustomerInput = {
   create?: Prisma.XOR<Prisma.MaintenanceContractCreateWithoutCustomerInput, Prisma.MaintenanceContractUncheckedCreateWithoutCustomerInput> | Prisma.MaintenanceContractCreateWithoutCustomerInput[] | Prisma.MaintenanceContractUncheckedCreateWithoutCustomerInput[]
   connectOrCreate?: Prisma.MaintenanceContractCreateOrConnectWithoutCustomerInput | Prisma.MaintenanceContractCreateOrConnectWithoutCustomerInput[]
@@ -1308,6 +1315,20 @@ export type MaintenanceContractUncheckedUpdateManyWithoutCustomerNestedInput = {
   update?: Prisma.MaintenanceContractUpdateWithWhereUniqueWithoutCustomerInput | Prisma.MaintenanceContractUpdateWithWhereUniqueWithoutCustomerInput[]
   updateMany?: Prisma.MaintenanceContractUpdateManyWithWhereWithoutCustomerInput | Prisma.MaintenanceContractUpdateManyWithWhereWithoutCustomerInput[]
   deleteMany?: Prisma.MaintenanceContractScalarWhereInput | Prisma.MaintenanceContractScalarWhereInput[]
+}
+
+export type MaintenanceContractCreateNestedOneWithoutVisitsInput = {
+  create?: Prisma.XOR<Prisma.MaintenanceContractCreateWithoutVisitsInput, Prisma.MaintenanceContractUncheckedCreateWithoutVisitsInput>
+  connectOrCreate?: Prisma.MaintenanceContractCreateOrConnectWithoutVisitsInput
+  connect?: Prisma.MaintenanceContractWhereUniqueInput
+}
+
+export type MaintenanceContractUpdateOneRequiredWithoutVisitsNestedInput = {
+  create?: Prisma.XOR<Prisma.MaintenanceContractCreateWithoutVisitsInput, Prisma.MaintenanceContractUncheckedCreateWithoutVisitsInput>
+  connectOrCreate?: Prisma.MaintenanceContractCreateOrConnectWithoutVisitsInput
+  upsert?: Prisma.MaintenanceContractUpsertWithoutVisitsInput
+  connect?: Prisma.MaintenanceContractWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.MaintenanceContractUpdateToOneWithWhereWithoutVisitsInput, Prisma.MaintenanceContractUpdateWithoutVisitsInput>, Prisma.MaintenanceContractUncheckedUpdateWithoutVisitsInput>
 }
 
 export type MaintenanceContractCreateNestedManyWithoutPlanTypeInput = {
@@ -1440,6 +1461,7 @@ export type MaintenanceContractCreateWithoutCustomerInput = {
   planType: Prisma.MaintenancePlanTypeCreateNestedOneWithoutContractsInput
   properties?: Prisma.ContractPropertyCreateNestedManyWithoutContractInput
   hvacSystems?: Prisma.ContractHvacSystemCreateNestedManyWithoutContractInput
+  visits?: Prisma.MaintenanceVisitCreateNestedManyWithoutContractInput
 }
 
 export type MaintenanceContractUncheckedCreateWithoutCustomerInput = {
@@ -1489,6 +1511,7 @@ export type MaintenanceContractUncheckedCreateWithoutCustomerInput = {
   renewalDate?: Date | string | null
   properties?: Prisma.ContractPropertyUncheckedCreateNestedManyWithoutContractInput
   hvacSystems?: Prisma.ContractHvacSystemUncheckedCreateNestedManyWithoutContractInput
+  visits?: Prisma.MaintenanceVisitUncheckedCreateNestedManyWithoutContractInput
 }
 
 export type MaintenanceContractCreateOrConnectWithoutCustomerInput = {
@@ -1568,6 +1591,222 @@ export type MaintenanceContractScalarWhereInput = {
   renewalDate?: Prisma.DateTimeNullableFilter<"MaintenanceContract"> | Date | string | null
 }
 
+export type MaintenanceContractCreateWithoutVisitsInput = {
+  id?: string
+  token: string
+  status?: $Enums.MaintenanceContractStatus
+  systemMakeModel?: string | null
+  systemAge?: string | null
+  numberOfSystems?: number
+  systemTypes?: Prisma.MaintenanceContractCreatesystemTypesInput | string[]
+  agreementStartDate?: Date | string | null
+  customerSignatureUrl?: string | null
+  repName?: string | null
+  signedAt?: Date | string | null
+  billingInterval?: string | null
+  autoRenew?: boolean
+  stripeSubscriptionId?: string | null
+  stripePaymentIntentId?: string | null
+  paidAt?: Date | string | null
+  sentById?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  selfEnrolled?: boolean
+  membershipNumber?: string | null
+  stripeCustomerId?: string | null
+  stripeCheckoutSessionId?: string | null
+  annualTotal?: number | null
+  monthlyTotal?: number | null
+  taxAmount?: number | null
+  firstName?: string | null
+  lastName?: string | null
+  email?: string | null
+  phone?: string | null
+  billingAddress?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  preferredContact?: string | null
+  preferredLanguage?: string | null
+  marketingSmsConsent?: boolean
+  marketingEmailConsent?: boolean
+  agreementVersion?: string | null
+  agreementAcceptedAt?: Date | string | null
+  firstAppointmentAt?: Date | string | null
+  firstAppointmentNotes?: string | null
+  confirmationEmailSentAt?: Date | string | null
+  commitmentEndDate?: Date | string | null
+  membershipStartDate?: Date | string | null
+  renewalDate?: Date | string | null
+  customer: Prisma.CustomerCreateNestedOneWithoutMaintenanceContractsInput
+  planType: Prisma.MaintenancePlanTypeCreateNestedOneWithoutContractsInput
+  properties?: Prisma.ContractPropertyCreateNestedManyWithoutContractInput
+  hvacSystems?: Prisma.ContractHvacSystemCreateNestedManyWithoutContractInput
+}
+
+export type MaintenanceContractUncheckedCreateWithoutVisitsInput = {
+  id?: string
+  customerId: string
+  planTypeId: string
+  token: string
+  status?: $Enums.MaintenanceContractStatus
+  systemMakeModel?: string | null
+  systemAge?: string | null
+  numberOfSystems?: number
+  systemTypes?: Prisma.MaintenanceContractCreatesystemTypesInput | string[]
+  agreementStartDate?: Date | string | null
+  customerSignatureUrl?: string | null
+  repName?: string | null
+  signedAt?: Date | string | null
+  billingInterval?: string | null
+  autoRenew?: boolean
+  stripeSubscriptionId?: string | null
+  stripePaymentIntentId?: string | null
+  paidAt?: Date | string | null
+  sentById?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  selfEnrolled?: boolean
+  membershipNumber?: string | null
+  stripeCustomerId?: string | null
+  stripeCheckoutSessionId?: string | null
+  annualTotal?: number | null
+  monthlyTotal?: number | null
+  taxAmount?: number | null
+  firstName?: string | null
+  lastName?: string | null
+  email?: string | null
+  phone?: string | null
+  billingAddress?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  preferredContact?: string | null
+  preferredLanguage?: string | null
+  marketingSmsConsent?: boolean
+  marketingEmailConsent?: boolean
+  agreementVersion?: string | null
+  agreementAcceptedAt?: Date | string | null
+  firstAppointmentAt?: Date | string | null
+  firstAppointmentNotes?: string | null
+  confirmationEmailSentAt?: Date | string | null
+  commitmentEndDate?: Date | string | null
+  membershipStartDate?: Date | string | null
+  renewalDate?: Date | string | null
+  properties?: Prisma.ContractPropertyUncheckedCreateNestedManyWithoutContractInput
+  hvacSystems?: Prisma.ContractHvacSystemUncheckedCreateNestedManyWithoutContractInput
+}
+
+export type MaintenanceContractCreateOrConnectWithoutVisitsInput = {
+  where: Prisma.MaintenanceContractWhereUniqueInput
+  create: Prisma.XOR<Prisma.MaintenanceContractCreateWithoutVisitsInput, Prisma.MaintenanceContractUncheckedCreateWithoutVisitsInput>
+}
+
+export type MaintenanceContractUpsertWithoutVisitsInput = {
+  update: Prisma.XOR<Prisma.MaintenanceContractUpdateWithoutVisitsInput, Prisma.MaintenanceContractUncheckedUpdateWithoutVisitsInput>
+  create: Prisma.XOR<Prisma.MaintenanceContractCreateWithoutVisitsInput, Prisma.MaintenanceContractUncheckedCreateWithoutVisitsInput>
+  where?: Prisma.MaintenanceContractWhereInput
+}
+
+export type MaintenanceContractUpdateToOneWithWhereWithoutVisitsInput = {
+  where?: Prisma.MaintenanceContractWhereInput
+  data: Prisma.XOR<Prisma.MaintenanceContractUpdateWithoutVisitsInput, Prisma.MaintenanceContractUncheckedUpdateWithoutVisitsInput>
+}
+
+export type MaintenanceContractUpdateWithoutVisitsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  token?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumMaintenanceContractStatusFieldUpdateOperationsInput | $Enums.MaintenanceContractStatus
+  systemMakeModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  systemAge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  numberOfSystems?: Prisma.IntFieldUpdateOperationsInput | number
+  systemTypes?: Prisma.MaintenanceContractUpdatesystemTypesInput | string[]
+  agreementStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  customerSignatureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  repName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  signedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  billingInterval?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  autoRenew?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripePaymentIntentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  sentById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  selfEnrolled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  membershipNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCheckoutSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  annualTotal?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  monthlyTotal?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  taxAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddress?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  preferredContact?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preferredLanguage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  marketingSmsConsent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  marketingEmailConsent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  agreementVersion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  agreementAcceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  firstAppointmentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  firstAppointmentNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  confirmationEmailSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  commitmentEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  membershipStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  renewalDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  customer?: Prisma.CustomerUpdateOneRequiredWithoutMaintenanceContractsNestedInput
+  planType?: Prisma.MaintenancePlanTypeUpdateOneRequiredWithoutContractsNestedInput
+  properties?: Prisma.ContractPropertyUpdateManyWithoutContractNestedInput
+  hvacSystems?: Prisma.ContractHvacSystemUpdateManyWithoutContractNestedInput
+}
+
+export type MaintenanceContractUncheckedUpdateWithoutVisitsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  customerId?: Prisma.StringFieldUpdateOperationsInput | string
+  planTypeId?: Prisma.StringFieldUpdateOperationsInput | string
+  token?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumMaintenanceContractStatusFieldUpdateOperationsInput | $Enums.MaintenanceContractStatus
+  systemMakeModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  systemAge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  numberOfSystems?: Prisma.IntFieldUpdateOperationsInput | number
+  systemTypes?: Prisma.MaintenanceContractUpdatesystemTypesInput | string[]
+  agreementStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  customerSignatureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  repName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  signedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  billingInterval?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  autoRenew?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripePaymentIntentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  sentById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  selfEnrolled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  membershipNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCheckoutSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  annualTotal?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  monthlyTotal?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  taxAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddress?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  preferredContact?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preferredLanguage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  marketingSmsConsent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  marketingEmailConsent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  agreementVersion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  agreementAcceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  firstAppointmentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  firstAppointmentNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  confirmationEmailSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  commitmentEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  membershipStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  renewalDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  properties?: Prisma.ContractPropertyUncheckedUpdateManyWithoutContractNestedInput
+  hvacSystems?: Prisma.ContractHvacSystemUncheckedUpdateManyWithoutContractNestedInput
+}
+
 export type MaintenanceContractCreateWithoutPlanTypeInput = {
   id?: string
   token: string
@@ -1615,6 +1854,7 @@ export type MaintenanceContractCreateWithoutPlanTypeInput = {
   customer: Prisma.CustomerCreateNestedOneWithoutMaintenanceContractsInput
   properties?: Prisma.ContractPropertyCreateNestedManyWithoutContractInput
   hvacSystems?: Prisma.ContractHvacSystemCreateNestedManyWithoutContractInput
+  visits?: Prisma.MaintenanceVisitCreateNestedManyWithoutContractInput
 }
 
 export type MaintenanceContractUncheckedCreateWithoutPlanTypeInput = {
@@ -1664,6 +1904,7 @@ export type MaintenanceContractUncheckedCreateWithoutPlanTypeInput = {
   renewalDate?: Date | string | null
   properties?: Prisma.ContractPropertyUncheckedCreateNestedManyWithoutContractInput
   hvacSystems?: Prisma.ContractHvacSystemUncheckedCreateNestedManyWithoutContractInput
+  visits?: Prisma.MaintenanceVisitUncheckedCreateNestedManyWithoutContractInput
 }
 
 export type MaintenanceContractCreateOrConnectWithoutPlanTypeInput = {
@@ -1739,6 +1980,7 @@ export type MaintenanceContractCreateWithoutPropertiesInput = {
   customer: Prisma.CustomerCreateNestedOneWithoutMaintenanceContractsInput
   planType: Prisma.MaintenancePlanTypeCreateNestedOneWithoutContractsInput
   hvacSystems?: Prisma.ContractHvacSystemCreateNestedManyWithoutContractInput
+  visits?: Prisma.MaintenanceVisitCreateNestedManyWithoutContractInput
 }
 
 export type MaintenanceContractUncheckedCreateWithoutPropertiesInput = {
@@ -1788,6 +2030,7 @@ export type MaintenanceContractUncheckedCreateWithoutPropertiesInput = {
   membershipStartDate?: Date | string | null
   renewalDate?: Date | string | null
   hvacSystems?: Prisma.ContractHvacSystemUncheckedCreateNestedManyWithoutContractInput
+  visits?: Prisma.MaintenanceVisitUncheckedCreateNestedManyWithoutContractInput
 }
 
 export type MaintenanceContractCreateOrConnectWithoutPropertiesInput = {
@@ -1853,6 +2096,7 @@ export type MaintenanceContractUpdateWithoutPropertiesInput = {
   customer?: Prisma.CustomerUpdateOneRequiredWithoutMaintenanceContractsNestedInput
   planType?: Prisma.MaintenancePlanTypeUpdateOneRequiredWithoutContractsNestedInput
   hvacSystems?: Prisma.ContractHvacSystemUpdateManyWithoutContractNestedInput
+  visits?: Prisma.MaintenanceVisitUpdateManyWithoutContractNestedInput
 }
 
 export type MaintenanceContractUncheckedUpdateWithoutPropertiesInput = {
@@ -1902,6 +2146,7 @@ export type MaintenanceContractUncheckedUpdateWithoutPropertiesInput = {
   membershipStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   renewalDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   hvacSystems?: Prisma.ContractHvacSystemUncheckedUpdateManyWithoutContractNestedInput
+  visits?: Prisma.MaintenanceVisitUncheckedUpdateManyWithoutContractNestedInput
 }
 
 export type MaintenanceContractCreateWithoutHvacSystemsInput = {
@@ -1951,6 +2196,7 @@ export type MaintenanceContractCreateWithoutHvacSystemsInput = {
   customer: Prisma.CustomerCreateNestedOneWithoutMaintenanceContractsInput
   planType: Prisma.MaintenancePlanTypeCreateNestedOneWithoutContractsInput
   properties?: Prisma.ContractPropertyCreateNestedManyWithoutContractInput
+  visits?: Prisma.MaintenanceVisitCreateNestedManyWithoutContractInput
 }
 
 export type MaintenanceContractUncheckedCreateWithoutHvacSystemsInput = {
@@ -2000,6 +2246,7 @@ export type MaintenanceContractUncheckedCreateWithoutHvacSystemsInput = {
   membershipStartDate?: Date | string | null
   renewalDate?: Date | string | null
   properties?: Prisma.ContractPropertyUncheckedCreateNestedManyWithoutContractInput
+  visits?: Prisma.MaintenanceVisitUncheckedCreateNestedManyWithoutContractInput
 }
 
 export type MaintenanceContractCreateOrConnectWithoutHvacSystemsInput = {
@@ -2065,6 +2312,7 @@ export type MaintenanceContractUpdateWithoutHvacSystemsInput = {
   customer?: Prisma.CustomerUpdateOneRequiredWithoutMaintenanceContractsNestedInput
   planType?: Prisma.MaintenancePlanTypeUpdateOneRequiredWithoutContractsNestedInput
   properties?: Prisma.ContractPropertyUpdateManyWithoutContractNestedInput
+  visits?: Prisma.MaintenanceVisitUpdateManyWithoutContractNestedInput
 }
 
 export type MaintenanceContractUncheckedUpdateWithoutHvacSystemsInput = {
@@ -2114,6 +2362,7 @@ export type MaintenanceContractUncheckedUpdateWithoutHvacSystemsInput = {
   membershipStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   renewalDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   properties?: Prisma.ContractPropertyUncheckedUpdateManyWithoutContractNestedInput
+  visits?: Prisma.MaintenanceVisitUncheckedUpdateManyWithoutContractNestedInput
 }
 
 export type MaintenanceContractCreateManyCustomerInput = {
@@ -2210,6 +2459,7 @@ export type MaintenanceContractUpdateWithoutCustomerInput = {
   planType?: Prisma.MaintenancePlanTypeUpdateOneRequiredWithoutContractsNestedInput
   properties?: Prisma.ContractPropertyUpdateManyWithoutContractNestedInput
   hvacSystems?: Prisma.ContractHvacSystemUpdateManyWithoutContractNestedInput
+  visits?: Prisma.MaintenanceVisitUpdateManyWithoutContractNestedInput
 }
 
 export type MaintenanceContractUncheckedUpdateWithoutCustomerInput = {
@@ -2259,6 +2509,7 @@ export type MaintenanceContractUncheckedUpdateWithoutCustomerInput = {
   renewalDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   properties?: Prisma.ContractPropertyUncheckedUpdateManyWithoutContractNestedInput
   hvacSystems?: Prisma.ContractHvacSystemUncheckedUpdateManyWithoutContractNestedInput
+  visits?: Prisma.MaintenanceVisitUncheckedUpdateManyWithoutContractNestedInput
 }
 
 export type MaintenanceContractUncheckedUpdateManyWithoutCustomerInput = {
@@ -2402,6 +2653,7 @@ export type MaintenanceContractUpdateWithoutPlanTypeInput = {
   customer?: Prisma.CustomerUpdateOneRequiredWithoutMaintenanceContractsNestedInput
   properties?: Prisma.ContractPropertyUpdateManyWithoutContractNestedInput
   hvacSystems?: Prisma.ContractHvacSystemUpdateManyWithoutContractNestedInput
+  visits?: Prisma.MaintenanceVisitUpdateManyWithoutContractNestedInput
 }
 
 export type MaintenanceContractUncheckedUpdateWithoutPlanTypeInput = {
@@ -2451,6 +2703,7 @@ export type MaintenanceContractUncheckedUpdateWithoutPlanTypeInput = {
   renewalDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   properties?: Prisma.ContractPropertyUncheckedUpdateManyWithoutContractNestedInput
   hvacSystems?: Prisma.ContractHvacSystemUncheckedUpdateManyWithoutContractNestedInput
+  visits?: Prisma.MaintenanceVisitUncheckedUpdateManyWithoutContractNestedInput
 }
 
 export type MaintenanceContractUncheckedUpdateManyWithoutPlanTypeInput = {
@@ -2508,11 +2761,13 @@ export type MaintenanceContractUncheckedUpdateManyWithoutPlanTypeInput = {
 export type MaintenanceContractCountOutputType = {
   properties: number
   hvacSystems: number
+  visits: number
 }
 
 export type MaintenanceContractCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   properties?: boolean | MaintenanceContractCountOutputTypeCountPropertiesArgs
   hvacSystems?: boolean | MaintenanceContractCountOutputTypeCountHvacSystemsArgs
+  visits?: boolean | MaintenanceContractCountOutputTypeCountVisitsArgs
 }
 
 /**
@@ -2537,6 +2792,13 @@ export type MaintenanceContractCountOutputTypeCountPropertiesArgs<ExtArgs extend
  */
 export type MaintenanceContractCountOutputTypeCountHvacSystemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.ContractHvacSystemWhereInput
+}
+
+/**
+ * MaintenanceContractCountOutputType without action
+ */
+export type MaintenanceContractCountOutputTypeCountVisitsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.MaintenanceVisitWhereInput
 }
 
 
@@ -2590,6 +2852,7 @@ export type MaintenanceContractSelect<ExtArgs extends runtime.Types.Extensions.I
   planType?: boolean | Prisma.MaintenancePlanTypeDefaultArgs<ExtArgs>
   properties?: boolean | Prisma.MaintenanceContract$propertiesArgs<ExtArgs>
   hvacSystems?: boolean | Prisma.MaintenanceContract$hvacSystemsArgs<ExtArgs>
+  visits?: boolean | Prisma.MaintenanceContract$visitsArgs<ExtArgs>
   _count?: boolean | Prisma.MaintenanceContractCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["maintenanceContract"]>
 
@@ -2747,6 +3010,7 @@ export type MaintenanceContractInclude<ExtArgs extends runtime.Types.Extensions.
   planType?: boolean | Prisma.MaintenancePlanTypeDefaultArgs<ExtArgs>
   properties?: boolean | Prisma.MaintenanceContract$propertiesArgs<ExtArgs>
   hvacSystems?: boolean | Prisma.MaintenanceContract$hvacSystemsArgs<ExtArgs>
+  visits?: boolean | Prisma.MaintenanceContract$visitsArgs<ExtArgs>
   _count?: boolean | Prisma.MaintenanceContractCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type MaintenanceContractIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2765,6 +3029,7 @@ export type $MaintenanceContractPayload<ExtArgs extends runtime.Types.Extensions
     planType: Prisma.$MaintenancePlanTypePayload<ExtArgs>
     properties: Prisma.$ContractPropertyPayload<ExtArgs>[]
     hvacSystems: Prisma.$ContractHvacSystemPayload<ExtArgs>[]
+    visits: Prisma.$MaintenanceVisitPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -3210,6 +3475,7 @@ export interface Prisma__MaintenanceContractClient<T, Null = never, ExtArgs exte
   planType<T extends Prisma.MaintenancePlanTypeDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MaintenancePlanTypeDefaultArgs<ExtArgs>>): Prisma.Prisma__MaintenancePlanTypeClient<runtime.Types.Result.GetResult<Prisma.$MaintenancePlanTypePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   properties<T extends Prisma.MaintenanceContract$propertiesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MaintenanceContract$propertiesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ContractPropertyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   hvacSystems<T extends Prisma.MaintenanceContract$hvacSystemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MaintenanceContract$hvacSystemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ContractHvacSystemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  visits<T extends Prisma.MaintenanceContract$visitsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MaintenanceContract$visitsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MaintenanceVisitPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3730,6 +3996,30 @@ export type MaintenanceContract$hvacSystemsArgs<ExtArgs extends runtime.Types.Ex
   take?: number
   skip?: number
   distinct?: Prisma.ContractHvacSystemScalarFieldEnum | Prisma.ContractHvacSystemScalarFieldEnum[]
+}
+
+/**
+ * MaintenanceContract.visits
+ */
+export type MaintenanceContract$visitsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the MaintenanceVisit
+   */
+  select?: Prisma.MaintenanceVisitSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the MaintenanceVisit
+   */
+  omit?: Prisma.MaintenanceVisitOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MaintenanceVisitInclude<ExtArgs> | null
+  where?: Prisma.MaintenanceVisitWhereInput
+  orderBy?: Prisma.MaintenanceVisitOrderByWithRelationInput | Prisma.MaintenanceVisitOrderByWithRelationInput[]
+  cursor?: Prisma.MaintenanceVisitWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.MaintenanceVisitScalarFieldEnum | Prisma.MaintenanceVisitScalarFieldEnum[]
 }
 
 /**

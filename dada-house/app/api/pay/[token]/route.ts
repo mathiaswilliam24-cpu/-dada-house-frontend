@@ -89,13 +89,13 @@ export async function GET(
     select: {
       id: true, estimateNumber: true, clientName: true, clientEmail: true,
       total: true, subtotal: true, taxType: true, taxRate: true, taxLabel: true,
-      taxInclusive: true, discountType: true, discountValue: true, lineItems: true,
+      taxInclusive: true, discountType: true, discountValue: true, lineItems: true, loyaltyDiscount: true,
       additionalDetails: true, templateColor: true, paidAt: true, paymentMethod: true,
       sentByName: true, isInvoice: true,
     },
   });
   if (estimate && estimate.isInvoice) {
-    return NextResponse.json({ invoice: estimate });
+    return NextResponse.json({ invoice: { ...estimate, total: Math.round((estimate.total - estimate.loyaltyDiscount) * 100) / 100 } });
   }
 
   const invoice = await db.invoice.findUnique({
@@ -110,7 +110,8 @@ export async function GET(
         estimateNumber: `INV${invoice.id.slice(-6).toUpperCase()}`,
         clientName: invoice.appointment.name,
         clientEmail: invoice.appointment.email,
-        total,
+        total: Math.round((total - invoice.loyaltyDiscount) * 100) / 100,
+        loyaltyDiscount: invoice.loyaltyDiscount,
         lineItems: items.map((i) => ({ desc: i.description ?? invoice.appointment.service, rate: i.rate, qty: i.qty, amount: i.rate * i.qty })),
         additionalDetails: invoice.notes,
         templateColor: null,
@@ -154,6 +155,8 @@ type EstimateRow = NonNullable<Awaited<ReturnType<typeof db.estimate.findUnique>
 
 async function handleEstimatePayment(invoice: EstimateRow, action: string, body: Record<string, unknown>) {
   if (invoice.paidAt) return NextResponse.json({ error: "Invoice already paid" }, { status: 400 });
+  // Reward points the customer applied are deducted from what is charged.
+  const due = Math.round((invoice.total - invoice.loyaltyDiscount) * 100) / 100;
 
   if (action === "charge-card") {
     const paymentMethodId = body.paymentMethodId as string;
@@ -161,7 +164,7 @@ async function handleEstimatePayment(invoice: EstimateRow, action: string, body:
 
     const { intent, cardFee, chargeTotal } = await chargeCard(
       paymentMethodId,
-      invoice.total,
+      due,
       `DADA HOUSE Invoice #${invoice.estimateNumber}`,
       { invoiceId: invoice.id, estimateNumber: invoice.estimateNumber }
     );
@@ -180,12 +183,12 @@ async function handleEstimatePayment(invoice: EstimateRow, action: string, body:
     if (invoice.clientEmail) {
       const lineItems = (invoice.lineItems as Array<{ desc: string; rate: number; qty: number; amount: number }>) ?? [];
       const clientEmail = invoice.clientEmail;
-      after(() => sendEstimateReceiptEmail({ ...invoice, clientEmail }, lineItems, cardFee).catch(console.error));
+      after(() => sendEstimateReceiptEmail({ ...invoice, total: due, clientEmail }, lineItems, cardFee).catch(console.error));
     }
     if (invoice.clientPhone) {
-      after(() => sendPaymentReceiptSms(invoice.clientPhone!, invoice.estimateNumber, invoice.total, cardFee).catch(console.error));
+      after(() => sendPaymentReceiptSms(invoice.clientPhone!, invoice.estimateNumber, due, cardFee).catch(console.error));
     }
-    after(() => notifyAdminPayment(invoice.clientName, invoice.estimateNumber, invoice.total, cardFee, "Credit Card"));
+    after(() => notifyAdminPayment(invoice.clientName, invoice.estimateNumber, due, cardFee, "Credit Card"));
     return NextResponse.json({ status: "succeeded", cardFee, chargeTotal });
   }
 
@@ -202,23 +205,23 @@ async function handleEstimatePayment(invoice: EstimateRow, action: string, body:
       data: { paidAt: new Date(), status: "CLOSED", paymentMethod: "CARD" },
     });
 
-    const cardFee = pi.amount / 100 - invoice.total;
+    const cardFee = pi.amount / 100 - due;
     if (invoice.clientEmail) {
       const lineItems = (invoice.lineItems as Array<{ desc: string; rate: number; qty: number; amount: number }>) ?? [];
       const clientEmail = invoice.clientEmail;
-      after(() => sendEstimateReceiptEmail({ ...invoice, clientEmail }, lineItems, cardFee).catch(console.error));
+      after(() => sendEstimateReceiptEmail({ ...invoice, total: due, clientEmail }, lineItems, cardFee).catch(console.error));
     }
     if (invoice.clientPhone) {
-      after(() => sendPaymentReceiptSms(invoice.clientPhone!, invoice.estimateNumber, invoice.total, cardFee).catch(console.error));
+      after(() => sendPaymentReceiptSms(invoice.clientPhone!, invoice.estimateNumber, due, cardFee).catch(console.error));
     }
-    after(() => notifyAdminPayment(invoice.clientName, invoice.estimateNumber, invoice.total, cardFee, "Credit Card"));
+    after(() => notifyAdminPayment(invoice.clientName, invoice.estimateNumber, due, cardFee, "Credit Card"));
 
     return NextResponse.json({ success: true });
   }
 
   if (action === "create-cashapp-intent") {
     const intent = await createCashAppIntent(
-      invoice.total,
+      due,
       `DADA HOUSE Invoice #${invoice.estimateNumber}`,
       { invoiceId: invoice.id, estimateNumber: invoice.estimateNumber }
     );
@@ -241,12 +244,12 @@ async function handleEstimatePayment(invoice: EstimateRow, action: string, body:
     if (invoice.clientEmail) {
       const lineItems = (invoice.lineItems as Array<{ desc: string; rate: number; qty: number; amount: number }>) ?? [];
       const clientEmail = invoice.clientEmail;
-      after(() => sendEstimateReceiptEmail({ ...invoice, clientEmail }, lineItems, 0).catch(console.error));
+      after(() => sendEstimateReceiptEmail({ ...invoice, total: due, clientEmail }, lineItems, 0).catch(console.error));
     }
     if (invoice.clientPhone) {
-      after(() => sendPaymentReceiptSms(invoice.clientPhone!, invoice.estimateNumber, invoice.total, 0).catch(console.error));
+      after(() => sendPaymentReceiptSms(invoice.clientPhone!, invoice.estimateNumber, due, 0).catch(console.error));
     }
-    after(() => notifyAdminPayment(invoice.clientName, invoice.estimateNumber, invoice.total, 0, "Cash App"));
+    after(() => notifyAdminPayment(invoice.clientName, invoice.estimateNumber, due, 0, "Cash App"));
 
     return NextResponse.json({ success: true });
   }
@@ -274,7 +277,9 @@ async function triggerDiagnosticPaid(invoice: InvoiceWithAppt) {
 async function handleAdminInvoicePayment(invoice: InvoiceWithAppt, action: string, body: Record<string, unknown>) {
   if (invoice.paidAt) return NextResponse.json({ error: "Invoice already paid" }, { status: 400 });
 
-  const { total } = computeInvoiceTotal(invoice.lineItems, invoice.appointment.service, invoice.amount);
+  const { total: gross } = computeInvoiceTotal(invoice.lineItems, invoice.appointment.service, invoice.amount);
+  // Reward points the customer applied are deducted from what is charged.
+  const total = Math.round((gross - invoice.loyaltyDiscount) * 100) / 100;
 
   if (action === "charge-card") {
     const paymentMethodId = body.paymentMethodId as string;

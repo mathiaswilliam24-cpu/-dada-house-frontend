@@ -107,6 +107,7 @@ export type CallCountAggregateOutputType = {
   aiTranscript: number
   aiRecordingUrl: number
   aiEndedReason: number
+  ringLegSids: number
   _all: number
 }
 
@@ -192,6 +193,7 @@ export type CallCountAggregateInputType = {
   aiTranscript?: true
   aiRecordingUrl?: true
   aiEndedReason?: true
+  ringLegSids?: true
   _all?: true
 }
 
@@ -304,6 +306,7 @@ export type CallGroupByOutputType = {
   aiTranscript: string | null
   aiRecordingUrl: string | null
   aiEndedReason: string | null
+  ringLegSids: string[]
   _count: CallCountAggregateOutputType | null
   _avg: CallAvgAggregateOutputType | null
   _sum: CallSumAggregateOutputType | null
@@ -352,6 +355,7 @@ export type CallWhereInput = {
   aiTranscript?: Prisma.StringNullableFilter<"Call"> | string | null
   aiRecordingUrl?: Prisma.StringNullableFilter<"Call"> | string | null
   aiEndedReason?: Prisma.StringNullableFilter<"Call"> | string | null
+  ringLegSids?: Prisma.StringNullableListFilter<"Call">
   customer?: Prisma.XOR<Prisma.CustomerNullableScalarRelationFilter, Prisma.CustomerWhereInput> | null
   agent?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   appointment?: Prisma.XOR<Prisma.AppointmentNullableScalarRelationFilter, Prisma.AppointmentWhereInput> | null
@@ -382,6 +386,7 @@ export type CallOrderByWithRelationInput = {
   aiTranscript?: Prisma.SortOrderInput | Prisma.SortOrder
   aiRecordingUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   aiEndedReason?: Prisma.SortOrderInput | Prisma.SortOrder
+  ringLegSids?: Prisma.SortOrder
   customer?: Prisma.CustomerOrderByWithRelationInput
   agent?: Prisma.UserOrderByWithRelationInput
   appointment?: Prisma.AppointmentOrderByWithRelationInput
@@ -415,6 +420,7 @@ export type CallWhereUniqueInput = Prisma.AtLeast<{
   aiTranscript?: Prisma.StringNullableFilter<"Call"> | string | null
   aiRecordingUrl?: Prisma.StringNullableFilter<"Call"> | string | null
   aiEndedReason?: Prisma.StringNullableFilter<"Call"> | string | null
+  ringLegSids?: Prisma.StringNullableListFilter<"Call">
   customer?: Prisma.XOR<Prisma.CustomerNullableScalarRelationFilter, Prisma.CustomerWhereInput> | null
   agent?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   appointment?: Prisma.XOR<Prisma.AppointmentNullableScalarRelationFilter, Prisma.AppointmentWhereInput> | null
@@ -445,6 +451,7 @@ export type CallOrderByWithAggregationInput = {
   aiTranscript?: Prisma.SortOrderInput | Prisma.SortOrder
   aiRecordingUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   aiEndedReason?: Prisma.SortOrderInput | Prisma.SortOrder
+  ringLegSids?: Prisma.SortOrder
   _count?: Prisma.CallCountOrderByAggregateInput
   _avg?: Prisma.CallAvgOrderByAggregateInput
   _max?: Prisma.CallMaxOrderByAggregateInput
@@ -478,6 +485,7 @@ export type CallScalarWhereWithAggregatesInput = {
   aiTranscript?: Prisma.StringNullableWithAggregatesFilter<"Call"> | string | null
   aiRecordingUrl?: Prisma.StringNullableWithAggregatesFilter<"Call"> | string | null
   aiEndedReason?: Prisma.StringNullableWithAggregatesFilter<"Call"> | string | null
+  ringLegSids?: Prisma.StringNullableListFilter<"Call">
 }
 
 export type CallCreateInput = {
@@ -500,6 +508,7 @@ export type CallCreateInput = {
   aiTranscript?: string | null
   aiRecordingUrl?: string | null
   aiEndedReason?: string | null
+  ringLegSids?: Prisma.CallCreateringLegSidsInput | string[]
   customer?: Prisma.CustomerCreateNestedOneWithoutCallsInput
   agent?: Prisma.UserCreateNestedOneWithoutCallsInput
   appointment?: Prisma.AppointmentCreateNestedOneWithoutCallsInput
@@ -530,6 +539,7 @@ export type CallUncheckedCreateInput = {
   aiTranscript?: string | null
   aiRecordingUrl?: string | null
   aiEndedReason?: string | null
+  ringLegSids?: Prisma.CallCreateringLegSidsInput | string[]
   recording?: Prisma.CallRecordingUncheckedCreateNestedOneWithoutCallInput
   voicemail?: Prisma.VoicemailUncheckedCreateNestedOneWithoutCallInput
 }
@@ -554,6 +564,7 @@ export type CallUpdateInput = {
   aiTranscript?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   aiRecordingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   aiEndedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ringLegSids?: Prisma.CallUpdateringLegSidsInput | string[]
   customer?: Prisma.CustomerUpdateOneWithoutCallsNestedInput
   agent?: Prisma.UserUpdateOneWithoutCallsNestedInput
   appointment?: Prisma.AppointmentUpdateOneWithoutCallsNestedInput
@@ -584,6 +595,7 @@ export type CallUncheckedUpdateInput = {
   aiTranscript?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   aiRecordingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   aiEndedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ringLegSids?: Prisma.CallUpdateringLegSidsInput | string[]
   recording?: Prisma.CallRecordingUncheckedUpdateOneWithoutCallNestedInput
   voicemail?: Prisma.VoicemailUncheckedUpdateOneWithoutCallNestedInput
 }
@@ -611,6 +623,7 @@ export type CallCreateManyInput = {
   aiTranscript?: string | null
   aiRecordingUrl?: string | null
   aiEndedReason?: string | null
+  ringLegSids?: Prisma.CallCreateringLegSidsInput | string[]
 }
 
 export type CallUpdateManyMutationInput = {
@@ -633,6 +646,7 @@ export type CallUpdateManyMutationInput = {
   aiTranscript?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   aiRecordingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   aiEndedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ringLegSids?: Prisma.CallUpdateringLegSidsInput | string[]
 }
 
 export type CallUncheckedUpdateManyInput = {
@@ -658,6 +672,7 @@ export type CallUncheckedUpdateManyInput = {
   aiTranscript?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   aiRecordingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   aiEndedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ringLegSids?: Prisma.CallUpdateringLegSidsInput | string[]
 }
 
 export type CallListRelationFilter = {
@@ -693,6 +708,7 @@ export type CallCountOrderByAggregateInput = {
   aiTranscript?: Prisma.SortOrder
   aiRecordingUrl?: Prisma.SortOrder
   aiEndedReason?: Prisma.SortOrder
+  ringLegSids?: Prisma.SortOrder
 }
 
 export type CallAvgOrderByAggregateInput = {
@@ -889,6 +905,10 @@ export type CallUncheckedUpdateManyWithoutCustomerNestedInput = {
   deleteMany?: Prisma.CallScalarWhereInput | Prisma.CallScalarWhereInput[]
 }
 
+export type CallCreateringLegSidsInput = {
+  set: string[]
+}
+
 export type EnumCallDirectionFieldUpdateOperationsInput = {
   set?: $Enums.CallDirection
 }
@@ -899,6 +919,11 @@ export type EnumCallStatusFieldUpdateOperationsInput = {
 
 export type NullableEnumCallDispositionFieldUpdateOperationsInput = {
   set?: $Enums.CallDisposition | null
+}
+
+export type CallUpdateringLegSidsInput = {
+  set?: string[]
+  push?: string | string[]
 }
 
 export type CallCreateNestedOneWithoutRecordingInput = {
@@ -951,6 +976,7 @@ export type CallCreateWithoutAgentInput = {
   aiTranscript?: string | null
   aiRecordingUrl?: string | null
   aiEndedReason?: string | null
+  ringLegSids?: Prisma.CallCreateringLegSidsInput | string[]
   customer?: Prisma.CustomerCreateNestedOneWithoutCallsInput
   appointment?: Prisma.AppointmentCreateNestedOneWithoutCallsInput
   recording?: Prisma.CallRecordingCreateNestedOneWithoutCallInput
@@ -979,6 +1005,7 @@ export type CallUncheckedCreateWithoutAgentInput = {
   aiTranscript?: string | null
   aiRecordingUrl?: string | null
   aiEndedReason?: string | null
+  ringLegSids?: Prisma.CallCreateringLegSidsInput | string[]
   recording?: Prisma.CallRecordingUncheckedCreateNestedOneWithoutCallInput
   voicemail?: Prisma.VoicemailUncheckedCreateNestedOneWithoutCallInput
 }
@@ -1035,6 +1062,7 @@ export type CallScalarWhereInput = {
   aiTranscript?: Prisma.StringNullableFilter<"Call"> | string | null
   aiRecordingUrl?: Prisma.StringNullableFilter<"Call"> | string | null
   aiEndedReason?: Prisma.StringNullableFilter<"Call"> | string | null
+  ringLegSids?: Prisma.StringNullableListFilter<"Call">
 }
 
 export type CallCreateWithoutAppointmentInput = {
@@ -1057,6 +1085,7 @@ export type CallCreateWithoutAppointmentInput = {
   aiTranscript?: string | null
   aiRecordingUrl?: string | null
   aiEndedReason?: string | null
+  ringLegSids?: Prisma.CallCreateringLegSidsInput | string[]
   customer?: Prisma.CustomerCreateNestedOneWithoutCallsInput
   agent?: Prisma.UserCreateNestedOneWithoutCallsInput
   recording?: Prisma.CallRecordingCreateNestedOneWithoutCallInput
@@ -1085,6 +1114,7 @@ export type CallUncheckedCreateWithoutAppointmentInput = {
   aiTranscript?: string | null
   aiRecordingUrl?: string | null
   aiEndedReason?: string | null
+  ringLegSids?: Prisma.CallCreateringLegSidsInput | string[]
   recording?: Prisma.CallRecordingUncheckedCreateNestedOneWithoutCallInput
   voicemail?: Prisma.VoicemailUncheckedCreateNestedOneWithoutCallInput
 }
@@ -1135,6 +1165,7 @@ export type CallCreateWithoutCustomerInput = {
   aiTranscript?: string | null
   aiRecordingUrl?: string | null
   aiEndedReason?: string | null
+  ringLegSids?: Prisma.CallCreateringLegSidsInput | string[]
   agent?: Prisma.UserCreateNestedOneWithoutCallsInput
   appointment?: Prisma.AppointmentCreateNestedOneWithoutCallsInput
   recording?: Prisma.CallRecordingCreateNestedOneWithoutCallInput
@@ -1163,6 +1194,7 @@ export type CallUncheckedCreateWithoutCustomerInput = {
   aiTranscript?: string | null
   aiRecordingUrl?: string | null
   aiEndedReason?: string | null
+  ringLegSids?: Prisma.CallCreateringLegSidsInput | string[]
   recording?: Prisma.CallRecordingUncheckedCreateNestedOneWithoutCallInput
   voicemail?: Prisma.VoicemailUncheckedCreateNestedOneWithoutCallInput
 }
@@ -1213,6 +1245,7 @@ export type CallCreateWithoutRecordingInput = {
   aiTranscript?: string | null
   aiRecordingUrl?: string | null
   aiEndedReason?: string | null
+  ringLegSids?: Prisma.CallCreateringLegSidsInput | string[]
   customer?: Prisma.CustomerCreateNestedOneWithoutCallsInput
   agent?: Prisma.UserCreateNestedOneWithoutCallsInput
   appointment?: Prisma.AppointmentCreateNestedOneWithoutCallsInput
@@ -1242,6 +1275,7 @@ export type CallUncheckedCreateWithoutRecordingInput = {
   aiTranscript?: string | null
   aiRecordingUrl?: string | null
   aiEndedReason?: string | null
+  ringLegSids?: Prisma.CallCreateringLegSidsInput | string[]
   voicemail?: Prisma.VoicemailUncheckedCreateNestedOneWithoutCallInput
 }
 
@@ -1281,6 +1315,7 @@ export type CallUpdateWithoutRecordingInput = {
   aiTranscript?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   aiRecordingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   aiEndedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ringLegSids?: Prisma.CallUpdateringLegSidsInput | string[]
   customer?: Prisma.CustomerUpdateOneWithoutCallsNestedInput
   agent?: Prisma.UserUpdateOneWithoutCallsNestedInput
   appointment?: Prisma.AppointmentUpdateOneWithoutCallsNestedInput
@@ -1310,6 +1345,7 @@ export type CallUncheckedUpdateWithoutRecordingInput = {
   aiTranscript?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   aiRecordingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   aiEndedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ringLegSids?: Prisma.CallUpdateringLegSidsInput | string[]
   voicemail?: Prisma.VoicemailUncheckedUpdateOneWithoutCallNestedInput
 }
 
@@ -1333,6 +1369,7 @@ export type CallCreateWithoutVoicemailInput = {
   aiTranscript?: string | null
   aiRecordingUrl?: string | null
   aiEndedReason?: string | null
+  ringLegSids?: Prisma.CallCreateringLegSidsInput | string[]
   customer?: Prisma.CustomerCreateNestedOneWithoutCallsInput
   agent?: Prisma.UserCreateNestedOneWithoutCallsInput
   appointment?: Prisma.AppointmentCreateNestedOneWithoutCallsInput
@@ -1362,6 +1399,7 @@ export type CallUncheckedCreateWithoutVoicemailInput = {
   aiTranscript?: string | null
   aiRecordingUrl?: string | null
   aiEndedReason?: string | null
+  ringLegSids?: Prisma.CallCreateringLegSidsInput | string[]
   recording?: Prisma.CallRecordingUncheckedCreateNestedOneWithoutCallInput
 }
 
@@ -1401,6 +1439,7 @@ export type CallUpdateWithoutVoicemailInput = {
   aiTranscript?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   aiRecordingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   aiEndedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ringLegSids?: Prisma.CallUpdateringLegSidsInput | string[]
   customer?: Prisma.CustomerUpdateOneWithoutCallsNestedInput
   agent?: Prisma.UserUpdateOneWithoutCallsNestedInput
   appointment?: Prisma.AppointmentUpdateOneWithoutCallsNestedInput
@@ -1430,6 +1469,7 @@ export type CallUncheckedUpdateWithoutVoicemailInput = {
   aiTranscript?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   aiRecordingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   aiEndedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ringLegSids?: Prisma.CallUpdateringLegSidsInput | string[]
   recording?: Prisma.CallRecordingUncheckedUpdateOneWithoutCallNestedInput
 }
 
@@ -1455,6 +1495,7 @@ export type CallCreateManyAgentInput = {
   aiTranscript?: string | null
   aiRecordingUrl?: string | null
   aiEndedReason?: string | null
+  ringLegSids?: Prisma.CallCreateringLegSidsInput | string[]
 }
 
 export type CallUpdateWithoutAgentInput = {
@@ -1477,6 +1518,7 @@ export type CallUpdateWithoutAgentInput = {
   aiTranscript?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   aiRecordingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   aiEndedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ringLegSids?: Prisma.CallUpdateringLegSidsInput | string[]
   customer?: Prisma.CustomerUpdateOneWithoutCallsNestedInput
   appointment?: Prisma.AppointmentUpdateOneWithoutCallsNestedInput
   recording?: Prisma.CallRecordingUpdateOneWithoutCallNestedInput
@@ -1505,6 +1547,7 @@ export type CallUncheckedUpdateWithoutAgentInput = {
   aiTranscript?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   aiRecordingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   aiEndedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ringLegSids?: Prisma.CallUpdateringLegSidsInput | string[]
   recording?: Prisma.CallRecordingUncheckedUpdateOneWithoutCallNestedInput
   voicemail?: Prisma.VoicemailUncheckedUpdateOneWithoutCallNestedInput
 }
@@ -1531,6 +1574,7 @@ export type CallUncheckedUpdateManyWithoutAgentInput = {
   aiTranscript?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   aiRecordingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   aiEndedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ringLegSids?: Prisma.CallUpdateringLegSidsInput | string[]
 }
 
 export type CallCreateManyAppointmentInput = {
@@ -1555,6 +1599,7 @@ export type CallCreateManyAppointmentInput = {
   aiTranscript?: string | null
   aiRecordingUrl?: string | null
   aiEndedReason?: string | null
+  ringLegSids?: Prisma.CallCreateringLegSidsInput | string[]
 }
 
 export type CallUpdateWithoutAppointmentInput = {
@@ -1577,6 +1622,7 @@ export type CallUpdateWithoutAppointmentInput = {
   aiTranscript?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   aiRecordingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   aiEndedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ringLegSids?: Prisma.CallUpdateringLegSidsInput | string[]
   customer?: Prisma.CustomerUpdateOneWithoutCallsNestedInput
   agent?: Prisma.UserUpdateOneWithoutCallsNestedInput
   recording?: Prisma.CallRecordingUpdateOneWithoutCallNestedInput
@@ -1605,6 +1651,7 @@ export type CallUncheckedUpdateWithoutAppointmentInput = {
   aiTranscript?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   aiRecordingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   aiEndedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ringLegSids?: Prisma.CallUpdateringLegSidsInput | string[]
   recording?: Prisma.CallRecordingUncheckedUpdateOneWithoutCallNestedInput
   voicemail?: Prisma.VoicemailUncheckedUpdateOneWithoutCallNestedInput
 }
@@ -1631,6 +1678,7 @@ export type CallUncheckedUpdateManyWithoutAppointmentInput = {
   aiTranscript?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   aiRecordingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   aiEndedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ringLegSids?: Prisma.CallUpdateringLegSidsInput | string[]
 }
 
 export type CallCreateManyCustomerInput = {
@@ -1655,6 +1703,7 @@ export type CallCreateManyCustomerInput = {
   aiTranscript?: string | null
   aiRecordingUrl?: string | null
   aiEndedReason?: string | null
+  ringLegSids?: Prisma.CallCreateringLegSidsInput | string[]
 }
 
 export type CallUpdateWithoutCustomerInput = {
@@ -1677,6 +1726,7 @@ export type CallUpdateWithoutCustomerInput = {
   aiTranscript?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   aiRecordingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   aiEndedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ringLegSids?: Prisma.CallUpdateringLegSidsInput | string[]
   agent?: Prisma.UserUpdateOneWithoutCallsNestedInput
   appointment?: Prisma.AppointmentUpdateOneWithoutCallsNestedInput
   recording?: Prisma.CallRecordingUpdateOneWithoutCallNestedInput
@@ -1705,6 +1755,7 @@ export type CallUncheckedUpdateWithoutCustomerInput = {
   aiTranscript?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   aiRecordingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   aiEndedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ringLegSids?: Prisma.CallUpdateringLegSidsInput | string[]
   recording?: Prisma.CallRecordingUncheckedUpdateOneWithoutCallNestedInput
   voicemail?: Prisma.VoicemailUncheckedUpdateOneWithoutCallNestedInput
 }
@@ -1731,6 +1782,7 @@ export type CallUncheckedUpdateManyWithoutCustomerInput = {
   aiTranscript?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   aiRecordingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   aiEndedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ringLegSids?: Prisma.CallUpdateringLegSidsInput | string[]
 }
 
 
@@ -1758,6 +1810,7 @@ export type CallSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   aiTranscript?: boolean
   aiRecordingUrl?: boolean
   aiEndedReason?: boolean
+  ringLegSids?: boolean
   customer?: boolean | Prisma.Call$customerArgs<ExtArgs>
   agent?: boolean | Prisma.Call$agentArgs<ExtArgs>
   appointment?: boolean | Prisma.Call$appointmentArgs<ExtArgs>
@@ -1788,6 +1841,7 @@ export type CallSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   aiTranscript?: boolean
   aiRecordingUrl?: boolean
   aiEndedReason?: boolean
+  ringLegSids?: boolean
   customer?: boolean | Prisma.Call$customerArgs<ExtArgs>
   agent?: boolean | Prisma.Call$agentArgs<ExtArgs>
   appointment?: boolean | Prisma.Call$appointmentArgs<ExtArgs>
@@ -1816,6 +1870,7 @@ export type CallSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   aiTranscript?: boolean
   aiRecordingUrl?: boolean
   aiEndedReason?: boolean
+  ringLegSids?: boolean
   customer?: boolean | Prisma.Call$customerArgs<ExtArgs>
   agent?: boolean | Prisma.Call$agentArgs<ExtArgs>
   appointment?: boolean | Prisma.Call$appointmentArgs<ExtArgs>
@@ -1844,9 +1899,10 @@ export type CallSelectScalar = {
   aiTranscript?: boolean
   aiRecordingUrl?: boolean
   aiEndedReason?: boolean
+  ringLegSids?: boolean
 }
 
-export type CallOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "twilioCallSid" | "direction" | "fromNumber" | "toNumber" | "status" | "disposition" | "dispositionNotes" | "customerId" | "agentId" | "appointmentId" | "startedAt" | "answeredAt" | "endedAt" | "durationSeconds" | "createdAt" | "updatedAt" | "vapiCallId" | "aiSummary" | "aiTranscript" | "aiRecordingUrl" | "aiEndedReason", ExtArgs["result"]["call"]>
+export type CallOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "twilioCallSid" | "direction" | "fromNumber" | "toNumber" | "status" | "disposition" | "dispositionNotes" | "customerId" | "agentId" | "appointmentId" | "startedAt" | "answeredAt" | "endedAt" | "durationSeconds" | "createdAt" | "updatedAt" | "vapiCallId" | "aiSummary" | "aiTranscript" | "aiRecordingUrl" | "aiEndedReason" | "ringLegSids", ExtArgs["result"]["call"]>
 export type CallInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   customer?: boolean | Prisma.Call$customerArgs<ExtArgs>
   agent?: boolean | Prisma.Call$agentArgs<ExtArgs>
@@ -1897,6 +1953,7 @@ export type $CallPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     aiTranscript: string | null
     aiRecordingUrl: string | null
     aiEndedReason: string | null
+    ringLegSids: string[]
   }, ExtArgs["result"]["call"]>
   composites: {}
 }
@@ -2347,6 +2404,7 @@ export interface CallFieldRefs {
   readonly aiTranscript: Prisma.FieldRef<"Call", 'String'>
   readonly aiRecordingUrl: Prisma.FieldRef<"Call", 'String'>
   readonly aiEndedReason: Prisma.FieldRef<"Call", 'String'>
+  readonly ringLegSids: Prisma.FieldRef<"Call", 'String[]'>
 }
     
 

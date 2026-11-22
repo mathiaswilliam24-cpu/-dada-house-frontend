@@ -20,8 +20,36 @@ export type EquipmentModel = runtime.Types.Result.DefaultSelection<Prisma.$Equip
 
 export type AggregateEquipment = {
   _count: EquipmentCountAggregateOutputType | null
+  _avg: EquipmentAvgAggregateOutputType | null
+  _sum: EquipmentSumAggregateOutputType | null
   _min: EquipmentMinAggregateOutputType | null
   _max: EquipmentMaxAggregateOutputType | null
+}
+
+export type EquipmentAvgAggregateOutputType = {
+  capacityTons: number | null
+  compressorCount: number | null
+  circuits: number | null
+  phase: number | null
+  minVoltage: number | null
+  maxVoltage: number | null
+  rla: number | null
+  lra: number | null
+  mca: number | null
+  mocp: number | null
+}
+
+export type EquipmentSumAggregateOutputType = {
+  capacityTons: number | null
+  compressorCount: number | null
+  circuits: number | null
+  phase: number | null
+  minVoltage: number | null
+  maxVoltage: number | null
+  rla: number | null
+  lra: number | null
+  mca: number | null
+  mocp: number | null
 }
 
 export type EquipmentMinAggregateOutputType = {
@@ -37,6 +65,27 @@ export type EquipmentMinAggregateOutputType = {
   notes: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  category: string | null
+  manufacturer: string | null
+  modelNumber: string | null
+  indoorModel: string | null
+  capacityTons: number | null
+  refrigerant: string | null
+  meteringDevice: string | null
+  compressorType: string | null
+  compressorCount: number | null
+  circuits: number | null
+  stages: string | null
+  heatingType: string | null
+  ratedVoltage: string | null
+  phase: number | null
+  minVoltage: number | null
+  maxVoltage: number | null
+  rla: number | null
+  lra: number | null
+  mca: number | null
+  mocp: number | null
+  specsVerifiedAt: Date | null
 }
 
 export type EquipmentMaxAggregateOutputType = {
@@ -52,6 +101,27 @@ export type EquipmentMaxAggregateOutputType = {
   notes: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  category: string | null
+  manufacturer: string | null
+  modelNumber: string | null
+  indoorModel: string | null
+  capacityTons: number | null
+  refrigerant: string | null
+  meteringDevice: string | null
+  compressorType: string | null
+  compressorCount: number | null
+  circuits: number | null
+  stages: string | null
+  heatingType: string | null
+  ratedVoltage: string | null
+  phase: number | null
+  minVoltage: number | null
+  maxVoltage: number | null
+  rla: number | null
+  lra: number | null
+  mca: number | null
+  mocp: number | null
+  specsVerifiedAt: Date | null
 }
 
 export type EquipmentCountAggregateOutputType = {
@@ -67,9 +137,57 @@ export type EquipmentCountAggregateOutputType = {
   notes: number
   createdAt: number
   updatedAt: number
+  category: number
+  manufacturer: number
+  modelNumber: number
+  indoorModel: number
+  capacityTons: number
+  refrigerant: number
+  meteringDevice: number
+  compressorType: number
+  compressorCount: number
+  circuits: number
+  stages: number
+  heatingType: number
+  ratedVoltage: number
+  phase: number
+  minVoltage: number
+  maxVoltage: number
+  rla: number
+  lra: number
+  mca: number
+  mocp: number
+  specs: number
+  specsVerifiedAt: number
   _all: number
 }
 
+
+export type EquipmentAvgAggregateInputType = {
+  capacityTons?: true
+  compressorCount?: true
+  circuits?: true
+  phase?: true
+  minVoltage?: true
+  maxVoltage?: true
+  rla?: true
+  lra?: true
+  mca?: true
+  mocp?: true
+}
+
+export type EquipmentSumAggregateInputType = {
+  capacityTons?: true
+  compressorCount?: true
+  circuits?: true
+  phase?: true
+  minVoltage?: true
+  maxVoltage?: true
+  rla?: true
+  lra?: true
+  mca?: true
+  mocp?: true
+}
 
 export type EquipmentMinAggregateInputType = {
   id?: true
@@ -84,6 +202,27 @@ export type EquipmentMinAggregateInputType = {
   notes?: true
   createdAt?: true
   updatedAt?: true
+  category?: true
+  manufacturer?: true
+  modelNumber?: true
+  indoorModel?: true
+  capacityTons?: true
+  refrigerant?: true
+  meteringDevice?: true
+  compressorType?: true
+  compressorCount?: true
+  circuits?: true
+  stages?: true
+  heatingType?: true
+  ratedVoltage?: true
+  phase?: true
+  minVoltage?: true
+  maxVoltage?: true
+  rla?: true
+  lra?: true
+  mca?: true
+  mocp?: true
+  specsVerifiedAt?: true
 }
 
 export type EquipmentMaxAggregateInputType = {
@@ -99,6 +238,27 @@ export type EquipmentMaxAggregateInputType = {
   notes?: true
   createdAt?: true
   updatedAt?: true
+  category?: true
+  manufacturer?: true
+  modelNumber?: true
+  indoorModel?: true
+  capacityTons?: true
+  refrigerant?: true
+  meteringDevice?: true
+  compressorType?: true
+  compressorCount?: true
+  circuits?: true
+  stages?: true
+  heatingType?: true
+  ratedVoltage?: true
+  phase?: true
+  minVoltage?: true
+  maxVoltage?: true
+  rla?: true
+  lra?: true
+  mca?: true
+  mocp?: true
+  specsVerifiedAt?: true
 }
 
 export type EquipmentCountAggregateInputType = {
@@ -114,6 +274,28 @@ export type EquipmentCountAggregateInputType = {
   notes?: true
   createdAt?: true
   updatedAt?: true
+  category?: true
+  manufacturer?: true
+  modelNumber?: true
+  indoorModel?: true
+  capacityTons?: true
+  refrigerant?: true
+  meteringDevice?: true
+  compressorType?: true
+  compressorCount?: true
+  circuits?: true
+  stages?: true
+  heatingType?: true
+  ratedVoltage?: true
+  phase?: true
+  minVoltage?: true
+  maxVoltage?: true
+  rla?: true
+  lra?: true
+  mca?: true
+  mocp?: true
+  specs?: true
+  specsVerifiedAt?: true
   _all?: true
 }
 
@@ -155,6 +337,18 @@ export type EquipmentAggregateArgs<ExtArgs extends runtime.Types.Extensions.Inte
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: EquipmentAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: EquipmentSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: EquipmentMinAggregateInputType
@@ -185,6 +379,8 @@ export type EquipmentGroupByArgs<ExtArgs extends runtime.Types.Extensions.Intern
   take?: number
   skip?: number
   _count?: EquipmentCountAggregateInputType | true
+  _avg?: EquipmentAvgAggregateInputType
+  _sum?: EquipmentSumAggregateInputType
   _min?: EquipmentMinAggregateInputType
   _max?: EquipmentMaxAggregateInputType
 }
@@ -202,7 +398,31 @@ export type EquipmentGroupByOutputType = {
   notes: string | null
   createdAt: Date
   updatedAt: Date
+  category: string | null
+  manufacturer: string | null
+  modelNumber: string | null
+  indoorModel: string | null
+  capacityTons: number | null
+  refrigerant: string | null
+  meteringDevice: string | null
+  compressorType: string | null
+  compressorCount: number | null
+  circuits: number | null
+  stages: string | null
+  heatingType: string | null
+  ratedVoltage: string | null
+  phase: number | null
+  minVoltage: number | null
+  maxVoltage: number | null
+  rla: number | null
+  lra: number | null
+  mca: number | null
+  mocp: number | null
+  specs: runtime.JsonValue | null
+  specsVerifiedAt: Date | null
   _count: EquipmentCountAggregateOutputType | null
+  _avg: EquipmentAvgAggregateOutputType | null
+  _sum: EquipmentSumAggregateOutputType | null
   _min: EquipmentMinAggregateOutputType | null
   _max: EquipmentMaxAggregateOutputType | null
 }
@@ -238,7 +458,30 @@ export type EquipmentWhereInput = {
   notes?: Prisma.StringNullableFilter<"Equipment"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Equipment"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Equipment"> | Date | string
+  category?: Prisma.StringNullableFilter<"Equipment"> | string | null
+  manufacturer?: Prisma.StringNullableFilter<"Equipment"> | string | null
+  modelNumber?: Prisma.StringNullableFilter<"Equipment"> | string | null
+  indoorModel?: Prisma.StringNullableFilter<"Equipment"> | string | null
+  capacityTons?: Prisma.FloatNullableFilter<"Equipment"> | number | null
+  refrigerant?: Prisma.StringNullableFilter<"Equipment"> | string | null
+  meteringDevice?: Prisma.StringNullableFilter<"Equipment"> | string | null
+  compressorType?: Prisma.StringNullableFilter<"Equipment"> | string | null
+  compressorCount?: Prisma.IntNullableFilter<"Equipment"> | number | null
+  circuits?: Prisma.IntNullableFilter<"Equipment"> | number | null
+  stages?: Prisma.StringNullableFilter<"Equipment"> | string | null
+  heatingType?: Prisma.StringNullableFilter<"Equipment"> | string | null
+  ratedVoltage?: Prisma.StringNullableFilter<"Equipment"> | string | null
+  phase?: Prisma.IntNullableFilter<"Equipment"> | number | null
+  minVoltage?: Prisma.FloatNullableFilter<"Equipment"> | number | null
+  maxVoltage?: Prisma.FloatNullableFilter<"Equipment"> | number | null
+  rla?: Prisma.FloatNullableFilter<"Equipment"> | number | null
+  lra?: Prisma.FloatNullableFilter<"Equipment"> | number | null
+  mca?: Prisma.FloatNullableFilter<"Equipment"> | number | null
+  mocp?: Prisma.FloatNullableFilter<"Equipment"> | number | null
+  specs?: Prisma.JsonNullableFilter<"Equipment">
+  specsVerifiedAt?: Prisma.DateTimeNullableFilter<"Equipment"> | Date | string | null
   customer?: Prisma.XOR<Prisma.CustomerScalarRelationFilter, Prisma.CustomerWhereInput>
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionListRelationFilter
 }
 
 export type EquipmentOrderByWithRelationInput = {
@@ -254,7 +497,30 @@ export type EquipmentOrderByWithRelationInput = {
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  category?: Prisma.SortOrderInput | Prisma.SortOrder
+  manufacturer?: Prisma.SortOrderInput | Prisma.SortOrder
+  modelNumber?: Prisma.SortOrderInput | Prisma.SortOrder
+  indoorModel?: Prisma.SortOrderInput | Prisma.SortOrder
+  capacityTons?: Prisma.SortOrderInput | Prisma.SortOrder
+  refrigerant?: Prisma.SortOrderInput | Prisma.SortOrder
+  meteringDevice?: Prisma.SortOrderInput | Prisma.SortOrder
+  compressorType?: Prisma.SortOrderInput | Prisma.SortOrder
+  compressorCount?: Prisma.SortOrderInput | Prisma.SortOrder
+  circuits?: Prisma.SortOrderInput | Prisma.SortOrder
+  stages?: Prisma.SortOrderInput | Prisma.SortOrder
+  heatingType?: Prisma.SortOrderInput | Prisma.SortOrder
+  ratedVoltage?: Prisma.SortOrderInput | Prisma.SortOrder
+  phase?: Prisma.SortOrderInput | Prisma.SortOrder
+  minVoltage?: Prisma.SortOrderInput | Prisma.SortOrder
+  maxVoltage?: Prisma.SortOrderInput | Prisma.SortOrder
+  rla?: Prisma.SortOrderInput | Prisma.SortOrder
+  lra?: Prisma.SortOrderInput | Prisma.SortOrder
+  mca?: Prisma.SortOrderInput | Prisma.SortOrder
+  mocp?: Prisma.SortOrderInput | Prisma.SortOrder
+  specs?: Prisma.SortOrderInput | Prisma.SortOrder
+  specsVerifiedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   customer?: Prisma.CustomerOrderByWithRelationInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionOrderByRelationAggregateInput
 }
 
 export type EquipmentWhereUniqueInput = Prisma.AtLeast<{
@@ -273,7 +539,30 @@ export type EquipmentWhereUniqueInput = Prisma.AtLeast<{
   notes?: Prisma.StringNullableFilter<"Equipment"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Equipment"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Equipment"> | Date | string
+  category?: Prisma.StringNullableFilter<"Equipment"> | string | null
+  manufacturer?: Prisma.StringNullableFilter<"Equipment"> | string | null
+  modelNumber?: Prisma.StringNullableFilter<"Equipment"> | string | null
+  indoorModel?: Prisma.StringNullableFilter<"Equipment"> | string | null
+  capacityTons?: Prisma.FloatNullableFilter<"Equipment"> | number | null
+  refrigerant?: Prisma.StringNullableFilter<"Equipment"> | string | null
+  meteringDevice?: Prisma.StringNullableFilter<"Equipment"> | string | null
+  compressorType?: Prisma.StringNullableFilter<"Equipment"> | string | null
+  compressorCount?: Prisma.IntNullableFilter<"Equipment"> | number | null
+  circuits?: Prisma.IntNullableFilter<"Equipment"> | number | null
+  stages?: Prisma.StringNullableFilter<"Equipment"> | string | null
+  heatingType?: Prisma.StringNullableFilter<"Equipment"> | string | null
+  ratedVoltage?: Prisma.StringNullableFilter<"Equipment"> | string | null
+  phase?: Prisma.IntNullableFilter<"Equipment"> | number | null
+  minVoltage?: Prisma.FloatNullableFilter<"Equipment"> | number | null
+  maxVoltage?: Prisma.FloatNullableFilter<"Equipment"> | number | null
+  rla?: Prisma.FloatNullableFilter<"Equipment"> | number | null
+  lra?: Prisma.FloatNullableFilter<"Equipment"> | number | null
+  mca?: Prisma.FloatNullableFilter<"Equipment"> | number | null
+  mocp?: Prisma.FloatNullableFilter<"Equipment"> | number | null
+  specs?: Prisma.JsonNullableFilter<"Equipment">
+  specsVerifiedAt?: Prisma.DateTimeNullableFilter<"Equipment"> | Date | string | null
   customer?: Prisma.XOR<Prisma.CustomerScalarRelationFilter, Prisma.CustomerWhereInput>
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionListRelationFilter
 }, "id">
 
 export type EquipmentOrderByWithAggregationInput = {
@@ -289,9 +578,33 @@ export type EquipmentOrderByWithAggregationInput = {
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  category?: Prisma.SortOrderInput | Prisma.SortOrder
+  manufacturer?: Prisma.SortOrderInput | Prisma.SortOrder
+  modelNumber?: Prisma.SortOrderInput | Prisma.SortOrder
+  indoorModel?: Prisma.SortOrderInput | Prisma.SortOrder
+  capacityTons?: Prisma.SortOrderInput | Prisma.SortOrder
+  refrigerant?: Prisma.SortOrderInput | Prisma.SortOrder
+  meteringDevice?: Prisma.SortOrderInput | Prisma.SortOrder
+  compressorType?: Prisma.SortOrderInput | Prisma.SortOrder
+  compressorCount?: Prisma.SortOrderInput | Prisma.SortOrder
+  circuits?: Prisma.SortOrderInput | Prisma.SortOrder
+  stages?: Prisma.SortOrderInput | Prisma.SortOrder
+  heatingType?: Prisma.SortOrderInput | Prisma.SortOrder
+  ratedVoltage?: Prisma.SortOrderInput | Prisma.SortOrder
+  phase?: Prisma.SortOrderInput | Prisma.SortOrder
+  minVoltage?: Prisma.SortOrderInput | Prisma.SortOrder
+  maxVoltage?: Prisma.SortOrderInput | Prisma.SortOrder
+  rla?: Prisma.SortOrderInput | Prisma.SortOrder
+  lra?: Prisma.SortOrderInput | Prisma.SortOrder
+  mca?: Prisma.SortOrderInput | Prisma.SortOrder
+  mocp?: Prisma.SortOrderInput | Prisma.SortOrder
+  specs?: Prisma.SortOrderInput | Prisma.SortOrder
+  specsVerifiedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.EquipmentCountOrderByAggregateInput
+  _avg?: Prisma.EquipmentAvgOrderByAggregateInput
   _max?: Prisma.EquipmentMaxOrderByAggregateInput
   _min?: Prisma.EquipmentMinOrderByAggregateInput
+  _sum?: Prisma.EquipmentSumOrderByAggregateInput
 }
 
 export type EquipmentScalarWhereWithAggregatesInput = {
@@ -310,6 +623,28 @@ export type EquipmentScalarWhereWithAggregatesInput = {
   notes?: Prisma.StringNullableWithAggregatesFilter<"Equipment"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Equipment"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Equipment"> | Date | string
+  category?: Prisma.StringNullableWithAggregatesFilter<"Equipment"> | string | null
+  manufacturer?: Prisma.StringNullableWithAggregatesFilter<"Equipment"> | string | null
+  modelNumber?: Prisma.StringNullableWithAggregatesFilter<"Equipment"> | string | null
+  indoorModel?: Prisma.StringNullableWithAggregatesFilter<"Equipment"> | string | null
+  capacityTons?: Prisma.FloatNullableWithAggregatesFilter<"Equipment"> | number | null
+  refrigerant?: Prisma.StringNullableWithAggregatesFilter<"Equipment"> | string | null
+  meteringDevice?: Prisma.StringNullableWithAggregatesFilter<"Equipment"> | string | null
+  compressorType?: Prisma.StringNullableWithAggregatesFilter<"Equipment"> | string | null
+  compressorCount?: Prisma.IntNullableWithAggregatesFilter<"Equipment"> | number | null
+  circuits?: Prisma.IntNullableWithAggregatesFilter<"Equipment"> | number | null
+  stages?: Prisma.StringNullableWithAggregatesFilter<"Equipment"> | string | null
+  heatingType?: Prisma.StringNullableWithAggregatesFilter<"Equipment"> | string | null
+  ratedVoltage?: Prisma.StringNullableWithAggregatesFilter<"Equipment"> | string | null
+  phase?: Prisma.IntNullableWithAggregatesFilter<"Equipment"> | number | null
+  minVoltage?: Prisma.FloatNullableWithAggregatesFilter<"Equipment"> | number | null
+  maxVoltage?: Prisma.FloatNullableWithAggregatesFilter<"Equipment"> | number | null
+  rla?: Prisma.FloatNullableWithAggregatesFilter<"Equipment"> | number | null
+  lra?: Prisma.FloatNullableWithAggregatesFilter<"Equipment"> | number | null
+  mca?: Prisma.FloatNullableWithAggregatesFilter<"Equipment"> | number | null
+  mocp?: Prisma.FloatNullableWithAggregatesFilter<"Equipment"> | number | null
+  specs?: Prisma.JsonNullableWithAggregatesFilter<"Equipment">
+  specsVerifiedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Equipment"> | Date | string | null
 }
 
 export type EquipmentCreateInput = {
@@ -324,7 +659,30 @@ export type EquipmentCreateInput = {
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  category?: string | null
+  manufacturer?: string | null
+  modelNumber?: string | null
+  indoorModel?: string | null
+  capacityTons?: number | null
+  refrigerant?: string | null
+  meteringDevice?: string | null
+  compressorType?: string | null
+  compressorCount?: number | null
+  circuits?: number | null
+  stages?: string | null
+  heatingType?: string | null
+  ratedVoltage?: string | null
+  phase?: number | null
+  minVoltage?: number | null
+  maxVoltage?: number | null
+  rla?: number | null
+  lra?: number | null
+  mca?: number | null
+  mocp?: number | null
+  specs?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  specsVerifiedAt?: Date | string | null
   customer: Prisma.CustomerCreateNestedOneWithoutEquipmentInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionCreateNestedManyWithoutEquipmentRefInput
 }
 
 export type EquipmentUncheckedCreateInput = {
@@ -340,6 +698,29 @@ export type EquipmentUncheckedCreateInput = {
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  category?: string | null
+  manufacturer?: string | null
+  modelNumber?: string | null
+  indoorModel?: string | null
+  capacityTons?: number | null
+  refrigerant?: string | null
+  meteringDevice?: string | null
+  compressorType?: string | null
+  compressorCount?: number | null
+  circuits?: number | null
+  stages?: string | null
+  heatingType?: string | null
+  ratedVoltage?: string | null
+  phase?: number | null
+  minVoltage?: number | null
+  maxVoltage?: number | null
+  rla?: number | null
+  lra?: number | null
+  mca?: number | null
+  mocp?: number | null
+  specs?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  specsVerifiedAt?: Date | string | null
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUncheckedCreateNestedManyWithoutEquipmentRefInput
 }
 
 export type EquipmentUpdateInput = {
@@ -354,7 +735,30 @@ export type EquipmentUpdateInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  manufacturer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  modelNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  indoorModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  capacityTons?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  refrigerant?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  meteringDevice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  compressorType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  compressorCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  circuits?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  stages?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  heatingType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ratedVoltage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phase?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  minVoltage?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  maxVoltage?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  rla?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lra?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  mca?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  mocp?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  specs?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  specsVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customer?: Prisma.CustomerUpdateOneRequiredWithoutEquipmentNestedInput
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUpdateManyWithoutEquipmentRefNestedInput
 }
 
 export type EquipmentUncheckedUpdateInput = {
@@ -370,6 +774,29 @@ export type EquipmentUncheckedUpdateInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  manufacturer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  modelNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  indoorModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  capacityTons?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  refrigerant?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  meteringDevice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  compressorType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  compressorCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  circuits?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  stages?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  heatingType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ratedVoltage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phase?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  minVoltage?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  maxVoltage?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  rla?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lra?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  mca?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  mocp?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  specs?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  specsVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUncheckedUpdateManyWithoutEquipmentRefNestedInput
 }
 
 export type EquipmentCreateManyInput = {
@@ -385,6 +812,28 @@ export type EquipmentCreateManyInput = {
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  category?: string | null
+  manufacturer?: string | null
+  modelNumber?: string | null
+  indoorModel?: string | null
+  capacityTons?: number | null
+  refrigerant?: string | null
+  meteringDevice?: string | null
+  compressorType?: string | null
+  compressorCount?: number | null
+  circuits?: number | null
+  stages?: string | null
+  heatingType?: string | null
+  ratedVoltage?: string | null
+  phase?: number | null
+  minVoltage?: number | null
+  maxVoltage?: number | null
+  rla?: number | null
+  lra?: number | null
+  mca?: number | null
+  mocp?: number | null
+  specs?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  specsVerifiedAt?: Date | string | null
 }
 
 export type EquipmentUpdateManyMutationInput = {
@@ -399,6 +848,28 @@ export type EquipmentUpdateManyMutationInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  manufacturer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  modelNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  indoorModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  capacityTons?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  refrigerant?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  meteringDevice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  compressorType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  compressorCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  circuits?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  stages?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  heatingType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ratedVoltage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phase?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  minVoltage?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  maxVoltage?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  rla?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lra?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  mca?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  mocp?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  specs?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  specsVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type EquipmentUncheckedUpdateManyInput = {
@@ -414,6 +885,28 @@ export type EquipmentUncheckedUpdateManyInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  manufacturer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  modelNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  indoorModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  capacityTons?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  refrigerant?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  meteringDevice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  compressorType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  compressorCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  circuits?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  stages?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  heatingType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ratedVoltage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phase?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  minVoltage?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  maxVoltage?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  rla?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lra?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  mca?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  mocp?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  specs?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  specsVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type EquipmentListRelationFilter = {
@@ -439,6 +932,41 @@ export type EquipmentCountOrderByAggregateInput = {
   notes?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  category?: Prisma.SortOrder
+  manufacturer?: Prisma.SortOrder
+  modelNumber?: Prisma.SortOrder
+  indoorModel?: Prisma.SortOrder
+  capacityTons?: Prisma.SortOrder
+  refrigerant?: Prisma.SortOrder
+  meteringDevice?: Prisma.SortOrder
+  compressorType?: Prisma.SortOrder
+  compressorCount?: Prisma.SortOrder
+  circuits?: Prisma.SortOrder
+  stages?: Prisma.SortOrder
+  heatingType?: Prisma.SortOrder
+  ratedVoltage?: Prisma.SortOrder
+  phase?: Prisma.SortOrder
+  minVoltage?: Prisma.SortOrder
+  maxVoltage?: Prisma.SortOrder
+  rla?: Prisma.SortOrder
+  lra?: Prisma.SortOrder
+  mca?: Prisma.SortOrder
+  mocp?: Prisma.SortOrder
+  specs?: Prisma.SortOrder
+  specsVerifiedAt?: Prisma.SortOrder
+}
+
+export type EquipmentAvgOrderByAggregateInput = {
+  capacityTons?: Prisma.SortOrder
+  compressorCount?: Prisma.SortOrder
+  circuits?: Prisma.SortOrder
+  phase?: Prisma.SortOrder
+  minVoltage?: Prisma.SortOrder
+  maxVoltage?: Prisma.SortOrder
+  rla?: Prisma.SortOrder
+  lra?: Prisma.SortOrder
+  mca?: Prisma.SortOrder
+  mocp?: Prisma.SortOrder
 }
 
 export type EquipmentMaxOrderByAggregateInput = {
@@ -454,6 +982,27 @@ export type EquipmentMaxOrderByAggregateInput = {
   notes?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  category?: Prisma.SortOrder
+  manufacturer?: Prisma.SortOrder
+  modelNumber?: Prisma.SortOrder
+  indoorModel?: Prisma.SortOrder
+  capacityTons?: Prisma.SortOrder
+  refrigerant?: Prisma.SortOrder
+  meteringDevice?: Prisma.SortOrder
+  compressorType?: Prisma.SortOrder
+  compressorCount?: Prisma.SortOrder
+  circuits?: Prisma.SortOrder
+  stages?: Prisma.SortOrder
+  heatingType?: Prisma.SortOrder
+  ratedVoltage?: Prisma.SortOrder
+  phase?: Prisma.SortOrder
+  minVoltage?: Prisma.SortOrder
+  maxVoltage?: Prisma.SortOrder
+  rla?: Prisma.SortOrder
+  lra?: Prisma.SortOrder
+  mca?: Prisma.SortOrder
+  mocp?: Prisma.SortOrder
+  specsVerifiedAt?: Prisma.SortOrder
 }
 
 export type EquipmentMinOrderByAggregateInput = {
@@ -469,6 +1018,45 @@ export type EquipmentMinOrderByAggregateInput = {
   notes?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  category?: Prisma.SortOrder
+  manufacturer?: Prisma.SortOrder
+  modelNumber?: Prisma.SortOrder
+  indoorModel?: Prisma.SortOrder
+  capacityTons?: Prisma.SortOrder
+  refrigerant?: Prisma.SortOrder
+  meteringDevice?: Prisma.SortOrder
+  compressorType?: Prisma.SortOrder
+  compressorCount?: Prisma.SortOrder
+  circuits?: Prisma.SortOrder
+  stages?: Prisma.SortOrder
+  heatingType?: Prisma.SortOrder
+  ratedVoltage?: Prisma.SortOrder
+  phase?: Prisma.SortOrder
+  minVoltage?: Prisma.SortOrder
+  maxVoltage?: Prisma.SortOrder
+  rla?: Prisma.SortOrder
+  lra?: Prisma.SortOrder
+  mca?: Prisma.SortOrder
+  mocp?: Prisma.SortOrder
+  specsVerifiedAt?: Prisma.SortOrder
+}
+
+export type EquipmentSumOrderByAggregateInput = {
+  capacityTons?: Prisma.SortOrder
+  compressorCount?: Prisma.SortOrder
+  circuits?: Prisma.SortOrder
+  phase?: Prisma.SortOrder
+  minVoltage?: Prisma.SortOrder
+  maxVoltage?: Prisma.SortOrder
+  rla?: Prisma.SortOrder
+  lra?: Prisma.SortOrder
+  mca?: Prisma.SortOrder
+  mocp?: Prisma.SortOrder
+}
+
+export type EquipmentNullableScalarRelationFilter = {
+  is?: Prisma.EquipmentWhereInput | null
+  isNot?: Prisma.EquipmentWhereInput | null
 }
 
 export type EquipmentCreateNestedManyWithoutCustomerInput = {
@@ -513,6 +1101,22 @@ export type EquipmentUncheckedUpdateManyWithoutCustomerNestedInput = {
   deleteMany?: Prisma.EquipmentScalarWhereInput | Prisma.EquipmentScalarWhereInput[]
 }
 
+export type EquipmentCreateNestedOneWithoutHvacDiagnosticsInput = {
+  create?: Prisma.XOR<Prisma.EquipmentCreateWithoutHvacDiagnosticsInput, Prisma.EquipmentUncheckedCreateWithoutHvacDiagnosticsInput>
+  connectOrCreate?: Prisma.EquipmentCreateOrConnectWithoutHvacDiagnosticsInput
+  connect?: Prisma.EquipmentWhereUniqueInput
+}
+
+export type EquipmentUpdateOneWithoutHvacDiagnosticsNestedInput = {
+  create?: Prisma.XOR<Prisma.EquipmentCreateWithoutHvacDiagnosticsInput, Prisma.EquipmentUncheckedCreateWithoutHvacDiagnosticsInput>
+  connectOrCreate?: Prisma.EquipmentCreateOrConnectWithoutHvacDiagnosticsInput
+  upsert?: Prisma.EquipmentUpsertWithoutHvacDiagnosticsInput
+  disconnect?: Prisma.EquipmentWhereInput | boolean
+  delete?: Prisma.EquipmentWhereInput | boolean
+  connect?: Prisma.EquipmentWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.EquipmentUpdateToOneWithWhereWithoutHvacDiagnosticsInput, Prisma.EquipmentUpdateWithoutHvacDiagnosticsInput>, Prisma.EquipmentUncheckedUpdateWithoutHvacDiagnosticsInput>
+}
+
 export type EquipmentCreateWithoutCustomerInput = {
   id?: string
   technicianId?: string | null
@@ -525,6 +1129,29 @@ export type EquipmentCreateWithoutCustomerInput = {
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  category?: string | null
+  manufacturer?: string | null
+  modelNumber?: string | null
+  indoorModel?: string | null
+  capacityTons?: number | null
+  refrigerant?: string | null
+  meteringDevice?: string | null
+  compressorType?: string | null
+  compressorCount?: number | null
+  circuits?: number | null
+  stages?: string | null
+  heatingType?: string | null
+  ratedVoltage?: string | null
+  phase?: number | null
+  minVoltage?: number | null
+  maxVoltage?: number | null
+  rla?: number | null
+  lra?: number | null
+  mca?: number | null
+  mocp?: number | null
+  specs?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  specsVerifiedAt?: Date | string | null
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionCreateNestedManyWithoutEquipmentRefInput
 }
 
 export type EquipmentUncheckedCreateWithoutCustomerInput = {
@@ -539,6 +1166,29 @@ export type EquipmentUncheckedCreateWithoutCustomerInput = {
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  category?: string | null
+  manufacturer?: string | null
+  modelNumber?: string | null
+  indoorModel?: string | null
+  capacityTons?: number | null
+  refrigerant?: string | null
+  meteringDevice?: string | null
+  compressorType?: string | null
+  compressorCount?: number | null
+  circuits?: number | null
+  stages?: string | null
+  heatingType?: string | null
+  ratedVoltage?: string | null
+  phase?: number | null
+  minVoltage?: number | null
+  maxVoltage?: number | null
+  rla?: number | null
+  lra?: number | null
+  mca?: number | null
+  mocp?: number | null
+  specs?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  specsVerifiedAt?: Date | string | null
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUncheckedCreateNestedManyWithoutEquipmentRefInput
 }
 
 export type EquipmentCreateOrConnectWithoutCustomerInput = {
@@ -583,6 +1233,192 @@ export type EquipmentScalarWhereInput = {
   notes?: Prisma.StringNullableFilter<"Equipment"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Equipment"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Equipment"> | Date | string
+  category?: Prisma.StringNullableFilter<"Equipment"> | string | null
+  manufacturer?: Prisma.StringNullableFilter<"Equipment"> | string | null
+  modelNumber?: Prisma.StringNullableFilter<"Equipment"> | string | null
+  indoorModel?: Prisma.StringNullableFilter<"Equipment"> | string | null
+  capacityTons?: Prisma.FloatNullableFilter<"Equipment"> | number | null
+  refrigerant?: Prisma.StringNullableFilter<"Equipment"> | string | null
+  meteringDevice?: Prisma.StringNullableFilter<"Equipment"> | string | null
+  compressorType?: Prisma.StringNullableFilter<"Equipment"> | string | null
+  compressorCount?: Prisma.IntNullableFilter<"Equipment"> | number | null
+  circuits?: Prisma.IntNullableFilter<"Equipment"> | number | null
+  stages?: Prisma.StringNullableFilter<"Equipment"> | string | null
+  heatingType?: Prisma.StringNullableFilter<"Equipment"> | string | null
+  ratedVoltage?: Prisma.StringNullableFilter<"Equipment"> | string | null
+  phase?: Prisma.IntNullableFilter<"Equipment"> | number | null
+  minVoltage?: Prisma.FloatNullableFilter<"Equipment"> | number | null
+  maxVoltage?: Prisma.FloatNullableFilter<"Equipment"> | number | null
+  rla?: Prisma.FloatNullableFilter<"Equipment"> | number | null
+  lra?: Prisma.FloatNullableFilter<"Equipment"> | number | null
+  mca?: Prisma.FloatNullableFilter<"Equipment"> | number | null
+  mocp?: Prisma.FloatNullableFilter<"Equipment"> | number | null
+  specs?: Prisma.JsonNullableFilter<"Equipment">
+  specsVerifiedAt?: Prisma.DateTimeNullableFilter<"Equipment"> | Date | string | null
+}
+
+export type EquipmentCreateWithoutHvacDiagnosticsInput = {
+  id?: string
+  technicianId?: string | null
+  type: string
+  makeModel?: string | null
+  serialNumber?: string | null
+  installDate?: Date | string | null
+  age?: string | null
+  location?: string | null
+  notes?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  category?: string | null
+  manufacturer?: string | null
+  modelNumber?: string | null
+  indoorModel?: string | null
+  capacityTons?: number | null
+  refrigerant?: string | null
+  meteringDevice?: string | null
+  compressorType?: string | null
+  compressorCount?: number | null
+  circuits?: number | null
+  stages?: string | null
+  heatingType?: string | null
+  ratedVoltage?: string | null
+  phase?: number | null
+  minVoltage?: number | null
+  maxVoltage?: number | null
+  rla?: number | null
+  lra?: number | null
+  mca?: number | null
+  mocp?: number | null
+  specs?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  specsVerifiedAt?: Date | string | null
+  customer: Prisma.CustomerCreateNestedOneWithoutEquipmentInput
+}
+
+export type EquipmentUncheckedCreateWithoutHvacDiagnosticsInput = {
+  id?: string
+  customerId: string
+  technicianId?: string | null
+  type: string
+  makeModel?: string | null
+  serialNumber?: string | null
+  installDate?: Date | string | null
+  age?: string | null
+  location?: string | null
+  notes?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  category?: string | null
+  manufacturer?: string | null
+  modelNumber?: string | null
+  indoorModel?: string | null
+  capacityTons?: number | null
+  refrigerant?: string | null
+  meteringDevice?: string | null
+  compressorType?: string | null
+  compressorCount?: number | null
+  circuits?: number | null
+  stages?: string | null
+  heatingType?: string | null
+  ratedVoltage?: string | null
+  phase?: number | null
+  minVoltage?: number | null
+  maxVoltage?: number | null
+  rla?: number | null
+  lra?: number | null
+  mca?: number | null
+  mocp?: number | null
+  specs?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  specsVerifiedAt?: Date | string | null
+}
+
+export type EquipmentCreateOrConnectWithoutHvacDiagnosticsInput = {
+  where: Prisma.EquipmentWhereUniqueInput
+  create: Prisma.XOR<Prisma.EquipmentCreateWithoutHvacDiagnosticsInput, Prisma.EquipmentUncheckedCreateWithoutHvacDiagnosticsInput>
+}
+
+export type EquipmentUpsertWithoutHvacDiagnosticsInput = {
+  update: Prisma.XOR<Prisma.EquipmentUpdateWithoutHvacDiagnosticsInput, Prisma.EquipmentUncheckedUpdateWithoutHvacDiagnosticsInput>
+  create: Prisma.XOR<Prisma.EquipmentCreateWithoutHvacDiagnosticsInput, Prisma.EquipmentUncheckedCreateWithoutHvacDiagnosticsInput>
+  where?: Prisma.EquipmentWhereInput
+}
+
+export type EquipmentUpdateToOneWithWhereWithoutHvacDiagnosticsInput = {
+  where?: Prisma.EquipmentWhereInput
+  data: Prisma.XOR<Prisma.EquipmentUpdateWithoutHvacDiagnosticsInput, Prisma.EquipmentUncheckedUpdateWithoutHvacDiagnosticsInput>
+}
+
+export type EquipmentUpdateWithoutHvacDiagnosticsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  technicianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.StringFieldUpdateOperationsInput | string
+  makeModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  serialNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  installDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  manufacturer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  modelNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  indoorModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  capacityTons?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  refrigerant?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  meteringDevice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  compressorType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  compressorCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  circuits?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  stages?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  heatingType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ratedVoltage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phase?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  minVoltage?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  maxVoltage?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  rla?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lra?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  mca?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  mocp?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  specs?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  specsVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  customer?: Prisma.CustomerUpdateOneRequiredWithoutEquipmentNestedInput
+}
+
+export type EquipmentUncheckedUpdateWithoutHvacDiagnosticsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  customerId?: Prisma.StringFieldUpdateOperationsInput | string
+  technicianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.StringFieldUpdateOperationsInput | string
+  makeModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  serialNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  installDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  manufacturer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  modelNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  indoorModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  capacityTons?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  refrigerant?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  meteringDevice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  compressorType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  compressorCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  circuits?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  stages?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  heatingType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ratedVoltage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phase?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  minVoltage?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  maxVoltage?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  rla?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lra?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  mca?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  mocp?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  specs?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  specsVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type EquipmentCreateManyCustomerInput = {
@@ -597,6 +1433,28 @@ export type EquipmentCreateManyCustomerInput = {
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  category?: string | null
+  manufacturer?: string | null
+  modelNumber?: string | null
+  indoorModel?: string | null
+  capacityTons?: number | null
+  refrigerant?: string | null
+  meteringDevice?: string | null
+  compressorType?: string | null
+  compressorCount?: number | null
+  circuits?: number | null
+  stages?: string | null
+  heatingType?: string | null
+  ratedVoltage?: string | null
+  phase?: number | null
+  minVoltage?: number | null
+  maxVoltage?: number | null
+  rla?: number | null
+  lra?: number | null
+  mca?: number | null
+  mocp?: number | null
+  specs?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  specsVerifiedAt?: Date | string | null
 }
 
 export type EquipmentUpdateWithoutCustomerInput = {
@@ -611,6 +1469,29 @@ export type EquipmentUpdateWithoutCustomerInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  manufacturer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  modelNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  indoorModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  capacityTons?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  refrigerant?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  meteringDevice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  compressorType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  compressorCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  circuits?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  stages?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  heatingType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ratedVoltage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phase?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  minVoltage?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  maxVoltage?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  rla?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lra?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  mca?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  mocp?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  specs?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  specsVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUpdateManyWithoutEquipmentRefNestedInput
 }
 
 export type EquipmentUncheckedUpdateWithoutCustomerInput = {
@@ -625,6 +1506,29 @@ export type EquipmentUncheckedUpdateWithoutCustomerInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  manufacturer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  modelNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  indoorModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  capacityTons?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  refrigerant?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  meteringDevice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  compressorType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  compressorCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  circuits?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  stages?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  heatingType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ratedVoltage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phase?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  minVoltage?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  maxVoltage?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  rla?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lra?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  mca?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  mocp?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  specs?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  specsVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  hvacDiagnostics?: Prisma.HvacDiagnosticSessionUncheckedUpdateManyWithoutEquipmentRefNestedInput
 }
 
 export type EquipmentUncheckedUpdateManyWithoutCustomerInput = {
@@ -639,8 +1543,59 @@ export type EquipmentUncheckedUpdateManyWithoutCustomerInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  manufacturer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  modelNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  indoorModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  capacityTons?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  refrigerant?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  meteringDevice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  compressorType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  compressorCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  circuits?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  stages?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  heatingType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ratedVoltage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phase?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  minVoltage?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  maxVoltage?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  rla?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lra?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  mca?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  mocp?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  specs?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  specsVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
+
+/**
+ * Count Type EquipmentCountOutputType
+ */
+
+export type EquipmentCountOutputType = {
+  hvacDiagnostics: number
+}
+
+export type EquipmentCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  hvacDiagnostics?: boolean | EquipmentCountOutputTypeCountHvacDiagnosticsArgs
+}
+
+/**
+ * EquipmentCountOutputType without action
+ */
+export type EquipmentCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the EquipmentCountOutputType
+   */
+  select?: Prisma.EquipmentCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * EquipmentCountOutputType without action
+ */
+export type EquipmentCountOutputTypeCountHvacDiagnosticsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.HvacDiagnosticSessionWhereInput
+}
 
 
 export type EquipmentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -656,7 +1611,31 @@ export type EquipmentSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   notes?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  category?: boolean
+  manufacturer?: boolean
+  modelNumber?: boolean
+  indoorModel?: boolean
+  capacityTons?: boolean
+  refrigerant?: boolean
+  meteringDevice?: boolean
+  compressorType?: boolean
+  compressorCount?: boolean
+  circuits?: boolean
+  stages?: boolean
+  heatingType?: boolean
+  ratedVoltage?: boolean
+  phase?: boolean
+  minVoltage?: boolean
+  maxVoltage?: boolean
+  rla?: boolean
+  lra?: boolean
+  mca?: boolean
+  mocp?: boolean
+  specs?: boolean
+  specsVerifiedAt?: boolean
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
+  hvacDiagnostics?: boolean | Prisma.Equipment$hvacDiagnosticsArgs<ExtArgs>
+  _count?: boolean | Prisma.EquipmentCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["equipment"]>
 
 export type EquipmentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -672,6 +1651,28 @@ export type EquipmentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   notes?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  category?: boolean
+  manufacturer?: boolean
+  modelNumber?: boolean
+  indoorModel?: boolean
+  capacityTons?: boolean
+  refrigerant?: boolean
+  meteringDevice?: boolean
+  compressorType?: boolean
+  compressorCount?: boolean
+  circuits?: boolean
+  stages?: boolean
+  heatingType?: boolean
+  ratedVoltage?: boolean
+  phase?: boolean
+  minVoltage?: boolean
+  maxVoltage?: boolean
+  rla?: boolean
+  lra?: boolean
+  mca?: boolean
+  mocp?: boolean
+  specs?: boolean
+  specsVerifiedAt?: boolean
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["equipment"]>
 
@@ -688,6 +1689,28 @@ export type EquipmentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   notes?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  category?: boolean
+  manufacturer?: boolean
+  modelNumber?: boolean
+  indoorModel?: boolean
+  capacityTons?: boolean
+  refrigerant?: boolean
+  meteringDevice?: boolean
+  compressorType?: boolean
+  compressorCount?: boolean
+  circuits?: boolean
+  stages?: boolean
+  heatingType?: boolean
+  ratedVoltage?: boolean
+  phase?: boolean
+  minVoltage?: boolean
+  maxVoltage?: boolean
+  rla?: boolean
+  lra?: boolean
+  mca?: boolean
+  mocp?: boolean
+  specs?: boolean
+  specsVerifiedAt?: boolean
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["equipment"]>
 
@@ -704,11 +1727,35 @@ export type EquipmentSelectScalar = {
   notes?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  category?: boolean
+  manufacturer?: boolean
+  modelNumber?: boolean
+  indoorModel?: boolean
+  capacityTons?: boolean
+  refrigerant?: boolean
+  meteringDevice?: boolean
+  compressorType?: boolean
+  compressorCount?: boolean
+  circuits?: boolean
+  stages?: boolean
+  heatingType?: boolean
+  ratedVoltage?: boolean
+  phase?: boolean
+  minVoltage?: boolean
+  maxVoltage?: boolean
+  rla?: boolean
+  lra?: boolean
+  mca?: boolean
+  mocp?: boolean
+  specs?: boolean
+  specsVerifiedAt?: boolean
 }
 
-export type EquipmentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "customerId" | "technicianId" | "type" | "makeModel" | "serialNumber" | "installDate" | "age" | "location" | "notes" | "createdAt" | "updatedAt", ExtArgs["result"]["equipment"]>
+export type EquipmentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "customerId" | "technicianId" | "type" | "makeModel" | "serialNumber" | "installDate" | "age" | "location" | "notes" | "createdAt" | "updatedAt" | "category" | "manufacturer" | "modelNumber" | "indoorModel" | "capacityTons" | "refrigerant" | "meteringDevice" | "compressorType" | "compressorCount" | "circuits" | "stages" | "heatingType" | "ratedVoltage" | "phase" | "minVoltage" | "maxVoltage" | "rla" | "lra" | "mca" | "mocp" | "specs" | "specsVerifiedAt", ExtArgs["result"]["equipment"]>
 export type EquipmentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
+  hvacDiagnostics?: boolean | Prisma.Equipment$hvacDiagnosticsArgs<ExtArgs>
+  _count?: boolean | Prisma.EquipmentCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type EquipmentIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
@@ -721,6 +1768,7 @@ export type $EquipmentPayload<ExtArgs extends runtime.Types.Extensions.InternalA
   name: "Equipment"
   objects: {
     customer: Prisma.$CustomerPayload<ExtArgs>
+    hvacDiagnostics: Prisma.$HvacDiagnosticSessionPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -735,6 +1783,28 @@ export type $EquipmentPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     notes: string | null
     createdAt: Date
     updatedAt: Date
+    category: string | null
+    manufacturer: string | null
+    modelNumber: string | null
+    indoorModel: string | null
+    capacityTons: number | null
+    refrigerant: string | null
+    meteringDevice: string | null
+    compressorType: string | null
+    compressorCount: number | null
+    circuits: number | null
+    stages: string | null
+    heatingType: string | null
+    ratedVoltage: string | null
+    phase: number | null
+    minVoltage: number | null
+    maxVoltage: number | null
+    rla: number | null
+    lra: number | null
+    mca: number | null
+    mocp: number | null
+    specs: runtime.JsonValue | null
+    specsVerifiedAt: Date | null
   }, ExtArgs["result"]["equipment"]>
   composites: {}
 }
@@ -1130,6 +2200,7 @@ readonly fields: EquipmentFieldRefs;
 export interface Prisma__EquipmentClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   customer<T extends Prisma.CustomerDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CustomerDefaultArgs<ExtArgs>>): Prisma.Prisma__CustomerClient<runtime.Types.Result.GetResult<Prisma.$CustomerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  hvacDiagnostics<T extends Prisma.Equipment$hvacDiagnosticsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Equipment$hvacDiagnosticsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$HvacDiagnosticSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1171,6 +2242,28 @@ export interface EquipmentFieldRefs {
   readonly notes: Prisma.FieldRef<"Equipment", 'String'>
   readonly createdAt: Prisma.FieldRef<"Equipment", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Equipment", 'DateTime'>
+  readonly category: Prisma.FieldRef<"Equipment", 'String'>
+  readonly manufacturer: Prisma.FieldRef<"Equipment", 'String'>
+  readonly modelNumber: Prisma.FieldRef<"Equipment", 'String'>
+  readonly indoorModel: Prisma.FieldRef<"Equipment", 'String'>
+  readonly capacityTons: Prisma.FieldRef<"Equipment", 'Float'>
+  readonly refrigerant: Prisma.FieldRef<"Equipment", 'String'>
+  readonly meteringDevice: Prisma.FieldRef<"Equipment", 'String'>
+  readonly compressorType: Prisma.FieldRef<"Equipment", 'String'>
+  readonly compressorCount: Prisma.FieldRef<"Equipment", 'Int'>
+  readonly circuits: Prisma.FieldRef<"Equipment", 'Int'>
+  readonly stages: Prisma.FieldRef<"Equipment", 'String'>
+  readonly heatingType: Prisma.FieldRef<"Equipment", 'String'>
+  readonly ratedVoltage: Prisma.FieldRef<"Equipment", 'String'>
+  readonly phase: Prisma.FieldRef<"Equipment", 'Int'>
+  readonly minVoltage: Prisma.FieldRef<"Equipment", 'Float'>
+  readonly maxVoltage: Prisma.FieldRef<"Equipment", 'Float'>
+  readonly rla: Prisma.FieldRef<"Equipment", 'Float'>
+  readonly lra: Prisma.FieldRef<"Equipment", 'Float'>
+  readonly mca: Prisma.FieldRef<"Equipment", 'Float'>
+  readonly mocp: Prisma.FieldRef<"Equipment", 'Float'>
+  readonly specs: Prisma.FieldRef<"Equipment", 'Json'>
+  readonly specsVerifiedAt: Prisma.FieldRef<"Equipment", 'DateTime'>
 }
     
 
@@ -1569,6 +2662,30 @@ export type EquipmentDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Limit how many Equipment to delete.
    */
   limit?: number
+}
+
+/**
+ * Equipment.hvacDiagnostics
+ */
+export type Equipment$hvacDiagnosticsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the HvacDiagnosticSession
+   */
+  select?: Prisma.HvacDiagnosticSessionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the HvacDiagnosticSession
+   */
+  omit?: Prisma.HvacDiagnosticSessionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.HvacDiagnosticSessionInclude<ExtArgs> | null
+  where?: Prisma.HvacDiagnosticSessionWhereInput
+  orderBy?: Prisma.HvacDiagnosticSessionOrderByWithRelationInput | Prisma.HvacDiagnosticSessionOrderByWithRelationInput[]
+  cursor?: Prisma.HvacDiagnosticSessionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.HvacDiagnosticSessionScalarFieldEnum | Prisma.HvacDiagnosticSessionScalarFieldEnum[]
 }
 
 /**

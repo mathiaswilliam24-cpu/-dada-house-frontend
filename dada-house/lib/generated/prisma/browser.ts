@@ -258,6 +258,16 @@ export type Equipment = Prisma.EquipmentModel
  */
 export type Project = Prisma.ProjectModel
 /**
+ * Model ProjectEvent
+ * 
+ */
+export type ProjectEvent = Prisma.ProjectEventModel
+/**
+ * Model MaintenanceVisit
+ * One included tune-up of a maintenance membership (2 per contract year: spring AC + fall heating).
+ */
+export type MaintenanceVisit = Prisma.MaintenanceVisitModel
+/**
  * Model Call
  * 
  */
@@ -304,20 +314,23 @@ export type EmailThread = Prisma.EmailThreadModel
 export type EmailMessage = Prisma.EmailMessageModel
 /**
  * Model ShortLink
- * * Short redirect links for SMS — keeps texted invoice/estimate links from
- *  *  looking like a wall of text (raw URLs with a security token are long).
+ * *
+ *  * Short redirect links for SMS — keeps texted invoice/estimate links from
+ *  * looking like a wall of text (raw URLs with a security token are long).
  */
 export type ShortLink = Prisma.ShortLinkModel
 /**
  * Model SystemType
- * * HVAC system type options for the Performance Plan Contract flow (Heat Pump,
- *  *  Straight Cool, Package Unit, ...) — admin-managed so the list can grow.
+ * *
+ *  * HVAC system type options for the Performance Plan Contract flow (Heat Pump,
+ *  * Straight Cool, Package Unit, ...) — admin-managed so the list can grow.
  */
 export type SystemType = Prisma.SystemTypeModel
 /**
  * Model FormTemplate
- * * A form the super admin configures (fields defined as JSON) — e.g. "Clean and
- *  *  Check Forms → First Visit". Technicians fill it out per job.
+ * *
+ *  * A form the super admin configures (fields defined as JSON) — e.g. "Clean and
+ *  * Check Forms → First Visit". Technicians fill it out per job.
  */
 export type FormTemplate = Prisma.FormTemplateModel
 /**
@@ -345,3 +358,94 @@ export type ContractProperty = Prisma.ContractPropertyModel
  * 
  */
 export type ContractHvacSystem = Prisma.ContractHvacSystemModel
+/**
+ * Model LoyaltyAccount
+ * 
+ */
+export type LoyaltyAccount = Prisma.LoyaltyAccountModel
+/**
+ * Model LoyaltyTransaction
+ * 
+ */
+export type LoyaltyTransaction = Prisma.LoyaltyTransactionModel
+/**
+ * Model CustomerSignature
+ * Evidence log: every signature a customer gives on a technician's device, with
+ * the exact statement they agreed to (used to answer card disputes/chargebacks).
+ */
+export type CustomerSignature = Prisma.CustomerSignatureModel
+/**
+ * Model JobAssignment
+ * Every technician on a job (primary is mirrored in Appointment.technicianId for the technician app).
+ */
+export type JobAssignment = Prisma.JobAssignmentModel
+/**
+ * Model JobEvent
+ * Audit trail of a job: created, scheduled, assigned, status changes, notes, forced overrides.
+ */
+export type JobEvent = Prisma.JobEventModel
+/**
+ * Model Counter
+ * Atomic sequential counters (e.g. call numbers DH-2026-000001).
+ */
+export type Counter = Prisma.CounterModel
+/**
+ * Model StockLocation
+ * 
+ */
+export type StockLocation = Prisma.StockLocationModel
+/**
+ * Model StockLevel
+ * 
+ */
+export type StockLevel = Prisma.StockLevelModel
+/**
+ * Model StockMovement
+ * 
+ */
+export type StockMovement = Prisma.StockMovementModel
+/**
+ * Model HvacDiagnosticSession
+ * 
+ */
+export type HvacDiagnosticSession = Prisma.HvacDiagnosticSessionModel
+/**
+ * Model HvacMeasurement
+ * 
+ */
+export type HvacMeasurement = Prisma.HvacMeasurementModel
+/**
+ * Model HvacSafetyEvent
+ * 
+ */
+export type HvacSafetyEvent = Prisma.HvacSafetyEventModel
+/**
+ * Model HvacScan
+ * 
+ */
+export type HvacScan = Prisma.HvacScanModel
+/**
+ * Model HvacModelSpec
+ * 
+ */
+export type HvacModelSpec = Prisma.HvacModelSpecModel
+/**
+ * Model HvacTechnicianFeedback
+ * Technician feedback on a diagnostic (what the real cause was, whether the engine / AI helped).
+ */
+export type HvacTechnicianFeedback = Prisma.HvacTechnicianFeedbackModel
+/**
+ * Model HvacAssistantReview
+ * AI reasoning assistant output (layer C). Explanations only; the deterministic engine stays authoritative.
+ */
+export type HvacAssistantReview = Prisma.HvacAssistantReviewModel
+/**
+ * Model HvacValidationCase
+ * Independently verified case used to measure and calibrate the diagnostic engine.
+ */
+export type HvacValidationCase = Prisma.HvacValidationCaseModel
+/**
+ * Model HvacEvaluationRun
+ * Result of replaying all verified cases through the engine version in use.
+ */
+export type HvacEvaluationRun = Prisma.HvacEvaluationRunModel

@@ -31,6 +31,8 @@ export type EstimateAvgAggregateOutputType = {
   taxRate: number | null
   discountValue: number | null
   total: number | null
+  loyaltyDiscount: number | null
+  loyaltyPointsUsed: number | null
 }
 
 export type EstimateSumAggregateOutputType = {
@@ -38,6 +40,8 @@ export type EstimateSumAggregateOutputType = {
   taxRate: number | null
   discountValue: number | null
   total: number | null
+  loyaltyDiscount: number | null
+  loyaltyPointsUsed: number | null
 }
 
 export type EstimateMinAggregateOutputType = {
@@ -76,6 +80,8 @@ export type EstimateMinAggregateOutputType = {
   paymentMethod: string | null
   paidAt: Date | null
   sentByName: string | null
+  loyaltyDiscount: number | null
+  loyaltyPointsUsed: number | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -116,6 +122,8 @@ export type EstimateMaxAggregateOutputType = {
   paymentMethod: string | null
   paidAt: Date | null
   sentByName: string | null
+  loyaltyDiscount: number | null
+  loyaltyPointsUsed: number | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -157,6 +165,8 @@ export type EstimateCountAggregateOutputType = {
   paymentMethod: number
   paidAt: number
   sentByName: number
+  loyaltyDiscount: number
+  loyaltyPointsUsed: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -168,6 +178,8 @@ export type EstimateAvgAggregateInputType = {
   taxRate?: true
   discountValue?: true
   total?: true
+  loyaltyDiscount?: true
+  loyaltyPointsUsed?: true
 }
 
 export type EstimateSumAggregateInputType = {
@@ -175,6 +187,8 @@ export type EstimateSumAggregateInputType = {
   taxRate?: true
   discountValue?: true
   total?: true
+  loyaltyDiscount?: true
+  loyaltyPointsUsed?: true
 }
 
 export type EstimateMinAggregateInputType = {
@@ -213,6 +227,8 @@ export type EstimateMinAggregateInputType = {
   paymentMethod?: true
   paidAt?: true
   sentByName?: true
+  loyaltyDiscount?: true
+  loyaltyPointsUsed?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -253,6 +269,8 @@ export type EstimateMaxAggregateInputType = {
   paymentMethod?: true
   paidAt?: true
   sentByName?: true
+  loyaltyDiscount?: true
+  loyaltyPointsUsed?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -294,6 +312,8 @@ export type EstimateCountAggregateInputType = {
   paymentMethod?: true
   paidAt?: true
   sentByName?: true
+  loyaltyDiscount?: true
+  loyaltyPointsUsed?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -422,6 +442,8 @@ export type EstimateGroupByOutputType = {
   paymentMethod: string | null
   paidAt: Date | null
   sentByName: string | null
+  loyaltyDiscount: number
+  loyaltyPointsUsed: number
   createdAt: Date
   updatedAt: Date
   _count: EstimateCountAggregateOutputType | null
@@ -486,6 +508,8 @@ export type EstimateWhereInput = {
   paymentMethod?: Prisma.StringNullableFilter<"Estimate"> | string | null
   paidAt?: Prisma.DateTimeNullableFilter<"Estimate"> | Date | string | null
   sentByName?: Prisma.StringNullableFilter<"Estimate"> | string | null
+  loyaltyDiscount?: Prisma.FloatFilter<"Estimate"> | number
+  loyaltyPointsUsed?: Prisma.IntFilter<"Estimate"> | number
   createdAt?: Prisma.DateTimeFilter<"Estimate"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Estimate"> | Date | string
   technician?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
@@ -528,6 +552,8 @@ export type EstimateOrderByWithRelationInput = {
   paymentMethod?: Prisma.SortOrderInput | Prisma.SortOrder
   paidAt?: Prisma.SortOrderInput | Prisma.SortOrder
   sentByName?: Prisma.SortOrderInput | Prisma.SortOrder
+  loyaltyDiscount?: Prisma.SortOrder
+  loyaltyPointsUsed?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   technician?: Prisma.UserOrderByWithRelationInput
@@ -573,6 +599,8 @@ export type EstimateWhereUniqueInput = Prisma.AtLeast<{
   paymentMethod?: Prisma.StringNullableFilter<"Estimate"> | string | null
   paidAt?: Prisma.DateTimeNullableFilter<"Estimate"> | Date | string | null
   sentByName?: Prisma.StringNullableFilter<"Estimate"> | string | null
+  loyaltyDiscount?: Prisma.FloatFilter<"Estimate"> | number
+  loyaltyPointsUsed?: Prisma.IntFilter<"Estimate"> | number
   createdAt?: Prisma.DateTimeFilter<"Estimate"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Estimate"> | Date | string
   technician?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
@@ -615,6 +643,8 @@ export type EstimateOrderByWithAggregationInput = {
   paymentMethod?: Prisma.SortOrderInput | Prisma.SortOrder
   paidAt?: Prisma.SortOrderInput | Prisma.SortOrder
   sentByName?: Prisma.SortOrderInput | Prisma.SortOrder
+  loyaltyDiscount?: Prisma.SortOrder
+  loyaltyPointsUsed?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.EstimateCountOrderByAggregateInput
@@ -664,6 +694,8 @@ export type EstimateScalarWhereWithAggregatesInput = {
   paymentMethod?: Prisma.StringNullableWithAggregatesFilter<"Estimate"> | string | null
   paidAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Estimate"> | Date | string | null
   sentByName?: Prisma.StringNullableWithAggregatesFilter<"Estimate"> | string | null
+  loyaltyDiscount?: Prisma.FloatWithAggregatesFilter<"Estimate"> | number
+  loyaltyPointsUsed?: Prisma.IntWithAggregatesFilter<"Estimate"> | number
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Estimate"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Estimate"> | Date | string
 }
@@ -704,6 +736,8 @@ export type EstimateCreateInput = {
   paymentMethod?: string | null
   paidAt?: Date | string | null
   sentByName?: string | null
+  loyaltyDiscount?: number
+  loyaltyPointsUsed?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   technician?: Prisma.UserCreateNestedOneWithoutEstimatesInput
@@ -746,6 +780,8 @@ export type EstimateUncheckedCreateInput = {
   paymentMethod?: string | null
   paidAt?: Date | string | null
   sentByName?: string | null
+  loyaltyDiscount?: number
+  loyaltyPointsUsed?: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -786,6 +822,8 @@ export type EstimateUpdateInput = {
   paymentMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   sentByName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  loyaltyDiscount?: Prisma.FloatFieldUpdateOperationsInput | number
+  loyaltyPointsUsed?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   technician?: Prisma.UserUpdateOneWithoutEstimatesNestedInput
@@ -828,6 +866,8 @@ export type EstimateUncheckedUpdateInput = {
   paymentMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   sentByName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  loyaltyDiscount?: Prisma.FloatFieldUpdateOperationsInput | number
+  loyaltyPointsUsed?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -869,6 +909,8 @@ export type EstimateCreateManyInput = {
   paymentMethod?: string | null
   paidAt?: Date | string | null
   sentByName?: string | null
+  loyaltyDiscount?: number
+  loyaltyPointsUsed?: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -909,6 +951,8 @@ export type EstimateUpdateManyMutationInput = {
   paymentMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   sentByName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  loyaltyDiscount?: Prisma.FloatFieldUpdateOperationsInput | number
+  loyaltyPointsUsed?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -950,6 +994,8 @@ export type EstimateUncheckedUpdateManyInput = {
   paymentMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   sentByName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  loyaltyDiscount?: Prisma.FloatFieldUpdateOperationsInput | number
+  loyaltyPointsUsed?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1001,6 +1047,8 @@ export type EstimateCountOrderByAggregateInput = {
   paymentMethod?: Prisma.SortOrder
   paidAt?: Prisma.SortOrder
   sentByName?: Prisma.SortOrder
+  loyaltyDiscount?: Prisma.SortOrder
+  loyaltyPointsUsed?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -1010,6 +1058,8 @@ export type EstimateAvgOrderByAggregateInput = {
   taxRate?: Prisma.SortOrder
   discountValue?: Prisma.SortOrder
   total?: Prisma.SortOrder
+  loyaltyDiscount?: Prisma.SortOrder
+  loyaltyPointsUsed?: Prisma.SortOrder
 }
 
 export type EstimateMaxOrderByAggregateInput = {
@@ -1048,6 +1098,8 @@ export type EstimateMaxOrderByAggregateInput = {
   paymentMethod?: Prisma.SortOrder
   paidAt?: Prisma.SortOrder
   sentByName?: Prisma.SortOrder
+  loyaltyDiscount?: Prisma.SortOrder
+  loyaltyPointsUsed?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -1088,6 +1140,8 @@ export type EstimateMinOrderByAggregateInput = {
   paymentMethod?: Prisma.SortOrder
   paidAt?: Prisma.SortOrder
   sentByName?: Prisma.SortOrder
+  loyaltyDiscount?: Prisma.SortOrder
+  loyaltyPointsUsed?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -1097,6 +1151,8 @@ export type EstimateSumOrderByAggregateInput = {
   taxRate?: Prisma.SortOrder
   discountValue?: Prisma.SortOrder
   total?: Prisma.SortOrder
+  loyaltyDiscount?: Prisma.SortOrder
+  loyaltyPointsUsed?: Prisma.SortOrder
 }
 
 export type EstimateCreateNestedManyWithoutTechnicianInput = {
@@ -1177,6 +1233,8 @@ export type EstimateCreateWithoutTechnicianInput = {
   paymentMethod?: string | null
   paidAt?: Date | string | null
   sentByName?: string | null
+  loyaltyDiscount?: number
+  loyaltyPointsUsed?: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -1217,6 +1275,8 @@ export type EstimateUncheckedCreateWithoutTechnicianInput = {
   paymentMethod?: string | null
   paidAt?: Date | string | null
   sentByName?: string | null
+  loyaltyDiscount?: number
+  loyaltyPointsUsed?: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -1287,6 +1347,8 @@ export type EstimateScalarWhereInput = {
   paymentMethod?: Prisma.StringNullableFilter<"Estimate"> | string | null
   paidAt?: Prisma.DateTimeNullableFilter<"Estimate"> | Date | string | null
   sentByName?: Prisma.StringNullableFilter<"Estimate"> | string | null
+  loyaltyDiscount?: Prisma.FloatFilter<"Estimate"> | number
+  loyaltyPointsUsed?: Prisma.IntFilter<"Estimate"> | number
   createdAt?: Prisma.DateTimeFilter<"Estimate"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Estimate"> | Date | string
 }
@@ -1327,6 +1389,8 @@ export type EstimateCreateManyTechnicianInput = {
   paymentMethod?: string | null
   paidAt?: Date | string | null
   sentByName?: string | null
+  loyaltyDiscount?: number
+  loyaltyPointsUsed?: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -1367,6 +1431,8 @@ export type EstimateUpdateWithoutTechnicianInput = {
   paymentMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   sentByName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  loyaltyDiscount?: Prisma.FloatFieldUpdateOperationsInput | number
+  loyaltyPointsUsed?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1407,6 +1473,8 @@ export type EstimateUncheckedUpdateWithoutTechnicianInput = {
   paymentMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   sentByName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  loyaltyDiscount?: Prisma.FloatFieldUpdateOperationsInput | number
+  loyaltyPointsUsed?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1447,6 +1515,8 @@ export type EstimateUncheckedUpdateManyWithoutTechnicianInput = {
   paymentMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   sentByName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  loyaltyDiscount?: Prisma.FloatFieldUpdateOperationsInput | number
+  loyaltyPointsUsed?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1490,6 +1560,8 @@ export type EstimateSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   paymentMethod?: boolean
   paidAt?: boolean
   sentByName?: boolean
+  loyaltyDiscount?: boolean
+  loyaltyPointsUsed?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   technician?: boolean | Prisma.Estimate$technicianArgs<ExtArgs>
@@ -1532,6 +1604,8 @@ export type EstimateSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   paymentMethod?: boolean
   paidAt?: boolean
   sentByName?: boolean
+  loyaltyDiscount?: boolean
+  loyaltyPointsUsed?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   technician?: boolean | Prisma.Estimate$technicianArgs<ExtArgs>
@@ -1574,6 +1648,8 @@ export type EstimateSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   paymentMethod?: boolean
   paidAt?: boolean
   sentByName?: boolean
+  loyaltyDiscount?: boolean
+  loyaltyPointsUsed?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   technician?: boolean | Prisma.Estimate$technicianArgs<ExtArgs>
@@ -1616,11 +1692,13 @@ export type EstimateSelectScalar = {
   paymentMethod?: boolean
   paidAt?: boolean
   sentByName?: boolean
+  loyaltyDiscount?: boolean
+  loyaltyPointsUsed?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type EstimateOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "estimateNumber" | "technicianId" | "appointmentId" | "clientName" | "clientEmail" | "clientPhone" | "clientMobile" | "clientFax" | "clientAddress" | "clientCity" | "clientState" | "clientZip" | "lineItems" | "additionalDetails" | "subtotal" | "taxType" | "taxLabel" | "taxRate" | "taxInclusive" | "discountType" | "discountValue" | "total" | "status" | "templateColor" | "showFinancing" | "requestSignature" | "signatureUrl" | "sentAt" | "convertedAt" | "invoiceId" | "isInvoice" | "paymentToken" | "paymentMethod" | "paidAt" | "sentByName" | "createdAt" | "updatedAt", ExtArgs["result"]["estimate"]>
+export type EstimateOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "estimateNumber" | "technicianId" | "appointmentId" | "clientName" | "clientEmail" | "clientPhone" | "clientMobile" | "clientFax" | "clientAddress" | "clientCity" | "clientState" | "clientZip" | "lineItems" | "additionalDetails" | "subtotal" | "taxType" | "taxLabel" | "taxRate" | "taxInclusive" | "discountType" | "discountValue" | "total" | "status" | "templateColor" | "showFinancing" | "requestSignature" | "signatureUrl" | "sentAt" | "convertedAt" | "invoiceId" | "isInvoice" | "paymentToken" | "paymentMethod" | "paidAt" | "sentByName" | "loyaltyDiscount" | "loyaltyPointsUsed" | "createdAt" | "updatedAt", ExtArgs["result"]["estimate"]>
 export type EstimateInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   technician?: boolean | Prisma.Estimate$technicianArgs<ExtArgs>
 }
@@ -1673,6 +1751,8 @@ export type $EstimatePayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     paymentMethod: string | null
     paidAt: Date | null
     sentByName: string | null
+    loyaltyDiscount: number
+    loyaltyPointsUsed: number
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["estimate"]>
@@ -2135,6 +2215,8 @@ export interface EstimateFieldRefs {
   readonly paymentMethod: Prisma.FieldRef<"Estimate", 'String'>
   readonly paidAt: Prisma.FieldRef<"Estimate", 'DateTime'>
   readonly sentByName: Prisma.FieldRef<"Estimate", 'String'>
+  readonly loyaltyDiscount: Prisma.FieldRef<"Estimate", 'Float'>
+  readonly loyaltyPointsUsed: Prisma.FieldRef<"Estimate", 'Int'>
   readonly createdAt: Prisma.FieldRef<"Estimate", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Estimate", 'DateTime'>
 }

@@ -3,7 +3,7 @@ import { requireAdmin } from "@/lib/api-auth";
 import { db } from "@/lib/db";
 import { z } from "zod";
 import { resend, FROM_EMAIL } from "@/lib/resend";
-import { dollarToPoints, earnPoints } from "@/lib/loyalty";
+import { earnPointsForPayment } from "@/lib/loyalty";
 
 const schema = z.object({
   amount: z.number().positive(),
@@ -56,11 +56,9 @@ export async function POST(
         });
         const customerId = apptWithCustomer?.customerId;
         if (customerId) {
+          // Same invoice paid online already earned through the Stripe webhook: earnPointsForPayment never earns twice.
           const netAmount = invoice.amount - (invoice.loyaltyDiscount ?? 0);
-          const pts = dollarToPoints(netAmount);
-          if (pts > 0) {
-            await earnPoints(customerId, pts, invoice.id, `Invoice #${appt.appointmentNumber} paid`);
-          }
+          await earnPointsForPayment({ customerId, amount: netAmount, reference: `invoice:${invoice.id}`, description: `Invoice #${appt.appointmentNumber} paid`, invoiceId: invoice.id });
         }
       } catch (e) {
         console.error("Loyalty earn error:", e);

@@ -2,7 +2,8 @@ import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import Link from "next/link";
 import Image from "next/image";
-import { Calendar, User, LogOut, ChevronRight, Receipt, Home, Thermometer } from "lucide-react";
+import { Calendar, User, LogOut, ChevronRight, Receipt, Home, Thermometer, Gift } from "lucide-react";
+import { syncCustomerAppointments } from "@/lib/portal-access";
 import { signOut } from "@/auth";
 
 export default async function ClientLayout({
@@ -18,6 +19,7 @@ export default async function ClientLayout({
   if (session.user.role === "TECHNICIAN") redirect("/technician");
   if (session.user.role === "DISPATCHER") redirect("/dispatcher");
   if (session.user.role === "MANAGER" || session.user.role === "CUSTOMER_SERVICE_REP") redirect("/call-center");
+  await syncCustomerAppointments(session.user.id);
 
   return (
     <div className="bg-gray-50">
@@ -68,6 +70,13 @@ export default async function ClientLayout({
               >
                 <Thermometer className="w-4 h-4" />
                 <span className="hidden sm:inline">My Plan</span>
+              </Link>
+              <Link
+                href="/dashboard/rewards"
+                className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm text-gray-300 hover:text-white hover:bg-white/10 transition-colors"
+              >
+                <Gift className="w-4 h-4" />
+                <span className="hidden sm:inline">Rewards</span>
               </Link>
               <Link
                 href="/dashboard/profile"

@@ -689,6 +689,10 @@ model Estimate {
   paidAt        DateTime?
   sentByName    String?
 
+  // Loyalty points the customer applied to this invoice (deducted from the amount due)
+  loyaltyDiscount   Float @default(0)
+  loyaltyPointsUsed Int   @default(0)
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -1750,11 +1754,14 @@ model LoyaltyTransaction {
   points      Int // positive = earn, negative = spend
   description String
   invoiceId   String?
+  /// Idempotency key of the payment that earned these points (Stripe payment intent / invoice id)
+  reference   String?
   createdAt   DateTime @default(now())
 
   account LoyaltyAccount @relation(fields: [accountId], references: [id], onDelete: Cascade)
 
   @@index([accountId])
+  @@index([reference])
 }
 
 /// Evidence log: every signature a customer gives on a technician's device, with
