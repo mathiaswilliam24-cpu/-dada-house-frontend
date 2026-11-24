@@ -59,8 +59,20 @@ function isProtected(pathname: string): boolean {
   );
 }
 
+/**
+ * SITE_LOCKED=1 (Vercel env): the whole public site and the customer pages show only the
+ * "licensing in progress" page. Staff areas, staff sign-in and all APIs (phones, texts, AI receptionist,
+ * payments webhooks) keep working. Remove the env var (or set 0) and redeploy to reopen the site.
+ */
+const LOCK_OPEN = ["/api", "/auth", "/admin", "/dispatcher", "/technician", "/call-center", "/calls", "/messages", "/customers", "/print", "/licensing-notice"];
+const siteLocked = () => process.env.SITE_LOCKED === "1";
+
 export function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
+
+  if (siteLocked() && !LOCK_OPEN.some((p) => pathname === p || pathname.startsWith(p + "/"))) {
+    return NextResponse.rewrite(new URL("/licensing-notice", req.url));
+  }
 
   if (isPublic(pathname)) return NextResponse.next();
 
